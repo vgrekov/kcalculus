@@ -59,3 +59,6 @@ So, primarily, for home cooks.
         - ML solution: TensorFlow? Firebase?
     - Voice control
         - ML solution: Siri? Google Assistant? Gemini? ChatGPT?
+
+## Further Ideas
+ - Tracking of expiration dates.
