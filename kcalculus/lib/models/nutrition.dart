@@ -1,5 +1,6 @@
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/models/identifiable.dart';
 
 class NutrientData {
   final double calories;
@@ -47,11 +48,12 @@ class NutrientData {
   }
 }
 
-class NutritionFacts {
+class NutritionFacts extends Identifiable {
   final Amount amount;
   final NutrientData nutrientData;
 
-  const NutritionFacts({
+  NutritionFacts({
+    super.id,
     required this.amount,
     required this.nutrientData,
   });
