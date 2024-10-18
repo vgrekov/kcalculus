@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/screens/daily_log.dart';
+import 'package:kcalculus/themes/dark.dart' as dark;
 
 void main() {
   runApp(const ProviderScope(
@@ -12,12 +14,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      theme: dark.theme,
+      home: const DailyLogScreen(),
     );
   }
 }
