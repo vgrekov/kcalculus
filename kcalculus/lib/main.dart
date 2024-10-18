@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/screens/daily_log.dart';
+import 'package:kcalculus/themes/dark.dart' as dark;
 
 void main() {
-  runApp(const MainApp());
+  runApp(const ProviderScope(
+    child: App(),
+  ));
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      theme: dark.theme,
+      home: const DailyLogScreen(),
     );
   }
 }

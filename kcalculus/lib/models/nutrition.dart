@@ -1,5 +1,43 @@
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/models/identifiable.dart';
+
+const fatCaloriesPerGram = 9;
+const carbsCaloriesPerGram = 4;
+const proteinCaloriesPerGram = 4;
+
+class MacroSplit {
+  final double fat;
+  final double carbs;
+  final double protein;
+
+  MacroSplit({
+    required this.fat,
+    required this.carbs,
+    required this.protein,
+  }) {
+    if (carbs < 0 || protein < 0 || fat < 0) {
+      throw 'Macronutrient percentage can not be a negative number.';
+    }
+
+    final total = carbs + protein + fat;
+    if (total != 1) {
+      throw 'The split total must be equal to 1 (100%) but is $total.';
+    }
+  }
+
+  double get fatPercentage {
+    return (fat * 10000).roundToDouble() / 100;
+  }
+
+  double get carbsPercentage {
+    return (carbs * 10000).roundToDouble() / 100;
+  }
+
+  double get proteinPercentage {
+    return 100 - fatPercentage - carbsPercentage;
+  }
+}
 
 class NutrientData {
   final double calories;
@@ -45,13 +83,33 @@ class NutrientData {
       proteinInGrams: proteinInGrams * factor,
     );
   }
+
+  MacroSplit? getMacroSplit() {
+    final fatCalories = fatInGrams * fatCaloriesPerGram;
+    // Fiber has no caloric value!
+    final carbsCalories = (carbsInGrams - fiberInGrams) * carbsCaloriesPerGram;
+    final proteinCalories = proteinInGrams * proteinCaloriesPerGram;
+    final estimatedCalories = fatCalories + carbsCalories + proteinCalories;
+    if (estimatedCalories > 0) {
+      final fat = fatCalories / estimatedCalories;
+      final carbs = carbsCalories / estimatedCalories;
+      return MacroSplit(
+        fat: fat,
+        carbs: carbs,
+        protein: 1 - fat - carbs,
+      );
+    }
+
+    return null;
+  }
 }
 
-class NutritionFacts {
+class NutritionFacts extends Identifiable {
   final Amount amount;
   final NutrientData nutrientData;
 
-  const NutritionFacts({
+  NutritionFacts({
+    super.id,
     required this.amount,
     required this.nutrientData,
   });

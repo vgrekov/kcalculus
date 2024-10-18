@@ -1,15 +1,17 @@
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/models/identifiable.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/models/units.dart';
 
-class Ingredient with Nutritious {
+class Ingredient extends Identifiable with Nutritious {
   @override
   final Edible edible;
   @override
   final Amount amount;
 
-  const Ingredient({
+  Ingredient({
+    super.id,
     required this.edible,
     required this.amount,
   });
@@ -36,13 +38,14 @@ class Ingredient with Nutritious {
   }
 }
 
-class Dish implements Edible {
+class Dish extends Identifiable implements Edible {
   @override
   final String name;
   late List<Ingredient> ingredients;
   double? _weightInGrams;
 
   Dish({
+    super.id,
     required this.name,
     ingredients,
     weightInGrams,

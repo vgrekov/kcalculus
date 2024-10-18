@@ -1,3 +1,4 @@
+import 'package:kcalculus/models/identifiable.dart';
 import 'package:kcalculus/models/nutrition.dart';
 
 abstract interface class Edible {
@@ -6,12 +7,13 @@ abstract interface class Edible {
   List<NutritionFacts> getNutritionFacts();
 }
 
-class Food implements Edible {
+class Food extends Identifiable implements Edible {
   @override
   final String name;
   final List<NutritionFacts> nutritionFacts;
 
-  const Food({
+  Food({
+    super.id,
     required this.name,
     required this.nutritionFacts,
   });
