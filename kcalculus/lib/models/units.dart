@@ -1,21 +1,48 @@
 enum Measure {
-  mass,
-  volume,
-  quantity,
+  mass(
+    displayName: 'Mass',
+  ),
+  volume(
+    displayName: 'Volume',
+  ),
+  quantity(
+    displayName: 'Quantity',
+  );
+
+  final String displayName;
+
+  const Measure({
+    required this.displayName,
+  });
 }
 
 enum MeasureSystem {
-  metric,
-  imperial,
-  us,
-  usLegal,
-  usCustomary,
+  metric(
+    displayName: 'Metric',
+  ),
+  imperial(
+    displayName: 'Imperial',
+  ),
+  us(
+    displayName: 'US',
+  ),
+  usLegal(
+    displayName: 'US Legal',
+  ),
+  usCustomary(
+    displayName: 'US Customary',
+  );
+
+  final String displayName;
+
+  const MeasureSystem({
+    required this.displayName,
+  });
 }
 
 enum Unit {
   piece(
     measure: Measure.quantity,
-    system: MeasureSystem.metric, // Need a system, so why not metric?
     displayName: 'ea',
     factor: 1,
   ),
@@ -35,7 +62,7 @@ enum Unit {
   milligram(
     measure: Measure.mass,
     system: MeasureSystem.metric,
-    displayName: 'g',
+    displayName: 'mg',
     factor: 0.001,
   ),
   // Metric - Volume
@@ -160,13 +187,13 @@ enum Unit {
   );
 
   final Measure measure;
-  final MeasureSystem system;
+  final MeasureSystem? system;
   final String displayName;
   final double factor;
 
   const Unit({
     required this.measure,
-    required this.system,
+    this.system,
     required this.displayName,
     required this.factor,
   });
