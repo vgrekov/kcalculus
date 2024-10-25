@@ -17,6 +17,14 @@ class DailyLogProviderNotifier extends StateNotifier<Future<List<Meal>>> {
     return value;
   }
 
+  Future<void> addMeal(Meal meal) async {
+    await Future.delayed(const Duration(seconds: 3), () {
+      _localState.add(meal);
+      state = Future.value(_localState);
+      return true;
+    });
+  }
+
   Future<bool> deleteMeal(Meal meal) async {
     // Failure example
     // return Future.delayed(const Duration(seconds: 1), () {
