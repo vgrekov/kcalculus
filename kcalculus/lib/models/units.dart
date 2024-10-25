@@ -41,6 +41,11 @@ enum MeasureSystem {
 }
 
 enum Unit {
+  calorie(
+    displayName: 'kcal',
+    factor: 1,
+    pickable: false,
+  ),
   piece(
     measure: Measure.quantity,
     displayName: 'ea',
@@ -186,15 +191,17 @@ enum Unit {
     factor: 0.2365882,
   );
 
-  final Measure measure;
+  final Measure? measure;
   final MeasureSystem? system;
   final String displayName;
   final double factor;
+  final bool pickable;
 
   const Unit({
-    required this.measure,
+    this.measure,
     this.system,
     required this.displayName,
     required this.factor,
+    this.pickable = true,
   });
 }
