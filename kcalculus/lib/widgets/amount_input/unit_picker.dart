@@ -24,13 +24,8 @@ class _UnitPickerState extends State<UnitPicker> {
 
   @override
   void initState() {
-    if (widget.initialValue != null) {
-      _measure = widget.initialValue!.measure;
-      _system = widget.initialValue!.system ?? _defaultSystem;
-    } else {
-      _measure = _defaultMeasure;
-      _system = _defaultSystem;
-    }
+    _measure = widget.initialValue?.measure ?? _defaultMeasure;
+    _system = widget.initialValue?.system ?? _defaultSystem;
 
     super.initState();
   }
@@ -54,7 +49,9 @@ class _UnitPickerState extends State<UnitPicker> {
   @override
   Widget build(BuildContext context) {
     final units = Unit.values.where((u) {
-      return u.measure == _measure && (u.system == null || u.system == _system);
+      return u.pickable &&
+          u.measure == _measure &&
+          (u.system == null || u.system == _system);
     }).toList();
 
     return Dialog(
