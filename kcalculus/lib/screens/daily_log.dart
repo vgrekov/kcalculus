@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/providers/meals.dart';
+import 'package:kcalculus/screens/new_meal.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -20,7 +21,10 @@ class DailyLogScreen extends ConsumerStatefulWidget {
 
 class _DailyLogScreenState extends ConsumerState
     with StateMessenger, ProgressiveState {
-  void _addMeal() {}
+  void _addMeal() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const NewMealScreen()));
+  }
 
   void _selectMeal(Meal meal) {}
 
@@ -31,12 +35,12 @@ class _DailyLogScreenState extends ConsumerState
       final isDeleted =
           await ref.read(dailyLogProvider.notifier).deleteMeal(meal);
       if (isDeleted) {
-        showMessage('Meal deleted');
+        showNotification('Meal deleted');
       } else {
-        showMessage('Failed to delete the meal');
+        showNotification('Failed to delete the meal');
       }
     } catch (error) {
-      showMessage(error.toString());
+      showNotification(error.toString());
     }
 
     hideProgress();
