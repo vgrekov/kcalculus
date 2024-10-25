@@ -8,8 +8,8 @@ class Amount {
     required this.unit,
     required this.value,
   }) {
-    if (value <= 0) {
-      throw 'Value must be a positive number.';
+    if (value < 0) {
+      throw 'Value can not be a negative number.';
     }
   }
 }
