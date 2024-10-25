@@ -25,7 +25,8 @@ class MealsList extends StatelessWidget with Messenger {
           key: UniqueKey(),
           direction: DismissDirection.endToStart,
           confirmDismiss: (direction) async {
-            return await confirm(context, 'Delete this meal?') ?? false;
+            return await showConfirmation(context, 'Delete this meal?') ??
+                false;
           },
           onDismissed: (direction) {
             onDeleteMeal(meal);
