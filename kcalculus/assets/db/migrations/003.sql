@@ -1,0 +1,4 @@
+CREATE TABLE foods (
+    id TEXT NOT NULL PRIMARY KEY,
+    FOREIGN KEY (id) REFERENCES edibles (id)
+);
