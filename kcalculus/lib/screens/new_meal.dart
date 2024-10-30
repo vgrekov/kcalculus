@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/daily_log.dart';
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/models/units.dart';
-import 'package:kcalculus/providers/meals.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/amount_input/amount_input.dart';

@@ -1,6 +1,5 @@
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/food.dart';
-import 'package:kcalculus/models/identifiable.dart';
 
 const fatCaloriesPerGram = 9;
 const carbsCaloriesPerGram = 4;
@@ -104,12 +103,11 @@ class NutrientData {
   }
 }
 
-class NutritionFacts extends Identifiable {
+class NutritionFacts {
   final Amount amount;
   final NutrientData nutrientData;
 
   NutritionFacts({
-    super.id,
     required this.amount,
     required this.nutrientData,
   });
