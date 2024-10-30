@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/daily_log.dart';
 import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/models/nutrition.dart';
-import 'package:kcalculus/providers/meals.dart';
 import 'package:kcalculus/screens/new_meal.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/messenger.dart';
