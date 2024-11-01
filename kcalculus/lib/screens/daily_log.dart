@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/daily_log.dart';
+import 'package:kcalculus/data/log_date.dart';
 import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/screens/new_meal.dart';
@@ -8,6 +9,7 @@ import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/daily_total.dart';
+import 'package:kcalculus/widgets/log_calendar.dart';
 import 'package:kcalculus/widgets/meals_list.dart';
 
 class DailyLogScreen extends ConsumerStatefulWidget {
@@ -21,6 +23,8 @@ class DailyLogScreen extends ConsumerStatefulWidget {
 
 class _DailyLogScreenState extends ConsumerState
     with StateMessenger, ProgressiveState {
+  bool _showCalendar = false;
+
   void _addMeal() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const NewMealScreen()));
@@ -46,8 +50,23 @@ class _DailyLogScreenState extends ConsumerState
     hideProgress();
   }
 
+  void _toggleCalendar() {
+    setState(() {
+      _showCalendar = !_showCalendar;
+    });
+  }
+
+  void _selectDate(DateTime date) {
+    ref.read(logDateProvider.notifier).selectDate(date);
+    setState(() {
+      _showCalendar = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final logDate = ref.watch(logDateProvider);
     final dailyLog = ref.watch(dailyLogProvider);
     return FutureBuilder(
       future: dailyLog,
@@ -56,6 +75,8 @@ class _DailyLogScreenState extends ConsumerState
 
         final Widget body;
         final isLoading = snapshot.connectionState == ConnectionState.waiting;
+        final readonly =
+            isLoading || snapshot.hasError || !dt.isSameDay(now, logDate);
         if (isLoading) {
           body = const Center(
             child: SizedBox(
@@ -87,10 +108,12 @@ class _DailyLogScreenState extends ConsumerState
           totalNutrientData = meals
               .map((m) => m.getNutrientData() ?? NutrientData.empty())
               .reduce((nd1, nd2) => nd1 + nd2);
+
           body = MealsList(
             meals: meals,
             onSelectMeal: _selectMeal,
             onDeleteMeal: _deleteMeal,
+            readonly: readonly,
           );
         }
 
@@ -106,16 +129,34 @@ class _DailyLogScreenState extends ConsumerState
                       ),
                 ),
                 Text(
-                  dt.formatDate(DateTime.now()),
+                  dt.formatDate(logDate),
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),
                 ),
               ],
             ),
+            actions: [
+              IconButton(
+                onPressed: _toggleCalendar,
+                icon: const Icon(Icons.calendar_month_outlined),
+              ),
+            ],
           ),
-          body: body,
-          floatingActionButton: (isLoading || snapshot.hasError)
+          body: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              LogCalendar(
+                initialDate: logDate,
+                expanded: _showCalendar,
+                onSelectDate: _selectDate,
+              ),
+              Expanded(
+                child: body,
+              ),
+            ],
+          ),
+          floatingActionButton: readonly
               ? null
               : FloatingActionButton(
                   onPressed: _addMeal,
