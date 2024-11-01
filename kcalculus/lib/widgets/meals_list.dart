@@ -7,12 +7,14 @@ class MealsList extends StatelessWidget with Messenger {
   final List<Meal> meals;
   final void Function(Meal meal) onSelectMeal;
   final void Function(Meal meal) onDeleteMeal;
+  final bool readonly;
 
   const MealsList({
     super.key,
     required this.meals,
     required this.onSelectMeal,
     required this.onDeleteMeal,
+    this.readonly = false,
   });
 
   @override
@@ -21,34 +23,38 @@ class MealsList extends StatelessWidget with Messenger {
       itemCount: meals.length,
       itemBuilder: (context, index) {
         final meal = meals[index];
-        return Dismissible(
-          key: UniqueKey(),
-          direction: DismissDirection.endToStart,
-          confirmDismiss: (direction) async {
-            return await showConfirmation(context, 'Delete this meal?') ??
-                false;
-          },
-          onDismissed: (direction) {
-            onDeleteMeal(meal);
-          },
-          background: Container(
-            color: Theme.of(context).colorScheme.tertiaryContainer,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Icon(
-                  Icons.delete,
-                  color: Theme.of(context).colorScheme.onTertiaryContainer,
-                ),
-              ),
-            ),
-          ),
-          child: MealsListItem(
-            meal: meal,
-            onSelectMeal: onSelectMeal,
-          ),
+        final mealListItem = MealsListItem(
+          meal: meal,
+          onSelectMeal: onSelectMeal,
         );
+        return readonly
+            ? mealListItem
+            : Dismissible(
+                key: UniqueKey(),
+                direction: DismissDirection.endToStart,
+                confirmDismiss: (direction) async {
+                  return await showConfirmation(context, 'Delete this meal?') ??
+                      false;
+                },
+                onDismissed: (direction) {
+                  onDeleteMeal(meal);
+                },
+                background: Container(
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Icon(
+                        Icons.delete,
+                        color:
+                            Theme.of(context).colorScheme.onTertiaryContainer,
+                      ),
+                    ),
+                  ),
+                ),
+                child: mealListItem,
+              );
       },
     );
   }
