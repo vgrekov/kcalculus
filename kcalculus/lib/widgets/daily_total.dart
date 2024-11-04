@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/themes/macro_nutrients.dart';
+import 'package:kcalculus/utils/number.dart' as nb;
 
 class DailyTotal extends StatelessWidget {
   final NutrientData nutrientData;
@@ -35,14 +36,14 @@ class DailyTotal extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '${nutrientData.calories.toStringAsFixed(2)} kcal',
+                '${nb.formatDouble(nutrientData.calories)} kcal',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
                 textAlign: TextAlign.left,
               ),
               Text(
-                'Fiber: ${nutrientData.fiberInGrams.toStringAsFixed(2)} g',
+                'Fiber: ${nb.formatDouble(nutrientData.fiberInGrams)} g',
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: macroTheme.fiberColor,
                     ),
@@ -52,7 +53,13 @@ class DailyTotal extends StatelessWidget {
           ),
           if (macroSplit != null) ...[
             const SizedBox(height: 16),
-            SizedBox(
+            Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(4),
+                ),
+              ),
+              clipBehavior: Clip.hardEdge,
               height: 8,
               child: Row(
                 children: [
@@ -61,10 +68,6 @@ class DailyTotal extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         color: macroTheme.fatColor,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(4),
-                          bottomLeft: Radius.circular(4),
-                        ),
                       ),
                     ),
                   ),
@@ -81,10 +84,6 @@ class DailyTotal extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         color: macroTheme.proteinColor,
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(4),
-                          bottomRight: Radius.circular(4),
-                        ),
                       ),
                     ),
                   ),
@@ -111,7 +110,7 @@ class DailyTotal extends StatelessWidget {
                     right: 16,
                   ),
                   child: Text(
-                    'Fat: ${macroSplit.fatPercentage.toStringAsFixed(2)}%',
+                    'Fat: ${nb.formatDouble(macroSplit.fatPercentage)}%',
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
@@ -133,7 +132,7 @@ class DailyTotal extends StatelessWidget {
                     right: 16,
                   ),
                   child: Text(
-                    'Carbs: ${macroSplit.carbsPercentage.toStringAsFixed(2)}%',
+                    'Carbs: ${nb.formatDouble(macroSplit.carbsPercentage)}%',
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
@@ -154,7 +153,7 @@ class DailyTotal extends StatelessWidget {
                     left: 4,
                   ),
                   child: Text(
-                    'Protein: ${macroSplit.proteinPercentage.toStringAsFixed(2)}%',
+                    'Protein: ${nb.formatDouble(macroSplit.proteinPercentage)}%',
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
