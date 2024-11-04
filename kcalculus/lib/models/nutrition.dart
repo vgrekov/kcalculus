@@ -6,35 +6,61 @@ const carbsCaloriesPerGram = 4;
 const proteinCaloriesPerGram = 4;
 
 class MacroSplit {
-  final double fat;
-  final double carbs;
-  final double protein;
+  late double _fatPercentage;
+  late double _carbsPercentage;
+  late double _proteinPercentage;
 
   MacroSplit({
-    required this.fat,
-    required this.carbs,
-    required this.protein,
+    required double fat,
+    required double carbs,
+    required double protein,
   }) {
     if (carbs < 0 || protein < 0 || fat < 0) {
-      throw 'Macronutrient percentage can not be a negative number.';
+      throw 'Macronutrient fraction can not be a negative number.';
     }
 
-    final total = carbs + protein + fat;
-    if (total != 1) {
-      throw 'The split total must be equal to 1 (100%) but is $total.';
+    if (carbs == 0 && protein == 0 && fat == 0) {
+      throw 'Macronutrient fractions can not all be a zero.';
     }
+
+    var fractions = [fat, carbs, protein];
+
+    final factor = 100 / (fat + carbs + protein);
+    fractions = fractions.map((f) => f * factor).toList();
+
+    final nonZeroCount = fractions.where((f) => f != 0).length;
+    var nonZeroIndex = 0;
+    var correctedSum = 0.0;
+    for (var i = 0; i < fractions.length; i++) {
+      var fraction = fractions[i];
+      if (fraction != 0) {
+        nonZeroIndex++;
+        if (nonZeroIndex < nonZeroCount) {
+          fraction = (fraction * 100).roundToDouble() / 100;
+          correctedSum += fraction;
+          fractions[i] = fraction;
+        } else {
+          fractions[i] = 100 - correctedSum;
+          break;
+        }
+      }
+    }
+
+    _fatPercentage = fractions[0];
+    _carbsPercentage = fractions[1];
+    _proteinPercentage = fractions[2];
   }
 
   double get fatPercentage {
-    return (fat * 10000).roundToDouble() / 100;
+    return _fatPercentage;
   }
 
   double get carbsPercentage {
-    return (carbs * 10000).roundToDouble() / 100;
+    return _carbsPercentage;
   }
 
   double get proteinPercentage {
-    return 100 - fatPercentage - carbsPercentage;
+    return _proteinPercentage;
   }
 }
 
@@ -90,12 +116,10 @@ class NutrientData {
     final proteinCalories = proteinInGrams * proteinCaloriesPerGram;
     final estimatedCalories = fatCalories + carbsCalories + proteinCalories;
     if (estimatedCalories > 0) {
-      final fat = fatCalories / estimatedCalories;
-      final carbs = carbsCalories / estimatedCalories;
       return MacroSplit(
-        fat: fat,
-        carbs: carbs,
-        protein: 1 - fat - carbs,
+        fat: fatCalories / estimatedCalories,
+        carbs: carbsCalories / estimatedCalories,
+        protein: proteinCalories / estimatedCalories,
       );
     }
 
