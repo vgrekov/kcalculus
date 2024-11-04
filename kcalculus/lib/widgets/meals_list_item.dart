@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
+import 'package:kcalculus/utils/number.dart' as nb;
 
 class MealsListItem extends StatelessWidget {
   final Meal meal;
@@ -38,14 +39,14 @@ class MealsListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            '${meal.amount.value.toStringAsFixed(2)} ${meal.amount.unit.displayName}',
+            '${nb.formatDouble(meal.amount.value)} ${meal.amount.unit.displayName}',
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
           ),
           if (nutrientData != null)
             Text(
-              '${nutrientData.calories.toStringAsFixed(2)} kcal',
+              '${nb.formatDouble(nutrientData.calories)} kcal',
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
                     color: Theme.of(context).colorScheme.tertiary,
                   ),

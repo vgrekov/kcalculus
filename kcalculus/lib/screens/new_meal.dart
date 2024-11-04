@@ -143,6 +143,7 @@ In at least one 'per' field of the nutrition facts, the amount should be specifi
                   onSaveAmount: (amount) {
                     _amount = amount;
                   },
+                  allowZero: false,
                 ),
                 const SizedBox(height: 32),
                 NutritionFactsInput(
