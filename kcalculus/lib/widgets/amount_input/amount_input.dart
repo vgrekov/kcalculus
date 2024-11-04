@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/units.dart';
+import 'package:kcalculus/utils/number.dart' as nb;
 import 'package:kcalculus/widgets/amount_input/unit_picker.dart';
 
 const _defaultUnit = Unit.gram;
+
+final _valueMask = RegExp(r'^\d+\.?\d{0,2}');
 
 class AmountInput extends StatefulWidget {
   final AmountInputController? controller;
@@ -13,6 +16,7 @@ class AmountInput extends StatefulWidget {
   final Unit? initialUnit;
   final double? initialValue;
   final bool fixedUnit;
+  final bool allowZero;
   final bool enabled;
   final void Function(Amount?)? onSaveAmount;
 
@@ -25,6 +29,7 @@ class AmountInput extends StatefulWidget {
     this.initialUnit,
     this.initialValue,
     this.fixedUnit = false,
+    this.allowZero = true,
     this.enabled = true,
     this.onSaveAmount,
   }) {
@@ -49,7 +54,8 @@ class _AmountInputState extends State<AmountInput> {
   void initState() {
     _unit = widget.initialUnit ?? widget.initialAmount?.unit ?? _defaultUnit;
     _value = widget.initialValue ?? widget.initialAmount?.value;
-    _valueController = TextEditingController(text: _value?.toString());
+    _valueController = TextEditingController(
+        text: _value != null ? nb.formatDouble(_value!) : '');
 
     if (widget.controller != null) {
       widget.controller!._unit = _unit;
@@ -72,7 +78,7 @@ class _AmountInputState extends State<AmountInput> {
     setState(() {
       _unit = widget.controller!._unit ?? _unit;
       _value = widget.controller!._value;
-      _valueController.text = _value?.toString() ?? '';
+      _valueController.text = _value != null ? nb.formatDouble(_value!) : '';
     });
   }
 
@@ -97,12 +103,18 @@ class _AmountInputState extends State<AmountInput> {
 
   String? _validateAmountValue(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Amount value is required';
+      return 'Value is required';
     }
 
     final doubleValue = double.tryParse(value);
-    if (doubleValue == null || doubleValue < 0) {
-      return 'Amount value can not be a negative number';
+    if (doubleValue == null) {
+      return 'Must be a number';
+    }
+
+    if (widget.allowZero && doubleValue < 0) {
+      return 'Can not be a negative number';
+    } else if (!widget.allowZero && doubleValue <= 0) {
+      return 'Must be a positive number';
     }
 
     return null;
@@ -119,6 +131,20 @@ class _AmountInputState extends State<AmountInput> {
       widget.onSaveAmount!(
         _value == null ? null : Amount(unit: _unit, value: _value!),
       );
+    }
+  }
+
+  void _applyMask(String value) {
+    if (_valueMask.hasMatch(value)) {
+      final match = _valueMask.stringMatch(value) ?? '';
+      if (match != value) {
+        _valueController.value = TextEditingValue(
+          text: match,
+          selection: TextSelection.collapsed(offset: match.length),
+        );
+      }
+    } else {
+      _valueController.clear();
     }
   }
 
@@ -172,6 +198,7 @@ class _AmountInputState extends State<AmountInput> {
         decimal: true,
       ),
       validator: _validateAmountValue,
+      onChanged: _applyMask,
       onSaved: _saveAmountValue,
     );
   }
