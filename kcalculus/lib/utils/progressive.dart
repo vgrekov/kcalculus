@@ -11,30 +11,33 @@ mixin ProgressiveState<T extends StatefulWidget> on State<T> {
         opaque: false,
         maintainState: true,
         builder: (context) {
-          return Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 2,
-                sigmaY: 2,
-              ),
-              child: const Material(
-                type: MaterialType.transparency,
-                child: Center(
-                  child: SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: CircularProgressIndicator(),
+          return Stack(
+            children: [
+              Positioned.fill(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 2,
+                    sigmaY: 2,
+                  ),
+                  child: const Center(
+                    child: SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
                 ),
               ),
-            ),
+              const Positioned.fill(
+                child: ModalBarrier(
+                  dismissible: false,
+                ),
+              ),
+            ],
           );
         },
       );
+      FocusManager.instance.primaryFocus?.unfocus();
       Overlay.of(context).insert(_progressOverlay!);
     }
   }
