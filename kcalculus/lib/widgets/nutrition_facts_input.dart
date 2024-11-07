@@ -7,12 +7,10 @@ import 'package:kcalculus/widgets/amount_input/amount_input.dart';
 
 class NutritionFactsInput extends StatefulWidget {
   final NutritionFactsInputController? controller;
-  final List<NutritionFacts>? initialValue;
 
   const NutritionFactsInput({
     super.key,
     this.controller,
-    this.initialValue,
   });
 
   @override
@@ -46,10 +44,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
       widget.controller!.addListener(_onControllerCommand);
     }
 
-    if (widget.initialValue != null) {
-      _drafts =
-          widget.initialValue!.map(_NutritionFactsDraft.fromCleanCopy).toList();
-    } else {
+    if (!_loadDraftsFromController()) {
       _drafts = [
         _NutritionFactsDraft(),
       ];
@@ -75,6 +70,15 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
   void _onControllerCommand() {
     if (widget.controller?._command != null) {
       switch (widget.controller!._command!) {
+        case _NutritionFactsInputControllerCommand.load:
+          if (_loadDraftsFromController() && _drafts.isNotEmpty) {
+            setState(() {
+              _pageIndex = 0;
+            });
+            _pageController.jumpToPage(0);
+            _selectDraft(_drafts[0]);
+          }
+          break;
         case _NutritionFactsInputControllerCommand.validate:
           widget.controller!._isValid = _validate();
           break;
@@ -85,6 +89,17 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
           break;
       }
     }
+  }
+
+  bool _loadDraftsFromController() {
+    if (widget.controller?.nutritionFacts != null) {
+      _drafts = widget.controller!.nutritionFacts!
+          .map(_NutritionFactsDraft.fromCleanCopy)
+          .toList();
+      return true;
+    }
+
+    return false;
   }
 
   bool _validate() {
@@ -374,6 +389,7 @@ class _NutritionFactsDraft {
 }
 
 enum _NutritionFactsInputControllerCommand {
+  load,
   validate,
   save,
 }
@@ -384,9 +400,18 @@ class NutritionFactsInputController extends ChangeNotifier {
 
   _NutritionFactsInputControllerCommand? _command;
 
+  NutritionFactsInputController({
+    List<NutritionFacts>? nutritionFacts,
+  }) : _nutritionFacts = nutritionFacts;
+
   bool get isValid => _isValid;
 
   List<NutritionFacts>? get nutritionFacts => _nutritionFacts;
+  set nutritionFacts(List<NutritionFacts>? value) {
+    _nutritionFacts = value;
+    _command = _NutritionFactsInputControllerCommand.load;
+    notifyListeners();
+  }
 
   void validate() {
     _command = _NutritionFactsInputControllerCommand.validate;
