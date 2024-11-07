@@ -57,7 +57,8 @@ class LocalMealDao implements MealDao {
       LEFT JOIN dishes ON
         dishes.id = meals.edible_id
       WHERE
-        STRFTIME('%d-%m-%Y', meals.eaten_at) = ?
+        meals.deleted_at IS NULL
+        AND STRFTIME('%d-%m-%Y', meals.eaten_at) = ?
       ORDER BY
         meals.eaten_at
       ''',
@@ -67,8 +68,11 @@ class LocalMealDao implements MealDao {
 
   @override
   Future<bool> delete(String id) async {
-    final count = await db.delete(
+    final count = await db.update(
       'meals',
+      {
+        'deleted_at': dt.formatISO8601(DateTime.now()),
+      },
       where: 'id = ?',
       whereArgs: [id],
     );
