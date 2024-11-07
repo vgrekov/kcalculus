@@ -19,6 +19,8 @@ class AmountInput extends StatefulWidget {
   final bool allowZero;
   final bool enabled;
   final void Function(Amount?)? onSaveAmount;
+  final FocusNode? focusNode;
+  final bool autofocus;
 
   AmountInput({
     super.key,
@@ -32,6 +34,8 @@ class AmountInput extends StatefulWidget {
     this.allowZero = true,
     this.enabled = true,
     this.onSaveAmount,
+    this.focusNode,
+    this.autofocus = false,
   }) {
     if (fixedUnit && initialUnit == null && initialAmount == null) {
       throw 'When fixed, a unit must be provided.';
@@ -200,6 +204,8 @@ class _AmountInputState extends State<AmountInput> {
       validator: _validateAmountValue,
       onChanged: _applyMask,
       onSaved: _saveAmountValue,
+      focusNode: widget.focusNode,
+      autofocus: widget.autofocus,
     );
   }
 }
