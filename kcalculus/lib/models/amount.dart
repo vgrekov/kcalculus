@@ -12,4 +12,17 @@ class Amount {
       throw 'Value can not be a negative number.';
     }
   }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      unit,
+      value,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Amount && other.unit == unit && other.value == value;
+  }
 }

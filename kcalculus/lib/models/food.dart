@@ -23,3 +23,23 @@ class Food with Identifiable implements Edible {
   @override
   List<NutritionFacts> getNutritionFacts() => nutritionFacts;
 }
+
+enum EdibleSearchResultType {
+  food,
+  dish,
+}
+
+class EdibleSearchResult with Identifiable {
+  final String name;
+  final EdibleSearchResultType type;
+  final DateTime? lastEatenAt;
+
+  EdibleSearchResult({
+    String? id,
+    required this.name,
+    required this.type,
+    this.lastEatenAt,
+  }) {
+    this.id = id;
+  }
+}

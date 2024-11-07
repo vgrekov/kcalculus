@@ -1,3 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/local/edible_dao.dart';
+import 'package:kcalculus/data/local/food_dao.dart';
+import 'package:kcalculus/data/local/meal_dao.dart';
+import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/models/meal.dart';
 
 abstract interface class MealDao {
@@ -7,3 +12,23 @@ abstract interface class MealDao {
 
   Future<bool> delete(String id);
 }
+
+final mealDaoProvider = Provider<Future<MealDao>>((ref) {
+  return ref.watch(localMealDaoProvider);
+});
+
+abstract interface class EdibleDao {
+  Future<List<EdibleSearchResult>> search(String? query);
+}
+
+final edibleDaoProvider = Provider<Future<EdibleDao>>((ref) {
+  return ref.watch(localEdibleDaoProvider);
+});
+
+abstract interface class FoodDao {
+  Future<Food?> getById(String id);
+}
+
+final foodDaoProvider = Provider<Future<FoodDao>>((ref) {
+  return ref.watch(localFoodDaoProvider);
+});

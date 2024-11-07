@@ -1,13 +1,19 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/daily_log.dart';
+import 'package:kcalculus/data/edible_search.dart';
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/models/units.dart';
+import 'package:kcalculus/screens/edible_search.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/amount_input/amount_input.dart';
+import 'package:kcalculus/widgets/meal_name_input.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 
 class NewMealScreen extends ConsumerStatefulWidget {
@@ -21,15 +27,28 @@ class NewMealScreen extends ConsumerStatefulWidget {
 
 class _NewMealScreenState extends ConsumerState<NewMealScreen>
     with StateMessenger, ProgressiveState {
+  Edible? _selectedEdible;
+
   String _name = '';
   Amount? _amount;
 
   final _form = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _nutritionFactsController = NutritionFactsInputController();
+
+  late FocusNode _amountFocusNode;
+
+  @override
+  void initState() {
+    _amountFocusNode = FocusNode();
+    super.initState();
+  }
 
   @override
   void dispose() {
+    _nameController.dispose();
     _nutritionFactsController.dispose();
+    _amountFocusNode.dispose();
     super.dispose();
   }
 
@@ -46,15 +65,12 @@ class _NewMealScreenState extends ConsumerState<NewMealScreen>
     _form.currentState!.save();
     _nutritionFactsController.save();
 
-    final nutritionFacts = _nutritionFactsController.nutritionFacts!;
-    final hasCommonMeasure = nutritionFacts
-        .any((nf) => nf.amount.unit.measure == _amount!.unit.measure);
-    if (!hasCommonMeasure) {
-      showMessage(
-        '''You specified the meal amount in ${_amount!.unit.displayName} of measure ${_amount!.unit.measure!.displayName}.
-In at least one 'per' field of the nutrition facts, the amount should be specified in units of ${_amount!.unit.measure!.displayName}.''',
-        MessageType.error,
-      );
+    if (!_checkIfCommonMeasureExists()) {
+      return;
+    }
+
+    final edible = await getEdible();
+    if (edible == null) {
       return;
     }
 
@@ -63,10 +79,7 @@ In at least one 'per' field of the nutrition facts, the amount should be specifi
     try {
       await ref.read(dailyLogProvider.notifier).addMeal(
             Meal(
-              edible: Food(
-                name: _name,
-                nutritionFacts: nutritionFacts,
-              ),
+              edible: edible,
               amount: _amount!,
               eatenAt: DateTime.now(),
             ),
@@ -81,12 +94,78 @@ In at least one 'per' field of the nutrition facts, the amount should be specifi
     hideProgress();
   }
 
-  String? _validateMealName(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return 'Name is required';
+  void _searchEdibles() {
+    String query = _nameController.text;
+    ref.read(edibleSearchQueryProvider.notifier).setQuery(query);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EdibleSearchScreen(
+          onSelectEdible: _selectEdible,
+        ),
+      ),
+    );
+  }
+
+  void _selectEdible(Edible edible) {
+    _selectedEdible = edible;
+    _nameController.text = edible.name;
+    _nutritionFactsController.nutritionFacts = edible.getNutritionFacts();
+    _amountFocusNode.requestFocus();
+  }
+
+  bool _checkIfCommonMeasureExists() {
+    final nutritionFacts = _nutritionFactsController.nutritionFacts!;
+    final hasCommonMeasure = nutritionFacts
+        .any((nf) => nf.amount.unit.measure == _amount!.unit.measure);
+    if (!hasCommonMeasure) {
+      showMessage(
+        '''You specified the meal amount in ${_amount!.unit.displayName} of measure ${_amount!.unit.measure!.displayName}.
+In at least one 'per' field of the nutrition facts, the amount should be specified in units of ${_amount!.unit.measure!.displayName}.''',
+        MessageType.error,
+      );
+      return false;
     }
 
-    return null;
+    return true;
+  }
+
+  bool _isSelectedEdibleModified() {
+    if (_selectedEdible != null) {
+      if (_selectedEdible!.name != _name) {
+        return true;
+      }
+
+      final nutritionFactsEntered =
+          _nutritionFactsController.nutritionFacts!.toSet();
+      final nutritionFactsSelected =
+          _selectedEdible!.getNutritionFacts().toSet();
+      if (!setEquals(nutritionFactsEntered, nutritionFactsSelected)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  FutureOr<Edible?> getEdible() async {
+    if (_selectedEdible != null) {
+      if (!_isSelectedEdibleModified()) {
+        return _selectedEdible;
+      } else {
+        final confirmed = await showConfirmation(
+                '''Looks like you've made some changes to a selected edible.
+Proceeding would create a new edible record.''') ??
+            false;
+        if (!confirmed) {
+          return null;
+        }
+      }
+    }
+
+    return Food(
+      name: _name,
+      nutritionFacts: _nutritionFactsController.nutritionFacts!,
+    );
   }
 
   @override
@@ -112,34 +191,25 @@ In at least one 'per' field of the nutrition facts, the amount should be specifi
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                Hero(
+                  tag: 'search-box',
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: MealNameInput(
+                      controller: _nameController,
+                      autofocus: true,
+                      onSearchPressed: _searchEdibles,
+                      onSaved: (value) {
+                        _name = value!;
+                      },
                     ),
-                    labelStyle: TextStyle(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.5),
-                      fontWeight: FontWeight.normal,
-                    ),
-                    labelText: 'Name',
-                    isDense: true,
                   ),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                  maxLength: 50,
-                  validator: _validateMealName,
-                  onSaved: (value) {
-                    _name = value!;
-                  },
                 ),
                 const SizedBox(height: 8),
                 AmountInput(
                   label: 'Amount',
                   initialUnit: Unit.gram,
+                  focusNode: _amountFocusNode,
                   onSaveAmount: (amount) {
                     _amount = amount;
                   },

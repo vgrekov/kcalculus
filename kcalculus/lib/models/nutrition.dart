@@ -125,6 +125,27 @@ class NutrientData {
 
     return null;
   }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      calories,
+      fatInGrams,
+      carbsInGrams,
+      fiberInGrams,
+      proteinInGrams,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NutrientData &&
+        other.calories == calories &&
+        other.fatInGrams == fatInGrams &&
+        other.carbsInGrams == carbsInGrams &&
+        other.fiberInGrams == fiberInGrams &&
+        other.proteinInGrams == proteinInGrams;
+  }
 }
 
 class NutritionFacts {
@@ -143,6 +164,21 @@ class NutritionFacts {
       amount: amount,
       nutrientData: nutrientData * factor,
     );
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      amount,
+      nutrientData,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NutritionFacts &&
+        other.amount == amount &&
+        other.nutrientData == nutrientData;
   }
 }
 
