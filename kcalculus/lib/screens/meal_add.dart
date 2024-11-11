@@ -17,16 +17,16 @@ import 'package:kcalculus/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/widgets/meal_name_input.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 
-class NewMealScreen extends ConsumerStatefulWidget {
-  const NewMealScreen({super.key});
+class AddMealScreen extends ConsumerStatefulWidget {
+  const AddMealScreen({super.key});
 
   @override
-  ConsumerState<NewMealScreen> createState() {
-    return _NewMealScreenState();
+  ConsumerState<AddMealScreen> createState() {
+    return _AddMealScreenState();
   }
 }
 
-class _NewMealScreenState extends ConsumerState<NewMealScreen>
+class _AddMealScreenState extends ConsumerState<AddMealScreen>
     with StateMessenger, ProgressiveState {
   Edible? _selectedEdible;
 

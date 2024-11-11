@@ -7,6 +7,7 @@ class MealNameInput extends StatelessWidget {
   final void Function(String?)? onSaved;
   final FocusNode? focusNode;
   final bool autofocus;
+  final bool enabled;
 
   const MealNameInput({
     super.key,
@@ -15,6 +16,7 @@ class MealNameInput extends StatelessWidget {
     this.onSaved,
     this.focusNode,
     this.autofocus = false,
+    this.enabled = true,
   });
 
   String? _validateMealName(BuildContext context, String? value) {
@@ -68,6 +70,7 @@ class MealNameInput extends StatelessWidget {
       onSaved: onSaved,
       focusNode: focusNode,
       autofocus: autofocus,
+      enabled: enabled,
     );
   }
 }

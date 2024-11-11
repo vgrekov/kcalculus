@@ -67,6 +67,16 @@ class LocalMealDao implements MealDao {
   }
 
   @override
+  Future<void> update(Meal model) async {
+    await db.update(
+      'meals',
+      _toRecord(model),
+      where: 'id = ?',
+      whereArgs: [model.id],
+    );
+  }
+
+  @override
   Future<bool> delete(String id) async {
     final count = await db.update(
       'meals',

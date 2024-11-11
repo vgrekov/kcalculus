@@ -18,4 +18,18 @@ class Meal with Identifiable, Nutritious {
   }) {
     this.id = id;
   }
+
+  Meal copyWith({
+    String? id,
+    Edible? edible,
+    Amount? amount,
+    DateTime? eatenAt,
+  }) {
+    return Meal(
+      id: id ?? this.id,
+      edible: edible ?? this.edible,
+      amount: amount ?? this.amount,
+      eatenAt: eatenAt ?? this.eatenAt,
+    );
+  }
 }
