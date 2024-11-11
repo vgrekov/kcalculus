@@ -10,6 +10,8 @@ abstract interface class MealDao {
 
   Future<List<Meal>> getByDate(DateTime date);
 
+  Future<void> update(Meal model);
+
   Future<bool> delete(String id);
 }
 
