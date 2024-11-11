@@ -130,5 +130,6 @@
     "labelCarbs": "Carbs",
     "labelFiber": "Fiber",
     "labelProtein": "Protein",
-    "validationErrorMoreFiberThanCarbs": "There can not be more fiber than carbs."
+    "validationErrorMoreFiberThanCarbs": "There can not be more fiber than carbs.",
+    "screenEditMeal": "Edit Meal"
 }

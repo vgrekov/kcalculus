@@ -8,10 +8,12 @@ import 'package:kcalculus/widgets/amount_input/amount_input.dart';
 
 class NutritionFactsInput extends StatefulWidget {
   final NutritionFactsInputController? controller;
+  final bool enabled;
 
   const NutritionFactsInput({
     super.key,
     this.controller,
+    this.enabled = true,
   });
 
   @override
@@ -219,7 +221,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
-                onPressed: !isDeletable ? null : _deletePage,
+                onPressed: !widget.enabled || !isDeletable ? null : _deletePage,
                 icon: const Icon(Icons.remove),
                 color: Theme.of(context).colorScheme.primary,
                 iconSize: 24,
@@ -231,7 +233,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                     ),
               ),
               IconButton(
-                onPressed: !isLastPage ? null : _addPage,
+                onPressed: !widget.enabled || !isLastPage ? null : _addPage,
                 icon: const Icon(Icons.add),
                 color: Theme.of(context).colorScheme.primary,
                 iconSize: 24,
@@ -258,7 +260,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                     controller: _perAmountController,
                     initialAmount: amount,
                     label: l10n(context).labelPer,
-                    enabled: isEnabled,
+                    enabled: widget.enabled && isEnabled,
                     onSaveAmount: (amount) {
                       _drafts[index].amount = amount;
                     },
@@ -278,6 +280,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
             onSaveAmount: (amount) {
               draft.calories = amount?.value;
             },
+            enabled: widget.enabled,
           ),
           const SizedBox(height: 12),
           Row(
@@ -293,6 +296,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                   onSaveAmount: (amount) {
                     draft.fatInGrams = amount?.value;
                   },
+                  enabled: widget.enabled,
                 ),
               ),
               const SizedBox(width: 8),
@@ -306,6 +310,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                   onSaveAmount: (amount) {
                     draft.carbsInGrams = amount?.value;
                   },
+                  enabled: widget.enabled,
                 ),
               ),
             ],
@@ -324,6 +329,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                   onSaveAmount: (amount) {
                     draft.fiberInGrams = amount?.value;
                   },
+                  enabled: widget.enabled,
                 ),
               ),
               const SizedBox(width: 8),
@@ -337,6 +343,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                   onSaveAmount: (amount) {
                     draft.proteinInGrams = amount?.value;
                   },
+                  enabled: widget.enabled,
                 ),
               ),
             ],

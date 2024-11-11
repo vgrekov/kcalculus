@@ -4,7 +4,8 @@ import 'package:kcalculus/data/daily_log.dart';
 import 'package:kcalculus/data/log_date.dart';
 import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/models/nutrition.dart';
-import 'package:kcalculus/screens/new_meal.dart';
+import 'package:kcalculus/screens/meal_add.dart';
+import 'package:kcalculus/screens/meal_edit.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -27,11 +28,22 @@ class _DailyLogScreenState extends ConsumerState
   bool _showCalendar = false;
 
   void _addMeal() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const NewMealScreen()));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const AddMealScreen(),
+      ),
+    );
   }
 
-  void _selectMeal(Meal meal) {}
+  void _selectMeal(Meal meal) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EditMealScreen(
+          meal: meal,
+        ),
+      ),
+    );
+  }
 
   void _deleteMeal(Meal meal) async {
     showProgress();
