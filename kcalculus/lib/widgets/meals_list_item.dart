@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
+import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
 class MealsListItem extends StatelessWidget {
@@ -22,7 +23,7 @@ class MealsListItem extends StatelessWidget {
       },
       key: ValueKey(meal.id),
       leading: Text(
-        dt.formatTime(meal.eatenAt),
+        dt.formatTimeLocal(context, meal.eatenAt),
         style: Theme.of(context).textTheme.labelSmall!.copyWith(
               color: Theme.of(context).colorScheme.secondary,
             ),
@@ -39,14 +40,18 @@ class MealsListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            '${nb.formatDouble(meal.amount.value)} ${meal.amount.unit.displayName}',
+            l10n(context).statWithUnit(
+              nb.formatDouble(context, meal.amount.value),
+              meal.amount.unit.localName(context),
+            ),
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
           ),
           if (nutrientData != null)
             Text(
-              '${nb.formatDouble(nutrientData.calories)} kcal',
+              l10n(context).statCalories(
+                  nb.formatDouble(context, nutrientData.calories)),
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
                     color: Theme.of(context).colorScheme.tertiary,
                   ),

@@ -88,7 +88,7 @@ class _UnitPickerState extends State<UnitPicker> {
                     ),
                     child: Center(
                       child: Text(
-                        Measure.values[index].displayName,
+                        Measure.values[index].localName(context),
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: Theme.of(context)
                                   .colorScheme
@@ -119,7 +119,7 @@ class _UnitPickerState extends State<UnitPicker> {
                     ),
                     child: Center(
                       child: Text(
-                        MeasureSystem.values[index].displayName,
+                        MeasureSystem.values[index].localName(context),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Theme.of(context)
                                   .colorScheme
@@ -157,7 +157,7 @@ class _UnitPickerState extends State<UnitPicker> {
                           _selectUnit(unit);
                         },
                         child: Text(
-                          unit.displayName,
+                          unit.localName(context),
                           style:
                               Theme.of(context).textTheme.labelLarge!.copyWith(
                                     color: Theme.of(context)

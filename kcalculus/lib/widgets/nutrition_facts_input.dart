@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/models/units.dart';
+import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/widgets/amount_input/amount_input.dart';
 
@@ -118,7 +119,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
             curve: Curves.linear,
           );
         }
-        showNotification('There can not be more fiber than carbs.');
+        showNotification(l10n(context).validationErrorMoreFiberThanCarbs);
       }
     }
 
@@ -224,7 +225,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                 iconSize: 24,
               ),
               Text(
-                'Nutrition Facts',
+                l10n(context).titleNutritionFacts,
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
@@ -256,7 +257,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                   child: AmountInput(
                     controller: _perAmountController,
                     initialAmount: amount,
-                    label: 'Per',
+                    label: l10n(context).labelPer,
                     enabled: isEnabled,
                     onSaveAmount: (amount) {
                       _drafts[index].amount = amount;
@@ -270,7 +271,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
           const SizedBox(height: 16),
           AmountInput(
             controller: _caloriesAmountController,
-            label: 'Calories',
+            label: l10n(context).labelCalories,
             initialUnit: Unit.calorie,
             initialValue: draft.calories,
             fixedUnit: true,
@@ -285,7 +286,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
               Expanded(
                 child: AmountInput(
                   controller: _fatAmountController,
-                  label: 'Fat',
+                  label: l10n(context).labelFat,
                   initialUnit: Unit.gram,
                   initialValue: draft.fatInGrams,
                   fixedUnit: true,
@@ -298,7 +299,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
               Expanded(
                 child: AmountInput(
                   controller: _carbsAmountController,
-                  label: 'Carbs',
+                  label: l10n(context).labelCarbs,
                   initialUnit: Unit.gram,
                   initialValue: draft.carbsInGrams,
                   fixedUnit: true,
@@ -316,7 +317,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
               Expanded(
                 child: AmountInput(
                   controller: _fiberAmountController,
-                  label: 'Fiber',
+                  label: l10n(context).labelFiber,
                   initialUnit: Unit.gram,
                   initialValue: draft.fiberInGrams,
                   fixedUnit: true,
@@ -329,7 +330,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
               Expanded(
                 child: AmountInput(
                   controller: _proteinAmountController,
-                  label: 'Protein',
+                  label: l10n(context).labelProtein,
                   initialUnit: Unit.gram,
                   initialValue: draft.proteinInGrams,
                   fixedUnit: true,
