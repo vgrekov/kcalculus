@@ -1,207 +1,203 @@
+import 'package:flutter/material.dart';
+import 'package:kcalculus/utils/l10n.dart';
+
 enum Measure {
-  mass(
-    displayName: 'Mass',
-  ),
-  volume(
-    displayName: 'Volume',
-  ),
-  quantity(
-    displayName: 'Quantity',
-  );
+  mass,
+  volume,
+  quantity;
 
-  final String displayName;
-
-  const Measure({
-    required this.displayName,
-  });
+  String localName(BuildContext context) {
+    return switch (this) {
+      mass => l10n(context).measureMass,
+      volume => l10n(context).measureVolume,
+      quantity => l10n(context).measureQuantity,
+    };
+  }
 }
 
 enum MeasureSystem {
-  metric(
-    displayName: 'Metric',
-  ),
-  imperial(
-    displayName: 'Imperial',
-  ),
-  us(
-    displayName: 'US',
-  ),
-  usLegal(
-    displayName: 'US Legal',
-  ),
-  usCustomary(
-    displayName: 'US Customary',
-  );
+  metric,
+  imperial,
+  us,
+  usLegal,
+  usCustomary;
 
-  final String displayName;
-
-  const MeasureSystem({
-    required this.displayName,
-  });
+  String localName(BuildContext context) {
+    return switch (this) {
+      metric => l10n(context).measureSystemMetric,
+      imperial => l10n(context).measureSystemImperial,
+      us => l10n(context).measureSystemUS,
+      usLegal => l10n(context).measureSystemUSLegal,
+      usCustomary => l10n(context).measureSystemUSCustomary,
+    };
+  }
 }
 
 enum Unit {
   calorie(
-    displayName: 'kcal',
     factor: 1,
     pickable: false,
   ),
   piece(
     measure: Measure.quantity,
-    displayName: 'ea',
     factor: 1,
   ),
   // Metric - Mass
   gram(
     measure: Measure.mass,
     system: MeasureSystem.metric,
-    displayName: 'g',
     factor: 1,
   ),
   kilogram(
     measure: Measure.mass,
     system: MeasureSystem.metric,
-    displayName: 'kg',
     factor: 1000,
   ),
   milligram(
     measure: Measure.mass,
     system: MeasureSystem.metric,
-    displayName: 'mg',
     factor: 0.001,
   ),
   // Metric - Volume
   litre(
     measure: Measure.volume,
     system: MeasureSystem.metric,
-    displayName: 'l',
     factor: 1,
   ),
   millilitre(
     measure: Measure.volume,
     system: MeasureSystem.metric,
-    displayName: 'ml',
     factor: 0.001,
   ),
   // Imperial - Mass
   pound(
     measure: Measure.mass,
     system: MeasureSystem.imperial,
-    displayName: 'lb',
     factor: 453.5924,
   ),
   ounce(
     measure: Measure.mass,
     system: MeasureSystem.imperial,
-    displayName: 'oz',
     factor: 28.34952,
   ),
   // Imperial - Volume
-  teaSpoonImperial(
+  teaSpoon(
     measure: Measure.volume,
     system: MeasureSystem.imperial,
-    displayName: 'tsp (imp)',
     factor: 0.005919387,
   ),
-  tableSpoonImperial(
+  tableSpoon(
     measure: Measure.volume,
     system: MeasureSystem.imperial,
-    displayName: 'tbsp (imp)',
     factor: 0.01775816,
   ),
-  fluidOunceImperial(
+  fluidOunce(
     measure: Measure.volume,
     system: MeasureSystem.imperial,
-    displayName: 'fl oz (imp)',
     factor: 0.02841306,
   ),
-  cupImperial(
+  cup(
     measure: Measure.volume,
     system: MeasureSystem.imperial,
-    displayName: 'cup (imp)',
     factor: 0.2841306,
   ),
-  pintImperial(
+  pint(
     measure: Measure.volume,
     system: MeasureSystem.imperial,
-    displayName: 'pt (imp)',
     factor: 0.5682612,
   ),
-  quartImperial(
+  quart(
     measure: Measure.volume,
     system: MeasureSystem.imperial,
-    displayName: 'qt (imp)',
     factor: 1.136522,
   ),
-  gallonImperial(
+  gallon(
     measure: Measure.volume,
     system: MeasureSystem.imperial,
-    displayName: 'gal (imp)',
     factor: 4.54609,
   ),
   // US - Volume
   teaSpoonUS(
     measure: Measure.volume,
     system: MeasureSystem.us,
-    displayName: 'tsp (US)',
     factor: 0.004928922,
   ),
   tableSpoonUS(
     measure: Measure.volume,
     system: MeasureSystem.us,
-    displayName: 'tbsp (US)',
     factor: 0.01478676,
   ),
   fluidOunceUS(
     measure: Measure.volume,
     system: MeasureSystem.us,
-    displayName: 'fl oz (US)',
     factor: 0.02957353,
   ),
   pintUS(
     measure: Measure.volume,
     system: MeasureSystem.us,
-    displayName: 'pt (US)',
     factor: 0.4731765,
   ),
   quartUS(
     measure: Measure.volume,
     system: MeasureSystem.us,
-    displayName: 'qt (US)',
     factor: 0.946353,
   ),
   gallonUS(
     measure: Measure.volume,
     system: MeasureSystem.us,
-    displayName: 'gal (US)',
     factor: 3.785412,
   ),
   // US Legal - Volume
   cupUSLegal(
     measure: Measure.volume,
     system: MeasureSystem.usLegal,
-    displayName: 'cup (US legal)',
     factor: 0.24,
   ),
   // US Customary - Volume
   cupUSCustomary(
     measure: Measure.volume,
     system: MeasureSystem.usCustomary,
-    displayName: 'cup (US customary)',
     factor: 0.2365882,
   );
 
   final Measure? measure;
   final MeasureSystem? system;
-  final String displayName;
   final double factor;
   final bool pickable;
 
   const Unit({
     this.measure,
     this.system,
-    required this.displayName,
     required this.factor,
     this.pickable = true,
   });
+
+  String localName(BuildContext context) {
+    return switch (this) {
+      calorie => l10n(context).unitCalorie,
+      piece => l10n(context).unitPiece,
+      gram => l10n(context).unitGram,
+      kilogram => l10n(context).unitKilogram,
+      milligram => l10n(context).unitMilligram,
+      litre => l10n(context).unitLitre,
+      millilitre => l10n(context).unitMillilitre,
+      pound => l10n(context).unitPound,
+      ounce => l10n(context).unitOunce,
+      teaSpoon => l10n(context).unitTeaSpoon,
+      tableSpoon => l10n(context).unitTableSpoon,
+      fluidOunce => l10n(context).unitFluidOunce,
+      cup => l10n(context).unitCup,
+      pint => l10n(context).unitPint,
+      quart => l10n(context).unitQuart,
+      gallon => l10n(context).unitGallon,
+      teaSpoonUS => l10n(context).unitTeaSpoonUS,
+      tableSpoonUS => l10n(context).unitTableSpoonUS,
+      fluidOunceUS => l10n(context).unitFluidOunceUS,
+      pintUS => l10n(context).unitPintUS,
+      quartUS => l10n(context).unitQuartUS,
+      gallonUS => l10n(context).unitGallonUS,
+      cupUSLegal => l10n(context).unitCupUSLegal,
+      cupUSCustomary => l10n(context).unitCupUSCustomary,
+    };
+  }
 }

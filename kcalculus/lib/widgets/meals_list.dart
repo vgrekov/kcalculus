@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/models/meal.dart';
+import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/widgets/meals_list_item.dart';
 
@@ -33,7 +34,10 @@ class MealsList extends StatelessWidget with Messenger {
                 key: UniqueKey(),
                 direction: DismissDirection.endToStart,
                 confirmDismiss: (direction) async {
-                  return await showConfirmation(context, 'Delete this meal?') ??
+                  return await showConfirmation(
+                        context,
+                        l10n(context).messageMealDeletionConfirmation,
+                      ) ??
                       false;
                 },
                 onDismissed: (direction) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/themes/macro_nutrients.dart';
+import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
 class DailyTotal extends StatelessWidget {
@@ -36,14 +37,16 @@ class DailyTotal extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '${nb.formatDouble(nutrientData.calories)} kcal',
+                l10n(context).statCalories(
+                    nb.formatDouble(context, nutrientData.calories)),
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
                 textAlign: TextAlign.left,
               ),
               Text(
-                'Fiber: ${nb.formatDouble(nutrientData.fiberInGrams)} g',
+                l10n(context).statFiber(
+                    nb.formatDouble(context, nutrientData.fiberInGrams)),
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: macroTheme.fiberColor,
                     ),
@@ -110,7 +113,8 @@ class DailyTotal extends StatelessWidget {
                     right: 16,
                   ),
                   child: Text(
-                    'Fat: ${nb.formatDouble(macroSplit.fatPercentage)}%',
+                    l10n(context).statFatPercentage(
+                        nb.formatDouble(context, macroSplit.fatPercentage)),
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
@@ -132,7 +136,8 @@ class DailyTotal extends StatelessWidget {
                     right: 16,
                   ),
                   child: Text(
-                    'Carbs: ${nb.formatDouble(macroSplit.carbsPercentage)}%',
+                    l10n(context).statCarbsPercentage(
+                        nb.formatDouble(context, macroSplit.carbsPercentage)),
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
@@ -153,7 +158,8 @@ class DailyTotal extends StatelessWidget {
                     left: 4,
                   ),
                   child: Text(
-                    'Protein: ${nb.formatDouble(macroSplit.proteinPercentage)}%',
+                    l10n(context).statProteinPercentage(
+                        nb.formatDouble(context, macroSplit.proteinPercentage)),
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                         ),

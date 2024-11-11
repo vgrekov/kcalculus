@@ -6,6 +6,7 @@ import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/screens/new_meal.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
+import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/daily_total.dart';
@@ -38,10 +39,13 @@ class _DailyLogScreenState extends ConsumerState
     try {
       final isDeleted =
           await ref.read(dailyLogProvider.notifier).deleteMeal(meal);
-      if (isDeleted) {
-        showNotification('Meal deleted');
-      } else {
-        showNotification('Failed to delete the meal');
+
+      if (mounted) {
+        if (isDeleted) {
+          showNotification(l10n(context).messageMealDeletionSuccess);
+        } else {
+          showNotification(l10n(context).messageMealDeletionFailure);
+        }
       }
     } catch (error) {
       showNotification(error.toString());
@@ -88,7 +92,7 @@ class _DailyLogScreenState extends ConsumerState
         } else if (snapshot.hasError) {
           body = Center(
             child: Text(
-              'Oops.. Something went wrong...',
+              l10n(context).messageUnknownError,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: Theme.of(context).colorScheme.error,
                   ),
@@ -97,7 +101,7 @@ class _DailyLogScreenState extends ConsumerState
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           body = Center(
             child: Text(
-              'No meals logged so far...',
+              l10n(context).messageNoMeals,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),
@@ -123,13 +127,13 @@ class _DailyLogScreenState extends ConsumerState
             title: Column(
               children: [
                 Text(
-                  'Daily Log',
+                  l10n(context).screenDailyLog,
                   style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                         color: Theme.of(context).colorScheme.onPrimaryContainer,
                       ),
                 ),
                 Text(
-                  dt.formatDate(logDate),
+                  dt.formatDateLocal(context, logDate),
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),

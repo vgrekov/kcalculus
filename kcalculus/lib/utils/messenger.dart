@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:kcalculus/utils/l10n.dart';
 
 Future<bool?> _showConfirmation(BuildContext context, String message) {
   final title = Text(
-    MessageType.confirm.displayName,
+    MessageType.confirm.localName(context),
     style: Theme.of(context).textTheme.titleMedium!.copyWith(
           color: Theme.of(context).colorScheme.onPrimaryContainer,
         ),
@@ -24,7 +25,7 @@ Future<bool?> _showConfirmation(BuildContext context, String message) {
         Navigator.of(context).pop(false);
       },
       child: Text(
-        'Cancel',
+        l10n(context).actionCancel,
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
               color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
@@ -35,7 +36,7 @@ Future<bool?> _showConfirmation(BuildContext context, String message) {
         Navigator.of(context).pop(true);
       },
       child: Text(
-        'Ok',
+        l10n(context).actionOk,
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
               color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
@@ -72,7 +73,7 @@ Future<bool?> _showConfirmation(BuildContext context, String message) {
 void _showMessage(
     BuildContext context, String message, MessageType messageType) {
   final title = Text(
-    messageType.displayName,
+    messageType.localName(context),
     style: Theme.of(context).textTheme.titleMedium!.copyWith(
           color: Theme.of(context).colorScheme.onPrimaryContainer,
         ),
@@ -91,7 +92,7 @@ void _showMessage(
         Navigator.of(context).pop();
       },
       child: Text(
-        'Ok',
+        l10n(context).actionOk,
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
               color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
@@ -184,22 +185,17 @@ mixin StateMessenger<T extends StatefulWidget> on State<T> {
 }
 
 enum MessageType {
-  confirm(
-    displayName: 'Confirmation',
-  ),
-  info(
-    displayName: 'Information',
-  ),
-  warning(
-    displayName: 'Warning',
-  ),
-  error(
-    displayName: 'Error',
-  );
+  confirm,
+  info,
+  warning,
+  error;
 
-  final String displayName;
-
-  const MessageType({
-    required this.displayName,
-  });
+  String localName(BuildContext context) {
+    return switch (this) {
+      confirm => l10n(context).messageTypeConfirm,
+      info => l10n(context).messageTypeInfo,
+      warning => l10n(context).messageTypeWarning,
+      error => l10n(context).messageTypeError,
+    };
+  }
 }

@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kcalculus/utils/l10n.dart';
 
 final _timeFormatter = DateFormat('HH:mm');
 final _dateFormatter = DateFormat('dd-MM-yyyy');
@@ -8,8 +10,16 @@ String formatTime(DateTime dateTime) {
   return _timeFormatter.format(dateTime);
 }
 
+String formatTimeLocal(BuildContext context, DateTime dateTime) {
+  return DateFormat(l10n(context).formatTime).format(dateTime);
+}
+
 String formatDate(DateTime dateTime) {
   return _dateFormatter.format(dateTime);
+}
+
+String formatDateLocal(BuildContext context, DateTime dateTime) {
+  return DateFormat(l10n(context).formatDate).format(dateTime);
 }
 
 String formatISO8601(DateTime dateTime) {

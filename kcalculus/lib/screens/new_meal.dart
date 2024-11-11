@@ -10,6 +10,7 @@ import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/models/units.dart';
 import 'package:kcalculus/screens/edible_search.dart';
+import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/amount_input/amount_input.dart';
@@ -119,8 +120,10 @@ class _NewMealScreenState extends ConsumerState<NewMealScreen>
         .any((nf) => nf.amount.unit.measure == _amount!.unit.measure);
     if (!hasCommonMeasure) {
       showMessage(
-        '''You specified the meal amount in ${_amount!.unit.displayName} of measure ${_amount!.unit.measure!.displayName}.
-In at least one 'per' field of the nutrition facts, the amount should be specified in units of ${_amount!.unit.measure!.displayName}.''',
+        l10n(context).messageNoCommonMeasureError(
+          _amount!.unit.localName(context),
+          _amount!.unit.measure!.localName(context),
+        ),
         MessageType.error,
       );
       return false;
@@ -153,8 +156,8 @@ In at least one 'per' field of the nutrition facts, the amount should be specifi
         return _selectedEdible;
       } else {
         final confirmed = await showConfirmation(
-                '''Looks like you've made some changes to a selected edible.
-Proceeding would create a new edible record.''') ??
+              l10n(context).messageNewEdibleConfirmation,
+            ) ??
             false;
         if (!confirmed) {
           return null;
@@ -174,13 +177,16 @@ Proceeding would create a new edible record.''') ??
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'New Meal',
+          l10n(context).screenNewMeal,
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
         ),
         actions: [
-          TextButton(onPressed: _saveMeal, child: const Text('Save')),
+          TextButton(
+            onPressed: _saveMeal,
+            child: Text(l10n(context).actionSave),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -207,7 +213,7 @@ Proceeding would create a new edible record.''') ??
                 ),
                 const SizedBox(height: 8),
                 AmountInput(
-                  label: 'Amount',
+                  label: l10n(context).labelMealAmount,
                   initialUnit: Unit.gram,
                   focusNode: _amountFocusNode,
                   onSaveAmount: (amount) {

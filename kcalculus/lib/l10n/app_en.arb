@@ -1,0 +1,134 @@
+{
+    "measureMass": "Mass",
+    "measureVolume": "Volume",
+    "measureQuantity": "Quantity",
+    "measureSystemMetric": "Metric",
+    "measureSystemImperial": "Imperial",
+    "measureSystemUS": "US",
+    "measureSystemUSLegal": "US Legal",
+    "measureSystemUSCustomary": "US Customary",
+    "unitCalorie": "kcal",
+    "unitPiece": "ea",
+    "unitGram": "g",
+    "unitKilogram": "kg",
+    "unitMilligram": "mg",
+    "unitLitre": "l",
+    "unitMillilitre": "ml",
+    "unitPound": "lb",
+    "unitOunce": "oz",
+    "unitTeaSpoon": "tsp",
+    "unitTableSpoon": "tbsp",
+    "unitFluidOunce": "fl oz",
+    "unitCup": "cup",
+    "unitPint": "pt",
+    "unitQuart": "qt",
+    "unitGallon": "gal",
+    "unitTeaSpoonUS": "tsp (US)",
+    "unitTableSpoonUS": "tbsp (US)",
+    "unitFluidOunceUS": "fl oz (US)",
+    "unitPintUS": "pt (US)",
+    "unitQuartUS": "qt (US)",
+    "unitGallonUS": "gal (US)",
+    "unitCupUSLegal": "cup (US legal)",
+    "unitCupUSCustomary": "cup (US customary)",
+    "formatDate": "EEE, MMM d, yyyy",
+    "formatTime": "HH:mm",
+    "formatDouble": "##0.##",
+    "messageUnknownError": "Oops.. Something went wrong...",
+    "screenDailyLog": "Daily Log",
+    "messageMealDeletionSuccess": "Meal deleted",
+    "messageMealDeletionFailure": "Failed to delete the meal",
+    "messageNoMeals": "No meals logged so far...",
+    "hintEdibleSearchBox": "Search by name...",
+    "messageEdibleSearchNothingFound": "Nothing found...",
+    "screenNewMeal": "New Meal",
+    "labelMealAmount": "Amount",
+    "messageNoCommonMeasureError": "You specified the meal amount in {unit} of measure {measure}.\nIn at least one ''per'' field of the nutrition facts, the amount should be specified in units of {measure}.",
+    "@messageNoCommonMeasureError": {
+        "description": "Meal amount measure should be used in nutrition facts",
+        "placeholders": {
+            "unit": {
+                "type": "String"
+            },
+            "measure": {
+                "type": "String"
+            }
+        }
+    },
+    "messageNewEdibleConfirmation": "Looks like you''ve made some changes to a selected edible.\nProceeding would create a new edible record.",
+    "actionSave": "Save",
+    "messageTypeConfirm": "Confirmation",
+    "messageTypeInfo": "Information",
+    "messageTypeWarning": "Warning",
+    "messageTypeError": "Error",
+    "actionOk": "Ok",
+    "actionCancel": "Cancel",
+    "validationErrorAmountValueMissing": "Value is required",
+    "validationErrorAmountValueNaN": "Must be a number",
+    "validationErrorAmountValueNegative": "Can not be a negative number",
+    "validationErrorAmountValueNotPositive": "Must be a positive number",
+    "amounValueMask": "^\\d+\\.?\\d'{0,2}'",
+    "statCalories": "{value} kcal",
+    "@statCalories": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "statFiber": "Fiber: {value} g",
+    "@statFiber": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "statFatPercentage": "Fat: {value}%",
+    "@statFatPercentage": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "statCarbsPercentage": "Carbs: {value}%",
+    "@statCarbsPercentage": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "statProteinPercentage": "Protein: {value}%",
+    "@statProteinPercentage": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "actionToday": "Today",
+    "labelMealName": "Name",
+    "validationErrorMealNameMissing": "Name is required",
+    "statWithUnit": "{value} {unit}",
+    "@statWithUnit": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "messageMealDeletionConfirmation": "Delete this meal?",
+    "titleNutritionFacts": "Nutrition Facts",
+    "labelPer": "Per",
+    "labelCalories": "Calories",
+    "labelFat": "Fat",
+    "labelCarbs": "Carbs",
+    "labelFiber": "Fiber",
+    "labelProtein": "Protein",
+    "validationErrorMoreFiberThanCarbs": "There can not be more fiber than carbs."
+}

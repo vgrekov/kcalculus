@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kcalculus/utils/l10n.dart';
 
 class MealNameInput extends StatelessWidget {
   final TextEditingController? controller;
@@ -16,9 +17,9 @@ class MealNameInput extends StatelessWidget {
     this.autofocus = false,
   });
 
-  String? _validateMealName(String? value) {
+  String? _validateMealName(BuildContext context, String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Name is required';
+      return l10n(context).validationErrorMealNameMissing;
     }
 
     return null;
@@ -36,7 +37,7 @@ class MealNameInput extends StatelessWidget {
           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
           fontWeight: FontWeight.normal,
         ),
-        labelText: 'Name',
+        labelText: l10n(context).labelMealName,
         suffixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
           child: TextButton(
@@ -63,7 +64,7 @@ class MealNameInput extends StatelessWidget {
       ),
       maxLength: 50,
       textCapitalization: TextCapitalization.words,
-      validator: _validateMealName,
+      validator: (value) => _validateMealName(context, value),
       onSaved: onSaved,
       focusNode: focusNode,
       autofocus: autofocus,

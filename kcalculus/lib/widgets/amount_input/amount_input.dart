@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/units.dart';
+import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 import 'package:kcalculus/widgets/amount_input/unit_picker.dart';
 
 const _defaultUnit = Unit.gram;
-
-final _valueMask = RegExp(r'^\d+\.?\d{0,2}');
 
 class AmountInput extends StatefulWidget {
   final AmountInputController? controller;
@@ -49,17 +48,19 @@ class AmountInput extends StatefulWidget {
 }
 
 class _AmountInputState extends State<AmountInput> {
+  late RegExp _valueMask;
+
   late Unit _unit;
   late double? _value;
 
-  late TextEditingController _valueController;
+  final TextEditingController _valueController = TextEditingController();
 
   @override
   void initState() {
+    super.initState();
+
     _unit = widget.initialUnit ?? widget.initialAmount?.unit ?? _defaultUnit;
     _value = widget.initialValue ?? widget.initialAmount?.value;
-    _valueController = TextEditingController(
-        text: _value != null ? nb.formatDouble(_value!) : '');
 
     if (widget.controller != null) {
       widget.controller!._unit = _unit;
@@ -67,7 +68,13 @@ class _AmountInputState extends State<AmountInput> {
       widget.controller!.addListener(_onControllerChange);
     }
 
-    super.initState();
+    Future.delayed(Duration.zero, () {
+      if (mounted) {
+        _valueMask = RegExp(l10n(context).amounValueMask);
+        _valueController.text =
+            _value != null ? nb.formatDouble(context, _value!) : '';
+      }
+    });
   }
 
   @override
@@ -82,7 +89,8 @@ class _AmountInputState extends State<AmountInput> {
     setState(() {
       _unit = widget.controller!._unit ?? _unit;
       _value = widget.controller!._value;
-      _valueController.text = _value != null ? nb.formatDouble(_value!) : '';
+      _valueController.text =
+          _value != null ? nb.formatDouble(context, _value!) : '';
     });
   }
 
@@ -107,18 +115,18 @@ class _AmountInputState extends State<AmountInput> {
 
   String? _validateAmountValue(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Value is required';
+      return l10n(context).validationErrorAmountValueMissing;
     }
 
     final doubleValue = double.tryParse(value);
     if (doubleValue == null) {
-      return 'Must be a number';
+      return l10n(context).validationErrorAmountValueNaN;
     }
 
     if (widget.allowZero && doubleValue < 0) {
-      return 'Can not be a negative number';
+      return l10n(context).validationErrorAmountValueNegative;
     } else if (!widget.allowZero && doubleValue <= 0) {
-      return 'Must be a positive number';
+      return l10n(context).validationErrorAmountValueNotPositive;
     }
 
     return null;
@@ -184,7 +192,7 @@ class _AmountInputState extends State<AmountInput> {
             ),
             onPressed: widget.fixedUnit ? null : _pickUnit,
             child: Text(
-              _unit.displayName,
+              _unit.localName(context),
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onTertiaryContainer,
                   ),

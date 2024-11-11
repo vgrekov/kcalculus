@@ -28,7 +28,7 @@ class EdibleSearchResultsItem extends StatelessWidget {
       subtitle: searchResult.lastEatenAt == null
           ? null
           : Text(
-              dt.formatDate(searchResult.lastEatenAt!),
+              dt.formatDateLocal(context, searchResult.lastEatenAt!),
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),

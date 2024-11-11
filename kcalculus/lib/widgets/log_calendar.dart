@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kcalculus/utils/l10n.dart';
 
 class LogCalendar extends StatelessWidget {
   final DateTime initialDate;
@@ -58,7 +59,7 @@ class LogCalendar extends StatelessWidget {
                             onSelectDate(DateTime.now());
                           },
                           child: Text(
-                            'Today',
+                            l10n(context).actionToday,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge!

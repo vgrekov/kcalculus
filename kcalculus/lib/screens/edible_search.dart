@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/edible_search.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/edible_search_results.dart';
@@ -98,7 +99,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
         } else if (snapshot.hasError) {
           body = Center(
             child: Text(
-              'Oops.. Something went wrong...',
+              l10n(context).messageUnknownError,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: Theme.of(context).colorScheme.error,
                   ),
@@ -107,7 +108,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           body = Center(
             child: Text(
-              'Nothing found...',
+              l10n(context).messageEdibleSearchNothingFound,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),
@@ -142,7 +143,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
                           .withOpacity(0.5),
                       fontWeight: FontWeight.normal,
                     ),
-                    hintText: 'Search by name...',
+                    hintText: l10n(context).hintEdibleSearchBox,
                     isDense: true,
                     prefixIcon: IconButton(
                         onPressed: _goBack,
