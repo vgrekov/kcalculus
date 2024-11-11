@@ -79,12 +79,12 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
   bool _checkIfCommonMeasureExists() {
     final nutritionFacts = _nutritionFactsController.nutritionFacts!;
     final hasCommonMeasure = nutritionFacts
-        .any((nf) => nf.amount.unit.measure == _amount!.unit.measure);
+        .any((nf) => nf.amount.unit.measure == _amount.unit.measure);
     if (!hasCommonMeasure) {
       showMessage(
         l10n(context).messageNoCommonMeasureError(
-          _amount!.unit.localName(context),
-          _amount!.unit.measure!.localName(context),
+          _amount.unit.localName(context),
+          _amount.unit.measure!.localName(context),
         ),
         MessageType.error,
       );
