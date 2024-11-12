@@ -109,7 +109,9 @@
         }
     },
     "actionToday": "Today",
-    "labelMealName": "Name",
+    "labelEdibleName": "Name",
+    "labelEdibleDescription": "Description",
+    "hintEdibleDescription": "Brand or other additional information",
     "validationErrorMealNameMissing": "Name is required",
     "statWithUnit": "{value} {unit}",
     "@statWithUnit": {
@@ -131,5 +133,7 @@
     "labelFiber": "Fiber",
     "labelProtein": "Protein",
     "validationErrorMoreFiberThanCarbs": "There can not be more fiber than carbs.",
-    "screenEditMeal": "Edit Meal"
+    "screenEditMeal": "Edit Meal",
+    "labelLastEatenAt": "Last eaten at",
+    "labelNotEatenYet": "Not eaten yet"
 }

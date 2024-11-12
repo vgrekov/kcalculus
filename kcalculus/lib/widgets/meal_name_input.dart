@@ -39,7 +39,7 @@ class MealNameInput extends StatelessWidget {
           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
           fontWeight: FontWeight.normal,
         ),
-        labelText: l10n(context).labelMealName,
+        labelText: l10n(context).labelEdibleName,
         suffixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
           child: TextButton(

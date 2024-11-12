@@ -71,6 +71,7 @@ class LocalEdibleDao implements EdibleDao {
     return EdibleSearchResult(
       id: record['id'] as String,
       name: record['name'] as String,
+      description: record['description'] as String?,
       type: record['dish_id'] != null
           ? EdibleSearchResultType.dish
           : EdibleSearchResultType.food,

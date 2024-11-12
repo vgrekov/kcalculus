@@ -30,12 +30,14 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
 
   final _form = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
   final _nutritionFactsController = NutritionFactsInputController();
 
   @override
   void initState() {
     _amount = widget.meal.amount;
     _nameController.text = widget.meal.edible.name;
+    _descriptionController.text = widget.meal.edible.description ?? '';
     _nutritionFactsController.nutritionFacts =
         widget.meal.edible.getNutritionFacts();
     super.initState();
@@ -43,6 +45,8 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
 
   @override
   void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
     _nutritionFactsController.dispose();
     super.dispose();
   }
@@ -120,6 +124,39 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
             children: [
               MealNameInput(
                 controller: _nameController,
+                enabled: false,
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  labelStyle: TextStyle(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.5),
+                    fontWeight: FontWeight.normal,
+                  ),
+                  labelText: l10n(context).labelEdibleDescription,
+                  hintStyle: TextStyle(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.5),
+                    fontWeight: FontWeight.normal,
+                  ),
+                  hintText: l10n(context).hintEdibleDescription,
+                  isDense: true,
+                ),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                maxLength: 100,
+                maxLines: 2,
+                textCapitalization: TextCapitalization.words,
                 enabled: false,
               ),
               const SizedBox(height: 8),

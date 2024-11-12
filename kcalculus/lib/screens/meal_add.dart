@@ -31,10 +31,12 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
   Edible? _selectedEdible;
 
   String _name = '';
+  String _description = '';
   Amount? _amount;
 
   final _form = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
   final _nutritionFactsController = NutritionFactsInputController();
 
   late FocusNode _amountFocusNode;
@@ -48,6 +50,7 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
   @override
   void dispose() {
     _nameController.dispose();
+    _descriptionController.dispose();
     _nutritionFactsController.dispose();
     _amountFocusNode.dispose();
     super.dispose();
@@ -110,6 +113,7 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
   void _selectEdible(Edible edible) {
     _selectedEdible = edible;
     _nameController.text = edible.name;
+    _descriptionController.text = edible.description ?? '';
     _nutritionFactsController.nutritionFacts = edible.getNutritionFacts();
     _amountFocusNode.requestFocus();
   }
@@ -134,7 +138,8 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
 
   bool _isSelectedEdibleModified() {
     if (_selectedEdible != null) {
-      if (_selectedEdible!.name != _name) {
+      if (_selectedEdible!.name != _name ||
+          (_selectedEdible!.description ?? '') != _description) {
         return true;
       }
 
@@ -167,6 +172,7 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
 
     return Food(
       name: _name,
+      description: _description,
       nutritionFacts: _nutritionFactsController.nutritionFacts!,
     );
   }
@@ -210,6 +216,41 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
                       },
                     ),
                   ),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _descriptionController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    labelStyle: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                      fontWeight: FontWeight.normal,
+                    ),
+                    labelText: l10n(context).labelEdibleDescription,
+                    hintStyle: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                      fontWeight: FontWeight.normal,
+                    ),
+                    hintText: l10n(context).hintEdibleDescription,
+                    isDense: true,
+                  ),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  maxLength: 100,
+                  maxLines: 2,
+                  textCapitalization: TextCapitalization.words,
+                  onSaved: (value) {
+                    _description = value!;
+                  },
                 ),
                 const SizedBox(height: 8),
                 AmountInput(
