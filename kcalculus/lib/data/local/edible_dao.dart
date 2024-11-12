@@ -18,6 +18,7 @@ class LocalEdibleDao implements EdibleDao {
     await executor.insert('edibles', {
       'id': model.id,
       'name': model.name,
+      'description': model.description,
     });
   }
 
@@ -30,6 +31,7 @@ class LocalEdibleDao implements EdibleDao {
         SELECT
           results.id,
           results.name,
+          results.description,
           results.food_id,
           results.dish_id,
           MAX(results.eaten_at) AS last_eaten_at
@@ -37,6 +39,7 @@ class LocalEdibleDao implements EdibleDao {
           SELECT
             edibles.id AS id,
             edibles.name AS name,
+            edibles.description AS description,
             foods.id AS food_id,
             dishes.id AS dish_id,
             meals.eaten_at AS eaten_at
