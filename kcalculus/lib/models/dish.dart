@@ -40,12 +40,15 @@ class Ingredient with Nutritious {
 class Dish with Identifiable implements Edible {
   @override
   final String name;
+  @override
+  final String? description;
   late List<Ingredient> ingredients;
   double? _weightInGrams;
 
   Dish({
     String? id,
     required this.name,
+    this.description,
     ingredients,
     weightInGrams,
   }) {
