@@ -29,7 +29,7 @@ class EdibleSearchResultsItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        searchResult.description ?? '',
+        searchResult.description,
         style: Theme.of(context).textTheme.labelSmall!.copyWith(
               color: Theme.of(context).colorScheme.primary,
             ),
