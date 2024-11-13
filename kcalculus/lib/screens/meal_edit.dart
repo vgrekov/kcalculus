@@ -37,7 +37,7 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
   void initState() {
     _amount = widget.meal.amount;
     _nameController.text = widget.meal.edible.name;
-    _descriptionController.text = widget.meal.edible.description ?? '';
+    _descriptionController.text = widget.meal.edible.description;
     _nutritionFactsController.nutritionFacts =
         widget.meal.edible.getNutritionFacts();
     super.initState();
