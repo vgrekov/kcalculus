@@ -42,7 +42,8 @@ class LocalFoodDao implements FoodDao {
       '''
       SELECT
         edibles.id AS id,
-        edibles.name AS name
+        edibles.name AS name,
+        edibles.description AS description
       FROM
         foods
       LEFT JOIN edibles ON
@@ -62,6 +63,7 @@ class LocalFoodDao implements FoodDao {
     return Food(
       id: id,
       name: record['name'] as String,
+      description: record['description'] as String,
       nutritionFacts: nutritionFacts,
     );
   }

@@ -18,6 +18,7 @@ class LocalEdibleDao implements EdibleDao {
     await executor.insert('edibles', {
       'id': model.id,
       'name': model.name,
+      'description': model.description,
     });
   }
 
@@ -30,6 +31,7 @@ class LocalEdibleDao implements EdibleDao {
         SELECT
           results.id,
           results.name,
+          results.description,
           results.food_id,
           results.dish_id,
           MAX(results.eaten_at) AS last_eaten_at
@@ -37,6 +39,7 @@ class LocalEdibleDao implements EdibleDao {
           SELECT
             edibles.id AS id,
             edibles.name AS name,
+            edibles.description AS description,
             foods.id AS food_id,
             dishes.id AS dish_id,
             meals.eaten_at AS eaten_at
@@ -64,10 +67,27 @@ class LocalEdibleDao implements EdibleDao {
     ).then((data) => data.map(_fromSearchResultRecord).toList());
   }
 
+  @override
+  Future<bool> exists(String name, String description) {
+    return db.rawQuery(
+      '''
+      SELECT
+        COUNT(edibles.id) AS edibles_count
+      FROM
+        edibles
+      WHERE
+        UPPER(edibles.name) = UPPER(?)
+        AND UPPER(edibles.description) = UPPER(?)
+      ''',
+      [name, description],
+    ).then((data) => (data.first['edibles_count'] as int) > 0);
+  }
+
   EdibleSearchResult _fromSearchResultRecord(Map<String, Object?> record) {
     return EdibleSearchResult(
       id: record['id'] as String,
       name: record['name'] as String,
+      description: record['description'] as String,
       type: record['dish_id'] != null
           ? EdibleSearchResultType.dish
           : EdibleSearchResultType.food,

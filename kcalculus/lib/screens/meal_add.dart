@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/daily_log.dart';
+import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/edible_search.dart';
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/food.dart';
@@ -31,16 +32,20 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
   Edible? _selectedEdible;
 
   String _name = '';
+  String _description = '';
   Amount? _amount;
 
   final _form = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
   final _nutritionFactsController = NutritionFactsInputController();
 
+  late FocusNode _nameFocusNode;
   late FocusNode _amountFocusNode;
 
   @override
   void initState() {
+    _nameFocusNode = FocusNode();
     _amountFocusNode = FocusNode();
     super.initState();
   }
@@ -48,8 +53,10 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
   @override
   void dispose() {
     _nameController.dispose();
+    _descriptionController.dispose();
     _nutritionFactsController.dispose();
     _amountFocusNode.dispose();
+    _nameFocusNode.dispose();
     super.dispose();
   }
 
@@ -110,6 +117,7 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
   void _selectEdible(Edible edible) {
     _selectedEdible = edible;
     _nameController.text = edible.name;
+    _descriptionController.text = edible.description;
     _nutritionFactsController.nutritionFacts = edible.getNutritionFacts();
     _amountFocusNode.requestFocus();
   }
@@ -132,9 +140,10 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
     return true;
   }
 
-  bool _isSelectedEdibleModified() {
+  bool? _isSelectedEdibleModified() {
     if (_selectedEdible != null) {
-      if (_selectedEdible!.name != _name) {
+      if (_selectedEdible!.name != _name ||
+          _selectedEdible!.description != _description) {
         return true;
       }
 
@@ -145,28 +154,75 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
       if (!setEquals(nutritionFactsEntered, nutritionFactsSelected)) {
         return true;
       }
+
+      return false;
     }
 
-    return false;
+    return null;
   }
 
   FutureOr<Edible?> getEdible() async {
-    if (_selectedEdible != null) {
-      if (!_isSelectedEdibleModified()) {
-        return _selectedEdible;
-      } else {
-        final confirmed = await showConfirmation(
-              l10n(context).messageNewEdibleConfirmation,
-            ) ??
-            false;
-        if (!confirmed) {
-          return null;
-        }
-      }
+    final selectedEdibleModified = _isSelectedEdibleModified();
+
+    if (selectedEdibleModified == false) {
+      return _selectedEdible;
     }
 
+    final edibleDao = await ref.read(edibleDaoProvider);
+    final alreadyExists = await edibleDao.exists(_name, _description);
+
+    if (selectedEdibleModified == null && alreadyExists) {
+      if (mounted) {
+        showMessageDialog<void>(
+          message: l10n(context).messageEdibleAlreadyExists,
+          actions: {
+            l10n(context).actionOk: () {
+              _nameFocusNode.requestFocus();
+            },
+          },
+          messageType: MessageType.error,
+        );
+      }
+      return null;
+    }
+
+    if (selectedEdibleModified == true && alreadyExists) {
+      if (mounted) {
+        showMessageDialog<void>(
+          message: l10n(context).messageSelectedEdibleModifiedALreadyExists,
+          actions: {
+            l10n(context).actionOk: () {
+              _nameFocusNode.requestFocus();
+            },
+          },
+          messageType: MessageType.error,
+        );
+      }
+      return null;
+    }
+
+    if (selectedEdibleModified == true && !alreadyExists) {
+      if (mounted) {
+        return showMessageDialog<Edible>(
+          message: l10n(context).messageSelectedEdibleModifiedCreatesNew,
+          actions: {
+            l10n(context).actionCancel: () => null,
+            l10n(context).actionUseSelectedEdible: () => _selectedEdible,
+            l10n(context).actionCreateNewEdible: () => _buildFood(),
+          },
+          messageType: MessageType.confirm,
+        );
+      }
+      return null;
+    }
+
+    return _buildFood();
+  }
+
+  Edible _buildFood() {
     return Food(
       name: _name,
+      description: _description,
       nutritionFacts: _nutritionFactsController.nutritionFacts!,
     );
   }
@@ -203,6 +259,7 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
                     type: MaterialType.transparency,
                     child: MealNameInput(
                       controller: _nameController,
+                      focusNode: _nameFocusNode,
                       autofocus: true,
                       onSearchPressed: _searchEdibles,
                       onSaved: (value) {
@@ -210,6 +267,41 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
                       },
                     ),
                   ),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _descriptionController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    labelStyle: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                      fontWeight: FontWeight.normal,
+                    ),
+                    labelText: l10n(context).labelEdibleDescription,
+                    hintStyle: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                      fontWeight: FontWeight.normal,
+                    ),
+                    hintText: l10n(context).hintEdibleDescription,
+                    isDense: true,
+                  ),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  maxLength: 100,
+                  maxLines: 2,
+                  textCapitalization: TextCapitalization.words,
+                  onSaved: (value) {
+                    _description = value!;
+                  },
                 ),
                 const SizedBox(height: 8),
                 AmountInput(

@@ -4,74 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
-Future<bool?> _showConfirmation(BuildContext context, String message) {
-  final title = Text(
-    MessageType.confirm.localName(context),
-    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-        ),
-  );
-
-  final content = Text(
-    message,
-    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-        ),
-  );
-
-  final actions = [
-    TextButton(
-      onPressed: () {
-        Navigator.of(context).pop(false);
-      },
-      child: Text(
-        l10n(context).actionCancel,
-        style: Theme.of(context).textTheme.labelMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
-      ),
-    ),
-    TextButton(
-      onPressed: () {
-        Navigator.of(context).pop(true);
-      },
-      child: Text(
-        l10n(context).actionOk,
-        style: Theme.of(context).textTheme.labelMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
-      ),
-    ),
-  ];
-
-  if (Platform.isIOS) {
-    return showCupertinoDialog<bool>(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: title,
-          content: content,
-          actions: actions,
-        );
-      },
-    );
-  }
-
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: title,
-        content: content,
-        actions: actions,
-      );
-    },
-  );
-}
-
-void _showMessage(
-    BuildContext context, String message, MessageType messageType) {
+Future<T?> _showMessageDialog<T>({
+  required BuildContext context,
+  required String message,
+  required Map<String, T? Function()> actions,
+  required MessageType messageType,
+}) {
   final title = Text(
     messageType.localName(context),
     style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -86,44 +24,68 @@ void _showMessage(
         ),
   );
 
-  final actions = [
-    TextButton(
+  final actionButtons = actions.entries.map((action) {
+    return TextButton(
       onPressed: () {
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(action.value());
       },
       child: Text(
-        l10n(context).actionOk,
+        action.key,
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
               color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
       ),
-    ),
-  ];
+    );
+  }).toList();
 
   if (Platform.isIOS) {
-    showCupertinoDialog(
+    return showCupertinoDialog<T>(
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
           title: title,
           content: content,
-          actions: actions,
-        );
-      },
-    );
-  } else {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          title: title,
-          content: content,
-          actions: actions,
+          actions: actionButtons,
         );
       },
     );
   }
+
+  return showDialog<T>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        title: title,
+        content: content,
+        actions: actionButtons,
+      );
+    },
+  );
+}
+
+Future<bool?> _showConfirmation(BuildContext context, String message) {
+  return _showMessageDialog<bool>(
+    context: context,
+    message: message,
+    actions: {
+      l10n(context).actionCancel: () => false,
+      l10n(context).actionOk: () => true,
+    },
+    messageType: MessageType.confirm,
+  );
+}
+
+void _showMessage(
+    BuildContext context, String message, MessageType messageType) {
+  _showMessageDialog<void>(
+    context: context,
+    message: message,
+    actions: {
+      l10n(context).actionOk: () {},
+    },
+    messageType: messageType,
+  );
 }
 
 void _showNotification(BuildContext context, String message) {
@@ -160,9 +122,27 @@ mixin Messenger {
       _showNotification(context, message);
     }
   }
+
+  Future<T?> showMessageDialog<T>({
+    required BuildContext context,
+    required String message,
+    required Map<String, T? Function()> actions,
+    required MessageType messageType,
+  }) async {
+    if (context.mounted) {
+      return _showMessageDialog(
+        context: context,
+        message: message,
+        actions: actions,
+        messageType: messageType,
+      );
+    }
+
+    return null;
+  }
 }
 
-mixin StateMessenger<T extends StatefulWidget> on State<T> {
+mixin StateMessenger<W extends StatefulWidget> on State<W> {
   Future<bool?> showConfirmation(String message) async {
     if (mounted) {
       return _showConfirmation(context, message);
@@ -181,6 +161,23 @@ mixin StateMessenger<T extends StatefulWidget> on State<T> {
     if (mounted) {
       _showNotification(context, message);
     }
+  }
+
+  Future<T?> showMessageDialog<T>({
+    required String message,
+    required Map<String, T? Function()> actions,
+    required MessageType messageType,
+  }) async {
+    if (mounted) {
+      return _showMessageDialog(
+        context: context,
+        message: message,
+        actions: actions,
+        messageType: messageType,
+      );
+    }
+
+    return null;
   }
 }
 

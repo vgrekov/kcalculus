@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
+import 'package:kcalculus/utils/l10n.dart';
 
 class EdibleSearchResultsItem extends StatelessWidget {
   final EdibleSearchResult searchResult;
@@ -24,20 +25,38 @@ class EdibleSearchResultsItem extends StatelessWidget {
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: Theme.of(context).colorScheme.primary,
             ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
-      subtitle: searchResult.lastEatenAt == null
-          ? null
-          : Text(
+      subtitle: Text(
+        searchResult.description,
+        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      trailing: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            searchResult.lastEatenAt == null
+                ? l10n(context).labelNotEatenYet
+                : l10n(context).labelLastEatenAt,
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
+          ),
+          if (searchResult.lastEatenAt != null)
+            Text(
               dt.formatDateLocal(context, searchResult.lastEatenAt!),
-              style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.tertiary,
                   ),
             ),
-      trailing: Text(
-        searchResult.type.name.toUpperCase(),
-        style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
+        ],
       ),
     );
   }
