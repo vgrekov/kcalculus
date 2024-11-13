@@ -41,14 +41,14 @@ class Dish with Identifiable implements Edible {
   @override
   final String name;
   @override
-  final String? description;
+  final String description;
   late List<Ingredient> ingredients;
   double? _weightInGrams;
 
   Dish({
     String? id,
     required this.name,
-    this.description,
+    required this.description,
     ingredients,
     weightInGrams,
   }) {
