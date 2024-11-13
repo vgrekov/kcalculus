@@ -67,11 +67,27 @@ class LocalEdibleDao implements EdibleDao {
     ).then((data) => data.map(_fromSearchResultRecord).toList());
   }
 
+  @override
+  Future<bool> exists(String name, String description) {
+    return db.rawQuery(
+      '''
+      SELECT
+        COUNT(edibles.id) AS edibles_count
+      FROM
+        edibles
+      WHERE
+        UPPER(edibles.name) = UPPER(?)
+        AND UPPER(edibles.description) = UPPER(?)
+      ''',
+      [name, description],
+    ).then((data) => (data.first['edibles_count'] as int) > 0);
+  }
+
   EdibleSearchResult _fromSearchResultRecord(Map<String, Object?> record) {
     return EdibleSearchResult(
       id: record['id'] as String,
       name: record['name'] as String,
-      description: record['description'] as String?,
+      description: record['description'] as String,
       type: record['dish_id'] != null
           ? EdibleSearchResultType.dish
           : EdibleSearchResultType.food,

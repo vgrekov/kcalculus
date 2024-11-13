@@ -21,6 +21,8 @@ final mealDaoProvider = Provider<Future<MealDao>>((ref) {
 
 abstract interface class EdibleDao {
   Future<List<EdibleSearchResult>> search(String? query);
+
+  Future<bool> exists(String name, String description);
 }
 
 final edibleDaoProvider = Provider<Future<EdibleDao>>((ref) {

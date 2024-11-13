@@ -63,7 +63,7 @@ class LocalFoodDao implements FoodDao {
     return Food(
       id: id,
       name: record['name'] as String,
-      description: record['description'] as String?,
+      description: record['description'] as String,
       nutritionFacts: nutritionFacts,
     );
   }
