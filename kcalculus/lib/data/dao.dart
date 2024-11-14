@@ -30,6 +30,8 @@ final edibleDaoProvider = Provider<Future<EdibleDao>>((ref) {
 });
 
 abstract interface class FoodDao {
+  Future<List<EdibleSearchResult>> search(String? query);
+
   Future<Food?> getById(String id);
 }
 
