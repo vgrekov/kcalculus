@@ -3,14 +3,9 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/utils/search_query.dart';
 
 const _debounceDuration = Duration(milliseconds: 500);
-
-class SearchQuery {
-  final String text;
-
-  SearchQuery(this.text);
-}
 
 class EdibleSearchQueryhNotifier extends Notifier<SearchQuery> {
   Timer? _debouncer;
