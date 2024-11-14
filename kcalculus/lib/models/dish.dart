@@ -42,8 +42,10 @@ class Dish with Identifiable implements Edible {
   final String name;
   @override
   final String description;
-  late List<Ingredient> ingredients;
+  final List<Ingredient> ingredients;
   double? _weightInGrams;
+  @override
+  final DateTime createdAt;
 
   Dish({
     String? id,
@@ -51,10 +53,11 @@ class Dish with Identifiable implements Edible {
     required this.description,
     ingredients,
     weightInGrams,
-  }) {
+    DateTime? createdAt,
+  })  : ingredients = ingredients ?? [],
+        _weightInGrams = weightInGrams,
+        createdAt = createdAt ?? DateTime.now() {
     this.id = id;
-    this.ingredients = ingredients ?? [];
-    _weightInGrams = weightInGrams;
   }
 
   void addIngredient(Ingredient ingredient) {

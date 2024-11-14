@@ -4,6 +4,7 @@ import 'package:kcalculus/data/local/db.dart';
 import 'package:kcalculus/data/local/edible_dao.dart';
 import 'package:kcalculus/data/local/nutrition_facts_dao.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -43,7 +44,8 @@ class LocalFoodDao implements FoodDao {
       SELECT
         edibles.id AS id,
         edibles.name AS name,
-        edibles.description AS description
+        edibles.description AS description,
+        edibles.created_at AS created_at
       FROM
         foods
       LEFT JOIN edibles ON
@@ -65,6 +67,7 @@ class LocalFoodDao implements FoodDao {
       name: record['name'] as String,
       description: record['description'] as String,
       nutritionFacts: nutritionFacts,
+      createdAt: dt.parseISO8601(record['created_at'] as String),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:kcalculus/models/nutrition.dart';
 abstract interface class Edible with Identifiable {
   String get name;
   String get description;
+  DateTime get createdAt;
 
   List<NutritionFacts> getNutritionFacts();
 }
@@ -14,14 +15,17 @@ class Food with Identifiable implements Edible {
   @override
   final String description;
   final List<NutritionFacts> nutritionFacts;
+  @override
+  final DateTime createdAt;
 
   Food({
     String? id,
     required this.name,
     required this.description,
     required this.nutritionFacts,
-  }) {
-    this.id = id;
+    DateTime? createdAt,
+  }) : createdAt = createdAt ?? DateTime.now() {
+    super.id = id;
   }
 
   @override

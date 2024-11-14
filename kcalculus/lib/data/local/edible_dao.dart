@@ -19,6 +19,7 @@ class LocalEdibleDao implements EdibleDao {
       'id': model.id,
       'name': model.name,
       'description': model.description,
+      'created_at': dt.formatISO8601(model.createdAt),
     });
   }
 
@@ -32,6 +33,7 @@ class LocalEdibleDao implements EdibleDao {
           results.id,
           results.name,
           results.description,
+          results.created_at,
           results.food_id,
           results.dish_id,
           MAX(results.eaten_at) AS last_eaten_at
@@ -40,6 +42,7 @@ class LocalEdibleDao implements EdibleDao {
             edibles.id AS id,
             edibles.name AS name,
             edibles.description AS description,
+            edibles.created_at AS created_at,
             foods.id AS food_id,
             dishes.id AS dish_id,
             meals.eaten_at AS eaten_at
@@ -51,6 +54,7 @@ class LocalEdibleDao implements EdibleDao {
             dishes.id = edibles.id
           LEFT JOIN meals ON
             meals.edible_id = edibles.id
+            AND meals.deleted_at IS NULL
           WHERE
             UPPER(edibles.name) LIKE '%' || UPPER(?) || '%'
         ) results
@@ -61,7 +65,10 @@ class LocalEdibleDao implements EdibleDao {
           results.dish_id
       )
       ORDER BY
-        last_eaten_at DESC
+        CASE
+          WHEN last_eaten_at IS NOT NULL THEN last_eaten_at
+          ELSE created_at
+        END DESC
       ''',
       [query ?? ''],
     ).then((data) => data.map(_fromSearchResultRecord).toList());
