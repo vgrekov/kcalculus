@@ -141,5 +141,6 @@
     "screenEditMeal": "Edit Meal",
     "labelLastEatenAt": "Last eaten at",
     "labelNotEatenYet": "Not eaten yet",
-    "screenFoods": "Food"
+    "screenFoods": "Food",
+    "messageFoodSearchNothingFound": "Nothing found..."
 }
