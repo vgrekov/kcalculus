@@ -13,6 +13,7 @@ import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/daily_total.dart';
 import 'package:kcalculus/widgets/log_calendar.dart';
 import 'package:kcalculus/widgets/meals_list.dart';
+import 'package:kcalculus/widgets/screen_tab_bar.dart';
 
 class DailyLogScreen extends ConsumerStatefulWidget {
   const DailyLogScreen({super.key});
@@ -181,11 +182,18 @@ class _DailyLogScreenState extends ConsumerState
                 ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: (isLoading || snapshot.hasError)
-              ? null
-              : DailyTotal(
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (!isLoading && !snapshot.hasError)
+                DailyTotal(
                   nutrientData: totalNutrientData,
                 ),
+              const ScreenTabBar(
+                selectedTab: ScreenTab.dailyLog,
+              ),
+            ],
+          ),
         );
       },
     );

@@ -21,7 +21,7 @@ class DailyTotal extends StatelessWidget {
         top: 16,
         left: 20,
         right: 20,
-        bottom: 32,
+        bottom: 16,
       ),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainer,

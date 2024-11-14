@@ -140,5 +140,6 @@
     "validationErrorNoNutrients": "This doesn''t seem right... Please check your nutrients.",
     "screenEditMeal": "Edit Meal",
     "labelLastEatenAt": "Last eaten at",
-    "labelNotEatenYet": "Not eaten yet"
+    "labelNotEatenYet": "Not eaten yet",
+    "screenFoods": "Food"
 }
