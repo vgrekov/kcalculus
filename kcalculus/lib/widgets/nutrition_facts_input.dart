@@ -110,10 +110,18 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
 
     if (isValid) {
       _form.currentState!.save();
-      final index =
-          _drafts.indexWhere((d) => d.fiberInGrams! > d.carbsInGrams!);
-      if (index != -1) {
+
+      final validationPair = _drafts
+          .map(_validateDraft)
+          .indexed
+          .where((pair) => pair.$2 != null)
+          .firstOrNull;
+      if (validationPair != null) {
         isValid = false;
+
+        final index = validationPair.$1;
+        final message = validationPair.$2;
+
         if (_pageIndex != index) {
           _pageController.animateToPage(
             index,
@@ -121,11 +129,26 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
             curve: Curves.linear,
           );
         }
-        showNotification(l10n(context).validationErrorMoreFiberThanCarbs);
+
+        showNotification(message!);
       }
     }
 
     return isValid;
+  }
+
+  String? _validateDraft(_NutritionFactsDraft draft) {
+    if (draft.fiberInGrams! > draft.carbsInGrams!) {
+      return l10n(context).validationErrorMoreFiberThanCarbs;
+    }
+
+    if (draft.fatInGrams! == 0 &&
+        draft.proteinInGrams! == 0 &&
+        (draft.carbsInGrams! - draft.fiberInGrams!) == 0) {
+      return l10n(context).validationErrorNoNutrients;
+    }
+
+    return null;
   }
 
   void _onPageChanged(int index) {
@@ -261,6 +284,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                     initialAmount: amount,
                     label: l10n(context).labelPer,
                     enabled: widget.enabled && isEnabled,
+                    allowZero: false,
                     onSaveAmount: (amount) {
                       _drafts[index].amount = amount;
                     },
@@ -281,6 +305,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
               draft.calories = amount?.value;
             },
             enabled: widget.enabled,
+            allowZero: false,
           ),
           const SizedBox(height: 12),
           Row(
