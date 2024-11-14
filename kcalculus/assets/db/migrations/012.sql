@@ -1,0 +1,2 @@
+ALTER TABLE edibles
+ADD COLUMN created_at TEXT NOT NULL DEFAULT '';
