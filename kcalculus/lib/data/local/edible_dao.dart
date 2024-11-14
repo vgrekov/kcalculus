@@ -61,6 +61,8 @@ class LocalEdibleDao implements EdibleDao {
         GROUP BY
           results.id,
           results.name,
+          results.description,
+          results.created_at
           results.food_id,
           results.dish_id
       )
