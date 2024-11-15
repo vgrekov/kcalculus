@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
-import 'package:kcalculus/data/food_search.dart';
+import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -39,7 +39,7 @@ class _FoodsScreenState extends ConsumerState<FoodsScreen>
     });
   }
 
-  void _selectSearchResult(EdibleSearchResult searchResult) async {
+  void _editFood(EdibleSearchResult searchResult) async {
     showProgress();
 
     try {
@@ -54,6 +54,27 @@ class _FoodsScreenState extends ConsumerState<FoodsScreen>
     }
   }
 
+  void _deleteFood(EdibleSearchResult searchResult) async {
+    showProgress();
+
+    try {
+      final isDeleted =
+          await ref.read(foodsProvider.notifier).deleteFood(searchResult.id!);
+
+      if (mounted) {
+        if (isDeleted) {
+          showNotification(l10n(context).messageFoodDeletionSuccess);
+        } else {
+          showNotification(l10n(context).messageFoodDeletionFailure);
+        }
+      }
+    } catch (error) {
+      showNotification(error.toString());
+    }
+
+    hideProgress();
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -62,7 +83,7 @@ class _FoodsScreenState extends ConsumerState<FoodsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final foods = ref.watch(foodSearchProvider);
+    final foods = ref.watch(foodsProvider);
     return FutureBuilder(
       future: foods,
       builder: (context, snapshot) {
@@ -97,7 +118,8 @@ class _FoodsScreenState extends ConsumerState<FoodsScreen>
         } else {
           body = EdibleSearchResults(
             searchResults: snapshot.data!,
-            onSelectSearchResult: _selectSearchResult,
+            onSelectSearchResult: _editFood,
+            onDeleteEdible: _deleteFood,
           );
         }
 

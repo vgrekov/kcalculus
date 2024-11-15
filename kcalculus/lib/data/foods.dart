@@ -42,16 +42,29 @@ final foodSearchQueryProvider =
   FoodSearchQueryhNotifier.new,
 );
 
-class FoodSearchNotifier extends Notifier<Future<List<EdibleSearchResult>>> {
+class FoodsNotifier extends Notifier<Future<List<EdibleSearchResult>>> {
   @override
   Future<List<EdibleSearchResult>> build() async {
     final foodDao = await ref.watch(foodDaoProvider);
     final query = ref.watch(foodSearchQueryProvider);
     return foodDao.search(query.text);
   }
+
+  Future<bool> deleteFood(String id) async {
+    final edibleDao = await ref.read(edibleDaoProvider);
+    final result = await edibleDao.delete(id);
+    if (result) {
+      refresh();
+    }
+    return result;
+  }
+
+  void refresh() {
+    state = build();
+  }
 }
 
-final foodSearchProvider =
-    NotifierProvider<FoodSearchNotifier, Future<List<EdibleSearchResult>>>(
-  FoodSearchNotifier.new,
+final foodsProvider =
+    NotifierProvider<FoodsNotifier, Future<List<EdibleSearchResult>>>(
+  FoodsNotifier.new,
 );

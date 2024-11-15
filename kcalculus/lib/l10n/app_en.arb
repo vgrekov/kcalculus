@@ -142,5 +142,8 @@
     "labelLastEatenAt": "Last eaten at",
     "labelNotEatenYet": "Not eaten yet",
     "screenFoods": "Food",
-    "messageFoodSearchNothingFound": "Nothing found..."
+    "messageFoodSearchNothingFound": "Nothing found...",
+    "messageFoodDeletionConfirmation": "Delete this food?",
+    "messageFoodDeletionSuccess": "Food deleted",
+    "messageFoodDeletionFailure": "Failed to delete the food"
 }

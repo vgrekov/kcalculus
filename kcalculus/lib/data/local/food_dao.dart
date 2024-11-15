@@ -64,7 +64,8 @@ class LocalFoodDao implements FoodDao {
             meals.edible_id = foods.id
             AND meals.deleted_at IS NULL
           WHERE
-            UPPER(edibles.name) LIKE '%' || UPPER(?) || '%'
+            edibles.deleted_at IS NULL
+            AND UPPER(edibles.name) LIKE '%' || UPPER(?) || '%'
         ) results
         GROUP BY
           results.id,

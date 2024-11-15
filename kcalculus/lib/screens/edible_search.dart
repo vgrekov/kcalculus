@@ -97,6 +97,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
             ),
           );
         } else if (snapshot.hasError) {
+          print(snapshot.error);
           body = Center(
             child: Text(
               l10n(context).messageUnknownError,

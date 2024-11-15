@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/screens/daily_log.dart';
 import 'package:kcalculus/screens/foods.dart';
+import 'package:kcalculus/utils/l10n.dart';
 
 enum ScreenTab {
   dailyLog,
   foods,
 }
 
-class ScreenTabBar extends StatelessWidget {
+class ScreenTabBar extends ConsumerWidget {
   final ScreenTab selectedTab;
 
   const ScreenTabBar({
@@ -15,30 +18,17 @@ class ScreenTabBar extends StatelessWidget {
     required this.selectedTab,
   });
 
-  void _navigateTo(BuildContext context, ScreenTab tab) {
-    Navigator.of(context).pushReplacement(PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return switch (tab) {
-          ScreenTab.dailyLog => const DailyLogScreen(),
-          ScreenTab.foods => const FoodsScreen()
-        };
-      },
-      transitionDuration: Duration.zero,
-      reverseTransitionDuration: Duration.zero,
-    ));
-  }
-
   Widget _buildDestination(BuildContext context, ScreenTab tab) {
     final Widget icon;
     final String label;
     switch (tab) {
       case ScreenTab.dailyLog:
         icon = const Icon(Icons.schedule);
-        label = 'Daily Log';
+        label = l10n(context).screenDailyLog;
         break;
       case ScreenTab.foods:
         icon = const Icon(Icons.fastfood);
-        label = 'Food';
+        label = l10n(context).screenFoods;
         break;
     }
 
@@ -48,8 +38,33 @@ class ScreenTabBar extends StatelessWidget {
     );
   }
 
+  void _prepareFor(BuildContext context, WidgetRef ref, ScreenTab tab) {
+    switch (tab) {
+      case ScreenTab.foods:
+        ref.read(foodSearchQueryProvider.notifier).reset();
+        break;
+      default:
+        break;
+    }
+  }
+
+  void _navigateTo(BuildContext context, WidgetRef ref, ScreenTab tab) {
+    _prepareFor(context, ref, tab);
+
+    Navigator.of(context).pushReplacement(PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return switch (tab) {
+          ScreenTab.dailyLog => const DailyLogScreen(),
+          ScreenTab.foods => const FoodsScreen(),
+        };
+      },
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ));
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return NavigationBar(
       destinations: ScreenTab.values
           .map((tab) => _buildDestination(context, tab))
@@ -58,7 +73,7 @@ class ScreenTabBar extends StatelessWidget {
       onDestinationSelected: (index) {
         final destination = ScreenTab.values[index];
         if (destination != selectedTab) {
-          _navigateTo(context, destination);
+          _navigateTo(context, ref, destination);
         }
       },
     );

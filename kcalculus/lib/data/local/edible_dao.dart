@@ -56,13 +56,14 @@ class LocalEdibleDao implements EdibleDao {
             meals.edible_id = edibles.id
             AND meals.deleted_at IS NULL
           WHERE
-            UPPER(edibles.name) LIKE '%' || UPPER(?) || '%'
+            edibles.deleted_at IS NULL
+            AND UPPER(edibles.name) LIKE '%' || UPPER(?) || '%'
         ) results
         GROUP BY
           results.id,
           results.name,
           results.description,
-          results.created_at
+          results.created_at,
           results.food_id,
           results.dish_id
       )
@@ -85,11 +86,26 @@ class LocalEdibleDao implements EdibleDao {
       FROM
         edibles
       WHERE
-        UPPER(edibles.name) = UPPER(?)
+        edibles.deleted_at IS NULL
+        AND UPPER(edibles.name) = UPPER(?)
         AND UPPER(edibles.description) = UPPER(?)
       ''',
       [name, description],
     ).then((data) => (data.first['edibles_count'] as int) > 0);
+  }
+
+  @override
+  Future<bool> delete(String id) async {
+    final count = await db.update(
+      'edibles',
+      {
+        'deleted_at': dt.formatISO8601(DateTime.now()),
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    return count > 0;
   }
 
   EdibleSearchResult _fromSearchResultRecord(Map<String, Object?> record) {

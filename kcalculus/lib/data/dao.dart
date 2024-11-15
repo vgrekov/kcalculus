@@ -23,6 +23,8 @@ abstract interface class EdibleDao {
   Future<List<EdibleSearchResult>> search(String? query);
 
   Future<bool> exists(String name, String description);
+
+  Future<bool> delete(String id);
 }
 
 final edibleDaoProvider = Provider<Future<EdibleDao>>((ref) {
