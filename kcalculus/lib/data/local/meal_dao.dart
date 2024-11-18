@@ -25,12 +25,10 @@ class LocalMealDao implements MealDao {
     final id = generateId();
 
     await db.transaction((txn) async {
-      if (model.edible.id == null) {
-        if (model.edible is Food) {
-          await foodDao.add(model.edible as Food, txn: txn);
-        } else if (model.edible is Dish) {
-          // TODO: await dishDao.add(model.edible as Dish, txn: txn);
-        }
+      if (model.edible is Food) {
+        await foodDao.save(model.edible as Food, txn: txn);
+      } else if (model.edible is Dish) {
+        // TODO: await dishDao.save(model.edible as Dish, txn: txn);
       }
 
       await txn.insert('meals', {

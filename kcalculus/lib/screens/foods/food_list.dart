@@ -1,77 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
-import 'package:kcalculus/data/edible_search.dart';
+import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/screens/foods/food_save.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/edible_search_results.dart';
+import 'package:kcalculus/widgets/screen_tab_bar.dart';
 
-class EdibleSearchScreen extends ConsumerStatefulWidget {
-  final void Function(Edible) onSelectEdible;
-
-  const EdibleSearchScreen({
-    super.key,
-    required this.onSelectEdible,
-  });
+class FoodListScreen extends ConsumerStatefulWidget {
+  const FoodListScreen({super.key});
 
   @override
-  ConsumerState<EdibleSearchScreen> createState() {
-    return _EdibleSearchScreenState();
+  ConsumerState<FoodListScreen> createState() {
+    return _FoodListScreenState();
   }
 }
 
-class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
+class _FoodListScreenState extends ConsumerState<FoodListScreen>
     with StateMessenger, ProgressiveState {
   final _searchController = TextEditingController();
 
   @override
   void initState() {
-    _searchController.text = ref.read(edibleSearchQueryProvider).text;
+    _searchController.text = ref.read(foodSearchQueryProvider).text;
     super.initState();
   }
 
-  void _goBack() {
-    Navigator.of(context).pop();
-  }
-
   void _updateSearchQuery(String query) {
-    ref.read(edibleSearchQueryProvider.notifier).updateQuery(query);
+    ref.read(foodSearchQueryProvider.notifier).updateQuery(query);
   }
 
   void _resetSearchQuery() {
-    ref.read(edibleSearchQueryProvider.notifier).reset();
+    ref.read(foodSearchQueryProvider.notifier).reset();
     setState(() {
       _searchController.text = '';
     });
   }
 
-  void _selectSearchResult(EdibleSearchResult searchResult) async {
+  void _addFood() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SaveFoodScreen(),
+      ),
+    );
+  }
+
+  void _editFood(EdibleSearchResult searchResult) async {
     showProgress();
 
     try {
-      Edible? edible;
-      if (searchResult.id != null) {
-        switch (searchResult.type) {
-          case EdibleSearchResultType.dish:
-            break;
-          default:
-            final foodDao = await ref.read(foodDaoProvider);
-            edible = await foodDao.getById(searchResult.id!);
-        }
+      final foodDao = await ref.read(foodDaoProvider);
+      Food? food = await foodDao.getById(searchResult.id!);
+      if (mounted) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => SaveFoodScreen(food: food!),
+          ),
+        );
       }
-
-      if (edible != null) {
-        widget.onSelectEdible(edible);
-      }
-
-      _goBack();
     } catch (error) {
       showNotification(error.toString());
     } finally {
       hideProgress();
     }
+  }
+
+  void _deleteFood(EdibleSearchResult searchResult) async {
+    showProgress();
+
+    try {
+      final isDeleted =
+          await ref.read(foodsProvider.notifier).deleteFood(searchResult.id!);
+
+      if (mounted) {
+        if (isDeleted) {
+          showNotification(l10n(context).messageFoodDeletionSuccess);
+        } else {
+          showNotification(l10n(context).messageFoodDeletionFailure);
+        }
+      }
+    } catch (error) {
+      showNotification(error.toString());
+    }
+
+    hideProgress();
   }
 
   @override
@@ -82,12 +97,13 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    final edibles = ref.watch(edibleSearchProvider);
+    final foods = ref.watch(foodsProvider);
     return FutureBuilder(
-      future: edibles,
+      future: foods,
       builder: (context, snapshot) {
         final Widget? body;
         final isLoading = snapshot.connectionState == ConnectionState.waiting;
+        final readonly = isLoading || snapshot.hasError;
         if (isLoading) {
           body = const Center(
             child: SizedBox(
@@ -97,7 +113,6 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
             ),
           );
         } else if (snapshot.hasError) {
-          print(snapshot.error);
           body = Center(
             child: Text(
               l10n(context).messageUnknownError,
@@ -109,7 +124,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           body = Center(
             child: Text(
-              l10n(context).messageEdibleSearchNothingFound,
+              l10n(context).messageFoodSearchNothingFound,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),
@@ -118,21 +133,28 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
         } else {
           body = EdibleSearchResults(
             searchResults: snapshot.data!,
-            onSelectSearchResult: _selectSearchResult,
+            onSelectSearchResult: _editFood,
+            onDeleteEdible: _deleteFood,
           );
         }
 
         return Scaffold(
           appBar: AppBar(
-            automaticallyImplyLeading: false,
-            toolbarHeight: 80,
-            title: Hero(
-              tag: 'search-box',
-              child: Material(
-                type: MaterialType.transparency,
+            title: Text(
+              l10n(context).screenFoods,
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(50),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: TextField(
                   controller: _searchController,
-                  autofocus: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -146,11 +168,6 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
                     ),
                     hintText: l10n(context).hintEdibleSearchBox,
                     isDense: true,
-                    prefixIcon: IconButton(
-                        onPressed: _goBack,
-                        icon: const Icon(
-                          Icons.arrow_back,
-                        )),
                     suffixIcon: IconButton(
                         onPressed: _resetSearchQuery,
                         icon: const Icon(
@@ -167,6 +184,18 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
             ),
           ),
           body: body,
+          floatingActionButton: readonly
+              ? null
+              : FloatingActionButton(
+                  onPressed: _addFood,
+                  shape: const CircleBorder(),
+                  child: const Icon(Icons.add),
+                ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: const ScreenTabBar(
+            selectedTab: ScreenTab.foods,
+          ),
         );
       },
     );

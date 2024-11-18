@@ -45,7 +45,9 @@ class Dish with Identifiable implements Edible {
   final List<Ingredient> ingredients;
   double? _weightInGrams;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
 
   Dish({
     String? id,
@@ -53,10 +55,10 @@ class Dish with Identifiable implements Edible {
     required this.description,
     ingredients,
     weightInGrams,
-    DateTime? createdAt,
+    this.createdAt,
+    this.updatedAt,
   })  : ingredients = ingredients ?? [],
-        _weightInGrams = weightInGrams,
-        createdAt = createdAt ?? DateTime.now() {
+        _weightInGrams = weightInGrams {
     this.id = id;
   }
 

@@ -33,6 +33,16 @@ class MealsListItem extends StatelessWidget {
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: Theme.of(context).colorScheme.primary,
             ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(
+        meal.edible.description,
+        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
       trailing: Column(
         mainAxisSize: MainAxisSize.min,
