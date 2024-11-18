@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/daily_log.dart';
 import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/screens/daily_log.dart';
 import 'package:kcalculus/screens/foods/food_list.dart';
@@ -40,6 +41,9 @@ class ScreenTabBar extends ConsumerWidget {
 
   void _prepareFor(BuildContext context, WidgetRef ref, ScreenTab tab) {
     switch (tab) {
+      case ScreenTab.dailyLog:
+        ref.read(dailyLogProvider.notifier).refresh();
+        break;
       case ScreenTab.foods:
         ref.read(foodSearchQueryProvider.notifier).reset();
         break;

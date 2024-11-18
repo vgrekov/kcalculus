@@ -14,20 +14,24 @@ class DailyLogNotifier extends Notifier<Future<List<Meal>>> {
   Future<void> addMeal(Meal meal) async {
     final mealDao = await ref.read(mealDaoProvider);
     await mealDao.add(meal);
-    ref.read(logDateProvider.notifier).selectDate(DateTime.now());
+    refresh();
   }
 
   Future<void> updateMeal(Meal meal) async {
     final mealDao = await ref.read(mealDaoProvider);
     await mealDao.update(meal);
-    ref.read(logDateProvider.notifier).selectDate(DateTime.now());
+    refresh();
   }
 
   Future<bool> deleteMeal(Meal meal) async {
     final mealDao = await ref.read(mealDaoProvider);
     final result = await mealDao.delete(meal.id!);
-    ref.read(logDateProvider.notifier).selectDate(DateTime.now());
+    refresh();
     return result;
+  }
+
+  void refresh() {
+    ref.read(logDateProvider.notifier).selectDate(DateTime.now());
   }
 }
 
