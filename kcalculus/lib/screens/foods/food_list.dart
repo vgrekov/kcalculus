@@ -3,22 +3,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/screens/foods/food_save.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/edible_search_results.dart';
 import 'package:kcalculus/widgets/screen_tab_bar.dart';
 
-class FoodsScreen extends ConsumerStatefulWidget {
-  const FoodsScreen({super.key});
+class FoodListScreen extends ConsumerStatefulWidget {
+  const FoodListScreen({super.key});
 
   @override
-  ConsumerState<FoodsScreen> createState() {
-    return _FoodsScreenState();
+  ConsumerState<FoodListScreen> createState() {
+    return _FoodListScreenState();
   }
 }
 
-class _FoodsScreenState extends ConsumerState<FoodsScreen>
+class _FoodListScreenState extends ConsumerState<FoodListScreen>
     with StateMessenger, ProgressiveState {
   final _searchController = TextEditingController();
 
@@ -39,14 +40,27 @@ class _FoodsScreenState extends ConsumerState<FoodsScreen>
     });
   }
 
+  void _addFood() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SaveFoodScreen(),
+      ),
+    );
+  }
+
   void _editFood(EdibleSearchResult searchResult) async {
     showProgress();
 
     try {
       final foodDao = await ref.read(foodDaoProvider);
       Food? food = await foodDao.getById(searchResult.id!);
-
-      // TODO: Navigate to edit food screen
+      if (mounted) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => SaveFoodScreen(food: food!),
+          ),
+        );
+      }
     } catch (error) {
       showNotification(error.toString());
     } finally {
@@ -89,6 +103,7 @@ class _FoodsScreenState extends ConsumerState<FoodsScreen>
       builder: (context, snapshot) {
         final Widget? body;
         final isLoading = snapshot.connectionState == ConnectionState.waiting;
+        final readonly = isLoading || snapshot.hasError;
         if (isLoading) {
           body = const Center(
             child: SizedBox(
@@ -169,6 +184,15 @@ class _FoodsScreenState extends ConsumerState<FoodsScreen>
             ),
           ),
           body: body,
+          floatingActionButton: readonly
+              ? null
+              : FloatingActionButton(
+                  onPressed: _addFood,
+                  shape: const CircleBorder(),
+                  child: const Icon(Icons.add),
+                ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: const ScreenTabBar(
             selectedTab: ScreenTab.foods,
           ),

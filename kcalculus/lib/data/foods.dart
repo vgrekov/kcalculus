@@ -50,6 +50,12 @@ class FoodsNotifier extends Notifier<Future<List<EdibleSearchResult>>> {
     return foodDao.search(query.text);
   }
 
+  Future<void> saveFood(Food food) async {
+    final foodDao = await ref.read(foodDaoProvider);
+    await foodDao.save(food);
+    refresh();
+  }
+
   Future<bool> deleteFood(String id) async {
     final edibleDao = await ref.read(edibleDaoProvider);
     final result = await edibleDao.delete(id);

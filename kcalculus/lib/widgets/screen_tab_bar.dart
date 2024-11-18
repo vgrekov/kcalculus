@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/screens/daily_log.dart';
-import 'package:kcalculus/screens/foods.dart';
+import 'package:kcalculus/screens/foods/food_list.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 enum ScreenTab {
@@ -55,7 +55,7 @@ class ScreenTabBar extends ConsumerWidget {
       pageBuilder: (context, animation, secondaryAnimation) {
         return switch (tab) {
           ScreenTab.dailyLog => const DailyLogScreen(),
-          ScreenTab.foods => const FoodsScreen(),
+          ScreenTab.foods => const FoodListScreen(),
         };
       },
       transitionDuration: Duration.zero,

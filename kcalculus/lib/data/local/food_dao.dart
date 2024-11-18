@@ -19,16 +19,29 @@ class LocalFoodDao implements FoodDao {
     required this.nutritionFactsDao,
   });
 
-  Future<void> add(Food model, {Transaction? txn}) async {
-    DatabaseExecutor executor = txn ?? db;
+  @override
+  Future<void> save(Food model, {Transaction? txn}) async {
+    if (txn != null) {
+      await _save(model, txn: txn);
+    } else {
+      await db.transaction((txn) async {
+        await _save(model, txn: txn);
+      });
+    }
+  }
 
-    model.id = generateId();
+  Future<void> _save(Food model, {required Transaction txn}) async {
+    if (model.id == null) {
+      model.id = generateId();
 
-    await edibleDao.add(model, txn: txn);
+      await edibleDao.add(model, txn: txn);
 
-    await executor.insert('foods', {
-      'id': model.id,
-    });
+      await txn.insert('foods', {
+        'id': model.id,
+      });
+    } else {
+      await edibleDao.update(model, txn: txn);
+    }
 
     await nutritionFactsDao.save(
       model.nutritionFacts,
@@ -48,6 +61,7 @@ class LocalFoodDao implements FoodDao {
           results.name,
           results.description,
           results.created_at,
+          results.updated_at,
           MAX(results.eaten_at) AS last_eaten_at
         FROM (
           SELECT
@@ -55,6 +69,7 @@ class LocalFoodDao implements FoodDao {
             edibles.name AS name,
             edibles.description AS description,
             edibles.created_at AS created_at,
+            edibles.updated_at AS updated_at,
             meals.eaten_at AS eaten_at
           FROM
             foods
@@ -71,11 +86,13 @@ class LocalFoodDao implements FoodDao {
           results.id,
           results.name,
           results.description,
-          results.created_at
+          results.created_at,
+          results.updated_at
       )
       ORDER BY
         CASE
           WHEN last_eaten_at IS NOT NULL THEN last_eaten_at
+          WHEN updated_at IS NOT NULL THEN updated_at
           ELSE created_at
         END DESC
       ''',
@@ -91,7 +108,8 @@ class LocalFoodDao implements FoodDao {
         edibles.id AS id,
         edibles.name AS name,
         edibles.description AS description,
-        edibles.created_at AS created_at
+        edibles.created_at AS created_at,
+        edibles.updated_at AS updated_at
       FROM
         foods
       LEFT JOIN edibles ON
@@ -114,6 +132,9 @@ class LocalFoodDao implements FoodDao {
       description: record['description'] as String,
       nutritionFacts: nutritionFacts,
       createdAt: dt.parseISO8601(record['created_at'] as String),
+      updatedAt: record['updated_at'] != null
+          ? dt.parseISO8601(record['updated_at'] as String)
+          : null,
     );
   }
 

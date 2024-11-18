@@ -22,7 +22,11 @@ final mealDaoProvider = Provider<Future<MealDao>>((ref) {
 abstract interface class EdibleDao {
   Future<List<EdibleSearchResult>> search(String? query);
 
-  Future<bool> exists(String name, String description);
+  Future<bool> exists(
+    String name,
+    String description, {
+    String? exceptWithId,
+  });
 
   Future<bool> delete(String id);
 }
@@ -32,6 +36,8 @@ final edibleDaoProvider = Provider<Future<EdibleDao>>((ref) {
 });
 
 abstract interface class FoodDao {
+  Future<void> save(Food model);
+
   Future<List<EdibleSearchResult>> search(String? query);
 
   Future<Food?> getById(String id);

@@ -145,5 +145,8 @@
     "messageFoodSearchNothingFound": "Nothing found...",
     "messageFoodDeletionConfirmation": "Delete this food?",
     "messageFoodDeletionSuccess": "Food deleted",
-    "messageFoodDeletionFailure": "Failed to delete the food"
+    "messageFoodDeletionFailure": "Failed to delete the food",
+    "screenAddFood": "New Food",
+    "screenEditFood": "Edit Food",
+    "validationErrorFoodNameMissing": "Name is required"
 }

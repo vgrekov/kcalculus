@@ -19,8 +19,23 @@ class LocalEdibleDao implements EdibleDao {
       'id': model.id,
       'name': model.name,
       'description': model.description,
-      'created_at': dt.formatISO8601(model.createdAt),
+      'created_at': dt.formatISO8601(DateTime.now()),
     });
+  }
+
+  Future<void> update(Edible model, {Transaction? txn}) async {
+    DatabaseExecutor executor = txn ?? db;
+
+    await executor.update(
+      'edibles',
+      {
+        'name': model.name,
+        'description': model.description,
+        'updated_at': dt.formatISO8601(DateTime.now()),
+      },
+      where: 'id = ?',
+      whereArgs: [model.id],
+    );
   }
 
   @override
@@ -34,6 +49,7 @@ class LocalEdibleDao implements EdibleDao {
           results.name,
           results.description,
           results.created_at,
+          results.updated_at,
           results.food_id,
           results.dish_id,
           MAX(results.eaten_at) AS last_eaten_at
@@ -43,6 +59,7 @@ class LocalEdibleDao implements EdibleDao {
             edibles.name AS name,
             edibles.description AS description,
             edibles.created_at AS created_at,
+            edibles.updated_at AS updated_at,
             foods.id AS food_id,
             dishes.id AS dish_id,
             meals.eaten_at AS eaten_at
@@ -64,12 +81,14 @@ class LocalEdibleDao implements EdibleDao {
           results.name,
           results.description,
           results.created_at,
+          results.updated_at,
           results.food_id,
           results.dish_id
       )
       ORDER BY
         CASE
           WHEN last_eaten_at IS NOT NULL THEN last_eaten_at
+          WHEN updated_at IS NOT NULL THEN updated_at
           ELSE created_at
         END DESC
       ''',
@@ -78,7 +97,11 @@ class LocalEdibleDao implements EdibleDao {
   }
 
   @override
-  Future<bool> exists(String name, String description) {
+  Future<bool> exists(
+    String name,
+    String description, {
+    String? exceptWithId,
+  }) {
     return db.rawQuery(
       '''
       SELECT
@@ -86,11 +109,16 @@ class LocalEdibleDao implements EdibleDao {
       FROM
         edibles
       WHERE
-        edibles.deleted_at IS NULL
+        edibles.id != ?
+        AND edibles.deleted_at IS NULL
         AND UPPER(edibles.name) = UPPER(?)
         AND UPPER(edibles.description) = UPPER(?)
       ''',
-      [name, description],
+      [
+        exceptWithId ?? '',
+        name,
+        description,
+      ],
     ).then((data) => (data.first['edibles_count'] as int) > 0);
   }
 
