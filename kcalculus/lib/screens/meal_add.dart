@@ -42,11 +42,13 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
   final _nutritionFactsController = NutritionFactsInputController();
 
   late FocusNode _nameFocusNode;
+  late FocusNode _descriptionFocusNode;
   late FocusNode _amountFocusNode;
 
   @override
   void initState() {
     _nameFocusNode = FocusNode();
+    _descriptionFocusNode = FocusNode();
     _amountFocusNode = FocusNode();
     super.initState();
   }
@@ -57,6 +59,7 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
     _descriptionController.dispose();
     _nutritionFactsController.dispose();
     _amountFocusNode.dispose();
+    _descriptionFocusNode.dispose();
     _nameFocusNode.dispose();
     super.dispose();
   }
@@ -262,6 +265,10 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
                       controller: _nameController,
                       focusNode: _nameFocusNode,
                       autofocus: true,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (value) {
+                        _descriptionFocusNode.requestFocus();
+                      },
                       onSearchPressed: _searchEdibles,
                       onSaved: (value) {
                         _name = value!;
@@ -272,11 +279,16 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
                 const SizedBox(height: 8),
                 TextInput(
                   controller: _descriptionController,
+                  focusNode: _descriptionFocusNode,
                   labelText: l10n(context).labelEdibleDescription,
                   hintText: l10n(context).hintEdibleDescription,
                   maxLength: 100,
                   maxLines: 2,
                   textCapitalization: TextCapitalization.words,
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (value) {
+                    _amountFocusNode.requestFocus();
+                  },
                   onSaved: (value) {
                     _description = value!;
                   },

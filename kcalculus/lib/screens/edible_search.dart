@@ -147,6 +147,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
                     ),
                   ),
                   textCapitalization: TextCapitalization.words,
+                  textInputAction: TextInputAction.search,
                   onChanged: _updateSearchQuery,
                 ),
               ),
