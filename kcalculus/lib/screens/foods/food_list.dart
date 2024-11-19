@@ -9,6 +9,7 @@ import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/edible_search_results.dart';
 import 'package:kcalculus/widgets/screen_tab_bar.dart';
+import 'package:kcalculus/widgets/text_input.dart';
 
 class FoodListScreen extends ConsumerStatefulWidget {
   const FoodListScreen({super.key});
@@ -153,31 +154,16 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: TextField(
+                child: TextInput(
                   controller: _searchController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    hintStyle: TextStyle(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.5),
-                      fontWeight: FontWeight.normal,
-                    ),
-                    hintText: l10n(context).hintEdibleSearchBox,
-                    isDense: true,
-                    suffixIcon: IconButton(
-                        onPressed: _resetSearchQuery,
-                        icon: const Icon(
-                          Icons.clear,
-                        )),
-                  ),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                  hintText: l10n(context).hintEdibleSearchBox,
+                  suffix: IconButton(
+                      onPressed: _resetSearchQuery,
+                      icon: const Icon(
+                        Icons.clear,
+                      )),
                   textCapitalization: TextCapitalization.words,
+                  textInputAction: TextInputAction.search,
                   onChanged: _updateSearchQuery,
                 ),
               ),
