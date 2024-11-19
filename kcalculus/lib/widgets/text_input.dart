@@ -10,8 +10,10 @@ class TextInput extends StatelessWidget {
   final int? maxLength;
   final int? maxLines;
   final TextCapitalization textCapitalization;
+  final TextInputAction? textInputAction;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final void Function(String)? onFieldSubmitted;
   final void Function(String?)? onSaved;
   final FocusNode? focusNode;
   final bool autofocus;
@@ -26,10 +28,12 @@ class TextInput extends StatelessWidget {
     this.suffix,
     this.keyboardType,
     this.maxLength,
-    this.maxLines,
+    this.maxLines = 1,
     this.textCapitalization = TextCapitalization.none,
+    this.textInputAction,
     this.validator,
     this.onChanged,
+    this.onFieldSubmitted,
     this.onSaved,
     this.focusNode,
     this.autofocus = false,
@@ -65,6 +69,8 @@ class TextInput extends StatelessWidget {
       maxLength: maxLength,
       maxLines: maxLines,
       textCapitalization: textCapitalization,
+      textInputAction: textInputAction,
+      onFieldSubmitted: onFieldSubmitted,
       autocorrect: false,
       validator: validator,
       onChanged: onChanged,

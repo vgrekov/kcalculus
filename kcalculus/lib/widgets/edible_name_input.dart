@@ -4,7 +4,9 @@ import 'package:kcalculus/widgets/text_input.dart';
 
 class EdibleNameInput extends StatelessWidget {
   final TextEditingController? controller;
+  final TextInputAction? textInputAction;
   final void Function()? onSearchPressed;
+  final void Function(String)? onFieldSubmitted;
   final void Function(String?)? onSaved;
   final FocusNode? focusNode;
   final bool autofocus;
@@ -13,7 +15,9 @@ class EdibleNameInput extends StatelessWidget {
   const EdibleNameInput({
     super.key,
     this.controller,
+    this.textInputAction,
     this.onSearchPressed,
+    this.onFieldSubmitted,
     this.onSaved,
     this.focusNode,
     this.autofocus = false,
@@ -54,6 +58,8 @@ class EdibleNameInput extends StatelessWidget {
       ),
       maxLength: 50,
       textCapitalization: TextCapitalization.words,
+      textInputAction: textInputAction,
+      onFieldSubmitted: onFieldSubmitted,
       validator: (value) => _validateName(context, value),
       onSaved: onSaved,
       focusNode: focusNode,
