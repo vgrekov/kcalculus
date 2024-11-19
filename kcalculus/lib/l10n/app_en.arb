@@ -116,7 +116,7 @@
     "labelEdibleName": "Name",
     "labelEdibleDescription": "Description",
     "hintEdibleDescription": "Brand or other additional information",
-    "validationErrorMealNameMissing": "Name is required",
+    "validationErrorEdibleNameMissing": "Name is required",
     "statWithUnit": "{value} {unit}",
     "@statWithUnit": {
         "placeholders": {
@@ -147,6 +147,5 @@
     "messageFoodDeletionSuccess": "Food deleted",
     "messageFoodDeletionFailure": "Failed to delete the food",
     "screenAddFood": "New Food",
-    "screenEditFood": "Edit Food",
-    "validationErrorFoodNameMissing": "Name is required"
+    "screenEditFood": "Edit Food"
 }

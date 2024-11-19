@@ -7,6 +7,7 @@ import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/edible_search_results.dart';
+import 'package:kcalculus/widgets/text_input.dart';
 
 class EdibleSearchScreen extends ConsumerStatefulWidget {
   final void Function(Edible) onSelectEdible;
@@ -97,7 +98,6 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
             ),
           );
         } else if (snapshot.hasError) {
-          print(snapshot.error);
           body = Center(
             child: Text(
               l10n(context).messageUnknownError,
@@ -130,35 +130,21 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
               tag: 'search-box',
               child: Material(
                 type: MaterialType.transparency,
-                child: TextField(
+                child: TextInput(
                   controller: _searchController,
                   autofocus: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                  hintText: l10n(context).hintEdibleSearchBox,
+                  prefix: IconButton(
+                    onPressed: _goBack,
+                    icon: const Icon(
+                      Icons.arrow_back,
                     ),
-                    hintStyle: TextStyle(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.5),
-                      fontWeight: FontWeight.normal,
-                    ),
-                    hintText: l10n(context).hintEdibleSearchBox,
-                    isDense: true,
-                    prefixIcon: IconButton(
-                        onPressed: _goBack,
-                        icon: const Icon(
-                          Icons.arrow_back,
-                        )),
-                    suffixIcon: IconButton(
-                        onPressed: _resetSearchQuery,
-                        icon: const Icon(
-                          Icons.clear,
-                        )),
                   ),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface,
+                  suffix: IconButton(
+                    onPressed: _resetSearchQuery,
+                    icon: const Icon(
+                      Icons.clear,
+                    ),
                   ),
                   textCapitalization: TextCapitalization.words,
                   onChanged: _updateSearchQuery,

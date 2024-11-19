@@ -9,6 +9,7 @@ import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
+import 'package:kcalculus/widgets/text_input.dart';
 
 class SaveFoodScreen extends ConsumerStatefulWidget {
   final Food? food;
@@ -125,7 +126,7 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
 
   String? _validateFoodName(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return l10n(context).validationErrorFoodNameMissing;
+      return l10n(context).validationErrorEdibleNameMissing;
     }
 
     return null;
@@ -159,27 +160,11 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
+                TextInput(
                   controller: _nameController,
                   autofocus: true,
                   focusNode: _nameFocusNode,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    labelStyle: TextStyle(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.5),
-                      fontWeight: FontWeight.normal,
-                    ),
-                    labelText: l10n(context).labelEdibleName,
-                    isDense: true,
-                  ),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                  labelText: l10n(context).labelEdibleName,
                   maxLength: 50,
                   maxLines: 1,
                   textCapitalization: TextCapitalization.words,
@@ -189,33 +174,10 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
                   },
                 ),
                 const SizedBox(height: 8),
-                TextFormField(
+                TextInput(
                   controller: _descriptionController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    labelStyle: TextStyle(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.5),
-                      fontWeight: FontWeight.normal,
-                    ),
-                    labelText: l10n(context).labelEdibleDescription,
-                    hintStyle: TextStyle(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.5),
-                      fontWeight: FontWeight.normal,
-                    ),
-                    hintText: l10n(context).hintEdibleDescription,
-                    isDense: true,
-                  ),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                  labelText: l10n(context).labelEdibleDescription,
+                  hintText: l10n(context).hintEdibleDescription,
                   maxLength: 100,
                   maxLines: 2,
                   textCapitalization: TextCapitalization.words,
