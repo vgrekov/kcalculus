@@ -36,6 +36,7 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
   final _nutritionFactsController = NutritionFactsInputController();
 
   late FocusNode _nameFocusNode;
+  late FocusNode _descriptionFocusNode;
 
   @override
   void initState() {
@@ -47,6 +48,7 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
     }
 
     _nameFocusNode = FocusNode();
+    _descriptionFocusNode = FocusNode();
 
     super.initState();
   }
@@ -56,6 +58,7 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
     _nameController.dispose();
     _descriptionController.dispose();
     _nutritionFactsController.dispose();
+    _descriptionFocusNode.dispose();
     _nameFocusNode.dispose();
 
     super.dispose();
@@ -168,7 +171,11 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
                   maxLength: 50,
                   maxLines: 1,
                   textCapitalization: TextCapitalization.words,
+                  textInputAction: TextInputAction.next,
                   validator: _validateFoodName,
+                  onFieldSubmitted: (value) {
+                    _descriptionFocusNode.requestFocus();
+                  },
                   onSaved: (value) {
                     _name = value!;
                   },
@@ -181,6 +188,7 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
                   maxLength: 100,
                   maxLines: 2,
                   textCapitalization: TextCapitalization.words,
+                  textInputAction: TextInputAction.done,
                   onSaved: (value) {
                     _description = value!;
                   },
