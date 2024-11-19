@@ -4,6 +4,7 @@ import 'package:kcalculus/models/units.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 import 'package:kcalculus/widgets/amount_input/unit_picker.dart';
+import 'package:kcalculus/widgets/text_input.dart';
 
 const _defaultUnit = Unit.gram;
 
@@ -162,47 +163,30 @@ class _AmountInputState extends State<AmountInput> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextInput(
       controller: _valueController,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        labelStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-          fontWeight: FontWeight.normal,
-        ),
-        labelText: widget.label,
-        hintStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-          fontWeight: FontWeight.normal,
-        ),
-        hintText: widget.hint,
-        suffixIcon: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(8),
-                  bottomRight: Radius.circular(8),
-                ),
+      labelText: widget.label,
+      hintText: widget.hint,
+      suffix: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
+        child: TextButton(
+          style: TextButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               ),
             ),
-            onPressed: widget.fixedUnit ? null : _pickUnit,
-            child: Text(
-              _unit.localName(context),
-              style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onTertiaryContainer,
-                  ),
-            ),
+          ),
+          onPressed: widget.fixedUnit ? null : _pickUnit,
+          child: Text(
+            _unit.localName(context),
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onTertiaryContainer,
+                ),
           ),
         ),
-        isDense: true,
-      ),
-      style: TextStyle(
-        color: Theme.of(context).colorScheme.onSurface,
       ),
       enabled: widget.enabled,
       keyboardType: const TextInputType.numberWithOptions(

@@ -7,8 +7,9 @@ import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/amount_input/amount_input.dart';
-import 'package:kcalculus/widgets/meal_name_input.dart';
+import 'package:kcalculus/widgets/edible_name_input.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
+import 'package:kcalculus/widgets/text_input.dart';
 
 class EditMealScreen extends ConsumerStatefulWidget {
   final Meal meal;
@@ -122,38 +123,15 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              MealNameInput(
+              EdibleNameInput(
                 controller: _nameController,
                 enabled: false,
               ),
               const SizedBox(height: 8),
-              TextFormField(
+              TextInput(
                 controller: _descriptionController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  labelStyle: TextStyle(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.5),
-                    fontWeight: FontWeight.normal,
-                  ),
-                  labelText: l10n(context).labelEdibleDescription,
-                  hintStyle: TextStyle(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.5),
-                    fontWeight: FontWeight.normal,
-                  ),
-                  hintText: l10n(context).hintEdibleDescription,
-                  isDense: true,
-                ),
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                labelText: l10n(context).labelEdibleDescription,
+                hintText: l10n(context).hintEdibleDescription,
                 maxLength: 100,
                 maxLines: 2,
                 textCapitalization: TextCapitalization.words,
