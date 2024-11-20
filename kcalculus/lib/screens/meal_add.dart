@@ -44,12 +44,15 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
   late FocusNode _nameFocusNode;
   late FocusNode _descriptionFocusNode;
   late FocusNode _amountFocusNode;
+  late FocusNode _nutritionFactsFocusNode;
 
   @override
   void initState() {
     _nameFocusNode = FocusNode();
     _descriptionFocusNode = FocusNode();
     _amountFocusNode = FocusNode();
+    _nutritionFactsFocusNode = FocusNode();
+
     super.initState();
   }
 
@@ -58,9 +61,12 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
     _nameController.dispose();
     _descriptionController.dispose();
     _nutritionFactsController.dispose();
+
+    _nutritionFactsFocusNode.dispose();
     _amountFocusNode.dispose();
     _descriptionFocusNode.dispose();
     _nameFocusNode.dispose();
+
     super.dispose();
   }
 
@@ -298,6 +304,10 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
                   label: l10n(context).labelMealAmount,
                   initialUnit: Unit.gram,
                   focusNode: _amountFocusNode,
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (value) {
+                    _nutritionFactsFocusNode.requestFocus();
+                  },
                   onSaveAmount: (amount) {
                     _amount = amount;
                   },
@@ -306,6 +316,7 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
                 const SizedBox(height: 32),
                 NutritionFactsInput(
                   controller: _nutritionFactsController,
+                  focusNode: _nutritionFactsFocusNode,
                 ),
               ],
             ),

@@ -18,6 +18,8 @@ class AmountInput extends StatefulWidget {
   final bool fixedUnit;
   final bool allowZero;
   final bool enabled;
+  final TextInputAction? textInputAction;
+  final void Function(String)? onFieldSubmitted;
   final void Function(Amount?)? onSaveAmount;
   final FocusNode? focusNode;
   final bool autofocus;
@@ -33,6 +35,8 @@ class AmountInput extends StatefulWidget {
     this.fixedUnit = false,
     this.allowZero = true,
     this.enabled = true,
+    this.textInputAction,
+    this.onFieldSubmitted,
     this.onSaveAmount,
     this.focusNode,
     this.autofocus = false,
@@ -193,6 +197,8 @@ class _AmountInputState extends State<AmountInput> {
         signed: false,
         decimal: true,
       ),
+      textInputAction: widget.textInputAction,
+      onFieldSubmitted: widget.onFieldSubmitted,
       validator: _validateAmountValue,
       onChanged: _applyMask,
       onSaved: _saveAmountValue,
