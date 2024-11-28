@@ -59,7 +59,7 @@
     "messageSelectedEdibleModifiedCreatesNew": "You made changes to a selected edible.\nSaving will create a new record.\nContinue?",
     "actionUseSelectedEdible": "No, use selected",
     "actionCreateNewEdible": "Yes, create new",
-    "messageSelectedEdibleModifiedALreadyExists": "You made changes to a selected edible.\nSaving will create a new record, but an edible with this name and description already exists.\nPlease make sure these are unique before saving.",
+    "messageSelectedEdibleModifiedAlreadyExists": "You made changes to a selected edible.\nSaving will create a new record, but an edible with this name and description already exists.\nPlease make sure these are unique before saving.",
     "actionSave": "Save",
     "messageTypeConfirm": "Confirmation",
     "messageTypeInfo": "Information",

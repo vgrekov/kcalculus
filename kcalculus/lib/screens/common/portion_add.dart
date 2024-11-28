@@ -199,7 +199,7 @@ class _AddPortionScreenState extends ConsumerState<AddPortionScreen>
     if (selectedEdibleModified == true && alreadyExists) {
       if (mounted) {
         showMessageDialog<void>(
-          message: l10n(context).messageSelectedEdibleModifiedALreadyExists,
+          message: l10n(context).messageSelectedEdibleModifiedAlreadyExists,
           actions: {
             l10n(context).actionOk: () {
               _nameFocusNode.requestFocus();
