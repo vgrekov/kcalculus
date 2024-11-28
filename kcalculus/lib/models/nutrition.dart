@@ -182,9 +182,14 @@ class NutritionFacts {
   }
 }
 
-mixin Nutritious {
-  Edible get edible;
-  Amount get amount;
+class Portion {
+  final Edible edible;
+  final Amount amount;
+
+  const Portion({
+    required this.edible,
+    required this.amount,
+  });
 
   NutrientData? getNutrientData() {
     final nutritionFacts = edible.getNutritionFacts();

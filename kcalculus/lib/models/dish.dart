@@ -4,15 +4,10 @@ import 'package:kcalculus/models/identifiable.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/models/units.dart';
 
-class Ingredient with Nutritious {
-  @override
-  final Edible edible;
-  @override
-  final Amount amount;
-
+class Ingredient extends Portion {
   Ingredient({
-    required this.edible,
-    required this.amount,
+    required super.edible,
+    required super.amount,
   });
 
   double? getWeightInGrams() {
