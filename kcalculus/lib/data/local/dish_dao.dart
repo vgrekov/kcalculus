@@ -1,0 +1,185 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/dao.dart';
+import 'package:kcalculus/data/local/db.dart';
+import 'package:kcalculus/data/local/edible_dao.dart';
+import 'package:kcalculus/data/local/food_dao.dart';
+import 'package:kcalculus/data/local/ingredient_dao.dart';
+import 'package:kcalculus/models/dish.dart';
+import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/utils/datetime.dart' as dt;
+import 'package:kcalculus/utils/ids.dart';
+import 'package:sqflite/sqflite.dart';
+
+class LocalDishDao implements DishDao {
+  final Database db;
+  final LocalEdibleDao edibleDao;
+  final LocalFoodDao foodDao;
+  final LocalIngredientDao ingredientDao;
+
+  LocalDishDao({
+    required this.db,
+    required this.edibleDao,
+    required this.foodDao,
+    required this.ingredientDao,
+  });
+
+  @override
+  Future<void> save(Dish model, {Transaction? txn}) async {
+    if (txn != null) {
+      await _save(model, txn: txn);
+    } else {
+      await db.transaction((txn) async {
+        await _save(model, txn: txn);
+      });
+    }
+  }
+
+  Future<void> _save(Dish model, {required Transaction txn}) async {
+    if (model.id == null) {
+      model.id = generateId();
+
+      await edibleDao.add(model, txn: txn);
+
+      await txn.insert('dishes', {
+        'id': model.id,
+        'weight_in_grams': model.getWeightInGrams(),
+      });
+    } else {
+      await edibleDao.update(model, txn: txn);
+
+      await txn.update(
+        'dishes',
+        {
+          'weight_in_grams': model.getWeightInGrams(),
+        },
+        where: 'id = ?',
+        whereArgs: [model.id],
+      );
+    }
+
+    await ingredientDao.save(
+      model.ingredients,
+      model.id!,
+      txn: txn,
+    );
+  }
+
+  @override
+  Future<List<EdibleSearchResult>> search(String? query) {
+    return db.rawQuery(
+      '''
+      SELECT *
+      FROM (
+        SELECT
+          results.id,
+          results.name,
+          results.description,
+          results.created_at,
+          results.updated_at,
+          MAX(results.eaten_at) AS last_eaten_at
+        FROM (
+          SELECT
+            dishes.id AS id,
+            edibles.name AS name,
+            edibles.description AS description,
+            edibles.created_at AS created_at,
+            edibles.updated_at AS updated_at,
+            meals.eaten_at AS eaten_at
+          FROM
+            dishes
+          LEFT JOIN edibles ON
+            edibles.id = dishes.id
+          LEFT JOIN meals ON
+            meals.edible_id = dishes.id
+            AND meals.deleted_at IS NULL
+          WHERE
+            edibles.deleted_at IS NULL
+            AND UPPER(edibles.name) LIKE '%' || UPPER(?) || '%'
+        ) results
+        GROUP BY
+          results.id,
+          results.name,
+          results.description,
+          results.created_at,
+          results.updated_at
+      )
+      ORDER BY
+        CASE
+          WHEN last_eaten_at IS NOT NULL THEN last_eaten_at
+          WHEN updated_at IS NOT NULL THEN updated_at
+          ELSE created_at
+        END DESC
+      ''',
+      [query ?? ''],
+    ).then((data) => data.map(_fromSearchResultRecord).toList());
+  }
+
+  @override
+  Future<Dish?> getById(String id) async {
+    return db.rawQuery(
+      '''
+      SELECT
+        edibles.id AS id,
+        edibles.name AS name,
+        edibles.description AS description,
+        dishes.weight_in_grams AS weight_in_grams,
+        edibles.created_at AS created_at,
+        edibles.updated_at AS updated_at
+      FROM
+        dishes
+      LEFT JOIN edibles ON
+        edibles.id = dishes.id
+      WHERE
+        dishes.id = ?
+      ''',
+      [id],
+    ).then((data) => data.map(_fromRecord).firstOrNull);
+  }
+
+  Future<Dish> _fromRecord(Map<String, Object?> record) async {
+    final id = record['id'] as String;
+
+    final ingredients = await ingredientDao.getByDishId(
+      id,
+      foodDao: foodDao,
+      dishDao: this,
+    );
+
+    return Dish(
+      id: id,
+      name: record['name'] as String,
+      description: record['description'] as String,
+      ingredients: ingredients,
+      weightInGrams: record['weight_in_grams'] as double?,
+      createdAt: dt.parseISO8601(record['created_at'] as String),
+      updatedAt: record['updated_at'] != null
+          ? dt.parseISO8601(record['updated_at'] as String)
+          : null,
+    );
+  }
+
+  EdibleSearchResult _fromSearchResultRecord(Map<String, Object?> record) {
+    return EdibleSearchResult(
+      id: record['id'] as String,
+      name: record['name'] as String,
+      description: record['description'] as String,
+      type: EdibleSearchResultType.food,
+      lastEatenAt: record['last_eaten_at'] != null
+          ? dt.parseISO8601(record['last_eaten_at'] as String)
+          : null,
+    );
+  }
+}
+
+final localDishDaoProvider = Provider<Future<LocalDishDao>>((ref) async {
+  final db = await ref.watch(dbProvider);
+  final edibleDao = await ref.watch(localEdibleDaoProvider);
+  final foodDao = await ref.watch(localFoodDaoProvider);
+  final ingredientDao = await ref.watch(localIngredientDaoProvider);
+  return LocalDishDao(
+    db: db,
+    edibleDao: edibleDao,
+    foodDao: foodDao,
+    ingredientDao: ingredientDao,
+  );
+});

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/local/db.dart';
+import 'package:kcalculus/data/local/dish_dao.dart';
 import 'package:kcalculus/data/local/food_dao.dart';
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/dish.dart';
@@ -14,10 +15,12 @@ import 'package:sqflite/sqflite.dart';
 class LocalMealDao implements MealDao {
   final Database db;
   final LocalFoodDao foodDao;
+  final LocalDishDao dishDao;
 
   LocalMealDao({
     required this.db,
     required this.foodDao,
+    required this.dishDao,
   });
 
   @override
@@ -28,7 +31,7 @@ class LocalMealDao implements MealDao {
       if (model.edible is Food) {
         await foodDao.save(model.edible as Food, txn: txn);
       } else if (model.edible is Dish) {
-        // TODO: await dishDao.save(model.edible as Dish, txn: txn);
+        await dishDao.save(model.edible as Dish, txn: txn);
       }
 
       await txn.insert('meals', {
@@ -93,7 +96,7 @@ class LocalMealDao implements MealDao {
     if (record['food_id'] != null) {
       edible = await foodDao.getById(record['food_id'] as String);
     } else if (record['dish_id'] != null) {
-      // TODO: edible = dishDao.getById(record['dish_id'] as String);
+      edible = await dishDao.getById(record['dish_id'] as String);
     }
 
     return Meal(
@@ -121,8 +124,10 @@ class LocalMealDao implements MealDao {
 final localMealDaoProvider = Provider<Future<LocalMealDao>>((ref) async {
   final db = await ref.watch(dbProvider);
   final foodDao = await ref.watch(localFoodDaoProvider);
+  final dishDao = await ref.watch(localDishDaoProvider);
   return LocalMealDao(
     db: db,
     foodDao: foodDao,
+    dishDao: dishDao,
   );
 });
