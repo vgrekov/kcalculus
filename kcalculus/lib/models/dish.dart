@@ -53,8 +53,8 @@ class Dish with Identifiable implements Edible {
     String? id,
     required this.name,
     required this.description,
-    ingredients,
-    weightInGrams,
+    List<Ingredient>? ingredients,
+    double? weightInGrams,
     this.createdAt,
     this.updatedAt,
   })  : ingredients = ingredients ?? [],
@@ -83,7 +83,10 @@ class Dish with Identifiable implements Edible {
     final weight = getWeightInGrams();
     final nutrientData = ingredients
         .map((i) => i.getNutrientData() ?? NutrientData.empty())
-        .reduce((nd1, nd2) => nd1 + nd2);
+        .fold(
+          NutrientData.empty(),
+          (nd1, nd2) => nd1 + nd2,
+        );
     return [
       NutritionFacts(
         amount: Amount(unit: Unit.gram, value: 100),
@@ -94,9 +97,10 @@ class Dish with Identifiable implements Edible {
 
   double getWeightInGrams() {
     return _weightInGrams ??
-        ingredients
-            .map((i) => i.getWeightInGrams() ?? 0)
-            .reduce((w1, w2) => w1 + w2);
+        ingredients.map((i) => i.getWeightInGrams() ?? 0).fold(
+              0,
+              (w1, w2) => w1 + w2,
+            );
   }
 
   void setWeightInGrams(double value) {

@@ -124,7 +124,10 @@ class _DailyLogScreenState extends ConsumerState
           final meals = snapshot.data!;
           totalNutrientData = meals
               .map((m) => m.getNutrientData() ?? NutrientData.empty())
-              .reduce((nd1, nd2) => nd1 + nd2);
+              .fold(
+                NutrientData.empty(),
+                (nd1, nd2) => nd1 + nd2,
+              );
 
           body = MealsList(
             meals: meals,
