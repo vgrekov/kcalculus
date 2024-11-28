@@ -6,8 +6,8 @@ import 'package:kcalculus/data/search_query.dart';
 import 'package:kcalculus/models/food.dart';
 
 final foodSearchQueryProvider =
-    NotifierProvider<SearchQueryhNotifier, SearchQuery>(
-  SearchQueryhNotifier.new,
+    NotifierProvider<SearchQueryNotifier, SearchQuery>(
+  SearchQueryNotifier.new,
 );
 
 class FoodsNotifier extends Notifier<Future<List<EdibleSearchResult>>> {

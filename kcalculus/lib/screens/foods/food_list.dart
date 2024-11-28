@@ -135,6 +135,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
           body = EdibleSearchResults(
             searchResults: snapshot.data!,
             onSelectSearchResult: _editFood,
+            confirmDeleteMessage: l10n(context).messageFoodDeletionConfirmation,
             onDeleteEdible: _deleteFood,
           );
         }
@@ -179,8 +180,12 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
                 ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: const ScreenTabBar(
-            selectedTab: ScreenTab.foods,
+          bottomNavigationBar: Container(
+            color: Theme.of(context).colorScheme.surfaceContainer,
+            padding: EdgeInsets.only(top: 32),
+            child: const ScreenTabBar(
+              selectedTab: ScreenTab.foods,
+            ),
           ),
         );
       },

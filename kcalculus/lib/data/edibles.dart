@@ -6,8 +6,8 @@ import 'package:kcalculus/data/search_query.dart';
 import 'package:kcalculus/models/food.dart';
 
 final edibleSearchQueryProvider =
-    NotifierProvider<SearchQueryhNotifier, SearchQuery>(
-  SearchQueryhNotifier.new,
+    NotifierProvider<SearchQueryNotifier, SearchQuery>(
+  SearchQueryNotifier.new,
 );
 
 final edibleSearchProvider = Provider<Future<List<EdibleSearchResult>>>(

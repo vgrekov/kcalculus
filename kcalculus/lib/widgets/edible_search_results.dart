@@ -7,12 +7,14 @@ import 'package:kcalculus/widgets/edible_search_results_item.dart';
 class EdibleSearchResults extends StatelessWidget with Messenger {
   final List<EdibleSearchResult> searchResults;
   final void Function(EdibleSearchResult) onSelectSearchResult;
+  final String? confirmDeleteMessage;
   final void Function(EdibleSearchResult)? onDeleteEdible;
 
   const EdibleSearchResults({
     super.key,
     required this.searchResults,
     required this.onSelectSearchResult,
+    this.confirmDeleteMessage,
     this.onDeleteEdible,
   });
 
@@ -34,7 +36,8 @@ class EdibleSearchResults extends StatelessWidget with Messenger {
                 confirmDismiss: (direction) async {
                   return await showConfirmation(
                         context,
-                        l10n(context).messageFoodDeletionConfirmation,
+                        confirmDeleteMessage ??
+                            l10n(context).messageDeletionConfirmation,
                       ) ??
                       false;
                 },

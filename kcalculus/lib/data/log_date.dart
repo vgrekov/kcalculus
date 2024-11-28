@@ -39,7 +39,3 @@ class LogDateNotifier extends Notifier<DateTime> {
     _scheduleNextDaySwitch();
   }
 }
-
-final logDateProvider = NotifierProvider<LogDateNotifier, DateTime>(
-  LogDateNotifier.new,
-);

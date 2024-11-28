@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/daily_log.dart';
 import 'package:kcalculus/data/foods.dart';
-import 'package:kcalculus/screens/daily_log.dart';
+import 'package:kcalculus/data/meals.dart';
 import 'package:kcalculus/screens/foods/food_list.dart';
+import 'package:kcalculus/screens/meals/meal_list.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 enum ScreenTab {
-  dailyLog,
+  meals,
   foods,
 }
 
@@ -23,9 +23,9 @@ class ScreenTabBar extends ConsumerWidget {
     final Widget icon;
     final String label;
     switch (tab) {
-      case ScreenTab.dailyLog:
+      case ScreenTab.meals:
         icon = const Icon(Icons.schedule);
-        label = l10n(context).screenDailyLog;
+        label = l10n(context).screenMeals;
         break;
       case ScreenTab.foods:
         icon = const Icon(Icons.fastfood);
@@ -41,8 +41,8 @@ class ScreenTabBar extends ConsumerWidget {
 
   void _prepareFor(BuildContext context, WidgetRef ref, ScreenTab tab) {
     switch (tab) {
-      case ScreenTab.dailyLog:
-        ref.read(dailyLogProvider.notifier).refresh();
+      case ScreenTab.meals:
+        ref.read(mealsProvider.notifier).refresh();
         break;
       case ScreenTab.foods:
         ref.read(foodSearchQueryProvider.notifier).reset();
@@ -58,7 +58,7 @@ class ScreenTabBar extends ConsumerWidget {
     Navigator.of(context).pushReplacement(PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
         return switch (tab) {
-          ScreenTab.dailyLog => const DailyLogScreen(),
+          ScreenTab.meals => const MealListScreen(),
           ScreenTab.foods => const FoodListScreen(),
         };
       },

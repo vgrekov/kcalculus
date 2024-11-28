@@ -3,7 +3,11 @@ import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/log_date.dart';
 import 'package:kcalculus/models/meal.dart';
 
-class DailyLogNotifier extends Notifier<Future<List<Meal>>> {
+final logDateProvider = NotifierProvider<LogDateNotifier, DateTime>(
+  LogDateNotifier.new,
+);
+
+class MealsNotifier extends Notifier<Future<List<Meal>>> {
   @override
   Future<List<Meal>> build() async {
     final mealDao = await ref.watch(mealDaoProvider);
@@ -35,6 +39,6 @@ class DailyLogNotifier extends Notifier<Future<List<Meal>>> {
   }
 }
 
-final dailyLogProvider = NotifierProvider<DailyLogNotifier, Future<List<Meal>>>(
-  DailyLogNotifier.new,
+final mealsProvider = NotifierProvider<MealsNotifier, Future<List<Meal>>>(
+  MealsNotifier.new,
 );

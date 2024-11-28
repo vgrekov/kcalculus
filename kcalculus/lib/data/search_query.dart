@@ -10,7 +10,7 @@ class SearchQuery {
   SearchQuery(this.text);
 }
 
-class SearchQueryhNotifier extends Notifier<SearchQuery> {
+class SearchQueryNotifier extends Notifier<SearchQuery> {
   Timer? _debouncer;
 
   @override

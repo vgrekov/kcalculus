@@ -35,14 +35,14 @@
     "formatTime": "HH:mm",
     "formatDouble": "##0.##",
     "messageUnknownError": "Oops.. Something went wrong...",
-    "screenDailyLog": "Daily Log",
+    "screenMeals": "Daily Log",
     "messageMealDeletionSuccess": "Meal deleted",
     "messageMealDeletionFailure": "Failed to delete the meal",
     "messageNoMeals": "No meals logged so far...",
     "hintEdibleSearchBox": "Search by name...",
     "messageEdibleSearchNothingFound": "Nothing found...",
     "screenNewMeal": "New Meal",
-    "labelMealAmount": "Amount",
+    "labelPortionAmount": "Amount",
     "messageNoCommonMeasureError": "You specified the meal amount in {unit} of measure {measure}.\nIn at least one ''per'' field of the nutrition facts, the amount should be specified in units of {measure}.",
     "@messageNoCommonMeasureError": {
         "description": "Meal amount measure should be used in nutrition facts",
@@ -147,5 +147,6 @@
     "messageFoodDeletionSuccess": "Food deleted",
     "messageFoodDeletionFailure": "Failed to delete the food",
     "screenAddFood": "New Food",
-    "screenEditFood": "Edit Food"
+    "screenEditFood": "Edit Food",
+    "messageDeletionConfirmation":  "Delete this?"
 }

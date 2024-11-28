@@ -3,14 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/daily_log.dart';
 import 'package:kcalculus/data/dao.dart';
-import 'package:kcalculus/data/edible_search.dart';
+import 'package:kcalculus/data/edibles.dart';
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/food.dart';
-import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/models/units.dart';
-import 'package:kcalculus/screens/edible_search.dart';
+import 'package:kcalculus/screens/common/edible_search.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -19,16 +17,23 @@ import 'package:kcalculus/widgets/edible_name_input.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
-class AddMealScreen extends ConsumerStatefulWidget {
-  const AddMealScreen({super.key});
+class AddPortionScreen extends ConsumerStatefulWidget {
+  final String title;
+  final FutureOr<void> Function(Edible, Amount) onSavePortion;
+
+  const AddPortionScreen({
+    super.key,
+    required this.title,
+    required this.onSavePortion,
+  });
 
   @override
-  ConsumerState<AddMealScreen> createState() {
-    return _AddMealScreenState();
+  ConsumerState<AddPortionScreen> createState() {
+    return _AddPortionScreenState();
   }
 }
 
-class _AddMealScreenState extends ConsumerState<AddMealScreen>
+class _AddPortionScreenState extends ConsumerState<AddPortionScreen>
     with StateMessenger, ProgressiveState {
   Edible? _selectedEdible;
 
@@ -70,7 +75,7 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
     super.dispose();
   }
 
-  void _saveMeal() async {
+  void _savePortion() async {
     if (!_form.currentState!.validate()) {
       return;
     }
@@ -95,13 +100,8 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
     showProgress();
 
     try {
-      await ref.read(dailyLogProvider.notifier).addMeal(
-            Meal(
-              edible: edible,
-              amount: _amount!,
-              eatenAt: DateTime.now(),
-            ),
-          );
+      await widget.onSavePortion(edible, _amount!);
+
       if (mounted) {
         Navigator.of(context).pop();
       }
@@ -243,14 +243,14 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          l10n(context).screenNewMeal,
+          widget.title,
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
         ),
         actions: [
           TextButton(
-            onPressed: _saveMeal,
+            onPressed: _savePortion,
             child: Text(l10n(context).actionSave),
           ),
         ],
@@ -301,7 +301,7 @@ class _AddMealScreenState extends ConsumerState<AddMealScreen>
                 ),
                 const SizedBox(height: 8),
                 AmountInput(
-                  label: l10n(context).labelMealAmount,
+                  label: l10n(context).labelPortionAmount,
                   initialUnit: Unit.gram,
                   focusNode: _amountFocusNode,
                   textInputAction: TextInputAction.next,
