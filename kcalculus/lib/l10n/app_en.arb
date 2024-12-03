@@ -148,5 +148,10 @@
     "messageFoodDeletionFailure": "Failed to delete the food",
     "screenAddFood": "New Food",
     "screenEditFood": "Edit Food",
-    "messageDeletionConfirmation":  "Delete this?"
+    "messageDeletionConfirmation":  "Delete this?",
+    "screenDishes": "Dishes",
+    "messageDishSearchNothingFound": "Nothing found...",
+    "messageDishDeletionConfirmation": "Delete this dish?",
+    "messageDishDeletionSuccess": "Dish deleted",
+    "messageDishDeletionFailure": "Failed to delete the dish"
 }
