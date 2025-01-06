@@ -20,11 +20,13 @@ import 'package:kcalculus/widgets/text_input.dart';
 class AddPortionScreen extends ConsumerStatefulWidget {
   final String title;
   final FutureOr<void> Function(Edible, Amount) onSavePortion;
+  final bool Function(EdibleSearchResult)? edibleSearchFilter;
 
   const AddPortionScreen({
     super.key,
     required this.title,
     required this.onSavePortion,
+    this.edibleSearchFilter,
   });
 
   @override
@@ -119,6 +121,7 @@ class _AddPortionScreenState extends ConsumerState<AddPortionScreen>
       MaterialPageRoute(
         builder: (context) => EdibleSearchScreen(
           onSelectEdible: _selectEdible,
+          edibleSearchFilter: widget.edibleSearchFilter,
         ),
       ),
     );
