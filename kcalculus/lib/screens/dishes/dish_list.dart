@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/dao.dart';
+import 'package:kcalculus/data/dish_wizard.dart';
 import 'package:kcalculus/data/dishes.dart';
+import 'package:kcalculus/models/dish.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -39,9 +43,39 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
     });
   }
 
-  void _addDish() async {}
+  void _addDish() async {
+    ref.read(dishWizardProvider.notifier).reset();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const DishWizardScreen(),
+      ),
+    );
+  }
 
-  void _editDish(EdibleSearchResult searchResult) async {}
+  void _editDish(EdibleSearchResult searchResult) async {
+    showProgress();
+
+    try {
+      final dishDao = await ref.read(dishDaoProvider);
+      Dish? dish = await dishDao.getById(searchResult.id!);
+      if (mounted) {
+        if (dish != null) {
+          ref.read(dishWizardProvider.notifier).load(dish);
+        } else {
+          ref.read(dishWizardProvider.notifier).reset();
+        }
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => DishWizardScreen(),
+          ),
+        );
+      }
+    } catch (error) {
+      showNotification(error.toString());
+    } finally {
+      hideProgress();
+    }
+  }
 
   void _deleteDish(EdibleSearchResult searchResult) async {
     showProgress();

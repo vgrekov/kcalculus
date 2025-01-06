@@ -24,11 +24,22 @@ class Ingredient extends Portion {
           (amount.value / sameMeasureNF.amount.value);
       return calories /
           massNF.nutrientData.calories *
+          massNF.amount.value *
           massNF.amount.unit.factor /
-          massNF.amount.value;
+          Unit.gram.factor;
     }
 
     return null;
+  }
+
+  Ingredient copyWith({
+    Edible? edible,
+    Amount? amount,
+  }) {
+    return Ingredient(
+      edible: edible ?? this.edible,
+      amount: amount ?? this.amount,
+    );
   }
 }
 
@@ -38,7 +49,7 @@ class Dish with Identifiable implements Edible {
   @override
   final String description;
   final List<Ingredient> ingredients;
-  double? _weightInGrams;
+  final double weightInGrams;
   @override
   final DateTime? createdAt;
   @override
@@ -48,34 +59,16 @@ class Dish with Identifiable implements Edible {
     String? id,
     required this.name,
     required this.description,
-    List<Ingredient>? ingredients,
-    double? weightInGrams,
+    required this.ingredients,
+    required this.weightInGrams,
     this.createdAt,
     this.updatedAt,
-  })  : ingredients = ingredients ?? [],
-        _weightInGrams = weightInGrams {
+  }) {
     this.id = id;
-  }
-
-  void addIngredient(Ingredient ingredient) {
-    ingredients.add(ingredient);
-
-    if (_weightInGrams != null) {
-      _weightInGrams = _weightInGrams! + (ingredient.getWeightInGrams() ?? 0);
-    }
-  }
-
-  void removeIngredient(int index) {
-    Ingredient ingredient = ingredients.removeAt(index);
-
-    if (_weightInGrams != null) {
-      _weightInGrams = _weightInGrams! - (ingredient.getWeightInGrams() ?? 0);
-    }
   }
 
   @override
   List<NutritionFacts> getNutritionFacts() {
-    final weight = getWeightInGrams();
     final nutrientData = ingredients
         .map((i) => i.getNutrientData() ?? NutrientData.empty())
         .fold(
@@ -85,24 +78,8 @@ class Dish with Identifiable implements Edible {
     return [
       NutritionFacts(
         amount: Amount(unit: Unit.gram, value: 100),
-        nutrientData: nutrientData * (100 / weight),
+        nutrientData: (nutrientData * (100 / weightInGrams)).withPrecision(2),
       ),
     ];
-  }
-
-  double getWeightInGrams() {
-    return _weightInGrams ??
-        ingredients.map((i) => i.getWeightInGrams() ?? 0).fold(
-              0,
-              (w1, w2) => w1 + w2,
-            );
-  }
-
-  void setWeightInGrams(double value) {
-    _weightInGrams = value;
-  }
-
-  void resetWeight() {
-    _weightInGrams = null;
   }
 }

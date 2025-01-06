@@ -42,7 +42,7 @@ class LocalDishDao implements DishDao {
 
       await txn.insert('dishes', {
         'id': model.id,
-        'weight_in_grams': model.getWeightInGrams(),
+        'weight_in_grams': model.weightInGrams,
       });
     } else {
       await edibleDao.update(model, txn: txn);
@@ -50,7 +50,7 @@ class LocalDishDao implements DishDao {
       await txn.update(
         'dishes',
         {
-          'weight_in_grams': model.getWeightInGrams(),
+          'weight_in_grams': model.weightInGrams,
         },
         where: 'id = ?',
         whereArgs: [model.id],
@@ -60,6 +60,8 @@ class LocalDishDao implements DishDao {
     await ingredientDao.save(
       model.ingredients,
       model.id!,
+      foodDao: foodDao,
+      dishDao: this,
       txn: txn,
     );
   }
@@ -150,7 +152,7 @@ class LocalDishDao implements DishDao {
       name: record['name'] as String,
       description: record['description'] as String,
       ingredients: ingredients,
-      weightInGrams: record['weight_in_grams'] as double?,
+      weightInGrams: record['weight_in_grams'] as double,
       createdAt: dt.parseISO8601(record['created_at'] as String),
       updatedAt: record['updated_at'] != null
           ? dt.parseISO8601(record['updated_at'] as String)

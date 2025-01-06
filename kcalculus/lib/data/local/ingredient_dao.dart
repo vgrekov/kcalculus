@@ -15,8 +15,22 @@ class LocalIngredientDao {
     required this.db,
   });
 
-  Future<void> add(Ingredient model, String dishId, {Transaction? txn}) async {
+  Future<void> add(
+    Ingredient model,
+    String dishId, {
+    required LocalFoodDao foodDao,
+    required LocalDishDao dishDao,
+    Transaction? txn,
+  }) async {
     DatabaseExecutor executor = txn ?? db;
+
+    if (model.edible.id == null) {
+      if (model.edible is Food) {
+        await foodDao.save(model.edible as Food, txn: txn);
+      } else if (model.edible is Dish) {
+        await dishDao.save(model.edible as Dish, txn: txn);
+      }
+    }
 
     await executor.insert('ingredients', {
       'dish_id': dishId,
@@ -67,11 +81,19 @@ class LocalIngredientDao {
     return count > 0;
   }
 
-  Future<void> save(List<Ingredient> models, String edibleId,
-      {Transaction? txn}) async {
-    deleteByDishId(edibleId, txn: txn);
+  Future<void> save(List<Ingredient> models, String dishId,
+      {required LocalFoodDao foodDao,
+      required LocalDishDao dishDao,
+      Transaction? txn}) async {
+    await deleteByDishId(dishId, txn: txn);
     for (final model in models) {
-      add(model, edibleId, txn: txn);
+      await add(
+        model,
+        dishId,
+        foodDao: foodDao,
+        dishDao: dishDao,
+        txn: txn,
+      );
     }
   }
 
