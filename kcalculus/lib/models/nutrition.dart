@@ -1,5 +1,6 @@
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/utils/double_ext.dart';
 
 const fatCaloriesPerGram = 9;
 const carbsCaloriesPerGram = 4;
@@ -124,6 +125,16 @@ class NutrientData {
     }
 
     return null;
+  }
+
+  NutrientData withPrecision(int fractionDigits, [bool round = true]) {
+    return NutrientData(
+      calories: calories.withPrecision(fractionDigits, round),
+      fatInGrams: fatInGrams.withPrecision(fractionDigits, round),
+      carbsInGrams: carbsInGrams.withPrecision(fractionDigits, round),
+      fiberInGrams: fiberInGrams.withPrecision(fractionDigits, round),
+      proteinInGrams: proteinInGrams.withPrecision(fractionDigits, round),
+    );
   }
 
   @override
