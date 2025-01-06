@@ -9,9 +9,9 @@ import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
-import 'package:kcalculus/widgets/daily_total.dart';
 import 'package:kcalculus/widgets/log_calendar.dart';
 import 'package:kcalculus/widgets/meals_list.dart';
+import 'package:kcalculus/widgets/nutrient_stats.dart';
 import 'package:kcalculus/widgets/screen_tab_bar.dart';
 
 class MealListScreen extends ConsumerStatefulWidget {
@@ -206,7 +206,7 @@ class _MealListScreenState extends ConsumerState
             mainAxisSize: MainAxisSize.min,
             children: [
               if (!isLoading && !snapshot.hasError)
-                DailyTotal(
+                NutrientStats(
                   nutrientData: totalNutrientData,
                 ),
               const ScreenTabBar(
