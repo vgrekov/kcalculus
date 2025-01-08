@@ -295,25 +295,26 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(
-                  onPressed:
-                      !widget.enabled || !isDeletable ? null : _deletePage,
-                  icon: const Icon(Icons.remove),
-                  color: Theme.of(context).colorScheme.primary,
-                  iconSize: 24,
-                ),
+                if (widget.enabled)
+                  IconButton(
+                    onPressed: !isDeletable ? null : _deletePage,
+                    icon: const Icon(Icons.remove),
+                    color: Theme.of(context).colorScheme.primary,
+                    iconSize: 24,
+                  ),
                 Text(
                   l10n(context).titleNutritionFacts,
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         color: Theme.of(context).colorScheme.onPrimaryContainer,
                       ),
                 ),
-                IconButton(
-                  onPressed: !widget.enabled || !isLastPage ? null : _addPage,
-                  icon: const Icon(Icons.add),
-                  color: Theme.of(context).colorScheme.primary,
-                  iconSize: 24,
-                ),
+                if (widget.enabled)
+                  IconButton(
+                    onPressed: !isLastPage ? null : _addPage,
+                    icon: const Icon(Icons.add),
+                    color: Theme.of(context).colorScheme.primary,
+                    iconSize: 24,
+                  ),
               ],
             ),
             const SizedBox(height: 8),
@@ -506,6 +507,7 @@ class NutritionFactsInputController extends ChangeNotifier {
   bool get isValid => _isValid;
 
   List<NutritionFacts>? get nutritionFacts => _nutritionFacts;
+
   set nutritionFacts(List<NutritionFacts>? value) {
     _nutritionFacts = value;
     _command = _NutritionFactsInputControllerCommand.load;

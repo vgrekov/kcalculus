@@ -1,37 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/daily_log.dart';
-import 'package:kcalculus/data/log_date.dart';
+import 'package:kcalculus/data/meals.dart';
 import 'package:kcalculus/models/meal.dart';
 import 'package:kcalculus/models/nutrition.dart';
-import 'package:kcalculus/screens/meal_add.dart';
-import 'package:kcalculus/screens/meal_edit.dart';
+import 'package:kcalculus/screens/common/portion_add.dart';
+import 'package:kcalculus/screens/common/portion_edit.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
-import 'package:kcalculus/widgets/daily_total.dart';
 import 'package:kcalculus/widgets/log_calendar.dart';
 import 'package:kcalculus/widgets/meals_list.dart';
+import 'package:kcalculus/widgets/nutrient_stats.dart';
 import 'package:kcalculus/widgets/screen_tab_bar.dart';
 
-class DailyLogScreen extends ConsumerStatefulWidget {
-  const DailyLogScreen({super.key});
+class MealListScreen extends ConsumerStatefulWidget {
+  const MealListScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _DailyLogScreenState();
+    return _MealListScreenState();
   }
 }
 
-class _DailyLogScreenState extends ConsumerState
+class _MealListScreenState extends ConsumerState
     with StateMessenger, ProgressiveState {
   bool _showCalendar = false;
 
   void _addMeal() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const AddMealScreen(),
+        builder: (context) => AddPortionScreen(
+          title: l10n(context).screenNewMeal,
+          onSavePortion: (edible, amount) {
+            ref.read(mealsProvider.notifier).addMeal(
+                  Meal(
+                    edible: edible,
+                    amount: amount,
+                    eatenAt: DateTime.now(),
+                  ),
+                );
+          },
+        ),
       ),
     );
   }
@@ -39,8 +49,16 @@ class _DailyLogScreenState extends ConsumerState
   void _selectMeal(Meal meal) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => EditMealScreen(
-          meal: meal,
+        builder: (context) => EditPortionScreen(
+          title: l10n(context).screenEditMeal,
+          portion: meal,
+          onSavePortion: (newAmount) {
+            ref.read(mealsProvider.notifier).updateMeal(
+                  meal.copyWith(
+                    amount: newAmount,
+                  ),
+                );
+          },
         ),
       ),
     );
@@ -50,8 +68,7 @@ class _DailyLogScreenState extends ConsumerState
     showProgress();
 
     try {
-      final isDeleted =
-          await ref.read(dailyLogProvider.notifier).deleteMeal(meal);
+      final isDeleted = await ref.read(mealsProvider.notifier).deleteMeal(meal);
 
       if (mounted) {
         if (isDeleted) {
@@ -84,7 +101,7 @@ class _DailyLogScreenState extends ConsumerState
   Widget build(BuildContext context) {
     final now = DateTime.now();
     final logDate = ref.watch(logDateProvider);
-    final dailyLog = ref.watch(dailyLogProvider);
+    final dailyLog = ref.watch(mealsProvider);
     return FutureBuilder(
       future: dailyLog,
       builder: (context, snapshot) {
@@ -124,7 +141,10 @@ class _DailyLogScreenState extends ConsumerState
           final meals = snapshot.data!;
           totalNutrientData = meals
               .map((m) => m.getNutrientData() ?? NutrientData.empty())
-              .reduce((nd1, nd2) => nd1 + nd2);
+              .fold(
+                NutrientData.empty(),
+                (nd1, nd2) => nd1 + nd2,
+              );
 
           body = MealsList(
             meals: meals,
@@ -140,7 +160,7 @@ class _DailyLogScreenState extends ConsumerState
             title: Column(
               children: [
                 Text(
-                  l10n(context).screenDailyLog,
+                  l10n(context).screenMeals,
                   style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                         color: Theme.of(context).colorScheme.onPrimaryContainer,
                       ),
@@ -186,11 +206,11 @@ class _DailyLogScreenState extends ConsumerState
             mainAxisSize: MainAxisSize.min,
             children: [
               if (!isLoading && !snapshot.hasError)
-                DailyTotal(
+                NutrientStats(
                   nutrientData: totalNutrientData,
                 ),
               const ScreenTabBar(
-                selectedTab: ScreenTab.dailyLog,
+                selectedTab: ScreenTab.meals,
               ),
             ],
           ),

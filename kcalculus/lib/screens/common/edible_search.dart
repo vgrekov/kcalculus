@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
-import 'package:kcalculus/data/edible_search.dart';
+import 'package:kcalculus/data/edibles.dart';
 import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -11,10 +11,12 @@ import 'package:kcalculus/widgets/text_input.dart';
 
 class EdibleSearchScreen extends ConsumerStatefulWidget {
   final void Function(Edible) onSelectEdible;
+  final bool Function(EdibleSearchResult)? edibleSearchFilter;
 
   const EdibleSearchScreen({
     super.key,
     required this.onSelectEdible,
+    this.edibleSearchFilter,
   });
 
   @override
@@ -56,6 +58,8 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
       if (searchResult.id != null) {
         switch (searchResult.type) {
           case EdibleSearchResultType.dish:
+            final dishDao = await ref.read(dishDaoProvider);
+            edible = await dishDao.getById(searchResult.id!);
             break;
           default:
             final foodDao = await ref.read(foodDaoProvider);
@@ -83,7 +87,13 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    final edibles = ref.watch(edibleSearchProvider);
+    var edibles = ref.watch(edibleSearchProvider);
+
+    if (widget.edibleSearchFilter != null) {
+      edibles = edibles
+          .then((data) => data.where(widget.edibleSearchFilter!).toList());
+    }
+
     return FutureBuilder(
       future: edibles,
       builder: (context, snapshot) {

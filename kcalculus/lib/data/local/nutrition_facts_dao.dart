@@ -44,9 +44,9 @@ class LocalNutritionFactsDao {
 
   Future<void> save(List<NutritionFacts> models, String edibleId,
       {Transaction? txn}) async {
-    deleteByEdibleId(edibleId, txn: txn);
+    await deleteByEdibleId(edibleId, txn: txn);
     for (final model in models) {
-      add(model, edibleId, txn: txn);
+      await add(model, edibleId, txn: txn);
     }
   }
 

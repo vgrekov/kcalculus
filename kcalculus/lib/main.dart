@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/screens/daily_log.dart';
+import 'package:kcalculus/screens/meals/meal_list.dart';
 import 'package:kcalculus/themes/dark.dart' as dark;
 
 void main() {
@@ -19,7 +19,7 @@ class App extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: dark.theme,
-      home: const DailyLogScreen(),
+      home: const MealListScreen(),
     );
   }
 }

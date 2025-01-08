@@ -4,13 +4,27 @@ import 'package:kcalculus/utils/l10n.dart';
 enum Measure {
   mass,
   volume,
-  quantity;
+  quantity,
+  energy(
+    pickable: false,
+  );
+
+  static List<Measure> get pickableValues {
+    return Measure.values.where((m) => m.pickable).toList();
+  }
+
+  final bool pickable;
+
+  const Measure({
+    this.pickable = true,
+  });
 
   String localName(BuildContext context) {
     return switch (this) {
       mass => l10n(context).measureMass,
       volume => l10n(context).measureVolume,
       quantity => l10n(context).measureQuantity,
+      energy => l10n(context).measureEnergy,
     };
   }
 }
@@ -20,7 +34,8 @@ enum MeasureSystem {
   imperial,
   us,
   usLegal,
-  usCustomary;
+  usCustomary,
+  customary;
 
   String localName(BuildContext context) {
     return switch (this) {
@@ -29,17 +44,20 @@ enum MeasureSystem {
       us => l10n(context).measureSystemUS,
       usLegal => l10n(context).measureSystemUSLegal,
       usCustomary => l10n(context).measureSystemUSCustomary,
+      customary => l10n(context).measureSystemCustomary,
     };
   }
 }
 
 enum Unit {
   calorie(
+    measure: Measure.energy,
+    system: MeasureSystem.customary,
     factor: 1,
-    pickable: false,
   ),
   piece(
     measure: Measure.quantity,
+    system: MeasureSystem.customary,
     factor: 1,
   ),
   // Metric - Mass
@@ -160,16 +178,23 @@ enum Unit {
     factor: 0.2365882,
   );
 
-  final Measure? measure;
-  final MeasureSystem? system;
+  static Unit defaultFor(Measure measure) {
+    return switch (measure) {
+      Measure.mass => Unit.gram,
+      Measure.volume => Unit.litre,
+      Measure.quantity => Unit.piece,
+      Measure.energy => Unit.calorie,
+    };
+  }
+
+  final Measure measure;
+  final MeasureSystem system;
   final double factor;
-  final bool pickable;
 
   const Unit({
-    this.measure,
-    this.system,
+    required this.measure,
+    required this.system,
     required this.factor,
-    this.pickable = true,
   });
 
   String localName(BuildContext context) {

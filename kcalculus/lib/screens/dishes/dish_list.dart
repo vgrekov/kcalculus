@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
-import 'package:kcalculus/data/foods.dart';
+import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
+import 'package:kcalculus/data/dishes.dart';
+import 'package:kcalculus/models/dish.dart';
 import 'package:kcalculus/models/food.dart';
-import 'package:kcalculus/screens/foods/food_save.dart';
+import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -11,54 +13,60 @@ import 'package:kcalculus/widgets/edible_search_results.dart';
 import 'package:kcalculus/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
-class FoodListScreen extends ConsumerStatefulWidget {
-  const FoodListScreen({super.key});
+class DishListScreen extends ConsumerStatefulWidget {
+  const DishListScreen({super.key});
 
   @override
-  ConsumerState<FoodListScreen> createState() {
-    return _FoodListScreenState();
+  ConsumerState<DishListScreen> createState() {
+    return _DishListScreenState();
   }
 }
 
-class _FoodListScreenState extends ConsumerState<FoodListScreen>
+class _DishListScreenState extends ConsumerState<DishListScreen>
     with StateMessenger, ProgressiveState {
   final _searchController = TextEditingController();
 
   @override
   void initState() {
-    _searchController.text = ref.read(foodSearchQueryProvider).text;
+    _searchController.text = ref.read(dishSearchQueryProvider).text;
     super.initState();
   }
 
   void _updateSearchQuery(String query) {
-    ref.read(foodSearchQueryProvider.notifier).updateQuery(query);
+    ref.read(dishSearchQueryProvider.notifier).updateQuery(query);
   }
 
   void _resetSearchQuery() {
-    ref.read(foodSearchQueryProvider.notifier).reset();
+    ref.read(dishSearchQueryProvider.notifier).reset();
     setState(() {
       _searchController.text = '';
     });
   }
 
-  void _addFood() {
+  void _addDish() async {
+    ref.read(dishWizardProvider.notifier).reset();
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const SaveFoodScreen(),
+        builder: (context) => const DishWizardScreen(),
       ),
     );
   }
 
-  void _editFood(EdibleSearchResult searchResult) async {
+  void _editDish(EdibleSearchResult searchResult) async {
     showProgress();
 
     try {
-      final foodDao = await ref.read(foodDaoProvider);
-      Food? food = await foodDao.getById(searchResult.id!);
+      final dishDao = await ref.read(dishDaoProvider);
+      Dish? dish = await dishDao.getById(searchResult.id!);
       if (mounted) {
+        if (dish != null) {
+          ref.read(dishWizardProvider.notifier).load(dish);
+        } else {
+          ref.read(dishWizardProvider.notifier).reset();
+        }
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => SaveFoodScreen(food: food!),
+            builder: (context) => DishWizardScreen(),
           ),
         );
       }
@@ -69,18 +77,18 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     }
   }
 
-  void _deleteFood(EdibleSearchResult searchResult) async {
+  void _deleteDish(EdibleSearchResult searchResult) async {
     showProgress();
 
     try {
       final isDeleted =
-          await ref.read(foodsProvider.notifier).deleteFood(searchResult.id!);
+          await ref.read(dishesProvider.notifier).deleteDish(searchResult.id!);
 
       if (mounted) {
         if (isDeleted) {
-          showNotification(l10n(context).messageFoodDeletionSuccess);
+          showNotification(l10n(context).messageDishDeletionSuccess);
         } else {
-          showNotification(l10n(context).messageFoodDeletionFailure);
+          showNotification(l10n(context).messageDishDeletionFailure);
         }
       }
     } catch (error) {
@@ -98,9 +106,9 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
 
   @override
   Widget build(BuildContext context) {
-    final foods = ref.watch(foodsProvider);
+    final dishes = ref.watch(dishesProvider);
     return FutureBuilder(
-      future: foods,
+      future: dishes,
       builder: (context, snapshot) {
         final Widget? body;
         final isLoading = snapshot.connectionState == ConnectionState.waiting;
@@ -125,7 +133,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           body = Center(
             child: Text(
-              l10n(context).messageFoodSearchNothingFound,
+              l10n(context).messageDishSearchNothingFound,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),
@@ -134,16 +142,16 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
         } else {
           body = EdibleSearchResults(
             searchResults: snapshot.data!,
-            onSelectSearchResult: _editFood,
-            confirmDeleteMessage: l10n(context).messageFoodDeletionConfirmation,
-            onDeleteEdible: _deleteFood,
+            onSelectSearchResult: _editDish,
+            confirmDeleteMessage: l10n(context).messageDishDeletionConfirmation,
+            onDeleteEdible: _deleteDish,
           );
         }
 
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              l10n(context).screenFoods,
+              l10n(context).screenDishes,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
@@ -174,7 +182,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
           floatingActionButton: readonly
               ? null
               : FloatingActionButton(
-                  onPressed: _addFood,
+                  onPressed: _addDish,
                   shape: const CircleBorder(),
                   child: const Icon(Icons.add),
                 ),
@@ -184,7 +192,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
             color: Theme.of(context).colorScheme.surfaceContainer,
             padding: EdgeInsets.only(top: 32),
             child: const ScreenTabBar(
-              selectedTab: ScreenTab.foods,
+              selectedTab: ScreenTab.dishes,
             ),
           ),
         );

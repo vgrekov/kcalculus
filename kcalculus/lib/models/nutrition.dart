@@ -1,5 +1,6 @@
 import 'package:kcalculus/models/amount.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/utils/double_ext.dart';
 
 const fatCaloriesPerGram = 9;
 const carbsCaloriesPerGram = 4;
@@ -126,6 +127,25 @@ class NutrientData {
     return null;
   }
 
+  NutrientData withPrecision(int fractionDigits, [bool round = true]) {
+    return NutrientData(
+      calories: calories.withPrecision(fractionDigits, round),
+      fatInGrams: fatInGrams.withPrecision(fractionDigits, round),
+      carbsInGrams: carbsInGrams.withPrecision(fractionDigits, round),
+      fiberInGrams: fiberInGrams.withPrecision(fractionDigits, round),
+      proteinInGrams: proteinInGrams.withPrecision(fractionDigits, round),
+    );
+  }
+
+  NutritionFacts toFacts(NutritionRatio ratio) {
+    final factor = (ratio.perAmount.value * ratio.perAmount.unit.factor) /
+        (ratio.totalAmount.value * ratio.totalAmount.unit.factor);
+    return NutritionFacts(
+      amount: ratio.perAmount,
+      nutrientData: (this * factor).withPrecision(2),
+    );
+  }
+
   @override
   int get hashCode {
     return Object.hash(
@@ -158,11 +178,35 @@ class NutritionFacts {
   });
 
   NutritionFacts convertTo(Amount otherAmount) {
+    if (amount.unit.measure != otherAmount.unit.measure) {
+      throw 'Per amount and other amount must be of the same measure.';
+    }
+
     final factor = (otherAmount.unit.factor / amount.unit.factor) *
         (otherAmount.value / amount.value);
     return NutritionFacts(
       amount: amount,
       nutrientData: nutrientData * factor,
+    );
+  }
+
+  Amount convertAmount(
+    Amount amount, {
+    required NutritionFacts targetNutritionFacts,
+  }) {
+    if (this.amount.unit.measure != amount.unit.measure) {
+      throw 'Per amount and given amount must be of the same measure.';
+    }
+
+    final calories = nutrientData.calories *
+        (amount.unit.factor / this.amount.unit.factor) *
+        (amount.value / this.amount.value);
+
+    return Amount(
+      unit: targetNutritionFacts.amount.unit,
+      value: calories /
+          targetNutritionFacts.nutrientData.calories *
+          targetNutritionFacts.amount.value,
     );
   }
 
@@ -182,9 +226,28 @@ class NutritionFacts {
   }
 }
 
-mixin Nutritious {
-  Edible get edible;
-  Amount get amount;
+class NutritionRatio {
+  final Amount perAmount;
+  final Amount totalAmount;
+
+  NutritionRatio({
+    required this.perAmount,
+    required this.totalAmount,
+  }) {
+    if (perAmount.unit.measure != totalAmount.unit.measure) {
+      throw 'Both perAmount and totalAmount must be of the same measure.';
+    }
+  }
+}
+
+class Portion {
+  final Edible edible;
+  final Amount amount;
+
+  const Portion({
+    required this.edible,
+    required this.amount,
+  });
 
   NutrientData? getNutrientData() {
     final nutritionFacts = edible.getNutritionFacts();

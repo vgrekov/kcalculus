@@ -3,17 +3,13 @@ import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/models/identifiable.dart';
 import 'package:kcalculus/models/nutrition.dart';
 
-class Meal with Identifiable, Nutritious {
-  @override
-  final Edible edible;
-  @override
-  final Amount amount;
+class Meal extends Portion with Identifiable {
   final DateTime eatenAt;
 
   Meal({
     String? id,
-    required this.edible,
-    required this.amount,
+    required super.edible,
+    required super.amount,
     required this.eatenAt,
   }) {
     this.id = id;

@@ -4,10 +4,10 @@ import 'package:kcalculus/themes/macro_nutrients.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
-class DailyTotal extends StatelessWidget {
+class NutrientStats extends StatelessWidget {
   final NutrientData nutrientData;
 
-  const DailyTotal({
+  const NutrientStats({
     super.key,
     required this.nutrientData,
   });

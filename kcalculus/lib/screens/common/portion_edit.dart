@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/daily_log.dart';
 import 'package:kcalculus/models/amount.dart';
-import 'package:kcalculus/models/meal.dart';
+import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -11,21 +12,25 @@ import 'package:kcalculus/widgets/edible_name_input.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
-class EditMealScreen extends ConsumerStatefulWidget {
-  final Meal meal;
+class EditPortionScreen extends ConsumerStatefulWidget {
+  final String title;
+  final Portion portion;
+  final FutureOr<void> Function(Amount) onSavePortion;
 
-  const EditMealScreen({
+  const EditPortionScreen({
     super.key,
-    required this.meal,
+    required this.title,
+    required this.portion,
+    required this.onSavePortion,
   });
 
   @override
-  ConsumerState<EditMealScreen> createState() {
-    return _EditMealScreenState();
+  ConsumerState<EditPortionScreen> createState() {
+    return _EditPortionScreenState();
   }
 }
 
-class _EditMealScreenState extends ConsumerState<EditMealScreen>
+class _EditPortionScreenState extends ConsumerState<EditPortionScreen>
     with StateMessenger, ProgressiveState {
   late Amount _amount;
 
@@ -36,11 +41,11 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
 
   @override
   void initState() {
-    _amount = widget.meal.amount;
-    _nameController.text = widget.meal.edible.name;
-    _descriptionController.text = widget.meal.edible.description;
+    _amount = widget.portion.amount;
+    _nameController.text = widget.portion.edible.name;
+    _descriptionController.text = widget.portion.edible.description;
     _nutritionFactsController.nutritionFacts =
-        widget.meal.edible.getNutritionFacts();
+        widget.portion.edible.getNutritionFacts();
     super.initState();
   }
 
@@ -52,7 +57,7 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
     super.dispose();
   }
 
-  void _saveMeal() async {
+  void _savePortion() async {
     if (!_form.currentState!.validate()) {
       return;
     }
@@ -66,11 +71,8 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
     showProgress();
 
     try {
-      await ref.read(dailyLogProvider.notifier).updateMeal(
-            widget.meal.copyWith(
-              amount: _amount,
-            ),
-          );
+      await widget.onSavePortion(_amount);
+
       if (mounted) {
         Navigator.of(context).pop();
       }
@@ -89,7 +91,7 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
       showMessage(
         l10n(context).messageNoCommonMeasureError(
           _amount.unit.localName(context),
-          _amount.unit.measure!.localName(context),
+          _amount.unit.measure.localName(context),
         ),
         MessageType.error,
       );
@@ -105,14 +107,14 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          l10n(context).screenEditMeal,
+          widget.title,
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
         ),
         actions: [
           TextButton(
-            onPressed: _saveMeal,
+            onPressed: _savePortion,
             child: Text(l10n(context).actionSave),
           ),
         ],
@@ -141,7 +143,7 @@ class _EditMealScreenState extends ConsumerState<EditMealScreen>
               Form(
                 key: _form,
                 child: AmountInput(
-                  label: l10n(context).labelMealAmount,
+                  label: l10n(context).labelPortionAmount,
                   initialValue: _amount.value,
                   initialUnit: _amount.unit,
                   onSaveAmount: (amount) {

@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/local/dish_dao.dart';
 import 'package:kcalculus/data/local/edible_dao.dart';
 import 'package:kcalculus/data/local/food_dao.dart';
 import 'package:kcalculus/data/local/meal_dao.dart';
+import 'package:kcalculus/models/dish.dart';
 import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/models/meal.dart';
 
@@ -45,4 +47,16 @@ abstract interface class FoodDao {
 
 final foodDaoProvider = Provider<Future<FoodDao>>((ref) {
   return ref.watch(localFoodDaoProvider);
+});
+
+abstract interface class DishDao {
+  Future<void> save(Dish model);
+
+  Future<List<EdibleSearchResult>> search(String? query);
+
+  Future<Dish?> getById(String id);
+}
+
+final dishDaoProvider = Provider<Future<DishDao>>((ref) {
+  return ref.watch(localDishDaoProvider);
 });

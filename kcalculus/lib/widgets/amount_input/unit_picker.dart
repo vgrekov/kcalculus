@@ -30,29 +30,26 @@ class _UnitPickerState extends State<UnitPicker> {
     super.initState();
   }
 
-  void _selectMeasure(int index) {
-    setState(() {
-      _measure = Measure.values[index];
-    });
-  }
-
-  void _selectSystem(int index) {
-    setState(() {
-      _system = MeasureSystem.values[index];
-    });
-  }
-
   void _selectUnit(Unit unit) {
     Navigator.of(context).pop(unit);
   }
 
   @override
   Widget build(BuildContext context) {
-    final units = Unit.values.where((u) {
-      return u.pickable &&
-          u.measure == _measure &&
-          (u.system == null || u.system == _system);
-    }).toList();
+    final measures = Measure.pickableValues;
+
+    final systems = Unit.values
+        .where((u) => u.measure == _measure)
+        .map((u) => u.system)
+        .toSet()
+        .toList();
+    if (!systems.contains(_system)) {
+      _system = systems.first;
+    }
+
+    final units = Unit.values
+        .where((u) => u.measure == _measure && u.system == _system)
+        .toList();
 
     return Dialog(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
@@ -75,9 +72,9 @@ class _UnitPickerState extends State<UnitPicker> {
               child: PageView.builder(
                 controller: PageController(
                   viewportFraction: 0.8,
-                  initialPage: Measure.values.indexOf(_measure),
+                  initialPage: measures.indexOf(_measure),
                 ),
-                itemCount: Measure.values.length,
+                itemCount: measures.length,
                 itemBuilder: (context, index) {
                   return Card(
                     color: Theme.of(context).colorScheme.primaryContainer,
@@ -88,7 +85,7 @@ class _UnitPickerState extends State<UnitPicker> {
                     ),
                     child: Center(
                       child: Text(
-                        Measure.values[index].localName(context),
+                        measures[index].localName(context),
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: Theme.of(context)
                                   .colorScheme
@@ -98,7 +95,11 @@ class _UnitPickerState extends State<UnitPicker> {
                     ),
                   );
                 },
-                onPageChanged: _selectMeasure,
+                onPageChanged: (index) {
+                  setState(() {
+                    _measure = Measure.values[index];
+                  });
+                },
               ),
             ),
             SizedBox(
@@ -106,9 +107,9 @@ class _UnitPickerState extends State<UnitPicker> {
               child: PageView.builder(
                 controller: PageController(
                   viewportFraction: 0.8,
-                  initialPage: MeasureSystem.values.indexOf(_system),
+                  initialPage: systems.indexOf(_system),
                 ),
-                itemCount: MeasureSystem.values.length,
+                itemCount: systems.length,
                 itemBuilder: (context, index) {
                   return Card(
                     color: Theme.of(context).colorScheme.secondaryContainer,
@@ -119,7 +120,7 @@ class _UnitPickerState extends State<UnitPicker> {
                     ),
                     child: Center(
                       child: Text(
-                        MeasureSystem.values[index].localName(context),
+                        systems[index].localName(context),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Theme.of(context)
                                   .colorScheme
@@ -130,7 +131,11 @@ class _UnitPickerState extends State<UnitPicker> {
                     ),
                   );
                 },
-                onPageChanged: _selectSystem,
+                onPageChanged: (index) {
+                  setState(() {
+                    _system = MeasureSystem.values[index];
+                  });
+                },
               ),
             ),
             SizedBox(
