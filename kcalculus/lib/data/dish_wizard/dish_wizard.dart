@@ -106,27 +106,27 @@ class DishWizardNotifier extends Notifier<StateWrap<DishWizardState>> {
   @override
   StateWrap<DishWizardState> build() {
     final data = DishWizardState();
-    data.addListener(triggerStateChange);
+    data.addListener(_triggerStateChange);
 
     return StateWrap(data);
   }
 
   void load(Dish dish) {
-    state.data.removeListener(triggerStateChange);
+    state.data.removeListener(_triggerStateChange);
 
     final data = DishWizardState.fromDish(dish);
-    data.addListener(triggerStateChange);
+    data.addListener(_triggerStateChange);
 
     state = StateWrap(data);
   }
 
   void reset() {
-    state.data.removeListener(triggerStateChange);
+    state.data.removeListener(_triggerStateChange);
 
     state = build();
   }
 
-  void triggerStateChange() {
+  void _triggerStateChange() {
     state = StateWrap(state.data);
   }
 }

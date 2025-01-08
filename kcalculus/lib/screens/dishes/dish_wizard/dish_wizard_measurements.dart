@@ -51,8 +51,6 @@ class _DishWizardMeasurementsPageState
     _saveState();
 
     FocusManager.instance.primaryFocus?.unfocus();
-
-    ref.read(dishWizardProvider.notifier).triggerStateChange();
   }
 
   void _saveState() {
