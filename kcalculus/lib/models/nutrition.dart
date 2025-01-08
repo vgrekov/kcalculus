@@ -137,6 +137,15 @@ class NutrientData {
     );
   }
 
+  NutritionFacts toFacts(NutritionRatio ratio) {
+    final factor = (ratio.perAmount.value * ratio.perAmount.unit.factor) /
+        (ratio.totalAmount.value * ratio.totalAmount.unit.factor);
+    return NutritionFacts(
+      amount: ratio.perAmount,
+      nutrientData: (this * factor).withPrecision(2),
+    );
+  }
+
   @override
   int get hashCode {
     return Object.hash(
@@ -169,11 +178,35 @@ class NutritionFacts {
   });
 
   NutritionFacts convertTo(Amount otherAmount) {
+    if (amount.unit.measure != otherAmount.unit.measure) {
+      throw 'Per amount and other amount must be of the same measure.';
+    }
+
     final factor = (otherAmount.unit.factor / amount.unit.factor) *
         (otherAmount.value / amount.value);
     return NutritionFacts(
       amount: amount,
       nutrientData: nutrientData * factor,
+    );
+  }
+
+  Amount convertAmount(
+    Amount amount, {
+    required NutritionFacts targetNutritionFacts,
+  }) {
+    if (this.amount.unit.measure != amount.unit.measure) {
+      throw 'Per amount and given amount must be of the same measure.';
+    }
+
+    final calories = nutrientData.calories *
+        (amount.unit.factor / this.amount.unit.factor) *
+        (amount.value / this.amount.value);
+
+    return Amount(
+      unit: targetNutritionFacts.amount.unit,
+      value: calories /
+          targetNutritionFacts.nutrientData.calories *
+          targetNutritionFacts.amount.value,
     );
   }
 
@@ -190,6 +223,20 @@ class NutritionFacts {
     return other is NutritionFacts &&
         other.amount == amount &&
         other.nutrientData == nutrientData;
+  }
+}
+
+class NutritionRatio {
+  final Amount perAmount;
+  final Amount totalAmount;
+
+  NutritionRatio({
+    required this.perAmount,
+    required this.totalAmount,
+  }) {
+    if (perAmount.unit.measure != totalAmount.unit.measure) {
+      throw 'Both perAmount and totalAmount must be of the same measure.';
+    }
   }
 }
 

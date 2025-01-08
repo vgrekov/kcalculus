@@ -507,6 +507,7 @@ class NutritionFactsInputController extends ChangeNotifier {
   bool get isValid => _isValid;
 
   List<NutritionFacts>? get nutritionFacts => _nutritionFacts;
+
   set nutritionFacts(List<NutritionFacts>? value) {
     _nutritionFacts = value;
     _command = _NutritionFactsInputControllerCommand.load;

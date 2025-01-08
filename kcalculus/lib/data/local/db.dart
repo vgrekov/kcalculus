@@ -5,7 +5,7 @@ import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 const _dbName = 'kcalculus.db';
-const _dbVersion = 15;
+const _dbVersion = 16;
 const _sqlStatementSeparator = '--SQL-STATEMENT-SEPARATOR';
 
 final _migrationNumberFormatter = NumberFormat('000');

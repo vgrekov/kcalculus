@@ -167,11 +167,17 @@
     "dishWizardPageMain": "Main",
     "dishWizardPageIngredients": "Ingredients",
     "messageDishNoIngredientsError": "Please add some ingredients",
-    "dishWizardPageWeight": "Weight",
-    "labelWeightOptionCalculated": "Use calculated weight",
-    "labelWeightOptionManual": "Enter yourself",
-    "labelWeight": "Weight",
-    "messageDishSelectWeightOptionError": "Please select a weight option",
-    "messageDishCantCalculateWeight": "Unable to calculate weight",
+    "dishWizardPageMeasurements": "Measurements",
+    "labelTotal": "Total",
+    "labelEstimatedTotal": "Estimated total:",
+    "validationErrorAmountMustBeOfMeasure": "Must be {measure}",
+    "@validationErrorAmountMustBeOfMeasure": {
+        "placeholders": {
+            "measure": {
+                "type": "String"
+            }
+        }
+    },
+    "messageDishSelectMeasurementOptionError": "Please select at least one measurement option",
     "dishWizardPageSummary": "Summary"
 }

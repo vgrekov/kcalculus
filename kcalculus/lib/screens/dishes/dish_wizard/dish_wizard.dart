@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dish_wizard.dart';
+import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/data/dishes.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard_ingredients.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard_main.dart';
+import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard_measurements.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard_summary.dart';
-import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard_weight.dart';
 import 'package:kcalculus/utils/exceptions.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -107,7 +107,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
       DishWizardStep.ingredients => DishWizardIngredientsPage(
           key: pageKey,
         ),
-      DishWizardStep.weight => DishWizardWeightPage(
+      DishWizardStep.measurements => DishWizardMeasurementsPage(
           key: pageKey,
         ),
       DishWizardStep.summary => DishWizardSummaryPage(
@@ -135,6 +135,10 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
   void onPageChanged(int newIndex) {
     final wizardPage = getWizardPage(_currentPageIndex);
 
+    if (wizardPage != null) {
+      wizardPage.save(context, ref);
+    }
+
     bool stayPut = false;
     if (newIndex > _currentPageIndex) {
       if (wizardPage != null) {
@@ -145,9 +149,6 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     if (stayPut) {
       _pageController.jumpToPage(_currentPageIndex);
     } else {
-      if (wizardPage != null) {
-        wizardPage.save(context, ref);
-      }
       setState(() {
         _currentPageIndex = newIndex;
       });

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dish_wizard.dart';
+import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
+import 'package:kcalculus/data/dish_wizard/dish_wizard_main.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/widgets/text_input.dart';
@@ -29,6 +30,8 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
   late FocusNode _nameFocusNode;
   late FocusNode _descriptionFocusNode;
 
+  MainStepStateValidationResult? _stateValidationResult;
+
   @override
   void initState() {
     _nameFocusNode = FocusNode();
@@ -39,6 +42,8 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
 
   @override
   bool validate(BuildContext context, WidgetRef ref) {
+    _stateValidationResult =
+        ref.read(dishWizardProvider).data.mainStepState.validate();
     return _form.currentState!.validate();
   }
 
@@ -49,7 +54,7 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
   }
 
   String? _validateFoodName(String? value) {
-    if (value == null || value.trim().isEmpty) {
+    if (_stateValidationResult == MainStepStateValidationResult.nameMissing) {
       return l10n(context).validationErrorEdibleNameMissing;
     }
 
@@ -57,11 +62,11 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
   }
 
   void _saveName(String? value) {
-    ref.read(dishWizardProvider.notifier).setName(value!);
+    ref.read(dishWizardProvider).data.mainStepState.name = value;
   }
 
   void _saveDescription(String? value) {
-    ref.read(dishWizardProvider.notifier).setDescription(value!);
+    ref.read(dishWizardProvider).data.mainStepState.description = value;
   }
 
   @override
@@ -86,8 +91,8 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
   Widget build(BuildContext context) {
     final wizardState = ref.watch(dishWizardProvider).data;
 
-    _nameController.text = wizardState.name ?? '';
-    _descriptionController.text = wizardState.description ?? '';
+    _nameController.text = wizardState.mainStepState.name ?? '';
+    _descriptionController.text = wizardState.mainStepState.description ?? '';
 
     return SingleChildScrollView(
       child: Form(

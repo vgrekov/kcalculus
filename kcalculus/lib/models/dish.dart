@@ -10,28 +10,6 @@ class Ingredient extends Portion {
     required super.amount,
   });
 
-  double? getWeightInGrams() {
-    final nutritionFacts = edible.getNutritionFacts();
-    final sameMeasureNF = nutritionFacts
-        .where((nf) => nf.amount.unit.measure == amount.unit.measure)
-        .firstOrNull;
-    final massNF = nutritionFacts
-        .where((nf) => nf.amount.unit.measure == Measure.mass)
-        .firstOrNull;
-    if (sameMeasureNF != null && massNF != null) {
-      final calories = sameMeasureNF.nutrientData.calories *
-          (amount.unit.factor / sameMeasureNF.amount.unit.factor) *
-          (amount.value / sameMeasureNF.amount.value);
-      return calories /
-          massNF.nutrientData.calories *
-          massNF.amount.value *
-          massNF.amount.unit.factor /
-          Unit.gram.factor;
-    }
-
-    return null;
-  }
-
   Ingredient copyWith({
     Edible? edible,
     Amount? amount,
@@ -49,7 +27,7 @@ class Dish with Identifiable implements Edible {
   @override
   final String description;
   final List<Ingredient> ingredients;
-  final double weightInGrams;
+  final Map<Measure, NutritionRatio> nutritionRatios;
   @override
   final DateTime? createdAt;
   @override
@@ -60,7 +38,7 @@ class Dish with Identifiable implements Edible {
     required this.name,
     required this.description,
     required this.ingredients,
-    required this.weightInGrams,
+    required this.nutritionRatios,
     this.createdAt,
     this.updatedAt,
   }) {
@@ -75,11 +53,6 @@ class Dish with Identifiable implements Edible {
           NutrientData.empty(),
           (nd1, nd2) => nd1 + nd2,
         );
-    return [
-      NutritionFacts(
-        amount: Amount(unit: Unit.gram, value: 100),
-        nutrientData: (nutrientData * (100 / weightInGrams)).withPrecision(2),
-      ),
-    ];
+    return nutritionRatios.values.map(nutrientData.toFacts).toList();
   }
 }

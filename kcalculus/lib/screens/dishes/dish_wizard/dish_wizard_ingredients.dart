@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dish_wizard.dart';
+import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
+import 'package:kcalculus/data/dish_wizard/dish_wizard_ingredients.dart';
 import 'package:kcalculus/models/dish.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/screens/common/portion_add.dart';
@@ -23,7 +24,11 @@ class DishWizardIngredientsPage extends ConsumerWidget
         builder: (context) => AddPortionScreen(
           title: l10n(context).screenAddIngredient,
           onSavePortion: (edible, amount) {
-            ref.read(dishWizardProvider.notifier).addIngredient(
+            ref
+                .read(dishWizardProvider)
+                .data
+                .ingredientsStepState
+                .addIngredient(
                   Ingredient(
                     edible: edible,
                     amount: amount,
@@ -49,7 +54,11 @@ class DishWizardIngredientsPage extends ConsumerWidget
           title: l10n(context).screenEditIngredient,
           portion: ingredient,
           onSavePortion: (newAmount) {
-            ref.read(dishWizardProvider.notifier).replaceIngredientAt(
+            ref
+                .read(dishWizardProvider)
+                .data
+                .ingredientsStepState
+                .replaceIngredientAt(
                   index,
                   ingredient.copyWith(
                     amount: newAmount,
@@ -68,8 +77,11 @@ class DishWizardIngredientsPage extends ConsumerWidget
     int index,
   ) {
     try {
-      final isDeleted =
-          ref.read(dishWizardProvider.notifier).deleteIngredientAt(index);
+      final isDeleted = ref
+          .read(dishWizardProvider)
+          .data
+          .ingredientsStepState
+          .deleteIngredientAt(index);
 
       if (isDeleted) {
         showNotification(
@@ -85,8 +97,9 @@ class DishWizardIngredientsPage extends ConsumerWidget
 
   @override
   bool validate(BuildContext context, WidgetRef ref) {
-    final ingredients = ref.read(dishWizardProvider).data.ingredients;
-    if (ingredients.isEmpty) {
+    final stepState = ref.read(dishWizardProvider).data.ingredientsStepState;
+    if (stepState.validate() ==
+        IngredientsStepStateValidationResult.ingredientsMissing) {
       showNotification(context, l10n(context).messageDishNoIngredientsError);
       return false;
     }
@@ -102,6 +115,7 @@ class DishWizardIngredientsPage extends ConsumerWidget
     final totalNutrientData = ref
         .read(dishWizardProvider)
         .data
+        .ingredientsStepState
         .ingredients
         .map((m) => m.getNutrientData() ?? NutrientData.empty())
         .fold(
@@ -130,7 +144,8 @@ class DishWizardIngredientsPage extends ConsumerWidget
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ingredients = ref.watch(dishWizardProvider).data.ingredients;
+    final ingredients =
+        ref.watch(dishWizardProvider).data.ingredientsStepState.ingredients;
 
     final Widget body;
     if (ingredients.isEmpty) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
-import 'package:kcalculus/data/dish_wizard.dart';
+import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/data/dishes.dart';
 import 'package:kcalculus/models/dish.dart';
 import 'package:kcalculus/models/food.dart';
