@@ -91,7 +91,7 @@ class _EditPortionScreenState extends ConsumerState<EditPortionScreen>
       showMessage(
         l10n(context).messageNoCommonMeasureError(
           _amount.unit.localName(context),
-          _amount.unit.measure!.localName(context),
+          _amount.unit.measure.localName(context),
         ),
         MessageType.error,
       );
