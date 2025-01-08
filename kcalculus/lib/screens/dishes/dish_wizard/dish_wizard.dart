@@ -32,7 +32,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
   );
 
   void _saveDish() async {
-    final wizardPage = getWizardPage(_currentPageIndex);
+    final wizardPage = _getWizardPage(_currentPageIndex);
     if (wizardPage != null) {
       wizardPage.save(context, ref);
       if (!wizardPage.validate(context, ref)) {
@@ -97,7 +97,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     super.initState();
   }
 
-  Widget buildWizardPageWidget(DishWizardStep step) {
+  Widget _buildWizardPageWidget(DishWizardStep step) {
     final pageKey = _pageKeys[step];
     return switch (step) {
       DishWizardStep.main => DishWizardMainPage(
@@ -116,7 +116,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     };
   }
 
-  DishWizardPage? getWizardPage(int pageIndex) {
+  DishWizardPage? _getWizardPage(int pageIndex) {
     final currenPageKey = _pageKeys[DishWizardStep.values[_currentPageIndex]]!;
 
     final pageWidget = currenPageKey.currentWidget;
@@ -132,8 +132,8 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     return null;
   }
 
-  void onPageChanged(int newIndex) {
-    final wizardPage = getWizardPage(_currentPageIndex);
+  void _onPageChanged(int newIndex) {
+    final wizardPage = _getWizardPage(_currentPageIndex);
 
     if (wizardPage != null) {
       wizardPage.save(context, ref);
@@ -167,7 +167,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     final wizardState = ref.watch(dishWizardProvider).data;
 
     ScaffoldConfig? scaffoldConfig =
-        getWizardPage(_currentPageIndex)?.buildScaffoldConfig(context, ref);
+        _getWizardPage(_currentPageIndex)?.buildScaffoldConfig(context, ref);
 
     return Scaffold(
       appBar: AppBar(
@@ -205,9 +205,9 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
         itemCount: DishWizardStep.values.length,
         itemBuilder: (context, index) {
           final step = DishWizardStep.values[index];
-          return buildWizardPageWidget(step);
+          return _buildWizardPageWidget(step);
         },
-        onPageChanged: onPageChanged,
+        onPageChanged: _onPageChanged,
       ),
       floatingActionButton: scaffoldConfig?.floatingActionButton,
       floatingActionButtonLocation:
