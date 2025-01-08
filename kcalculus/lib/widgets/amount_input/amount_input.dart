@@ -23,6 +23,7 @@ class AmountInput extends StatefulWidget {
   final void Function(Amount?)? onSaveAmount;
   final FocusNode? focusNode;
   final bool autofocus;
+  final String? Function(String?)? validator;
 
   AmountInput({
     super.key,
@@ -40,6 +41,7 @@ class AmountInput extends StatefulWidget {
     this.onSaveAmount,
     this.focusNode,
     this.autofocus = false,
+    this.validator,
   }) {
     if (fixedUnit && initialUnit == null && initialAmount == null) {
       throw 'When fixed, a unit must be provided.';
@@ -134,7 +136,7 @@ class _AmountInputState extends State<AmountInput> {
       return l10n(context).validationErrorAmountValueNotPositive;
     }
 
-    return null;
+    return widget.validator != null ? widget.validator!(value) : null;
   }
 
   void _saveAmountValue(String? value) {
@@ -212,10 +214,14 @@ class AmountInputController extends ChangeNotifier {
   Unit? _unit;
   double? _value;
 
-  void setUnit(Unit unit) {
+  Unit? get unit => _unit;
+
+  void setUnit(Unit? unit) {
     _unit = unit;
     notifyListeners();
   }
+
+  double? get value => _value;
 
   void setValue(double? value) {
     _value = value;
