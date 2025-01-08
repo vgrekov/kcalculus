@@ -92,6 +92,11 @@ class DishWizardState with ChangeNotifier {
     };
   }
 
+  bool get hasChanges =>
+      mainStepState.hasChanges ||
+      ingredientsStepState.hasChanges ||
+      measurementsStepState.hasChanges;
+
   @override
   void dispose() {
     mainStepState.removeListener(notifyListeners);

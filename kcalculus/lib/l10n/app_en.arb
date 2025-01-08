@@ -179,5 +179,7 @@
         }
     },
     "messageDishSelectMeasurementOptionError": "Please select at least one measurement option",
-    "dishWizardPageSummary": "Summary"
+    "dishWizardPageSummary": "Summary",
+    "messageNewDishCancellationConfirmation": "Cancel dish creation?",
+    "messageEditDishCancellationConfirmation": "Cancel dish editing?"
 }

@@ -6,13 +6,17 @@ enum MainStepStateValidationResult {
 }
 
 class DishWizardMainStepState with ChangeNotifier {
-  String? name;
-  String? description;
+  String? _name;
+  String? _description;
+
+  bool _hasChanges;
 
   DishWizardMainStepState({
-    this.name,
-    this.description,
-  });
+    String? name,
+    String? description,
+  })  : _name = name,
+        _description = description,
+        _hasChanges = false;
 
   factory DishWizardMainStepState.fromDish(Dish cleanCopy) {
     return DishWizardMainStepState(
@@ -28,4 +32,26 @@ class DishWizardMainStepState with ChangeNotifier {
 
     return null;
   }
+
+  String? get name => _name;
+
+  set name(String? value) {
+    if ((_name ?? '') != (value ?? '')) {
+      _hasChanges = true;
+    }
+
+    _name = value;
+  }
+
+  String? get description => _description;
+
+  set description(String? value) {
+    if ((_description ?? '') != (value ?? '')) {
+      _hasChanges = true;
+    }
+
+    _description = value;
+  }
+
+  bool get hasChanges => _hasChanges;
 }

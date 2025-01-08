@@ -8,9 +8,12 @@ enum IngredientsStepStateValidationResult {
 class DishWizardIngredientsStepState with ChangeNotifier {
   List<Ingredient> ingredients;
 
+  bool _hasChanges;
+
   DishWizardIngredientsStepState({
     List<Ingredient>? ingredients,
-  }) : ingredients = ingredients ?? [];
+  })  : ingredients = ingredients ?? [],
+        _hasChanges = false;
 
   factory DishWizardIngredientsStepState.fromDish(Dish cleanCopy) {
     return DishWizardIngredientsStepState(
@@ -21,16 +24,23 @@ class DishWizardIngredientsStepState with ChangeNotifier {
   void addIngredient(Ingredient ingredient) {
     ingredients.add(ingredient);
     notifyListeners();
+
+    _hasChanges = true;
   }
 
   void replaceIngredientAt(int index, Ingredient ingredient) {
     ingredients[index] = ingredient;
     notifyListeners();
+
+    _hasChanges = true;
   }
 
   bool deleteIngredientAt(int index) {
     ingredients.removeAt(index);
     notifyListeners();
+
+    _hasChanges = true;
+
     return true;
   }
 
@@ -41,4 +51,6 @@ class DishWizardIngredientsStepState with ChangeNotifier {
 
     return null;
   }
+
+  bool get hasChanges => _hasChanges;
 }

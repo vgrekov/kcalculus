@@ -155,6 +155,31 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     }
   }
 
+  void _confirmCancellation() async {
+    final wizardPage = _getWizardPage(_currentPageIndex);
+
+    if (wizardPage != null) {
+      wizardPage.save(context, ref);
+    }
+
+    final wizardState = ref.read(dishWizardProvider).data;
+
+    final bool? shouldExit;
+    if (wizardState.hasChanges) {
+      shouldExit = await showConfirmation(
+        wizardState.id == null
+            ? l10n(context).messageNewDishCancellationConfirmation
+            : l10n(context).messageEditDishCancellationConfirmation,
+      );
+    } else {
+      shouldExit = true;
+    }
+
+    if (mounted && shouldExit == true) {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   void dispose() {
     _pageController.dispose();
@@ -169,63 +194,69 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     ScaffoldConfig? scaffoldConfig =
         _getWizardPage(_currentPageIndex)?.buildScaffoldConfig(context, ref);
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              wizardState.id == null
-                  ? l10n(context).screenAddDish
-                  : l10n(context).screenEditDish,
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  ),
-            ),
-            if (scaffoldConfig?.subtitle != null)
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) _confirmCancellation();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
               Text(
-                scaffoldConfig!.subtitle!,
-                style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
+                wizardState.id == null
+                    ? l10n(context).screenAddDish
+                    : l10n(context).screenEditDish,
+                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
               ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: _saveDish,
-            child: Text(l10n(context).actionSave),
+              if (scaffoldConfig?.subtitle != null)
+                Text(
+                  scaffoldConfig!.subtitle!,
+                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                ),
+            ],
           ),
-        ],
-      ),
-      body: PageView.builder(
-        controller: _pageController,
-        pageSnapping: true,
-        itemCount: DishWizardStep.values.length,
-        itemBuilder: (context, index) {
-          final step = DishWizardStep.values[index];
-          return _buildWizardPageWidget(step);
-        },
-        onPageChanged: _onPageChanged,
-      ),
-      floatingActionButton: scaffoldConfig?.floatingActionButton,
-      floatingActionButtonLocation:
-          scaffoldConfig?.floatingActionButtonLocation ??
-              FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(bottom: 16),
-        color: Theme.of(context).colorScheme.surfaceContainer,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (scaffoldConfig?.bottomNavigationBar != null)
-              scaffoldConfig!.bottomNavigationBar!,
-            PageIndicator(
-              pageController: _pageController,
-              pageCount: DishWizardStep.values.length,
+          actions: [
+            TextButton(
+              onPressed: _saveDish,
+              child: Text(l10n(context).actionSave),
             ),
           ],
+        ),
+        body: PageView.builder(
+          controller: _pageController,
+          pageSnapping: true,
+          itemCount: DishWizardStep.values.length,
+          itemBuilder: (context, index) {
+            final step = DishWizardStep.values[index];
+            return _buildWizardPageWidget(step);
+          },
+          onPageChanged: _onPageChanged,
+        ),
+        floatingActionButton: scaffoldConfig?.floatingActionButton,
+        floatingActionButtonLocation:
+            scaffoldConfig?.floatingActionButtonLocation ??
+                FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.only(bottom: 16),
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (scaffoldConfig?.bottomNavigationBar != null)
+                scaffoldConfig!.bottomNavigationBar!,
+              PageIndicator(
+                pageController: _pageController,
+                pageCount: DishWizardStep.values.length,
+              ),
+            ],
+          ),
         ),
       ),
     );

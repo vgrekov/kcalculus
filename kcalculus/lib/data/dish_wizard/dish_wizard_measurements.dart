@@ -15,21 +15,27 @@ enum NutritionRatioStateValidationResult {
 
 class NutritionRatioState {
   Measure measure;
-  Unit? perAmountUnit;
-  double? perAmountValue;
-  Unit? totalAmountUnit;
-  double? totalAmountValue;
-  bool enabled;
+  Unit? _perAmountUnit;
+  double? _perAmountValue;
+  Unit? _totalAmountUnit;
+  double? _totalAmountValue;
+  bool _enabled;
+
+  bool _hasChanges;
 
   NutritionRatioState({
     required this.measure,
     Unit? perAmountUnit,
-    this.perAmountValue,
+    double? perAmountValue,
     Unit? totalAmountUnit,
-    this.totalAmountValue,
-    this.enabled = false,
-  })  : perAmountUnit = perAmountUnit ?? Unit.defaultFor(measure),
-        totalAmountUnit = totalAmountUnit ?? Unit.defaultFor(measure);
+    double? totalAmountValue,
+    bool enabled = false,
+  })  : _perAmountUnit = perAmountUnit ?? Unit.defaultFor(measure),
+        _perAmountValue = perAmountValue,
+        _totalAmountUnit = totalAmountUnit ?? Unit.defaultFor(measure),
+        _totalAmountValue = totalAmountValue,
+        _enabled = enabled,
+        _hasChanges = false;
 
   factory NutritionRatioState.fromCleanCopy(NutritionRatio cleanCopy) {
     return NutritionRatioState(
@@ -45,15 +51,67 @@ class NutritionRatioState {
   NutritionRatio toCleanCopy() {
     return NutritionRatio(
       perAmount: Amount(
-        unit: perAmountUnit!,
-        value: perAmountValue!,
+        unit: _perAmountUnit!,
+        value: _perAmountValue!,
       ),
       totalAmount: Amount(
-        unit: totalAmountUnit!,
-        value: totalAmountValue!,
+        unit: _totalAmountUnit!,
+        value: _totalAmountValue!,
       ),
     );
   }
+
+  Unit? get perAmountUnit => _perAmountUnit;
+
+  set perAmountUnit(Unit? value) {
+    if (_perAmountUnit != value) {
+      _hasChanges = true;
+    }
+
+    _perAmountUnit = value;
+  }
+
+  double? get perAmountValue => _perAmountValue;
+
+  set perAmountValue(double? value) {
+    if (_perAmountValue != value) {
+      _hasChanges = true;
+    }
+
+    _perAmountValue = value;
+  }
+
+  Unit? get totalAmountUnit => _totalAmountUnit;
+
+  set totalAmountUnit(Unit? value) {
+    if (_totalAmountUnit != value) {
+      _hasChanges = true;
+    }
+
+    _totalAmountUnit = value;
+  }
+
+  double? get totalAmountValue => _totalAmountValue;
+
+  set totalAmountValue(double? value) {
+    if (_totalAmountValue != value) {
+      _hasChanges = true;
+    }
+
+    _totalAmountValue = value;
+  }
+
+  bool get enabled => _enabled;
+
+  set enabled(bool value) {
+    if (_enabled != value) {
+      _hasChanges = true;
+    }
+
+    _enabled = value;
+  }
+
+  bool get hasChanges => _hasChanges;
 }
 
 class MeasurementsStepStateValidationResult {
@@ -161,4 +219,6 @@ class DishWizardMeasurementsStepState with ChangeNotifier {
 
     return null;
   }
+
+  bool get hasChanges => nutritionRatioStates.any((rs) => rs.hasChanges);
 }
