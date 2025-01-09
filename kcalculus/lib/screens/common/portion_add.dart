@@ -293,7 +293,7 @@ class _AddPortionScreenState extends ConsumerState<AddPortionScreen>
                   hintText: l10n(context).hintEdibleDescription,
                   maxLength: 100,
                   maxLines: 2,
-                  textCapitalization: TextCapitalization.words,
+                  textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (value) {
                     _amountFocusNode.requestFocus();
