@@ -28,14 +28,16 @@ class EdibleSearchResultsItem extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      subtitle: Text(
-        searchResult.description,
-        style: Theme.of(context).textTheme.labelSmall!.copyWith(
-              color: Theme.of(context).colorScheme.primary,
+      subtitle: searchResult.description.isEmpty
+          ? null
+          : Text(
+              searchResult.description,
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
       trailing: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
