@@ -10,6 +10,7 @@ import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/models/units.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
+import 'package:kcalculus/utils/exceptions.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -28,6 +29,8 @@ class LocalDishDao implements DishDao {
 
   @override
   Future<void> save(Dish model, {Transaction? txn}) async {
+    await _checkForIngredientsCycle(model);
+
     if (txn != null) {
       await _save(model, txn: txn);
     } else {
@@ -65,6 +68,24 @@ class LocalDishDao implements DishDao {
       dishDao: this,
       txn: txn,
     );
+  }
+
+  Future<void> _checkForIngredientsCycle(Dish model) async {
+    if (model.id == null) return;
+
+    final ingredientDishes = model.ingredients
+        .where((i) => i.edible is Dish && i.edible.id != null)
+        .map((i) => i.edible);
+
+    if (ingredientDishes.isEmpty) return;
+
+    final hierarchies = await Future.wait(
+        ingredientDishes.map((e) => ingredientDao.getHierarchyByDishId(e.id!)));
+    final fullHierarchy = hierarchies.reduce((h1, h2) => h1.union(h2));
+
+    if (fullHierarchy.contains(model.id!)) {
+      throw IngredientsCycleException();
+    }
   }
 
   @override

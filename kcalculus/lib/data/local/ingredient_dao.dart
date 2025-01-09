@@ -69,6 +69,29 @@ class LocalIngredientDao {
         .toList()));
   }
 
+  Future<Set<String>> getHierarchyByDishId(String dishId) {
+    return db.rawQuery(
+      '''
+      WITH RECURSIVE hierarchy(id) AS (
+        VALUES(?)
+        UNION
+        SELECT
+          ingredients.edible_id
+        FROM
+          ingredients,
+          hierarchy
+        WHERE
+          ingredients.dish_id = hierarchy.id
+      )
+      SELECT
+        hierarchy.id AS id
+      FROM
+        hierarchy;
+      ''',
+      [dishId],
+    ).then((data) => data.map((record) => record['id'] as String).toSet());
+  }
+
   Future<bool> deleteByDishId(String dishId, {Transaction? txn}) async {
     DatabaseExecutor executor = txn ?? db;
 
