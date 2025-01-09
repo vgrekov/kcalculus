@@ -181,7 +181,7 @@ enum Unit {
   static Unit defaultFor(Measure measure) {
     return switch (measure) {
       Measure.mass => Unit.gram,
-      Measure.volume => Unit.litre,
+      Measure.volume => Unit.millilitre,
       Measure.quantity => Unit.piece,
       Measure.energy => Unit.calorie,
     };
