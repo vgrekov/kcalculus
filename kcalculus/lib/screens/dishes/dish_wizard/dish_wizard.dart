@@ -69,7 +69,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
           actions: {
             l10n(context).actionOk: () {
               _pageController.animateToPage(
-                0,
+                DishWizardStep.values.indexOf(DishWizardStep.main),
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.linear,
               );
@@ -77,6 +77,15 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
           },
           messageType: MessageType.error,
         );
+      }
+    } on IngredientsCycleException {
+      if (mounted) {
+        _pageController.animateToPage(
+          DishWizardStep.values.indexOf(DishWizardStep.ingredients),
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.linear,
+        );
+        showNotification(l10n(context).validationErrorIngredientsCycleDetected);
       }
     } catch (error) {
       showNotification(error.toString());
