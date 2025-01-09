@@ -191,7 +191,7 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
                   hintText: l10n(context).hintEdibleDescription,
                   maxLength: 100,
                   maxLines: 2,
-                  textCapitalization: TextCapitalization.words,
+                  textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (value) {
                     _nutritionFactsFocusNode.requestFocus();

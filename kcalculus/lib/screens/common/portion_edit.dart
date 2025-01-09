@@ -136,7 +136,7 @@ class _EditPortionScreenState extends ConsumerState<EditPortionScreen>
                 hintText: l10n(context).hintEdibleDescription,
                 maxLength: 100,
                 maxLines: 2,
-                textCapitalization: TextCapitalization.words,
+                textCapitalization: TextCapitalization.sentences,
                 enabled: false,
               ),
               const SizedBox(height: 8),
