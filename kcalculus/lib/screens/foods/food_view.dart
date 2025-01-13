@@ -6,6 +6,7 @@ import 'package:kcalculus/screens/foods/food_save.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
+import 'package:kcalculus/widgets/edible_main_info.dart';
 import 'package:kcalculus/widgets/macro_split_view.dart';
 import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 
@@ -110,32 +111,8 @@ class _ViewFoodScreenState extends ConsumerState<ViewFoodScreen>
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.food.name,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        widget.food.description,
-                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
-                      ),
-                    ],
+                  child: EdibleMainInfo(
+                    edible: widget.food,
                   ),
                 ),
                 TabBar(

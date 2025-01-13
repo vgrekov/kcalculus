@@ -8,6 +8,7 @@ import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
+import 'package:kcalculus/widgets/edible_main_info.dart';
 import 'package:kcalculus/widgets/ingredient_list.dart';
 import 'package:kcalculus/widgets/nutrient_stats.dart';
 import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart';
@@ -120,32 +121,8 @@ class _ViewDishScreenState extends ConsumerState<ViewDishScreen>
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.dish.name,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        widget.dish.description,
-                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
-                      ),
-                    ],
+                  child: EdibleMainInfo(
+                    edible: widget.dish,
                   ),
                 ),
                 TabBar(
