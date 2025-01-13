@@ -5,6 +5,7 @@ import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/data/dishes.dart';
 import 'package:kcalculus/models/dish.dart';
 import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/screens/dishes/dish_view.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -52,21 +53,16 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
     );
   }
 
-  void _editDish(EdibleSearchResult searchResult) async {
+  void _viewDish(EdibleSearchResult searchResult) async {
     showProgress();
 
     try {
       final dishDao = await ref.read(dishDaoProvider);
       Dish? dish = await dishDao.getById(searchResult.id!);
-      if (mounted) {
-        if (dish != null) {
-          ref.read(dishWizardProvider.notifier).load(dish);
-        } else {
-          ref.read(dishWizardProvider.notifier).reset();
-        }
+      if (dish != null && mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => DishWizardScreen(),
+            builder: (context) => ViewDishScreen(dish: dish),
           ),
         );
       }
@@ -142,7 +138,7 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
         } else {
           body = EdibleSearchResults(
             searchResults: snapshot.data!,
-            onSelectSearchResult: _editDish,
+            onSelectSearchResult: _viewDish,
             confirmDeleteMessage: l10n(context).messageDishDeletionConfirmation,
             onDeleteEdible: _deleteDish,
           );

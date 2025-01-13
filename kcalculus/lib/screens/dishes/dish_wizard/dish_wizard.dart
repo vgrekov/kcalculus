@@ -210,6 +210,14 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
       },
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: _confirmCancellation,
+            icon: Icon(
+              Icons.close,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            ),
+          ),
           centerTitle: true,
           title: Column(
             mainAxisSize: MainAxisSize.min,

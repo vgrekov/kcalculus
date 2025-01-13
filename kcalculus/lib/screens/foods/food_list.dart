@@ -4,6 +4,7 @@ import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/screens/foods/food_save.dart';
+import 'package:kcalculus/screens/foods/food_view.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -49,7 +50,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     );
   }
 
-  void _editFood(EdibleSearchResult searchResult) async {
+  void _viewFood(EdibleSearchResult searchResult) async {
     showProgress();
 
     try {
@@ -58,7 +59,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
       if (mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => SaveFoodScreen(food: food!),
+            builder: (context) => ViewFoodScreen(food: food!),
           ),
         );
       }
@@ -134,7 +135,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
         } else {
           body = EdibleSearchResults(
             searchResults: snapshot.data!,
-            onSelectSearchResult: _editFood,
+            onSelectSearchResult: _viewFood,
             confirmDeleteMessage: l10n(context).messageFoodDeletionConfirmation,
             onDeleteEdible: _deleteFood,
           );

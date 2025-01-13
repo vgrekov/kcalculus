@@ -179,8 +179,9 @@
         }
     },
     "messageDishSelectMeasurementOptionError": "Please select at least one measurement option",
-    "dishWizardPageSummary": "Summary",
+    "dishWizardPageSummary": "Nutrition Facts",
     "messageNewDishCancellationConfirmation": "Cancel dish creation?",
     "messageEditDishCancellationConfirmation": "Cancel dish editing?",
-    "validationErrorIngredientsCycleDetected": "Sorry, this would create a dish-ingredient cycle."
+    "validationErrorIngredientsCycleDetected": "Sorry, this would create a dish-ingredient cycle.",
+    "titleIngredients": "Ingredients"
 }
