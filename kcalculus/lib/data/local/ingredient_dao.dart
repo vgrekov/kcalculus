@@ -86,7 +86,7 @@ class LocalIngredientDao {
       SELECT
         hierarchy.id AS id
       FROM
-        hierarchy;
+        hierarchy
       ''',
       [dishId],
     ).then((data) => data.map((record) => record['id'] as String).toSet());
