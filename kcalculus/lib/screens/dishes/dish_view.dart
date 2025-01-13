@@ -26,6 +26,15 @@ class ViewDishScreen extends ConsumerWidget {
     );
   }
 
+  void _copyDish(BuildContext context, WidgetRef ref) {
+    ref.read(dishWizardProvider.notifier).load(dish.copy());
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => DishWizardScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final nutritionFacts = dish.getNutritionFacts();
@@ -41,6 +50,15 @@ class ViewDishScreen extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           actions: [
+            IconButton(
+              onPressed: () {
+                _copyDish(context, ref);
+              },
+              icon: Icon(
+                Icons.copy,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
             IconButton(
               onPressed: () {
                 _editDish(context, ref);

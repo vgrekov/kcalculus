@@ -3,6 +3,7 @@ import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/models/identifiable.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/models/units.dart';
+import 'package:kcalculus/utils/string_ext.dart';
 
 class Ingredient extends Portion {
   Ingredient({
@@ -43,6 +44,15 @@ class Dish with Identifiable implements Edible {
     this.updatedAt,
   }) {
     this.id = id;
+  }
+
+  Dish copy() {
+    return Dish(
+      name: name.nextVersion(),
+      description: description,
+      ingredients: ingredients,
+      nutritionRatios: nutritionRatios,
+    );
   }
 
   @override

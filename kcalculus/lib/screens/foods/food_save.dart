@@ -157,7 +157,7 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
         ),
         centerTitle: true,
         title: Text(
-          widget.food != null
+          widget.food?.id != null
               ? l10n(context).screenEditFood
               : l10n(context).screenAddFood,
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(

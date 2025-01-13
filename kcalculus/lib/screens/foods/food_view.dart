@@ -21,6 +21,14 @@ class ViewFoodScreen extends StatelessWidget {
     );
   }
 
+  void _copyFood(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => SaveFoodScreen(food: food.copy()),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final nutritionFacts = food.getNutritionFacts();
@@ -31,6 +39,15 @@ class ViewFoodScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           actions: [
+            IconButton(
+              onPressed: () {
+                _copyFood(context);
+              },
+              icon: Icon(
+                Icons.copy,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
             IconButton(
               onPressed: () {
                 _editFood(context);

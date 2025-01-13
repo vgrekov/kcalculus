@@ -1,5 +1,6 @@
 import 'package:kcalculus/models/identifiable.dart';
 import 'package:kcalculus/models/nutrition.dart';
+import 'package:kcalculus/utils/string_ext.dart';
 
 abstract interface class Edible with Identifiable {
   String get name;
@@ -30,6 +31,14 @@ class Food with Identifiable implements Edible {
     this.updatedAt,
   }) {
     super.id = id;
+  }
+
+  Food copy() {
+    return Food(
+      name: name.nextVersion(),
+      description: description,
+      nutritionFacts: nutritionFacts,
+    );
   }
 
   @override
