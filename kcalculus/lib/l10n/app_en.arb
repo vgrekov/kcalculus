@@ -37,6 +37,7 @@
     "formatTime": "HH:mm",
     "formatDouble": "##0.##",
     "messageUnknownError": "Oops.. Something went wrong...",
+    "validationErrorMaxLengthExceeded": "Value exceeds the maximum allowed length",
     "screenMeals": "Daily Log",
     "messageMealDeletionSuccess": "Meal deleted",
     "messageMealDeletionFailure": "Failed to delete the meal",

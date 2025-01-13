@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kcalculus/utils/l10n.dart';
 
 class TextInput extends StatelessWidget {
   final TextEditingController? controller;
@@ -40,6 +41,18 @@ class TextInput extends StatelessWidget {
     this.enabled = true,
   });
 
+  String? _validate(BuildContext context, String? value) {
+    if (maxLength != null && value != null && value.length > maxLength!) {
+      return l10n(context).validationErrorMaxLengthExceeded;
+    }
+
+    if (validator != null) {
+      return validator!(value);
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -72,7 +85,9 @@ class TextInput extends StatelessWidget {
       textInputAction: textInputAction,
       onFieldSubmitted: onFieldSubmitted,
       autocorrect: false,
-      validator: validator,
+      validator: (value) {
+        return _validate(context, value);
+      },
       onChanged: onChanged,
       onSaved: onSaved,
       focusNode: focusNode,
