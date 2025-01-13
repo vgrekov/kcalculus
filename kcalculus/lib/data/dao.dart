@@ -31,6 +31,8 @@ abstract interface class EdibleDao {
   });
 
   Future<bool> delete(String id);
+
+  Future<bool> wasEaten(String id);
 }
 
 final edibleDaoProvider = Provider<Future<EdibleDao>>((ref) {

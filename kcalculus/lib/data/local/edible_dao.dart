@@ -145,6 +145,35 @@ class LocalEdibleDao implements EdibleDao {
     return count > 0;
   }
 
+  @override
+  Future<bool> wasEaten(String id) {
+    return db.rawQuery(
+      '''
+      WITH RECURSIVE hierarchy_up(id) AS (
+        VALUES(?)
+        UNION ALL
+        SELECT
+          ingredients.dish_id
+        FROM
+          ingredients,
+          hierarchy_up
+        WHERE
+          ingredients.edible_id = hierarchy_up.id
+      )
+      SELECT
+        1
+      FROM
+        meals,
+        hierarchy_up
+      WHERE
+        meals.edible_id = hierarchy_up.id
+        AND meals.deleted_at IS NULL
+      LIMIT 1
+      ''',
+      [id],
+    ).then((data) => data.isNotEmpty);
+  }
+
   EdibleSearchResult _fromSearchResultRecord(Map<String, Object?> record) {
     return EdibleSearchResult(
       id: record['id'] as String,

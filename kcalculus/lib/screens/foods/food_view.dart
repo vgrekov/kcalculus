@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/screens/foods/food_save.dart';
@@ -55,7 +56,34 @@ class _ViewFoodScreenState extends ConsumerState<ViewFoodScreen>
     }
   }
 
-  void _editFood() {
+  void _editFood() async {
+    final edibleDao = await ref.read(edibleDaoProvider);
+    final wasEaten = await edibleDao.wasEaten(widget.food.id!);
+
+    if (wasEaten) {
+      if (mounted) {
+        final editConfirmed = await showMessageDialog<bool>(
+          message: l10n(context).messageConfirmEatenEdibleEdit,
+          actions: {
+            l10n(context).actionEdit: () => true,
+            l10n(context).actionCopy: () => false,
+            l10n(context).actionCancel: () => null,
+          },
+          messageType: MessageType.warning,
+        );
+
+        if (editConfirmed == true) {
+          _doEditFood();
+        } else if (editConfirmed == false) {
+          _copyFood();
+        }
+      }
+    } else {
+      _doEditFood();
+    }
+  }
+
+  void _doEditFood() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => SaveFoodScreen(food: widget.food),
