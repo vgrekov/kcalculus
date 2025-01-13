@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/screens/foods/food_save.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:kcalculus/utils/messenger.dart';
+import 'package:kcalculus/utils/progressive.dart';
+import 'package:kcalculus/widgets/edible_main_info.dart';
 import 'package:kcalculus/widgets/macro_split_view.dart';
 import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 
-class ViewFoodScreen extends StatelessWidget {
+class ViewFoodScreen extends ConsumerStatefulWidget {
   final Food food;
 
   const ViewFoodScreen({
@@ -13,25 +18,62 @@ class ViewFoodScreen extends StatelessWidget {
     required this.food,
   });
 
-  void _editFood(BuildContext context) {
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _ViewFoodScreenState();
+  }
+}
+
+class _ViewFoodScreenState extends ConsumerState<ViewFoodScreen>
+    with ProgressiveState, StateMessenger {
+  void _deleteFood() async {
+    final deleteConfirmed = await showConfirmation(
+          l10n(context).messageFoodDeletionConfirmation,
+        ) ??
+        false;
+    if (!deleteConfirmed) return;
+
+    showProgress();
+
+    try {
+      final isDeleted =
+          await ref.read(foodsProvider.notifier).deleteFood(widget.food.id!);
+
+      if (mounted) {
+        Navigator.of(context).pop();
+
+        if (isDeleted) {
+          showNotification(l10n(context).messageFoodDeletionSuccess);
+        } else {
+          showNotification(l10n(context).messageFoodDeletionFailure);
+        }
+      }
+    } catch (error) {
+      showNotification(error.toString());
+    } finally {
+      hideProgress();
+    }
+  }
+
+  void _editFood() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => SaveFoodScreen(food: food),
+        builder: (context) => SaveFoodScreen(food: widget.food),
       ),
     );
   }
 
-  void _copyFood(BuildContext context) {
+  void _copyFood() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => SaveFoodScreen(food: food.copy()),
+        builder: (context) => SaveFoodScreen(food: widget.food.copy()),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final nutritionFacts = food.getNutritionFacts();
+    final nutritionFacts = widget.food.getNutritionFacts();
     final macroSplit = nutritionFacts.firstOrNull?.nutrientData.getMacroSplit();
 
     return DefaultTabController(
@@ -40,20 +82,23 @@ class ViewFoodScreen extends StatelessWidget {
         appBar: AppBar(
           actions: [
             IconButton(
-              onPressed: () {
-                _copyFood(context);
-              },
+              onPressed: _copyFood,
               icon: Icon(
                 Icons.copy,
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
             IconButton(
-              onPressed: () {
-                _editFood(context);
-              },
+              onPressed: _editFood,
               icon: Icon(
                 Icons.edit,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
+            IconButton(
+              onPressed: _deleteFood,
+              icon: Icon(
+                Icons.delete,
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
@@ -65,37 +110,13 @@ class ViewFoodScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        food.name,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        food.description,
-                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
-                      ),
-                    ],
+                  padding: const EdgeInsets.all(8),
+                  child: EdibleMainInfo(
+                    edible: widget.food,
                   ),
                 ),
                 TabBar(
-                  tabs: <Widget>[
+                  tabs: [
                     Tab(
                       text: l10n(context).titleNutritionFacts,
                     ),

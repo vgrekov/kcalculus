@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
+import 'package:kcalculus/data/dishes.dart';
 import 'package:kcalculus/models/dish.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:kcalculus/utils/messenger.dart';
+import 'package:kcalculus/utils/progressive.dart';
+import 'package:kcalculus/widgets/edible_main_info.dart';
 import 'package:kcalculus/widgets/ingredient_list.dart';
 import 'package:kcalculus/widgets/nutrient_stats.dart';
 import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 
-class ViewDishScreen extends ConsumerWidget {
+class ViewDishScreen extends ConsumerStatefulWidget {
   final Dish dish;
 
   const ViewDishScreen({
@@ -17,8 +21,45 @@ class ViewDishScreen extends ConsumerWidget {
     required this.dish,
   });
 
-  void _editDish(BuildContext context, WidgetRef ref) {
-    ref.read(dishWizardProvider.notifier).load(dish);
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _ViewDishScreenState();
+  }
+}
+
+class _ViewDishScreenState extends ConsumerState<ViewDishScreen>
+    with ProgressiveState, StateMessenger {
+  void _deleteDish() async {
+    final deleteConfirmed = await showConfirmation(
+          l10n(context).messageDishDeletionConfirmation,
+        ) ??
+        false;
+    if (!deleteConfirmed) return;
+
+    showProgress();
+
+    try {
+      final isDeleted =
+          await ref.read(dishesProvider.notifier).deleteDish(widget.dish.id!);
+
+      if (mounted) {
+        Navigator.of(context).pop();
+
+        if (isDeleted) {
+          showNotification(l10n(context).messageDishDeletionSuccess);
+        } else {
+          showNotification(l10n(context).messageDishDeletionFailure);
+        }
+      }
+    } catch (error) {
+      showNotification(error.toString());
+    } finally {
+      hideProgress();
+    }
+  }
+
+  void _editDish() {
+    ref.read(dishWizardProvider.notifier).load(widget.dish);
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => DishWizardScreen(),
@@ -26,8 +67,8 @@ class ViewDishScreen extends ConsumerWidget {
     );
   }
 
-  void _copyDish(BuildContext context, WidgetRef ref) {
-    ref.read(dishWizardProvider.notifier).load(dish.copy());
+  void _copyDish() {
+    ref.read(dishWizardProvider.notifier).load(widget.dish.copy());
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => DishWizardScreen(),
@@ -36,9 +77,9 @@ class ViewDishScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final nutritionFacts = dish.getNutritionFacts();
-    final totalNutrientData = dish.ingredients
+  Widget build(BuildContext context) {
+    final nutritionFacts = widget.dish.getNutritionFacts();
+    final totalNutrientData = widget.dish.ingredients
         .map((m) => m.getNutrientData() ?? NutrientData.empty())
         .fold(
           NutrientData.empty(),
@@ -51,20 +92,23 @@ class ViewDishScreen extends ConsumerWidget {
         appBar: AppBar(
           actions: [
             IconButton(
-              onPressed: () {
-                _copyDish(context, ref);
-              },
+              onPressed: _copyDish,
               icon: Icon(
                 Icons.copy,
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
             IconButton(
-              onPressed: () {
-                _editDish(context, ref);
-              },
+              onPressed: _editDish,
               icon: Icon(
                 Icons.edit,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
+            IconButton(
+              onPressed: _deleteDish,
+              icon: Icon(
+                Icons.delete,
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
@@ -76,37 +120,13 @@ class ViewDishScreen extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        dish.name,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        dish.description,
-                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
-                      ),
-                    ],
+                  padding: const EdgeInsets.all(8),
+                  child: EdibleMainInfo(
+                    edible: widget.dish,
                   ),
                 ),
                 TabBar(
-                  tabs: <Widget>[
+                  tabs: [
                     Tab(
                       text: l10n(context).titleNutritionFacts,
                     ),
@@ -127,7 +147,7 @@ class ViewDishScreen extends ConsumerWidget {
                     ),
                   ),
                   IngredientList(
-                    ingredients: dish.ingredients,
+                    ingredients: widget.dish.ingredients,
                   ),
                 ],
               ),
