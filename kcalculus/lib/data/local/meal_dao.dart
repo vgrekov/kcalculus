@@ -93,6 +93,20 @@ class LocalMealDao implements MealDao {
     return count > 0;
   }
 
+  @override
+  Future<bool> restore(String id) async {
+    final count = await db.update(
+      'meals',
+      {
+        'deleted_at': null,
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    return count > 0;
+  }
+
   Future<Meal> _fromRecord(Map<String, Object?> record) async {
     Edible? edible;
     if (record['food_id'] != null) {

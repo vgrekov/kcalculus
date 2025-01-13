@@ -34,6 +34,13 @@ class MealsNotifier extends Notifier<Future<List<Meal>>> {
     return result;
   }
 
+  Future<bool> restoreMeal(String mealId) async {
+    final mealDao = await ref.read(mealDaoProvider);
+    final result = await mealDao.restore(mealId);
+    refresh();
+    return result;
+  }
+
   void refresh() {
     ref.read(logDateProvider.notifier).selectDate(DateTime.now());
   }
