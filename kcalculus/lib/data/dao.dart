@@ -34,6 +34,8 @@ abstract interface class EdibleDao {
 
   Future<bool> delete(String id);
 
+  Future<bool> restore(String id);
+
   Future<bool> wasEaten(String id);
 }
 
