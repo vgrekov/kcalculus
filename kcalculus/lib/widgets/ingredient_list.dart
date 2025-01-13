@@ -6,14 +6,14 @@ import 'package:kcalculus/widgets/ingredient_list_item.dart';
 
 class IngredientList extends StatelessWidget with Messenger {
   final List<Ingredient> ingredients;
-  final void Function(Ingredient ingredient, int index) onSelectIngredient;
-  final void Function(Ingredient ingredient, int index) onDeleteIngredient;
+  final void Function(Ingredient ingredient, int index)? onSelectIngredient;
+  final void Function(Ingredient ingredient, int index)? onDeleteIngredient;
 
   const IngredientList({
     super.key,
     required this.ingredients,
-    required this.onSelectIngredient,
-    required this.onDeleteIngredient,
+    this.onSelectIngredient,
+    this.onDeleteIngredient,
   });
 
   @override
@@ -22,39 +22,47 @@ class IngredientList extends StatelessWidget with Messenger {
       itemCount: ingredients.length,
       itemBuilder: (context, index) {
         final ingredient = ingredients[index];
-        return Dismissible(
-          key: UniqueKey(),
-          direction: DismissDirection.endToStart,
-          confirmDismiss: (direction) async {
-            return await showConfirmation(
-                  context,
-                  l10n(context).messageIngredientDeletionConfirmation,
-                ) ??
-                false;
-          },
-          onDismissed: (direction) {
-            onDeleteIngredient(ingredient, index);
-          },
-          background: Container(
-            color: Theme.of(context).colorScheme.tertiaryContainer,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Icon(
-                  Icons.delete,
-                  color: Theme.of(context).colorScheme.onTertiaryContainer,
-                ),
-              ),
-            ),
-          ),
-          child: IngredientListItem(
-            ingredient: ingredient,
-            onSelectIngredient: (ingredient) {
-              onSelectIngredient(ingredient, index);
-            },
-          ),
+
+        final ingredientListItem = IngredientListItem(
+          ingredient: ingredient,
+          onSelectIngredient: onSelectIngredient == null
+              ? null
+              : (ingredient) {
+                  onSelectIngredient!(ingredient, index);
+                },
         );
+
+        return onDeleteIngredient == null
+            ? ingredientListItem
+            : Dismissible(
+                key: UniqueKey(),
+                direction: DismissDirection.endToStart,
+                confirmDismiss: (direction) async {
+                  return await showConfirmation(
+                        context,
+                        l10n(context).messageIngredientDeletionConfirmation,
+                      ) ??
+                      false;
+                },
+                onDismissed: (direction) {
+                  onDeleteIngredient!(ingredient, index);
+                },
+                background: Container(
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Icon(
+                        Icons.delete,
+                        color:
+                            Theme.of(context).colorScheme.onTertiaryContainer,
+                      ),
+                    ),
+                  ),
+                ),
+                child: ingredientListItem,
+              );
       },
     );
   }

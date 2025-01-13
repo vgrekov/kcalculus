@@ -5,21 +5,23 @@ import 'package:kcalculus/utils/number.dart' as nb;
 
 class IngredientListItem extends StatelessWidget {
   final Ingredient ingredient;
-  final void Function(Ingredient ingredient) onSelectIngredient;
+  final void Function(Ingredient ingredient)? onSelectIngredient;
 
   const IngredientListItem({
     super.key,
     required this.ingredient,
-    required this.onSelectIngredient,
+    this.onSelectIngredient,
   });
 
   @override
   Widget build(BuildContext context) {
     final nutrientData = ingredient.getNutrientData();
     return ListTile(
-      onTap: () {
-        onSelectIngredient(ingredient);
-      },
+      onTap: onSelectIngredient == null
+          ? null
+          : () {
+              onSelectIngredient!(ingredient);
+            },
       key: UniqueKey(),
       title: Text(
         ingredient.edible.name,
