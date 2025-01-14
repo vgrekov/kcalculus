@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
-import 'package:kcalculus/data/dishes.dart';
 import 'package:kcalculus/models/dish.dart';
 import 'package:kcalculus/models/nutrition.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
@@ -16,10 +15,12 @@ import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart
 
 class ViewDishScreen extends ConsumerStatefulWidget {
   final Dish dish;
+  final void Function(String id)? onDeleteDish;
 
   const ViewDishScreen({
     super.key,
     required this.dish,
+    this.onDeleteDish,
   });
 
   @override
@@ -35,27 +36,13 @@ class _ViewDishScreenState extends ConsumerState<ViewDishScreen>
           l10n(context).messageDishDeletionConfirmation,
         ) ??
         false;
-    if (!deleteConfirmed) return;
 
-    showProgress();
-
-    try {
-      final isDeleted =
-          await ref.read(dishesProvider.notifier).deleteDish(widget.dish.id!);
+    if (deleteConfirmed == true) {
+      widget.onDeleteDish?.call(widget.dish.id!);
 
       if (mounted) {
         Navigator.of(context).pop();
-
-        if (isDeleted) {
-          showNotification(l10n(context).messageDishDeletionSuccess);
-        } else {
-          showNotification(l10n(context).messageDishDeletionFailure);
-        }
       }
-    } catch (error) {
-      showNotification(error.toString());
-    } finally {
-      hideProgress();
     }
   }
 
@@ -133,13 +120,14 @@ class _ViewDishScreenState extends ConsumerState<ViewDishScreen>
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
-            IconButton(
-              onPressed: _deleteDish,
-              icon: Icon(
-                Icons.delete,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+            if (widget.onDeleteDish != null)
+              IconButton(
+                onPressed: _deleteDish,
+                icon: Icon(
+                  Icons.delete,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
               ),
-            ),
           ],
         ),
         body: Column(
