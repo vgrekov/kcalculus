@@ -188,5 +188,7 @@
     "messageConfirmEatenEdibleEdit": "This was already eaten, so editing it may affect meals history.\nDo you want to make a copy instead?",
     "actionEdit": "Edit",
     "actionCopy": "Copy",
-    "actionUndo": "Undo"
+    "actionUndo": "Undo",
+    "messageNewFoodCancellationConfirmation": "Cancel food creation?",
+    "messageEditFoodCancellationConfirmation": "Cancel food editing?"
 }

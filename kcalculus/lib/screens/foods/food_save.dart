@@ -39,6 +39,8 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
   late FocusNode _descriptionFocusNode;
   late FocusNode _nutritionFactsFocusNode;
 
+  bool _hasChanges = false;
+
   @override
   void initState() {
     if (widget.food != null) {
@@ -68,8 +70,21 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
     super.dispose();
   }
 
-  void _exit() {
-    Navigator.of(context).pop();
+  void _confirmCancellation() async {
+    final bool? shouldExit;
+    if (_hasChanges) {
+      shouldExit = await showConfirmation(
+        widget.food?.id == null
+            ? l10n(context).messageNewFoodCancellationConfirmation
+            : l10n(context).messageEditFoodCancellationConfirmation,
+      );
+    } else {
+      shouldExit = true;
+    }
+
+    if (mounted && shouldExit == true) {
+      Navigator.of(context).pop();
+    }
   }
 
   void _saveFood() async {
@@ -143,13 +158,17 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
     return null;
   }
 
+  void onUserInteractionChange() {
+    _hasChanges = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: _exit,
+          onPressed: _confirmCancellation,
           icon: Icon(
             Icons.close,
             color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -195,6 +214,9 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
                   onSaved: (value) {
                     _name = value!;
                   },
+                  onChanged: (value) {
+                    onUserInteractionChange();
+                  },
                 ),
                 const SizedBox(height: 8),
                 TextInput(
@@ -211,11 +233,15 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
                   onSaved: (value) {
                     _description = value!;
                   },
+                  onChanged: (value) {
+                    onUserInteractionChange();
+                  },
                 ),
                 const SizedBox(height: 32),
                 NutritionFactsInput(
                   controller: _nutritionFactsController,
                   focusNode: _nutritionFactsFocusNode,
+                  onUserInteractionChange: onUserInteractionChange,
                 ),
               ],
             ),
