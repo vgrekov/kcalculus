@@ -24,6 +24,7 @@ class AmountInput extends StatefulWidget {
   final FocusNode? focusNode;
   final bool autofocus;
   final String? Function(String?)? validator;
+  final void Function()? onUserInteractionChange;
 
   AmountInput({
     super.key,
@@ -42,6 +43,7 @@ class AmountInput extends StatefulWidget {
     this.focusNode,
     this.autofocus = false,
     this.validator,
+    this.onUserInteractionChange,
   }) {
     if (fixedUnit && initialUnit == null && initialAmount == null) {
       throw 'When fixed, a unit must be provided.';
@@ -109,10 +111,12 @@ class _AmountInputState extends State<AmountInput> {
       ),
     );
 
-    if (unit != null) {
+    if (unit != null && unit != _unit) {
       if (widget.controller != null) {
         widget.controller!._unit = unit;
       }
+
+      widget.onUserInteractionChange?.call();
 
       setState(() {
         _unit = unit;
@@ -154,6 +158,8 @@ class _AmountInputState extends State<AmountInput> {
   }
 
   void _applyMask(String value) {
+    bool hasChanges = false;
+
     if (_valueMask.hasMatch(value)) {
       final match = _valueMask.stringMatch(value) ?? '';
       if (match != value) {
@@ -162,8 +168,21 @@ class _AmountInputState extends State<AmountInput> {
           selection: TextSelection.collapsed(offset: match.length),
         );
       }
+
+      final newValue = double.tryParse(match);
+      if (newValue != _value) {
+        hasChanges = true;
+      }
     } else {
       _valueController.clear();
+
+      if (_value != null) {
+        hasChanges = true;
+      }
+    }
+
+    if (hasChanges) {
+      widget.onUserInteractionChange?.call();
     }
   }
 

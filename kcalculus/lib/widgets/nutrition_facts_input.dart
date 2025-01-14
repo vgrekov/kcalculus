@@ -10,12 +10,14 @@ class NutritionFactsInput extends StatefulWidget {
   final NutritionFactsInputController? controller;
   final FocusNode? focusNode;
   final bool enabled;
+  final void Function()? onUserInteractionChange;
 
   const NutritionFactsInput({
     super.key,
     this.controller,
     this.focusNode,
     this.enabled = true,
+    this.onUserInteractionChange,
   });
 
   @override
@@ -226,6 +228,8 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
       );
 
       requestFocusForPerAmount();
+
+      widget.onUserInteractionChange?.call();
     }
   }
 
@@ -254,6 +258,8 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
       duration: const Duration(milliseconds: 200),
       curve: Curves.linear,
     );
+
+    widget.onUserInteractionChange?.call();
   }
 
   void _selectDraft(_NutritionFactsDraft draft) {
@@ -348,6 +354,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                       onSaveAmount: (amount) {
                         _drafts[index].amount = amount;
                       },
+                      onUserInteractionChange: widget.onUserInteractionChange,
                     ),
                   );
                 },
@@ -362,12 +369,13 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
               initialUnit: Unit.calorie,
               initialValue: draft.calories,
               fixedUnit: true,
+              allowZero: false,
               textInputAction: TextInputAction.next,
               onSaveAmount: (amount) {
                 draft.calories = amount?.value;
               },
+              onUserInteractionChange: widget.onUserInteractionChange,
               enabled: widget.enabled,
-              allowZero: false,
             ),
             const SizedBox(height: 12),
             Row(
@@ -384,6 +392,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                     onSaveAmount: (amount) {
                       draft.fatInGrams = amount?.value;
                     },
+                    onUserInteractionChange: widget.onUserInteractionChange,
                     enabled: widget.enabled,
                   ),
                 ),
@@ -399,6 +408,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                     onSaveAmount: (amount) {
                       draft.carbsInGrams = amount?.value;
                     },
+                    onUserInteractionChange: widget.onUserInteractionChange,
                     enabled: widget.enabled,
                   ),
                 ),
@@ -419,6 +429,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                     onSaveAmount: (amount) {
                       draft.fiberInGrams = amount?.value;
                     },
+                    onUserInteractionChange: widget.onUserInteractionChange,
                     enabled: widget.enabled,
                   ),
                 ),
@@ -434,6 +445,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                     onSaveAmount: (amount) {
                       draft.proteinInGrams = amount?.value;
                     },
+                    onUserInteractionChange: widget.onUserInteractionChange,
                     enabled: widget.enabled,
                   ),
                 ),
