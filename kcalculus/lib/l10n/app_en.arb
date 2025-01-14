@@ -187,5 +187,6 @@
     "titleIngredients": "Ingredients",
     "messageConfirmEatenEdibleEdit": "This was already eaten, so editing it may affect meals history.\nDo you want to make a copy instead?",
     "actionEdit": "Edit",
-    "actionCopy": "Copy"
+    "actionCopy": "Copy",
+    "actionUndo": "Undo"
 }

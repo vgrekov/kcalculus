@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
+const defaultNotificationDuration = Duration(milliseconds: 1500);
+
 Future<T?> _showMessageDialog<T>({
   required BuildContext context,
   required String message,
@@ -88,15 +90,21 @@ void _showMessage(
   );
 }
 
-void _showNotification(BuildContext context, String message) {
+void _showNotification(
+  BuildContext context,
+  String message, {
+  Duration? duration,
+  SnackBarAction? action,
+}) {
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      duration: const Duration(milliseconds: 1500),
+      duration: duration ?? defaultNotificationDuration,
       content: Text(
         message,
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.left,
       ),
+      action: action,
     ),
   );
 }
@@ -117,9 +125,37 @@ mixin Messenger {
     }
   }
 
-  void showNotification(BuildContext context, String message) {
+  void showNotification(
+    BuildContext context,
+    String message, {
+    Duration? duration,
+    SnackBarAction? action,
+  }) {
     if (context.mounted) {
-      _showNotification(context, message);
+      _showNotification(
+        context,
+        message,
+        duration: duration,
+        action: action,
+      );
+    }
+  }
+
+  void showNotificationWithUndo(
+    BuildContext context,
+    String message, {
+    required void Function() undoAction,
+  }) {
+    if (context.mounted) {
+      _showNotification(
+        context,
+        message,
+        action: SnackBarAction(
+          label: l10n(context).actionUndo,
+          onPressed: undoAction,
+        ),
+        duration: defaultNotificationDuration * 2,
+      );
     }
   }
 
@@ -157,9 +193,35 @@ mixin StateMessenger<W extends StatefulWidget> on State<W> {
     }
   }
 
-  void showNotification(String message) {
+  void showNotification(
+    String message, {
+    Duration? duration,
+    SnackBarAction? action,
+  }) {
     if (mounted) {
-      _showNotification(context, message);
+      _showNotification(
+        context,
+        message,
+        duration: duration,
+        action: action,
+      );
+    }
+  }
+
+  void showNotificationWithUndo(
+    String message, {
+    required void Function() undoAction,
+  }) {
+    if (mounted) {
+      _showNotification(
+        context,
+        message,
+        action: SnackBarAction(
+          label: l10n(context).actionUndo,
+          onPressed: undoAction,
+        ),
+        duration: defaultNotificationDuration * 2,
+      );
     }
   }
 

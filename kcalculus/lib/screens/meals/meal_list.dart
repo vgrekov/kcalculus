@@ -72,7 +72,12 @@ class _MealListScreenState extends ConsumerState
 
       if (mounted) {
         if (isDeleted) {
-          showNotification(l10n(context).messageMealDeletionSuccess);
+          showNotificationWithUndo(
+            l10n(context).messageMealDeletionSuccess,
+            undoAction: () async {
+              await ref.read(mealsProvider.notifier).restoreMeal(meal.id!);
+            },
+          );
         } else {
           showNotification(l10n(context).messageMealDeletionFailure);
         }

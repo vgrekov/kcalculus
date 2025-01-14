@@ -62,7 +62,12 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
       if (dish != null && mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ViewDishScreen(dish: dish),
+            builder: (context) => ViewDishScreen(
+              dish: dish,
+              onDeleteDish: (id) {
+                _deleteDish(id);
+              },
+            ),
           ),
         );
       }
@@ -73,16 +78,20 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
     }
   }
 
-  void _deleteDish(EdibleSearchResult searchResult) async {
+  void _deleteDish(String id) async {
     showProgress();
 
     try {
-      final isDeleted =
-          await ref.read(dishesProvider.notifier).deleteDish(searchResult.id!);
+      final isDeleted = await ref.read(dishesProvider.notifier).deleteDish(id);
 
       if (mounted) {
         if (isDeleted) {
-          showNotification(l10n(context).messageDishDeletionSuccess);
+          showNotificationWithUndo(
+            l10n(context).messageDishDeletionSuccess,
+            undoAction: () async {
+              await ref.read(dishesProvider.notifier).restoreDish(id);
+            },
+          );
         } else {
           showNotification(l10n(context).messageDishDeletionFailure);
         }
@@ -140,7 +149,9 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
             searchResults: snapshot.data!,
             onSelectSearchResult: _viewDish,
             confirmDeleteMessage: l10n(context).messageDishDeletionConfirmation,
-            onDeleteEdible: _deleteDish,
+            onDeleteEdible: (searchResult) {
+              _deleteDish(searchResult.id!);
+            },
           );
         }
 

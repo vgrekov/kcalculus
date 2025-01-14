@@ -33,6 +33,15 @@ class FoodsNotifier extends Notifier<Future<List<EdibleSearchResult>>> {
     return result;
   }
 
+  Future<bool> restoreFood(String id) async {
+    final edibleDao = await ref.read(edibleDaoProvider);
+    final result = await edibleDao.restore(id);
+    if (result) {
+      refresh();
+    }
+    return result;
+  }
+
   void refresh() {
     state = build();
   }

@@ -59,7 +59,12 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
       if (mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ViewFoodScreen(food: food!),
+            builder: (context) => ViewFoodScreen(
+              food: food!,
+              onDeleteFood: (id) {
+                _deleteFood(id);
+              },
+            ),
           ),
         );
       }
@@ -70,16 +75,20 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     }
   }
 
-  void _deleteFood(EdibleSearchResult searchResult) async {
+  void _deleteFood(String id) async {
     showProgress();
 
     try {
-      final isDeleted =
-          await ref.read(foodsProvider.notifier).deleteFood(searchResult.id!);
+      final isDeleted = await ref.read(foodsProvider.notifier).deleteFood(id);
 
       if (mounted) {
         if (isDeleted) {
-          showNotification(l10n(context).messageFoodDeletionSuccess);
+          showNotificationWithUndo(
+            l10n(context).messageFoodDeletionSuccess,
+            undoAction: () async {
+              await ref.read(foodsProvider.notifier).restoreFood(id);
+            },
+          );
         } else {
           showNotification(l10n(context).messageFoodDeletionFailure);
         }
@@ -137,7 +146,9 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
             searchResults: snapshot.data!,
             onSelectSearchResult: _viewFood,
             confirmDeleteMessage: l10n(context).messageFoodDeletionConfirmation,
-            onDeleteEdible: _deleteFood,
+            onDeleteEdible: (searchResult) {
+              _deleteFood(searchResult.id!);
+            },
           );
         }
 

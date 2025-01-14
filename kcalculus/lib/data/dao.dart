@@ -15,6 +15,8 @@ abstract interface class MealDao {
   Future<void> update(Meal model);
 
   Future<bool> delete(String id);
+
+  Future<bool> restore(String id);
 }
 
 final mealDaoProvider = Provider<Future<MealDao>>((ref) {
@@ -31,6 +33,8 @@ abstract interface class EdibleDao {
   });
 
   Future<bool> delete(String id);
+
+  Future<bool> restore(String id);
 
   Future<bool> wasEaten(String id);
 }

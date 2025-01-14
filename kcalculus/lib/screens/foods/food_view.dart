@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
-import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/screens/foods/food_save.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -13,10 +12,12 @@ import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart
 
 class ViewFoodScreen extends ConsumerStatefulWidget {
   final Food food;
+  final void Function(String id)? onDeleteFood;
 
   const ViewFoodScreen({
     super.key,
     required this.food,
+    this.onDeleteFood,
   });
 
   @override
@@ -32,27 +33,13 @@ class _ViewFoodScreenState extends ConsumerState<ViewFoodScreen>
           l10n(context).messageFoodDeletionConfirmation,
         ) ??
         false;
-    if (!deleteConfirmed) return;
 
-    showProgress();
-
-    try {
-      final isDeleted =
-          await ref.read(foodsProvider.notifier).deleteFood(widget.food.id!);
+    if (deleteConfirmed == true) {
+      widget.onDeleteFood?.call(widget.food.id!);
 
       if (mounted) {
         Navigator.of(context).pop();
-
-        if (isDeleted) {
-          showNotification(l10n(context).messageFoodDeletionSuccess);
-        } else {
-          showNotification(l10n(context).messageFoodDeletionFailure);
-        }
       }
-    } catch (error) {
-      showNotification(error.toString());
-    } finally {
-      hideProgress();
     }
   }
 
@@ -123,13 +110,14 @@ class _ViewFoodScreenState extends ConsumerState<ViewFoodScreen>
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
-            IconButton(
-              onPressed: _deleteFood,
-              icon: Icon(
-                Icons.delete,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+            if (widget.onDeleteFood != null)
+              IconButton(
+                onPressed: _deleteFood,
+                icon: Icon(
+                  Icons.delete,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
               ),
-            ),
           ],
         ),
         body: Column(

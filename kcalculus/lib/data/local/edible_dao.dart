@@ -146,6 +146,20 @@ class LocalEdibleDao implements EdibleDao {
   }
 
   @override
+  Future<bool> restore(String id) async {
+    final count = await db.update(
+      'edibles',
+      {
+        'deleted_at': null,
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    return count > 0;
+  }
+
+  @override
   Future<bool> wasEaten(String id) {
     return db.rawQuery(
       '''
