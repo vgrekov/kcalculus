@@ -154,6 +154,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
 
         return Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             title: Text(
               l10n(context).screenFoods,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(

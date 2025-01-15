@@ -1,4 +1,5 @@
 {
+    "appName": "kcalculus",
     "measureMass": "Mass",
     "measureVolume": "Volume",
     "measureQuantity": "Quantity",
@@ -190,5 +191,7 @@
     "actionCopy": "Copy",
     "actionUndo": "Undo",
     "messageNewFoodCancellationConfirmation": "Cancel food creation?",
-    "messageEditFoodCancellationConfirmation": "Cancel food editing?"
+    "messageEditFoodCancellationConfirmation": "Cancel food editing?",
+    "initTaskDbTitle": "Migrating the database...",
+    "initTaskDbFailedMessage": "Database migration failed. Not able to proceed."
 }
