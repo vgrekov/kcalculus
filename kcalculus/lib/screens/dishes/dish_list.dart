@@ -157,6 +157,7 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
 
         return Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             title: Text(
               l10n(context).screenDishes,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
