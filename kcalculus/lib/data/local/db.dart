@@ -28,9 +28,6 @@ class DbInitTask implements InitTask {
 
   @override
   FutureOr<void> run() async {
-    // TODO: delete this!
-    await Future.delayed(Duration(seconds: 3));
-
     final dbDir = await getDatabasesPath();
 
     final dbPath = path.join(dbDir, _dbName);

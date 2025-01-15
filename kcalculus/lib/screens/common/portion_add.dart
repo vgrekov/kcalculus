@@ -77,6 +77,10 @@ class _AddPortionScreenState extends ConsumerState<AddPortionScreen>
     super.dispose();
   }
 
+  void _exit() {
+    Navigator.of(context).pop();
+  }
+
   void _savePortion() async {
     if (!_form.currentState!.validate()) {
       return;
@@ -244,6 +248,14 @@ class _AddPortionScreenState extends ConsumerState<AddPortionScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: _exit,
+          icon: Icon(
+            Icons.close,
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
+        ),
         centerTitle: true,
         title: Text(
           widget.title,
