@@ -5,6 +5,7 @@ import 'package:kcalculus/utils/l10n.dart';
 final _timeFormatter = DateFormat('HH:mm');
 final _dateFormatter = DateFormat('dd-MM-yyyy');
 final _dateTimeFormatISO8601 = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+final _timestampFormatter = DateFormat('yyyyMMddHHmmssSSS');
 
 String formatTime(DateTime dateTime) {
   return _timeFormatter.format(dateTime);
@@ -28,6 +29,10 @@ String formatISO8601(DateTime dateTime) {
 
 DateTime parseISO8601(String str) {
   return _dateTimeFormatISO8601.parse(str);
+}
+
+String formatTimestamp(DateTime dateTime) {
+  return _timestampFormatter.format(dateTime);
 }
 
 bool isSameDay(DateTime date1, DateTime date2) {
