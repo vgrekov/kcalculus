@@ -8,6 +8,7 @@ import 'package:kcalculus/models/food.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
+import 'package:kcalculus/widgets/inattentive.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
@@ -164,86 +165,88 @@ class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: _confirmCancellation,
-          icon: Icon(
-            Icons.close,
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+    return Inattentive(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: _confirmCancellation,
+            icon: Icon(
+              Icons.close,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            ),
           ),
+          centerTitle: true,
+          title: Text(
+            widget.food?.id != null
+                ? l10n(context).screenEditFood
+                : l10n(context).screenAddFood,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: _saveFood,
+              child: Text(l10n(context).actionSave),
+            ),
+          ],
         ),
-        centerTitle: true,
-        title: Text(
-          widget.food?.id != null
-              ? l10n(context).screenEditFood
-              : l10n(context).screenAddFood,
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+        body: SingleChildScrollView(
+          child: Form(
+            key: _form,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextInput(
+                    controller: _nameController,
+                    autofocus: true,
+                    focusNode: _nameFocusNode,
+                    labelText: l10n(context).labelEdibleName,
+                    maxLength: 50,
+                    maxLines: 1,
+                    textCapitalization: TextCapitalization.words,
+                    textInputAction: TextInputAction.next,
+                    validator: _validateFoodName,
+                    onFieldSubmitted: (value) {
+                      _descriptionFocusNode.requestFocus();
+                    },
+                    onSaved: (value) {
+                      _name = value!;
+                    },
+                    onChanged: (value) {
+                      onUserInteractionChange();
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  TextInput(
+                    controller: _descriptionController,
+                    labelText: l10n(context).labelEdibleDescription,
+                    hintText: l10n(context).hintEdibleDescription,
+                    maxLength: 100,
+                    maxLines: 2,
+                    textCapitalization: TextCapitalization.sentences,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (value) {
+                      _nutritionFactsFocusNode.requestFocus();
+                    },
+                    onSaved: (value) {
+                      _description = value!;
+                    },
+                    onChanged: (value) {
+                      onUserInteractionChange();
+                    },
+                  ),
+                  const SizedBox(height: 32),
+                  NutritionFactsInput(
+                    controller: _nutritionFactsController,
+                    focusNode: _nutritionFactsFocusNode,
+                    onUserInteractionChange: onUserInteractionChange,
+                  ),
+                ],
               ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: _saveFood,
-            child: Text(l10n(context).actionSave),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _form,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextInput(
-                  controller: _nameController,
-                  autofocus: true,
-                  focusNode: _nameFocusNode,
-                  labelText: l10n(context).labelEdibleName,
-                  maxLength: 50,
-                  maxLines: 1,
-                  textCapitalization: TextCapitalization.words,
-                  textInputAction: TextInputAction.next,
-                  validator: _validateFoodName,
-                  onFieldSubmitted: (value) {
-                    _descriptionFocusNode.requestFocus();
-                  },
-                  onSaved: (value) {
-                    _name = value!;
-                  },
-                  onChanged: (value) {
-                    onUserInteractionChange();
-                  },
-                ),
-                const SizedBox(height: 8),
-                TextInput(
-                  controller: _descriptionController,
-                  labelText: l10n(context).labelEdibleDescription,
-                  hintText: l10n(context).hintEdibleDescription,
-                  maxLength: 100,
-                  maxLines: 2,
-                  textCapitalization: TextCapitalization.sentences,
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (value) {
-                    _nutritionFactsFocusNode.requestFocus();
-                  },
-                  onSaved: (value) {
-                    _description = value!;
-                  },
-                  onChanged: (value) {
-                    onUserInteractionChange();
-                  },
-                ),
-                const SizedBox(height: 32),
-                NutritionFactsInput(
-                  controller: _nutritionFactsController,
-                  focusNode: _nutritionFactsFocusNode,
-                  onUserInteractionChange: onUserInteractionChange,
-                ),
-              ],
             ),
           ),
         ),

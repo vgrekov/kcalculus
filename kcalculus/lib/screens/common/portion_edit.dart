@@ -9,6 +9,7 @@ import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/widgets/edible_name_input.dart';
+import 'package:kcalculus/widgets/inattentive.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
@@ -107,70 +108,72 @@ class _EditPortionScreenState extends ConsumerState<EditPortionScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: _exit,
-          icon: Icon(
-            Icons.close,
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+    return Inattentive(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: _exit,
+            icon: Icon(
+              Icons.close,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            ),
           ),
-        ),
-        centerTitle: true,
-        title: Text(
-          widget.title,
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: _savePortion,
-            child: Text(l10n(context).actionSave),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              EdibleNameInput(
-                controller: _nameController,
-                enabled: false,
-              ),
-              const SizedBox(height: 8),
-              TextInput(
-                controller: _descriptionController,
-                labelText: l10n(context).labelEdibleDescription,
-                hintText: l10n(context).hintEdibleDescription,
-                maxLength: 100,
-                maxLines: 2,
-                textCapitalization: TextCapitalization.sentences,
-                enabled: false,
-              ),
-              const SizedBox(height: 8),
-              Form(
-                key: _form,
-                child: AmountInput(
-                  label: l10n(context).labelPortionAmount,
-                  initialValue: _amount.value,
-                  initialUnit: _amount.unit,
-                  onSaveAmount: (amount) {
-                    _amount = amount!;
-                  },
-                  allowZero: false,
-                  autofocus: true,
+          centerTitle: true,
+          title: Text(
+            widget.title,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
-              ),
-              const SizedBox(height: 32),
-              NutritionFactsInput(
-                controller: _nutritionFactsController,
-                enabled: false,
-              ),
-            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: _savePortion,
+              child: Text(l10n(context).actionSave),
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                EdibleNameInput(
+                  controller: _nameController,
+                  enabled: false,
+                ),
+                const SizedBox(height: 8),
+                TextInput(
+                  controller: _descriptionController,
+                  labelText: l10n(context).labelEdibleDescription,
+                  hintText: l10n(context).hintEdibleDescription,
+                  maxLength: 100,
+                  maxLines: 2,
+                  textCapitalization: TextCapitalization.sentences,
+                  enabled: false,
+                ),
+                const SizedBox(height: 8),
+                Form(
+                  key: _form,
+                  child: AmountInput(
+                    label: l10n(context).labelPortionAmount,
+                    initialValue: _amount.value,
+                    initialUnit: _amount.unit,
+                    onSaveAmount: (amount) {
+                      _amount = amount!;
+                    },
+                    allowZero: false,
+                    autofocus: true,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                NutritionFactsInput(
+                  controller: _nutritionFactsController,
+                  enabled: false,
+                ),
+              ],
+            ),
           ),
         ),
       ),

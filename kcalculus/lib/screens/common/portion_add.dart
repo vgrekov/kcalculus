@@ -14,6 +14,7 @@ import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/widgets/edible_name_input.dart';
+import 'package:kcalculus/widgets/inattentive.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
@@ -246,94 +247,96 @@ class _AddPortionScreenState extends ConsumerState<AddPortionScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: _exit,
-          icon: Icon(
-            Icons.close,
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+    return Inattentive(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: _exit,
+            icon: Icon(
+              Icons.close,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            ),
           ),
-        ),
-        centerTitle: true,
-        title: Text(
-          widget.title,
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: _savePortion,
-            child: Text(l10n(context).actionSave),
+          centerTitle: true,
+          title: Text(
+            widget.title,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _form,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Hero(
-                  tag: 'search-box',
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: EdibleNameInput(
-                      controller: _nameController,
-                      focusNode: _nameFocusNode,
-                      autofocus: true,
-                      textInputAction: TextInputAction.next,
-                      onFieldSubmitted: (value) {
-                        _descriptionFocusNode.requestFocus();
-                      },
-                      onSearchPressed: _searchEdibles,
-                      onSaved: (value) {
-                        _name = value!;
-                      },
+          actions: [
+            TextButton(
+              onPressed: _savePortion,
+              child: Text(l10n(context).actionSave),
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Form(
+            key: _form,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Hero(
+                    tag: 'search-box',
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: EdibleNameInput(
+                        controller: _nameController,
+                        focusNode: _nameFocusNode,
+                        autofocus: true,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (value) {
+                          _descriptionFocusNode.requestFocus();
+                        },
+                        onSearchPressed: _searchEdibles,
+                        onSaved: (value) {
+                          _name = value!;
+                        },
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                TextInput(
-                  controller: _descriptionController,
-                  focusNode: _descriptionFocusNode,
-                  labelText: l10n(context).labelEdibleDescription,
-                  hintText: l10n(context).hintEdibleDescription,
-                  maxLength: 100,
-                  maxLines: 2,
-                  textCapitalization: TextCapitalization.sentences,
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (value) {
-                    _amountFocusNode.requestFocus();
-                  },
-                  onSaved: (value) {
-                    _description = value!;
-                  },
-                ),
-                const SizedBox(height: 8),
-                AmountInput(
-                  label: l10n(context).labelPortionAmount,
-                  initialUnit: Unit.gram,
-                  focusNode: _amountFocusNode,
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (value) {
-                    _nutritionFactsFocusNode.requestFocus();
-                  },
-                  onSaveAmount: (amount) {
-                    _amount = amount;
-                  },
-                  allowZero: false,
-                ),
-                const SizedBox(height: 32),
-                NutritionFactsInput(
-                  controller: _nutritionFactsController,
-                  focusNode: _nutritionFactsFocusNode,
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  TextInput(
+                    controller: _descriptionController,
+                    focusNode: _descriptionFocusNode,
+                    labelText: l10n(context).labelEdibleDescription,
+                    hintText: l10n(context).hintEdibleDescription,
+                    maxLength: 100,
+                    maxLines: 2,
+                    textCapitalization: TextCapitalization.sentences,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (value) {
+                      _amountFocusNode.requestFocus();
+                    },
+                    onSaved: (value) {
+                      _description = value!;
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  AmountInput(
+                    label: l10n(context).labelPortionAmount,
+                    initialUnit: Unit.gram,
+                    focusNode: _amountFocusNode,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (value) {
+                      _nutritionFactsFocusNode.requestFocus();
+                    },
+                    onSaveAmount: (amount) {
+                      _amount = amount;
+                    },
+                    allowZero: false,
+                  ),
+                  const SizedBox(height: 32),
+                  NutritionFactsInput(
+                    controller: _nutritionFactsController,
+                    focusNode: _nutritionFactsFocusNode,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
