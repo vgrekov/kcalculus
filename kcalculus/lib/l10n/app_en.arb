@@ -193,5 +193,11 @@
     "messageNewFoodCancellationConfirmation": "Cancel food creation?",
     "messageEditFoodCancellationConfirmation": "Cancel food editing?",
     "initTaskDbTitle": "Migrating the database...",
-    "initTaskDbFailedMessage": "Database migration failed. Not able to proceed."
+    "initTaskDbFailedMessage": "Database migration failed. Not able to proceed.",
+    "screenSettings": "Settings",
+    "settingsGroupCommon": "Common",
+    "settingAppTheme": "Theme",
+    "settingAppThemeSystem": "System",
+    "settingAppThemeLight": "Light",
+    "settingAppThemeDark": "Dark"
 }
