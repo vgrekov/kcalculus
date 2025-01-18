@@ -6,12 +6,14 @@ import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/screens/meals/meal_list.dart';
 import 'package:kcalculus/screens/dishes/dish_list.dart';
 import 'package:kcalculus/screens/foods/food_list.dart';
+import 'package:kcalculus/ui/settings/widgets/settings_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 enum ScreenTab {
   meals,
   foods,
   dishes,
+  settings,
 }
 
 class ScreenTabBar extends ConsumerWidget {
@@ -37,6 +39,10 @@ class ScreenTabBar extends ConsumerWidget {
       case ScreenTab.dishes:
         icon = const Icon(Icons.set_meal);
         label = l10n(context).screenDishes;
+        break;
+      case ScreenTab.settings:
+        icon = const Icon(Icons.settings);
+        label = l10n(context).screenSettings;
         break;
     }
 
@@ -71,6 +77,7 @@ class ScreenTabBar extends ConsumerWidget {
           ScreenTab.meals => const MealListScreen(),
           ScreenTab.foods => const FoodListScreen(),
           ScreenTab.dishes => const DishListScreen(),
+          ScreenTab.settings => const SettingsScreen(),
         };
       },
       transitionDuration: Duration.zero,
