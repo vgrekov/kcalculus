@@ -1,43 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/repositories/maintenance/maintenance_runner.dart';
+import 'package:kcalculus/data/repositories/maintenance/maintenance_status_repository.dart';
+import 'package:kcalculus/domain/models/maintenance_status.dart';
 import 'package:kcalculus/screens/meals/meal_list.dart';
+import 'package:kcalculus/ui/maintenance/view_models/maintenance_view_model.dart';
 import 'package:kcalculus/utils/exceptions.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
-class MaintenanceScreen extends ConsumerStatefulWidget {
+class MaintenanceScreen extends ConsumerWidget {
   const MaintenanceScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() {
-    return _MaintenanceScreenState();
-  }
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final taskTitle = ref.watch(maintenanceViewModel);
 
-class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
-  @override
-  void initState() {
-    ref.listenManual(maintenanceStatusRepository, _onMaintenanceStatusChange);
-
-    super.initState();
-  }
-
-  void _onMaintenanceStatusChange(
-    MaintenanceStatus? previous,
-    MaintenanceStatus next,
-  ) {
-    if (next == MaintenanceStatus.complete) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const MealListScreen(),
-        ),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final taskTitle = ref.watch(maintenanceRunner);
+    ref.listen(maintenanceStatusRepository, (prev, next) {
+      if (next == MaintenanceStatus.complete) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const MealListScreen(),
+          ),
+        );
+      }
+    });
 
     final Widget content;
     switch (taskTitle) {

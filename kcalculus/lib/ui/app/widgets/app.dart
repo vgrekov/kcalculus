@@ -6,7 +6,7 @@ import 'package:kcalculus/screens/meals/meal_list.dart';
 import 'package:kcalculus/ui/app/view_models/app_view_model.dart';
 import 'package:kcalculus/ui/common/themes/dark.dart' as dark;
 import 'package:kcalculus/ui/common/themes/light.dart' as light;
-import 'package:kcalculus/ui/maintenance/maintenance_screen.dart';
+import 'package:kcalculus/ui/maintenance/widgets/maintenance_screen.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
