@@ -1,0 +1,114 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:intl/intl.dart';
+import 'package:kcalculus/utils/datetime.dart' as dt;
+import 'package:kcalculus/utils/exceptions.dart';
+import 'package:path/path.dart' as path;
+import 'package:sqflite/sqflite.dart';
+
+class DatabaseService {
+  static const _kDbName = 'kcalculus.db';
+
+  static const _kDbVersion = 16;
+
+  static const _kSqlStatementSeparator = '--SQL-STATEMENT-SEPARATOR';
+
+  static final _kMigrationNumberFormatter = NumberFormat('000');
+
+  static const _kMigrationScriptPattern =
+      'assets/db/migrations/{migration_number}.sql';
+
+  FutureOr<bool> isMigrationRequired() async {
+    final dbDir = await getDatabasesPath();
+    final dbPath = path.join(dbDir, _kDbName);
+
+    final dbFile = File(dbPath);
+    final dbExists = await dbFile.exists();
+    if (!dbExists) return true;
+
+    Database? db;
+    try {
+      db = await openDatabase(dbPath);
+      final dbVersion = await db.getVersion();
+      if (dbVersion < _kDbVersion) {
+        return true;
+      }
+    } catch (error) {
+      throw LocalizedException(
+        (loc) => loc.maintenanceTaskDbMigrationFailedMessage,
+        cause: error,
+      );
+    } finally {
+      if (db?.isOpen == true) {
+        await db?.close();
+      }
+    }
+
+    return false;
+  }
+
+  FutureOr<void> migrate() async {
+    final dbDir = await getDatabasesPath();
+    final dbPath = path.join(dbDir, _kDbName);
+
+    final dbFile = File(dbPath);
+    final dbExists = await dbFile.exists();
+
+    File? dbBackupFile;
+
+    Database? db;
+    try {
+      if (dbExists) {
+        final dbBackupPath = path.join(
+          dbDir,
+          '$_kDbName.${dt.formatTimestamp(DateTime.now())}.backup',
+        );
+        dbBackupFile = await dbFile.copy(dbBackupPath);
+      }
+
+      db = await openDatabase(
+        dbPath,
+        onConfigure: (db) async {
+          final sql = await rootBundle.loadString('assets/db/enable_fk.sql');
+          await db.execute(sql);
+        },
+        onUpgrade: (db, oldVersion, newVersion) async {
+          for (var version = oldVersion + 1; version <= newVersion; version++) {
+            final migrationVersion = _kMigrationNumberFormatter.format(version);
+            final migrationScript = _kMigrationScriptPattern.replaceAll(
+              '{migration_number}',
+              migrationVersion,
+            );
+            final sql = await rootBundle.loadString(migrationScript);
+
+            final statements = sql.split(_kSqlStatementSeparator);
+            for (final statement in statements) {
+              await db.execute(statement.trim());
+            }
+          }
+        },
+        version: _kDbVersion,
+      );
+
+      await db.close();
+
+      await dbBackupFile?.delete();
+    } catch (error) {
+      if (db?.isOpen == true) {
+        await db?.close();
+      }
+
+      if (await dbBackupFile?.exists() == true) {
+        await dbBackupFile!.copy(dbPath);
+        await dbBackupFile.delete();
+      }
+
+      throw LocalizedException(
+        (loc) => loc.maintenanceTaskDbMigrationFailedMessage,
+        cause: error,
+      );
+    }
+  }
+}

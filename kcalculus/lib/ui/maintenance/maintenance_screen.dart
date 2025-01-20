@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/maintenance/init.dart';
+import 'package:kcalculus/data/repositories/maintenance/maintenance_runner.dart';
 import 'package:kcalculus/screens/meals/meal_list.dart';
 import 'package:kcalculus/utils/exceptions.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
-class SplashScreen extends ConsumerStatefulWidget {
-  const SplashScreen({super.key});
+class MaintenanceScreen extends ConsumerStatefulWidget {
+  const MaintenanceScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _SplashScreenState();
+    return _MaintenanceScreenState();
   }
 }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> {
+class _MaintenanceScreenState extends ConsumerState<MaintenanceScreen> {
   @override
   void initState() {
-    ref.listenManual(initStatusProvider, _onInitStatusChange);
+    ref.listenManual(maintenanceStatusRepository, _onMaintenanceStatusChange);
 
     super.initState();
   }
 
-  void _onInitStatusChange(InitStatus? previous, InitStatus next) {
-    if (next == InitStatus.complete) {
+  void _onMaintenanceStatusChange(
+    MaintenanceStatus? previous,
+    MaintenanceStatus next,
+  ) {
+    if (next == MaintenanceStatus.complete) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const MealListScreen(),
@@ -34,10 +37,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final taskInfo = ref.watch(initTasksProvider);
+    final taskTitle = ref.watch(maintenanceRunner);
 
     final Widget content;
-    switch (taskInfo) {
+    switch (taskTitle) {
       case AsyncData(:final value):
         content = Column(
           mainAxisSize: MainAxisSize.min,
@@ -50,7 +53,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              value(l10n(context)).title,
+              value(l10n(context)),
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
