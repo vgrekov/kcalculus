@@ -199,5 +199,6 @@
     "settingAppTheme": "Theme",
     "settingAppThemeSystem": "System",
     "settingAppThemeLight": "Light",
-    "settingAppThemeDark": "Dark"
+    "settingAppThemeDark": "Dark",
+    "databaseErrorFailedToOpen": "Failed to open the database."
 }

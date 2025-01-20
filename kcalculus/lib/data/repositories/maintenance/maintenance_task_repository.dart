@@ -11,7 +11,7 @@ final maintenanceTaskRepository = FutureProvider<List<MaintenanceTask>>(
       MaintenanceTask(
         title: (loc) => loc.maintenanceTaskDbMigrationTitle,
         shouldRun: (ref) => dbService.isMigrationRequired(),
-        run: (ref) => dbService.migrate(),
+        run: (ref) => dbService.migrateDatabase(),
       ),
     ];
 

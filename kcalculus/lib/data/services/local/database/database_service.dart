@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/exceptions.dart';
 import 'package:path/path.dart' as path;
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/sqflite.dart' as sqflite;
 
 class DatabaseService {
   static const _kDbName = 'kcalculus.db';
@@ -21,16 +21,16 @@ class DatabaseService {
       'assets/db/migrations/{migration_number}.sql';
 
   FutureOr<bool> isMigrationRequired() async {
-    final dbDir = await getDatabasesPath();
+    final dbDir = await sqflite.getDatabasesPath();
     final dbPath = path.join(dbDir, _kDbName);
 
     final dbFile = File(dbPath);
     final dbExists = await dbFile.exists();
     if (!dbExists) return true;
 
-    Database? db;
+    sqflite.Database? db;
     try {
-      db = await openDatabase(dbPath);
+      db = await sqflite.openDatabase(dbPath);
       final dbVersion = await db.getVersion();
       if (dbVersion < _kDbVersion) {
         return true;
@@ -49,8 +49,8 @@ class DatabaseService {
     return false;
   }
 
-  FutureOr<void> migrate() async {
-    final dbDir = await getDatabasesPath();
+  FutureOr<void> migrateDatabase() async {
+    final dbDir = await sqflite.getDatabasesPath();
     final dbPath = path.join(dbDir, _kDbName);
 
     final dbFile = File(dbPath);
@@ -58,7 +58,7 @@ class DatabaseService {
 
     File? dbBackupFile;
 
-    Database? db;
+    sqflite.Database? db;
     try {
       if (dbExists) {
         final dbBackupPath = path.join(
@@ -68,7 +68,7 @@ class DatabaseService {
         dbBackupFile = await dbFile.copy(dbBackupPath);
       }
 
-      db = await openDatabase(
+      db = await sqflite.openDatabase(
         dbPath,
         onConfigure: (db) async {
           final sql = await rootBundle.loadString('assets/db/enable_fk.sql');
@@ -109,6 +109,26 @@ class DatabaseService {
         (loc) => loc.maintenanceTaskDbMigrationFailedMessage,
         cause: error,
       );
+    }
+  }
+
+  Future<sqflite.Database> openDatabase() async {
+    final dbDir = await sqflite.getDatabasesPath();
+    final dbPath = path.join(dbDir, _kDbName);
+
+    sqflite.Database? db;
+    try {
+      db = await sqflite.openDatabase(dbPath);
+      return db;
+    } catch (error) {
+      throw LocalizedException(
+        (loc) => loc.databaseErrorFailedToOpen,
+        cause: error,
+      );
+    } finally {
+      if (db?.isOpen == true) {
+        await db?.close();
+      }
     }
   }
 }
