@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/exceptions.dart';
 import 'package:path/path.dart' as path;
-import 'package:sqflite/sqflite.dart' as sqflite;
+import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
   static const _kDbName = 'kcalculus.db';
@@ -20,17 +21,17 @@ class DatabaseService {
   static const _kMigrationScriptPattern =
       'assets/db/migrations/{migration_number}.sql';
 
-  FutureOr<bool> isMigrationRequired() async {
-    final dbDir = await sqflite.getDatabasesPath();
+  static FutureOr<bool> isMigrationRequired() async {
+    final dbDir = await getDatabasesPath();
     final dbPath = path.join(dbDir, _kDbName);
 
     final dbFile = File(dbPath);
     final dbExists = await dbFile.exists();
     if (!dbExists) return true;
 
-    sqflite.Database? db;
+    Database? db;
     try {
-      db = await sqflite.openDatabase(dbPath);
+      db = await openDatabase(dbPath);
       final dbVersion = await db.getVersion();
       if (dbVersion < _kDbVersion) {
         return true;
@@ -49,8 +50,8 @@ class DatabaseService {
     return false;
   }
 
-  FutureOr<void> migrateDatabase() async {
-    final dbDir = await sqflite.getDatabasesPath();
+  static FutureOr<void> migrateDatabase() async {
+    final dbDir = await getDatabasesPath();
     final dbPath = path.join(dbDir, _kDbName);
 
     final dbFile = File(dbPath);
@@ -58,7 +59,7 @@ class DatabaseService {
 
     File? dbBackupFile;
 
-    sqflite.Database? db;
+    Database? db;
     try {
       if (dbExists) {
         final dbBackupPath = path.join(
@@ -68,7 +69,7 @@ class DatabaseService {
         dbBackupFile = await dbFile.copy(dbBackupPath);
       }
 
-      db = await sqflite.openDatabase(
+      db = await openDatabase(
         dbPath,
         onConfigure: (db) async {
           final sql = await rootBundle.loadString('assets/db/enable_fk.sql');
@@ -112,13 +113,19 @@ class DatabaseService {
     }
   }
 
-  Future<sqflite.Database> openDatabase() async {
-    final dbDir = await sqflite.getDatabasesPath();
+  DatabaseService() {
+    _database = _openDatabase();
+  }
+
+  late final Future<Database> _database;
+
+  Future<Database> _openDatabase() async {
+    final dbDir = await getDatabasesPath();
     final dbPath = path.join(dbDir, _kDbName);
 
-    sqflite.Database? db;
+    Database? db;
     try {
-      db = await sqflite.openDatabase(dbPath);
+      db = await openDatabase(dbPath);
       return db;
     } catch (error) {
       throw LocalizedException(
@@ -131,4 +138,21 @@ class DatabaseService {
       }
     }
   }
+
+  void dispose() async {
+    final db = await _database;
+    db.close();
+  }
 }
+
+final databaseService = FutureProvider.autoDispose<DatabaseService>(
+  (ref) async {
+    final dbService = DatabaseService();
+
+    ref.onDispose(() {
+      dbService.dispose();
+    });
+
+    return dbService;
+  },
+);
