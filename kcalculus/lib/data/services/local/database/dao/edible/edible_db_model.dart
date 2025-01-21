@@ -5,14 +5,14 @@ part 'edible_db_model.freezed.dart';
 part 'edible_db_model.g.dart';
 
 @freezed
-class EdibleDbModel with _$EdibleDbModel {
+sealed class EdibleDbModel with _$EdibleDbModel {
   factory EdibleDbModel({
     required String id,
     required String name,
     String? description,
     String? created_at,
     String? updated_at,
-  }) = _EdibleDbModel;
+  }) = FoodDbModel;
 
   factory EdibleDbModel.fromJson(Map<String, dynamic> json) =>
       _$EdibleDbModelFromJson(json);

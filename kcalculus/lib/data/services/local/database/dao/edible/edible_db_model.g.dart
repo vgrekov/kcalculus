@@ -6,8 +6,8 @@ part of 'edible_db_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EdibleDbModelImpl _$$EdibleDbModelImplFromJson(Map<String, dynamic> json) =>
-    _$EdibleDbModelImpl(
+_$FoodDbModelImpl _$$FoodDbModelImplFromJson(Map<String, dynamic> json) =>
+    _$FoodDbModelImpl(
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
@@ -15,7 +15,7 @@ _$EdibleDbModelImpl _$$EdibleDbModelImplFromJson(Map<String, dynamic> json) =>
       updated_at: json['updated_at'] as String?,
     );
 
-Map<String, dynamic> _$$EdibleDbModelImplToJson(_$EdibleDbModelImpl instance) =>
+Map<String, dynamic> _$$FoodDbModelImplToJson(_$FoodDbModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 EdibleDbModel _$EdibleDbModelFromJson(Map<String, dynamic> json) {
-  return _EdibleDbModel.fromJson(json);
+  return FoodDbModel.fromJson(json);
 }
 
 /// @nodoc
@@ -97,11 +97,11 @@ class _$EdibleDbModelCopyWithImpl<$Res, $Val extends EdibleDbModel>
 }
 
 /// @nodoc
-abstract class _$$EdibleDbModelImplCopyWith<$Res>
+abstract class _$$FoodDbModelImplCopyWith<$Res>
     implements $EdibleDbModelCopyWith<$Res> {
-  factory _$$EdibleDbModelImplCopyWith(
-          _$EdibleDbModelImpl value, $Res Function(_$EdibleDbModelImpl) then) =
-      __$$EdibleDbModelImplCopyWithImpl<$Res>;
+  factory _$$FoodDbModelImplCopyWith(
+          _$FoodDbModelImpl value, $Res Function(_$FoodDbModelImpl) then) =
+      __$$FoodDbModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -113,11 +113,11 @@ abstract class _$$EdibleDbModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$EdibleDbModelImplCopyWithImpl<$Res>
-    extends _$EdibleDbModelCopyWithImpl<$Res, _$EdibleDbModelImpl>
-    implements _$$EdibleDbModelImplCopyWith<$Res> {
-  __$$EdibleDbModelImplCopyWithImpl(
-      _$EdibleDbModelImpl _value, $Res Function(_$EdibleDbModelImpl) _then)
+class __$$FoodDbModelImplCopyWithImpl<$Res>
+    extends _$EdibleDbModelCopyWithImpl<$Res, _$FoodDbModelImpl>
+    implements _$$FoodDbModelImplCopyWith<$Res> {
+  __$$FoodDbModelImplCopyWithImpl(
+      _$FoodDbModelImpl _value, $Res Function(_$FoodDbModelImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of EdibleDbModel
@@ -131,7 +131,7 @@ class __$$EdibleDbModelImplCopyWithImpl<$Res>
     Object? created_at = freezed,
     Object? updated_at = freezed,
   }) {
-    return _then(_$EdibleDbModelImpl(
+    return _then(_$FoodDbModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -158,16 +158,16 @@ class __$$EdibleDbModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$EdibleDbModelImpl implements _EdibleDbModel {
-  _$EdibleDbModelImpl(
+class _$FoodDbModelImpl implements FoodDbModel {
+  _$FoodDbModelImpl(
       {required this.id,
       required this.name,
       this.description,
       this.created_at,
       this.updated_at});
 
-  factory _$EdibleDbModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$EdibleDbModelImplFromJson(json);
+  factory _$FoodDbModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FoodDbModelImplFromJson(json);
 
   @override
   final String id;
@@ -189,7 +189,7 @@ class _$EdibleDbModelImpl implements _EdibleDbModel {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EdibleDbModelImpl &&
+            other is _$FoodDbModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
@@ -210,27 +210,27 @@ class _$EdibleDbModelImpl implements _EdibleDbModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$EdibleDbModelImplCopyWith<_$EdibleDbModelImpl> get copyWith =>
-      __$$EdibleDbModelImplCopyWithImpl<_$EdibleDbModelImpl>(this, _$identity);
+  _$$FoodDbModelImplCopyWith<_$FoodDbModelImpl> get copyWith =>
+      __$$FoodDbModelImplCopyWithImpl<_$FoodDbModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$EdibleDbModelImplToJson(
+    return _$$FoodDbModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _EdibleDbModel implements EdibleDbModel {
-  factory _EdibleDbModel(
+abstract class FoodDbModel implements EdibleDbModel {
+  factory FoodDbModel(
       {required final String id,
       required final String name,
       final String? description,
       final String? created_at,
-      final String? updated_at}) = _$EdibleDbModelImpl;
+      final String? updated_at}) = _$FoodDbModelImpl;
 
-  factory _EdibleDbModel.fromJson(Map<String, dynamic> json) =
-      _$EdibleDbModelImpl.fromJson;
+  factory FoodDbModel.fromJson(Map<String, dynamic> json) =
+      _$FoodDbModelImpl.fromJson;
 
   @override
   String get id;
@@ -247,6 +247,6 @@ abstract class _EdibleDbModel implements EdibleDbModel {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EdibleDbModelImplCopyWith<_$EdibleDbModelImpl> get copyWith =>
+  _$$FoodDbModelImplCopyWith<_$FoodDbModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
