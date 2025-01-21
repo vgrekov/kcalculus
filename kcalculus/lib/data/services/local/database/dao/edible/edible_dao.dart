@@ -40,7 +40,11 @@ class EdibleDao {
     );
   }
 
-  Future<List<EdibleSearchResultDbModel>> search(String? query) async {
+  Future<List<EdibleSearchResultDbModel>> search(
+    String? query, {
+    bool onlyFoods = false,
+    bool onlyDishes = false,
+  }) async {
     final db = await database;
     return db.rawQuery(
       '''
@@ -85,6 +89,14 @@ class EdibleDao {
             AND ingredient_meals.deleted_at IS NULL
           WHERE
             edibles.deleted_at IS NULL
+            AND (
+              ? = 0
+              OR foods.id IS NOT NULL
+            )
+            AND (
+              ? = 0
+              OR dishes.id IS NOT NULL
+            )
             AND UPPER(edibles.name) LIKE '%' || UPPER(?) || '%'
         ) results
         GROUP BY
@@ -103,7 +115,11 @@ class EdibleDao {
           ELSE created_at
         END DESC
       ''',
-      [query ?? ''],
+      [
+        onlyFoods ? 1 : 0,
+        onlyDishes ? 1 : 0,
+        query ?? '',
+      ],
     ).then((data) => data.map(EdibleSearchResultDbModel.fromJson).toList());
   }
 
