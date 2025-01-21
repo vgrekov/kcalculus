@@ -1,19 +1,17 @@
 import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/identifiable.dart';
+import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/nutrition.dart';
 
-class Meal extends Portion with Identifiable {
+class Meal extends Portion {
+  String? id;
   final DateTime eatenAt;
 
   Meal({
-    String? id,
+    this.id,
     required super.edible,
     required super.amount,
     required this.eatenAt,
-  }) {
-    this.id = id;
-  }
+  });
 
   Meal copyWith({
     String? id,

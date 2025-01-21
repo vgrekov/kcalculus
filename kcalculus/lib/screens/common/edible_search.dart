@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/edibles.dart';
+import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -55,16 +56,14 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
 
     try {
       Edible? edible;
-      if (searchResult.id != null) {
-        switch (searchResult.type) {
-          case EdibleSearchResultType.dish:
-            final dishDao = await ref.read(dishDaoProvider);
-            edible = await dishDao.getById(searchResult.id!);
-            break;
-          default:
-            final foodDao = await ref.read(foodDaoProvider);
-            edible = await foodDao.getById(searchResult.id!);
-        }
+      switch (searchResult.type) {
+        case EdibleSearchResultType.dish:
+          final dishDao = await ref.read(dishDaoProvider);
+          edible = await dishDao.getById(searchResult.id);
+          break;
+        default:
+          final foodDao = await ref.read(foodDaoProvider);
+          edible = await foodDao.getById(searchResult.id);
       }
 
       if (edible != null) {

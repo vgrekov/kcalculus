@@ -58,7 +58,7 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
 
     try {
       final dishDao = await ref.read(dishDaoProvider);
-      Dish? dish = await dishDao.getById(searchResult.id!);
+      Dish? dish = await dishDao.getById(searchResult.id);
       if (dish != null && mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -150,7 +150,7 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
             onSelectSearchResult: _viewDish,
             confirmDeleteMessage: l10n(context).messageDishDeletionConfirmation,
             onDeleteEdible: (searchResult) {
-              _deleteDish(searchResult.id!);
+              _deleteDish(searchResult.id);
             },
           );
         }

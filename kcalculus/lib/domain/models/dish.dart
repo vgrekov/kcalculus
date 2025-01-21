@@ -1,6 +1,5 @@
 import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/identifiable.dart';
+import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/nutrition.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/string_ext.dart';
@@ -22,7 +21,9 @@ class Ingredient extends Portion {
   }
 }
 
-class Dish with Identifiable implements Edible {
+class Dish implements Edible {
+  @override
+  String? id;
   @override
   final String name;
   @override
@@ -35,16 +36,14 @@ class Dish with Identifiable implements Edible {
   final DateTime? updatedAt;
 
   Dish({
-    String? id,
+    this.id,
     required this.name,
     required this.description,
     required this.ingredients,
     required this.nutritionRatios,
     this.createdAt,
     this.updatedAt,
-  }) {
-    this.id = id;
-  }
+  });
 
   Dish copy() {
     return Dish(

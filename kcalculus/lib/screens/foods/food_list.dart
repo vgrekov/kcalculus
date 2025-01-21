@@ -55,7 +55,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
 
     try {
       final foodDao = await ref.read(foodDaoProvider);
-      Food? food = await foodDao.getById(searchResult.id!);
+      Food? food = await foodDao.getById(searchResult.id);
       if (mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -147,7 +147,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
             onSelectSearchResult: _viewFood,
             confirmDeleteMessage: l10n(context).messageFoodDeletionConfirmation,
             onDeleteEdible: (searchResult) {
-              _deleteFood(searchResult.id!);
+              _deleteFood(searchResult.id);
             },
           );
         }

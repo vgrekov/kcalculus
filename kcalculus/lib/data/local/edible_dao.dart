@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/local/db.dart';
+import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:sqflite/sqflite.dart';

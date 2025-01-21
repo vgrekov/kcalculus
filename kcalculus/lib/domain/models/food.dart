@@ -1,17 +1,10 @@
-import 'package:kcalculus/domain/models/identifiable.dart';
+import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/nutrition.dart';
 import 'package:kcalculus/utils/string_ext.dart';
 
-abstract interface class Edible with Identifiable {
-  String get name;
-  String get description;
-  DateTime? get createdAt;
-  DateTime? get updatedAt;
-
-  List<NutritionFacts> getNutritionFacts();
-}
-
-class Food with Identifiable implements Edible {
+class Food implements Edible {
+  @override
+  String? id;
   @override
   final String name;
   @override
@@ -23,15 +16,13 @@ class Food with Identifiable implements Edible {
   final DateTime? updatedAt;
 
   Food({
-    String? id,
+    this.id,
     required this.name,
     required this.description,
     required this.nutritionFacts,
     this.createdAt,
     this.updatedAt,
-  }) {
-    super.id = id;
-  }
+  });
 
   Food copy() {
     return Food(
@@ -50,19 +41,18 @@ enum EdibleSearchResultType {
   dish,
 }
 
-class EdibleSearchResult with Identifiable {
+class EdibleSearchResult {
+  final String id;
   final String name;
   final String description;
   final EdibleSearchResultType type;
   final DateTime? lastEatenAt;
 
-  EdibleSearchResult({
-    String? id,
+  const EdibleSearchResult({
+    required this.id,
     required this.name,
     required this.description,
     required this.type,
     this.lastEatenAt,
-  }) {
-    this.id = id;
-  }
+  });
 }

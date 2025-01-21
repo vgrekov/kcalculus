@@ -5,6 +5,7 @@ import 'package:kcalculus/data/local/dish_dao.dart';
 import 'package:kcalculus/data/local/food_dao.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/dish.dart';
+import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/units.dart';

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/edibles.dart';
 import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/screens/common/edible_search.dart';
