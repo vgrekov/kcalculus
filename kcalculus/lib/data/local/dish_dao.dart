@@ -6,7 +6,7 @@ import 'package:kcalculus/data/local/food_dao.dart';
 import 'package:kcalculus/data/local/ingredient_dao.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/dish.dart';
-import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/nutrition.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;

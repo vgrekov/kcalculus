@@ -3,6 +3,7 @@ import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/local/db.dart';
 import 'package:kcalculus/data/local/edible_dao.dart';
 import 'package:kcalculus/data/local/nutrition_facts_dao.dart';
+import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/ids.dart';

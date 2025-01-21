@@ -7,6 +7,7 @@ import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/edibles.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
+import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/screens/common/edible_search.dart';
