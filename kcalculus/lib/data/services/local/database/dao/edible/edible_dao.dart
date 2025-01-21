@@ -17,9 +17,10 @@ class EdibleDao {
 
     await executor.insert(
       'edibles',
-      model.toJson()
-        ..remove('updated_at')
-        ..['created_at'] = dt.formatISO8601(DateTime.now()),
+      {
+        ...model.toJson(),
+        'created_at': dt.formatISO8601(DateTime.now()),
+      },
     );
   }
 
@@ -32,9 +33,10 @@ class EdibleDao {
 
     await executor.update(
       'edibles',
-      model.toJson()
-        ..remove('created_at')
-        ..['updated_at'] = dt.formatISO8601(DateTime.now()),
+      {
+        ...model.toJson(),
+        'updated_at': dt.formatISO8601(DateTime.now()),
+      },
       where: 'id = ?',
       whereArgs: [model.id],
     );

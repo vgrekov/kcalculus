@@ -13,6 +13,7 @@ _$FoodDbModelImpl _$$FoodDbModelImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
+      deleted_at: json['deleted_at'] as String?,
     );
 
 Map<String, dynamic> _$$FoodDbModelImplToJson(_$FoodDbModelImpl instance) =>
@@ -20,6 +21,4 @@ Map<String, dynamic> _$$FoodDbModelImplToJson(_$FoodDbModelImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
-      'created_at': instance.created_at,
-      'updated_at': instance.updated_at,
     };

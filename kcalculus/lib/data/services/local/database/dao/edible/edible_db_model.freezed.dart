@@ -23,8 +23,12 @@ mixin _$EdibleDbModel {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false, includeFromJson: true)
   String? get created_at => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false, includeFromJson: true)
   String? get updated_at => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  String? get deleted_at => throw _privateConstructorUsedError;
 
   /// Serializes this EdibleDbModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,8 +50,10 @@ abstract class $EdibleDbModelCopyWith<$Res> {
       {String id,
       String name,
       String? description,
-      String? created_at,
-      String? updated_at});
+      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      String? deleted_at});
 }
 
 /// @nodoc
@@ -70,6 +76,7 @@ class _$EdibleDbModelCopyWithImpl<$Res, $Val extends EdibleDbModel>
     Object? description = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
+    Object? deleted_at = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -92,6 +99,10 @@ class _$EdibleDbModelCopyWithImpl<$Res, $Val extends EdibleDbModel>
           ? _value.updated_at
           : updated_at // ignore: cast_nullable_to_non_nullable
               as String?,
+      deleted_at: freezed == deleted_at
+          ? _value.deleted_at
+          : deleted_at // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -108,8 +119,10 @@ abstract class _$$FoodDbModelImplCopyWith<$Res>
       {String id,
       String name,
       String? description,
-      String? created_at,
-      String? updated_at});
+      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      String? deleted_at});
 }
 
 /// @nodoc
@@ -130,6 +143,7 @@ class __$$FoodDbModelImplCopyWithImpl<$Res>
     Object? description = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
+    Object? deleted_at = freezed,
   }) {
     return _then(_$FoodDbModelImpl(
       id: null == id
@@ -152,6 +166,10 @@ class __$$FoodDbModelImplCopyWithImpl<$Res>
           ? _value.updated_at
           : updated_at // ignore: cast_nullable_to_non_nullable
               as String?,
+      deleted_at: freezed == deleted_at
+          ? _value.deleted_at
+          : deleted_at // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -163,8 +181,9 @@ class _$FoodDbModelImpl implements FoodDbModel {
       {required this.id,
       required this.name,
       this.description,
-      this.created_at,
-      this.updated_at});
+      @JsonKey(includeToJson: false, includeFromJson: true) this.created_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) this.updated_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at});
 
   factory _$FoodDbModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$FoodDbModelImplFromJson(json);
@@ -176,13 +195,18 @@ class _$FoodDbModelImpl implements FoodDbModel {
   @override
   final String? description;
   @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
   final String? created_at;
   @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
   final String? updated_at;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  final String? deleted_at;
 
   @override
   String toString() {
-    return 'EdibleDbModel(id: $id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at)';
+    return 'EdibleDbModel(id: $id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 
   @override
@@ -197,13 +221,15 @@ class _$FoodDbModelImpl implements FoodDbModel {
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
             (identical(other.updated_at, updated_at) ||
-                other.updated_at == updated_at));
+                other.updated_at == updated_at) &&
+            (identical(other.deleted_at, deleted_at) ||
+                other.deleted_at == deleted_at));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, description, created_at, updated_at);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, description, created_at, updated_at, deleted_at);
 
   /// Create a copy of EdibleDbModel
   /// with the given fields replaced by the non-null parameter values.
@@ -226,8 +252,12 @@ abstract class FoodDbModel implements EdibleDbModel {
       {required final String id,
       required final String name,
       final String? description,
+      @JsonKey(includeToJson: false, includeFromJson: true)
       final String? created_at,
-      final String? updated_at}) = _$FoodDbModelImpl;
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      final String? updated_at,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      final String? deleted_at}) = _$FoodDbModelImpl;
 
   factory FoodDbModel.fromJson(Map<String, dynamic> json) =
       _$FoodDbModelImpl.fromJson;
@@ -239,9 +269,14 @@ abstract class FoodDbModel implements EdibleDbModel {
   @override
   String? get description;
   @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
   String? get created_at;
   @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
   String? get updated_at;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  String? get deleted_at;
 
   /// Create a copy of EdibleDbModel
   /// with the given fields replaced by the non-null parameter values.
