@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kcalculus/data/services/local/database/dao/edible/edible_dao.dart';
 import 'package:kcalculus/data/services/local/database/dao/food/food_dao.dart';
+import 'package:kcalculus/data/services/local/database/dao/ingredient/ingredient_dao.dart';
 import 'package:kcalculus/data/services/local/database/dao/nutrition_facts/nutrition_facts_dao.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/exceptions.dart';
@@ -121,6 +122,7 @@ class DatabaseService {
     nutritionFactsDao = NutritionFactsDao(_database);
     edibleDao = EdibleDao(_database);
     foodDao = FoodDao(_database);
+    ingredientDao = IngredientDao(_database);
   }
 
   late final Future<Database> _database;
@@ -130,6 +132,8 @@ class DatabaseService {
   late final EdibleDao edibleDao;
 
   late final FoodDao foodDao;
+
+  late final IngredientDao ingredientDao;
 
   Future<Database> _openDatabase() async {
     final dbDir = await getDatabasesPath();
