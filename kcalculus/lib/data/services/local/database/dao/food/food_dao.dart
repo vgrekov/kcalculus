@@ -15,9 +15,7 @@ class FoodDao {
 
     await executor.insert(
       'foods',
-      {
-        'id': model.id,
-      },
+      model.toJson(),
     );
   }
 

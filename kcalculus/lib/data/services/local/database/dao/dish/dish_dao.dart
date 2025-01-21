@@ -1,0 +1,69 @@
+import 'package:kcalculus/data/services/local/database/dao/edible/edible_db_model.dart';
+import 'package:sqflite/sqflite.dart';
+
+class DishDao {
+  DishDao(this.database);
+
+  final Future<Database> database;
+
+  Future<void> add(
+    DishDbModel model, {
+    Transaction? txn,
+  }) async {
+    final db = await database;
+    DatabaseExecutor executor = txn ?? db;
+
+    await executor.insert(
+      'dishes',
+      model.toJson(),
+    );
+  }
+
+  Future<void> update(
+    DishDbModel model, {
+    Transaction? txn,
+  }) async {
+    final db = await database;
+    DatabaseExecutor executor = txn ?? db;
+
+    await executor.update(
+      'dishes',
+      model.toJson(),
+      where: 'id = ?',
+      whereArgs: [model.id],
+    );
+  }
+
+  Future<DishDbModel?> getById(String id) async {
+    final db = await database;
+    return db.rawQuery(
+      '''
+      SELECT
+        edibles.id AS id,
+        edibles.name AS name,
+        edibles.description AS description,
+        dishes.mass_per_amount_value AS mass_per_amount_value,
+        dishes.mass_per_amount_unit AS mass_per_amount_unit,
+        dishes.mass_total_amount_value AS mass_total_amount_value,
+        dishes.mass_total_amount_unit AS mass_total_amount_unit,
+        dishes.volume_per_amount_value AS volume_per_amount_value,
+        dishes.volume_per_amount_unit AS volume_per_amount_unit,
+        dishes.volume_total_amount_value AS volume_total_amount_value,
+        dishes.volume_total_amount_unit AS volume_total_amount_unit,
+        dishes.quantity_per_amount_value AS quantity_per_amount_value,
+        dishes.quantity_per_amount_unit AS quantity_per_amount_unit,
+        dishes.quantity_total_amount_value AS quantity_total_amount_value,
+        dishes.quantity_total_amount_unit AS quantity_total_amount_unit,
+        edibles.created_at AS created_at,
+        edibles.updated_at AS updated_at
+      FROM
+        dishes
+      LEFT JOIN edibles ON
+        edibles.id = dishes.id
+      WHERE
+        dishes.id = ?
+      ''',
+      [id],
+    ).then((data) => data.map(DishDbModel.fromJson).firstOrNull);
+  }
+}
