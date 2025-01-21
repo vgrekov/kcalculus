@@ -8,6 +8,7 @@ import 'package:kcalculus/data/services/local/database/dao/dish/dish_dao.dart';
 import 'package:kcalculus/data/services/local/database/dao/edible/edible_dao.dart';
 import 'package:kcalculus/data/services/local/database/dao/food/food_dao.dart';
 import 'package:kcalculus/data/services/local/database/dao/ingredient/ingredient_dao.dart';
+import 'package:kcalculus/data/services/local/database/dao/meal/meal_dao.dart';
 import 'package:kcalculus/data/services/local/database/dao/nutrition_facts/nutrition_facts_dao.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/exceptions.dart';
@@ -125,6 +126,7 @@ class DatabaseService {
     foodDao = FoodDao(_database);
     ingredientDao = IngredientDao(_database);
     dishDao = DishDao(_database);
+    mealDao = MealDao(_database);
   }
 
   late final Future<Database> _database;
@@ -138,6 +140,8 @@ class DatabaseService {
   late final IngredientDao ingredientDao;
 
   late final DishDao dishDao;
+
+  late final MealDao mealDao;
 
   Future<Database> _openDatabase() async {
     final dbDir = await getDatabasesPath();
