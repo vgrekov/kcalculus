@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/models/nutrition.dart';
-import 'package:kcalculus/models/units.dart';
+import 'package:kcalculus/domain/models/nutrition.dart';
+import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_stat_row.dart';
 import 'package:kcalculus/widgets/nutrition_facts_view/per_amount_chip.dart';

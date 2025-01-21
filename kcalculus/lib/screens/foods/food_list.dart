@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/foods.dart';
-import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/screens/foods/food_save.dart';
 import 'package:kcalculus/screens/foods/food_view.dart';
 import 'package:kcalculus/utils/l10n.dart';

@@ -1,5 +1,5 @@
-import 'package:kcalculus/models/identifiable.dart';
-import 'package:kcalculus/models/nutrition.dart';
+import 'package:kcalculus/domain/models/identifiable.dart';
+import 'package:kcalculus/domain/models/nutrition.dart';
 import 'package:kcalculus/utils/string_ext.dart';
 
 abstract interface class Edible with Identifiable {

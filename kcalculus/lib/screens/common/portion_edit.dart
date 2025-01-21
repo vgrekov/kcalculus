@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/models/amount.dart';
-import 'package:kcalculus/models/nutrition.dart';
+import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/nutrition.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';

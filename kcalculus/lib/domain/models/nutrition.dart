@@ -1,5 +1,5 @@
-import 'package:kcalculus/models/amount.dart';
-import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/utils/double_ext.dart';
 
 const fatCaloriesPerGram = 9;

@@ -1,4 +1,4 @@
-import 'package:kcalculus/models/units.dart';
+import 'package:kcalculus/domain/models/units.dart';
 
 class Amount {
   final Unit unit;

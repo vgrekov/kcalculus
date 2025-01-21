@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/local/db.dart';
-import 'package:kcalculus/models/amount.dart';
-import 'package:kcalculus/models/nutrition.dart';
-import 'package:kcalculus/models/units.dart';
+import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/nutrition.dart';
+import 'package:kcalculus/domain/models/units.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalNutritionFactsDao {

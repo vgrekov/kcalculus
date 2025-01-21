@@ -3,9 +3,9 @@ import 'package:kcalculus/data/local/dish_dao.dart';
 import 'package:kcalculus/data/local/edible_dao.dart';
 import 'package:kcalculus/data/local/food_dao.dart';
 import 'package:kcalculus/data/local/meal_dao.dart';
-import 'package:kcalculus/models/dish.dart';
-import 'package:kcalculus/models/food.dart';
-import 'package:kcalculus/models/meal.dart';
+import 'package:kcalculus/domain/models/dish.dart';
+import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/models/meal.dart';
 
 abstract interface class MealDao {
   Future<void> add(Meal model);

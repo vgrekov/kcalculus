@@ -1,8 +1,8 @@
-import 'package:kcalculus/models/amount.dart';
-import 'package:kcalculus/models/food.dart';
-import 'package:kcalculus/models/identifiable.dart';
-import 'package:kcalculus/models/nutrition.dart';
-import 'package:kcalculus/models/units.dart';
+import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/models/identifiable.dart';
+import 'package:kcalculus/domain/models/nutrition.dart';
+import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/string_ext.dart';
 
 class Ingredient extends Portion {

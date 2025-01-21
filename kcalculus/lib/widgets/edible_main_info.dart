@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/models/food.dart';
+import 'package:kcalculus/domain/models/food.dart';
 
 class EdibleMainInfo extends StatelessWidget {
   final Edible edible;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/data/dish_wizard/dish_wizard_measurements.dart';
-import 'package:kcalculus/models/units.dart';
+import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';

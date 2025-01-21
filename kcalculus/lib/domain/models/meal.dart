@@ -1,7 +1,7 @@
-import 'package:kcalculus/models/amount.dart';
-import 'package:kcalculus/models/food.dart';
-import 'package:kcalculus/models/identifiable.dart';
-import 'package:kcalculus/models/nutrition.dart';
+import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/models/identifiable.dart';
+import 'package:kcalculus/domain/models/nutrition.dart';
 
 class Meal extends Portion with Identifiable {
   final DateTime eatenAt;
