@@ -1,16 +1,33 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
-class Amount {
-  final Unit unit;
-  final double value;
+part 'amount.freezed.dart';
+part 'amount.g.dart';
 
-  Amount({
-    required this.unit,
-    required this.value,
+@Freezed(
+  fromJson: false,
+  toJson: true,
+)
+class Amount with _$Amount {
+  const Amount._();
+
+  const factory Amount._default({
+    required Unit unit,
+    required double value,
+  }) = _Amount;
+
+  factory Amount({
+    required Unit unit,
+    required double value,
   }) {
     if (value < 0) {
       throw 'Value can not be a negative number.';
     }
+
+    return Amount._default(
+      unit: unit,
+      value: value,
+    );
   }
 
   Amount operator +(Amount other) {
@@ -49,18 +66,5 @@ class Amount {
 
   bool operator >=(Amount other) {
     return _compareTo(other) >= 0;
-  }
-
-  @override
-  int get hashCode {
-    return Object.hash(
-      unit,
-      value,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is Amount && other.unit == unit && other.value == value;
   }
 }
