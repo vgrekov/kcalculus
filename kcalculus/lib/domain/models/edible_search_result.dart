@@ -1,20 +1,23 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'edible_search_result.freezed.dart';
+part 'edible_search_result.g.dart';
+
 enum EdibleSearchResultType {
   food,
   dish,
 }
 
-class EdibleSearchResult {
-  final String id;
-  final String name;
-  final String description;
-  final EdibleSearchResultType type;
-  final DateTime? lastEatenAt;
-
-  const EdibleSearchResult({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.type,
-    this.lastEatenAt,
-  });
+@Freezed(
+  fromJson: false,
+  toJson: true,
+)
+class EdibleSearchResult with _$EdibleSearchResult {
+  const factory EdibleSearchResult({
+    required String id,
+    required String name,
+    required String description,
+    required EdibleSearchResultType type,
+    DateTime? lastEatenAt,
+  }) = _EdibleSearchResult;
 }
