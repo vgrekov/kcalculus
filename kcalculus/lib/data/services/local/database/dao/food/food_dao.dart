@@ -6,19 +6,6 @@ class FoodDao {
 
   final Future<Database> database;
 
-  Future<void> add(
-    FoodDbModel model, {
-    Transaction? txn,
-  }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
-
-    await executor.insert(
-      'foods',
-      model.toJson(),
-    );
-  }
-
   Future<FoodDbModel?> getById(String id) async {
     final db = await database;
     return db.rawQuery(
@@ -38,5 +25,18 @@ class FoodDao {
       ''',
       [id],
     ).then((data) => data.map(FoodDbModel.fromJson).firstOrNull);
+  }
+
+  Future<void> add(
+    FoodDbModel model, {
+    Transaction? txn,
+  }) async {
+    final db = await database;
+    DatabaseExecutor executor = txn ?? db;
+
+    await executor.insert(
+      'foods',
+      model.toJson(),
+    );
   }
 }

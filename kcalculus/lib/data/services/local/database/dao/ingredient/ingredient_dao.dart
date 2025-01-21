@@ -6,20 +6,7 @@ class IngredientDao {
 
   final Future<Database> database;
 
-  Future<void> add(
-    IngredientDbModel model, {
-    Transaction? txn,
-  }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
-
-    await executor.insert(
-      'ingredients',
-      model.toJson(),
-    );
-  }
-
-  Future<List<IngredientDbModel>> getByDishId(String dishId) async {
+  Future<List<IngredientDbModel>> getByDish(String dishId) async {
     final db = await database;
     return db.rawQuery(
       '''
@@ -42,7 +29,7 @@ class IngredientDao {
     ).then((data) => data.map(IngredientDbModel.fromJson).toList());
   }
 
-  Future<Set<String>> getHierarchyByDishId(String dishId) async {
+  Future<Set<String>> getHierarchyByDish(String dishId) async {
     final db = await database;
     return db.rawQuery(
       '''
@@ -66,7 +53,34 @@ class IngredientDao {
     ).then((data) => data.map((record) => record['id'] as String).toSet());
   }
 
-  Future<bool> deleteByDishId(String dishId, {Transaction? txn}) async {
+  Future<void> add(
+    IngredientDbModel model, {
+    Transaction? txn,
+  }) async {
+    final db = await database;
+    DatabaseExecutor executor = txn ?? db;
+
+    await executor.insert(
+      'ingredients',
+      model.toJson(),
+    );
+  }
+
+  Future<void> saveForDish(
+    List<IngredientDbModel> models,
+    String dishId, {
+    Transaction? txn,
+  }) async {
+    await deleteByDish(dishId, txn: txn);
+    for (final model in models) {
+      await add(model, txn: txn);
+    }
+  }
+
+  Future<bool> deleteByDish(
+    String dishId, {
+    Transaction? txn,
+  }) async {
     final db = await database;
     DatabaseExecutor executor = txn ?? db;
 
@@ -77,16 +91,5 @@ class IngredientDao {
     );
 
     return count > 0;
-  }
-
-  Future<void> save(
-    List<IngredientDbModel> models,
-    String dishId, {
-    Transaction? txn,
-  }) async {
-    await deleteByDishId(dishId, txn: txn);
-    for (final model in models) {
-      await add(model, txn: txn);
-    }
   }
 }

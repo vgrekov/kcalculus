@@ -6,34 +6,6 @@ class DishDao {
 
   final Future<Database> database;
 
-  Future<void> add(
-    DishDbModel model, {
-    Transaction? txn,
-  }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
-
-    await executor.insert(
-      'dishes',
-      model.toJson(),
-    );
-  }
-
-  Future<void> update(
-    DishDbModel model, {
-    Transaction? txn,
-  }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
-
-    await executor.update(
-      'dishes',
-      model.toJson(),
-      where: 'id = ?',
-      whereArgs: [model.id],
-    );
-  }
-
   Future<DishDbModel?> getById(String id) async {
     final db = await database;
     return db.rawQuery(
@@ -65,5 +37,33 @@ class DishDao {
       ''',
       [id],
     ).then((data) => data.map(DishDbModel.fromJson).firstOrNull);
+  }
+
+  Future<void> add(
+    DishDbModel model, {
+    Transaction? txn,
+  }) async {
+    final db = await database;
+    DatabaseExecutor executor = txn ?? db;
+
+    await executor.insert(
+      'dishes',
+      model.toJson(),
+    );
+  }
+
+  Future<void> update(
+    DishDbModel model, {
+    Transaction? txn,
+  }) async {
+    final db = await database;
+    DatabaseExecutor executor = txn ?? db;
+
+    await executor.update(
+      'dishes',
+      model.toJson(),
+      where: 'id = ?',
+      whereArgs: [model.id],
+    );
   }
 }

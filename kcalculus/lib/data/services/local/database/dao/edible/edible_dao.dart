@@ -8,40 +8,6 @@ class EdibleDao {
 
   final Future<Database> database;
 
-  Future<void> add(
-    EdibleDbModel model, {
-    Transaction? txn,
-  }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
-
-    await executor.insert(
-      'edibles',
-      {
-        ...model.toJson(),
-        'created_at': dt.formatISO8601(DateTime.now()),
-      },
-    );
-  }
-
-  Future<void> update(
-    EdibleDbModel model, {
-    Transaction? txn,
-  }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
-
-    await executor.update(
-      'edibles',
-      {
-        ...model.toJson(),
-        'updated_at': dt.formatISO8601(DateTime.now()),
-      },
-      where: 'id = ?',
-      whereArgs: [model.id],
-    );
-  }
-
   Future<List<EdibleSearchResultDbModel>> search(
     String? query, {
     bool onlyFoods = false,
@@ -151,34 +117,6 @@ class EdibleDao {
     ).then((data) => (data.first['edibles_count'] as int) > 0);
   }
 
-  Future<bool> delete(String id) async {
-    final db = await database;
-    final count = await db.update(
-      'edibles',
-      {
-        'deleted_at': dt.formatISO8601(DateTime.now()),
-      },
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-
-    return count > 0;
-  }
-
-  Future<bool> restore(String id) async {
-    final db = await database;
-    final count = await db.update(
-      'edibles',
-      {
-        'deleted_at': null,
-      },
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-
-    return count > 0;
-  }
-
   Future<bool> wasEaten(String id) async {
     final db = await database;
     return db.rawQuery(
@@ -206,5 +144,67 @@ class EdibleDao {
       ''',
       [id],
     ).then((data) => data.isNotEmpty);
+  }
+
+  Future<void> add(
+    EdibleDbModel model, {
+    Transaction? txn,
+  }) async {
+    final db = await database;
+    DatabaseExecutor executor = txn ?? db;
+
+    await executor.insert(
+      'edibles',
+      {
+        ...model.toJson(),
+        'created_at': dt.formatISO8601(DateTime.now()),
+      },
+    );
+  }
+
+  Future<void> update(
+    EdibleDbModel model, {
+    Transaction? txn,
+  }) async {
+    final db = await database;
+    DatabaseExecutor executor = txn ?? db;
+
+    await executor.update(
+      'edibles',
+      {
+        ...model.toJson(),
+        'updated_at': dt.formatISO8601(DateTime.now()),
+      },
+      where: 'id = ?',
+      whereArgs: [model.id],
+    );
+  }
+
+  Future<bool> delete(String id) async {
+    final db = await database;
+    final count = await db.update(
+      'edibles',
+      {
+        'deleted_at': dt.formatISO8601(DateTime.now()),
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    return count > 0;
+  }
+
+  Future<bool> restore(String id) async {
+    final db = await database;
+    final count = await db.update(
+      'edibles',
+      {
+        'deleted_at': null,
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    return count > 0;
   }
 }

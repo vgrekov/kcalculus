@@ -6,6 +6,16 @@ class NutritionFactsDao {
 
   final Future<Database> database;
 
+  Future<List<NutritionFactsDbModel>> getByEdible(String edibleId) async {
+    final db = await database;
+
+    return db.query(
+      'nutrition_facts',
+      where: 'edible_id = ?',
+      whereArgs: [edibleId],
+    ).then((data) => data.map(NutritionFactsDbModel.fromJson).toList());
+  }
+
   Future<void> add(
     NutritionFactsDbModel model, {
     Transaction? txn,
@@ -19,19 +29,18 @@ class NutritionFactsDao {
     );
   }
 
-  Future<List<NutritionFactsDbModel>> getByEdibleId(
-    String edibleId,
-  ) async {
-    final db = await database;
-
-    return db.query(
-      'nutrition_facts',
-      where: 'edible_id = ?',
-      whereArgs: [edibleId],
-    ).then((data) => data.map(NutritionFactsDbModel.fromJson).toList());
+  Future<void> saveForEdible(
+    List<NutritionFactsDbModel> models,
+    String edibleId, {
+    Transaction? txn,
+  }) async {
+    await deleteByEdible(edibleId, txn: txn);
+    for (final model in models) {
+      await add(model, txn: txn);
+    }
   }
 
-  Future<bool> deleteByEdibleId(
+  Future<bool> deleteByEdible(
     String edibleId, {
     Transaction? txn,
   }) async {
@@ -45,16 +54,5 @@ class NutritionFactsDao {
     );
 
     return count > 0;
-  }
-
-  Future<void> save(
-    List<NutritionFactsDbModel> models,
-    String edibleId, {
-    Transaction? txn,
-  }) async {
-    await deleteByEdibleId(edibleId, txn: txn);
-    for (final model in models) {
-      await add(model, txn: txn);
-    }
   }
 }
