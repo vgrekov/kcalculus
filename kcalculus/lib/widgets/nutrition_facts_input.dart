@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/nutrition.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';

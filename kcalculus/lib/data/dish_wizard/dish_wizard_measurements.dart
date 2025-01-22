@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/dish.dart';
-import 'package:kcalculus/domain/models/nutrition.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrition_ratio.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
 enum NutritionRatioStateValidationResult {

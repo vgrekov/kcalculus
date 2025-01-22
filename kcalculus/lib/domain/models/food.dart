@@ -1,28 +1,29 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/domain/models/edible.dart';
-import 'package:kcalculus/domain/models/nutrition.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/utils/string_ext.dart';
 
-class Food implements Edible {
-  @override
-  String? id;
-  @override
-  final String name;
-  @override
-  final String description;
-  final List<NutritionFacts> nutritionFacts;
-  @override
-  final DateTime? createdAt;
-  @override
-  final DateTime? updatedAt;
+part 'food.freezed.dart';
+part 'food.g.dart';
 
-  Food({
-    this.id,
-    required this.name,
-    required this.description,
-    required this.nutritionFacts,
-    this.createdAt,
-    this.updatedAt,
-  });
+@Freezed(
+  fromJson: false,
+  toJson: true,
+)
+class Food with _$Food implements Edible {
+  const Food._();
+
+  const factory Food({
+    String? id,
+    required String name,
+    required String description,
+    required List<NutritionFacts> nutritionFacts,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) = _Food;
+
+  @override
+  List<NutritionFacts> getNutritionFacts() => nutritionFacts;
 
   Food copy() {
     return Food(
@@ -31,7 +32,4 @@ class Food implements Edible {
       nutritionFacts: nutritionFacts,
     );
   }
-
-  @override
-  List<NutritionFacts> getNutritionFacts() => nutritionFacts;
 }

@@ -38,7 +38,7 @@ class MaintenanceScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              value(l10n(context)),
+              value(context),
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),

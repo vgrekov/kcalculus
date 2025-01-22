@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/meals.dart';
 import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/domain/models/nutrition.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/screens/common/portion_add.dart';
 import 'package:kcalculus/screens/common/portion_edit.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;

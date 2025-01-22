@@ -4,7 +4,7 @@ import 'package:kcalculus/data/local/db.dart';
 import 'package:kcalculus/data/local/dish_dao.dart';
 import 'package:kcalculus/data/local/food_dao.dart';
 import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/dish.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/meal.dart';
@@ -31,9 +31,13 @@ class LocalMealDao implements MealDao {
     await db.transaction((txn) async {
       if (model.edible.id == null) {
         if (model.edible is Food) {
-          await foodDao.save(model.edible as Food, txn: txn);
+          model = model.copyWith(
+            edible: await foodDao.save(model.edible as Food, txn: txn),
+          );
         } else if (model.edible is Dish) {
-          await dishDao.save(model.edible as Dish, txn: txn);
+          model = model.copyWith(
+            edible: await dishDao.save(model.edible as Dish, txn: txn),
+          );
         }
       }
 
@@ -42,8 +46,6 @@ class LocalMealDao implements MealDao {
         ..._toRecord(model),
       });
     });
-
-    model.id = id;
   }
 
   @override

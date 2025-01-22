@@ -3,19 +3,17 @@ import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/nutrition/portion.dart';
 
-part 'meal.freezed.dart';
-part 'meal.g.dart';
+part 'ingredient.freezed.dart';
+part 'ingredient.g.dart';
 
 @Freezed(
   fromJson: false,
   toJson: true,
 )
-class Meal with _$Meal, Portion {
+class Ingredient with _$Ingredient, Portion {
   @With<Portion>()
-  const factory Meal({
-    String? id,
+  const factory Ingredient({
     required Edible edible,
     required Amount amount,
-    required DateTime eatenAt,
-  }) = _Meal;
+  }) = _Ingredient;
 }

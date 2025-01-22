@@ -5,9 +5,9 @@ import 'package:kcalculus/data/local/edible_dao.dart';
 import 'package:kcalculus/data/local/food_dao.dart';
 import 'package:kcalculus/data/local/ingredient_dao.dart';
 import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/dish.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/nutrition.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrition_ratio.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/exceptions.dart';
@@ -28,21 +28,21 @@ class LocalDishDao implements DishDao {
   });
 
   @override
-  Future<void> save(Dish model, {Transaction? txn}) async {
+  Future<Dish> save(Dish model, {Transaction? txn}) async {
     await _checkForIngredientsCycle(model);
 
     if (txn != null) {
-      await _save(model, txn: txn);
+      return _save(model, txn: txn);
     } else {
-      await db.transaction((txn) async {
-        await _save(model, txn: txn);
+      return db.transaction((txn) {
+        return _save(model, txn: txn);
       });
     }
   }
 
-  Future<void> _save(Dish model, {required Transaction txn}) async {
+  Future<Dish> _save(Dish model, {required Transaction txn}) async {
     if (model.id == null) {
-      model.id = generateId();
+      model = model.copyWith(id: generateId());
 
       await edibleDao.add(model, txn: txn);
 
@@ -68,6 +68,8 @@ class LocalDishDao implements DishDao {
       dishDao: this,
       txn: txn,
     );
+
+    return model;
   }
 
   Future<void> _checkForIngredientsCycle(Dish model) async {

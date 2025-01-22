@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/dish.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/models/dish/ingredient.dart';
 
 enum IngredientsStepStateValidationResult {
   ingredientsMissing,
@@ -17,7 +18,7 @@ class DishWizardIngredientsStepState with ChangeNotifier {
 
   factory DishWizardIngredientsStepState.fromDish(Dish cleanCopy) {
     return DishWizardIngredientsStepState(
-      ingredients: cleanCopy.ingredients,
+      ingredients: [...cleanCopy.ingredients],
     );
   }
 

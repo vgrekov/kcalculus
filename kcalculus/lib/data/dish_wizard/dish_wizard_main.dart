@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/dish.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
 
 enum MainStepStateValidationResult {
   nameMissing,

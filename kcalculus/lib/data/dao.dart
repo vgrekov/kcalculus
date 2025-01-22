@@ -3,7 +3,7 @@ import 'package:kcalculus/data/local/dish_dao.dart';
 import 'package:kcalculus/data/local/edible_dao.dart';
 import 'package:kcalculus/data/local/food_dao.dart';
 import 'package:kcalculus/data/local/meal_dao.dart';
-import 'package:kcalculus/domain/models/dish.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/meal.dart';
@@ -45,7 +45,7 @@ final edibleDaoProvider = Provider<Future<EdibleDao>>((ref) {
 });
 
 abstract interface class FoodDao {
-  Future<void> save(Food model);
+  Future<Food> save(Food model);
 
   Future<List<EdibleSearchResult>> search(String? query);
 
@@ -57,7 +57,7 @@ final foodDaoProvider = Provider<Future<FoodDao>>((ref) {
 });
 
 abstract interface class DishDao {
-  Future<void> save(Dish model);
+  Future<Dish> save(Dish model);
 
   Future<List<EdibleSearchResult>> search(String? query);
 

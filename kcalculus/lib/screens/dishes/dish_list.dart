@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/data/dishes.dart';
-import 'package:kcalculus/domain/models/dish.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/screens/dishes/dish_view.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';

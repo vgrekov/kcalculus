@@ -21,19 +21,19 @@ class LocalFoodDao implements FoodDao {
   });
 
   @override
-  Future<void> save(Food model, {Transaction? txn}) async {
+  Future<Food> save(Food model, {Transaction? txn}) {
     if (txn != null) {
-      await _save(model, txn: txn);
+      return _save(model, txn: txn);
     } else {
-      await db.transaction((txn) async {
-        await _save(model, txn: txn);
+      return db.transaction((txn) {
+        return _save(model, txn: txn);
       });
     }
   }
 
-  Future<void> _save(Food model, {required Transaction txn}) async {
+  Future<Food> _save(Food model, {required Transaction txn}) async {
     if (model.id == null) {
-      model.id = generateId();
+      model = model.copyWith(id: generateId());
 
       await edibleDao.add(model, txn: txn);
 
@@ -49,6 +49,8 @@ class LocalFoodDao implements FoodDao {
       model.id!,
       txn: txn,
     );
+
+    return model;
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:kcalculus/data/dish_wizard/dish_wizard_ingredients.dart';
 import 'package:kcalculus/data/dish_wizard/dish_wizard_main.dart';
 import 'package:kcalculus/data/dish_wizard/dish_wizard_measurements.dart';
 import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/dish.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/state_wrap.dart';
 

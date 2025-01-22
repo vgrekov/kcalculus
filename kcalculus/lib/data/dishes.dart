@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/search_query.dart';
-import 'package:kcalculus/domain/models/dish.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/utils/exceptions.dart';
 
