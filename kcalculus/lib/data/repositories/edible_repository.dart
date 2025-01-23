@@ -1,6 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/repositories/local/edible_repository.dart';
-import 'package:kcalculus/data/services/local/database/database_service.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 
 abstract class EdibleRepository {
@@ -21,12 +18,3 @@ abstract class EdibleRepository {
 
   Future<bool> restore(String id);
 }
-
-final edibleRepository = FutureProvider<EdibleRepository>(
-  (ref) async {
-    final dbService = await ref.watch(databaseService.future);
-    return LocalEdibleRepository(
-      dbService: dbService,
-    );
-  },
-);

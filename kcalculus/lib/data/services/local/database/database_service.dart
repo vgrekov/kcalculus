@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kcalculus/data/services/local/database/dish/dish_service.dart';
 import 'package:kcalculus/data/services/local/database/edible/edible_service.dart';
@@ -173,15 +172,3 @@ class DatabaseService {
     db.close();
   }
 }
-
-final databaseService = FutureProvider.autoDispose(
-  (ref) async {
-    final dbService = DatabaseService();
-
-    ref.onDispose(() {
-      dbService.dispose();
-    });
-
-    return dbService;
-  },
-);

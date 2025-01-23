@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/services/local/database/edible/edible_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
@@ -99,7 +98,3 @@ class LocalDishConverter {
     return null;
   }
 }
-
-final localDishConverter = Provider(
-  (ref) => LocalDishConverter(),
-);

@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/services/local/database/meal/meal_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
@@ -33,7 +32,3 @@ class LocalMealConverter {
     );
   }
 }
-
-final localMealConverter = Provider(
-  (ref) => LocalMealConverter(),
-);

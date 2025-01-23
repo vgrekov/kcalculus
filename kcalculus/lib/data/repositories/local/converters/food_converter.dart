@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/repositories/local/converters/nutrition_facts_converter.dart';
 import 'package:kcalculus/data/services/local/database/edible/edible_db_model.dart';
 import 'package:kcalculus/data/services/local/database/nutrition_facts/nutrition_facts_db_model.dart';
@@ -39,12 +38,3 @@ class LocalFoodConverter {
     );
   }
 }
-
-final localFoodConverter = Provider(
-  (ref) {
-    final nutritionFactsConverter = ref.watch(localNutritionFactsConverter);
-    return LocalFoodConverter(
-      nutritionFactsConverter: nutritionFactsConverter,
-    );
-  },
-);
