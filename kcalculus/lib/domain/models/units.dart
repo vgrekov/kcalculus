@@ -187,6 +187,10 @@ enum Unit {
     };
   }
 
+  static Unit of(String name) {
+    return Unit.values.firstWhere((u) => u.name == name);
+  }
+
   final Measure measure;
   final MeasureSystem system;
   final double factor;
