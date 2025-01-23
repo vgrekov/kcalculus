@@ -119,6 +119,26 @@ class DatabaseService {
     }
   }
 
+  static Future<Database> _openDatabase() async {
+    final dbDir = await getDatabasesPath();
+    final dbPath = path.join(dbDir, _kDbName);
+
+    Database? db;
+    try {
+      db = await openDatabase(dbPath);
+      return db;
+    } catch (error) {
+      throw LocalizedException(
+        (loc) => loc.databaseErrorFailedToOpen,
+        cause: error,
+      );
+    } finally {
+      if (db?.isOpen == true) {
+        await db?.close();
+      }
+    }
+  }
+
   DatabaseService() {
     _database = _openDatabase();
     nutritionFactsDao = NutritionFactsDao(_database);
@@ -143,26 +163,6 @@ class DatabaseService {
 
   late final MealDao mealDao;
 
-  Future<Database> _openDatabase() async {
-    final dbDir = await getDatabasesPath();
-    final dbPath = path.join(dbDir, _kDbName);
-
-    Database? db;
-    try {
-      db = await openDatabase(dbPath);
-      return db;
-    } catch (error) {
-      throw LocalizedException(
-        (loc) => loc.databaseErrorFailedToOpen,
-        cause: error,
-      );
-    } finally {
-      if (db?.isOpen == true) {
-        await db?.close();
-      }
-    }
-  }
-
   Future<T> transaction<T>(Future<T> Function(Transaction) action) async {
     final db = await _database;
     return db.transaction(action);
@@ -174,7 +174,7 @@ class DatabaseService {
   }
 }
 
-final databaseService = FutureProvider.autoDispose<DatabaseService>(
+final databaseService = FutureProvider.autoDispose(
   (ref) async {
     final dbService = DatabaseService();
 
