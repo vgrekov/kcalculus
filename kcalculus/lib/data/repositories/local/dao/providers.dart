@@ -42,3 +42,18 @@ final _localDishDaoProvider = FutureProvider(
     );
   },
 );
+
+final _localMealDaoProvider = FutureProvider(
+  (ref) async {
+    final dbService = await ref.watch(_databaseServiceProvider.future);
+    final foodDao = await ref.watch(_localFoodDaoProvider.future);
+    final dishDao = await ref.watch(_localDishDaoProvider.future);
+    final mealConverter = ref.watch(_localMealConverterProvider);
+    return LocalMealDao(
+      dbService: dbService,
+      foodDao: foodDao,
+      dishDao: dishDao,
+      mealConverter: mealConverter,
+    );
+  },
+);

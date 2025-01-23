@@ -13,9 +13,12 @@ import 'package:kcalculus/data/repositories/local/converters/nutrition_facts_con
 import 'package:kcalculus/data/repositories/local/dao/dish_dao.dart';
 import 'package:kcalculus/data/repositories/local/dao/edible_dao.dart';
 import 'package:kcalculus/data/repositories/local/dao/food_dao.dart';
+import 'package:kcalculus/data/repositories/local/dao/meal_dao.dart';
 import 'package:kcalculus/data/repositories/local/dish_repository.dart';
 import 'package:kcalculus/data/repositories/local/edible_repository.dart';
 import 'package:kcalculus/data/repositories/local/food_repository.dart';
+import 'package:kcalculus/data/repositories/local/meal_repository.dart';
+import 'package:kcalculus/data/repositories/meal_repository.dart';
 import 'package:kcalculus/data/services/local/app_settings/app_settings_shared_pref_service.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';

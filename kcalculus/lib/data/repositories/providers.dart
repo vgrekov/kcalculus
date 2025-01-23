@@ -37,3 +37,12 @@ final dishRepositoryProvider = FutureProvider<DishRepository>(
     );
   },
 );
+
+final mealRepositoryProvider = FutureProvider<MealRepository>(
+  (ref) async {
+    final mealDao = await ref.watch(_localMealDaoProvider.future);
+    return LocalMealRepository(
+      mealDao: mealDao,
+    );
+  },
+);
