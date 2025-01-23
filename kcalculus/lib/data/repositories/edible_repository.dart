@@ -22,7 +22,7 @@ abstract class EdibleRepository {
   Future<bool> restore(String id);
 }
 
-final edibleRepository = FutureProvider(
+final edibleRepository = FutureProvider<EdibleRepository>(
   (ref) async {
     final dbService = await ref.watch(databaseService.future);
     return LocalEdibleRepository(

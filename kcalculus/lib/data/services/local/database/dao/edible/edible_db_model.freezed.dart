@@ -363,7 +363,7 @@ class __$$EdibleDbModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$EdibleDbModelImpl implements _EdibleDbModel {
+class _$EdibleDbModelImpl extends _EdibleDbModel {
   _$EdibleDbModelImpl(
       {required this.id,
       required this.name,
@@ -372,7 +372,8 @@ class _$EdibleDbModelImpl implements _EdibleDbModel {
       @JsonKey(includeToJson: false, includeFromJson: true) this.updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at,
       final String? $type})
-      : $type = $type ?? 'default';
+      : $type = $type ?? 'default',
+        super._();
 
   factory _$EdibleDbModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$EdibleDbModelImplFromJson(json);
@@ -641,7 +642,7 @@ class _$EdibleDbModelImpl implements _EdibleDbModel {
   }
 }
 
-abstract class _EdibleDbModel implements EdibleDbModel {
+abstract class _EdibleDbModel extends EdibleDbModel {
   factory _EdibleDbModel(
       {required final String id,
       required final String name,
@@ -652,6 +653,7 @@ abstract class _EdibleDbModel implements EdibleDbModel {
       final String? updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true)
       final String? deleted_at}) = _$EdibleDbModelImpl;
+  _EdibleDbModel._() : super._();
 
   factory _EdibleDbModel.fromJson(Map<String, dynamic> json) =
       _$EdibleDbModelImpl.fromJson;
@@ -749,7 +751,7 @@ class __$$FoodDbModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FoodDbModelImpl implements FoodDbModel {
+class _$FoodDbModelImpl extends FoodDbModel {
   _$FoodDbModelImpl(
       {required this.id,
       @JsonKey(includeToJson: false, includeFromJson: true) required this.name,
@@ -758,7 +760,8 @@ class _$FoodDbModelImpl implements FoodDbModel {
       @JsonKey(includeToJson: false, includeFromJson: true) this.updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at,
       final String? $type})
-      : $type = $type ?? 'food';
+      : $type = $type ?? 'food',
+        super._();
 
   factory _$FoodDbModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$FoodDbModelImplFromJson(json);
@@ -1028,7 +1031,7 @@ class _$FoodDbModelImpl implements FoodDbModel {
   }
 }
 
-abstract class FoodDbModel implements EdibleDbModel {
+abstract class FoodDbModel extends EdibleDbModel {
   factory FoodDbModel(
       {required final String id,
       @JsonKey(includeToJson: false, includeFromJson: true)
@@ -1041,6 +1044,7 @@ abstract class FoodDbModel implements EdibleDbModel {
       final String? updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true)
       final String? deleted_at}) = _$FoodDbModelImpl;
+  FoodDbModel._() : super._();
 
   factory FoodDbModel.fromJson(Map<String, dynamic> json) =
       _$FoodDbModelImpl.fromJson;
@@ -1212,7 +1216,7 @@ class __$$DishDbModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DishDbModelImpl implements DishDbModel {
+class _$DishDbModelImpl extends DishDbModel {
   _$DishDbModelImpl(
       {required this.id,
       @JsonKey(includeToJson: false, includeFromJson: true) required this.name,
@@ -1233,7 +1237,8 @@ class _$DishDbModelImpl implements DishDbModel {
       @JsonKey(includeToJson: false, includeFromJson: true) this.updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at,
       final String? $type})
-      : $type = $type ?? 'dish';
+      : $type = $type ?? 'dish',
+        super._();
 
   factory _$DishDbModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$DishDbModelImplFromJson(json);
@@ -1626,7 +1631,7 @@ class _$DishDbModelImpl implements DishDbModel {
   }
 }
 
-abstract class DishDbModel implements EdibleDbModel {
+abstract class DishDbModel extends EdibleDbModel {
   factory DishDbModel(
       {required final String id,
       @JsonKey(includeToJson: false, includeFromJson: true)
@@ -1651,6 +1656,7 @@ abstract class DishDbModel implements EdibleDbModel {
       final String? updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true)
       final String? deleted_at}) = _$DishDbModelImpl;
+  DishDbModel._() : super._();
 
   factory DishDbModel.fromJson(Map<String, dynamic> json) =
       _$DishDbModelImpl.fromJson;

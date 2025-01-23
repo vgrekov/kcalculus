@@ -7,6 +7,8 @@ part 'edible_db_model.g.dart';
 
 @freezed
 sealed class EdibleDbModel with _$EdibleDbModel {
+  const EdibleDbModel._();
+
   factory EdibleDbModel({
     required String id,
     required String name,
@@ -100,4 +102,15 @@ sealed class EdibleDbModel with _$EdibleDbModel {
 
   factory EdibleDbModel.fromJson(Map<String, dynamic> json) =>
       _$EdibleDbModelFromJson(json);
+
+  EdibleDbModel toBaseDbModel() {
+    return EdibleDbModel(
+      id: id,
+      name: name,
+      description: description,
+      created_at: created_at,
+      updated_at: updated_at,
+      deleted_at: deleted_at,
+    );
+  }
 }

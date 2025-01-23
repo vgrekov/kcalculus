@@ -11,7 +11,7 @@ abstract interface class FoodRepository {
   Future<Food> save(Food food);
 }
 
-final foodRepository = FutureProvider(
+final foodRepository = FutureProvider<FoodRepository>(
   (ref) async {
     final dbService = await ref.watch(databaseService.future);
     final foodConverter = ref.watch(localFoodConverter);

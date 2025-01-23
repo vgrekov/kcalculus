@@ -44,12 +44,13 @@ class LocalFoodRepository implements FoodRepository {
       final foodDbModel = _foodConverter.toDbModel(food, foodId);
 
       if (food.id == null) {
-        await _dbService.edibleDao.add(foodDbModel, txn: txn);
+        await _dbService.edibleDao.add(foodDbModel.toBaseDbModel(), txn: txn);
         await _dbService.foodDao.add(foodDbModel, txn: txn);
 
         food = food.copyWith(id: foodId);
       } else {
-        await _dbService.edibleDao.update(foodDbModel, txn: txn);
+        await _dbService.edibleDao
+            .update(foodDbModel.toBaseDbModel(), txn: txn);
       }
 
       await _dbService.nutritionFactsDao.saveForEdible(
