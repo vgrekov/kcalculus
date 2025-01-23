@@ -22,6 +22,10 @@ MealDbModel _$MealDbModelFromJson(Map<String, dynamic> json) {
 mixin _$MealDbModel {
   String get id => throw _privateConstructorUsedError;
   String get edible_id => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  String? get edible_food_id => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  String? get edible_dish_id => throw _privateConstructorUsedError;
   String get amount_unit => throw _privateConstructorUsedError;
   double get amount_value => throw _privateConstructorUsedError;
   String get eaten_at => throw _privateConstructorUsedError;
@@ -47,6 +51,10 @@ abstract class $MealDbModelCopyWith<$Res> {
   $Res call(
       {String id,
       String edible_id,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      String? edible_food_id,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      String? edible_dish_id,
       String amount_unit,
       double amount_value,
       String eaten_at,
@@ -71,6 +79,8 @@ class _$MealDbModelCopyWithImpl<$Res, $Val extends MealDbModel>
   $Res call({
     Object? id = null,
     Object? edible_id = null,
+    Object? edible_food_id = freezed,
+    Object? edible_dish_id = freezed,
     Object? amount_unit = null,
     Object? amount_value = null,
     Object? eaten_at = null,
@@ -85,6 +95,14 @@ class _$MealDbModelCopyWithImpl<$Res, $Val extends MealDbModel>
           ? _value.edible_id
           : edible_id // ignore: cast_nullable_to_non_nullable
               as String,
+      edible_food_id: freezed == edible_food_id
+          ? _value.edible_food_id
+          : edible_food_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      edible_dish_id: freezed == edible_dish_id
+          ? _value.edible_dish_id
+          : edible_dish_id // ignore: cast_nullable_to_non_nullable
+              as String?,
       amount_unit: null == amount_unit
           ? _value.amount_unit
           : amount_unit // ignore: cast_nullable_to_non_nullable
@@ -116,6 +134,10 @@ abstract class _$$MealDbModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String edible_id,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      String? edible_food_id,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      String? edible_dish_id,
       String amount_unit,
       double amount_value,
       String eaten_at,
@@ -138,6 +160,8 @@ class __$$MealDbModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? edible_id = null,
+    Object? edible_food_id = freezed,
+    Object? edible_dish_id = freezed,
     Object? amount_unit = null,
     Object? amount_value = null,
     Object? eaten_at = null,
@@ -152,6 +176,14 @@ class __$$MealDbModelImplCopyWithImpl<$Res>
           ? _value.edible_id
           : edible_id // ignore: cast_nullable_to_non_nullable
               as String,
+      edible_food_id: freezed == edible_food_id
+          ? _value.edible_food_id
+          : edible_food_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      edible_dish_id: freezed == edible_dish_id
+          ? _value.edible_dish_id
+          : edible_dish_id // ignore: cast_nullable_to_non_nullable
+              as String?,
       amount_unit: null == amount_unit
           ? _value.amount_unit
           : amount_unit // ignore: cast_nullable_to_non_nullable
@@ -178,6 +210,8 @@ class _$MealDbModelImpl implements _MealDbModel {
   _$MealDbModelImpl(
       {required this.id,
       required this.edible_id,
+      @JsonKey(includeToJson: false, includeFromJson: true) this.edible_food_id,
+      @JsonKey(includeToJson: false, includeFromJson: true) this.edible_dish_id,
       required this.amount_unit,
       required this.amount_value,
       required this.eaten_at,
@@ -191,6 +225,12 @@ class _$MealDbModelImpl implements _MealDbModel {
   @override
   final String edible_id;
   @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  final String? edible_food_id;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  final String? edible_dish_id;
+  @override
   final String amount_unit;
   @override
   final double amount_value;
@@ -202,7 +242,7 @@ class _$MealDbModelImpl implements _MealDbModel {
 
   @override
   String toString() {
-    return 'MealDbModel(id: $id, edible_id: $edible_id, amount_unit: $amount_unit, amount_value: $amount_value, eaten_at: $eaten_at, deleted_at: $deleted_at)';
+    return 'MealDbModel(id: $id, edible_id: $edible_id, edible_food_id: $edible_food_id, edible_dish_id: $edible_dish_id, amount_unit: $amount_unit, amount_value: $amount_value, eaten_at: $eaten_at, deleted_at: $deleted_at)';
   }
 
   @override
@@ -213,6 +253,10 @@ class _$MealDbModelImpl implements _MealDbModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.edible_id, edible_id) ||
                 other.edible_id == edible_id) &&
+            (identical(other.edible_food_id, edible_food_id) ||
+                other.edible_food_id == edible_food_id) &&
+            (identical(other.edible_dish_id, edible_dish_id) ||
+                other.edible_dish_id == edible_dish_id) &&
             (identical(other.amount_unit, amount_unit) ||
                 other.amount_unit == amount_unit) &&
             (identical(other.amount_value, amount_value) ||
@@ -225,8 +269,8 @@ class _$MealDbModelImpl implements _MealDbModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, edible_id, amount_unit,
-      amount_value, eaten_at, deleted_at);
+  int get hashCode => Object.hash(runtimeType, id, edible_id, edible_food_id,
+      edible_dish_id, amount_unit, amount_value, eaten_at, deleted_at);
 
   /// Create a copy of MealDbModel
   /// with the given fields replaced by the non-null parameter values.
@@ -248,6 +292,10 @@ abstract class _MealDbModel implements MealDbModel {
   factory _MealDbModel(
       {required final String id,
       required final String edible_id,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      final String? edible_food_id,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      final String? edible_dish_id,
       required final String amount_unit,
       required final double amount_value,
       required final String eaten_at,
@@ -261,6 +309,12 @@ abstract class _MealDbModel implements MealDbModel {
   String get id;
   @override
   String get edible_id;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  String? get edible_food_id;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  String? get edible_dish_id;
   @override
   String get amount_unit;
   @override

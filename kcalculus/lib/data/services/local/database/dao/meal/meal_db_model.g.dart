@@ -10,6 +10,8 @@ _$MealDbModelImpl _$$MealDbModelImplFromJson(Map<String, dynamic> json) =>
     _$MealDbModelImpl(
       id: json['id'] as String,
       edible_id: json['edible_id'] as String,
+      edible_food_id: json['edible_food_id'] as String?,
+      edible_dish_id: json['edible_dish_id'] as String?,
       amount_unit: json['amount_unit'] as String,
       amount_value: (json['amount_value'] as num).toDouble(),
       eaten_at: json['eaten_at'] as String,

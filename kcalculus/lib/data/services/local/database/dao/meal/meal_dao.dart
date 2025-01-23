@@ -13,8 +13,8 @@ class MealDao {
       '''
       SELECT
         meals.*,
-        foods.id AS food_id,
-        dishes.id AS dish_id
+        foods.id AS edible_food_id,
+        dishes.id AS edible_dish_id
       FROM
         meals
       LEFT JOIN foods ON
