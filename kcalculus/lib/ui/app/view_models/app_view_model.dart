@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/repositories/app_settings/app_settings_repository.dart';
+import 'package:kcalculus/data/repositories/app_settings_repository.dart';
 import 'package:kcalculus/data/repositories/maintenance/maintenance_status_repository.dart';
 import 'package:kcalculus/data/repositories/maintenance/maintenance_task_repository.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
