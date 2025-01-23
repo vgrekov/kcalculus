@@ -22,10 +22,10 @@ class LocalFoodRepository implements FoodRepository {
 
   @override
   Future<Food?> getById(String id) async {
-    final foodDbModel = await _dbService.foodDao.getById(id);
+    final foodDbModel = await _dbService.food.getById(id);
     if (foodDbModel != null) {
       final nutritionFactsDbModels =
-          await _dbService.nutritionFactsDao.getByEdible(id);
+          await _dbService.nutritionFacts.getByEdible(id);
 
       return _foodConverter.toModel(
         foodDbModel,
@@ -44,16 +44,15 @@ class LocalFoodRepository implements FoodRepository {
       final foodDbModel = _foodConverter.toDbModel(food, foodId);
 
       if (food.id == null) {
-        await _dbService.edibleDao.add(foodDbModel.toBaseDbModel(), txn: txn);
-        await _dbService.foodDao.add(foodDbModel, txn: txn);
+        await _dbService.edible.add(foodDbModel.toBaseDbModel(), txn: txn);
+        await _dbService.food.add(foodDbModel, txn: txn);
 
         food = food.copyWith(id: foodId);
       } else {
-        await _dbService.edibleDao
-            .update(foodDbModel.toBaseDbModel(), txn: txn);
+        await _dbService.edible.update(foodDbModel.toBaseDbModel(), txn: txn);
       }
 
-      await _dbService.nutritionFactsDao.saveForEdible(
+      await _dbService.nutritionFacts.saveForEdible(
         food.nutritionFacts
             .map((model) => _nutritionFactsConverter.toDbModel(model, foodId))
             .toList(),

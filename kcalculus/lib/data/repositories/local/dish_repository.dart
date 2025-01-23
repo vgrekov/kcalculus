@@ -6,7 +6,7 @@ import 'package:kcalculus/data/repositories/local/converters/dish_converter.dart
 import 'package:kcalculus/data/repositories/local/converters/food_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/ingredient_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/nutrition_facts_converter.dart';
-import 'package:kcalculus/data/services/local/database/dao/ingredient/ingredient_db_model.dart';
+import 'package:kcalculus/data/services/local/database/ingredient/ingredient_db_model.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible.dart';
@@ -56,7 +56,7 @@ class LocalDishRepository implements DishRepository {
       if (isDish) {
         var ingredients = ingredientsByDish[id];
         if (ingredients == null) {
-          ingredients = await _dbService.ingredientDao.getByDish(id);
+          ingredients = await _dbService.ingredient.getByDish(id);
 
           ingredientsByDish[id] = ingredients;
 
@@ -86,10 +86,10 @@ class LocalDishRepository implements DishRepository {
     Map<String, Edible> resolvedEdibles,
   ) async {
     if (!resolvedEdibles.containsKey(id)) {
-      final foodDbModel = await _dbService.foodDao.getById(id);
+      final foodDbModel = await _dbService.food.getById(id);
       if (foodDbModel != null) {
         final nutritionFactsDbModels =
-            await _dbService.nutritionFactsDao.getByEdible(id);
+            await _dbService.nutritionFacts.getByEdible(id);
 
         Edible edible = _foodConverter.toModel(
           foodDbModel,
@@ -107,7 +107,7 @@ class LocalDishRepository implements DishRepository {
     Map<String, Edible> resolvedEdibles,
   ) async {
     if (!resolvedEdibles.containsKey(id)) {
-      final dishDbModel = await _dbService.dishDao.getById(id);
+      final dishDbModel = await _dbService.dish.getById(id);
       if (dishDbModel != null) {
         final ingredients = ingredientsByDish[id]!;
 
@@ -169,7 +169,7 @@ class LocalDishRepository implements DishRepository {
       }
 
       for (final dishId in ingredientsByDish.keys) {
-        _dbService.ingredientDao.saveForDish(
+        _dbService.ingredient.saveForDish(
           ingredientsByDish[dishId]!,
           dishId,
           txn: txn,
@@ -190,7 +190,7 @@ class LocalDishRepository implements DishRepository {
     if (ingredientDishes.isEmpty) return;
 
     final hierarchies = await Future.wait(ingredientDishes
-        .map((e) => _dbService.ingredientDao.getHierarchyByDish(e.id!)));
+        .map((e) => _dbService.ingredient.getHierarchyByDish(e.id!)));
     final fullHierarchy = hierarchies.reduce((h1, h2) => h1.union(h2));
 
     if (fullHierarchy.contains(model.id!)) {
@@ -202,13 +202,13 @@ class LocalDishRepository implements DishRepository {
     final foodDbModel = _foodConverter.toDbModel(food, foodId);
 
     if (food.id == null) {
-      await _dbService.edibleDao.add(foodDbModel.toBaseDbModel(), txn: txn);
-      await _dbService.foodDao.add(foodDbModel, txn: txn);
+      await _dbService.edible.add(foodDbModel.toBaseDbModel(), txn: txn);
+      await _dbService.food.add(foodDbModel, txn: txn);
     } else {
-      await _dbService.edibleDao.update(foodDbModel.toBaseDbModel(), txn: txn);
+      await _dbService.edible.update(foodDbModel.toBaseDbModel(), txn: txn);
     }
 
-    await _dbService.nutritionFactsDao.saveForEdible(
+    await _dbService.nutritionFacts.saveForEdible(
       food.nutritionFacts
           .map((model) => _nutritionFactsConverter.toDbModel(model, foodId))
           .toList(),
@@ -221,11 +221,11 @@ class LocalDishRepository implements DishRepository {
     final dishDbModel = _dishConverter.toDbModel(dish, dishId);
 
     if (dish.id == null) {
-      await _dbService.edibleDao.add(dishDbModel.toBaseDbModel(), txn: txn);
-      await _dbService.dishDao.add(dishDbModel, txn: txn);
+      await _dbService.edible.add(dishDbModel.toBaseDbModel(), txn: txn);
+      await _dbService.dish.add(dishDbModel, txn: txn);
     } else {
-      await _dbService.edibleDao.update(dishDbModel.toBaseDbModel(), txn: txn);
-      await _dbService.dishDao.update(dishDbModel, txn: txn);
+      await _dbService.edible.update(dishDbModel.toBaseDbModel(), txn: txn);
+      await _dbService.dish.update(dishDbModel, txn: txn);
     }
   }
 }

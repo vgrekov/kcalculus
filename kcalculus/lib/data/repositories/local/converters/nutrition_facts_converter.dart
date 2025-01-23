@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/services/local/database/dao/nutrition_facts/nutrition_facts_db_model.dart';
+import 'package:kcalculus/data/services/local/database/nutrition_facts/nutrition_facts_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';

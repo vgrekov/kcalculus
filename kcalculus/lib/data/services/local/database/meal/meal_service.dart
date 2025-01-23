@@ -1,9 +1,9 @@
-import 'package:kcalculus/data/services/local/database/dao/meal/meal_db_model.dart';
+import 'package:kcalculus/data/services/local/database/meal/meal_db_model.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:sqflite/sqflite.dart';
 
-class MealDao {
-  MealDao(this.database);
+class MealService {
+  MealService(this.database);
 
   final Future<Database> database;
 

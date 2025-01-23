@@ -12,7 +12,7 @@ class LocalEdibleRepository implements EdibleRepository {
   @override
   Future<List<EdibleSearchResult>> search(String? query,
       {EdibleSearchResultType? type}) {
-    return _dbService.edibleDao
+    return _dbService.edible
         .search(
           query,
           onlyFoods: type == EdibleSearchResultType.food,
@@ -38,7 +38,7 @@ class LocalEdibleRepository implements EdibleRepository {
     String description, {
     String? exceptWithId,
   }) {
-    return _dbService.edibleDao.exists(
+    return _dbService.edible.exists(
       name,
       description,
       exceptWithId: exceptWithId,
@@ -47,16 +47,16 @@ class LocalEdibleRepository implements EdibleRepository {
 
   @override
   Future<bool> wasEaten(String id) {
-    return _dbService.edibleDao.wasEaten(id);
+    return _dbService.edible.wasEaten(id);
   }
 
   @override
   Future<bool> delete(String id) {
-    return _dbService.edibleDao.delete(id);
+    return _dbService.edible.delete(id);
   }
 
   @override
   Future<bool> restore(String id) {
-    return _dbService.edibleDao.restore(id);
+    return _dbService.edible.restore(id);
   }
 }

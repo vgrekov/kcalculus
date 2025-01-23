@@ -1,8 +1,8 @@
-import 'package:kcalculus/data/services/local/database/dao/edible/edible_db_model.dart';
+import 'package:kcalculus/data/services/local/database/edible/edible_db_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DishDao {
-  DishDao(this.database);
+class DishService {
+  DishService(this.database);
 
   final Future<Database> database;
 

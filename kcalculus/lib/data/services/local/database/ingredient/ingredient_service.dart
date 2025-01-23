@@ -1,8 +1,8 @@
-import 'package:kcalculus/data/services/local/database/dao/ingredient/ingredient_db_model.dart';
+import 'package:kcalculus/data/services/local/database/ingredient/ingredient_db_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class IngredientDao {
-  IngredientDao(this.database);
+class IngredientService {
+  IngredientService(this.database);
 
   final Future<Database> database;
 

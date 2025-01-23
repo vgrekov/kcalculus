@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/services/local/database/dao/ingredient/ingredient_db_model.dart';
+import 'package:kcalculus/data/services/local/database/ingredient/ingredient_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/dish/ingredient.dart';
 import 'package:kcalculus/domain/models/edible.dart';

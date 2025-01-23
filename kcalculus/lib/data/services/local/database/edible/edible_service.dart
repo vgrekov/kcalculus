@@ -1,10 +1,10 @@
-import 'package:kcalculus/data/services/local/database/dao/edible/edible_db_model.dart';
-import 'package:kcalculus/data/services/local/database/dao/edible/edible_search_result_db_model.dart';
+import 'package:kcalculus/data/services/local/database/edible/edible_db_model.dart';
+import 'package:kcalculus/data/services/local/database/edible/edible_search_result_db_model.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:sqflite/sqflite.dart';
 
-class EdibleDao {
-  EdibleDao(this.database);
+class EdibleService {
+  EdibleService(this.database);
 
   final Future<Database> database;
 

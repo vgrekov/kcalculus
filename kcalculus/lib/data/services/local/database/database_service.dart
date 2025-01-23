@@ -4,12 +4,12 @@ import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:kcalculus/data/services/local/database/dao/dish/dish_dao.dart';
-import 'package:kcalculus/data/services/local/database/dao/edible/edible_dao.dart';
-import 'package:kcalculus/data/services/local/database/dao/food/food_dao.dart';
-import 'package:kcalculus/data/services/local/database/dao/ingredient/ingredient_dao.dart';
-import 'package:kcalculus/data/services/local/database/dao/meal/meal_dao.dart';
-import 'package:kcalculus/data/services/local/database/dao/nutrition_facts/nutrition_facts_dao.dart';
+import 'package:kcalculus/data/services/local/database/dish/dish_service.dart';
+import 'package:kcalculus/data/services/local/database/edible/edible_service.dart';
+import 'package:kcalculus/data/services/local/database/food/food_service.dart';
+import 'package:kcalculus/data/services/local/database/ingredient/ingredient_service.dart';
+import 'package:kcalculus/data/services/local/database/meal/meal_service.dart';
+import 'package:kcalculus/data/services/local/database/nutrition_facts/nutrition_facts_service.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/exceptions.dart';
 import 'package:path/path.dart' as path;
@@ -141,27 +141,27 @@ class DatabaseService {
 
   DatabaseService() {
     _database = _openDatabase();
-    nutritionFactsDao = NutritionFactsDao(_database);
-    edibleDao = EdibleDao(_database);
-    foodDao = FoodDao(_database);
-    ingredientDao = IngredientDao(_database);
-    dishDao = DishDao(_database);
-    mealDao = MealDao(_database);
+    nutritionFacts = NutritionFactsService(_database);
+    edible = EdibleService(_database);
+    food = FoodService(_database);
+    ingredient = IngredientService(_database);
+    dish = DishService(_database);
+    meal = MealService(_database);
   }
 
   late final Future<Database> _database;
 
-  late final NutritionFactsDao nutritionFactsDao;
+  late final NutritionFactsService nutritionFacts;
 
-  late final EdibleDao edibleDao;
+  late final EdibleService edible;
 
-  late final FoodDao foodDao;
+  late final FoodService food;
 
-  late final IngredientDao ingredientDao;
+  late final IngredientService ingredient;
 
-  late final DishDao dishDao;
+  late final DishService dish;
 
-  late final MealDao mealDao;
+  late final MealService meal;
 
   Future<T> transaction<T>(Future<T> Function(Transaction) action) async {
     final db = await _database;
