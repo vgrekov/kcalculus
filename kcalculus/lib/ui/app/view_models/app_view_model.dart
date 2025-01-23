@@ -18,7 +18,7 @@ class AppUiState {
 
 final appViewModel = FutureProvider<AppUiState>(
   (ref) async {
-    final settings = await ref.watch(appSettingsRepository.future);
+    final settings = await ref.watch(appSettingsRepositoryProvider.future);
 
     final bool maintenanceRequired;
     final maintenanceStatus = ref.read(maintenanceStatusRepository);

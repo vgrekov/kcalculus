@@ -180,9 +180,14 @@ class EdibleService {
     );
   }
 
-  Future<bool> delete(String id) async {
+  Future<bool> delete(
+    String id, {
+    Transaction? txn,
+  }) async {
     final db = await database;
-    final count = await db.update(
+    DatabaseExecutor executor = txn ?? db;
+
+    final count = await executor.update(
       'edibles',
       {
         'deleted_at': dt.formatISO8601(DateTime.now()),
@@ -194,9 +199,14 @@ class EdibleService {
     return count > 0;
   }
 
-  Future<bool> restore(String id) async {
+  Future<bool> restore(
+    String id, {
+    Transaction? txn,
+  }) async {
     final db = await database;
-    final count = await db.update(
+    DatabaseExecutor executor = txn ?? db;
+
+    final count = await executor.update(
       'edibles',
       {
         'deleted_at': null,

@@ -2,27 +2,32 @@ part of '../../../providers.dart';
 
 // Converters
 
-final _localNutritionFactsConverter = Provider(
+final _localEdibleSearchResultConverter = Provider(
+  (ref) => LocalEdibleSearchResultConverter(),
+);
+
+final _localNutritionFactsConverterProvider = Provider(
   (ref) => LocalNutritionFactsConverter(),
 );
 
-final _localFoodConverter = Provider(
+final _localFoodConverterProvider = Provider(
   (ref) {
-    final nutritionFactsConverter = ref.watch(_localNutritionFactsConverter);
+    final nutritionFactsConverter =
+        ref.watch(_localNutritionFactsConverterProvider);
     return LocalFoodConverter(
       nutritionFactsConverter: nutritionFactsConverter,
     );
   },
 );
 
-final _localIngredientConverter = Provider(
+final _localIngredientConverterProvider = Provider(
   (ref) => LocalIngredientConverter(),
 );
 
-final _localDishConverter = Provider(
+final _localDishConverterProvider = Provider(
   (ref) => LocalDishConverter(),
 );
 
-final _localMealConverter = Provider(
+final _localMealConverterProvider = Provider(
   (ref) => LocalMealConverter(),
 );

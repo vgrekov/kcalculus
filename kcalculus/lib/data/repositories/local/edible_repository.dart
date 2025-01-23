@@ -1,35 +1,18 @@
 import 'package:kcalculus/data/repositories/edible_repository.dart';
-import 'package:kcalculus/data/services/local/database/database_service.dart';
+import 'package:kcalculus/data/repositories/local/dao/edible_dao.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 
 class LocalEdibleRepository implements EdibleRepository {
   LocalEdibleRepository({
-    required DatabaseService dbService,
-  }) : _dbService = dbService;
+    required LocalEdibleDao edibleDao,
+  }) : _edibleDao = edibleDao;
 
-  final DatabaseService _dbService;
+  final LocalEdibleDao _edibleDao;
 
   @override
   Future<List<EdibleSearchResult>> search(String? query,
       {EdibleSearchResultType? type}) {
-    return _dbService.edible
-        .search(
-          query,
-          onlyFoods: type == EdibleSearchResultType.food,
-          onlyDishes: type == EdibleSearchResultType.dish,
-        )
-        .then(
-          (data) => data
-              .map((dbModel) => EdibleSearchResult(
-                    id: dbModel.id,
-                    name: dbModel.name,
-                    description: dbModel.description ?? '',
-                    type: dbModel.food_id != null
-                        ? EdibleSearchResultType.food
-                        : EdibleSearchResultType.dish,
-                  ))
-              .toList(),
-        );
+    return _edibleDao.search(query, type: type);
   }
 
   @override
@@ -38,7 +21,7 @@ class LocalEdibleRepository implements EdibleRepository {
     String description, {
     String? exceptWithId,
   }) {
-    return _dbService.edible.exists(
+    return _edibleDao.exists(
       name,
       description,
       exceptWithId: exceptWithId,
@@ -47,16 +30,16 @@ class LocalEdibleRepository implements EdibleRepository {
 
   @override
   Future<bool> wasEaten(String id) {
-    return _dbService.edible.wasEaten(id);
+    return _edibleDao.wasEaten(id);
   }
 
   @override
   Future<bool> delete(String id) {
-    return _dbService.edible.delete(id);
+    return _edibleDao.delete(id);
   }
 
   @override
   Future<bool> restore(String id) {
-    return _dbService.edible.restore(id);
+    return _edibleDao.restore(id);
   }
 }

@@ -5,10 +5,14 @@ import 'package:kcalculus/data/repositories/edible_repository.dart';
 import 'package:kcalculus/data/repositories/food_repository.dart';
 import 'package:kcalculus/data/repositories/local/app_settings_repository.dart';
 import 'package:kcalculus/data/repositories/local/converters/dish_converter.dart';
+import 'package:kcalculus/data/repositories/local/converters/edible_search_result_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/food_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/ingredient_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/meal_coverter.dart';
 import 'package:kcalculus/data/repositories/local/converters/nutrition_facts_converter.dart';
+import 'package:kcalculus/data/repositories/local/dao/dish_dao.dart';
+import 'package:kcalculus/data/repositories/local/dao/edible_dao.dart';
+import 'package:kcalculus/data/repositories/local/dao/food_dao.dart';
 import 'package:kcalculus/data/repositories/local/dish_repository.dart';
 import 'package:kcalculus/data/repositories/local/edible_repository.dart';
 import 'package:kcalculus/data/repositories/local/food_repository.dart';
@@ -16,6 +20,7 @@ import 'package:kcalculus/data/services/local/app_settings/app_settings_shared_p
 import 'package:kcalculus/data/services/local/database/database_service.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 
-part 'services/providers.dart';
-part 'repositories/providers.dart';
 part 'repositories/local/converters/providers.dart';
+part 'repositories/local/dao/providers.dart';
+part 'repositories/providers.dart';
+part 'services/providers.dart';

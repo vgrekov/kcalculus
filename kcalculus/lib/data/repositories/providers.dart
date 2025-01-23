@@ -2,7 +2,7 @@ part of '../providers.dart';
 
 // Repositories
 
-final appSettingsRepository =
+final appSettingsRepositoryProvider =
     AsyncNotifierProvider<AppSettingsRepository, AppSettings>(
   () {
     return LocalAppSettingsRepository(
@@ -11,41 +11,29 @@ final appSettingsRepository =
   },
 );
 
-final edibleRepository = FutureProvider<EdibleRepository>(
+final edibleRepositoryProvider = FutureProvider<EdibleRepository>(
   (ref) async {
-    final dbService = await ref.watch(_databaseService.future);
+    final edibleDao = await ref.watch(_localEdibleDaoProvider.future);
     return LocalEdibleRepository(
-      dbService: dbService,
+      edibleDao: edibleDao,
     );
   },
 );
 
-final foodRepository = FutureProvider<FoodRepository>(
+final foodRepositoryProvider = FutureProvider<FoodRepository>(
   (ref) async {
-    final dbService = await ref.watch(_databaseService.future);
-    final foodConverter = ref.watch(_localFoodConverter);
-    final nutritionFactsConverter = ref.watch(_localNutritionFactsConverter);
+    final foodDao = await ref.watch(_localFoodDaoProvider.future);
     return LocalFoodRepository(
-      dbService: dbService,
-      foodConverter: foodConverter,
-      nutritionFactsConverter: nutritionFactsConverter,
+      foodDao: foodDao,
     );
   },
 );
 
-final dishRepository = FutureProvider<DishRepository>(
+final dishRepositoryProvider = FutureProvider<DishRepository>(
   (ref) async {
-    final dbService = await ref.watch(_databaseService.future);
-    final dishConverter = ref.watch(_localDishConverter);
-    final ingredientConverter = ref.watch(_localIngredientConverter);
-    final foodConverter = ref.watch(_localFoodConverter);
-    final nutritionFactsConverter = ref.watch(_localNutritionFactsConverter);
+    final dishDao = await ref.watch(_localDishDaoProvider.future);
     return LocalDishRepository(
-      dbService: dbService,
-      dishConverter: dishConverter,
-      ingredientConverter: ingredientConverter,
-      foodConverter: foodConverter,
-      nutritionFactsConverter: nutritionFactsConverter,
+      dishDao: dishDao,
     );
   },
 );

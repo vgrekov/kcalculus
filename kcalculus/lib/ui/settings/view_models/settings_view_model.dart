@@ -7,11 +7,11 @@ import 'package:kcalculus/domain/models/app_settings.dart';
 class AppSettingsViewModel extends AsyncNotifier<AppSettings> {
   @override
   FutureOr<AppSettings> build() {
-    return ref.watch(appSettingsRepository.future);
+    return ref.watch(appSettingsRepositoryProvider.future);
   }
 
   Future<void> setTheme(AppTheme theme) async {
-    final repository = ref.read(appSettingsRepository.notifier);
+    final repository = ref.read(appSettingsRepositoryProvider.notifier);
     await repository.setSettings(
       state.value!.copyWith(
         theme: theme,
