@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/nutrition/macro_split.dart';
-import 'package:kcalculus/themes/macro_nutrients.dart';
+import 'package:kcalculus/ui/common/themes/macro_nutrients.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
