@@ -7,6 +7,7 @@ import 'package:kcalculus/ui/app/view_models/app_view_model.dart';
 import 'package:kcalculus/ui/common/themes/dark.dart' as dark;
 import 'package:kcalculus/ui/common/themes/light.dart' as light;
 import 'package:kcalculus/ui/maintenance/widgets/maintenance_screen.dart';
+import 'package:kcalculus/ui/providers.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -37,6 +38,8 @@ class App extends ConsumerWidget {
         );
     }
 
+    final navigatorKey = ref.watch(navigatorKeyProvider);
+
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -48,6 +51,7 @@ class App extends ConsumerWidget {
         AppTheme.light => light.theme,
         AppTheme.dark => dark.theme,
       },
+      navigatorKey: navigatorKey,
       home: maintenanceRequired
           ? const MaintenanceScreen()
           : const MealListScreen(),
