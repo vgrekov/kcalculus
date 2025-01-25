@@ -12,6 +12,7 @@ class IngredientService {
       '''
       SELECT
         ingredients.dish_id AS dish_id,
+        ingredients.edible_id AS edible_id,
         ingredients.amount_value AS amount_value,
         ingredients.amount_unit AS amount_unit,
         foods.id AS edible_food_id,
