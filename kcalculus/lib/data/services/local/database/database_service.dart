@@ -131,10 +131,6 @@ class DatabaseService {
         (loc) => loc.databaseErrorFailedToOpen,
         cause: error,
       );
-    } finally {
-      if (db?.isOpen == true) {
-        await db?.close();
-      }
     }
   }
 
