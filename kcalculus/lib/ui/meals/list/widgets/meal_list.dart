@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/ui/meals/list/widgets/meal_list_item.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
-import 'package:kcalculus/widgets/meals_list_item.dart';
 
-class MealsList extends StatelessWidget with Messenger {
+class MealList extends StatelessWidget with Messenger {
   final List<Meal> meals;
   final void Function(Meal meal) onSelectMeal;
   final void Function(Meal meal) onDeleteMeal;
   final bool readonly;
 
-  const MealsList({
+  const MealList({
     super.key,
     required this.meals,
     required this.onSelectMeal,
@@ -24,7 +24,7 @@ class MealsList extends StatelessWidget with Messenger {
       itemCount: meals.length,
       itemBuilder: (context, index) {
         final meal = meals[index];
-        final mealListItem = MealsListItem(
+        final mealListItem = MealListItem(
           meal: meal,
           onSelectMeal: onSelectMeal,
         );

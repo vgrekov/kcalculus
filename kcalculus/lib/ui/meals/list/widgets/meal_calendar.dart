@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
-class LogCalendar extends StatelessWidget {
+class MealCalendar extends StatelessWidget {
   final DateTime initialDate;
   final bool expanded;
   final void Function(DateTime) onSelectDate;
 
-  const LogCalendar({
+  const MealCalendar({
     super.key,
     required this.initialDate,
     required this.expanded,

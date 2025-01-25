@@ -4,11 +4,11 @@ import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
-class MealsListItem extends StatelessWidget {
+class MealListItem extends StatelessWidget {
   final Meal meal;
   final void Function(Meal meal) onSelectMeal;
 
-  const MealsListItem({
+  const MealListItem({
     super.key,
     required this.meal,
     required this.onSelectMeal,

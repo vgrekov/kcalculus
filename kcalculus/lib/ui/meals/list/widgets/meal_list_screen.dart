@@ -1,39 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/meals.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/screens/common/portion_add.dart';
 import 'package:kcalculus/screens/common/portion_edit.dart';
+import 'package:kcalculus/ui/meals/list/view_models/meal_list_view_model.dart';
+import 'package:kcalculus/ui/meals/list/widgets/meal_calendar.dart';
+import 'package:kcalculus/ui/meals/list/widgets/meal_list.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
-import 'package:kcalculus/utils/progressive.dart';
-import 'package:kcalculus/widgets/log_calendar.dart';
-import 'package:kcalculus/widgets/meals_list.dart';
 import 'package:kcalculus/widgets/nutrient_stats.dart';
 import 'package:kcalculus/widgets/screen_tab_bar.dart';
 
-class MealListScreen extends ConsumerStatefulWidget {
+class MealListScreen extends ConsumerWidget with Messenger {
   const MealListScreen({super.key});
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() {
-    return _MealListScreenState();
-  }
-}
-
-class _MealListScreenState extends ConsumerState
-    with StateMessenger, ProgressiveState {
-  bool _showCalendar = false;
-
-  void _addMeal() {
+  void _addMeal(BuildContext context, WidgetRef ref) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => AddPortionScreen(
           title: l10n(context).screenNewMeal,
           onSavePortion: (edible, amount) {
-            ref.read(mealsProvider.notifier).addMeal(
+            ref.read(mealListViewModel.notifier).saveMeal(
                   Meal(
                     edible: edible,
                     amount: amount,
@@ -46,14 +35,14 @@ class _MealListScreenState extends ConsumerState
     );
   }
 
-  void _selectMeal(Meal meal) {
+  void _selectMeal(BuildContext context, WidgetRef ref, Meal meal) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => EditPortionScreen(
           title: l10n(context).screenEditMeal,
           portion: meal,
           onSavePortion: (newAmount) {
-            ref.read(mealsProvider.notifier).updateMeal(
+            ref.read(mealListViewModel.notifier).saveMeal(
                   meal.copyWith(
                     amount: newAmount,
                   ),
@@ -64,58 +53,58 @@ class _MealListScreenState extends ConsumerState
     );
   }
 
-  void _deleteMeal(Meal meal) async {
-    showProgress();
+  void _deleteMeal(BuildContext context, WidgetRef ref, Meal meal) async {
+    // showProgress();
 
     try {
-      final isDeleted = await ref.read(mealsProvider.notifier).deleteMeal(meal);
+      final isDeleted =
+          await ref.read(mealListViewModel.notifier).deleteMeal(meal.id!);
 
-      if (mounted) {
+      if (context.mounted) {
         if (isDeleted) {
           showNotificationWithUndo(
+            context,
             l10n(context).messageMealDeletionSuccess,
             undoAction: () async {
-              await ref.read(mealsProvider.notifier).restoreMeal(meal.id!);
+              await ref.read(mealListViewModel.notifier).restoreMeal(meal.id!);
             },
           );
         } else {
-          showNotification(l10n(context).messageMealDeletionFailure);
+          showNotification(context, l10n(context).messageMealDeletionFailure);
         }
       }
     } catch (error) {
-      showNotification(error.toString());
+      if (context.mounted) {
+        showNotification(context, error.toString());
+      }
     }
 
-    hideProgress();
+    // hideProgress();
   }
 
-  void _toggleCalendar() {
-    setState(() {
-      _showCalendar = !_showCalendar;
-    });
+  void _toggleCalendar(WidgetRef ref) {
+    ref.read(mealListViewModel.notifier).toggleCalendar();
   }
 
-  void _selectDate(DateTime date) {
-    ref.read(logDateProvider.notifier).selectDate(date);
-    setState(() {
-      _showCalendar = false;
-    });
+  void _selectDate(WidgetRef ref, DateTime date) {
+    ref.read(mealListViewModel.notifier).selectDate(date);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final now = DateTime.now();
-    final logDate = ref.watch(logDateProvider);
-    final dailyLog = ref.watch(mealsProvider);
+
+    final uiState = ref.watch(mealListViewModel);
+
     return FutureBuilder(
-      future: dailyLog,
+      future: uiState.meals,
       builder: (context, snapshot) {
         var totalNutrientData = NutrientData.empty();
 
         final Widget body;
         final isLoading = snapshot.connectionState == ConnectionState.waiting;
         final readonly =
-            isLoading || snapshot.hasError || !dt.isSameDay(now, logDate);
+            isLoading || snapshot.hasError || !dt.isSameDay(now, uiState.date);
         if (isLoading) {
           body = const Center(
             child: SizedBox(
@@ -151,10 +140,14 @@ class _MealListScreenState extends ConsumerState
                 (nd1, nd2) => nd1 + nd2,
               );
 
-          body = MealsList(
+          body = MealList(
             meals: meals,
-            onSelectMeal: _selectMeal,
-            onDeleteMeal: _deleteMeal,
+            onSelectMeal: (meal) {
+              _selectMeal(context, ref, meal);
+            },
+            onDeleteMeal: (meal) {
+              _deleteMeal(context, ref, meal);
+            },
             readonly: readonly,
           );
         }
@@ -171,7 +164,7 @@ class _MealListScreenState extends ConsumerState
                       ),
                 ),
                 Text(
-                  dt.formatDateLocal(context, logDate),
+                  dt.formatDateLocal(context, uiState.date),
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),
@@ -180,7 +173,9 @@ class _MealListScreenState extends ConsumerState
             ),
             actions: [
               IconButton(
-                onPressed: _toggleCalendar,
+                onPressed: () {
+                  _toggleCalendar(ref);
+                },
                 icon: const Icon(Icons.calendar_month_outlined),
               ),
             ],
@@ -188,10 +183,12 @@ class _MealListScreenState extends ConsumerState
           body: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              LogCalendar(
-                initialDate: logDate,
-                expanded: _showCalendar,
-                onSelectDate: _selectDate,
+              MealCalendar(
+                initialDate: uiState.date,
+                expanded: uiState.showCalendar,
+                onSelectDate: (date) {
+                  _selectDate(ref, date);
+                },
               ),
               Expanded(
                 child: body,
@@ -201,7 +198,9 @@ class _MealListScreenState extends ConsumerState
           floatingActionButton: readonly
               ? null
               : FloatingActionButton(
-                  onPressed: _addMeal,
+                  onPressed: () {
+                    _addMeal(context, ref);
+                  },
                   shape: const CircleBorder(),
                   child: const Icon(Icons.add),
                 ),

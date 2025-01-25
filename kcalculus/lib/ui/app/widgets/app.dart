@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
-import 'package:kcalculus/screens/meals/meal_list.dart';
 import 'package:kcalculus/ui/app/view_models/app_view_model.dart';
 import 'package:kcalculus/ui/common/themes/dark.dart' as dark;
 import 'package:kcalculus/ui/common/themes/light.dart' as light;
 import 'package:kcalculus/ui/maintenance/widgets/maintenance_screen.dart';
+import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/ui/providers.dart';
 
 class App extends ConsumerWidget {
