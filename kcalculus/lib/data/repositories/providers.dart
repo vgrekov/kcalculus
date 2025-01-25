@@ -11,36 +11,36 @@ final appSettingsRepositoryProvider =
   },
 );
 
-final edibleRepositoryProvider = FutureProvider<EdibleRepository>(
-  (ref) async {
-    final edibleDao = await ref.watch(_localEdibleDaoProvider.future);
+final edibleRepositoryProvider = Provider<EdibleRepository>(
+  (ref) {
+    final edibleDao = ref.watch(_localEdibleDaoProvider);
     return LocalEdibleRepository(
       edibleDao: edibleDao,
     );
   },
 );
 
-final foodRepositoryProvider = FutureProvider<FoodRepository>(
-  (ref) async {
-    final foodDao = await ref.watch(_localFoodDaoProvider.future);
+final foodRepositoryProvider = Provider<FoodRepository>(
+  (ref) {
+    final foodDao = ref.watch(_localFoodDaoProvider);
     return LocalFoodRepository(
       foodDao: foodDao,
     );
   },
 );
 
-final dishRepositoryProvider = FutureProvider<DishRepository>(
-  (ref) async {
-    final dishDao = await ref.watch(_localDishDaoProvider.future);
+final dishRepositoryProvider = Provider<DishRepository>(
+  (ref) {
+    final dishDao = ref.watch(_localDishDaoProvider);
     return LocalDishRepository(
       dishDao: dishDao,
     );
   },
 );
 
-final mealRepositoryProvider = FutureProvider<MealRepository>(
-  (ref) async {
-    final mealDao = await ref.watch(_localMealDaoProvider.future);
+final mealRepositoryProvider = Provider<MealRepository>(
+  (ref) {
+    final mealDao = ref.watch(_localMealDaoProvider);
     return LocalMealRepository(
       mealDao: mealDao,
     );

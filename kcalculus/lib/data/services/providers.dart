@@ -2,8 +2,8 @@ part of '../providers.dart';
 
 // Services
 
-final _databaseServiceProvider = FutureProvider.autoDispose(
-  (ref) async {
+final _databaseServiceProvider = Provider.autoDispose(
+  (ref) {
     final dbService = DatabaseService();
 
     ref.onDispose(() {
