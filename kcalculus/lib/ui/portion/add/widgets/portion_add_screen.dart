@@ -20,12 +20,12 @@ import 'package:kcalculus/widgets/inattentive.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
-class AddPortionScreen extends ConsumerStatefulWidget {
+class PortionAddScreen extends ConsumerStatefulWidget {
   final String title;
   final FutureOr<void> Function(Edible, Amount) onSavePortion;
   final bool Function(EdibleSearchResult)? edibleSearchFilter;
 
-  const AddPortionScreen({
+  const PortionAddScreen({
     super.key,
     required this.title,
     required this.onSavePortion,
@@ -33,12 +33,12 @@ class AddPortionScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<AddPortionScreen> createState() {
-    return _AddPortionScreenState();
+  ConsumerState<PortionAddScreen> createState() {
+    return _PortionAddScreenState();
   }
 }
 
-class _AddPortionScreenState extends ConsumerState<AddPortionScreen>
+class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     with StateMessenger, ProgressiveState {
   Edible? _selectedEdible;
 
