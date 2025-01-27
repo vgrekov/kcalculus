@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -47,6 +48,16 @@ mixin ProgressiveState<T extends StatefulWidget> on State<T> {
       _progressOverlay!.remove();
       _progressOverlay!.dispose();
       _progressOverlay = null;
+    }
+  }
+
+  Future<R> wrapInProgress<R>(Future<R> future) async {
+    showProgress();
+
+    try {
+      return await future;
+    } finally {
+      hideProgress();
     }
   }
 
