@@ -3,9 +3,17 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_ui_state.dart';
 
-class MealListViewModel extends Notifier<MealListUiState> {
+enum Command {
+  showUnknownErrorNotification,
+  showDeletionSuccessNotification,
+  showDeletionFailureNotification,
+}
+
+class MealListViewModel extends Notifier<MealListUiState>
+    with UiCommander<Command> {
   Timer? _timer;
 
   @override
@@ -14,6 +22,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
 
     ref.onDispose(() {
       _timer?.cancel();
+      dispose();
     });
 
     return _loadFor(DateTime.now());
@@ -29,22 +38,44 @@ class MealListViewModel extends Notifier<MealListUiState> {
     );
   }
 
-  Future<Meal> saveMeal(Meal meal) {
-    final result = ref.read(mealRepositoryProvider).save(meal);
-    _refresh();
-    return result;
+  Future<void> saveMeal(Meal meal) async {
+    try {
+      await ref.read(mealRepositoryProvider).save(meal);
+      _refresh();
+    } catch (error) {
+      print(error);
+      sendCommand(Command.showUnknownErrorNotification);
+    }
   }
 
-  Future<bool> deleteMeal(String id) {
-    final result = ref.read(mealRepositoryProvider).delete(id);
-    _refresh();
-    return result;
+  Future<void> deleteMeal(String id) async {
+    try {
+      final deleted = await ref.read(mealRepositoryProvider).delete(id);
+
+      _refresh();
+
+      if (deleted) {
+        sendCommand<String, void>(
+          Command.showDeletionSuccessNotification,
+          payload: id,
+        );
+      } else {
+        sendCommand(Command.showDeletionFailureNotification);
+      }
+    } catch (error) {
+      print(error);
+      sendCommand(Command.showUnknownErrorNotification);
+    }
   }
 
-  Future<bool> restoreMeal(String id) {
-    final result = ref.read(mealRepositoryProvider).restore(id);
-    _refresh();
-    return result;
+  Future<void> restoreMeal(String id) async {
+    try {
+      await ref.read(mealRepositoryProvider).restore(id);
+      _refresh();
+    } catch (error) {
+      print(error);
+      sendCommand(Command.showUnknownErrorNotification);
+    }
   }
 
   MealListUiState _loadFor(DateTime date) {

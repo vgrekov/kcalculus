@@ -4,97 +4,131 @@ import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/screens/common/portion_add.dart';
 import 'package:kcalculus/screens/common/portion_edit.dart';
+import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_view_model.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_calendar.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
+import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/nutrient_stats.dart';
 import 'package:kcalculus/widgets/screen_tab_bar.dart';
 
-class MealListScreen extends ConsumerWidget with Messenger {
+class MealListScreen extends ConsumerStatefulWidget with Messenger {
   const MealListScreen({super.key});
 
-  void _addMeal(BuildContext context, WidgetRef ref) {
+  @override
+  ConsumerState<MealListScreen> createState() {
+    return _MealListScreenState();
+  }
+}
+
+class _MealListScreenState extends ConsumerState<MealListScreen>
+    with StateMessenger, ProgressiveState {
+  void _addMeal() {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => AddPortionScreen(
           title: l10n(context).screenNewMeal,
           onSavePortion: (edible, amount) {
-            ref.read(mealListViewModel.notifier).saveMeal(
-                  Meal(
-                    edible: edible,
-                    amount: amount,
-                    eatenAt: DateTime.now(),
-                  ),
-                );
+            _saveMeal(
+              Meal(
+                edible: edible,
+                amount: amount,
+                eatenAt: DateTime.now(),
+              ),
+            );
           },
         ),
       ),
     );
   }
 
-  void _selectMeal(BuildContext context, WidgetRef ref, Meal meal) {
+  void _selectMeal(Meal meal) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => EditPortionScreen(
           title: l10n(context).screenEditMeal,
           portion: meal,
           onSavePortion: (newAmount) {
-            ref.read(mealListViewModel.notifier).saveMeal(
-                  meal.copyWith(
-                    amount: newAmount,
-                  ),
-                );
+            _saveMeal(
+              meal.copyWith(
+                amount: newAmount,
+              ),
+            );
           },
         ),
       ),
     );
   }
 
-  void _deleteMeal(BuildContext context, WidgetRef ref, Meal meal) async {
-    // showProgress();
-
-    try {
-      final isDeleted =
-          await ref.read(mealListViewModel.notifier).deleteMeal(meal.id!);
-
-      if (context.mounted) {
-        if (isDeleted) {
-          showNotificationWithUndo(
-            context,
-            l10n(context).messageMealDeletionSuccess,
-            undoAction: () async {
-              await ref.read(mealListViewModel.notifier).restoreMeal(meal.id!);
-            },
-          );
-        } else {
-          showNotification(context, l10n(context).messageMealDeletionFailure);
-        }
-      }
-    } catch (error) {
-      if (context.mounted) {
-        showNotification(context, error.toString());
-      }
-    }
-
-    // hideProgress();
+  void _saveMeal(Meal meal) {
+    wrapInProgress(
+      ref.read(mealListViewModel.notifier).saveMeal(meal),
+    );
   }
 
-  void _toggleCalendar(WidgetRef ref) {
+  void _deleteMeal(Meal meal) {
+    wrapInProgress(
+      ref.read(mealListViewModel.notifier).deleteMeal(meal.id!),
+    );
+  }
+
+  void _restoreMeal(String id) {
+    wrapInProgress(
+      ref.read(mealListViewModel.notifier).restoreMeal(id),
+    );
+  }
+
+  void _toggleCalendar() {
     ref.read(mealListViewModel.notifier).toggleCalendar();
   }
 
-  void _selectDate(WidgetRef ref, DateTime date) {
+  void _selectDate(DateTime date) {
     ref.read(mealListViewModel.notifier).selectDate(date);
   }
 
+  void _onUiCommand(
+    AsyncValue<UiCommand>? prev,
+    AsyncValue<UiCommand> next,
+  ) {
+    if (next is AsyncData) {
+      final command = next.value!;
+      if (command.type is Command) {
+        switch (command.type as Command) {
+          case Command.showDeletionSuccessNotification:
+            showNotificationWithUndo(
+              l10n(context).messageMealDeletionSuccess,
+              undoAction: () {
+                _restoreMeal(command.payload as String);
+              },
+            );
+            command.complete();
+            break;
+          case Command.showDeletionFailureNotification:
+            showNotification(l10n(context).messageMealDeletionFailure);
+            command.complete();
+            break;
+          case Command.showUnknownErrorNotification:
+            showNotification(l10n(context).messageUnknownError);
+            command.complete();
+            break;
+        }
+      }
+    }
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final now = DateTime.now();
 
     final uiState = ref.watch(mealListViewModel);
+
+    ref.listen(
+      ref.read(mealListViewModel.notifier).commandProvider,
+      _onUiCommand,
+    );
 
     return FutureBuilder(
       future: uiState.meals,
@@ -142,12 +176,8 @@ class MealListScreen extends ConsumerWidget with Messenger {
 
           body = MealList(
             meals: meals,
-            onSelectMeal: (meal) {
-              _selectMeal(context, ref, meal);
-            },
-            onDeleteMeal: (meal) {
-              _deleteMeal(context, ref, meal);
-            },
+            onSelectMeal: _selectMeal,
+            onDeleteMeal: _deleteMeal,
             readonly: readonly,
           );
         }
@@ -173,9 +203,7 @@ class MealListScreen extends ConsumerWidget with Messenger {
             ),
             actions: [
               IconButton(
-                onPressed: () {
-                  _toggleCalendar(ref);
-                },
+                onPressed: _toggleCalendar,
                 icon: const Icon(Icons.calendar_month_outlined),
               ),
             ],
@@ -186,9 +214,7 @@ class MealListScreen extends ConsumerWidget with Messenger {
               MealCalendar(
                 initialDate: uiState.date,
                 expanded: uiState.showCalendar,
-                onSelectDate: (date) {
-                  _selectDate(ref, date);
-                },
+                onSelectDate: _selectDate,
               ),
               Expanded(
                 child: body,
@@ -198,9 +224,7 @@ class MealListScreen extends ConsumerWidget with Messenger {
           floatingActionButton: readonly
               ? null
               : FloatingActionButton(
-                  onPressed: () {
-                    _addMeal(context, ref);
-                  },
+                  onPressed: _addMeal,
                   shape: const CircleBorder(),
                   child: const Icon(Icons.add),
                 ),
