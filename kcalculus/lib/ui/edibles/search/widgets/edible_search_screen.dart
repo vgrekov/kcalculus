@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dao.dart';
-import 'package:kcalculus/data/edibles.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/edibles/search/view_models/edible_search_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -11,14 +11,12 @@ import 'package:kcalculus/widgets/edible_search_results.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
 class EdibleSearchScreen extends ConsumerStatefulWidget {
-  final void Function(Edible) onSelectEdible;
-  final bool Function(EdibleSearchResult)? edibleSearchFilter;
-
   const EdibleSearchScreen({
     super.key,
-    required this.onSelectEdible,
     this.edibleSearchFilter,
   });
+
+  final bool Function(EdibleSearchResult)? edibleSearchFilter;
 
   @override
   ConsumerState<EdibleSearchScreen> createState() {
@@ -32,50 +30,22 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
 
   @override
   void initState() {
-    _searchController.text = ref.read(edibleSearchQueryProvider).text;
+    _searchController.text = ref.read(edibleSearchViewModel).searchQuery;
     super.initState();
   }
 
-  void _goBack() {
-    Navigator.of(context).pop();
-  }
-
   void _updateSearchQuery(String query) {
-    ref.read(edibleSearchQueryProvider.notifier).updateQuery(query);
+    ref.read(edibleSearchViewModel.notifier).updateSearchQuery(query);
   }
 
   void _resetSearchQuery() {
-    ref.read(edibleSearchQueryProvider.notifier).reset();
-    setState(() {
-      _searchController.text = '';
-    });
+    ref.read(edibleSearchViewModel.notifier).resetSearch();
   }
 
   void _selectSearchResult(EdibleSearchResult searchResult) async {
-    showProgress();
-
-    try {
-      Edible? edible;
-      switch (searchResult.type) {
-        case EdibleSearchResultType.dish:
-          final dishDao = await ref.read(dishDaoProvider);
-          edible = await dishDao.getById(searchResult.id);
-          break;
-        default:
-          final foodDao = await ref.read(foodDaoProvider);
-          edible = await foodDao.getById(searchResult.id);
-      }
-
-      if (edible != null) {
-        widget.onSelectEdible(edible);
-      }
-
-      _goBack();
-    } catch (error) {
-      showNotification(error.toString());
-    } finally {
-      hideProgress();
-    }
+    wrapInProgress(
+      ref.read(edibleSearchViewModel.notifier).selectEdible(searchResult),
+    );
   }
 
   @override
@@ -84,14 +54,47 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
     super.dispose();
   }
 
+  void _onUiCommand(
+    AsyncValue<UiCommand>? prev,
+    AsyncValue<UiCommand> next,
+  ) {
+    if (next is AsyncData) {
+      final command = next.value!;
+      if (command.type is EdibleSearchCommand) {
+        switch (command.type as EdibleSearchCommand) {
+          case EdibleSearchCommand.showUnknownErrorNotification:
+            showNotification(l10n(context).messageUnknownError);
+            command.complete();
+            break;
+          case EdibleSearchCommand.exit:
+            _exit(command);
+            break;
+        }
+      }
+    }
+  }
+
+  void _exit([UiCommand? command]) {
+    Navigator.of(context).pop<Edible>(command?.payload as Edible?);
+    command?.complete();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var edibles = ref.watch(edibleSearchProvider);
+    var uiState = ref.watch(edibleSearchViewModel);
 
+    _searchController.text = uiState.searchQuery;
+
+    var edibles = uiState.searchResults;
     if (widget.edibleSearchFilter != null) {
       edibles = edibles
           .then((data) => data.where(widget.edibleSearchFilter!).toList());
     }
+
+    ref.listen(
+      ref.read(edibleSearchViewModel.notifier).commandProvider,
+      _onUiCommand,
+    );
 
     return FutureBuilder(
       future: edibles,
@@ -144,7 +147,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
                   autofocus: true,
                   hintText: l10n(context).hintEdibleSearchBox,
                   prefix: IconButton(
-                    onPressed: _goBack,
+                    onPressed: _exit,
                     icon: const Icon(
                       Icons.arrow_back,
                     ),

@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/edibles.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/edibles/search/view_models/edible_search_view_model.dart';
 import 'package:kcalculus/ui/edibles/search/widgets/edible_search_screen.dart';
 import 'package:kcalculus/ui/portions/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -110,17 +110,20 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     await viewModel.savePortion(widget.onSavePortion);
   }
 
-  void _searchEdibles() {
+  void _searchEdibles() async {
     String query = _nameController.text;
-    ref.read(edibleSearchQueryProvider.notifier).setQuery(query);
-    Navigator.of(context).push(
+    ref.read(edibleSearchViewModel.notifier).setSearchQuery(query);
+    final edible = await Navigator.of(context).push<Edible>(
       MaterialPageRoute(
         builder: (context) => EdibleSearchScreen(
-          onSelectEdible: _selectEdible,
           edibleSearchFilter: widget.edibleSearchFilter,
         ),
       ),
     );
+
+    if (edible != null) {
+      _selectEdible(edible);
+    }
   }
 
   void _selectEdible(Edible edible) {
