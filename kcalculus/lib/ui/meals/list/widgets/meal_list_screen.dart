@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/screens/common/portion_edit.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_view_model.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_calendar.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list.dart';
 import 'package:kcalculus/ui/portion/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/ui/portion/add/widgets/portion_add_screen.dart';
+import 'package:kcalculus/ui/portion/edit/widgets/portion_edit_screen.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -50,7 +50,7 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   void _selectMeal(Meal meal) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => EditPortionScreen(
+        builder: (context) => PortionEditScreen(
           title: l10n(context).screenEditMeal,
           portion: meal,
           onSavePortion: (newAmount) {

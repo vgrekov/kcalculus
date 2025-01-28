@@ -13,12 +13,12 @@ import 'package:kcalculus/widgets/inattentive.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
-class EditPortionScreen extends ConsumerStatefulWidget {
+class PortionEditScreen extends ConsumerStatefulWidget {
   final String title;
   final Portion portion;
   final FutureOr<void> Function(Amount) onSavePortion;
 
-  const EditPortionScreen({
+  const PortionEditScreen({
     super.key,
     required this.title,
     required this.portion,
@@ -26,12 +26,12 @@ class EditPortionScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<EditPortionScreen> createState() {
-    return _EditPortionScreenState();
+  ConsumerState<PortionEditScreen> createState() {
+    return _PortionEditScreenState();
   }
 }
 
-class _EditPortionScreenState extends ConsumerState<EditPortionScreen>
+class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
     with StateMessenger, ProgressiveState {
   late Amount _amount;
 

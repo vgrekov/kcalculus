@@ -4,9 +4,9 @@ import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/data/dish_wizard/dish_wizard_ingredients.dart';
 import 'package:kcalculus/domain/models/dish/ingredient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/screens/common/portion_edit.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/ui/portion/add/widgets/portion_add_screen.dart';
+import 'package:kcalculus/ui/portion/edit/widgets/portion_edit_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/widgets/ingredient_list.dart';
@@ -50,7 +50,7 @@ class DishWizardIngredientsPage extends ConsumerWidget
   ) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => EditPortionScreen(
+        builder: (context) => PortionEditScreen(
           title: l10n(context).screenEditIngredient,
           portion: ingredient,
           onSavePortion: (newAmount) {
