@@ -6,10 +6,8 @@ import 'package:kcalculus/data/edibles.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/screens/common/edible_search.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
-import 'package:kcalculus/ui/portion/add/view_models/portion_add_ui_state.dart';
 import 'package:kcalculus/ui/portion/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -130,12 +128,6 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     _amountFocusNode.requestFocus();
   }
 
-  void _onStateChange(PortionAddUiState? prev, PortionAddUiState next) {
-    _nameController.text = next.name;
-    _descriptionController.text = next.description;
-    _nutritionFactsController.nutritionFacts = next.nutritionFacts;
-  }
-
   void _onUiCommand(
     AsyncValue<UiCommand>? prev,
     AsyncValue<UiCommand> next,
@@ -230,7 +222,11 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(portionAddViewModel, _onStateChange);
+    final uiState = ref.watch(portionAddViewModel);
+
+    _nameController.text = uiState.name;
+    _descriptionController.text = uiState.description;
+    _nutritionFactsController.nutritionFacts = uiState.nutritionFacts;
 
     ref.listen(
       ref.read(portionAddViewModel.notifier).commandProvider,
@@ -303,7 +299,8 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
                   const SizedBox(height: 8),
                   AmountInput(
                     label: l10n(context).labelPortionAmount,
-                    initialUnit: Unit.gram,
+                    initialUnit: uiState.amountUnit,
+                    initialValue: uiState.amountValue,
                     controller: _amountController,
                     focusNode: _amountFocusNode,
                     textInputAction: TextInputAction.next,
