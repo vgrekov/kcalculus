@@ -53,8 +53,6 @@ class ScreenTabBar extends ConsumerWidget {
 
   void _prepareFor(BuildContext context, WidgetRef ref, ScreenTab tab) {
     switch (tab) {
-      case ScreenTab.meals:
-        break;
       case ScreenTab.foods:
         ref.read(foodSearchQueryProvider.notifier).reset();
         break;
