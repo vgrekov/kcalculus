@@ -6,10 +6,13 @@ class NutritionFactsService {
 
   final Future<Database> database;
 
-  Future<List<NutritionFactsDbModel>> getByEdible(String edibleId) async {
-    final db = await database;
+  Future<List<NutritionFactsDbModel>> getByEdible(
+    String edibleId, {
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await database;
 
-    return db.query(
+    return executor.query(
       'nutrition_facts',
       where: 'edible_id = ?',
       whereArgs: [edibleId],
@@ -20,8 +23,7 @@ class NutritionFactsService {
     NutritionFactsDbModel model, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     await executor.insert(
       'nutrition_facts',
@@ -44,8 +46,7 @@ class NutritionFactsService {
     String edibleId, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     final count = await executor.delete(
       'nutrition_facts',

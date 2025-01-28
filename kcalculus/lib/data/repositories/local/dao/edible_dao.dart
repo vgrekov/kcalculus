@@ -14,13 +14,17 @@ class LocalEdibleDao {
 
   final LocalEdibleSearchResultConverter _edibleSearchResultConverter;
 
-  Future<List<EdibleSearchResult>> search(String? query,
-      {EdibleSearchResultType? type}) {
+  Future<List<EdibleSearchResult>> search(
+    String? query, {
+    EdibleSearchResultType? type,
+    Transaction? txn,
+  }) {
     return _dbService.edible
         .search(
           query,
           onlyFoods: type == EdibleSearchResultType.food,
           onlyDishes: type == EdibleSearchResultType.dish,
+          txn: txn,
         )
         .then(
           (data) => data.map(_edibleSearchResultConverter.toModel).toList(),
@@ -31,16 +35,21 @@ class LocalEdibleDao {
     String name,
     String description, {
     String? exceptWithId,
+    Transaction? txn,
   }) {
     return _dbService.edible.exists(
       name,
       description,
       exceptWithId: exceptWithId,
+      txn: txn,
     );
   }
 
-  Future<bool> wasEaten(String id) {
-    return _dbService.edible.wasEaten(id);
+  Future<bool> wasEaten(
+    String id, {
+    Transaction? txn,
+  }) {
+    return _dbService.edible.wasEaten(id, txn: txn);
   }
 
   Future<bool> delete(

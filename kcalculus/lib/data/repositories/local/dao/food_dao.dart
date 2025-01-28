@@ -20,11 +20,14 @@ class LocalFoodDao {
 
   final LocalNutritionFactsConverter _nutritionFactsConverter;
 
-  Future<Food?> getById(String id) async {
-    final foodDbModel = await _dbService.food.getById(id);
+  Future<Food?> getById(
+    String id, {
+    Transaction? txn,
+  }) async {
+    final foodDbModel = await _dbService.food.getById(id, txn: txn);
     if (foodDbModel != null) {
       final nutritionFactsDbModels =
-          await _dbService.nutritionFacts.getByEdible(id);
+          await _dbService.nutritionFacts.getByEdible(id, txn: txn);
 
       return _foodConverter.toModel(
         foodDbModel,

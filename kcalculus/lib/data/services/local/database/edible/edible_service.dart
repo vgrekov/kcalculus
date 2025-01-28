@@ -12,9 +12,11 @@ class EdibleService {
     String? query, {
     bool onlyFoods = false,
     bool onlyDishes = false,
+    Transaction? txn,
   }) async {
-    final db = await database;
-    return db.rawQuery(
+    final executor = txn ?? await database;
+
+    return executor.rawQuery(
       '''
       SELECT *
       FROM (
@@ -95,9 +97,11 @@ class EdibleService {
     String name,
     String description, {
     String? exceptWithId,
+    Transaction? txn,
   }) async {
-    final db = await database;
-    return db.rawQuery(
+    final executor = txn ?? await database;
+
+    return executor.rawQuery(
       '''
       SELECT
         COUNT(edibles.id) AS edibles_count
@@ -117,9 +121,13 @@ class EdibleService {
     ).then((data) => (data.first['edibles_count'] as int) > 0);
   }
 
-  Future<bool> wasEaten(String id) async {
-    final db = await database;
-    return db.rawQuery(
+  Future<bool> wasEaten(
+    String id, {
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await database;
+
+    return executor.rawQuery(
       '''
       WITH RECURSIVE hierarchy_up(id) AS (
         VALUES(?)
@@ -150,8 +158,7 @@ class EdibleService {
     EdibleDbModel model, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     await executor.insert(
       'edibles',
@@ -166,8 +173,7 @@ class EdibleService {
     EdibleDbModel model, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     await executor.update(
       'edibles',
@@ -184,8 +190,7 @@ class EdibleService {
     String id, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     final count = await executor.update(
       'edibles',
@@ -203,8 +208,7 @@ class EdibleService {
     String id, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     final count = await executor.update(
       'edibles',

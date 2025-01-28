@@ -7,9 +7,13 @@ class MealService {
 
   final Future<Database> database;
 
-  Future<List<MealDbModel>> getByDate(DateTime date) async {
-    final db = await database;
-    return db.rawQuery(
+  Future<List<MealDbModel>> getByDate(
+    DateTime date, {
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await database;
+
+    return executor.rawQuery(
       '''
       SELECT
         meals.*,
@@ -35,8 +39,7 @@ class MealService {
     MealDbModel model, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     await executor.insert(
       'meals',
@@ -48,8 +51,7 @@ class MealService {
     MealDbModel model, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     await executor.update(
       'meals',
@@ -63,8 +65,7 @@ class MealService {
     String id, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     final count = await executor.update(
       'meals',
@@ -82,8 +83,7 @@ class MealService {
     String id, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     final count = await executor.update(
       'meals',

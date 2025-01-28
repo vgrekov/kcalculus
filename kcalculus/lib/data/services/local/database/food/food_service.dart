@@ -6,9 +6,13 @@ class FoodService {
 
   final Future<Database> database;
 
-  Future<FoodDbModel?> getById(String id) async {
-    final db = await database;
-    return db.rawQuery(
+  Future<FoodDbModel?> getById(
+    String id, {
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await database;
+
+    return executor.rawQuery(
       '''
       SELECT
         edibles.id AS id,
@@ -31,8 +35,7 @@ class FoodService {
     FoodDbModel model, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     await executor.insert(
       'foods',

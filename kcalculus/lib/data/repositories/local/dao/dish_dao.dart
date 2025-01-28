@@ -31,7 +31,10 @@ class LocalDishDao {
 
   final LocalIngredientConverter _ingredientConverter;
 
-  Future<Dish?> getById(String id) async {
+  Future<Dish?> getById(
+    String id, {
+    Transaction? txn,
+  }) async {
     final resolvedEdibles = <String, Edible>{};
 
     final ingredientsByDish = <String, List<IngredientDbModel>>{};
@@ -48,7 +51,7 @@ class LocalDishDao {
       if (isDish) {
         var ingredients = ingredientsByDish[id];
         if (ingredients == null) {
-          ingredients = await _dbService.ingredient.getByDish(id);
+          ingredients = await _dbService.ingredient.getByDish(id, txn: txn);
 
           ingredientsByDish[id] = ingredients;
 
@@ -61,11 +64,20 @@ class LocalDishDao {
             ),
           );
         } else {
-          await _resolveDish(id, ingredientsByDish, resolvedEdibles);
+          await _resolveDish(
+            id,
+            ingredientsByDish,
+            resolvedEdibles,
+            txn: txn,
+          );
           unresolvedEdibles.removeLast();
         }
       } else {
-        await _resolveFood(id, resolvedEdibles);
+        await _resolveFood(
+          id,
+          resolvedEdibles,
+          txn: txn,
+        );
         unresolvedEdibles.removeLast();
       }
     }
@@ -75,10 +87,11 @@ class LocalDishDao {
 
   Future<void> _resolveFood(
     String id,
-    Map<String, Edible> resolvedEdibles,
-  ) async {
+    Map<String, Edible> resolvedEdibles, {
+    Transaction? txn,
+  }) async {
     if (!resolvedEdibles.containsKey(id)) {
-      final food = await _foodDao.getById(id);
+      final food = await _foodDao.getById(id, txn: txn);
       if (food != null) {
         resolvedEdibles[id] = food;
       }
@@ -88,10 +101,11 @@ class LocalDishDao {
   Future<void> _resolveDish(
     String id,
     Map<String, List<IngredientDbModel>> ingredientsByDish,
-    Map<String, Edible> resolvedEdibles,
-  ) async {
+    Map<String, Edible> resolvedEdibles, {
+    Transaction? txn,
+  }) async {
     if (!resolvedEdibles.containsKey(id)) {
-      final dishDbModel = await _dbService.dish.getById(id);
+      final dishDbModel = await _dbService.dish.getById(id, txn: txn);
       if (dishDbModel != null) {
         final ingredients = ingredientsByDish[id]!;
 
@@ -131,57 +145,58 @@ class LocalDishDao {
     String? id,
     required Transaction txn,
   }) async {
-    await _checkForIngredientsCycle(dish);
+    await _checkForIngredientsCycle(dish, txn: txn);
 
     String dishId = id ?? dish.id ?? generateId();
 
-    await _dbService.transaction((txn) async {
-      final ingredientsByDish = <String, List<IngredientDbModel>>{};
+    final ingredientsByDish = <String, List<IngredientDbModel>>{};
 
-      final ediblesToSave = Queue<(Edible, String)>();
+    final ediblesToSave = Queue<(Edible, String)>();
 
-      ediblesToSave.add((dish, dishId));
+    ediblesToSave.add((dish, dishId));
 
-      while (ediblesToSave.isNotEmpty) {
-        final item = ediblesToSave.removeFirst();
-        final edible = item.$1;
-        final edibleId = item.$2;
+    while (ediblesToSave.isNotEmpty) {
+      final item = ediblesToSave.removeFirst();
+      final edible = item.$1;
+      final edibleId = item.$2;
 
-        if (edible is Food) {
-          await _foodDao.save(edible, id: edibleId, txn: txn);
-        } else if (edible is Dish) {
-          await _saveDish(edible, edibleId, txn);
+      if (edible is Food) {
+        await _foodDao.save(edible, id: edibleId, txn: txn);
+      } else if (edible is Dish) {
+        await _saveDish(edible, edibleId, txn);
 
-          for (final ingredient in edible.ingredients) {
-            final ingredientEdibleId = ingredient.edible.id ?? generateId();
+        for (final ingredient in edible.ingredients) {
+          final ingredientEdibleId = ingredient.edible.id ?? generateId();
 
-            ingredientsByDish[edibleId] = (ingredientsByDish[edibleId] ?? [])
-              ..add(_ingredientConverter.toDbModel(
-                ingredient,
-                edibleId,
-                ingredientEdibleId,
-              ));
+          ingredientsByDish[edibleId] = (ingredientsByDish[edibleId] ?? [])
+            ..add(_ingredientConverter.toDbModel(
+              ingredient,
+              edibleId,
+              ingredientEdibleId,
+            ));
 
-            if (ingredient.edible.id == null) {
-              ediblesToSave.add((ingredient.edible, ingredientEdibleId));
-            }
+          if (ingredient.edible.id == null) {
+            ediblesToSave.add((ingredient.edible, ingredientEdibleId));
           }
         }
       }
+    }
 
-      for (final dishId in ingredientsByDish.keys) {
-        _dbService.ingredient.saveForDish(
-          ingredientsByDish[dishId]!,
-          dishId,
-          txn: txn,
-        );
-      }
-    });
+    for (final dishId in ingredientsByDish.keys) {
+      await _dbService.ingredient.saveForDish(
+        ingredientsByDish[dishId]!,
+        dishId,
+        txn: txn,
+      );
+    }
 
     return dishId;
   }
 
-  Future<void> _checkForIngredientsCycle(Dish model) async {
+  Future<void> _checkForIngredientsCycle(
+    Dish model, {
+    Transaction? txn,
+  }) async {
     if (model.id == null) return;
 
     final ingredientDishes = model.ingredients
@@ -191,7 +206,7 @@ class LocalDishDao {
     if (ingredientDishes.isEmpty) return;
 
     final hierarchies = await Future.wait(ingredientDishes
-        .map((e) => _dbService.ingredient.getHierarchyByDish(e.id!)));
+        .map((e) => _dbService.ingredient.getHierarchyByDish(e.id!, txn: txn)));
     final fullHierarchy = hierarchies.reduce((h1, h2) => h1.union(h2));
 
     if (fullHierarchy.contains(model.id!)) {

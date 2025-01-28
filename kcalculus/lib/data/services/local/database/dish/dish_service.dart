@@ -6,9 +6,13 @@ class DishService {
 
   final Future<Database> database;
 
-  Future<DishDbModel?> getById(String id) async {
-    final db = await database;
-    return db.rawQuery(
+  Future<DishDbModel?> getById(
+    String id, {
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await database;
+
+    return executor.rawQuery(
       '''
       SELECT
         edibles.id AS id,
@@ -43,8 +47,7 @@ class DishService {
     DishDbModel model, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     await executor.insert(
       'dishes',
@@ -56,8 +59,7 @@ class DishService {
     DishDbModel model, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     await executor.update(
       'dishes',

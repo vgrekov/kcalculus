@@ -28,16 +28,25 @@ class LocalMealDao {
 
   final LocalMealConverter _mealConverter;
 
-  Future<List<Meal>> getByDate(DateTime date) {
-    return _dbService.meal.getByDate(date).then(
+  Future<List<Meal>> getByDate(
+    DateTime date, {
+    Transaction? txn,
+  }) {
+    return _dbService.meal.getByDate(date, txn: txn).then(
           (data) => Future.wait(
             data.map(
               (dbModel) async {
                 final Edible? edible;
                 if (dbModel.edible_dish_id != null) {
-                  edible = await _dishDao.getById(dbModel.edible_id);
+                  edible = await _dishDao.getById(
+                    dbModel.edible_id,
+                    txn: txn,
+                  );
                 } else {
-                  edible = await _foodDao.getById(dbModel.edible_id);
+                  edible = await _foodDao.getById(
+                    dbModel.edible_id,
+                    txn: txn,
+                  );
                 }
 
                 return _mealConverter.toModel(dbModel, edible!);
@@ -68,10 +77,10 @@ class LocalMealDao {
       final Edible? edible;
       if (meal.edible is Dish) {
         final dishId = await _dishDao.save(meal.edible as Dish, txn: txn);
-        edible = await _dishDao.getById(dishId);
+        edible = await _dishDao.getById(dishId, txn: txn);
       } else {
         final foodId = await _foodDao.save(meal.edible as Food, txn: txn);
-        edible = await _foodDao.getById(foodId);
+        edible = await _foodDao.getById(foodId, txn: txn);
       }
 
       meal = meal.copyWith(edible: edible!);

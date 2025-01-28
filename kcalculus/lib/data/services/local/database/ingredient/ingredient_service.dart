@@ -6,9 +6,13 @@ class IngredientService {
 
   final Future<Database> database;
 
-  Future<List<IngredientDbModel>> getByDish(String dishId) async {
-    final db = await database;
-    return db.rawQuery(
+  Future<List<IngredientDbModel>> getByDish(
+    String dishId, {
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await database;
+
+    return executor.rawQuery(
       '''
       SELECT
         ingredients.dish_id AS dish_id,
@@ -30,9 +34,13 @@ class IngredientService {
     ).then((data) => data.map(IngredientDbModel.fromJson).toList());
   }
 
-  Future<Set<String>> getHierarchyByDish(String dishId) async {
-    final db = await database;
-    return db.rawQuery(
+  Future<Set<String>> getHierarchyByDish(
+    String dishId, {
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await database;
+
+    return executor.rawQuery(
       '''
       WITH RECURSIVE hierarchy(id) AS (
         VALUES(?)
@@ -58,8 +66,7 @@ class IngredientService {
     IngredientDbModel model, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     await executor.insert(
       'ingredients',
@@ -82,8 +89,7 @@ class IngredientService {
     String dishId, {
     Transaction? txn,
   }) async {
-    final db = await database;
-    DatabaseExecutor executor = txn ?? db;
+    final executor = txn ?? await database;
 
     final count = await executor.delete(
       'ingredients',
