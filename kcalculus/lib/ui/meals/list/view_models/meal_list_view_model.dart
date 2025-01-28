@@ -39,13 +39,8 @@ class MealListViewModel extends Notifier<MealListUiState>
   }
 
   Future<void> saveMeal(Meal meal) async {
-    try {
-      await ref.read(mealRepositoryProvider).save(meal);
-      _refresh();
-    } catch (error) {
-      print(error);
-      sendCommand(Command.showUnknownErrorNotification);
-    }
+    await ref.read(mealRepositoryProvider).save(meal);
+    _refresh();
   }
 
   Future<void> deleteMeal(String id) async {

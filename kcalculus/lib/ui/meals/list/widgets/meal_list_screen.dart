@@ -32,7 +32,7 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
         builder: (context) => PortionAddScreen(
           title: l10n(context).screenNewMeal,
           onSavePortion: (edible, amount) {
-            _saveMeal(
+            return _saveMeal(
               Meal(
                 edible: edible,
                 amount: amount,
@@ -52,7 +52,7 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
           title: l10n(context).screenEditMeal,
           portion: meal,
           onSavePortion: (newAmount) {
-            _saveMeal(
+            return _saveMeal(
               meal.copyWith(
                 amount: newAmount,
               ),
@@ -63,8 +63,8 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
     );
   }
 
-  void _saveMeal(Meal meal) {
-    wrapInProgress(
+  Future<void> _saveMeal(Meal meal) {
+    return wrapInProgress(
       ref.read(mealListViewModel.notifier).saveMeal(meal),
     );
   }
