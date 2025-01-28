@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
-import 'package:kcalculus/ui/portion/edit/view_models/portion_edit_view_model.dart';
+import 'package:kcalculus/ui/portions/edit/view_models/portion_edit_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';

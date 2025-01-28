@@ -5,7 +5,7 @@ import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/portion.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
-import 'package:kcalculus/ui/portion/edit/view_models/portion_edit_ui_state.dart';
+import 'package:kcalculus/ui/portions/edit/view_models/portion_edit_ui_state.dart';
 
 enum PortionEditCommand {
   showUnknownErrorNotification,

@@ -9,7 +9,7 @@ import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
-import 'package:kcalculus/ui/portion/add/view_models/portion_add_ui_state.dart';
+import 'package:kcalculus/ui/portions/add/view_models/portion_add_ui_state.dart';
 
 enum PortionAddCommand {
   showUnknownErrorNotification,

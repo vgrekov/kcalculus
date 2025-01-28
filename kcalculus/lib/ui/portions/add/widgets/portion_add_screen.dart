@@ -8,7 +8,7 @@ import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/edibles/search/widgets/edible_search_screen.dart';
-import 'package:kcalculus/ui/portion/add/view_models/portion_add_view_model.dart';
+import 'package:kcalculus/ui/portions/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
