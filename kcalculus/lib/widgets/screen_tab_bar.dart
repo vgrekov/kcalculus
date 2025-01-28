@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dishes.dart';
 import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/screens/dishes/dish_list.dart';
-import 'package:kcalculus/screens/foods/food_list.dart';
+import 'package:kcalculus/ui/foods/list/widgets/food_list_screen.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
