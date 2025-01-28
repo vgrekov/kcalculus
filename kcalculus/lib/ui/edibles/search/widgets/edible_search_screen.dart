@@ -28,12 +28,6 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
     with StateMessenger, ProgressiveState {
   final _searchController = TextEditingController();
 
-  @override
-  void initState() {
-    _searchController.text = ref.read(edibleSearchViewModel).searchQuery;
-    super.initState();
-  }
-
   void _updateSearchQuery(String query) {
     ref.read(edibleSearchViewModel.notifier).updateSearchQuery(query);
   }
