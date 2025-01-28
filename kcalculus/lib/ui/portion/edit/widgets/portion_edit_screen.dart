@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/nutrition/portion.dart';
+import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/portion/edit/view_models/portion_edit_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -14,16 +15,16 @@ import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
 class PortionEditScreen extends ConsumerStatefulWidget {
-  final String title;
-  final Portion portion;
-  final FutureOr<void> Function(Amount) onSavePortion;
-
+  /// This screen will handle [onSavePortion]'s error handling
   const PortionEditScreen({
     super.key,
     required this.title,
-    required this.portion,
     required this.onSavePortion,
   });
+
+  final String title;
+
+  final FutureOr<void> Function(Amount) onSavePortion;
 
   @override
   ConsumerState<PortionEditScreen> createState() {
@@ -33,33 +34,23 @@ class PortionEditScreen extends ConsumerStatefulWidget {
 
 class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
     with StateMessenger, ProgressiveState {
-  late Amount _amount;
-
   final _form = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _nutritionFactsController = NutritionFactsInputController();
 
-  @override
-  void initState() {
-    _amount = widget.portion.amount;
-    _nameController.text = widget.portion.edible.name;
-    _descriptionController.text = widget.portion.edible.description;
-    _nutritionFactsController.nutritionFacts =
-        widget.portion.edible.getNutritionFacts();
-    super.initState();
-  }
+  final _nameController = TextEditingController();
+
+  final _descriptionController = TextEditingController();
+
+  final _amountController = AmountInputController();
+
+  final _nutritionFactsController = NutritionFactsInputController();
 
   @override
   void dispose() {
     _nameController.dispose();
     _descriptionController.dispose();
+    _amountController.dispose();
     _nutritionFactsController.dispose();
     super.dispose();
-  }
-
-  void _exit() {
-    Navigator.of(context).pop();
   }
 
   void _savePortion() async {
@@ -69,45 +60,73 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
 
     _form.currentState!.save();
 
-    if (!_checkIfCommonMeasureExists()) {
-      return;
-    }
+    final viewModel = ref.read(portionEditViewModel.notifier);
 
-    showProgress();
+    viewModel.updateState(
+      amountUnit: _amountController.unit,
+      amountValue: _amountController.value,
+    );
 
-    try {
-      await widget.onSavePortion(_amount);
-
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-    } catch (error) {
-      showNotification(error.toString());
-    }
-
-    hideProgress();
+    await viewModel.savePortion(widget.onSavePortion);
   }
 
-  bool _checkIfCommonMeasureExists() {
-    final nutritionFacts = _nutritionFactsController.nutritionFacts!;
-    final hasCommonMeasure = nutritionFacts
-        .any((nf) => nf.amount.unit.measure == _amount.unit.measure);
-    if (!hasCommonMeasure) {
-      showMessage(
-        l10n(context).messageNoCommonMeasureError(
-          _amount.unit.localName(context),
-          _amount.unit.measure.localName(context),
-        ),
-        MessageType.error,
-      );
-      return false;
+  void _onUiCommand(
+    AsyncValue<UiCommand>? prev,
+    AsyncValue<UiCommand> next,
+  ) {
+    if (next is AsyncData) {
+      final command = next.value!;
+      if (command.type is PortionEditCommand) {
+        switch (command.type as PortionEditCommand) {
+          case PortionEditCommand.showNoCommonMeasureMessage:
+            _showNoCommonMeasureMessage(command);
+            break;
+          case PortionEditCommand.showUnknownErrorNotification:
+            showNotification(l10n(context).messageUnknownError);
+            command.complete();
+            break;
+          case PortionEditCommand.exit:
+            _exit(command);
+            break;
+        }
+      }
     }
+  }
 
-    return true;
+  void _showNoCommonMeasureMessage(UiCommand command) {
+    final uiState = ref.read(portionEditViewModel);
+    final amount = uiState.getAmount()!;
+    showMessage(
+      l10n(context).messageNoCommonMeasureError(
+        amount.unit.localName(context),
+        amount.unit.measure.localName(context),
+      ),
+      MessageType.error,
+    );
+    command.complete();
+  }
+
+  void _exit([UiCommand? command]) {
+    Navigator.of(context).pop();
+    command?.complete();
   }
 
   @override
   Widget build(BuildContext context) {
+    final uiState = ref.watch(portionEditViewModel);
+
+    if (uiState.edible != null) {
+      _nameController.text = uiState.edible!.name;
+      _descriptionController.text = uiState.edible!.description;
+      _nutritionFactsController.nutritionFacts =
+          uiState.edible!.getNutritionFacts();
+    }
+
+    ref.listen(
+      ref.read(portionEditViewModel.notifier).commandProvider,
+      _onUiCommand,
+    );
+
     return Inattentive(
       child: Scaffold(
         appBar: AppBar(
@@ -158,11 +177,9 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
                   key: _form,
                   child: AmountInput(
                     label: l10n(context).labelPortionAmount,
-                    initialValue: _amount.value,
-                    initialUnit: _amount.unit,
-                    onSaveAmount: (amount) {
-                      _amount = amount!;
-                    },
+                    initialUnit: uiState.amountUnit,
+                    initialValue: uiState.amountValue,
+                    controller: _amountController,
                     allowZero: false,
                     autofocus: true,
                   ),
