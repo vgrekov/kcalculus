@@ -203,10 +203,10 @@ class LocalDishDao {
     final dishDbModel = _dishConverter.toDbModel(dish, dishId);
 
     if (dish.id == null) {
-      await _dbService.edible.add(dishDbModel.toBaseDbModel(), txn: txn);
+      await _dbService.edible.add(dishDbModel.toEdibleDbModel(), txn: txn);
       await _dbService.dish.add(dishDbModel, txn: txn);
     } else {
-      await _dbService.edible.update(dishDbModel.toBaseDbModel(), txn: txn);
+      await _dbService.edible.update(dishDbModel.toEdibleDbModel(), txn: txn);
       await _dbService.dish.update(dishDbModel, txn: txn);
     }
   }

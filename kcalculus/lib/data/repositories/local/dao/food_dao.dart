@@ -59,10 +59,10 @@ class LocalFoodDao {
     final foodDbModel = _foodConverter.toDbModel(food, foodId);
 
     if (food.id == null) {
-      await _dbService.edible.add(foodDbModel.toBaseDbModel(), txn: txn);
+      await _dbService.edible.add(foodDbModel.toEdibleDbModel(), txn: txn);
       await _dbService.food.add(foodDbModel, txn: txn);
     } else {
-      await _dbService.edible.update(foodDbModel.toBaseDbModel(), txn: txn);
+      await _dbService.edible.update(foodDbModel.toEdibleDbModel(), txn: txn);
     }
 
     await _dbService.nutritionFacts.saveForEdible(

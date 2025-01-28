@@ -1,4 +1,4 @@
-import 'package:kcalculus/data/services/local/database/edible/edible_db_model.dart';
+import 'package:kcalculus/data/services/local/database/food/food_db_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class FoodService {

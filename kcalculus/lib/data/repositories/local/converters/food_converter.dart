@@ -1,5 +1,5 @@
 import 'package:kcalculus/data/repositories/local/converters/nutrition_facts_converter.dart';
-import 'package:kcalculus/data/services/local/database/edible/edible_db_model.dart';
+import 'package:kcalculus/data/services/local/database/food/food_db_model.dart';
 import 'package:kcalculus/data/services/local/database/nutrition_facts/nutrition_facts_db_model.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
@@ -12,11 +12,11 @@ class LocalFoodConverter {
   final LocalNutritionFactsConverter _nutritionFactsConverter;
 
   FoodDbModel toDbModel(Food model, [String? foodId]) {
-    return EdibleDbModel.food(
+    return FoodDbModel(
       id: (foodId ?? model.id)!,
       name: model.name,
       description: model.description,
-    ) as FoodDbModel;
+    );
   }
 
   Food toModel(

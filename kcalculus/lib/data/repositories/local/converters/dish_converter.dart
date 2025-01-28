@@ -1,4 +1,4 @@
-import 'package:kcalculus/data/services/local/database/edible/edible_db_model.dart';
+import 'package:kcalculus/data/services/local/database/dish/dish_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/dish/ingredient.dart';
@@ -12,7 +12,7 @@ class LocalDishConverter {
     final volumeRatio = model.nutritionRatios[Measure.volume];
     final quantityRatio = model.nutritionRatios[Measure.quantity];
 
-    return EdibleDbModel.dish(
+    return DishDbModel(
       id: (dishId ?? model.id)!,
       name: model.name,
       description: model.description,
@@ -28,7 +28,7 @@ class LocalDishConverter {
       quantity_per_amount_value: quantityRatio?.perAmount.value,
       quantity_total_amount_unit: quantityRatio?.totalAmount.unit.name,
       quantity_total_amount_value: quantityRatio?.totalAmount.value,
-    ) as DishDbModel;
+    );
   }
 
   Dish toModel(
