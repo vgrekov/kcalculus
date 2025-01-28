@@ -7,6 +7,7 @@ import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_view_model.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_calendar.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list.dart';
+import 'package:kcalculus/ui/portion/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/ui/portion/add/widgets/portion_add_screen.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
@@ -27,6 +28,7 @@ class MealListScreen extends ConsumerStatefulWidget with Messenger {
 class _MealListScreenState extends ConsumerState<MealListScreen>
     with StateMessenger, ProgressiveState {
   void _addMeal() {
+    ref.read(portionAddViewModel.notifier).reset();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => PortionAddScreen(
@@ -95,9 +97,9 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   ) {
     if (next is AsyncData) {
       final command = next.value!;
-      if (command.type is Command) {
-        switch (command.type as Command) {
-          case Command.showDeletionSuccessNotification:
+      if (command.type is MealListCommand) {
+        switch (command.type as MealListCommand) {
+          case MealListCommand.showDeletionSuccessNotification:
             showNotificationWithUndo(
               l10n(context).messageMealDeletionSuccess,
               undoAction: () {
@@ -106,11 +108,11 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
             );
             command.complete();
             break;
-          case Command.showDeletionFailureNotification:
+          case MealListCommand.showDeletionFailureNotification:
             showNotification(l10n(context).messageMealDeletionFailure);
             command.complete();
             break;
-          case Command.showUnknownErrorNotification:
+          case MealListCommand.showUnknownErrorNotification:
             showNotification(l10n(context).messageUnknownError);
             command.complete();
             break;

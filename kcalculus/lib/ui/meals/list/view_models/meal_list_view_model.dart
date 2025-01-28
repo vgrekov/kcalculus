@@ -6,14 +6,14 @@ import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_ui_state.dart';
 
-enum Command {
+enum MealListCommand {
   showUnknownErrorNotification,
   showDeletionSuccessNotification,
   showDeletionFailureNotification,
 }
 
 class MealListViewModel extends Notifier<MealListUiState>
-    with UiCommander<Command> {
+    with UiCommander<MealListCommand> {
   Timer? _timer;
 
   @override
@@ -51,15 +51,15 @@ class MealListViewModel extends Notifier<MealListUiState>
 
       if (deleted) {
         sendCommand<String, void>(
-          Command.showDeletionSuccessNotification,
+          MealListCommand.showDeletionSuccessNotification,
           payload: id,
         );
       } else {
-        sendCommand(Command.showDeletionFailureNotification);
+        sendCommand(MealListCommand.showDeletionFailureNotification);
       }
     } catch (error) {
       print(error);
-      sendCommand(Command.showUnknownErrorNotification);
+      sendCommand(MealListCommand.showUnknownErrorNotification);
     }
   }
 
@@ -69,7 +69,7 @@ class MealListViewModel extends Notifier<MealListUiState>
       _refresh();
     } catch (error) {
       print(error);
-      sendCommand(Command.showUnknownErrorNotification);
+      sendCommand(MealListCommand.showUnknownErrorNotification);
     }
   }
 

@@ -9,6 +9,7 @@ import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/screens/common/edible_search.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/portion/add/view_models/portion_add_ui_state.dart';
 import 'package:kcalculus/ui/portion/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -126,12 +127,13 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
 
   void _selectEdible(Edible edible) {
     ref.read(portionAddViewModel.notifier).selectEdible(edible);
-
-    _nameController.text = edible.name;
-    _descriptionController.text = edible.description;
-    _nutritionFactsController.nutritionFacts = edible.getNutritionFacts();
-
     _amountFocusNode.requestFocus();
+  }
+
+  void _onStateChange(PortionAddUiState? prev, PortionAddUiState next) {
+    _nameController.text = next.name;
+    _descriptionController.text = next.description;
+    _nutritionFactsController.nutritionFacts = next.nutritionFacts;
   }
 
   void _onUiCommand(
@@ -140,25 +142,25 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
   ) {
     if (next is AsyncData) {
       final command = next.value!;
-      if (command.type is Command) {
-        switch (command.type as Command) {
-          case Command.showNoCommonMeasureMessage:
+      if (command.type is PortionAddCommand) {
+        switch (command.type as PortionAddCommand) {
+          case PortionAddCommand.showNoCommonMeasureMessage:
             _showNoCommonMeasureMessage(command);
             break;
-          case Command.showEdibleAlreadyExistsDialog:
+          case PortionAddCommand.showEdibleAlreadyExistsDialog:
             _showEdibleAlreadyExistsDialog(command);
             break;
-          case Command.showSelectedEdibleModifiedAlreadyExistsDialog:
+          case PortionAddCommand.showSelectedEdibleModifiedAlreadyExistsDialog:
             _showSelectedEdibleModifiedAlreadyExistsDialog(command);
             break;
-          case Command.showSelectedEdibleModifiedCreatesNewDialog:
+          case PortionAddCommand.showSelectedEdibleModifiedCreatesNewDialog:
             _showSelectedEdibleModifiedCreatesNewDialog(command);
             break;
-          case Command.showUnknownErrorNotification:
+          case PortionAddCommand.showUnknownErrorNotification:
             showNotification(l10n(context).messageUnknownError);
             command.complete();
             break;
-          case Command.exit:
+          case PortionAddCommand.exit:
             _exit(command);
             break;
         }
@@ -228,6 +230,8 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(portionAddViewModel, _onStateChange);
+
     ref.listen(
       ref.read(portionAddViewModel.notifier).commandProvider,
       _onUiCommand,

@@ -11,7 +11,7 @@ import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/portion/add/view_models/portion_add_ui_state.dart';
 
-enum Command {
+enum PortionAddCommand {
   showUnknownErrorNotification,
   showNoCommonMeasureMessage,
   showEdibleAlreadyExistsDialog,
@@ -26,10 +26,14 @@ enum ModifiedEdibleOption {
 }
 
 class PortionAddViewModel extends Notifier<PortionAddUiState>
-    with UiCommander<Command> {
+    with UiCommander<PortionAddCommand> {
   @override
   PortionAddUiState build() {
     return PortionAddUiState();
+  }
+
+  void reset() {
+    state = build();
   }
 
   void selectEdible(Edible edible) {
@@ -74,10 +78,10 @@ class PortionAddViewModel extends Notifier<PortionAddUiState>
 
       await onSavePortion(edible, amount);
 
-      sendCommand(Command.exit);
+      sendCommand(PortionAddCommand.exit);
     } catch (error) {
       print(error);
-      sendCommand(Command.showUnknownErrorNotification);
+      sendCommand(PortionAddCommand.showUnknownErrorNotification);
     }
   }
 
@@ -85,7 +89,7 @@ class PortionAddViewModel extends Notifier<PortionAddUiState>
     final hasCommonMeasure = state.nutritionFacts!
         .any((nf) => nf.amount.unit.measure == state.amountUnit!.measure);
     if (!hasCommonMeasure) {
-      sendCommand(Command.showNoCommonMeasureMessage);
+      sendCommand(PortionAddCommand.showNoCommonMeasureMessage);
       return false;
     }
 
@@ -126,24 +130,31 @@ class PortionAddViewModel extends Notifier<PortionAddUiState>
     );
 
     if (selectedEdibleModified == null && alreadyExists) {
-      sendCommand(Command.showEdibleAlreadyExistsDialog);
+      sendCommand(PortionAddCommand.showEdibleAlreadyExistsDialog);
       return null;
     }
 
     if (selectedEdibleModified == true && alreadyExists) {
-      sendCommand(Command.showSelectedEdibleModifiedAlreadyExistsDialog);
+      sendCommand(
+          PortionAddCommand.showSelectedEdibleModifiedAlreadyExistsDialog);
       return null;
     }
 
     if (selectedEdibleModified == true && !alreadyExists) {
       final edibleOption = await sendCommand<void, ModifiedEdibleOption?>(
-        Command.showSelectedEdibleModifiedCreatesNewDialog,
+        PortionAddCommand.showSelectedEdibleModifiedCreatesNewDialog,
       );
       if (edibleOption != null) {
-        return switch (edibleOption) {
-          ModifiedEdibleOption.useSelected => state.selectedEdible,
-          ModifiedEdibleOption.createNew => _buildFood(),
-        };
+        switch (edibleOption) {
+          case ModifiedEdibleOption.useSelected:
+            selectEdible(state.selectedEdible!);
+            if (_checkIfCommonMeasureExists()) {
+              return state.selectedEdible;
+            }
+            return null;
+          case ModifiedEdibleOption.createNew:
+            return _buildFood();
+        }
       }
       return null;
     }
