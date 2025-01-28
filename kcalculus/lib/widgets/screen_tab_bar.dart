@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/dishes.dart';
-import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/screens/dishes/dish_list.dart';
+import 'package:kcalculus/ui/foods/list/view_models/food_list_view_model.dart';
 import 'package:kcalculus/ui/foods/list/widgets/food_list_screen.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_screen.dart';
@@ -54,7 +54,7 @@ class ScreenTabBar extends ConsumerWidget {
   void _prepareFor(BuildContext context, WidgetRef ref, ScreenTab tab) {
     switch (tab) {
       case ScreenTab.foods:
-        ref.read(foodSearchQueryProvider.notifier).reset();
+        ref.read(foodListViewModel.notifier).resetSearch();
         break;
       case ScreenTab.dishes:
         ref.read(dishSearchQueryProvider.notifier).reset();

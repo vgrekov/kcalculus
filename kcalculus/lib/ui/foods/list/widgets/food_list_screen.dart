@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dao.dart';
-import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/screens/foods/food_save.dart';
 import 'package:kcalculus/screens/foods/food_view.dart';
+import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/foods/list/view_models/food_list_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -26,21 +26,12 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     with StateMessenger, ProgressiveState {
   final _searchController = TextEditingController();
 
-  @override
-  void initState() {
-    _searchController.text = ref.read(foodSearchQueryProvider).text;
-    super.initState();
-  }
-
   void _updateSearchQuery(String query) {
-    ref.read(foodSearchQueryProvider.notifier).updateQuery(query);
+    ref.read(foodListViewModel.notifier).updateSearchQuery(query);
   }
 
   void _resetSearchQuery() {
-    ref.read(foodSearchQueryProvider.notifier).reset();
-    setState(() {
-      _searchController.text = '';
-    });
+    ref.read(foodListViewModel.notifier).resetSearch();
   }
 
   void _addFood() {
@@ -52,53 +43,21 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
   }
 
   void _viewFood(EdibleSearchResult searchResult) async {
-    showProgress();
-
-    try {
-      final foodDao = await ref.read(foodDaoProvider);
-      Food? food = await foodDao.getById(searchResult.id);
-      if (mounted) {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ViewFoodScreen(
-              food: food!,
-              onDeleteFood: (id) {
-                _deleteFood(id);
-              },
-            ),
-          ),
-        );
-      }
-    } catch (error) {
-      showNotification(error.toString());
-    } finally {
-      hideProgress();
-    }
+    wrapInProgress(
+      ref.read(foodListViewModel.notifier).viewFood(searchResult.id),
+    );
   }
 
-  void _deleteFood(String id) async {
-    showProgress();
+  void _deleteFood(String id) {
+    wrapInProgress(
+      ref.read(foodListViewModel.notifier).deleteFood(id),
+    );
+  }
 
-    try {
-      final isDeleted = await ref.read(foodsProvider.notifier).deleteFood(id);
-
-      if (mounted) {
-        if (isDeleted) {
-          showNotificationWithUndo(
-            l10n(context).messageFoodDeletionSuccess,
-            undoAction: () async {
-              await ref.read(foodsProvider.notifier).restoreFood(id);
-            },
-          );
-        } else {
-          showNotification(l10n(context).messageFoodDeletionFailure);
-        }
-      }
-    } catch (error) {
-      showNotification(error.toString());
-    }
-
-    hideProgress();
+  void _restoreFood(String id) {
+    wrapInProgress(
+      ref.read(foodListViewModel.notifier).restoreFood(id),
+    );
   }
 
   @override
@@ -107,11 +66,66 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     super.dispose();
   }
 
+  void _onUiCommand(
+    AsyncValue<UiCommand>? prev,
+    AsyncValue<UiCommand> next,
+  ) {
+    if (next is AsyncData) {
+      final command = next.value!;
+      if (command.type is FoodListCommand) {
+        switch (command.type as FoodListCommand) {
+          case FoodListCommand.showDeletionSuccessNotification:
+            showNotificationWithUndo(
+              l10n(context).messageFoodDeletionSuccess,
+              undoAction: () {
+                _restoreFood(command.payload as String);
+              },
+            );
+            command.complete();
+            break;
+          case FoodListCommand.showDeletionFailureNotification:
+            showNotification(l10n(context).messageFoodDeletionFailure);
+            command.complete();
+            break;
+          case FoodListCommand.showUnknownErrorNotification:
+            showNotification(l10n(context).messageUnknownError);
+            command.complete();
+            break;
+          case FoodListCommand.goToViewScreen:
+            _doViewFood(command);
+            break;
+        }
+      }
+    }
+  }
+
+  void _doViewFood(UiCommand command) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ViewFoodScreen(
+          food: command.payload as Food,
+          onDeleteFood: (id) {
+            _deleteFood(id);
+          },
+        ),
+      ),
+    );
+    command.complete();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final foods = ref.watch(foodsProvider);
+    var uiState = ref.watch(foodListViewModel);
+
+    _searchController.text = uiState.searchQuery;
+
+    ref.listen(
+      ref.read(foodListViewModel.notifier).commandProvider,
+      _onUiCommand,
+    );
+
     return FutureBuilder(
-      future: foods,
+      future: uiState.searchResults,
       builder: (context, snapshot) {
         final Widget? body;
         final isLoading = snapshot.connectionState == ConnectionState.waiting;

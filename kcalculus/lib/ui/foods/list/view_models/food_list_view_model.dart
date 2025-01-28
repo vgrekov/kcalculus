@@ -1,0 +1,106 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/ui/common/view_models/search_debouncer.dart';
+import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
+import 'package:kcalculus/ui/foods/list/view_models/food_list_ui_state.dart';
+
+enum FoodListCommand {
+  showUnknownErrorNotification,
+  showDeletionSuccessNotification,
+  showDeletionFailureNotification,
+  goToViewScreen,
+}
+
+class FoodListViewModel extends Notifier<FoodListUiState>
+    with UiCommander<FoodListCommand> {
+  late final SearchDebouncer _searchDebouncer = SearchDebouncer(_search);
+
+  @override
+  FoodListUiState build() {
+    ref.onDispose(() {
+      _searchDebouncer.dispose();
+    });
+
+    return _doSearch('');
+  }
+
+  void resetSearch() {
+    _searchDebouncer.reset();
+  }
+
+  void setSearchQuery(String query) {
+    _searchDebouncer.setQuery(query);
+  }
+
+  void updateSearchQuery(String query) {
+    _searchDebouncer.updateQuery(query);
+  }
+
+  Future<void> viewFood(String id) async {
+    try {
+      final food = await ref.read(foodRepositoryProvider).getById(id);
+
+      sendCommand<Food, void>(
+        FoodListCommand.goToViewScreen,
+        payload: food!,
+      );
+    } catch (error) {
+      print(error);
+      sendCommand(FoodListCommand.showUnknownErrorNotification);
+    }
+  }
+
+  Future<void> deleteFood(String id) async {
+    try {
+      final deleted = await ref.read(edibleRepositoryProvider).delete(id);
+
+      _refresh();
+
+      if (deleted) {
+        sendCommand<String, void>(
+          FoodListCommand.showDeletionSuccessNotification,
+          payload: id,
+        );
+      } else {
+        sendCommand(FoodListCommand.showDeletionFailureNotification);
+      }
+    } catch (error) {
+      print(error);
+      sendCommand(FoodListCommand.showUnknownErrorNotification);
+    }
+  }
+
+  Future<void> restoreFood(String id) async {
+    try {
+      await ref.read(edibleRepositoryProvider).restore(id);
+      _refresh();
+    } catch (error) {
+      print(error);
+      sendCommand(FoodListCommand.showUnknownErrorNotification);
+    }
+  }
+
+  void _refresh() {
+    setSearchQuery(state.searchQuery);
+  }
+
+  void _search(String query) {
+    state = _doSearch(query);
+  }
+
+  FoodListUiState _doSearch(String query) {
+    return FoodListUiState(
+      searchQuery: query,
+      searchResults: ref.read(edibleRepositoryProvider).search(
+            query,
+            type: EdibleSearchResultType.food,
+          ),
+    );
+  }
+}
+
+final foodListViewModel = NotifierProvider<FoodListViewModel, FoodListUiState>(
+  () => FoodListViewModel(),
+);
