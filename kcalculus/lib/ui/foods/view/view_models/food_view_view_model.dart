@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 
 enum FoodViewCommand {
@@ -11,10 +12,15 @@ enum FoodViewCommand {
   editFood,
 }
 
-class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<Food, String>
-    with UiCommander<FoodViewCommand> {
+class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<Food, String> {
+  final _commander = UiCommander<FoodViewCommand>();
+
   @override
   FutureOr<Food> build(String arg) async {
+    ref.onDispose(() {
+      _commander.dispose();
+    });
+
     final foodRepository = ref.read(foodRepositoryProvider);
     final food = await foodRepository.getById(arg);
     if (food == null) {
@@ -24,10 +30,12 @@ class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<Food, String>
     return food;
   }
 
+  StreamProvider<UiCommand> get commandProvider => _commander.provider;
+
   void copyFood() {
     final food = state.unwrapPrevious().valueOrNull;
     if (food != null) {
-      sendCommand<Food, void>(
+      _commander.send<Food, void>(
         FoodViewCommand.editFood,
         payload: food.copy(),
       );
@@ -41,23 +49,23 @@ class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<Food, String>
       final wasEaten = await edibleRepository.wasEaten(food.id!);
 
       if (wasEaten) {
-        final editConfirmed = await sendCommand<void, bool?>(
+        final editConfirmed = await _commander.send<void, bool?>(
           FoodViewCommand.confirmEditEaten,
         );
 
         if (editConfirmed == true) {
-          sendCommand<Food, void>(
+          _commander.send<Food, void>(
             FoodViewCommand.editFood,
             payload: food,
           );
         } else if (editConfirmed == false) {
-          sendCommand<Food, void>(
+          _commander.send<Food, void>(
             FoodViewCommand.editFood,
             payload: food.copy(),
           );
         }
       } else {
-        sendCommand<Food, void>(
+        _commander.send<Food, void>(
           FoodViewCommand.editFood,
           payload: food,
         );

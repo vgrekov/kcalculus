@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/search_debouncer.dart';
+import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/foods/list/view_models/food_list_ui_state.dart';
 
@@ -11,18 +12,22 @@ enum FoodListCommand {
   showDeletionFailureNotification,
 }
 
-class FoodListViewModel extends Notifier<FoodListUiState>
-    with UiCommander<FoodListCommand> {
+class FoodListViewModel extends Notifier<FoodListUiState> {
   late final SearchDebouncer _searchDebouncer = SearchDebouncer(_search);
+
+  final _commander = UiCommander<FoodListCommand>();
 
   @override
   FoodListUiState build() {
     ref.onDispose(() {
       _searchDebouncer.dispose();
+      _commander.dispose();
     });
 
     return _doSearch('');
   }
+
+  StreamProvider<UiCommand> get commandProvider => _commander.provider;
 
   void resetSearch() {
     _searchDebouncer.reset();
@@ -43,16 +48,16 @@ class FoodListViewModel extends Notifier<FoodListUiState>
       _refresh();
 
       if (deleted) {
-        sendCommand<String, void>(
+        _commander.send<String, void>(
           FoodListCommand.showDeletionSuccessNotification,
           payload: id,
         );
       } else {
-        sendCommand(FoodListCommand.showDeletionFailureNotification);
+        _commander.send(FoodListCommand.showDeletionFailureNotification);
       }
     } catch (error) {
       print(error);
-      sendCommand(FoodListCommand.showUnknownErrorNotification);
+      _commander.send(FoodListCommand.showUnknownErrorNotification);
     }
   }
 
@@ -62,7 +67,7 @@ class FoodListViewModel extends Notifier<FoodListUiState>
       _refresh();
     } catch (error) {
       print(error);
-      sendCommand(FoodListCommand.showUnknownErrorNotification);
+      _commander.send(FoodListCommand.showUnknownErrorNotification);
     }
   }
 

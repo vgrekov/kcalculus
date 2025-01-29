@@ -3,6 +3,7 @@ import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/search_debouncer.dart';
+import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/edibles/search/view_models/edible_search_ui_state.dart';
 
@@ -11,18 +12,22 @@ enum EdibleSearchCommand {
   exit,
 }
 
-class EdibleSearchViewModel extends Notifier<EdibleSearchUiState>
-    with UiCommander<EdibleSearchCommand> {
+class EdibleSearchViewModel extends Notifier<EdibleSearchUiState> {
   late final SearchDebouncer _searchDebouncer = SearchDebouncer(_search);
+
+  final _commander = UiCommander<EdibleSearchCommand>();
 
   @override
   EdibleSearchUiState build() {
     ref.onDispose(() {
       _searchDebouncer.dispose();
+      _commander.dispose();
     });
 
     return _doSearch('');
   }
+
+  StreamProvider<UiCommand> get commandProvider => _commander.provider;
 
   void resetSearch() {
     _searchDebouncer.reset();
@@ -50,16 +55,16 @@ class EdibleSearchViewModel extends Notifier<EdibleSearchUiState>
       }
 
       if (edible != null) {
-        sendCommand<Edible, void>(
+        _commander.send<Edible, void>(
           EdibleSearchCommand.exit,
           payload: edible,
         );
       } else {
-        sendCommand(EdibleSearchCommand.exit);
+        _commander.send(EdibleSearchCommand.exit);
       }
     } catch (error) {
       print(error);
-      sendCommand(EdibleSearchCommand.showUnknownErrorNotification);
+      _commander.send(EdibleSearchCommand.showUnknownErrorNotification);
     }
   }
 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_ui_state.dart';
 
@@ -12,9 +13,10 @@ enum MealListCommand {
   showDeletionFailureNotification,
 }
 
-class MealListViewModel extends Notifier<MealListUiState>
-    with UiCommander<MealListCommand> {
+class MealListViewModel extends Notifier<MealListUiState> {
   Timer? _timer;
+
+  final _commander = UiCommander<MealListCommand>();
 
   @override
   MealListUiState build() {
@@ -22,11 +24,13 @@ class MealListViewModel extends Notifier<MealListUiState>
 
     ref.onDispose(() {
       _timer?.cancel();
-      dispose();
+      _commander.dispose();
     });
 
     return _loadFor(DateTime.now());
   }
+
+  StreamProvider<UiCommand> get commandProvider => _commander.provider;
 
   void selectDate(DateTime date) {
     state = _loadFor(date);
@@ -50,16 +54,16 @@ class MealListViewModel extends Notifier<MealListUiState>
       _refresh();
 
       if (deleted) {
-        sendCommand<String, void>(
+        _commander.send<String, void>(
           MealListCommand.showDeletionSuccessNotification,
           payload: id,
         );
       } else {
-        sendCommand(MealListCommand.showDeletionFailureNotification);
+        _commander.send(MealListCommand.showDeletionFailureNotification);
       }
     } catch (error) {
       print(error);
-      sendCommand(MealListCommand.showUnknownErrorNotification);
+      _commander.send(MealListCommand.showUnknownErrorNotification);
     }
   }
 
@@ -69,7 +73,7 @@ class MealListViewModel extends Notifier<MealListUiState>
       _refresh();
     } catch (error) {
       print(error);
-      sendCommand(MealListCommand.showUnknownErrorNotification);
+      _commander.send(MealListCommand.showUnknownErrorNotification);
     }
   }
 
