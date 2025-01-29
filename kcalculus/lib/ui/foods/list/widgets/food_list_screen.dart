@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/screens/foods/food_save.dart';
-import 'package:kcalculus/screens/foods/food_view.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/list/view_models/food_list_view_model.dart';
+import 'package:kcalculus/ui/foods/view/widgets/food_view_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -99,7 +99,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
   void _doViewFood(UiCommand command) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ViewFoodScreen(
+        builder: (context) => FoodViewScreen(
           food: command.payload as Food,
           onDeleteFood: (id) {
             _deleteFood(id);

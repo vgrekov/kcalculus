@@ -10,11 +10,11 @@ import 'package:kcalculus/widgets/edible_main_info.dart';
 import 'package:kcalculus/widgets/macro_split_view.dart';
 import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 
-class ViewFoodScreen extends ConsumerStatefulWidget {
+class FoodViewScreen extends ConsumerStatefulWidget {
   final Food food;
   final void Function(String id)? onDeleteFood;
 
-  const ViewFoodScreen({
+  const FoodViewScreen({
     super.key,
     required this.food,
     this.onDeleteFood,
@@ -22,11 +22,11 @@ class ViewFoodScreen extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _ViewFoodScreenState();
+    return _FoodViewScreenState();
   }
 }
 
-class _ViewFoodScreenState extends ConsumerState<ViewFoodScreen>
+class _FoodViewScreenState extends ConsumerState<FoodViewScreen>
     with ProgressiveState, StateMessenger {
   void _deleteFood() async {
     final deleteConfirmed = await showConfirmation(
