@@ -70,7 +70,7 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
         _showSelectedEdibleModifiedCreatesNewDialog,
     PortionAddCommand.showUnknownErrorNotification:
         _showUnknownErrorNotification,
-    PortionAddCommand.exit: _exit,
+    PortionAddCommand.exit: _exitOnCommand,
   };
 
   @override
@@ -145,7 +145,15 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     _amountFocusNode.requestFocus();
   }
 
-  void _showNoCommonMeasureMessage(UiCommand command) {
+  void _exit() {
+    Navigator.of(context).pop();
+  }
+
+  void _showNoCommonMeasureMessage(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     final uiState = ref.read(portionAddViewModel);
     final amount = uiState.getAmount()!;
     showMessage(
@@ -158,7 +166,11 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     command.complete();
   }
 
-  void _showEdibleAlreadyExistsDialog(UiCommand command) {
+  void _showEdibleAlreadyExistsDialog(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showMessageDialog<void>(
       message: l10n(context).messageEdibleAlreadyExists,
       actions: {
@@ -171,7 +183,11 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     command.complete();
   }
 
-  void _showSelectedEdibleModifiedAlreadyExistsDialog(UiCommand command) {
+  void _showSelectedEdibleModifiedAlreadyExistsDialog(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showMessageDialog<void>(
       message: l10n(context).messageSelectedEdibleModifiedAlreadyExists,
       actions: {
@@ -184,7 +200,11 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     command.complete();
   }
 
-  void _showSelectedEdibleModifiedCreatesNewDialog(UiCommand command) {
+  void _showSelectedEdibleModifiedCreatesNewDialog(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     command.complete(
       showMessageDialog<ModifiedEdibleOption>(
         message: l10n(context).messageSelectedEdibleModifiedCreatesNew,
@@ -200,13 +220,21 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     );
   }
 
-  void _showUnknownErrorNotification(UiCommand command) {
+  void _showUnknownErrorNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showNotification(l10n(context).messageUnknownError);
     command.complete();
   }
 
-  void _exit([UiCommand? command]) {
-    Navigator.of(context).pop();
+  void _exitOnCommand(
+    UiCommand? command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    _exit();
     command?.complete();
   }
 

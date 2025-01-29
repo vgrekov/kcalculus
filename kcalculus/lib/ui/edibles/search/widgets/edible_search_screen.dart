@@ -32,7 +32,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
   late final _assignments = <EdibleSearchCommand, UiAssignment>{
     EdibleSearchCommand.showUnknownErrorNotification:
         _showUnknownErrorNotification,
-    EdibleSearchCommand.exit: _exit,
+    EdibleSearchCommand.exit: _exitWithResult,
   };
 
   void _updateSearchQuery(String query) {
@@ -49,20 +49,32 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
     );
   }
 
+  void _exit() {
+    Navigator.of(context).pop<Edible>(null);
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
 
-  void _showUnknownErrorNotification(UiCommand command) {
+  void _showUnknownErrorNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showNotification(l10n(context).messageUnknownError);
     command.complete();
   }
 
-  void _exit([UiCommand? command]) {
-    Navigator.of(context).pop<Edible>(command?.payload as Edible?);
-    command?.complete();
+  void _exitWithResult(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    Navigator.of(context).pop<Edible>(command.payload as Edible?);
+    command.complete();
   }
 
   @override

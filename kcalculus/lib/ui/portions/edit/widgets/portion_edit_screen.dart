@@ -49,7 +49,7 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
     PortionEditCommand.showNoCommonMeasureMessage: _showNoCommonMeasureMessage,
     PortionEditCommand.showUnknownErrorNotification:
         _showUnknownErrorNotification,
-    PortionEditCommand.exit: _exit,
+    PortionEditCommand.exit: _exitOnCommand,
   };
 
   @override
@@ -78,7 +78,15 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
     await viewModel.savePortion(widget.onSavePortion);
   }
 
-  void _showNoCommonMeasureMessage(UiCommand command) {
+  void _exit() {
+    Navigator.of(context).pop();
+  }
+
+  void _showNoCommonMeasureMessage(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     final uiState = ref.read(portionEditViewModel);
     final amount = uiState.getAmount()!;
     showMessage(
@@ -91,13 +99,21 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
     command.complete();
   }
 
-  void _showUnknownErrorNotification(UiCommand command) {
+  void _showUnknownErrorNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showNotification(l10n(context).messageUnknownError);
     command.complete();
   }
 
-  void _exit([UiCommand? command]) {
-    Navigator.of(context).pop();
+  void _exitOnCommand(
+    UiCommand? command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    _exit();
     command?.complete();
   }
 

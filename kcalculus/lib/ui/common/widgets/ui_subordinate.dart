@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 
-typedef UiAssignment = void Function(UiCommand);
+typedef UiAssignment = void Function(
+  UiCommand commend, {
+  required BuildContext context,
+  required WidgetRef ref,
+});
 
 class UiSubordinate<Type> extends ConsumerWidget {
   UiSubordinate({
@@ -32,14 +36,19 @@ class UiSubordinate<Type> extends ConsumerWidget {
   final Widget child;
 
   void _onUiCommand(
-    AsyncValue<UiCommand>? prev,
-    AsyncValue<UiCommand> next,
-  ) {
-    if (next is AsyncData) {
-      final command = next.value!;
+    AsyncValue<UiCommand> commandAsync, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    if (commandAsync is AsyncData) {
+      final command = commandAsync.value!;
       if (command.type is Type) {
         if (assignments != null) {
-          assignments![command.type]?.call(command);
+          assignments![command.type]?.call(
+            command,
+            context: context,
+            ref: ref,
+          );
         } else if (onCommand != null) {
           onCommand!.call(command);
         }
@@ -49,7 +58,13 @@ class UiSubordinate<Type> extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(commandProvider, _onUiCommand);
+    ref.listen(commandProvider, (prev, next) {
+      _onUiCommand(
+        next,
+        context: context,
+        ref: ref,
+      );
+    });
 
     return child;
   }

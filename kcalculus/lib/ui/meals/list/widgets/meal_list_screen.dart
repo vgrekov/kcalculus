@@ -101,7 +101,11 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
     ref.read(mealListViewModel.notifier).selectDate(date);
   }
 
-  void _showDeletionSuccessNotification(UiCommand command) {
+  void _showDeletionSuccessNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showNotificationWithUndo(
       l10n(context).messageMealDeletionSuccess,
       undoAction: () {
@@ -111,12 +115,20 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
     command.complete();
   }
 
-  void _showDeletionFailureNotification(UiCommand command) {
+  void _showDeletionFailureNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showNotification(l10n(context).messageMealDeletionFailure);
     command.complete();
   }
 
-  void _showUnknownErrorNotification(UiCommand command) {
+  void _showUnknownErrorNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showNotification(l10n(context).messageUnknownError);
     command.complete();
   }
