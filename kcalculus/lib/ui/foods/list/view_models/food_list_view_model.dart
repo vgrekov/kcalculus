@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/search_debouncer.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/foods/list/view_models/food_list_ui_state.dart';
@@ -10,7 +9,6 @@ enum FoodListCommand {
   showUnknownErrorNotification,
   showDeletionSuccessNotification,
   showDeletionFailureNotification,
-  goToViewScreen,
 }
 
 class FoodListViewModel extends Notifier<FoodListUiState>
@@ -36,20 +34,6 @@ class FoodListViewModel extends Notifier<FoodListUiState>
 
   void updateSearchQuery(String query) {
     _searchDebouncer.updateQuery(query);
-  }
-
-  Future<void> viewFood(String id) async {
-    try {
-      final food = await ref.read(foodRepositoryProvider).getById(id);
-
-      sendCommand<Food, void>(
-        FoodListCommand.goToViewScreen,
-        payload: food!,
-      );
-    } catch (error) {
-      print(error);
-      sendCommand(FoodListCommand.showUnknownErrorNotification);
-    }
   }
 
   Future<void> deleteFood(String id) async {

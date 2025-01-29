@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/screens/foods/food_save.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
@@ -33,7 +32,6 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     FoodListCommand.showDeletionFailureNotification:
         _showDeletionFailureNotification,
     FoodListCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
-    FoodListCommand.goToViewScreen: _doViewFood,
   };
 
   void _updateSearchQuery(String query) {
@@ -53,8 +51,15 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
   }
 
   void _viewFood(EdibleSearchResult searchResult) async {
-    wrapInProgress(
-      ref.read(foodListViewModel.notifier).viewFood(searchResult.id),
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => FoodViewScreen(
+          foodId: searchResult.id,
+          onDeleteFood: (id) {
+            _deleteFood(id);
+          },
+        ),
+      ),
     );
   }
 
@@ -76,7 +81,11 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     super.dispose();
   }
 
-  void _showDeletionSuccessNotification(UiCommand command) {
+  void _showDeletionSuccessNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showNotificationWithUndo(
       l10n(context).messageFoodDeletionSuccess,
       undoAction: () {
@@ -86,27 +95,21 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     command.complete();
   }
 
-  void _showDeletionFailureNotification(UiCommand command) {
+  void _showDeletionFailureNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showNotification(l10n(context).messageFoodDeletionFailure);
     command.complete();
   }
 
-  void _showUnknownErrorNotification(UiCommand command) {
+  void _showUnknownErrorNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     showNotification(l10n(context).messageUnknownError);
-    command.complete();
-  }
-
-  void _doViewFood(UiCommand command) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => FoodViewScreen(
-          food: command.payload as Food,
-          onDeleteFood: (id) {
-            _deleteFood(id);
-          },
-        ),
-      ),
-    );
     command.complete();
   }
 
