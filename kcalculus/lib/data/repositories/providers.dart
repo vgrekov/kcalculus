@@ -20,14 +20,46 @@ final edibleRepositoryProvider = Provider<EdibleRepository>(
   },
 );
 
+final _foodChangesStreamControllerProvider = Provider<StreamController<void>>(
+  (ref) {
+    final controller = StreamController<void>.broadcast();
+    ref.onDispose(controller.close);
+    return controller;
+  },
+);
+
+final foodChangesProvider = StreamProvider<void>(
+  (ref) {
+    final controller = ref.watch(_foodChangesStreamControllerProvider);
+    return controller.stream;
+  },
+);
+
 final foodRepositoryProvider = Provider<FoodRepository>(
   (ref) {
     final foodDao = ref.watch(_localFoodDaoProvider);
     final edibleDao = ref.watch(_localEdibleDaoProvider);
+    final changeController = ref.watch(_foodChangesStreamControllerProvider);
     return LocalFoodRepository(
       foodDao: foodDao,
       edibleDao: edibleDao,
+      changeController: changeController,
     );
+  },
+);
+
+final _dishChangesStreamControllerProvider = Provider<StreamController<void>>(
+  (ref) {
+    final controller = StreamController<void>.broadcast();
+    ref.onDispose(controller.close);
+    return controller;
+  },
+);
+
+final dishChangesProvider = StreamProvider<void>(
+  (ref) {
+    final controller = ref.watch(_dishChangesStreamControllerProvider);
+    return controller.stream;
   },
 );
 
@@ -35,9 +67,11 @@ final dishRepositoryProvider = Provider<DishRepository>(
   (ref) {
     final dishDao = ref.watch(_localDishDaoProvider);
     final edibleDao = ref.watch(_localEdibleDaoProvider);
+    final changeController = ref.watch(_dishChangesStreamControllerProvider);
     return LocalDishRepository(
       dishDao: dishDao,
       edibleDao: edibleDao,
+      changeController: changeController,
     );
   },
 );

@@ -19,12 +19,14 @@ class FoodListViewModel extends Notifier<FoodListUiState> {
 
   @override
   FoodListUiState build() {
+    ref.watch(foodChangesProvider);
+
     ref.onDispose(() {
       _searchDebouncer.dispose();
       _commander.dispose();
     });
 
-    return _doSearch('');
+    return _doSearch(stateOrNull?.searchQuery ?? '');
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander.provider;

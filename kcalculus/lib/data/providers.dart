@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/repositories/app_settings_repository.dart';
 import 'package:kcalculus/data/repositories/dish_repository.dart';
