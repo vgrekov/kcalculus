@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_view_model.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_calendar.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list.dart';
@@ -28,6 +29,14 @@ class MealListScreen extends ConsumerStatefulWidget with Messenger {
 
 class _MealListScreenState extends ConsumerState<MealListScreen>
     with StateMessenger, ProgressiveState {
+  late final _assignments = <MealListCommand, UiAssignment>{
+    MealListCommand.showDeletionSuccessNotification:
+        _showDeletionSuccessNotification,
+    MealListCommand.showDeletionFailureNotification:
+        _showDeletionFailureNotification,
+    MealListCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
+  };
+
   void _addMeal() {
     ref.read(portionAddViewModel.notifier).reset();
     Navigator.of(context).push(
@@ -92,34 +101,24 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
     ref.read(mealListViewModel.notifier).selectDate(date);
   }
 
-  void _onUiCommand(
-    AsyncValue<UiCommand>? prev,
-    AsyncValue<UiCommand> next,
-  ) {
-    if (next is AsyncData) {
-      final command = next.value!;
-      if (command.type is MealListCommand) {
-        switch (command.type as MealListCommand) {
-          case MealListCommand.showDeletionSuccessNotification:
-            showNotificationWithUndo(
-              l10n(context).messageMealDeletionSuccess,
-              undoAction: () {
-                _restoreMeal(command.payload as String);
-              },
-            );
-            command.complete();
-            break;
-          case MealListCommand.showDeletionFailureNotification:
-            showNotification(l10n(context).messageMealDeletionFailure);
-            command.complete();
-            break;
-          case MealListCommand.showUnknownErrorNotification:
-            showNotification(l10n(context).messageUnknownError);
-            command.complete();
-            break;
-        }
-      }
-    }
+  void _showDeletionSuccessNotification(UiCommand command) {
+    showNotificationWithUndo(
+      l10n(context).messageMealDeletionSuccess,
+      undoAction: () {
+        _restoreMeal(command.payload as String);
+      },
+    );
+    command.complete();
+  }
+
+  void _showDeletionFailureNotification(UiCommand command) {
+    showNotification(l10n(context).messageMealDeletionFailure);
+    command.complete();
+  }
+
+  void _showUnknownErrorNotification(UiCommand command) {
+    showNotification(l10n(context).messageUnknownError);
+    command.complete();
   }
 
   @override
@@ -128,125 +127,126 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
 
     final uiState = ref.watch(mealListViewModel);
 
-    ref.listen(
-      ref.read(mealListViewModel.notifier).commandProvider,
-      _onUiCommand,
-    );
+    return UiSubordinate<MealListCommand>(
+      commandProvider: ref.read(mealListViewModel.notifier).commandProvider,
+      assignments: _assignments,
+      child: FutureBuilder(
+        future: uiState.meals,
+        builder: (context, snapshot) {
+          var totalNutrientData = NutrientData.empty();
 
-    return FutureBuilder(
-      future: uiState.meals,
-      builder: (context, snapshot) {
-        var totalNutrientData = NutrientData.empty();
+          final Widget body;
+          final isLoading = snapshot.connectionState == ConnectionState.waiting;
+          final readonly = isLoading ||
+              snapshot.hasError ||
+              !dt.isSameDay(now, uiState.date);
+          if (isLoading) {
+            body = const Center(
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            body = Center(
+              child: Text(
+                l10n(context).messageUnknownError,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+              ),
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            body = Center(
+              child: Text(
+                l10n(context).messageNoMeals,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              ),
+            );
+          } else {
+            final meals = snapshot.data!;
+            totalNutrientData = meals
+                .map((m) => m.getNutrientData() ?? NutrientData.empty())
+                .fold(
+                  NutrientData.empty(),
+                  (nd1, nd2) => nd1 + nd2,
+                );
 
-        final Widget body;
-        final isLoading = snapshot.connectionState == ConnectionState.waiting;
-        final readonly =
-            isLoading || snapshot.hasError || !dt.isSameDay(now, uiState.date);
-        if (isLoading) {
-          body = const Center(
-            child: SizedBox(
-              width: 40,
-              height: 40,
-              child: CircularProgressIndicator(),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          body = Center(
-            child: Text(
-              l10n(context).messageUnknownError,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
+            body = MealList(
+              meals: meals,
+              onSelectMeal: _selectMeal,
+              onDeleteMeal: _deleteMeal,
+              readonly: readonly,
+            );
+          }
+
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Column(
+                children: [
+                  Text(
+                    l10n(context).screenMeals,
+                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
                   ),
-            ),
-          );
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          body = Center(
-            child: Text(
-              l10n(context).messageNoMeals,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
+                  Text(
+                    dt.formatDateLocal(context, uiState.date),
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                   ),
-            ),
-          );
-        } else {
-          final meals = snapshot.data!;
-          totalNutrientData = meals
-              .map((m) => m.getNutrientData() ?? NutrientData.empty())
-              .fold(
-                NutrientData.empty(),
-                (nd1, nd2) => nd1 + nd2,
-              );
-
-          body = MealList(
-            meals: meals,
-            onSelectMeal: _selectMeal,
-            onDeleteMeal: _deleteMeal,
-            readonly: readonly,
-          );
-        }
-
-        return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Column(
-              children: [
-                Text(
-                  l10n(context).screenMeals,
-                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      ),
-                ),
-                Text(
-                  dt.formatDateLocal(context, uiState.date),
-                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                ],
+              ),
+              actions: [
+                IconButton(
+                  onPressed: _toggleCalendar,
+                  icon: const Icon(Icons.calendar_month_outlined),
                 ),
               ],
             ),
-            actions: [
-              IconButton(
-                onPressed: _toggleCalendar,
-                icon: const Icon(Icons.calendar_month_outlined),
-              ),
-            ],
-          ),
-          body: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              MealCalendar(
-                initialDate: uiState.date,
-                expanded: uiState.showCalendar,
-                onSelectDate: _selectDate,
-              ),
-              Expanded(
-                child: body,
-              ),
-            ],
-          ),
-          floatingActionButton: readonly
-              ? null
-              : FloatingActionButton(
-                  onPressed: _addMeal,
-                  shape: const CircleBorder(),
-                  child: const Icon(Icons.add),
+            body: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                MealCalendar(
+                  initialDate: uiState.date,
+                  expanded: uiState.showCalendar,
+                  onSelectDate: _selectDate,
                 ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (!isLoading && !snapshot.hasError)
-                NutrientStats(
-                  nutrientData: totalNutrientData,
+                Expanded(
+                  child: body,
                 ),
-              const ScreenTabBar(
-                selectedTab: ScreenTab.meals,
-              ),
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+            floatingActionButton: readonly
+                ? null
+                : FloatingActionButton(
+                    onPressed: _addMeal,
+                    shape: const CircleBorder(),
+                    child: const Icon(Icons.add),
+                  ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!isLoading && !snapshot.hasError)
+                  NutrientStats(
+                    nutrientData: totalNutrientData,
+                  ),
+                const ScreenTabBar(
+                  selectedTab: ScreenTab.meals,
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

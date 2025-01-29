@@ -6,6 +6,7 @@ import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/edibles/search/view_models/edible_search_view_model.dart';
 import 'package:kcalculus/ui/edibles/search/widgets/edible_search_screen.dart';
 import 'package:kcalculus/ui/portions/add/view_models/portion_add_view_model.dart';
@@ -58,6 +59,19 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
   late FocusNode _amountFocusNode;
 
   late FocusNode _nutritionFactsFocusNode;
+
+  late final _assignments = <PortionAddCommand, UiAssignment>{
+    PortionAddCommand.showNoCommonMeasureMessage: _showNoCommonMeasureMessage,
+    PortionAddCommand.showEdibleAlreadyExistsDialog:
+        _showEdibleAlreadyExistsDialog,
+    PortionAddCommand.showSelectedEdibleModifiedAlreadyExistsDialog:
+        _showSelectedEdibleModifiedAlreadyExistsDialog,
+    PortionAddCommand.showSelectedEdibleModifiedCreatesNewDialog:
+        _showSelectedEdibleModifiedCreatesNewDialog,
+    PortionAddCommand.showUnknownErrorNotification:
+        _showUnknownErrorNotification,
+    PortionAddCommand.exit: _exit,
+  };
 
   @override
   void initState() {
@@ -131,38 +145,6 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     _amountFocusNode.requestFocus();
   }
 
-  void _onUiCommand(
-    AsyncValue<UiCommand>? prev,
-    AsyncValue<UiCommand> next,
-  ) {
-    if (next is AsyncData) {
-      final command = next.value!;
-      if (command.type is PortionAddCommand) {
-        switch (command.type as PortionAddCommand) {
-          case PortionAddCommand.showNoCommonMeasureMessage:
-            _showNoCommonMeasureMessage(command);
-            break;
-          case PortionAddCommand.showEdibleAlreadyExistsDialog:
-            _showEdibleAlreadyExistsDialog(command);
-            break;
-          case PortionAddCommand.showSelectedEdibleModifiedAlreadyExistsDialog:
-            _showSelectedEdibleModifiedAlreadyExistsDialog(command);
-            break;
-          case PortionAddCommand.showSelectedEdibleModifiedCreatesNewDialog:
-            _showSelectedEdibleModifiedCreatesNewDialog(command);
-            break;
-          case PortionAddCommand.showUnknownErrorNotification:
-            showNotification(l10n(context).messageUnknownError);
-            command.complete();
-            break;
-          case PortionAddCommand.exit:
-            _exit(command);
-            break;
-        }
-      }
-    }
-  }
-
   void _showNoCommonMeasureMessage(UiCommand command) {
     final uiState = ref.read(portionAddViewModel);
     final amount = uiState.getAmount()!;
@@ -218,6 +200,11 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     );
   }
 
+  void _showUnknownErrorNotification(UiCommand command) {
+    showNotification(l10n(context).messageUnknownError);
+    command.complete();
+  }
+
   void _exit([UiCommand? command]) {
     Navigator.of(context).pop();
     command?.complete();
@@ -231,93 +218,92 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     _descriptionController.text = uiState.description;
     _nutritionFactsController.nutritionFacts = uiState.nutritionFacts;
 
-    ref.listen(
-      ref.read(portionAddViewModel.notifier).commandProvider,
-      _onUiCommand,
-    );
-
-    return Inattentive(
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            onPressed: _exit,
-            icon: Icon(
-              Icons.close,
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
+    return UiSubordinate<PortionAddCommand>(
+      commandProvider: ref.read(portionAddViewModel.notifier).commandProvider,
+      assignments: _assignments,
+      child: Inattentive(
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              onPressed: _exit,
+              icon: Icon(
+                Icons.close,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
             ),
-          ),
-          centerTitle: true,
-          title: Text(
-            widget.title,
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: _savePortion,
-              child: Text(l10n(context).actionSave),
+            centerTitle: true,
+            title: Text(
+              widget.title,
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
             ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: _form,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Hero(
-                    tag: 'search-box',
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: EdibleNameInput(
-                        controller: _nameController,
-                        focusNode: _nameFocusNode,
-                        autofocus: true,
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (value) {
-                          _descriptionFocusNode.requestFocus();
-                        },
-                        onSearchPressed: _searchEdibles,
+            actions: [
+              TextButton(
+                onPressed: _savePortion,
+                child: Text(l10n(context).actionSave),
+              ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Form(
+              key: _form,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Hero(
+                      tag: 'search-box',
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: EdibleNameInput(
+                          controller: _nameController,
+                          focusNode: _nameFocusNode,
+                          autofocus: true,
+                          textInputAction: TextInputAction.next,
+                          onFieldSubmitted: (value) {
+                            _descriptionFocusNode.requestFocus();
+                          },
+                          onSearchPressed: _searchEdibles,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextInput(
-                    controller: _descriptionController,
-                    focusNode: _descriptionFocusNode,
-                    labelText: l10n(context).labelEdibleDescription,
-                    hintText: l10n(context).hintEdibleDescription,
-                    maxLength: 100,
-                    maxLines: 2,
-                    textCapitalization: TextCapitalization.sentences,
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (value) {
-                      _amountFocusNode.requestFocus();
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  AmountInput(
-                    label: l10n(context).labelPortionAmount,
-                    initialUnit: uiState.amountUnit,
-                    initialValue: uiState.amountValue,
-                    controller: _amountController,
-                    focusNode: _amountFocusNode,
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (value) {
-                      _nutritionFactsFocusNode.requestFocus();
-                    },
-                    allowZero: false,
-                  ),
-                  const SizedBox(height: 32),
-                  NutritionFactsInput(
-                    controller: _nutritionFactsController,
-                    focusNode: _nutritionFactsFocusNode,
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    TextInput(
+                      controller: _descriptionController,
+                      focusNode: _descriptionFocusNode,
+                      labelText: l10n(context).labelEdibleDescription,
+                      hintText: l10n(context).hintEdibleDescription,
+                      maxLength: 100,
+                      maxLines: 2,
+                      textCapitalization: TextCapitalization.sentences,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (value) {
+                        _amountFocusNode.requestFocus();
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    AmountInput(
+                      label: l10n(context).labelPortionAmount,
+                      initialUnit: uiState.amountUnit,
+                      initialValue: uiState.amountValue,
+                      controller: _amountController,
+                      focusNode: _amountFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (value) {
+                        _nutritionFactsFocusNode.requestFocus();
+                      },
+                      allowZero: false,
+                    ),
+                    const SizedBox(height: 32),
+                    NutritionFactsInput(
+                      controller: _nutritionFactsController,
+                      focusNode: _nutritionFactsFocusNode,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

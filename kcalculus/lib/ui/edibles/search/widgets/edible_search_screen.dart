@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/edibles/search/view_models/edible_search_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -28,6 +29,12 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
     with StateMessenger, ProgressiveState {
   final _searchController = TextEditingController();
 
+  late final _assignments = <EdibleSearchCommand, UiAssignment>{
+    EdibleSearchCommand.showUnknownErrorNotification:
+        _showUnknownErrorNotification,
+    EdibleSearchCommand.exit: _exit,
+  };
+
   void _updateSearchQuery(String query) {
     ref.read(edibleSearchViewModel.notifier).updateSearchQuery(query);
   }
@@ -48,24 +55,9 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
     super.dispose();
   }
 
-  void _onUiCommand(
-    AsyncValue<UiCommand>? prev,
-    AsyncValue<UiCommand> next,
-  ) {
-    if (next is AsyncData) {
-      final command = next.value!;
-      if (command.type is EdibleSearchCommand) {
-        switch (command.type as EdibleSearchCommand) {
-          case EdibleSearchCommand.showUnknownErrorNotification:
-            showNotification(l10n(context).messageUnknownError);
-            command.complete();
-            break;
-          case EdibleSearchCommand.exit:
-            _exit(command);
-            break;
-        }
-      }
-    }
+  void _showUnknownErrorNotification(UiCommand command) {
+    showNotification(l10n(context).messageUnknownError);
+    command.complete();
   }
 
   void _exit([UiCommand? command]) {
@@ -85,83 +77,82 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
           .then((data) => data.where(widget.edibleSearchFilter!).toList());
     }
 
-    ref.listen(
-      ref.read(edibleSearchViewModel.notifier).commandProvider,
-      _onUiCommand,
-    );
-
-    return FutureBuilder(
-      future: edibles,
-      builder: (context, snapshot) {
-        final Widget? body;
-        final isLoading = snapshot.connectionState == ConnectionState.waiting;
-        if (isLoading) {
-          body = const Center(
-            child: SizedBox(
-              width: 40,
-              height: 40,
-              child: CircularProgressIndicator(),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          body = Center(
-            child: Text(
-              l10n(context).messageUnknownError,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-            ),
-          );
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          body = Center(
-            child: Text(
-              l10n(context).messageEdibleSearchNothingFound,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            ),
-          );
-        } else {
-          body = EdibleSearchResults(
-            searchResults: snapshot.data!,
-            onSelectSearchResult: _selectSearchResult,
-          );
-        }
-
-        return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            toolbarHeight: 80,
-            title: Hero(
-              tag: 'search-box',
-              child: Material(
-                type: MaterialType.transparency,
-                child: TextInput(
-                  controller: _searchController,
-                  autofocus: true,
-                  hintText: l10n(context).hintEdibleSearchBox,
-                  prefix: IconButton(
-                    onPressed: _exit,
-                    icon: const Icon(
-                      Icons.arrow_back,
+    return UiSubordinate<EdibleSearchCommand>(
+      commandProvider: ref.read(edibleSearchViewModel.notifier).commandProvider,
+      assignments: _assignments,
+      child: FutureBuilder(
+        future: edibles,
+        builder: (context, snapshot) {
+          final Widget? body;
+          final isLoading = snapshot.connectionState == ConnectionState.waiting;
+          if (isLoading) {
+            body = const Center(
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            body = Center(
+              child: Text(
+                l10n(context).messageUnknownError,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.error,
                     ),
-                  ),
-                  suffix: IconButton(
-                    onPressed: _resetSearchQuery,
-                    icon: const Icon(
-                      Icons.clear,
+              ),
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            body = Center(
+              child: Text(
+                l10n(context).messageEdibleSearchNothingFound,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
                     ),
+              ),
+            );
+          } else {
+            body = EdibleSearchResults(
+              searchResults: snapshot.data!,
+              onSelectSearchResult: _selectSearchResult,
+            );
+          }
+
+          return Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              toolbarHeight: 80,
+              title: Hero(
+                tag: 'search-box',
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: TextInput(
+                    controller: _searchController,
+                    autofocus: true,
+                    hintText: l10n(context).hintEdibleSearchBox,
+                    prefix: IconButton(
+                      onPressed: _exit,
+                      icon: const Icon(
+                        Icons.arrow_back,
+                      ),
+                    ),
+                    suffix: IconButton(
+                      onPressed: _resetSearchQuery,
+                      icon: const Icon(
+                        Icons.clear,
+                      ),
+                    ),
+                    textCapitalization: TextCapitalization.words,
+                    textInputAction: TextInputAction.search,
+                    onChanged: _updateSearchQuery,
                   ),
-                  textCapitalization: TextCapitalization.words,
-                  textInputAction: TextInputAction.search,
-                  onChanged: _updateSearchQuery,
                 ),
               ),
             ),
-          ),
-          body: body,
-        );
-      },
+            body: body,
+          );
+        },
+      ),
     );
   }
 }

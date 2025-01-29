@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/portions/edit/view_models/portion_edit_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -44,6 +45,13 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
 
   final _nutritionFactsController = NutritionFactsInputController();
 
+  late final _assignments = <PortionEditCommand, UiAssignment>{
+    PortionEditCommand.showNoCommonMeasureMessage: _showNoCommonMeasureMessage,
+    PortionEditCommand.showUnknownErrorNotification:
+        _showUnknownErrorNotification,
+    PortionEditCommand.exit: _exit,
+  };
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -70,29 +78,6 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
     await viewModel.savePortion(widget.onSavePortion);
   }
 
-  void _onUiCommand(
-    AsyncValue<UiCommand>? prev,
-    AsyncValue<UiCommand> next,
-  ) {
-    if (next is AsyncData) {
-      final command = next.value!;
-      if (command.type is PortionEditCommand) {
-        switch (command.type as PortionEditCommand) {
-          case PortionEditCommand.showNoCommonMeasureMessage:
-            _showNoCommonMeasureMessage(command);
-            break;
-          case PortionEditCommand.showUnknownErrorNotification:
-            showNotification(l10n(context).messageUnknownError);
-            command.complete();
-            break;
-          case PortionEditCommand.exit:
-            _exit(command);
-            break;
-        }
-      }
-    }
-  }
-
   void _showNoCommonMeasureMessage(UiCommand command) {
     final uiState = ref.read(portionEditViewModel);
     final amount = uiState.getAmount()!;
@@ -103,6 +88,11 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
       ),
       MessageType.error,
     );
+    command.complete();
+  }
+
+  void _showUnknownErrorNotification(UiCommand command) {
+    showNotification(l10n(context).messageUnknownError);
     command.complete();
   }
 
@@ -122,74 +112,73 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
           uiState.edible!.getNutritionFacts();
     }
 
-    ref.listen(
-      ref.read(portionEditViewModel.notifier).commandProvider,
-      _onUiCommand,
-    );
-
-    return Inattentive(
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            onPressed: _exit,
-            icon: Icon(
-              Icons.close,
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
+    return UiSubordinate<PortionEditCommand>(
+      commandProvider: ref.read(portionEditViewModel.notifier).commandProvider,
+      assignments: _assignments,
+      child: Inattentive(
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              onPressed: _exit,
+              icon: Icon(
+                Icons.close,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
             ),
-          ),
-          centerTitle: true,
-          title: Text(
-            widget.title,
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: _savePortion,
-              child: Text(l10n(context).actionSave),
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                EdibleNameInput(
-                  controller: _nameController,
-                  enabled: false,
-                ),
-                const SizedBox(height: 8),
-                TextInput(
-                  controller: _descriptionController,
-                  labelText: l10n(context).labelEdibleDescription,
-                  hintText: l10n(context).hintEdibleDescription,
-                  maxLength: 100,
-                  maxLines: 2,
-                  textCapitalization: TextCapitalization.sentences,
-                  enabled: false,
-                ),
-                const SizedBox(height: 8),
-                Form(
-                  key: _form,
-                  child: AmountInput(
-                    label: l10n(context).labelPortionAmount,
-                    initialUnit: uiState.amountUnit,
-                    initialValue: uiState.amountValue,
-                    controller: _amountController,
-                    allowZero: false,
-                    autofocus: true,
+            centerTitle: true,
+            title: Text(
+              widget.title,
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
-                ),
-                const SizedBox(height: 32),
-                NutritionFactsInput(
-                  controller: _nutritionFactsController,
-                  enabled: false,
-                ),
-              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: _savePortion,
+                child: Text(l10n(context).actionSave),
+              ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  EdibleNameInput(
+                    controller: _nameController,
+                    enabled: false,
+                  ),
+                  const SizedBox(height: 8),
+                  TextInput(
+                    controller: _descriptionController,
+                    labelText: l10n(context).labelEdibleDescription,
+                    hintText: l10n(context).hintEdibleDescription,
+                    maxLength: 100,
+                    maxLines: 2,
+                    textCapitalization: TextCapitalization.sentences,
+                    enabled: false,
+                  ),
+                  const SizedBox(height: 8),
+                  Form(
+                    key: _form,
+                    child: AmountInput(
+                      label: l10n(context).labelPortionAmount,
+                      initialUnit: uiState.amountUnit,
+                      initialValue: uiState.amountValue,
+                      controller: _amountController,
+                      allowZero: false,
+                      autofocus: true,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  NutritionFactsInput(
+                    controller: _nutritionFactsController,
+                    enabled: false,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
