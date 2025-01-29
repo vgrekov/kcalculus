@@ -32,14 +32,4 @@ class LocalEdibleRepository implements EdibleRepository {
   Future<bool> wasEaten(String id) {
     return _edibleDao.wasEaten(id);
   }
-
-  @override
-  Future<bool> delete(String id) {
-    return _edibleDao.delete(id);
-  }
-
-  @override
-  Future<bool> restore(String id) {
-    return _edibleDao.restore(id);
-  }
 }

@@ -43,7 +43,7 @@ class FoodListViewModel extends Notifier<FoodListUiState> {
 
   Future<void> deleteFood(String id) async {
     try {
-      final deleted = await ref.read(edibleRepositoryProvider).delete(id);
+      final deleted = await ref.read(foodRepositoryProvider).delete(id);
 
       _refresh();
 
@@ -63,7 +63,7 @@ class FoodListViewModel extends Notifier<FoodListUiState> {
 
   Future<void> restoreFood(String id) async {
     try {
-      await ref.read(edibleRepositoryProvider).restore(id);
+      await ref.read(foodRepositoryProvider).restore(id);
       _refresh();
     } catch (error) {
       print(error);

@@ -13,8 +13,4 @@ abstract class EdibleRepository {
   });
 
   Future<bool> wasEaten(String id);
-
-  Future<bool> delete(String id);
-
-  Future<bool> restore(String id);
 }

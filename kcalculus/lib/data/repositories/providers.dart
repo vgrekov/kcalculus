@@ -23,8 +23,10 @@ final edibleRepositoryProvider = Provider<EdibleRepository>(
 final foodRepositoryProvider = Provider<FoodRepository>(
   (ref) {
     final foodDao = ref.watch(_localFoodDaoProvider);
+    final edibleDao = ref.watch(_localEdibleDaoProvider);
     return LocalFoodRepository(
       foodDao: foodDao,
+      edibleDao: edibleDao,
     );
   },
 );
@@ -32,8 +34,10 @@ final foodRepositoryProvider = Provider<FoodRepository>(
 final dishRepositoryProvider = Provider<DishRepository>(
   (ref) {
     final dishDao = ref.watch(_localDishDaoProvider);
+    final edibleDao = ref.watch(_localEdibleDaoProvider);
     return LocalDishRepository(
       dishDao: dishDao,
+      edibleDao: edibleDao,
     );
   },
 );
