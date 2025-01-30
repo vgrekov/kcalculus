@@ -8,7 +8,6 @@ import 'package:kcalculus/ui/meals/list/view_models/meal_list_view_model.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_calendar.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list.dart';
 import 'package:kcalculus/ui/portions/add/widgets/portion_add_screen.dart';
-import 'package:kcalculus/ui/portions/edit/view_models/portion_edit_view_model.dart';
 import 'package:kcalculus/ui/portions/edit/widgets/portion_edit_screen.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
@@ -56,11 +55,11 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   }
 
   void _selectMeal(Meal meal) {
-    ref.read(portionEditViewModel.notifier).loadPortion(meal);
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => PortionEditScreen(
           title: l10n(context).screenEditMeal,
+          portion: meal,
           onSavePortion: (newAmount) {
             return _saveMeal(
               meal.copyWith(

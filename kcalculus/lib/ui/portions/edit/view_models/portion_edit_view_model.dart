@@ -14,31 +14,24 @@ enum PortionEditCommand {
   exit,
 }
 
-class PortionEditViewModel extends Notifier<PortionEditUiState> {
+class PortionEditViewModel
+    extends AutoDisposeFamilyNotifier<PortionEditUiState, Portion> {
   final _commander = UiCommander<PortionEditCommand>();
 
   @override
-  PortionEditUiState build() {
+  PortionEditUiState build(Portion arg) {
     ref.onDispose(() {
       _commander.dispose();
     });
 
-    return PortionEditUiState();
+    return PortionEditUiState(
+      edible: arg.edible,
+      amountUnit: arg.amount.unit,
+      amountValue: arg.amount.value,
+    );
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander.provider;
-
-  void reset() {
-    state = build();
-  }
-
-  void loadPortion(Portion portion) {
-    state = state.copyWith(
-      edible: portion.edible,
-      amountUnit: portion.amount.unit,
-      amountValue: portion.amount.value,
-    );
-  }
 
   void updateState({
     Unit? amountUnit,
@@ -83,8 +76,3 @@ class PortionEditViewModel extends Notifier<PortionEditUiState> {
     return true;
   }
 }
-
-final portionEditViewModel =
-    NotifierProvider<PortionEditViewModel, PortionEditUiState>(
-  () => PortionEditViewModel(),
-);

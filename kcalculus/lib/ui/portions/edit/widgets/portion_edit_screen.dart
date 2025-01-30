@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/nutrition/portion.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
+import 'package:kcalculus/ui/portions/edit/view_models/portion_edit_ui_state.dart';
 import 'package:kcalculus/ui/portions/edit/view_models/portion_edit_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -15,15 +17,23 @@ import 'package:kcalculus/widgets/inattentive.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
+final _portionEditViewModel = NotifierProvider.autoDispose
+    .family<PortionEditViewModel, PortionEditUiState, Portion>(
+  () => PortionEditViewModel(),
+);
+
 class PortionEditScreen extends ConsumerStatefulWidget {
   /// This screen will handle [onSavePortion]'s error handling
   const PortionEditScreen({
     super.key,
     required this.title,
+    required this.portion,
     required this.onSavePortion,
   });
 
   final String title;
+
+  final Portion portion;
 
   final FutureOr<void> Function(Amount) onSavePortion;
 
@@ -68,7 +78,7 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
 
     _form.currentState!.save();
 
-    final viewModel = ref.read(portionEditViewModel.notifier);
+    final viewModel = ref.read(_portionEditViewModel(widget.portion).notifier);
 
     viewModel.updateState(
       amountUnit: _amountController.unit,
@@ -87,7 +97,7 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
     required BuildContext context,
     required WidgetRef ref,
   }) {
-    final uiState = ref.read(portionEditViewModel);
+    final uiState = ref.read(_portionEditViewModel(widget.portion));
     final amount = uiState.getAmount()!;
     showMessage(
       l10n(context).messageNoCommonMeasureError(
@@ -119,7 +129,7 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
 
   @override
   Widget build(BuildContext context) {
-    final uiState = ref.watch(portionEditViewModel);
+    final uiState = ref.watch(_portionEditViewModel(widget.portion));
 
     if (uiState.edible != null) {
       _nameController.text = uiState.edible!.name;
@@ -129,7 +139,9 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
     }
 
     return UiSubordinate<PortionEditCommand>(
-      commandProvider: ref.read(portionEditViewModel.notifier).commandProvider,
+      commandProvider: ref
+          .read(_portionEditViewModel(widget.portion).notifier)
+          .commandProvider,
       assignments: _assignments,
       child: Inattentive(
         child: Scaffold(
