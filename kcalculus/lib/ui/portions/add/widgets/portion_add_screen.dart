@@ -7,7 +7,6 @@ import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
-import 'package:kcalculus/ui/edibles/search/view_models/edible_search_view_model.dart';
 import 'package:kcalculus/ui/edibles/search/widgets/edible_search_screen.dart';
 import 'package:kcalculus/ui/portions/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -126,10 +125,10 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
 
   void _searchEdibles() async {
     String query = _nameController.text;
-    ref.read(edibleSearchViewModel.notifier).setSearchQuery(query);
     final edible = await Navigator.of(context).push<Edible>(
       MaterialPageRoute(
         builder: (context) => EdibleSearchScreen(
+          initialQuery: query,
           edibleSearchFilter: widget.edibleSearchFilter,
         ),
       ),

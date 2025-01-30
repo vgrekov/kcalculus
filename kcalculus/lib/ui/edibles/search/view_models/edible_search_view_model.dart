@@ -12,19 +12,20 @@ enum EdibleSearchCommand {
   exit,
 }
 
-class EdibleSearchViewModel extends Notifier<EdibleSearchUiState> {
+class EdibleSearchViewModel
+    extends AutoDisposeFamilyNotifier<EdibleSearchUiState, String> {
   late final SearchDebouncer _searchDebouncer = SearchDebouncer(_search);
 
   final _commander = UiCommander<EdibleSearchCommand>();
 
   @override
-  EdibleSearchUiState build() {
+  EdibleSearchUiState build(String arg) {
     ref.onDispose(() {
       _searchDebouncer.dispose();
       _commander.dispose();
     });
 
-    return _doSearch('');
+    return _doSearch(arg);
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander.provider;
@@ -79,8 +80,3 @@ class EdibleSearchViewModel extends Notifier<EdibleSearchUiState> {
     );
   }
 }
-
-final edibleSearchViewModel =
-    NotifierProvider<EdibleSearchViewModel, EdibleSearchUiState>(
-  () => EdibleSearchViewModel(),
-);

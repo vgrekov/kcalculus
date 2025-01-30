@@ -4,6 +4,7 @@ import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
+import 'package:kcalculus/ui/edibles/search/view_models/edible_search_ui_state.dart';
 import 'package:kcalculus/ui/edibles/search/view_models/edible_search_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -11,11 +12,19 @@ import 'package:kcalculus/utils/progressive.dart';
 import 'package:kcalculus/widgets/edible_search_results.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
+final _edibleSearchViewModel = NotifierProvider.autoDispose
+    .family<EdibleSearchViewModel, EdibleSearchUiState, String>(
+  () => EdibleSearchViewModel(),
+);
+
 class EdibleSearchScreen extends ConsumerStatefulWidget {
   const EdibleSearchScreen({
     super.key,
+    this.initialQuery = '',
     this.edibleSearchFilter,
   });
+
+  final String initialQuery;
 
   final bool Function(EdibleSearchResult)? edibleSearchFilter;
 
@@ -36,16 +45,22 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
   };
 
   void _updateSearchQuery(String query) {
-    ref.read(edibleSearchViewModel.notifier).updateSearchQuery(query);
+    ref
+        .read(_edibleSearchViewModel(widget.initialQuery).notifier)
+        .updateSearchQuery(query);
   }
 
   void _resetSearchQuery() {
-    ref.read(edibleSearchViewModel.notifier).resetSearch();
+    ref
+        .read(_edibleSearchViewModel(widget.initialQuery).notifier)
+        .resetSearch();
   }
 
   void _selectSearchResult(EdibleSearchResult searchResult) async {
     wrapInProgress(
-      ref.read(edibleSearchViewModel.notifier).selectEdible(searchResult),
+      ref
+          .read(_edibleSearchViewModel(widget.initialQuery).notifier)
+          .selectEdible(searchResult),
     );
   }
 
@@ -79,7 +94,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    var uiState = ref.watch(edibleSearchViewModel);
+    var uiState = ref.watch(_edibleSearchViewModel(widget.initialQuery));
 
     _searchController.text = uiState.searchQuery;
 
@@ -90,7 +105,9 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
     }
 
     return UiSubordinate<EdibleSearchCommand>(
-      commandProvider: ref.read(edibleSearchViewModel.notifier).commandProvider,
+      commandProvider: ref
+          .read(_edibleSearchViewModel(widget.initialQuery).notifier)
+          .commandProvider,
       assignments: _assignments,
       child: FutureBuilder(
         future: edibles,
