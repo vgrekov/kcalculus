@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/screens/foods/food_save.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
+import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -86,7 +86,7 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
   }) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => SaveFoodScreen(
+        builder: (context) => FoodSaveScreen(
           food: command.payload as Food,
         ),
       ),

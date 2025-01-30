@@ -12,21 +12,21 @@ import 'package:kcalculus/widgets/inattentive.dart';
 import 'package:kcalculus/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
-class SaveFoodScreen extends ConsumerStatefulWidget {
+class FoodSaveScreen extends ConsumerStatefulWidget {
   final Food? food;
 
-  const SaveFoodScreen({
+  const FoodSaveScreen({
     super.key,
     this.food,
   });
 
   @override
-  ConsumerState<SaveFoodScreen> createState() {
-    return _SaveFoodScreenState();
+  ConsumerState<FoodSaveScreen> createState() {
+    return _FoodSaveScreenState();
   }
 }
 
-class _SaveFoodScreenState extends ConsumerState<SaveFoodScreen>
+class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
     with StateMessenger, ProgressiveState {
   String _name = '';
   String _description = '';
