@@ -7,7 +7,6 @@ import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_view_model.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_calendar.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list.dart';
-import 'package:kcalculus/ui/portions/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/ui/portions/add/widgets/portion_add_screen.dart';
 import 'package:kcalculus/ui/portions/edit/view_models/portion_edit_view_model.dart';
 import 'package:kcalculus/ui/portions/edit/widgets/portion_edit_screen.dart';
@@ -38,7 +37,6 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   };
 
   void _addMeal() {
-    ref.read(portionAddViewModel.notifier).reset();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => PortionAddScreen(

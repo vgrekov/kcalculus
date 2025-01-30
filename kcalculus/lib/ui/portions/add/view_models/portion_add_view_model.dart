@@ -26,7 +26,7 @@ enum ModifiedEdibleOption {
   createNew,
 }
 
-class PortionAddViewModel extends Notifier<PortionAddUiState> {
+class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
   final _commander = UiCommander<PortionAddCommand>();
 
   @override
@@ -178,8 +178,3 @@ class PortionAddViewModel extends Notifier<PortionAddUiState> {
     );
   }
 }
-
-final portionAddViewModel =
-    NotifierProvider<PortionAddViewModel, PortionAddUiState>(
-  () => PortionAddViewModel(),
-);
