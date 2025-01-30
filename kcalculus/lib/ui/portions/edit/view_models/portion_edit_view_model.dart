@@ -16,12 +16,14 @@ enum PortionEditCommand {
 
 class PortionEditViewModel
     extends AutoDisposeFamilyNotifier<PortionEditUiState, Portion> {
-  final _commander = UiCommander<PortionEditCommand>();
+  UiCommander<PortionEditCommand>? _commander;
 
   @override
   PortionEditUiState build(Portion arg) {
+    _commander = UiCommander<PortionEditCommand>(_commander);
+
     ref.onDispose(() {
-      _commander.dispose();
+      _commander?.dispose();
     });
 
     return PortionEditUiState(
@@ -31,7 +33,7 @@ class PortionEditViewModel
     );
   }
 
-  StreamProvider<UiCommand> get commandProvider => _commander.provider;
+  StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
   void updateState({
     Unit? amountUnit,
@@ -55,10 +57,10 @@ class PortionEditViewModel
 
       await onSavePortion(amount);
 
-      _commander.send(PortionEditCommand.exit);
+      _commander!.send(PortionEditCommand.exit);
     } catch (error) {
       print(error);
-      _commander.send(PortionEditCommand.showUnknownErrorNotification);
+      _commander!.send(PortionEditCommand.showUnknownErrorNotification);
     }
   }
 
@@ -69,7 +71,7 @@ class PortionEditViewModel
             .getNutritionFacts()
             .any((nf) => nf.amount.unit.measure == state.amountUnit!.measure);
     if (!hasCommonMeasure) {
-      _commander.send(PortionEditCommand.showNoCommonMeasureMessage);
+      _commander!.send(PortionEditCommand.showNoCommonMeasureMessage);
       return false;
     }
 

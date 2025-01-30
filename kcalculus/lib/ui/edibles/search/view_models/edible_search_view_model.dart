@@ -14,21 +14,23 @@ enum EdibleSearchCommand {
 
 class EdibleSearchViewModel
     extends AutoDisposeFamilyNotifier<EdibleSearchUiState, String> {
-  late final SearchDebouncer _searchDebouncer = SearchDebouncer(_search);
+  late final _searchDebouncer = SearchDebouncer(_search);
 
-  final _commander = UiCommander<EdibleSearchCommand>();
+  UiCommander<EdibleSearchCommand>? _commander;
 
   @override
   EdibleSearchUiState build(String arg) {
+    _commander = UiCommander<EdibleSearchCommand>(_commander);
+
     ref.onDispose(() {
       _searchDebouncer.dispose();
-      _commander.dispose();
+      _commander?.dispose();
     });
 
     return _doSearch(arg);
   }
 
-  StreamProvider<UiCommand> get commandProvider => _commander.provider;
+  StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
   void resetSearch() {
     _searchDebouncer.reset();
@@ -56,16 +58,16 @@ class EdibleSearchViewModel
       }
 
       if (edible != null) {
-        _commander.send<Edible, void>(
+        _commander!.send<Edible, void>(
           EdibleSearchCommand.exit,
           payload: edible,
         );
       } else {
-        _commander.send(EdibleSearchCommand.exit);
+        _commander!.send(EdibleSearchCommand.exit);
       }
     } catch (error) {
       print(error);
-      _commander.send(EdibleSearchCommand.showUnknownErrorNotification);
+      _commander!.send(EdibleSearchCommand.showUnknownErrorNotification);
     }
   }
 

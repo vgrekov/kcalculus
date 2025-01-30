@@ -27,18 +27,20 @@ enum ModifiedEdibleOption {
 }
 
 class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
-  final _commander = UiCommander<PortionAddCommand>();
+  UiCommander<PortionAddCommand>? _commander;
 
   @override
   PortionAddUiState build() {
+    _commander = UiCommander<PortionAddCommand>(_commander);
+
     ref.onDispose(() {
-      _commander.dispose();
+      _commander?.dispose();
     });
 
     return PortionAddUiState();
   }
 
-  StreamProvider<UiCommand> get commandProvider => _commander.provider;
+  StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
   void reset() {
     state = build();
@@ -86,10 +88,10 @@ class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
 
       await onSavePortion(edible, amount);
 
-      _commander.send(PortionAddCommand.exit);
+      _commander!.send(PortionAddCommand.exit);
     } catch (error) {
       print(error);
-      _commander.send(PortionAddCommand.showUnknownErrorNotification);
+      _commander!.send(PortionAddCommand.showUnknownErrorNotification);
     }
   }
 
@@ -97,7 +99,7 @@ class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
     final hasCommonMeasure = state.nutritionFacts!
         .any((nf) => nf.amount.unit.measure == state.amountUnit!.measure);
     if (!hasCommonMeasure) {
-      _commander.send(PortionAddCommand.showNoCommonMeasureMessage);
+      _commander!.send(PortionAddCommand.showNoCommonMeasureMessage);
       return false;
     }
 
@@ -138,18 +140,18 @@ class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
     );
 
     if (selectedEdibleModified == null && alreadyExists) {
-      _commander.send(PortionAddCommand.showEdibleAlreadyExistsDialog);
+      _commander!.send(PortionAddCommand.showEdibleAlreadyExistsDialog);
       return null;
     }
 
     if (selectedEdibleModified == true && alreadyExists) {
-      _commander.send(
+      _commander!.send(
           PortionAddCommand.showSelectedEdibleModifiedAlreadyExistsDialog);
       return null;
     }
 
     if (selectedEdibleModified == true && !alreadyExists) {
-      final edibleOption = await _commander.send<void, ModifiedEdibleOption?>(
+      final edibleOption = await _commander!.send<void, ModifiedEdibleOption?>(
         PortionAddCommand.showSelectedEdibleModifiedCreatesNewDialog,
       );
       if (edibleOption != null) {

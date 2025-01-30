@@ -28,7 +28,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
 
     ref.onDispose(() {
       _timer?.cancel();
-      _commander?.dispose();
+      _commander!.dispose();
     });
 
     return _loadFor(stateOrNull?.date ?? DateTime.now());
@@ -55,16 +55,16 @@ class MealListViewModel extends Notifier<MealListUiState> {
       final deleted = await ref.read(mealRepositoryProvider).delete(id);
 
       if (deleted) {
-        _commander?.send<String, void>(
+        _commander!.send<String, void>(
           MealListCommand.showDeletionSuccessNotification,
           payload: id,
         );
       } else {
-        _commander?.send(MealListCommand.showDeletionFailureNotification);
+        _commander!.send(MealListCommand.showDeletionFailureNotification);
       }
     } catch (error) {
       print(error);
-      _commander?.send(MealListCommand.showUnknownErrorNotification);
+      _commander!.send(MealListCommand.showUnknownErrorNotification);
     }
   }
 
@@ -73,7 +73,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
       await ref.read(mealRepositoryProvider).restore(id);
     } catch (error) {
       print(error);
-      _commander?.send(MealListCommand.showUnknownErrorNotification);
+      _commander!.send(MealListCommand.showUnknownErrorNotification);
     }
   }
 

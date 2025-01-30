@@ -13,23 +13,25 @@ enum FoodListCommand {
 }
 
 class FoodListViewModel extends Notifier<FoodListUiState> {
-  late final SearchDebouncer _searchDebouncer = SearchDebouncer(_search);
+  late final _searchDebouncer = SearchDebouncer(_search);
 
-  final _commander = UiCommander<FoodListCommand>();
+  UiCommander<FoodListCommand>? _commander;
 
   @override
   FoodListUiState build() {
     ref.watch(foodChangesProvider);
 
+    _commander = UiCommander<FoodListCommand>(_commander);
+
     ref.onDispose(() {
       _searchDebouncer.dispose();
-      _commander.dispose();
+      _commander?.dispose();
     });
 
     return _doSearch(stateOrNull?.searchQuery ?? '');
   }
 
-  StreamProvider<UiCommand> get commandProvider => _commander.provider;
+  StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
   void resetSearch() {
     _searchDebouncer.reset();
@@ -50,16 +52,16 @@ class FoodListViewModel extends Notifier<FoodListUiState> {
       _refresh();
 
       if (deleted) {
-        _commander.send<String, void>(
+        _commander!.send<String, void>(
           FoodListCommand.showDeletionSuccessNotification,
           payload: id,
         );
       } else {
-        _commander.send(FoodListCommand.showDeletionFailureNotification);
+        _commander!.send(FoodListCommand.showDeletionFailureNotification);
       }
     } catch (error) {
       print(error);
-      _commander.send(FoodListCommand.showUnknownErrorNotification);
+      _commander!.send(FoodListCommand.showUnknownErrorNotification);
     }
   }
 
@@ -69,7 +71,7 @@ class FoodListViewModel extends Notifier<FoodListUiState> {
       _refresh();
     } catch (error) {
       print(error);
-      _commander.send(FoodListCommand.showUnknownErrorNotification);
+      _commander!.send(FoodListCommand.showUnknownErrorNotification);
     }
   }
 
