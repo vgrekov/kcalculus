@@ -49,8 +49,6 @@ class FoodListViewModel extends Notifier<FoodListUiState> {
     try {
       final deleted = await ref.read(foodRepositoryProvider).delete(id);
 
-      _refresh();
-
       if (deleted) {
         _commander!.send<String, void>(
           FoodListCommand.showDeletionSuccessNotification,
@@ -68,15 +66,10 @@ class FoodListViewModel extends Notifier<FoodListUiState> {
   Future<void> restoreFood(String id) async {
     try {
       await ref.read(foodRepositoryProvider).restore(id);
-      _refresh();
     } catch (error) {
       print(error);
       _commander!.send(FoodListCommand.showUnknownErrorNotification);
     }
-  }
-
-  void _refresh() {
-    setSearchQuery(state.searchQuery);
   }
 
   void _search(String query) {
