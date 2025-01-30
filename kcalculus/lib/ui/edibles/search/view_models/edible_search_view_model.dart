@@ -80,3 +80,8 @@ class EdibleSearchViewModel
     );
   }
 }
+
+final edibleSearchViewModel = NotifierProvider.autoDispose
+    .family<EdibleSearchViewModel, EdibleSearchUiState, String>(
+  () => EdibleSearchViewModel(),
+);

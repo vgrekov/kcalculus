@@ -178,3 +178,8 @@ class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
     );
   }
 }
+
+final portionAddViewModel =
+    NotifierProvider.autoDispose<PortionAddViewModel, PortionAddUiState>(
+  () => PortionAddViewModel(),
+);

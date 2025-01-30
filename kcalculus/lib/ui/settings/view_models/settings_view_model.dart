@@ -19,3 +19,8 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
     );
   }
 }
+
+final appSettingsViewModel =
+    AsyncNotifierProvider.autoDispose<AppSettingsViewModel, AppSettings>(
+  () => AppSettingsViewModel(),
+);

@@ -76,3 +76,8 @@ class PortionEditViewModel
     return true;
   }
 }
+
+final portionEditViewModel = NotifierProvider.autoDispose
+    .family<PortionEditViewModel, PortionEditUiState, Portion>(
+  () => PortionEditViewModel(),
+);
