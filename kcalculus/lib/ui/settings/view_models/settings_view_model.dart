@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 
-class AppSettingsViewModel extends AsyncNotifier<AppSettings> {
+class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
   @override
   FutureOr<AppSettings> build() {
     return ref.watch(appSettingsRepositoryProvider.future);
@@ -19,8 +19,3 @@ class AppSettingsViewModel extends AsyncNotifier<AppSettings> {
     );
   }
 }
-
-final appSettingsViewModel =
-    AsyncNotifierProvider<AppSettingsViewModel, AppSettings>(
-  () => AppSettingsViewModel(),
-);

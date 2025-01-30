@@ -8,6 +8,11 @@ import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/widgets/screen_tab_bar.dart';
 
+final _appSettingsViewModel =
+    AsyncNotifierProvider.autoDispose<AppSettingsViewModel, AppSettings>(
+  () => AppSettingsViewModel(),
+);
+
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -25,14 +30,14 @@ class SettingsScreen extends ConsumerWidget {
     );
 
     if (theme != null) {
-      final viewModel = ref.read(appSettingsViewModel.notifier);
+      final viewModel = ref.read(_appSettingsViewModel.notifier);
       viewModel.setTheme(theme);
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(appSettingsViewModel);
+    final settings = ref.watch(_appSettingsViewModel);
 
     final Widget body;
     switch (settings) {
