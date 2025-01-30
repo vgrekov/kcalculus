@@ -42,10 +42,6 @@ class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
-  void reset() {
-    state = build();
-  }
-
   void selectEdible(Edible edible) {
     state = state.copyWith(
       selectedEdible: edible,
