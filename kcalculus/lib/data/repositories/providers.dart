@@ -76,11 +76,28 @@ final dishRepositoryProvider = Provider<DishRepository>(
   },
 );
 
+final _mealChangesStreamControllerProvider = Provider<StreamController<void>>(
+  (ref) {
+    final controller = StreamController<void>.broadcast();
+    ref.onDispose(controller.close);
+    return controller;
+  },
+);
+
+final mealChangesProvider = StreamProvider<void>(
+  (ref) {
+    final controller = ref.watch(_mealChangesStreamControllerProvider);
+    return controller.stream;
+  },
+);
+
 final mealRepositoryProvider = Provider<MealRepository>(
   (ref) {
     final mealDao = ref.watch(_localMealDaoProvider);
+    final changeController = ref.watch(_mealChangesStreamControllerProvider);
     return LocalMealRepository(
       mealDao: mealDao,
+      changeController: changeController,
     );
   },
 );

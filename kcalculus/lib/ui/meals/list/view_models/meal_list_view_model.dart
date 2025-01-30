@@ -16,21 +16,25 @@ enum MealListCommand {
 class MealListViewModel extends Notifier<MealListUiState> {
   Timer? _timer;
 
-  final _commander = UiCommander<MealListCommand>();
+  UiCommander<MealListCommand>? _commander;
 
   @override
   MealListUiState build() {
+    ref.watch(mealChangesProvider);
+
     _scheduleNextDaySwitch();
+
+    _commander = UiCommander<MealListCommand>(_commander);
 
     ref.onDispose(() {
       _timer?.cancel();
-      _commander.dispose();
+      _commander?.dispose();
     });
 
-    return _loadFor(DateTime.now());
+    return _loadFor(stateOrNull?.date ?? DateTime.now());
   }
 
-  StreamProvider<UiCommand> get commandProvider => _commander.provider;
+  StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
   void selectDate(DateTime date) {
     state = _loadFor(date);
@@ -44,36 +48,32 @@ class MealListViewModel extends Notifier<MealListUiState> {
 
   Future<void> saveMeal(Meal meal) async {
     await ref.read(mealRepositoryProvider).save(meal);
-    _refresh();
   }
 
   Future<void> deleteMeal(String id) async {
     try {
       final deleted = await ref.read(mealRepositoryProvider).delete(id);
 
-      _refresh();
-
       if (deleted) {
-        _commander.send<String, void>(
+        _commander?.send<String, void>(
           MealListCommand.showDeletionSuccessNotification,
           payload: id,
         );
       } else {
-        _commander.send(MealListCommand.showDeletionFailureNotification);
+        _commander?.send(MealListCommand.showDeletionFailureNotification);
       }
     } catch (error) {
       print(error);
-      _commander.send(MealListCommand.showUnknownErrorNotification);
+      _commander?.send(MealListCommand.showUnknownErrorNotification);
     }
   }
 
   Future<void> restoreMeal(String id) async {
     try {
       await ref.read(mealRepositoryProvider).restore(id);
-      _refresh();
     } catch (error) {
       print(error);
-      _commander.send(MealListCommand.showUnknownErrorNotification);
+      _commander?.send(MealListCommand.showUnknownErrorNotification);
     }
   }
 
@@ -83,10 +83,6 @@ class MealListViewModel extends Notifier<MealListUiState> {
       meals: ref.read(mealRepositoryProvider).getByDate(date),
       showCalendar: false,
     );
-  }
-
-  void _refresh() {
-    state = _loadFor(state.date);
   }
 
   void _scheduleNextDaySwitch() {
