@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dao.dart';
-import 'package:kcalculus/data/foods.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
+import 'package:kcalculus/ui/foods/save/view_models/food_save_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -28,29 +27,30 @@ class FoodSaveScreen extends ConsumerStatefulWidget {
 
 class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
     with StateMessenger, ProgressiveState {
-  String _name = '';
-  String _description = '';
-
   final _form = GlobalKey<FormState>();
+
   final _nameController = TextEditingController();
+
   final _descriptionController = TextEditingController();
+
   final _nutritionFactsController = NutritionFactsInputController();
 
   late FocusNode _nameFocusNode;
+
   late FocusNode _descriptionFocusNode;
+
   late FocusNode _nutritionFactsFocusNode;
 
-  bool _hasChanges = false;
+  late final _assignments = <FoodSaveCommand, UiAssignment>{
+    FoodSaveCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
+    FoodSaveCommand.showEdibleAlreadyExistsDialog:
+        _showEdibleAlreadyExistsDialog,
+    FoodSaveCommand.confirmDiscardChanges: _confirmDiscardChanges,
+    FoodSaveCommand.exit: _exitOnCommand,
+  };
 
   @override
   void initState() {
-    if (widget.food != null) {
-      _nameController.text = widget.food!.name;
-      _descriptionController.text = widget.food!.description;
-      _nutritionFactsController.nutritionFacts =
-          widget.food!.getNutritionFacts();
-    }
-
     _nameFocusNode = FocusNode();
     _descriptionFocusNode = FocusNode();
     _nutritionFactsFocusNode = FocusNode();
@@ -71,20 +71,15 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
     super.dispose();
   }
 
-  void _confirmCancellation() async {
-    final bool? shouldExit;
-    if (_hasChanges) {
-      shouldExit = await showConfirmation(
-        widget.food?.id == null
-            ? l10n(context).messageNewFoodCancellationConfirmation
-            : l10n(context).messageEditFoodCancellationConfirmation,
-      );
-    } else {
-      shouldExit = true;
-    }
+  void _exit() {
+    Navigator.of(context).pop();
+  }
 
-    if (mounted && shouldExit == true) {
-      Navigator.of(context).pop();
+  void _tryExit() async {
+    final viewModel = ref.read(foodSaveViewModel(widget.food).notifier);
+    final shouldExit = await viewModel.shouldExit();
+    if (mounted && shouldExit) {
+      _exit();
     }
   }
 
@@ -101,53 +96,16 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
     _form.currentState!.save();
     _nutritionFactsController.save();
 
-    final food = await getFood();
-    if (food == null) {
-      return;
-    }
+    final viewModel = ref.read(foodSaveViewModel(widget.food).notifier);
 
-    showProgress();
-
-    try {
-      await ref.read(foodsProvider.notifier).saveFood(food);
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-    } catch (error) {
-      showNotification(error.toString());
-    }
-
-    hideProgress();
-  }
-
-  FutureOr<Food?> getFood() async {
-    final edibleDao = await ref.read(edibleDaoProvider);
-    final alreadyExists = await edibleDao.exists(
-      _name,
-      _description,
-      exceptWithId: widget.food?.id,
+    viewModel.updateState(
+      name: _nameController.text,
+      description: _descriptionController.text,
+      nutritionFacts: _nutritionFactsController.nutritionFacts,
     );
 
-    if (alreadyExists) {
-      if (mounted) {
-        showMessageDialog<void>(
-          message: l10n(context).messageEdibleAlreadyExists,
-          actions: {
-            l10n(context).actionOk: () {
-              _nameFocusNode.requestFocus();
-            },
-          },
-          messageType: MessageType.error,
-        );
-      }
-      return null;
-    }
-
-    return Food(
-      id: widget.food?.id,
-      name: _name,
-      description: _description,
-      nutritionFacts: _nutritionFactsController.nutritionFacts!,
+    wrapInProgress(
+      viewModel.saveFood(),
     );
   }
 
@@ -159,93 +117,149 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
     return null;
   }
 
-  void onUserInteractionChange() {
-    _hasChanges = true;
+  void _onUserInteractionChange() {
+    final viewModel = ref.read(foodSaveViewModel(widget.food).notifier);
+    viewModel.onUserInteractionChange();
+  }
+
+  void _showUnknownErrorNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    showNotification(l10n(context).messageUnknownError);
+    command.complete();
+  }
+
+  void _showEdibleAlreadyExistsDialog(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    showMessageDialog<void>(
+      message: l10n(context).messageEdibleAlreadyExists,
+      actions: {
+        l10n(context).actionOk: () {
+          _nameFocusNode.requestFocus();
+        },
+      },
+      messageType: MessageType.error,
+    );
+    command.complete();
+  }
+
+  void _confirmDiscardChanges(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    command.complete(
+      showConfirmation(
+        widget.food?.id == null
+            ? l10n(context).messageNewFoodCancellationConfirmation
+            : l10n(context).messageEditFoodCancellationConfirmation,
+      ),
+    );
+  }
+
+  void _exitOnCommand(
+    UiCommand? command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    _exit();
+    command?.complete();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Inattentive(
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            onPressed: _confirmCancellation,
-            icon: Icon(
-              Icons.close,
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
+    final uiState = ref.watch(foodSaveViewModel(widget.food));
+
+    _nameController.text = uiState.name;
+    _descriptionController.text = uiState.description;
+    _nutritionFactsController.nutritionFacts = uiState.nutritionFacts;
+
+    final viewModel = ref.read(foodSaveViewModel(widget.food).notifier);
+
+    return UiSubordinate(
+      commandProvider: viewModel.commandProvider,
+      assignments: _assignments,
+      child: Inattentive(
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              onPressed: _tryExit,
+              icon: Icon(
+                Icons.close,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
             ),
+            centerTitle: true,
+            title: Text(
+              widget.food?.id != null
+                  ? l10n(context).screenEditFood
+                  : l10n(context).screenAddFood,
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: _saveFood,
+                child: Text(l10n(context).actionSave),
+              ),
+            ],
           ),
-          centerTitle: true,
-          title: Text(
-            widget.food?.id != null
-                ? l10n(context).screenEditFood
-                : l10n(context).screenAddFood,
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+          body: SingleChildScrollView(
+            child: Form(
+              key: _form,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextInput(
+                      controller: _nameController,
+                      autofocus: true,
+                      focusNode: _nameFocusNode,
+                      labelText: l10n(context).labelEdibleName,
+                      maxLength: 50,
+                      maxLines: 1,
+                      textCapitalization: TextCapitalization.words,
+                      textInputAction: TextInputAction.next,
+                      validator: _validateFoodName,
+                      onFieldSubmitted: (value) {
+                        _descriptionFocusNode.requestFocus();
+                      },
+                      onChanged: (value) {
+                        _onUserInteractionChange();
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    TextInput(
+                      controller: _descriptionController,
+                      labelText: l10n(context).labelEdibleDescription,
+                      hintText: l10n(context).hintEdibleDescription,
+                      maxLength: 100,
+                      maxLines: 2,
+                      textCapitalization: TextCapitalization.sentences,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (value) {
+                        _nutritionFactsFocusNode.requestFocus();
+                      },
+                      onChanged: (value) {
+                        _onUserInteractionChange();
+                      },
+                    ),
+                    const SizedBox(height: 32),
+                    NutritionFactsInput(
+                      controller: _nutritionFactsController,
+                      focusNode: _nutritionFactsFocusNode,
+                      onUserInteractionChange: _onUserInteractionChange,
+                    ),
+                  ],
                 ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: _saveFood,
-              child: Text(l10n(context).actionSave),
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: _form,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextInput(
-                    controller: _nameController,
-                    autofocus: true,
-                    focusNode: _nameFocusNode,
-                    labelText: l10n(context).labelEdibleName,
-                    maxLength: 50,
-                    maxLines: 1,
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.next,
-                    validator: _validateFoodName,
-                    onFieldSubmitted: (value) {
-                      _descriptionFocusNode.requestFocus();
-                    },
-                    onSaved: (value) {
-                      _name = value!;
-                    },
-                    onChanged: (value) {
-                      onUserInteractionChange();
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  TextInput(
-                    controller: _descriptionController,
-                    labelText: l10n(context).labelEdibleDescription,
-                    hintText: l10n(context).hintEdibleDescription,
-                    maxLength: 100,
-                    maxLines: 2,
-                    textCapitalization: TextCapitalization.sentences,
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (value) {
-                      _nutritionFactsFocusNode.requestFocus();
-                    },
-                    onSaved: (value) {
-                      _description = value!;
-                    },
-                    onChanged: (value) {
-                      onUserInteractionChange();
-                    },
-                  ),
-                  const SizedBox(height: 32),
-                  NutritionFactsInput(
-                    controller: _nutritionFactsController,
-                    focusNode: _nutritionFactsFocusNode,
-                    onUserInteractionChange: onUserInteractionChange,
-                  ),
-                ],
               ),
             ),
           ),
