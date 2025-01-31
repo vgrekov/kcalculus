@@ -5,11 +5,11 @@ import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/data/dishes.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/screens/dishes/dish_view.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/dishes/list/view_models/dish_list_view_model.dart';
+import 'package:kcalculus/ui/dishes/view/widgets/dish_view_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -70,7 +70,7 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
       if (dish != null && mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ViewDishScreen(
+            builder: (context) => DishViewScreen(
               dish: dish,
               onDeleteDish: (id) {
                 _deleteDish(id);

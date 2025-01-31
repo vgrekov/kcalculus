@@ -13,11 +13,11 @@ import 'package:kcalculus/widgets/ingredient_list.dart';
 import 'package:kcalculus/widgets/nutrient_stats.dart';
 import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 
-class ViewDishScreen extends ConsumerStatefulWidget {
+class DishViewScreen extends ConsumerStatefulWidget {
   final Dish dish;
   final void Function(String id)? onDeleteDish;
 
-  const ViewDishScreen({
+  const DishViewScreen({
     super.key,
     required this.dish,
     this.onDeleteDish,
@@ -25,11 +25,11 @@ class ViewDishScreen extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _ViewDishScreenState();
+    return _DishViewScreenState();
   }
 }
 
-class _ViewDishScreenState extends ConsumerState<ViewDishScreen>
+class _DishViewScreenState extends ConsumerState<DishViewScreen>
     with ProgressiveState, StateMessenger {
   void _deleteDish() async {
     final deleteConfirmed = await showConfirmation(
