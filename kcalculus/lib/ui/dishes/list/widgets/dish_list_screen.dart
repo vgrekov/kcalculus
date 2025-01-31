@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dao.dart';
 import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/data/dishes.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -61,29 +59,17 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
     );
   }
 
-  void _viewDish(EdibleSearchResult searchResult) async {
-    showProgress();
-
-    try {
-      final dishDao = await ref.read(dishDaoProvider);
-      Dish? dish = await dishDao.getById(searchResult.id);
-      if (dish != null && mounted) {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => DishViewScreen(
-              dish: dish,
-              onDeleteDish: (id) {
-                _deleteDish(id);
-              },
-            ),
-          ),
-        );
-      }
-    } catch (error) {
-      showNotification(error.toString());
-    } finally {
-      hideProgress();
-    }
+  void _viewDish(EdibleSearchResult searchResult) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => DishViewScreen(
+          dishId: searchResult.id,
+          onDeleteDish: (id) {
+            _deleteDish(id);
+          },
+        ),
+      ),
+    );
   }
 
   void _deleteDish(String id) {
