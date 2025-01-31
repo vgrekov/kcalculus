@@ -36,7 +36,7 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
     ref.read(foodViewViewModel(foodId).notifier).editFood();
   }
 
-  void _deleteFood(BuildContext context, WidgetRef ref) async {
+  void _deleteFood(BuildContext context) async {
     final deleteConfirmed = await showConfirmation(
           context,
           l10n(context).messageFoodDeletionConfirmation,
@@ -131,7 +131,7 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
             if (onDeleteFood != null)
               IconButton(
                 onPressed: () {
-                  _deleteFood(context, ref);
+                  _deleteFood(context);
                 },
                 icon: Icon(
                   Icons.delete,
