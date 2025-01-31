@@ -50,7 +50,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     );
   }
 
-  void _viewFood(EdibleSearchResult searchResult) async {
+  void _viewFood(EdibleSearchResult searchResult) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => FoodViewScreen(
