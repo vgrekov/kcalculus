@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_main_step_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/widgets/text_input.dart';
 
 class DishWizardMainPage extends ConsumerStatefulWidget {
   const DishWizardMainPage({

@@ -1,51 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/dish/ingredient.dart';
+import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/ui/common/widgets/edible_search_results_item.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
-import 'package:kcalculus/widgets/ingredient_list_item.dart';
 
-class IngredientList extends StatelessWidget with Messenger {
-  final List<Ingredient> ingredients;
-  final void Function(Ingredient ingredient, int index)? onSelectIngredient;
-  final void Function(Ingredient ingredient, int index)? onDeleteIngredient;
+class EdibleSearchResults extends StatelessWidget with Messenger {
+  final List<EdibleSearchResult> searchResults;
+  final void Function(EdibleSearchResult) onSelectSearchResult;
+  final String? confirmDeleteMessage;
+  final void Function(EdibleSearchResult)? onDeleteEdible;
 
-  const IngredientList({
+  const EdibleSearchResults({
     super.key,
-    required this.ingredients,
-    this.onSelectIngredient,
-    this.onDeleteIngredient,
+    required this.searchResults,
+    required this.onSelectSearchResult,
+    this.confirmDeleteMessage,
+    this.onDeleteEdible,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: ingredients.length,
+      itemCount: searchResults.length,
       itemBuilder: (context, index) {
-        final ingredient = ingredients[index];
-
-        final ingredientListItem = IngredientListItem(
-          ingredient: ingredient,
-          onSelectIngredient: onSelectIngredient == null
-              ? null
-              : (ingredient) {
-                  onSelectIngredient!(ingredient, index);
-                },
+        final searchResult = searchResults[index];
+        final searchResultItem = EdibleSearchResultsItem(
+          searchResult: searchResult,
+          onSelectSearchResult: onSelectSearchResult,
         );
-
-        return onDeleteIngredient == null
-            ? ingredientListItem
+        return onDeleteEdible == null
+            ? searchResultItem
             : Dismissible(
                 key: UniqueKey(),
                 direction: DismissDirection.endToStart,
                 confirmDismiss: (direction) async {
                   return await showConfirmation(
                         context,
-                        l10n(context).messageIngredientDeletionConfirmation,
+                        confirmDeleteMessage ??
+                            l10n(context).messageDeletionConfirmation,
                       ) ??
                       false;
                 },
                 onDismissed: (direction) {
-                  onDeleteIngredient!(ingredient, index);
+                  onDeleteEdible!(searchResult);
                 },
                 background: Container(
                   color: Theme.of(context).colorScheme.tertiaryContainer,
@@ -61,7 +58,7 @@ class IngredientList extends StatelessWidget with Messenger {
                     ),
                   ),
                 ),
-                child: ingredientListItem,
+                child: searchResultItem,
               );
       },
     );

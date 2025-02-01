@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/edible_main_info.dart';
+import 'package:kcalculus/ui/common/widgets/macro_split_view.dart';
+import 'package:kcalculus/ui/common/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
-import 'package:kcalculus/widgets/edible_main_info.dart';
-import 'package:kcalculus/widgets/macro_split_view.dart';
-import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 
 class FoodViewScreen extends ConsumerWidget with Messenger {
   FoodViewScreen({

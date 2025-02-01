@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/widgets/text_input.dart';
 
 class EdibleNameInput extends StatelessWidget {
   final TextEditingController? controller;

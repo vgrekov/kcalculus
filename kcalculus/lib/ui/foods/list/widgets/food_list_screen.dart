@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/edible_search_results.dart';
+import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
+import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/list/view_models/food_list_view_model.dart';
 import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
@@ -9,9 +12,6 @@ import 'package:kcalculus/ui/foods/view/widgets/food_view_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
-import 'package:kcalculus/widgets/edible_search_results.dart';
-import 'package:kcalculus/widgets/screen_tab_bar.dart';
-import 'package:kcalculus/widgets/text_input.dart';
 
 class FoodListScreen extends ConsumerStatefulWidget {
   const FoodListScreen({super.key});

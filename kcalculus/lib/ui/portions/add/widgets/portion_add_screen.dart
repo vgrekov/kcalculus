@@ -6,17 +6,17 @@ import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
+import 'package:kcalculus/ui/common/widgets/edible_name_input.dart';
+import 'package:kcalculus/ui/common/widgets/inattentive.dart';
+import 'package:kcalculus/ui/common/widgets/nutrition_facts_input.dart';
+import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/edibles/search/widgets/edible_search_screen.dart';
 import 'package:kcalculus/ui/portions/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
-import 'package:kcalculus/widgets/amount_input/amount_input.dart';
-import 'package:kcalculus/widgets/edible_name_input.dart';
-import 'package:kcalculus/widgets/inattentive.dart';
-import 'package:kcalculus/widgets/nutrition_facts_input.dart';
-import 'package:kcalculus/widgets/text_input.dart';
 
 class PortionAddScreen extends ConsumerStatefulWidget {
   /// This screen will handle [onSavePortion]'s error handling

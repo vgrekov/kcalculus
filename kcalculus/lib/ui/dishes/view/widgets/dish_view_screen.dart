@@ -3,15 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/edible_main_info.dart';
+import 'package:kcalculus/ui/common/widgets/ingredient_list.dart';
+import 'package:kcalculus/ui/common/widgets/nutrient_stats.dart';
+import 'package:kcalculus/ui/common/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/dishes/view/view_models/dish_view_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
-import 'package:kcalculus/widgets/edible_main_info.dart';
-import 'package:kcalculus/widgets/ingredient_list.dart';
-import 'package:kcalculus/widgets/nutrient_stats.dart';
-import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 
 class DishViewScreen extends ConsumerWidget with Messenger {
   DishViewScreen({

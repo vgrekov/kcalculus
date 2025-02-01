@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/inattentive.dart';
+import 'package:kcalculus/ui/common/widgets/page_indicator.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
@@ -12,8 +14,6 @@ import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_summary_page.dart
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
-import 'package:kcalculus/widgets/inattentive.dart';
-import 'package:kcalculus/widgets/page_indicator.dart';
 
 class DishWizardScreen extends ConsumerStatefulWidget {
   const DishWizardScreen({

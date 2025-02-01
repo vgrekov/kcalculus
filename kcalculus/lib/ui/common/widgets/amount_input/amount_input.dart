@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/ui/common/widgets/amount_input/unit_picker.dart';
+import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
-import 'package:kcalculus/widgets/amount_input/unit_picker.dart';
-import 'package:kcalculus/widgets/text_input.dart';
 
 const _defaultUnit = Unit.gram;
 

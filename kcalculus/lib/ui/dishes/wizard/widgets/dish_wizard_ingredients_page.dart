@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/dish/ingredient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/ui/common/widgets/ingredient_list.dart';
+import 'package:kcalculus/ui/common/widgets/nutrient_stats.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_step_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
@@ -10,8 +12,6 @@ import 'package:kcalculus/ui/portions/add/widgets/portion_add_screen.dart';
 import 'package:kcalculus/ui/portions/edit/widgets/portion_edit_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
-import 'package:kcalculus/widgets/ingredient_list.dart';
-import 'package:kcalculus/widgets/nutrient_stats.dart';
 
 class DishWizardIngredientsPage extends ConsumerWidget
     with Messenger

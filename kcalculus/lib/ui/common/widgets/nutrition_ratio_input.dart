@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
-import 'package:kcalculus/widgets/amount_input/amount_input.dart';
 
 class NutritionRatioInput extends StatefulWidget {
   const NutritionRatioInput({
