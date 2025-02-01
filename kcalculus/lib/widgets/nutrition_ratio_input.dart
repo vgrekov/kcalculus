@@ -6,15 +6,6 @@ import 'package:kcalculus/utils/number.dart' as nb;
 import 'package:kcalculus/widgets/amount_input/amount_input.dart';
 
 class NutritionRatioInput extends StatefulWidget {
-  final Measure measure;
-  final Amount? estimatedTotalAmount;
-  final AmountInputController? totalAmountController;
-  final String? Function(String?)? totalAmountValidator;
-  final AmountInputController? perAmountController;
-  final String? Function(String?)? perAmountValidator;
-  final bool enabled;
-  final void Function(Measure) onToggleEnabled;
-
   const NutritionRatioInput({
     super.key,
     required this.measure,
@@ -25,7 +16,26 @@ class NutritionRatioInput extends StatefulWidget {
     this.perAmountValidator,
     required this.enabled,
     required this.onToggleEnabled,
+    this.onUserInteractionChange,
   });
+
+  final Measure measure;
+
+  final Amount? estimatedTotalAmount;
+
+  final AmountInputController? totalAmountController;
+
+  final String? Function(String?)? totalAmountValidator;
+
+  final AmountInputController? perAmountController;
+
+  final String? Function(String?)? perAmountValidator;
+
+  final bool enabled;
+
+  final void Function(Measure) onToggleEnabled;
+
+  final void Function()? onUserInteractionChange;
 
   @override
   State<StatefulWidget> createState() {
@@ -99,6 +109,8 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
                         onPressed: () {
                           widget.totalAmountController
                               ?.setAmount(widget.estimatedTotalAmount);
+
+                          widget.onUserInteractionChange?.call();
                         },
                       ),
                     ],
@@ -116,6 +128,7 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
                         textInputAction: TextInputAction.next,
                         allowZero: false,
                         validator: widget.totalAmountValidator,
+                        onUserInteractionChange: widget.onUserInteractionChange,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -128,6 +141,7 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
                         textInputAction: TextInputAction.next,
                         allowZero: false,
                         validator: widget.perAmountValidator,
+                        onUserInteractionChange: widget.onUserInteractionChange,
                       ),
                     ),
                   ],

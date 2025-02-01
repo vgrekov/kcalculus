@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
-import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
+import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 
 class DishWizardSummaryPage extends ConsumerWidget implements DishWizardPage {
-  const DishWizardSummaryPage({super.key});
+  const DishWizardSummaryPage({
+    super.key,
+    this.dish,
+  });
+
+  final Dish? dish;
 
   @override
   bool validate(BuildContext context, WidgetRef ref) {
@@ -25,10 +31,10 @@ class DishWizardSummaryPage extends ConsumerWidget implements DishWizardPage {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final wizardState = ref.watch(dishWizardProvider).data;
+    final uiState = ref.watch(dishWizardViewModel(dish));
 
-    if (!wizardState.validate().containsValue(false)) {
-      final dish = wizardState.toDish();
+    if (!uiState.validate().containsValue(false)) {
+      final dish = uiState.toDish();
 
       return Padding(
         padding: const EdgeInsets.only(

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
-import 'package:kcalculus/data/dish_wizard/dish_wizard_main.dart';
-import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_main_step_ui_state.dart';
+import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
+import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/widgets/text_input.dart';
 
 class DishWizardMainPage extends ConsumerStatefulWidget {
-  final PageController pageController;
-
   const DishWizardMainPage({
     super.key,
+    this.dish,
     required this.pageController,
   });
+
+  final Dish? dish;
+
+  final PageController pageController;
 
   @override
   ConsumerState<DishWizardMainPage> createState() {
@@ -30,7 +34,7 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
   late FocusNode _nameFocusNode;
   late FocusNode _descriptionFocusNode;
 
-  MainStepStateValidationResult? _stateValidationResult;
+  MainStepValidationResult? _stateValidationResult;
 
   @override
   void initState() {
@@ -43,7 +47,7 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
   @override
   bool validate(BuildContext context, WidgetRef ref) {
     _stateValidationResult =
-        ref.read(dishWizardProvider).data.mainStepState.validate();
+        ref.read(dishWizardViewModel(widget.dish)).mainStepState.validate();
     return _form.currentState!.validate();
   }
 
@@ -51,22 +55,25 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
   void save(BuildContext context, WidgetRef ref) {
     _form.currentState!.save();
     FocusManager.instance.primaryFocus?.unfocus();
+
+    ref.read(dishWizardViewModel(widget.dish).notifier).updateMainStepState(
+          name: _nameController.text,
+          description: _descriptionController.text,
+        );
   }
 
   String? _validateFoodName(String? value) {
-    if (_stateValidationResult == MainStepStateValidationResult.nameMissing) {
+    if (_stateValidationResult == MainStepValidationResult.nameMissing) {
       return l10n(context).validationErrorEdibleNameMissing;
     }
 
     return null;
   }
 
-  void _saveName(String? value) {
-    ref.read(dishWizardProvider).data.mainStepState.name = value;
-  }
-
-  void _saveDescription(String? value) {
-    ref.read(dishWizardProvider).data.mainStepState.description = value;
+  void _onUserInteractionChange(String input) {
+    ref
+        .read(dishWizardViewModel(widget.dish).notifier)
+        .onUserInteractionChange();
   }
 
   @override
@@ -89,10 +96,10 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
 
   @override
   Widget build(BuildContext context) {
-    final wizardState = ref.watch(dishWizardProvider).data;
+    final uiState = ref.watch(dishWizardViewModel(widget.dish));
 
-    _nameController.text = wizardState.mainStepState.name ?? '';
-    _descriptionController.text = wizardState.mainStepState.description ?? '';
+    _nameController.text = uiState.mainStepState.name;
+    _descriptionController.text = uiState.mainStepState.description;
 
     return SingleChildScrollView(
       child: Form(
@@ -114,7 +121,7 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
                 onFieldSubmitted: (value) {
                   _descriptionFocusNode.requestFocus();
                 },
-                onSaved: _saveName,
+                onChanged: _onUserInteractionChange,
               ),
               const SizedBox(height: 8),
               TextInput(
@@ -131,7 +138,7 @@ class _DishWizardMainPageState extends ConsumerState<DishWizardMainPage>
                     curve: Curves.linear,
                   );
                 },
-                onSaved: _saveDescription,
+                onChanged: _onUserInteractionChange,
               ),
             ],
           ),

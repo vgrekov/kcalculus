@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/dishes/view/view_models/dish_view_view_model.dart';
+import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/widgets/edible_main_info.dart';
@@ -87,10 +86,11 @@ class DishViewScreen extends ConsumerWidget with Messenger {
     required BuildContext context,
     required WidgetRef ref,
   }) {
-    ref.read(dishWizardProvider.notifier).load(command.payload as Dish);
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => DishWizardScreen(),
+        builder: (context) => DishWizardScreen(
+          dish: command.payload as Dish,
+        ),
       ),
     );
     command.complete();

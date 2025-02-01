@@ -9,36 +9,38 @@ mixin DishWizardIngredientsStepViewModel {
   void onUserInteractionChange();
 
   void addIngredient(Ingredient ingredient) {
-    final ingredients = state.ingredientsStepState.ingredients;
-
-    ingredients.add(ingredient);
-
     state = state.copyWith.ingredientsStepState(
-      ingredients: ingredients,
+      ingredients: [
+        ...state.ingredientsStepState.ingredients,
+        ingredient,
+      ],
     );
 
     onUserInteractionChange();
   }
 
   void replaceIngredientAt(int index, Ingredient ingredient) {
-    final ingredients = state.ingredientsStepState.ingredients;
-
-    ingredients[index] = ingredient;
-
     state = state.copyWith.ingredientsStepState(
-      ingredients: ingredients,
+      ingredients: state.ingredientsStepState.ingredients.indexed.map(
+        (pair) {
+          if (pair.$1 == index) {
+            return ingredient;
+          }
+
+          return pair.$2;
+        },
+      ).toList(),
     );
 
     onUserInteractionChange();
   }
 
   bool deleteIngredientAt(int index) {
-    final ingredients = state.ingredientsStepState.ingredients;
-
-    ingredients.removeAt(index);
-
     state = state.copyWith.ingredientsStepState(
-      ingredients: ingredients,
+      ingredients: state.ingredientsStepState.ingredients.indexed
+          .where((pair) => pair.$1 != index)
+          .map((pair) => pair.$2)
+          .toList(),
     );
 
     onUserInteractionChange();

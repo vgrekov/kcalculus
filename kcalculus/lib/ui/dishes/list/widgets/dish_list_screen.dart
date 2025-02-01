@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
-import 'package:kcalculus/data/dishes.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/dishes/list/view_models/dish_list_view_model.dart';
 import 'package:kcalculus/ui/dishes/view/widgets/dish_view_screen.dart';
+import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
@@ -36,12 +34,6 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
     DishListCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
   };
 
-  @override
-  void initState() {
-    _searchController.text = ref.read(dishSearchQueryProvider).text;
-    super.initState();
-  }
-
   void _updateSearchQuery(String query) {
     ref.read(dishListViewModel.notifier).updateSearchQuery(query);
   }
@@ -51,7 +43,6 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
   }
 
   void _addDish() {
-    ref.read(dishWizardProvider.notifier).reset();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const DishWizardScreen(),

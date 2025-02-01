@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
-import 'package:kcalculus/data/dish_wizard/dish_wizard_measurements.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/units.dart';
-import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
+import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_ui_state/dish_wizard_measurements_step_ui_state.dart';
+import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_ui_state/nutrition_ratio_ui_state.dart';
+import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
+import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/widgets/nutrition_ratio_input.dart';
 
 class DishWizardMeasurementsPage extends ConsumerStatefulWidget {
-  const DishWizardMeasurementsPage({super.key});
+  const DishWizardMeasurementsPage({
+    super.key,
+    this.dish,
+  });
+
+  final Dish? dish;
 
   @override
   ConsumerState<DishWizardMeasurementsPage> createState() {
@@ -29,12 +36,14 @@ class _DishWizardMeasurementsPageState
       measure: _NutritionRatioControllers()
   };
 
-  MeasurementsStepStateValidationResult? _stateValidationResult;
+  MeasurementsStepValidationResult? _stateValidationResult;
 
   @override
   bool validate(BuildContext context, WidgetRef ref) {
-    _stateValidationResult =
-        ref.read(dishWizardProvider).data.measurementsStepState.validate();
+    _stateValidationResult = ref
+        .read(dishWizardViewModel(widget.dish))
+        .measurementsStepState
+        .validate();
 
     final formValidationResult = _form.currentState!.validate();
 
@@ -56,23 +65,25 @@ class _DishWizardMeasurementsPageState
   void _saveState() {
     _form.currentState!.save();
 
-    final stepState = ref.read(dishWizardProvider).data.measurementsStepState;
-    final enabledRatioStates =
-        stepState.nutritionRatioStates.where((rs) => rs.enabled);
-    for (final ratioState in enabledRatioStates) {
-      final controllers = _ratioControllers[ratioState.measure];
-      if (controllers != null) {
-        ratioState.perAmountUnit = controllers.perAmountController.unit;
-        ratioState.perAmountValue = controllers.perAmountController.value;
+    final viewModel = ref.read(dishWizardViewModel(widget.dish).notifier);
 
-        ratioState.totalAmountUnit = controllers.totalAmountController.unit;
-        ratioState.totalAmountValue = controllers.totalAmountController.value;
-      }
-    }
+    final newRatioStates = _ratioControllers.entries
+        .map(
+          (e) => NutritionRatioUiState(
+            measure: e.key,
+            totalAmountUnit: e.value.totalAmountController.unit,
+            totalAmountValue: e.value.totalAmountController.value,
+            perAmountUnit: e.value.perAmountController.unit,
+            perAmountValue: e.value.perAmountController.value,
+          ),
+        )
+        .toList();
+
+    viewModel.updateMeasurementsStepData(newRatioStates);
   }
 
   void _loadControllersFromState(
-      List<NutritionRatioState> nutritionRatioStates) {
+      List<NutritionRatioUiState> nutritionRatioStates) {
     for (final ratioState in nutritionRatioStates) {
       final controllers = _ratioControllers[ratioState.measure];
       if (controllers != null) {
@@ -87,22 +98,18 @@ class _DishWizardMeasurementsPageState
 
   void _toggleMeasure(Measure measure) {
     _saveState();
-    ref
-        .read(dishWizardProvider)
-        .data
-        .measurementsStepState
-        .toggleMeasure(measure);
+    ref.read(dishWizardViewModel(widget.dish).notifier).toggleMeasure(measure);
   }
 
   String? _validatePerAmount(Measure measure) {
     final ratioValidationResult =
         _stateValidationResult?.ratioStateValidationResults[measure];
     switch (ratioValidationResult) {
-      case NutritionRatioStateValidationResult.perAmountMissing:
-      case NutritionRatioStateValidationResult.bothAmountsMissing:
+      case NutritionRatioValidationResult.perAmountMissing:
+      case NutritionRatioValidationResult.bothAmountsMissing:
         return l10n(context).validationErrorAmountValueMissing;
-      case NutritionRatioStateValidationResult.perAmountHasWrongMeasure:
-      case NutritionRatioStateValidationResult.bothAmountsHaveWrongMeasure:
+      case NutritionRatioValidationResult.perAmountHasWrongMeasure:
+      case NutritionRatioValidationResult.bothAmountsHaveWrongMeasure:
         return l10n(context)
             .validationErrorAmountMustBeOfMeasure(measure.localName(context));
       default:
@@ -114,16 +121,22 @@ class _DishWizardMeasurementsPageState
     final ratioValidationResult =
         _stateValidationResult?.ratioStateValidationResults[measure];
     switch (ratioValidationResult) {
-      case NutritionRatioStateValidationResult.totalAmountMissing:
-      case NutritionRatioStateValidationResult.bothAmountsMissing:
+      case NutritionRatioValidationResult.totalAmountMissing:
+      case NutritionRatioValidationResult.bothAmountsMissing:
         return l10n(context).validationErrorAmountValueMissing;
-      case NutritionRatioStateValidationResult.totalAmountHasWrongMeasure:
-      case NutritionRatioStateValidationResult.bothAmountsHaveWrongMeasure:
+      case NutritionRatioValidationResult.totalAmountHasWrongMeasure:
+      case NutritionRatioValidationResult.bothAmountsHaveWrongMeasure:
         return l10n(context)
             .validationErrorAmountMustBeOfMeasure(measure.localName(context));
       default:
         return null;
     }
+  }
+
+  void _onUserInteractionChange() {
+    ref
+        .read(dishWizardViewModel(widget.dish).notifier)
+        .onUserInteractionChange();
   }
 
   @override
@@ -144,15 +157,16 @@ class _DishWizardMeasurementsPageState
 
   @override
   Widget build(BuildContext context) {
-    final wizardState = ref.watch(dishWizardProvider).data;
-    final stepState = wizardState.measurementsStepState;
+    final uiState = ref.watch(dishWizardViewModel(widget.dish));
+
+    final stepState = uiState.measurementsStepState;
 
     _loadControllersFromState(stepState.nutritionRatioStates);
 
     final List<Widget> ratioWidgets = [];
     for (final ratioState in stepState.nutritionRatioStates) {
       final estimatedTotalAmount =
-          wizardState.estimateTotalAmount(ratioState.measure);
+          uiState.estimateTotalAmount(ratioState.measure);
 
       final controllers = _ratioControllers[ratioState.measure];
 
@@ -169,6 +183,7 @@ class _DishWizardMeasurementsPageState
         },
         enabled: ratioState.enabled,
         onToggleEnabled: _toggleMeasure,
+        onUserInteractionChange: _onUserInteractionChange,
       );
 
       ratioWidgets.add(ratioWidget);

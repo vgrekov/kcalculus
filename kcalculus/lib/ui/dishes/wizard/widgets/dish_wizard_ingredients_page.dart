@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/dish_wizard/dish_wizard.dart';
-import 'package:kcalculus/data/dish_wizard/dish_wizard_ingredients.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/dish/ingredient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/screens/dishes/dish_wizard/dish_wizard.dart';
+import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_step_ui_state.dart';
+import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
+import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/ui/portions/add/widgets/portion_add_screen.dart';
 import 'package:kcalculus/ui/portions/edit/widgets/portion_edit_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -15,20 +16,22 @@ import 'package:kcalculus/widgets/nutrient_stats.dart';
 class DishWizardIngredientsPage extends ConsumerWidget
     with Messenger
     implements DishWizardPage {
-  const DishWizardIngredientsPage({super.key});
+  const DishWizardIngredientsPage({
+    super.key,
+    this.dish,
+  });
+
+  final Dish? dish;
 
   void _addIngredient(BuildContext context, WidgetRef ref) {
-    final wizardState = ref.read(dishWizardProvider).data;
+    final uiState = ref.read(dishWizardViewModel(dish));
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => PortionAddScreen(
           title: l10n(context).screenAddIngredient,
           onSavePortion: (edible, amount) {
-            ref
-                .read(dishWizardProvider)
-                .data
-                .ingredientsStepState
-                .addIngredient(
+            ref.read(dishWizardViewModel(dish).notifier).addIngredient(
                   Ingredient(
                     edible: edible,
                     amount: amount,
@@ -36,7 +39,7 @@ class DishWizardIngredientsPage extends ConsumerWidget
                 );
           },
           edibleSearchFilter:
-              wizardState.id == null ? null : (r) => r.id != wizardState.id,
+              uiState.id == null ? null : (r) => r.id != uiState.id,
         ),
       ),
     );
@@ -54,11 +57,7 @@ class DishWizardIngredientsPage extends ConsumerWidget
           title: l10n(context).screenEditIngredient,
           portion: ingredient,
           onSavePortion: (newAmount) {
-            ref
-                .read(dishWizardProvider)
-                .data
-                .ingredientsStepState
-                .replaceIngredientAt(
+            ref.read(dishWizardViewModel(dish).notifier).replaceIngredientAt(
                   index,
                   ingredient.copyWith(
                     amount: newAmount,
@@ -78,9 +77,7 @@ class DishWizardIngredientsPage extends ConsumerWidget
   ) {
     try {
       final isDeleted = ref
-          .read(dishWizardProvider)
-          .data
-          .ingredientsStepState
+          .read(dishWizardViewModel(dish).notifier)
           .deleteIngredientAt(index);
 
       if (isDeleted) {
@@ -97,9 +94,9 @@ class DishWizardIngredientsPage extends ConsumerWidget
 
   @override
   bool validate(BuildContext context, WidgetRef ref) {
-    final stepState = ref.read(dishWizardProvider).data.ingredientsStepState;
+    final stepState = ref.read(dishWizardViewModel(dish)).ingredientsStepState;
     if (stepState.validate() ==
-        IngredientsStepStateValidationResult.ingredientsMissing) {
+        IngredientsStepValidationResult.ingredientsMissing) {
       showNotification(context, l10n(context).messageDishNoIngredientsError);
       return false;
     }
@@ -113,8 +110,7 @@ class DishWizardIngredientsPage extends ConsumerWidget
   @override
   ScaffoldConfig? buildScaffoldConfig(BuildContext context, WidgetRef ref) {
     final totalNutrientData = ref
-        .read(dishWizardProvider)
-        .data
+        .read(dishWizardViewModel(dish))
         .ingredientsStepState
         .ingredients
         .map((m) => m.getNutrientData() ?? NutrientData.empty())
@@ -144,8 +140,9 @@ class DishWizardIngredientsPage extends ConsumerWidget
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ingredients =
-        ref.watch(dishWizardProvider).data.ingredientsStepState.ingredients;
+    final uiState = ref.watch(dishWizardViewModel(dish));
+
+    final ingredients = uiState.ingredientsStepState.ingredients;
 
     final Widget body;
     if (ingredients.isEmpty) {

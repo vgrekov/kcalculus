@@ -7,10 +7,12 @@ import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_s
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_main_step_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ui_state.dart';
+import 'package:kcalculus/utils/exceptions.dart';
 
-enum DishSaveCommand {
+enum DishWizardCommand {
   showUnknownErrorNotification,
   showEdibleAlreadyExistsDialog,
+  showIngredientsCycleDetectedNotification,
   goToInvalidStep,
   confirmDiscardChanges,
   exit,
@@ -22,13 +24,13 @@ class DishWizardViewModel
         DishWizardMainStepViewModel,
         DishWizardIngredientsStepViewModel,
         DishWizardMeasurementsStepViewModel {
-  UiCommander<DishSaveCommand>? _commander;
+  UiCommander<DishWizardCommand>? _commander;
 
   bool _hasChanges = false;
 
   @override
   DishWizardUiState build(Dish? arg) {
-    _commander = UiCommander<DishSaveCommand>(_commander);
+    _commander = UiCommander<DishWizardCommand>(_commander);
 
     ref.onDispose(() {
       _commander?.dispose();
@@ -50,24 +52,28 @@ class DishWizardViewModel
           validationResult.entries.where((e) => !e.value).firstOrNull?.key;
       if (invalidStep != null) {
         _commander!.send<DishWizardStep, void>(
-          DishSaveCommand.showEdibleAlreadyExistsDialog,
+          DishWizardCommand.goToInvalidStep,
+          payload: invalidStep,
         );
         return;
       }
 
       final alreadyExists = await _alreadyExists();
       if (alreadyExists) {
-        _commander!.send(DishSaveCommand.showEdibleAlreadyExistsDialog);
+        _commander!.send(DishWizardCommand.showEdibleAlreadyExistsDialog);
         return;
       }
 
       final dish = state.toDish();
       await ref.read(dishRepositoryProvider).save(dish);
 
-      _commander!.send(DishSaveCommand.exit);
+      _commander!.send(DishWizardCommand.exit);
+    } on IngredientsCycleException {
+      _commander!
+          .send(DishWizardCommand.showIngredientsCycleDetectedNotification);
     } catch (error) {
       print(error);
-      _commander!.send(DishSaveCommand.showUnknownErrorNotification);
+      _commander!.send(DishWizardCommand.showUnknownErrorNotification);
     }
   }
 
@@ -83,7 +89,7 @@ class DishWizardViewModel
     final bool? result;
     if (_hasChanges) {
       result = await _commander!.send<void, bool?>(
-        DishSaveCommand.confirmDiscardChanges,
+        DishWizardCommand.confirmDiscardChanges,
       );
     } else {
       result = true;
@@ -92,6 +98,7 @@ class DishWizardViewModel
     return result == true;
   }
 
+  @override
   void onUserInteractionChange() {
     _hasChanges = true;
   }
