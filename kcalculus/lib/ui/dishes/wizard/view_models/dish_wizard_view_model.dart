@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/exceptions/duplication_exception.dart';
+import 'package:kcalculus/data/exceptions/ingredients_cycle_exception.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -7,7 +9,6 @@ import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_s
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_main_step_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ui_state.dart';
-import 'package:kcalculus/utils/exceptions.dart';
 
 enum DishWizardCommand {
   showUnknownErrorNotification,
@@ -58,16 +59,12 @@ class DishWizardViewModel
         return;
       }
 
-      final alreadyExists = await _alreadyExists();
-      if (alreadyExists) {
-        _commander!.send(DishWizardCommand.showEdibleAlreadyExistsDialog);
-        return;
-      }
-
       final dish = state.toDish();
       await ref.read(dishRepositoryProvider).save(dish);
 
       _commander!.send(DishWizardCommand.exit);
+    } on DuplicationException {
+      _commander!.send(DishWizardCommand.showEdibleAlreadyExistsDialog);
     } on IngredientsCycleException {
       _commander!
           .send(DishWizardCommand.showIngredientsCycleDetectedNotification);
@@ -75,14 +72,6 @@ class DishWizardViewModel
       print(error);
       _commander!.send(DishWizardCommand.showUnknownErrorNotification);
     }
-  }
-
-  Future<bool> _alreadyExists() {
-    return ref.read(edibleRepositoryProvider).exists(
-          state.mainStepState.name,
-          state.mainStepState.description,
-          exceptWithId: state.id,
-        );
   }
 
   Future<bool> shouldExit() async {

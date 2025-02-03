@@ -17,11 +17,13 @@ final _localEdibleDaoProvider = Provider(
 final _localFoodDaoProvider = Provider(
   (ref) {
     final dbService = ref.watch(_databaseServiceProvider);
+    final edibleDao = ref.watch(_localEdibleDaoProvider);
     final foodConverter = ref.watch(_localFoodConverterProvider);
     final nutritionFactsConverter =
         ref.watch(_localNutritionFactsConverterProvider);
     return LocalFoodDao(
       dbService: dbService,
+      edibleDao: edibleDao,
       foodConverter: foodConverter,
       nutritionFactsConverter: nutritionFactsConverter,
     );
@@ -31,11 +33,13 @@ final _localFoodDaoProvider = Provider(
 final _localDishDaoProvider = Provider(
   (ref) {
     final dbService = ref.watch(_databaseServiceProvider);
+    final edibleDao = ref.watch(_localEdibleDaoProvider);
     final foodDao = ref.watch(_localFoodDaoProvider);
     final dishConverter = ref.watch(_localDishConverterProvider);
     final ingredientConverter = ref.watch(_localIngredientConverterProvider);
     return LocalDishDao(
       dbService: dbService,
+      edibleDao: edibleDao,
       foodDao: foodDao,
       dishConverter: dishConverter,
       ingredientConverter: ingredientConverter,

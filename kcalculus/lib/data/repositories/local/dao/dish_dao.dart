@@ -1,29 +1,35 @@
 import 'dart:collection';
 
+import 'package:kcalculus/data/exceptions/duplication_exception.dart';
+import 'package:kcalculus/data/exceptions/ingredients_cycle_exception.dart';
 import 'package:kcalculus/data/repositories/local/converters/dish_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/ingredient_converter.dart';
+import 'package:kcalculus/data/repositories/local/dao/edible_dao.dart';
 import 'package:kcalculus/data/repositories/local/dao/food_dao.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
 import 'package:kcalculus/data/services/local/database/ingredient/ingredient_db_model.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/utils/exceptions.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalDishDao {
   LocalDishDao({
     required DatabaseService dbService,
+    required LocalEdibleDao edibleDao,
     required LocalFoodDao foodDao,
     required LocalDishConverter dishConverter,
     required LocalIngredientConverter ingredientConverter,
   })  : _dbService = dbService,
+        _edibleDao = edibleDao,
         _foodDao = foodDao,
         _dishConverter = dishConverter,
         _ingredientConverter = ingredientConverter;
 
   final DatabaseService _dbService;
+
+  final LocalEdibleDao _edibleDao;
 
   final LocalFoodDao _foodDao;
 
@@ -145,6 +151,8 @@ class LocalDishDao {
     String? id,
     required Transaction txn,
   }) async {
+    await _checkForDuplication(dish, txn: txn);
+
     await _checkForIngredientsCycle(dish, txn: txn);
 
     String dishId = id ?? dish.id ?? generateId();
@@ -211,6 +219,22 @@ class LocalDishDao {
 
     if (fullHierarchy.contains(model.id!)) {
       throw IngredientsCycleException();
+    }
+  }
+
+  Future<void> _checkForDuplication(
+    Edible model, {
+    Transaction? txn,
+  }) async {
+    final alreadyExists = await _edibleDao.exists(
+      model.name,
+      model.description,
+      exceptWithId: model.id,
+      txn: txn,
+    );
+
+    if (alreadyExists) {
+      throw DuplicationException();
     }
   }
 

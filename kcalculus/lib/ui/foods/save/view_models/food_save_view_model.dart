@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/exceptions/duplication_exception.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
@@ -57,39 +58,16 @@ class FoodSaveViewModel
 
   Future<void> saveFood() async {
     try {
-      final food = await _getFood();
-      if (food == null) {
-        return;
-      }
-
+      final food = state.toFood();
       await ref.read(foodRepositoryProvider).save(food);
 
       _commander!.send(FoodSaveCommand.exit);
+    } on DuplicationException {
+      _commander!.send(FoodSaveCommand.showEdibleAlreadyExistsDialog);
     } catch (error) {
       print(error);
       _commander!.send(FoodSaveCommand.showUnknownErrorNotification);
     }
-  }
-
-  FutureOr<Food?> _getFood() async {
-    final edibleRepository = ref.read(edibleRepositoryProvider);
-    final alreadyExists = await edibleRepository.exists(
-      state.name,
-      state.description,
-      exceptWithId: state.id,
-    );
-
-    if (alreadyExists) {
-      _commander!.send(FoodSaveCommand.showEdibleAlreadyExistsDialog);
-      return null;
-    }
-
-    return Food(
-      id: state.id,
-      name: state.name,
-      description: state.description,
-      nutritionFacts: state.nutritionFacts!,
-    );
   }
 
   Future<bool> shouldExit() async {

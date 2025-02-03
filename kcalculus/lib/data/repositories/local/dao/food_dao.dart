@@ -1,6 +1,9 @@
+import 'package:kcalculus/data/exceptions/duplication_exception.dart';
 import 'package:kcalculus/data/repositories/local/converters/food_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/nutrition_facts_converter.dart';
+import 'package:kcalculus/data/repositories/local/dao/edible_dao.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
+import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
@@ -8,13 +11,17 @@ import 'package:sqflite/sqflite.dart';
 class LocalFoodDao {
   LocalFoodDao({
     required DatabaseService dbService,
+    required LocalEdibleDao edibleDao,
     required LocalFoodConverter foodConverter,
     required LocalNutritionFactsConverter nutritionFactsConverter,
   })  : _dbService = dbService,
+        _edibleDao = edibleDao,
         _foodConverter = foodConverter,
         _nutritionFactsConverter = nutritionFactsConverter;
 
   final DatabaseService _dbService;
+
+  final LocalEdibleDao _edibleDao;
 
   final LocalFoodConverter _foodConverter;
 
@@ -57,6 +64,8 @@ class LocalFoodDao {
     String? id,
     required Transaction txn,
   }) async {
+    await _checkForDuplication(food, txn: txn);
+
     final foodId = id ?? food.id ?? generateId();
 
     final foodDbModel = _foodConverter.toDbModel(food, foodId);
@@ -77,5 +86,21 @@ class LocalFoodDao {
     );
 
     return foodId;
+  }
+
+  Future<void> _checkForDuplication(
+    Edible model, {
+    Transaction? txn,
+  }) async {
+    final alreadyExists = await _edibleDao.exists(
+      model.name,
+      model.description,
+      exceptWithId: model.id,
+      txn: txn,
+    );
+
+    if (alreadyExists) {
+      throw DuplicationException();
+    }
   }
 }

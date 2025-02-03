@@ -139,13 +139,14 @@ class __$$FoodSaveUiStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FoodSaveUiStateImpl implements _FoodSaveUiState {
+class _$FoodSaveUiStateImpl extends _FoodSaveUiState {
   const _$FoodSaveUiStateImpl(
       {this.id,
       this.name = '',
       this.description = '',
       final List<NutritionFacts>? nutritionFacts})
-      : _nutritionFacts = nutritionFacts;
+      : _nutritionFacts = nutritionFacts,
+        super._();
 
   @override
   final String? id;
@@ -197,12 +198,13 @@ class _$FoodSaveUiStateImpl implements _FoodSaveUiState {
           this, _$identity);
 }
 
-abstract class _FoodSaveUiState implements FoodSaveUiState {
+abstract class _FoodSaveUiState extends FoodSaveUiState {
   const factory _FoodSaveUiState(
       {final String? id,
       final String name,
       final String description,
       final List<NutritionFacts>? nutritionFacts}) = _$FoodSaveUiStateImpl;
+  const _FoodSaveUiState._() : super._();
 
   @override
   String? get id;
