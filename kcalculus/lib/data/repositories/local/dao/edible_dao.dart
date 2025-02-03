@@ -38,8 +38,8 @@ class LocalEdibleDao {
     Transaction? txn,
   }) {
     return _dbService.edible.exists(
-      name,
-      description,
+      name.trim(),
+      description.trim(),
       exceptWithId: exceptWithId,
       txn: txn,
     );
