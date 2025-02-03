@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
+import 'package:kcalculus/data/exceptions/localized_exception.dart';
 import 'package:kcalculus/data/services/local/database/dish/dish_service.dart';
 import 'package:kcalculus/data/services/local/database/edible/edible_service.dart';
 import 'package:kcalculus/data/services/local/database/food/food_service.dart';
@@ -10,7 +11,6 @@ import 'package:kcalculus/data/services/local/database/ingredient/ingredient_ser
 import 'package:kcalculus/data/services/local/database/meal/meal_service.dart';
 import 'package:kcalculus/data/services/local/database/nutrition_facts/nutrition_facts_service.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
-import 'package:kcalculus/utils/exceptions.dart';
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 

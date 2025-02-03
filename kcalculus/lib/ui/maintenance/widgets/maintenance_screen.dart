@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/exceptions/localized_exception.dart';
 import 'package:kcalculus/data/repositories/maintenance/maintenance_status_repository.dart';
 import 'package:kcalculus/domain/models/maintenance_status.dart';
 import 'package:kcalculus/ui/maintenance/view_models/maintenance_view_model.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
-import 'package:kcalculus/utils/exceptions.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class MaintenanceScreen extends ConsumerWidget {
