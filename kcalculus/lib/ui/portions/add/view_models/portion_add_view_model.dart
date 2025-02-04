@@ -92,8 +92,10 @@ class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
   }
 
   bool _checkIfCommonMeasureExists() {
-    final hasCommonMeasure = state.nutritionFacts!
-        .any((nf) => nf.amount.unit.measure == state.amountUnit!.measure);
+    final hasCommonMeasure = state.amountUnit != null &&
+        state.nutritionFacts != null &&
+        state.nutritionFacts!
+            .any((nf) => nf.amount.unit.measure == state.amountUnit!.measure);
     if (!hasCommonMeasure) {
       _commander!.send(PortionAddCommand.showNoCommonMeasureMessage);
       return false;
