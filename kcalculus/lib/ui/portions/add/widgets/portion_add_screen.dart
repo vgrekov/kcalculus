@@ -80,6 +80,9 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     _amountFocusNode = FocusNode();
     _nutritionFactsFocusNode = FocusNode();
 
+    final uiState = ref.read(portionAddViewModel);
+    _loadUiState(uiState);
+
     super.initState();
   }
 
@@ -96,6 +99,14 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
     _nameFocusNode.dispose();
 
     super.dispose();
+  }
+
+  void _loadUiState(PortionAddUiState uiState) {
+    _nameController.text = uiState.name;
+    _descriptionController.text = uiState.description;
+    _amountController.setUnit(uiState.amountUnit);
+    _amountController.setValue(uiState.amountValue);
+    _nutritionFactsController.nutritionFacts = uiState.nutritionFacts;
   }
 
   void _savePortion() async {
@@ -240,11 +251,9 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
 
   @override
   Widget build(BuildContext context) {
-    final uiState = ref.watch(portionAddViewModel);
-
-    _nameController.text = uiState.name;
-    _descriptionController.text = uiState.description;
-    _nutritionFactsController.nutritionFacts = uiState.nutritionFacts;
+    ref.listen(portionAddViewModel, (prev, next) {
+      _loadUiState(next);
+    });
 
     return UiSubordinate<PortionAddCommand>(
       commandProvider: ref.read(portionAddViewModel.notifier).commandProvider,
@@ -315,8 +324,6 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
                     const SizedBox(height: 8),
                     AmountInput(
                       label: l10n(context).labelPortionAmount,
-                      initialUnit: uiState.amountUnit,
-                      initialValue: uiState.amountValue,
                       controller: _amountController,
                       focusNode: _amountFocusNode,
                       textInputAction: TextInputAction.next,

@@ -56,6 +56,9 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
     _descriptionFocusNode = FocusNode();
     _nutritionFactsFocusNode = FocusNode();
 
+    final uiState = ref.read(foodSaveViewModel(widget.food));
+    _loadUiState(uiState);
+
     super.initState();
   }
 
@@ -70,6 +73,12 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
     _nameFocusNode.dispose();
 
     super.dispose();
+  }
+
+  void _loadUiState(FoodSaveUiState uiState) {
+    _nameController.text = uiState.name;
+    _descriptionController.text = uiState.description;
+    _nutritionFactsController.nutritionFacts = uiState.nutritionFacts;
   }
 
   void _exit() {
@@ -174,11 +183,9 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
 
   @override
   Widget build(BuildContext context) {
-    final uiState = ref.watch(foodSaveViewModel(widget.food));
-
-    _nameController.text = uiState.name;
-    _descriptionController.text = uiState.description;
-    _nutritionFactsController.nutritionFacts = uiState.nutritionFacts;
+    ref.listen(foodSaveViewModel(widget.food), (prev, next) {
+      _loadUiState(next);
+    });
 
     final viewModel = ref.read(foodSaveViewModel(widget.food).notifier);
 

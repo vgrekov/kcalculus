@@ -58,12 +58,31 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
   };
 
   @override
+  void initState() {
+    final uiState = ref.read(portionEditViewModel(widget.portion));
+    _loadUiState(uiState);
+
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _nameController.dispose();
     _descriptionController.dispose();
     _amountController.dispose();
     _nutritionFactsController.dispose();
     super.dispose();
+  }
+
+  void _loadUiState(PortionEditUiState uiState) {
+    if (uiState.edible != null) {
+      _nameController.text = uiState.edible!.name;
+      _descriptionController.text = uiState.edible!.description;
+      _nutritionFactsController.nutritionFacts =
+          uiState.edible!.getNutritionFacts();
+    }
+    _amountController.setUnit(uiState.amountUnit);
+    _amountController.setValue(uiState.amountValue);
   }
 
   void _savePortion() async {
@@ -124,14 +143,9 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
 
   @override
   Widget build(BuildContext context) {
-    final uiState = ref.watch(portionEditViewModel(widget.portion));
-
-    if (uiState.edible != null) {
-      _nameController.text = uiState.edible!.name;
-      _descriptionController.text = uiState.edible!.description;
-      _nutritionFactsController.nutritionFacts =
-          uiState.edible!.getNutritionFacts();
-    }
+    ref.listen(portionEditViewModel(widget.portion), (prev, next) {
+      _loadUiState(next);
+    });
 
     return UiSubordinate<PortionEditCommand>(
       commandProvider: ref
@@ -188,8 +202,6 @@ class _PortionEditScreenState extends ConsumerState<PortionEditScreen>
                     key: _form,
                     child: AmountInput(
                       label: l10n(context).labelPortionAmount,
-                      initialUnit: uiState.amountUnit,
-                      initialValue: uiState.amountValue,
                       controller: _amountController,
                       allowZero: false,
                       autofocus: true,
