@@ -20,6 +20,8 @@ class MealListViewModel extends Notifier<MealListUiState> {
 
   @override
   MealListUiState build() {
+    ref.watch(foodChangesProvider);
+    ref.watch(dishChangesProvider);
     ref.watch(mealChangesProvider);
 
     _scheduleNextDaySwitch();
