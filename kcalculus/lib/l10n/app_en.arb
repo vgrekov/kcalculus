@@ -141,8 +141,7 @@
     "labelCarbs": "Carbs",
     "labelFiber": "Fiber",
     "labelProtein": "Protein",
-    "validationErrorMoreFiberThanCarbs": "There can not be more fiber than carbs.",
-    "validationErrorNoNutrients": "This doesn''t seem right... Please check your nutrients.",
+    "validationErrorMoreFiberThanCarbs": "Can not be more than carbs",
     "screenEditMeal": "Edit Meal",
     "labelLastEatenAt": "Last eaten at",
     "labelNotEatenYet": "Not eaten yet",
@@ -153,7 +152,7 @@
     "messageFoodDeletionFailure": "Failed to delete the food",
     "screenAddFood": "New Food",
     "screenEditFood": "Edit Food",
-    "messageDeletionConfirmation":  "Delete this?",
+    "messageDeletionConfirmation": "Delete this?",
     "screenDishes": "Dishes",
     "messageDishSearchNothingFound": "Nothing found...",
     "messageDishDeletionConfirmation": "Delete this dish?",
@@ -201,5 +200,16 @@
     "settingAppThemeSystem": "System",
     "settingAppThemeLight": "Light",
     "settingAppThemeDark": "Dark",
-    "databaseErrorFailedToOpen": "Failed to open the database."
+    "databaseErrorFailedToOpen": "Failed to open the database.",
+    "mOfN": "{m} / {n}",
+    "@mOfN": {
+        "placeholders": {
+            "m": {
+                "type": "int"
+            },
+            "n": {
+                "type": "int"
+            }
+        }
+    }
 }
