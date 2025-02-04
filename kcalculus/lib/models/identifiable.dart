@@ -1,3 +1,0 @@
-mixin Identifiable {
-  String? id;
-}

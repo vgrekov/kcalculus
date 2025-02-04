@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/ui/common/app.dart';
+import 'package:kcalculus/ui/app/widgets/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

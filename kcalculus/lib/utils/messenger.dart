@@ -95,9 +95,11 @@ void _showNotification(
   String message, {
   Duration? duration,
   SnackBarAction? action,
+  void Function(SnackBarClosedReason?)? onClosed,
 }) {
   ScaffoldMessenger.of(context).clearSnackBars();
-  ScaffoldMessenger.of(context).showSnackBar(
+
+  final controller = ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       duration: duration ?? defaultNotificationDuration,
       content: Text(
@@ -107,6 +109,10 @@ void _showNotification(
       action: action,
     ),
   );
+
+  if (onClosed != null) {
+    controller.closed.then(onClosed);
+  }
 }
 
 mixin Messenger {
@@ -130,6 +136,7 @@ mixin Messenger {
     String message, {
     Duration? duration,
     SnackBarAction? action,
+    void Function(SnackBarClosedReason?)? onClosed,
   }) {
     if (context.mounted) {
       _showNotification(
@@ -137,6 +144,7 @@ mixin Messenger {
         message,
         duration: duration,
         action: action,
+        onClosed: onClosed,
       );
     }
   }
@@ -145,6 +153,7 @@ mixin Messenger {
     BuildContext context,
     String message, {
     required void Function() undoAction,
+    void Function(SnackBarClosedReason?)? onClosed,
   }) {
     if (context.mounted) {
       _showNotification(
@@ -155,6 +164,7 @@ mixin Messenger {
           onPressed: undoAction,
         ),
         duration: defaultNotificationDuration * 2,
+        onClosed: onClosed,
       );
     }
   }
@@ -197,6 +207,7 @@ mixin StateMessenger<W extends StatefulWidget> on State<W> {
     String message, {
     Duration? duration,
     SnackBarAction? action,
+    void Function(SnackBarClosedReason?)? onClosed,
   }) {
     if (mounted) {
       _showNotification(
@@ -204,6 +215,7 @@ mixin StateMessenger<W extends StatefulWidget> on State<W> {
         message,
         duration: duration,
         action: action,
+        onClosed: onClosed,
       );
     }
   }
@@ -211,6 +223,7 @@ mixin StateMessenger<W extends StatefulWidget> on State<W> {
   void showNotificationWithUndo(
     String message, {
     required void Function() undoAction,
+    void Function(SnackBarClosedReason?)? onClosed,
   }) {
     if (mounted) {
       _showNotification(
@@ -221,6 +234,7 @@ mixin StateMessenger<W extends StatefulWidget> on State<W> {
           onPressed: undoAction,
         ),
         duration: defaultNotificationDuration * 2,
+        onClosed: onClosed,
       );
     }
   }

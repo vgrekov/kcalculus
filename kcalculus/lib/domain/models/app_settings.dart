@@ -1,4 +1,8 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'app_settings.freezed.dart';
+part 'app_settings.g.dart';
 
 enum AppTheme {
   system,
@@ -14,18 +18,12 @@ enum AppTheme {
   }
 }
 
-class AppSettings {
-  const AppSettings({
-    required this.theme,
-  });
-
-  final AppTheme theme;
-
-  AppSettings copyWith({
-    AppTheme? theme,
-  }) {
-    return AppSettings(
-      theme: theme ?? this.theme,
-    );
-  }
+@Freezed(
+  fromJson: false,
+  toJson: true,
+)
+class AppSettings with _$AppSettings {
+  const factory AppSettings({
+    required AppTheme theme,
+  }) = _AppSettings;
 }

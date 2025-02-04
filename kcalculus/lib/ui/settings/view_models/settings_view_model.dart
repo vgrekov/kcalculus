@@ -1,17 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/repositories/app_settings/app_settings_repository.dart';
+import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 
-class AppSettingsViewModel extends AsyncNotifier<AppSettings> {
+class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
   @override
   FutureOr<AppSettings> build() {
-    return ref.watch(appSettingsRepository.future);
+    return ref.watch(appSettingsRepositoryProvider.future);
   }
 
   Future<void> setTheme(AppTheme theme) async {
-    final repository = ref.read(appSettingsRepository.notifier);
+    final repository = ref.read(appSettingsRepositoryProvider.notifier);
     await repository.setSettings(
       state.value!.copyWith(
         theme: theme,
@@ -21,6 +21,6 @@ class AppSettingsViewModel extends AsyncNotifier<AppSettings> {
 }
 
 final appSettingsViewModel =
-    AsyncNotifierProvider<AppSettingsViewModel, AppSettings>(
+    AsyncNotifierProvider.autoDispose<AppSettingsViewModel, AppSettings>(
   () => AppSettingsViewModel(),
 );

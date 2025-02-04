@@ -1,4 +1,5 @@
 {
+    "@@locale": "en",
     "appName": "kcalculus",
     "measureMass": "Mass",
     "measureVolume": "Volume",
@@ -140,8 +141,7 @@
     "labelCarbs": "Carbs",
     "labelFiber": "Fiber",
     "labelProtein": "Protein",
-    "validationErrorMoreFiberThanCarbs": "There can not be more fiber than carbs.",
-    "validationErrorNoNutrients": "This doesn''t seem right... Please check your nutrients.",
+    "validationErrorMoreFiberThanCarbs": "Can not be more than carbs",
     "screenEditMeal": "Edit Meal",
     "labelLastEatenAt": "Last eaten at",
     "labelNotEatenYet": "Not eaten yet",
@@ -152,7 +152,7 @@
     "messageFoodDeletionFailure": "Failed to delete the food",
     "screenAddFood": "New Food",
     "screenEditFood": "Edit Food",
-    "messageDeletionConfirmation":  "Delete this?",
+    "messageDeletionConfirmation": "Delete this?",
     "screenDishes": "Dishes",
     "messageDishSearchNothingFound": "Nothing found...",
     "messageDishDeletionConfirmation": "Delete this dish?",
@@ -192,12 +192,24 @@
     "actionUndo": "Undo",
     "messageNewFoodCancellationConfirmation": "Cancel food creation?",
     "messageEditFoodCancellationConfirmation": "Cancel food editing?",
-    "initTaskDbTitle": "Migrating the database...",
-    "initTaskDbFailedMessage": "Database migration failed. Not able to proceed.",
+    "maintenanceTaskDbMigrationTitle": "Migrating the database...",
+    "maintenanceTaskDbMigrationFailedMessage": "Database migration failed. Not able to proceed.",
     "screenSettings": "Settings",
     "settingsGroupCommon": "Common",
     "settingAppTheme": "Theme",
     "settingAppThemeSystem": "System",
     "settingAppThemeLight": "Light",
-    "settingAppThemeDark": "Dark"
+    "settingAppThemeDark": "Dark",
+    "databaseErrorFailedToOpen": "Failed to open the database.",
+    "mOfN": "{m} / {n}",
+    "@mOfN": {
+        "placeholders": {
+            "m": {
+                "type": "int"
+            },
+            "n": {
+                "type": "int"
+            }
+        }
+    }
 }
