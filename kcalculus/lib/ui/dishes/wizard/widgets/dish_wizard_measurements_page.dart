@@ -6,6 +6,7 @@ import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/nutrition_ratio_input.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_ui_state/dish_wizard_measurements_step_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_ui_state/nutrition_ratio_ui_state.dart';
+import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -37,6 +38,14 @@ class _DishWizardMeasurementsPageState
   };
 
   MeasurementsStepValidationResult? _stateValidationResult;
+
+  @override
+  void initState() {
+    final uiState = ref.read(dishWizardViewModel(widget.dish));
+    _loadControllersFromState(uiState);
+
+    super.initState();
+  }
 
   @override
   bool validate(BuildContext context, WidgetRef ref) {
@@ -82,9 +91,9 @@ class _DishWizardMeasurementsPageState
     viewModel.updateMeasurementsStepData(newRatioStates);
   }
 
-  void _loadControllersFromState(
-      List<NutritionRatioUiState> nutritionRatioStates) {
-    for (final ratioState in nutritionRatioStates) {
+  void _loadControllersFromState(DishWizardUiState uiState) {
+    for (final ratioState
+        in uiState.measurementsStepState.nutritionRatioStates) {
       final controllers = _ratioControllers[ratioState.measure];
       if (controllers != null) {
         controllers.perAmountController.setUnit(ratioState.perAmountUnit);
@@ -161,7 +170,9 @@ class _DishWizardMeasurementsPageState
 
     final stepState = uiState.measurementsStepState;
 
-    _loadControllersFromState(stepState.nutritionRatioStates);
+    ref.listen(dishWizardViewModel(widget.dish), (prev, next) {
+      _loadControllersFromState(next);
+    });
 
     final List<Widget> ratioWidgets = [];
     for (final ratioState in stepState.nutritionRatioStates) {

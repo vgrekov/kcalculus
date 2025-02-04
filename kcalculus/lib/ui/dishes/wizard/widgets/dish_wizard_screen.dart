@@ -248,8 +248,6 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(dishWizardViewModel(widget.dish));
-
     ScaffoldConfig? scaffoldConfig =
         _getWizardPage(_currentPageIndex)?.buildScaffoldConfig(context, ref);
 
