@@ -170,7 +170,7 @@ class _$PortionAddUiStateImpl extends _PortionAddUiState {
       {this.selectedEdible,
       this.name = '',
       this.description = '',
-      this.amountUnit,
+      this.amountUnit = Unit.gram,
       this.amountValue,
       final List<NutritionFacts>? nutritionFacts})
       : _nutritionFacts = nutritionFacts,
@@ -185,6 +185,7 @@ class _$PortionAddUiStateImpl extends _PortionAddUiState {
   @JsonKey()
   final String description;
   @override
+  @JsonKey()
   final Unit? amountUnit;
   @override
   final double? amountValue;

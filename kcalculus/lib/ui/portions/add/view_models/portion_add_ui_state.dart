@@ -14,7 +14,7 @@ class PortionAddUiState with _$PortionAddUiState {
     Edible? selectedEdible,
     @Default('') String name,
     @Default('') String description,
-    Unit? amountUnit,
+    @Default(Unit.gram) Unit? amountUnit,
     double? amountValue,
     List<NutritionFacts>? nutritionFacts,
   }) = _PortionAddUiState;
