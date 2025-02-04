@@ -123,8 +123,6 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
                       child: AmountInput(
                         controller: widget.totalAmountController,
                         label: l10n(context).labelTotal,
-                        initialUnit: widget.totalAmountController?.unit,
-                        initialValue: widget.totalAmountController?.value,
                         textInputAction: TextInputAction.next,
                         allowZero: false,
                         validator: widget.totalAmountValidator,
@@ -136,8 +134,6 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
                       child: AmountInput(
                         controller: widget.perAmountController,
                         label: l10n(context).labelPer,
-                        initialUnit: widget.perAmountController?.unit,
-                        initialValue: widget.perAmountController?.value,
                         textInputAction: TextInputAction.next,
                         allowZero: false,
                         validator: widget.perAmountValidator,

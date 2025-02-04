@@ -237,10 +237,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
 
   @override
   Widget build(BuildContext context) {
-    final uiState = _nutritionFactsUiStates[_recordIndex];
-
     final isLastRecord = _recordIndex == _nutritionFactsUiStates.length - 1;
-
     final isDeletable = _nutritionFactsUiStates.length > 1;
 
     return Form(
@@ -290,8 +287,6 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                 child: AmountInput(
                   controller: _perAmountController,
                   focusNode: _perAmountFocusNode,
-                  initialUnit: uiState.amountUnit,
-                  initialValue: uiState.amountValue,
                   label: l10n(context).labelPer,
                   enabled: widget.enabled,
                   allowZero: false,
@@ -327,7 +322,6 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
             focusNode: _caloriesFocusNode,
             label: l10n(context).labelCalories,
             initialUnit: Unit.calorie,
-            initialValue: uiState.calories,
             fixedUnit: true,
             allowZero: true,
             textInputAction: TextInputAction.next,
@@ -343,7 +337,6 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                   controller: _fatAmountController,
                   label: l10n(context).labelFat,
                   initialUnit: Unit.gram,
-                  initialValue: uiState.fatInGrams,
                   fixedUnit: true,
                   textInputAction: TextInputAction.next,
                   onUserInteractionChange: widget.onUserInteractionChange,
@@ -356,7 +349,6 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                   controller: _carbsAmountController,
                   label: l10n(context).labelCarbs,
                   initialUnit: Unit.gram,
-                  initialValue: uiState.carbsInGrams,
                   fixedUnit: true,
                   textInputAction: TextInputAction.next,
                   onUserInteractionChange: widget.onUserInteractionChange,
@@ -374,7 +366,6 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                   controller: _fiberAmountController,
                   label: l10n(context).labelFiber,
                   initialUnit: Unit.gram,
-                  initialValue: uiState.fiberInGrams,
                   fixedUnit: true,
                   textInputAction: TextInputAction.next,
                   validator: _validateFiberAmount,
@@ -388,7 +379,6 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                   controller: _proteinAmountController,
                   label: l10n(context).labelProtein,
                   initialUnit: Unit.gram,
-                  initialValue: uiState.proteinInGrams,
                   fixedUnit: true,
                   textInputAction: TextInputAction.done,
                   onUserInteractionChange: widget.onUserInteractionChange,

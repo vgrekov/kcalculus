@@ -68,14 +68,16 @@ class _AmountInputState extends State<AmountInput> {
   void initState() {
     super.initState();
 
-    _unit = widget.initialUnit ?? widget.initialAmount?.unit ?? _defaultUnit;
-    _value = widget.initialValue ?? widget.initialAmount?.value;
+    _unit = widget.initialUnit ??
+        widget.initialAmount?.unit ??
+        widget.controller?._unit ??
+        _defaultUnit;
 
-    if (widget.controller != null) {
-      widget.controller!._unit = _unit;
-      widget.controller!._value = _value;
-      widget.controller!.addListener(_onControllerChange);
-    }
+    _value = widget.initialValue ??
+        widget.initialAmount?.value ??
+        widget.controller?._value;
+
+    widget.controller?.addListener(_onControllerChange);
 
     Future.delayed(Duration.zero, () {
       if (mounted) {
