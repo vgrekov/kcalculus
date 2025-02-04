@@ -70,8 +70,11 @@ class DishWizardUiState with _$DishWizardUiState {
           .firstOrNull;
 
       if (ingredientNF != null && targetNF != null) {
-        totalAmount += ingredientNF.convertAmount(ingredient.amount,
+        final convertedAmount = ingredientNF.convertAmount(ingredient.amount,
             targetNutritionFacts: targetNF);
+        if (convertedAmount != null) {
+          totalAmount += convertedAmount;
+        }
       }
     }
 
