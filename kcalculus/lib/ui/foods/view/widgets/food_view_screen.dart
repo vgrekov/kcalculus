@@ -173,23 +173,23 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
               ),
             ],
           ),
-          Container(
-            padding: const EdgeInsets.only(
-              top: 24,
-              left: 20,
-              right: 20,
-              bottom: 32,
-            ),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainer,
-            ),
-            width: double.infinity,
-            child: macroSplit == null
-                ? null
-                : MacroSplitView(
+          macroSplit == null
+              ? null
+              : Container(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    left: 20,
+                    right: 20,
+                    bottom: 32,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainer,
+                  ),
+                  width: double.infinity,
+                  child: MacroSplitView(
                     macroSplit: macroSplit,
                   ),
-          ),
+                ),
         );
       },
       error: (error, stacktrace) {
