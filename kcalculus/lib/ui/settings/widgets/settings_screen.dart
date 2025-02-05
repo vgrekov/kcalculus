@@ -7,6 +7,9 @@ import 'package:kcalculus/ui/settings/widgets/app_theme_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/option_setting_screen.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('SettingsScreen');
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -56,8 +59,8 @@ class SettingsScreen extends ConsumerWidget {
           ),
         );
         break;
-      case AsyncError(:final error):
-        print(error);
+      case AsyncError(:final error, :final stackTrace):
+        _log.severe('Failed to load settings', error, stackTrace);
         body = Center(
           child: Text(
             l10n(context).messageUnknownError,

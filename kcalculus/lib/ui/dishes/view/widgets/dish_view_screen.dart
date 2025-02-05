@@ -12,6 +12,9 @@ import 'package:kcalculus/ui/dishes/view/view_models/dish_view_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('DishViewScreen');
 
 class DishViewScreen extends ConsumerWidget with Messenger {
   DishViewScreen({
@@ -197,8 +200,8 @@ class DishViewScreen extends ConsumerWidget with Messenger {
           ),
         );
       },
-      error: (error, stacktrace) {
-        print(error);
+      error: (error, stackTrace) {
+        _log.severe('Failed to load dish', error, stackTrace);
         return (
           null,
           Center(

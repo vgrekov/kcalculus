@@ -8,6 +8,9 @@ import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/foods/save/view_models/food_save_ui_state.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('FoodSaveViewModel');
 
 enum FoodSaveCommand {
   showUnknownErrorNotification,
@@ -57,17 +60,30 @@ class FoodSaveViewModel
   }
 
   Future<void> saveFood() async {
+    _log.finer('saveFood() START');
+
     try {
-      final food = state.toFood();
-      await ref.read(foodRepositoryProvider).save(food);
+      var food = state.toFood();
+
+      _log.finest('saveFood() Saving food: ${food.toJson()}');
+
+      food = await ref.read(foodRepositoryProvider).save(food);
+
+      _log.info('Food saved');
+      _log.finest('saveFood() Saved food ID: ${food.id}');
 
       _commander!.send(FoodSaveCommand.exit);
     } on DuplicationException {
+      _log.info('Edible already exists');
+
       _commander!.send(FoodSaveCommand.showEdibleAlreadyExistsDialog);
-    } catch (error) {
-      print(error);
+    } catch (error, stackTrace) {
+      _log.severe('Failed to save food', error, stackTrace);
+
       _commander!.send(FoodSaveCommand.showUnknownErrorNotification);
     }
+
+    _log.finer('saveFood() END');
   }
 
   Future<bool> shouldExit() async {

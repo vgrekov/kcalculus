@@ -10,6 +10,9 @@ import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('FoodViewScreen');
 
 class FoodViewScreen extends ConsumerWidget with Messenger {
   FoodViewScreen({
@@ -192,8 +195,8 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
                 ),
         );
       },
-      error: (error, stacktrace) {
-        print(error);
+      error: (error, stackTrace) {
+        _log.severe('Failed to load food', error, stackTrace);
         return (
           null,
           Center(

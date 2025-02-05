@@ -7,6 +7,9 @@ import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/portions/edit/view_models/portion_edit_ui_state.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('PortionEditViewModel');
 
 enum PortionEditCommand {
   showUnknownErrorNotification,
@@ -48,20 +51,31 @@ class PortionEditViewModel
   Future<void> savePortion(
     FutureOr<void> Function(Amount) onSavePortion,
   ) async {
+    _log.finer('savePortion() START');
+
     try {
+      _log.finer('savePortion() Checking for common measure');
+
       if (!_checkIfCommonMeasureExists()) {
+        _log.finer('savePortion() Common measure not found');
+
         return;
       }
 
       final amount = state.getAmount()!;
 
+      _log.finer('savePortion() Saving portion');
+
       await onSavePortion(amount);
 
       _commander!.send(PortionEditCommand.exit);
-    } catch (error) {
-      print(error);
+    } catch (error, stackTrace) {
+      _log.severe('Failed to save portion', error, stackTrace);
+
       _commander!.send(PortionEditCommand.showUnknownErrorNotification);
     }
+
+    _log.finer('savePortion() END');
   }
 
   bool _checkIfCommonMeasureExists() {

@@ -6,6 +6,9 @@ import 'package:kcalculus/ui/common/view_models/search_debouncer.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/edibles/search/view_models/edible_search_ui_state.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('EdibleSearchViewModel');
 
 enum EdibleSearchCommand {
   showUnknownErrorNotification,
@@ -45,30 +48,51 @@ class EdibleSearchViewModel
   }
 
   Future<void> selectEdible(EdibleSearchResult searchResult) async {
+    _log.finer('selectEdible() START');
+
     try {
+      _log.finest(
+        'selectEdible() Loading edible from search result: ${searchResult.toJson()}',
+      );
+
       Edible? edible;
       switch (searchResult.type) {
         case EdibleSearchResultType.dish:
+          _log.finer('selectEdible() Loading dish');
+
           final dishRepository = ref.read(dishRepositoryProvider);
           edible = await dishRepository.getById(searchResult.id);
           break;
         default:
+          _log.finer('selectEdible() Loading food');
+
           final foodRepository = ref.read(foodRepositoryProvider);
           edible = await foodRepository.getById(searchResult.id);
       }
 
       if (edible != null) {
+        _log.finest('selectEdible() Loaded edible: ${edible.toJson()}');
+
         _commander!.send<Edible, void>(
           EdibleSearchCommand.exit,
           payload: edible,
         );
       } else {
+        _log.fine('selectEdible() Could not load edible');
+
         _commander!.send(EdibleSearchCommand.exit);
       }
-    } catch (error) {
-      print(error);
+    } catch (error, stackTrace) {
+      _log.severe(
+        'Failed to load edible from search result',
+        error,
+        stackTrace,
+      );
+
       _commander!.send(EdibleSearchCommand.showUnknownErrorNotification);
     }
+
+    _log.finer('selectEdible() END');
   }
 
   void _search(String query) {

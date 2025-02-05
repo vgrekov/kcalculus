@@ -80,7 +80,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     }
 
     wrapInProgress(
-      ref.read(dishWizardViewModel(widget.dish).notifier).saveFood(),
+      ref.read(dishWizardViewModel(widget.dish).notifier).saveDish(),
     );
   }
 

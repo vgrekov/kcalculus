@@ -8,6 +8,9 @@ import 'package:kcalculus/ui/common/themes/light.dart' as light;
 import 'package:kcalculus/ui/maintenance/widgets/maintenance_screen.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/ui/providers.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('App');
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -23,8 +26,8 @@ class App extends ConsumerWidget {
         appTheme = value.settings.theme;
         maintenanceRequired = value.maintenanceRequired;
         break;
-      case AsyncError(:final error):
-        print(error);
+      case AsyncError(:final error, :final stackTrace):
+        _log.severe('Failed to load app UI state', error, stackTrace);
         appTheme = AppTheme.system;
         maintenanceRequired = true;
         break;

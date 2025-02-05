@@ -9,6 +9,9 @@ import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_s
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_main_step_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ui_state.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('DishWizardViewModel');
 
 enum DishWizardCommand {
   showUnknownErrorNotification,
@@ -46,12 +49,19 @@ class DishWizardViewModel
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
-  Future<void> saveFood() async {
+  Future<void> saveDish() async {
+    _log.finer('saveDish() START');
+
     try {
+      _log.finer('saveDish() Validating UI state');
+
       final validationResult = state.validate();
       final invalidStep =
           validationResult.entries.where((e) => !e.value).firstOrNull?.key;
       if (invalidStep != null) {
+        _log.finer(
+            'saveDish() Validation failed for step: ${invalidStep.name}');
+
         _commander!.send<DishWizardStep, void>(
           DishWizardCommand.goToInvalidStep,
           payload: invalidStep,
@@ -59,19 +69,32 @@ class DishWizardViewModel
         return;
       }
 
-      final dish = state.toDish();
-      await ref.read(dishRepositoryProvider).save(dish);
+      _log.finer('saveDish() Validation success');
+
+      var dish = state.toDish();
+
+      _log.finest('saveDish() Saving dish: ${dish.toJson()}');
+
+      dish = await ref.read(dishRepositoryProvider).save(dish);
+
+      _log.info('Dish saved');
+      _log.finest('saveDish() Saved dish ID: ${dish.id}');
 
       _commander!.send(DishWizardCommand.exit);
     } on DuplicationException {
+      _log.info('Edible already exists');
+
       _commander!.send(DishWizardCommand.showEdibleAlreadyExistsDialog);
     } on IngredientsCycleException {
       _commander!
           .send(DishWizardCommand.showIngredientsCycleDetectedNotification);
-    } catch (error) {
-      print(error);
+    } catch (error, stackTrace) {
+      _log.severe('Failed to save dish', error, stackTrace);
+
       _commander!.send(DishWizardCommand.showUnknownErrorNotification);
     }
+
+    _log.finer('saveDish() END');
   }
 
   Future<bool> shouldExit() async {

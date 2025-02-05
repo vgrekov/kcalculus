@@ -11,6 +11,9 @@ import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/portions/add/view_models/portion_add_ui_state.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('PortionAddViewModel');
 
 enum PortionAddCommand {
   showUnknownErrorNotification,
@@ -70,25 +73,42 @@ class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
   Future<void> savePortion(
     FutureOr<void> Function(Edible, Amount) onSavePortion,
   ) async {
+    _log.finer('savePortion() START');
+
     try {
+      _log.finer('savePortion() Checking for common measure');
+
       if (!_checkIfCommonMeasureExists()) {
+        _log.finer('savePortion() Common measure not found');
+
         return;
       }
+
+      _log.finer('savePortion() Getting edible');
 
       final edible = await _getEdible();
       if (edible == null) {
+        _log.finer('savePortion() No edible');
+
         return;
       }
 
+      _log.finest('savePortion() Using edible: ${edible.toJson()}');
+
       final amount = state.getAmount()!;
+
+      _log.finer('savePortion() Saving portion');
 
       await onSavePortion(edible, amount);
 
       _commander!.send(PortionAddCommand.exit);
-    } catch (error) {
-      print(error);
+    } catch (error, stackTrace) {
+      _log.severe('Failed to save portion', error, stackTrace);
+
       _commander!.send(PortionAddCommand.showUnknownErrorNotification);
     }
+
+    _log.finer('savePortion() END');
   }
 
   bool _checkIfCommonMeasureExists() {
@@ -128,6 +148,8 @@ class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
     final selectedEdibleModified = _isSelectedEdibleModified();
 
     if (selectedEdibleModified == false) {
+      _log.finer('_getEdible() No changes, so using selected edible');
+
       return state.selectedEdible;
     }
 
@@ -138,34 +160,54 @@ class PortionAddViewModel extends AutoDisposeNotifier<PortionAddUiState> {
     );
 
     if (selectedEdibleModified == null && alreadyExists) {
+      _log.finer(
+        '_getEdible() Nothing selected, but such edible already exists',
+      );
+
       _commander!.send(PortionAddCommand.showEdibleAlreadyExistsDialog);
       return null;
     }
 
     if (selectedEdibleModified == true && alreadyExists) {
+      _log.finer(
+        '_getEdible() Selected modified, but such edible already exists',
+      );
+
       _commander!.send(
           PortionAddCommand.showSelectedEdibleModifiedAlreadyExistsDialog);
       return null;
     }
 
     if (selectedEdibleModified == true && !alreadyExists) {
+      _log.finer('_getEdible() Selected modified, asking for instructions');
+
       final edibleOption = await _commander!.send<void, ModifiedEdibleOption?>(
         PortionAddCommand.showSelectedEdibleModifiedCreatesNewDialog,
       );
+
       if (edibleOption != null) {
         switch (edibleOption) {
           case ModifiedEdibleOption.useSelected:
             selectEdible(state.selectedEdible!);
             if (_checkIfCommonMeasureExists()) {
+              _log.finer('_getEdible() Using selected (as instructed)');
+
               return state.selectedEdible;
             }
+
+            _log.finer('_getEdible() Common measure not found for selected');
+
             return null;
           case ModifiedEdibleOption.createNew:
+            _log.finer('_getEdible() Creating new food (as instructed)');
+
             return _buildFood();
         }
       }
       return null;
     }
+
+    _log.finer('_getEdible() Creating new food');
 
     return _buildFood();
   }
