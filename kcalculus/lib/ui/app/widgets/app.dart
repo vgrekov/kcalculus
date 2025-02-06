@@ -47,9 +47,10 @@ class _AppState extends ConsumerState<App> {
       (settings) {
         if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled !=
             settings.crashlyticsEnabled) {
-          _log.info('crashlyticsEnabled: ${settings.crashlyticsEnabled}');
           FirebaseCrashlytics.instance
               .setCrashlyticsCollectionEnabled(settings.crashlyticsEnabled);
+
+          _log.info('crashlyticsEnabled: ${settings.crashlyticsEnabled}');
         }
       },
     );
