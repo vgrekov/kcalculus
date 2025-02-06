@@ -36,11 +36,13 @@ void main() async {
         reason: record.toString(),
         fatal: false,
       );
-    } else {
+    } else if (record.level >= Level.INFO) {
       FirebaseCrashlytics.instance.log(record.toString());
     }
 
-    debugPrint(record.toString());
+    if (kDebugMode) {
+      debugPrint(record.toString());
+    }
   });
 
   runApp(const ProviderScope(
