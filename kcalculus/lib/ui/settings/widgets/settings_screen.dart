@@ -6,6 +6,7 @@ import 'package:kcalculus/ui/settings/view_models/settings_view_model.dart';
 import 'package:kcalculus/ui/settings/widgets/app_theme_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/option_setting_screen.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
+import 'package:kcalculus/ui/settings/widgets/switch_setting_tile.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:logging/logging.dart';
 
@@ -33,6 +34,11 @@ class SettingsScreen extends ConsumerWidget {
     }
   }
 
+  void _setCrashlyticsEnabled(WidgetRef ref, bool enabled) {
+    final viewModel = ref.read(appSettingsViewModel.notifier);
+    viewModel.setCrashlyticsEnabled(enabled);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(appSettingsViewModel);
@@ -52,6 +58,15 @@ class SettingsScreen extends ConsumerWidget {
                     onTap: () {
                       _selectTheme(context, ref, value);
                     },
+                  ),
+                  SwitchSettingTile(
+                    value: value.crashlyticsEnabled,
+                    onChanged: (enabled) {
+                      _setCrashlyticsEnabled(ref, enabled);
+                    },
+                    title: l10n(context).settingCrashReportingTitle,
+                    subtitle: l10n(context).settingCrashReportingSubtitle,
+                    icon: Icons.bug_report,
                   ),
                 ],
               ),

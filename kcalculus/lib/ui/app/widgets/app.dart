@@ -1,6 +1,8 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/ui/app/view_models/app_view_model.dart';
 import 'package:kcalculus/ui/common/themes/dark.dart' as dark;
@@ -12,18 +14,63 @@ import 'package:logging/logging.dart';
 
 final Logger _log = Logger('App');
 
-class App extends ConsumerWidget {
+class App extends ConsumerStatefulWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _AppState();
+  }
+}
+
+class _AppState extends ConsumerState<App> {
+  late final ProviderSubscription<AsyncValue<AppSettings>>
+      _settingsSubscription;
+
+  @override
+  void initState() {
+    final settingsAsync = ref.read(appSettingsRepositoryProvider);
+    _onAppSettings(settingsAsync);
+
+    _settingsSubscription = ref.listenManual(
+      appSettingsRepositoryProvider,
+      (prev, next) {
+        _onAppSettings(next);
+      },
+    );
+
+    super.initState();
+  }
+
+  void _onAppSettings(AsyncValue<AppSettings> settingsAsync) {
+    settingsAsync.whenData(
+      (settings) {
+        if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled !=
+            settings.crashlyticsEnabled) {
+          _log.info('crashlyticsEnabled: ${settings.crashlyticsEnabled}');
+          FirebaseCrashlytics.instance
+              .setCrashlyticsCollectionEnabled(settings.crashlyticsEnabled);
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _settingsSubscription.close();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final uiState = ref.watch(appViewModel);
 
     final AppTheme appTheme;
     final bool maintenanceRequired;
     switch (uiState) {
       case AsyncData(:final value):
-        appTheme = value.settings.theme;
+        appTheme = value.theme;
         maintenanceRequired = value.maintenanceRequired;
         break;
       case AsyncError(:final error, :final stackTrace):

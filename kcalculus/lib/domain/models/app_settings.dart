@@ -25,5 +25,6 @@ enum AppTheme {
 class AppSettings with _$AppSettings {
   const factory AppSettings({
     required AppTheme theme,
+    required bool crashlyticsEnabled,
   }) = _AppSettings;
 }

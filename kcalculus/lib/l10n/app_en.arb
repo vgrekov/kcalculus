@@ -211,5 +211,7 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "settingCrashReportingTitle": "Crash Reporting",
+    "settingCrashReportingSubtitle": "Send anonymous crash reports to improve the app"
 }

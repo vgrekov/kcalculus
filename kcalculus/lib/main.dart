@@ -20,6 +20,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   WidgetsBinding.instance.platformDispatcher.onError = (error, stack) {

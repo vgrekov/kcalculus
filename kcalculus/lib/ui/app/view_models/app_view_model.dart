@@ -2,23 +2,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/data/repositories/maintenance/maintenance_status_repository.dart';
 import 'package:kcalculus/data/repositories/maintenance/maintenance_task_repository.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/domain/models/maintenance_status.dart';
-
-class AppUiState {
-  const AppUiState({
-    required this.settings,
-    required this.maintenanceRequired,
-  });
-
-  final AppSettings settings;
-
-  final bool maintenanceRequired;
-}
+import 'package:kcalculus/ui/app/view_models/app_ui_state.dart';
 
 final appViewModel = FutureProvider<AppUiState>(
   (ref) async {
-    final settings = await ref.watch(appSettingsRepositoryProvider.future);
+    final theme = await ref.watch(
+      appSettingsRepositoryProvider.selectAsync(
+        (settings) => settings.theme,
+      ),
+    );
 
     final bool maintenanceRequired;
     final maintenanceStatus = ref.read(maintenanceStatusRepository);
@@ -30,7 +23,7 @@ final appViewModel = FutureProvider<AppUiState>(
     }
 
     return AppUiState(
-      settings: settings,
+      theme: theme,
       maintenanceRequired: maintenanceRequired,
     );
   },
