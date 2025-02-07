@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/firebase_options.dart';
 import 'package:kcalculus/ui/app/widgets/app.dart';
+import 'package:kcalculus/ui/common/widgets/release_error_widget.dart';
 import 'package:logging/logging.dart';
 
 void main() async {
@@ -46,6 +47,14 @@ void main() async {
       debugPrint(record.toString());
     }
   });
+
+  ErrorWidget.builder = (details) {
+    if (kReleaseMode) {
+      return ReleaseErrorWidget(details);
+    }
+
+    return ErrorWidget(details.exception);
+  };
 
   runApp(const ProviderScope(
     child: App(),
