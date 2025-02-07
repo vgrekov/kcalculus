@@ -309,7 +309,7 @@
 		};
 		6AB19DC62D56699E00E37490 /* [firebase_crashlytics] Crashlytics Upload Symbols */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -328,7 +328,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase --validate -ai 1:954032866101:ios:63272bbb7c6fcdea5c027c -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM\n$PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase -ai 1:954032866101:ios:63272bbb7c6fcdea5c027c -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM\n";
+			shellScript = "if [ \"$CONFIGURATION\" != \"Debug\" ]; then\n    $PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase --validate -ai 1:954032866101:ios:63272bbb7c6fcdea5c027c -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM\n    $PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase -ai 1:954032866101:ios:63272bbb7c6fcdea5c027c -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM\nfi\n";
 		};
 		89E83AC957C0D80095F5A2C7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
