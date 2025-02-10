@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "954032866101",
+    "project_id": "kcalcy-10030",
+    "storage_bucket": "kcalcy-10030.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954032866101:android:e252152470561ee45c027c",
+        "android_client_info": {
+          "package_name": "com.remexola.kcalculus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiHF03OcL_NZyB43hiZ7EkTsDmTfb7sfc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

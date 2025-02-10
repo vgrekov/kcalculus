@@ -5,6 +5,9 @@ import 'package:kcalculus/ui/common/view_models/search_debouncer.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/dishes/list/view_models/dish_list_ui_state.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('DishListViewModel');
 
 enum DishListCommand {
   showUnknownErrorNotification,
@@ -46,8 +49,14 @@ class DishListViewModel extends Notifier<DishListUiState> {
   }
 
   Future<void> deleteDish(String id) async {
+    _log.finer('deleteDish() START');
+
     try {
+      _log.finest('deleteDish() Deleting dish with ID: $id');
+
       final deleted = await ref.read(dishRepositoryProvider).delete(id);
+
+      _log.info('Dish deleted: $deleted');
 
       if (deleted) {
         _commander!.send<String, void>(
@@ -57,19 +66,31 @@ class DishListViewModel extends Notifier<DishListUiState> {
       } else {
         _commander!.send(DishListCommand.showDeletionFailureNotification);
       }
-    } catch (error) {
-      print(error);
+    } catch (error, stackTrace) {
+      _log.severe('Failed to delete dish', error, stackTrace);
+
       _commander!.send(DishListCommand.showUnknownErrorNotification);
     }
+
+    _log.finer('deleteDish() END');
   }
 
   Future<void> restoreDish(String id) async {
+    _log.finer('restoreDish() START');
+
     try {
-      await ref.read(dishRepositoryProvider).restore(id);
-    } catch (error) {
-      print(error);
+      _log.finest('restoreDish() Restoring dish with ID: $id');
+
+      final restored = await ref.read(dishRepositoryProvider).restore(id);
+
+      _log.info('Dish restored: $restored');
+    } catch (error, stackTrace) {
+      _log.severe('Failed to restore dish', error, stackTrace);
+
       _commander!.send(DishListCommand.showUnknownErrorNotification);
     }
+
+    _log.finer('restoreDish() END');
   }
 
   void _search(String query) {

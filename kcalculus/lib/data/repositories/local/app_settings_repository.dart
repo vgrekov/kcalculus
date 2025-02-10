@@ -19,6 +19,7 @@ class LocalAppSettingsRepository extends AppSettingsRepository {
       theme:
           AppTheme.values.where((t) => t.name == model.themeName).firstOrNull ??
               AppTheme.system,
+      crashlyticsEnabled: model.crashlyticsEnabled,
     );
   }
 
@@ -30,7 +31,10 @@ class LocalAppSettingsRepository extends AppSettingsRepository {
   @override
   Future<void> setSettings(AppSettings settings) async {
     await _service.setSettings(
-      AppSettingsSharedPrefModel(themeName: settings.theme.name),
+      AppSettingsSharedPrefModel(
+        themeName: settings.theme.name,
+        crashlyticsEnabled: settings.crashlyticsEnabled,
+      ),
     );
 
     state = await AsyncValue.guard<AppSettings>(_load);

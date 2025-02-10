@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/exceptions/localized_exception.dart';
-import 'package:kcalculus/data/repositories/maintenance/maintenance_status_repository.dart';
-import 'package:kcalculus/domain/models/maintenance_status.dart';
 import 'package:kcalculus/ui/maintenance/view_models/maintenance_view_model.dart';
-import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class MaintenanceScreen extends ConsumerWidget {
@@ -13,16 +10,6 @@ class MaintenanceScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final taskTitle = ref.watch(maintenanceViewModel);
-
-    ref.listen(maintenanceStatusRepository, (prev, next) {
-      if (next == MaintenanceStatus.complete) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const MealListScreen(),
-          ),
-        );
-      }
-    });
 
     final Widget content;
     switch (taskTitle) {
@@ -78,18 +65,19 @@ class MaintenanceScreen extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(32, 300, 32, 32),
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                l10n(context).appName,
-                style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-              ),
-              const SizedBox(height: 32),
-              content,
-            ]),
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              l10n(context).appName,
+              style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+            ),
+            const SizedBox(height: 32),
+            content,
+          ],
+        ),
       ),
     );
   }

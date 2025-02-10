@@ -18,6 +18,15 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
       ),
     );
   }
+
+  Future<void> setCrashlyticsEnabled(bool enabled) async {
+    final repository = ref.read(appSettingsRepositoryProvider.notifier);
+    await repository.setSettings(
+      state.value!.copyWith(
+        crashlyticsEnabled: enabled,
+      ),
+    );
+  }
 }
 
 final appSettingsViewModel =

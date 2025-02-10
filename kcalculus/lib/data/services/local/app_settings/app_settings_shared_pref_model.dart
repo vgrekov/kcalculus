@@ -1,7 +1,11 @@
-class AppSettingsSharedPrefModel {
-  const AppSettingsSharedPrefModel({
-    this.themeName,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String? themeName;
+part 'app_settings_shared_pref_model.freezed.dart';
+
+@freezed
+class AppSettingsSharedPrefModel with _$AppSettingsSharedPrefModel {
+  const factory AppSettingsSharedPrefModel({
+    String? themeName,
+    bool? crashlyticsEnabled,
+  }) = _AppSettingsSharedPrefModel;
 }

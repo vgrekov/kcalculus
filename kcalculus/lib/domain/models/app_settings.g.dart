@@ -9,6 +9,7 @@ part of 'app_settings.dart';
 Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
     <String, dynamic>{
       'theme': _$AppThemeEnumMap[instance.theme]!,
+      'crashlyticsEnabled': instance.crashlyticsEnabled,
     };
 
 const _$AppThemeEnumMap = {

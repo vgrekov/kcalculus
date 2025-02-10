@@ -211,5 +211,10 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "settingCrashReportingTitle": "Allow crash reporting",
+    "settingCrashReportingSubtitle": "Send anonymous crash reports to improve the app",
+    "screenConsent": "Help us improve",
+    "dataUsageMotivationMessage": "We would like to collect data about your usage of the application and use it to improve the experience and stability.\n\nYou can also configure this later in the settings.",
+    "actionProceed": "Proceed"
 }

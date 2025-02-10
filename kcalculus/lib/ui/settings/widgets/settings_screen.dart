@@ -6,7 +6,11 @@ import 'package:kcalculus/ui/settings/view_models/settings_view_model.dart';
 import 'package:kcalculus/ui/settings/widgets/app_theme_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/option_setting_screen.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
+import 'package:kcalculus/ui/settings/widgets/switch_setting_tile.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('SettingsScreen');
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -30,34 +34,19 @@ class SettingsScreen extends ConsumerWidget {
     }
   }
 
+  void _setCrashlyticsEnabled(WidgetRef ref, bool enabled) {
+    final viewModel = ref.read(appSettingsViewModel.notifier);
+    viewModel.setCrashlyticsEnabled(enabled);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(appSettingsViewModel);
 
     final Widget body;
     switch (settings) {
-      case AsyncData(:final value):
-        body = Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ListView(
-            children: [
-              SettingsGroup(
-                title: l10n(context).settingsGroupCommon,
-                children: [
-                  AppThemeSettingTile(
-                    theme: value.theme,
-                    onTap: () {
-                      _selectTheme(context, ref, value);
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-        break;
-      case AsyncError(:final error):
-        print(error);
+      case AsyncError(:final error, :final stackTrace):
+        _log.severe('Failed to load settings', error, stackTrace);
         body = Center(
           child: Text(
             l10n(context).messageUnknownError,
@@ -68,13 +57,38 @@ class SettingsScreen extends ConsumerWidget {
         );
         break;
       default:
-        body = const Center(
-          child: SizedBox(
-            width: 40,
-            height: 40,
-            child: CircularProgressIndicator(),
+        body = Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: ListView(
+            children: [
+              SettingsGroup(
+                title: l10n(context).settingsGroupCommon,
+                children: [
+                  AppThemeSettingTile(
+                    theme: settings.valueOrNull?.theme,
+                    onTap: settings.isLoading
+                        ? null
+                        : () {
+                            _selectTheme(context, ref, settings.value!);
+                          },
+                  ),
+                  SwitchSettingTile(
+                    value: settings.valueOrNull?.crashlyticsEnabled ?? false,
+                    onChanged: settings.isLoading
+                        ? null
+                        : (enabled) {
+                            _setCrashlyticsEnabled(ref, enabled);
+                          },
+                    title: l10n(context).settingCrashReportingTitle,
+                    subtitle: l10n(context).settingCrashReportingSubtitle,
+                    icon: Icons.bug_report,
+                  ),
+                ],
+              ),
+            ],
           ),
         );
+        break;
     }
 
     return Scaffold(

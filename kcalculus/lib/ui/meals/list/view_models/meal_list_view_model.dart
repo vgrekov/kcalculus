@@ -6,6 +6,9 @@ import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_ui_state.dart';
+import 'package:logging/logging.dart';
+
+final Logger _log = Logger('MealListViewModel');
 
 enum MealListCommand {
   showUnknownErrorNotification,
@@ -49,12 +52,27 @@ class MealListViewModel extends Notifier<MealListUiState> {
   }
 
   Future<void> saveMeal(Meal meal) async {
-    await ref.read(mealRepositoryProvider).save(meal);
+    _log.finer('saveMeal() START');
+
+    _log.finest('saveMeal() Saving meal: ${meal.toJson()}');
+
+    meal = await ref.read(mealRepositoryProvider).save(meal);
+
+    _log.info('Meal saved');
+    _log.finest('saveMeal() Saved meal ID: ${meal.id}');
+
+    _log.finer('saveMeal() END');
   }
 
   Future<void> deleteMeal(String id) async {
+    _log.finer('deleteMeal() START');
+
     try {
+      _log.finest('deleteMeal() Deleting meal with ID: $id');
+
       final deleted = await ref.read(mealRepositoryProvider).delete(id);
+
+      _log.info('Meal deleted: $deleted');
 
       if (deleted) {
         _commander!.send<String, void>(
@@ -64,19 +82,31 @@ class MealListViewModel extends Notifier<MealListUiState> {
       } else {
         _commander!.send(MealListCommand.showDeletionFailureNotification);
       }
-    } catch (error) {
-      print(error);
+    } catch (error, stackTrace) {
+      _log.severe('Failed to delete meal', error, stackTrace);
+
       _commander!.send(MealListCommand.showUnknownErrorNotification);
     }
+
+    _log.finer('deleteMeal() END');
   }
 
   Future<void> restoreMeal(String id) async {
+    _log.finer('restoreMeal() START');
+
     try {
-      await ref.read(mealRepositoryProvider).restore(id);
-    } catch (error) {
-      print(error);
+      _log.finest('restoreMeal() Restoring meal with ID: $id');
+
+      final restored = await ref.read(mealRepositoryProvider).restore(id);
+
+      _log.info('Meal restored: $restored');
+    } catch (error, stackTrace) {
+      _log.severe('Failed to restore meal', error, stackTrace);
+
       _commander!.send(MealListCommand.showUnknownErrorNotification);
     }
+
+    _log.finer('restoreMeal() END');
   }
 
   MealListUiState _loadFor(DateTime date) {
