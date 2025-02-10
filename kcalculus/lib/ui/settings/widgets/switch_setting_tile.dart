@@ -12,7 +12,7 @@ class SwitchSettingTile extends StatelessWidget {
 
   final bool value;
 
-  final void Function(bool) onChanged;
+  final void Function(bool)? onChanged;
 
   final String title;
 
@@ -23,9 +23,11 @@ class SwitchSettingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        onChanged(!value);
-      },
+      onTap: onChanged == null
+          ? null
+          : () {
+              onChanged!(!value);
+            },
       leading: Icon(
         icon,
         color: Theme.of(context).colorScheme.onSecondaryContainer,

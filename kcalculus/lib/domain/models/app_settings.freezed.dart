@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AppSettings {
   AppTheme get theme => throw _privateConstructorUsedError;
-  bool get crashlyticsEnabled => throw _privateConstructorUsedError;
+  bool? get crashlyticsEnabled => throw _privateConstructorUsedError;
 
   /// Serializes this AppSettings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $AppSettingsCopyWith<$Res> {
           AppSettings value, $Res Function(AppSettings) then) =
       _$AppSettingsCopyWithImpl<$Res, AppSettings>;
   @useResult
-  $Res call({AppTheme theme, bool crashlyticsEnabled});
+  $Res call({AppTheme theme, bool? crashlyticsEnabled});
 }
 
 /// @nodoc
@@ -54,17 +54,17 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
   @override
   $Res call({
     Object? theme = null,
-    Object? crashlyticsEnabled = null,
+    Object? crashlyticsEnabled = freezed,
   }) {
     return _then(_value.copyWith(
       theme: null == theme
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
               as AppTheme,
-      crashlyticsEnabled: null == crashlyticsEnabled
+      crashlyticsEnabled: freezed == crashlyticsEnabled
           ? _value.crashlyticsEnabled
           : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ) as $Val);
   }
 }
@@ -77,7 +77,7 @@ abstract class _$$AppSettingsImplCopyWith<$Res>
       __$$AppSettingsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AppTheme theme, bool crashlyticsEnabled});
+  $Res call({AppTheme theme, bool? crashlyticsEnabled});
 }
 
 /// @nodoc
@@ -94,17 +94,17 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? theme = null,
-    Object? crashlyticsEnabled = null,
+    Object? crashlyticsEnabled = freezed,
   }) {
     return _then(_$AppSettingsImpl(
       theme: null == theme
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
               as AppTheme,
-      crashlyticsEnabled: null == crashlyticsEnabled
+      crashlyticsEnabled: freezed == crashlyticsEnabled
           ? _value.crashlyticsEnabled
           : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ));
   }
 }
@@ -112,13 +112,12 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable(createFactory: false)
 class _$AppSettingsImpl implements _AppSettings {
-  const _$AppSettingsImpl(
-      {required this.theme, required this.crashlyticsEnabled});
+  const _$AppSettingsImpl({required this.theme, this.crashlyticsEnabled});
 
   @override
   final AppTheme theme;
   @override
-  final bool crashlyticsEnabled;
+  final bool? crashlyticsEnabled;
 
   @override
   String toString() {
@@ -158,12 +157,12 @@ class _$AppSettingsImpl implements _AppSettings {
 abstract class _AppSettings implements AppSettings {
   const factory _AppSettings(
       {required final AppTheme theme,
-      required final bool crashlyticsEnabled}) = _$AppSettingsImpl;
+      final bool? crashlyticsEnabled}) = _$AppSettingsImpl;
 
   @override
   AppTheme get theme;
   @override
-  bool get crashlyticsEnabled;
+  bool? get crashlyticsEnabled;
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.

@@ -5,11 +5,11 @@ import 'package:kcalculus/utils/l10n.dart';
 class AppThemeSettingTile extends StatelessWidget {
   const AppThemeSettingTile({
     super.key,
-    required this.theme,
+    this.theme,
     this.onTap,
   });
 
-  final AppTheme theme;
+  final AppTheme? theme;
 
   final void Function()? onTap;
 
@@ -31,7 +31,7 @@ class AppThemeSettingTile extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            theme.localName(l10n(context)),
+            theme?.localName(l10n(context)) ?? '',
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onSecondaryContainer,
                 ),

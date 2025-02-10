@@ -19,7 +19,7 @@ class LocalAppSettingsRepository extends AppSettingsRepository {
       theme:
           AppTheme.values.where((t) => t.name == model.themeName).firstOrNull ??
               AppTheme.system,
-      crashlyticsEnabled: model.crashlyticsEnabled ?? false,
+      crashlyticsEnabled: model.crashlyticsEnabled,
     );
   }
 

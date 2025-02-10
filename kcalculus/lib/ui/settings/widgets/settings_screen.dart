@@ -45,35 +45,6 @@ class SettingsScreen extends ConsumerWidget {
 
     final Widget body;
     switch (settings) {
-      case AsyncData(:final value):
-        body = Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ListView(
-            children: [
-              SettingsGroup(
-                title: l10n(context).settingsGroupCommon,
-                children: [
-                  AppThemeSettingTile(
-                    theme: value.theme,
-                    onTap: () {
-                      _selectTheme(context, ref, value);
-                    },
-                  ),
-                  SwitchSettingTile(
-                    value: value.crashlyticsEnabled,
-                    onChanged: (enabled) {
-                      _setCrashlyticsEnabled(ref, enabled);
-                    },
-                    title: l10n(context).settingCrashReportingTitle,
-                    subtitle: l10n(context).settingCrashReportingSubtitle,
-                    icon: Icons.bug_report,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-        break;
       case AsyncError(:final error, :final stackTrace):
         _log.severe('Failed to load settings', error, stackTrace);
         body = Center(
@@ -86,13 +57,38 @@ class SettingsScreen extends ConsumerWidget {
         );
         break;
       default:
-        body = const Center(
-          child: SizedBox(
-            width: 40,
-            height: 40,
-            child: CircularProgressIndicator(),
+        body = Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: ListView(
+            children: [
+              SettingsGroup(
+                title: l10n(context).settingsGroupCommon,
+                children: [
+                  AppThemeSettingTile(
+                    theme: settings.valueOrNull?.theme,
+                    onTap: settings.isLoading
+                        ? null
+                        : () {
+                            _selectTheme(context, ref, settings.value!);
+                          },
+                  ),
+                  SwitchSettingTile(
+                    value: settings.valueOrNull?.crashlyticsEnabled ?? false,
+                    onChanged: settings.isLoading
+                        ? null
+                        : (enabled) {
+                            _setCrashlyticsEnabled(ref, enabled);
+                          },
+                    title: l10n(context).settingCrashReportingTitle,
+                    subtitle: l10n(context).settingCrashReportingSubtitle,
+                    icon: Icons.bug_report,
+                  ),
+                ],
+              ),
+            ],
           ),
         );
+        break;
     }
 
     return Scaffold(

@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AppUiState {
   AppTheme get theme => throw _privateConstructorUsedError;
-  bool get maintenanceRequired => throw _privateConstructorUsedError;
+  AppStage get stage => throw _privateConstructorUsedError;
 
   /// Create a copy of AppUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +32,7 @@ abstract class $AppUiStateCopyWith<$Res> {
           AppUiState value, $Res Function(AppUiState) then) =
       _$AppUiStateCopyWithImpl<$Res, AppUiState>;
   @useResult
-  $Res call({AppTheme theme, bool maintenanceRequired});
+  $Res call({AppTheme theme, AppStage stage});
 }
 
 /// @nodoc
@@ -51,17 +51,17 @@ class _$AppUiStateCopyWithImpl<$Res, $Val extends AppUiState>
   @override
   $Res call({
     Object? theme = null,
-    Object? maintenanceRequired = null,
+    Object? stage = null,
   }) {
     return _then(_value.copyWith(
       theme: null == theme
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
               as AppTheme,
-      maintenanceRequired: null == maintenanceRequired
-          ? _value.maintenanceRequired
-          : maintenanceRequired // ignore: cast_nullable_to_non_nullable
-              as bool,
+      stage: null == stage
+          ? _value.stage
+          : stage // ignore: cast_nullable_to_non_nullable
+              as AppStage,
     ) as $Val);
   }
 }
@@ -74,7 +74,7 @@ abstract class _$$AppUiStateImplCopyWith<$Res>
       __$$AppUiStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AppTheme theme, bool maintenanceRequired});
+  $Res call({AppTheme theme, AppStage stage});
 }
 
 /// @nodoc
@@ -91,17 +91,17 @@ class __$$AppUiStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? theme = null,
-    Object? maintenanceRequired = null,
+    Object? stage = null,
   }) {
     return _then(_$AppUiStateImpl(
       theme: null == theme
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
               as AppTheme,
-      maintenanceRequired: null == maintenanceRequired
-          ? _value.maintenanceRequired
-          : maintenanceRequired // ignore: cast_nullable_to_non_nullable
-              as bool,
+      stage: null == stage
+          ? _value.stage
+          : stage // ignore: cast_nullable_to_non_nullable
+              as AppStage,
     ));
   }
 }
@@ -109,17 +109,16 @@ class __$$AppUiStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AppUiStateImpl implements _AppUiState {
-  const _$AppUiStateImpl(
-      {required this.theme, required this.maintenanceRequired});
+  const _$AppUiStateImpl({required this.theme, required this.stage});
 
   @override
   final AppTheme theme;
   @override
-  final bool maintenanceRequired;
+  final AppStage stage;
 
   @override
   String toString() {
-    return 'AppUiState(theme: $theme, maintenanceRequired: $maintenanceRequired)';
+    return 'AppUiState(theme: $theme, stage: $stage)';
   }
 
   @override
@@ -128,12 +127,11 @@ class _$AppUiStateImpl implements _AppUiState {
         (other.runtimeType == runtimeType &&
             other is _$AppUiStateImpl &&
             (identical(other.theme, theme) || other.theme == theme) &&
-            (identical(other.maintenanceRequired, maintenanceRequired) ||
-                other.maintenanceRequired == maintenanceRequired));
+            (identical(other.stage, stage) || other.stage == stage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, theme, maintenanceRequired);
+  int get hashCode => Object.hash(runtimeType, theme, stage);
 
   /// Create a copy of AppUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -147,12 +145,12 @@ class _$AppUiStateImpl implements _AppUiState {
 abstract class _AppUiState implements AppUiState {
   const factory _AppUiState(
       {required final AppTheme theme,
-      required final bool maintenanceRequired}) = _$AppUiStateImpl;
+      required final AppStage stage}) = _$AppUiStateImpl;
 
   @override
   AppTheme get theme;
   @override
-  bool get maintenanceRequired;
+  AppStage get stage;
 
   /// Create a copy of AppUiState
   /// with the given fields replaced by the non-null parameter values.
