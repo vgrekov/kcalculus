@@ -7,6 +7,7 @@ import 'package:kcalculus/ui/common/widgets/macro_split_view.dart';
 import 'package:kcalculus/ui/common/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
+import 'package:kcalculus/ui/foods/share/widgets/food_share_screen.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -30,6 +31,13 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
     FoodViewCommand.confirmEditEaten: _confirmEditEaten,
     FoodViewCommand.editFood: _doEditFood,
   };
+
+  void _shareFood(BuildContext context, Food food) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => FoodShareScreen(food: food),
+    );
+  }
 
   void _copyFood(WidgetRef ref) {
     ref.read(foodViewViewModel(foodId).notifier).copyFood();
@@ -113,6 +121,15 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
 
         return (
           [
+            IconButton(
+              onPressed: () {
+                _shareFood(context, food);
+              },
+              icon: Icon(
+                Icons.share,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
             IconButton(
               onPressed: () {
                 _copyFood(ref);
