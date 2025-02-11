@@ -8,6 +8,8 @@ part 'food.g.dart';
 
 @freezed
 class Food with _$Food implements Edible {
+  static const _version = 1;
+
   const Food._();
 
   const factory Food({
@@ -21,6 +23,9 @@ class Food with _$Food implements Edible {
 
   factory Food.fromJson(Map<String, dynamic> json) => _$FoodFromJson(json);
 
+  @JsonKey()
+  int get version => _version;
+
   @override
   List<NutritionFacts> getNutritionFacts() => nutritionFacts;
 
@@ -30,5 +35,9 @@ class Food with _$Food implements Edible {
       description: description,
       nutritionFacts: nutritionFacts,
     );
+  }
+
+  Map<String, dynamic> toJsonForSharing() {
+    return copyWith(id: null).toJson();
   }
 }
