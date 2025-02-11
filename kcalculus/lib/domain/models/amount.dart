@@ -4,10 +4,7 @@ import 'package:kcalculus/domain/models/units.dart';
 part 'amount.freezed.dart';
 part 'amount.g.dart';
 
-@Freezed(
-  fromJson: false,
-  toJson: true,
-)
+@freezed
 class Amount with _$Amount {
   const Amount._();
 
@@ -29,6 +26,8 @@ class Amount with _$Amount {
       value: value,
     );
   }
+
+  factory Amount.fromJson(Map<String, dynamic> json) => _$AmountFromJson(json);
 
   Amount operator +(Amount other) {
     if (unit.measure != other.unit.measure) {

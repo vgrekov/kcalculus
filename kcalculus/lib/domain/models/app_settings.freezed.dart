@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+AppSettings _$AppSettingsFromJson(Map<String, dynamic> json) {
+  return _AppSettings.fromJson(json);
+}
+
 /// @nodoc
 mixin _$AppSettings {
   AppTheme get theme => throw _privateConstructorUsedError;
@@ -110,9 +114,12 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable(createFactory: false)
+@JsonSerializable()
 class _$AppSettingsImpl implements _AppSettings {
   const _$AppSettingsImpl({required this.theme, this.crashlyticsEnabled});
+
+  factory _$AppSettingsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AppSettingsImplFromJson(json);
 
   @override
   final AppTheme theme;
@@ -158,6 +165,9 @@ abstract class _AppSettings implements AppSettings {
   const factory _AppSettings(
       {required final AppTheme theme,
       final bool? crashlyticsEnabled}) = _$AppSettingsImpl;
+
+  factory _AppSettings.fromJson(Map<String, dynamic> json) =
+      _$AppSettingsImpl.fromJson;
 
   @override
   AppTheme get theme;

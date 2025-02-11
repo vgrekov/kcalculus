@@ -6,6 +6,12 @@ part of 'app_settings.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$AppSettingsImpl _$$AppSettingsImplFromJson(Map<String, dynamic> json) =>
+    _$AppSettingsImpl(
+      theme: $enumDecode(_$AppThemeEnumMap, json['theme']),
+      crashlyticsEnabled: json['crashlyticsEnabled'] as bool?,
+    );
+
 Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
     <String, dynamic>{
       'theme': _$AppThemeEnumMap[instance.theme]!,

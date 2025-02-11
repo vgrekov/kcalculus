@@ -18,13 +18,13 @@ enum AppTheme {
   }
 }
 
-@Freezed(
-  fromJson: false,
-  toJson: true,
-)
+@freezed
 class AppSettings with _$AppSettings {
   const factory AppSettings({
     required AppTheme theme,
     bool? crashlyticsEnabled,
   }) = _AppSettings;
+
+  factory AppSettings.fromJson(Map<String, dynamic> json) =>
+      _$AppSettingsFromJson(json);
 }

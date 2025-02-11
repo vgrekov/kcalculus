@@ -8,10 +8,7 @@ enum EdibleSearchResultType {
   dish,
 }
 
-@Freezed(
-  fromJson: false,
-  toJson: true,
-)
+@freezed
 class EdibleSearchResult with _$EdibleSearchResult {
   const factory EdibleSearchResult({
     required String id,
@@ -20,4 +17,7 @@ class EdibleSearchResult with _$EdibleSearchResult {
     required EdibleSearchResultType type,
     DateTime? lastEatenAt,
   }) = _EdibleSearchResult;
+
+  factory EdibleSearchResult.fromJson(Map<String, dynamic> json) =>
+      _$EdibleSearchResultFromJson(json);
 }

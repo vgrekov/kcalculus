@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+NutritionFacts _$NutritionFactsFromJson(Map<String, dynamic> json) {
+  return _NutritionFacts.fromJson(json);
+}
+
 /// @nodoc
 mixin _$NutritionFacts {
   Amount get amount => throw _privateConstructorUsedError;
@@ -138,10 +142,13 @@ class __$$NutritionFactsImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable(createFactory: false)
+@JsonSerializable()
 class _$NutritionFactsImpl extends _NutritionFacts {
   const _$NutritionFactsImpl({required this.amount, required this.nutrientData})
       : super._();
+
+  factory _$NutritionFactsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NutritionFactsImplFromJson(json);
 
   @override
   final Amount amount;
@@ -189,6 +196,9 @@ abstract class _NutritionFacts extends NutritionFacts {
       {required final Amount amount,
       required final NutrientData nutrientData}) = _$NutritionFactsImpl;
   const _NutritionFacts._() : super._();
+
+  factory _NutritionFacts.fromJson(Map<String, dynamic> json) =
+      _$NutritionFactsImpl.fromJson;
 
   @override
   Amount get amount;

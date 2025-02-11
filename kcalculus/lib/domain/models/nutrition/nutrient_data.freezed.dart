@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+NutrientData _$NutrientDataFromJson(Map<String, dynamic> json) {
+  return _NutrientData.fromJson(json);
+}
+
 /// @nodoc
 mixin _$NutrientData {
   double get calories => throw _privateConstructorUsedError;
@@ -153,7 +157,7 @@ class __$$NutrientDataImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable(createFactory: false)
+@JsonSerializable()
 class _$NutrientDataImpl extends _NutrientData {
   const _$NutrientDataImpl(
       {required this.calories,
@@ -162,6 +166,9 @@ class _$NutrientDataImpl extends _NutrientData {
       required this.fiberInGrams,
       required this.proteinInGrams})
       : super._();
+
+  factory _$NutrientDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NutrientDataImplFromJson(json);
 
   @override
   final double calories;
@@ -225,6 +232,9 @@ abstract class _NutrientData extends NutrientData {
       required final double fiberInGrams,
       required final double proteinInGrams}) = _$NutrientDataImpl;
   const _NutrientData._() : super._();
+
+  factory _NutrientData.fromJson(Map<String, dynamic> json) =
+      _$NutrientDataImpl.fromJson;
 
   @override
   double get calories;

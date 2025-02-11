@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+EdibleSearchResult _$EdibleSearchResultFromJson(Map<String, dynamic> json) {
+  return _EdibleSearchResult.fromJson(json);
+}
+
 /// @nodoc
 mixin _$EdibleSearchResult {
   String get id => throw _privateConstructorUsedError;
@@ -153,7 +157,7 @@ class __$$EdibleSearchResultImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable(createFactory: false)
+@JsonSerializable()
 class _$EdibleSearchResultImpl implements _EdibleSearchResult {
   const _$EdibleSearchResultImpl(
       {required this.id,
@@ -161,6 +165,9 @@ class _$EdibleSearchResultImpl implements _EdibleSearchResult {
       required this.description,
       required this.type,
       this.lastEatenAt});
+
+  factory _$EdibleSearchResultImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EdibleSearchResultImplFromJson(json);
 
   @override
   final String id;
@@ -221,6 +228,9 @@ abstract class _EdibleSearchResult implements EdibleSearchResult {
       required final String description,
       required final EdibleSearchResultType type,
       final DateTime? lastEatenAt}) = _$EdibleSearchResultImpl;
+
+  factory _EdibleSearchResult.fromJson(Map<String, dynamic> json) =
+      _$EdibleSearchResultImpl.fromJson;
 
   @override
   String get id;
