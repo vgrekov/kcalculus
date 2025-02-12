@@ -23,6 +23,7 @@ _$FoodImpl _$$FoodImplFromJson(Map<String, dynamic> json) => _$FoodImpl(
 
 Map<String, dynamic> _$$FoodImplToJson(_$FoodImpl instance) =>
     <String, dynamic>{
+      'version': instance.version,
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
