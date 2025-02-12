@@ -35,6 +35,7 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
   void _shareFood(BuildContext context, Food food) {
     showModalBottomSheet(
       context: context,
+      scrollControlDisabledMaxHeightRatio: 0.9,
       builder: (context) => FoodShareScreen(food: food),
     );
   }

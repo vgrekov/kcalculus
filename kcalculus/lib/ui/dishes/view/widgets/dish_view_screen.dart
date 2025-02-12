@@ -37,6 +37,7 @@ class DishViewScreen extends ConsumerWidget with Messenger {
   void _shareDish(BuildContext context, Dish dish) {
     showModalBottomSheet(
       context: context,
+      scrollControlDisabledMaxHeightRatio: 0.9,
       builder: (context) => FoodShareScreen(food: dish.toFood()),
     );
   }
