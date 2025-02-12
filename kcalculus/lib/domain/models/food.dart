@@ -6,11 +6,10 @@ import 'package:kcalculus/utils/string_ext.dart';
 part 'food.freezed.dart';
 part 'food.g.dart';
 
-@Freezed(
-  fromJson: false,
-  toJson: true,
-)
+@freezed
 class Food with _$Food implements Edible {
+  static const kVersion = 1;
+
   const Food._();
 
   const factory Food({
@@ -22,6 +21,13 @@ class Food with _$Food implements Edible {
     DateTime? updatedAt,
   }) = _Food;
 
+  factory Food.fromJson(Map<String, dynamic> json) => _$FoodFromJson(json);
+
+  @JsonKey(
+    includeToJson: true,
+  )
+  int get version => kVersion;
+
   @override
   List<NutritionFacts> getNutritionFacts() => nutritionFacts;
 
@@ -31,5 +37,9 @@ class Food with _$Food implements Edible {
       description: description,
       nutritionFacts: nutritionFacts,
     );
+  }
+
+  Map<String, dynamic> toJsonForSharing() {
+    return copyWith(id: null).toJson();
   }
 }

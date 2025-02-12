@@ -3,10 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'macro_split.freezed.dart';
 part 'macro_split.g.dart';
 
-@Freezed(
-  fromJson: false,
-  toJson: true,
-)
+@freezed
 class MacroSplit with _$MacroSplit {
   const factory MacroSplit._default({
     required double fatPercentage,
@@ -56,4 +53,7 @@ class MacroSplit with _$MacroSplit {
       proteinPercentage: fractions[2],
     );
   }
+
+  factory MacroSplit.fromJson(Map<String, dynamic> json) =>
+      _$MacroSplitFromJson(json);
 }

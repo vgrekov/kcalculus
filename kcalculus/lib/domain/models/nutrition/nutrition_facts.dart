@@ -5,10 +5,7 @@ import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 part 'nutrition_facts.freezed.dart';
 part 'nutrition_facts.g.dart';
 
-@Freezed(
-  fromJson: false,
-  toJson: true,
-)
+@freezed
 class NutritionFacts with _$NutritionFacts {
   const NutritionFacts._();
 
@@ -16,6 +13,9 @@ class NutritionFacts with _$NutritionFacts {
     required Amount amount,
     required NutrientData nutrientData,
   }) = _NutritionFacts;
+
+  factory NutritionFacts.fromJson(Map<String, dynamic> json) =>
+      _$NutritionFactsFromJson(json);
 
   NutritionFacts convertTo(Amount otherAmount) {
     if (amount.unit.measure != otherAmount.unit.measure) {

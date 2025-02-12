@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 
 typedef UiAssignment = void Function(
-  UiCommand commend, {
+  UiCommand command, {
   required BuildContext context,
   required WidgetRef ref,
 });

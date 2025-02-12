@@ -4,10 +4,7 @@ import 'package:kcalculus/domain/models/amount.dart';
 part 'nutrition_ratio.freezed.dart';
 part 'nutrition_ratio.g.dart';
 
-@Freezed(
-  fromJson: false,
-  toJson: true,
-)
+@freezed
 class NutritionRatio with _$NutritionRatio {
   const factory NutritionRatio._default({
     required Amount perAmount,
@@ -27,4 +24,7 @@ class NutritionRatio with _$NutritionRatio {
       totalAmount: totalAmount,
     );
   }
+
+  factory NutritionRatio.fromJson(Map<String, dynamic> json) =>
+      _$NutritionRatioFromJson(json);
 }

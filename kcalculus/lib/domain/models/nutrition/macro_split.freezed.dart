@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+MacroSplit _$MacroSplitFromJson(Map<String, dynamic> json) {
+  return _MacroSplit.fromJson(json);
+}
+
 /// @nodoc
 mixin _$MacroSplit {
   double get fatPercentage => throw _privateConstructorUsedError;
@@ -123,12 +127,15 @@ class __$$MacroSplitImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable(createFactory: false)
+@JsonSerializable()
 class _$MacroSplitImpl implements _MacroSplit {
   const _$MacroSplitImpl(
       {required this.fatPercentage,
       required this.carbsPercentage,
       required this.proteinPercentage});
+
+  factory _$MacroSplitImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MacroSplitImplFromJson(json);
 
   @override
   final double fatPercentage;
@@ -181,6 +188,9 @@ abstract class _MacroSplit implements MacroSplit {
       {required final double fatPercentage,
       required final double carbsPercentage,
       required final double proteinPercentage}) = _$MacroSplitImpl;
+
+  factory _MacroSplit.fromJson(Map<String, dynamic> json) =
+      _$MacroSplitImpl.fromJson;
 
   @override
   double get fatPercentage;

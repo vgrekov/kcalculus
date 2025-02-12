@@ -11,10 +11,7 @@ const _kFatCaloriesPerGram = 9;
 const _kCarbsCaloriesPerGram = 4;
 const _kProteinCaloriesPerGram = 4;
 
-@Freezed(
-  fromJson: false,
-  toJson: true,
-)
+@freezed
 class NutrientData with _$NutrientData {
   const NutrientData._();
 
@@ -35,6 +32,9 @@ class NutrientData with _$NutrientData {
       proteinInGrams: 0,
     );
   }
+
+  factory NutrientData.fromJson(Map<String, dynamic> json) =>
+      _$NutrientDataFromJson(json);
 
   NutrientData operator +(NutrientData other) {
     return NutrientData(
