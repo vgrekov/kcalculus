@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/edible_search_results.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
@@ -8,6 +9,7 @@ import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/list/view_models/food_list_view_model.dart';
 import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
+import 'package:kcalculus/ui/foods/scan/widgets/food_scan_screen.dart';
 import 'package:kcalculus/ui/foods/view/widgets/food_view_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -34,6 +36,18 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     FoodListCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
   };
 
+  void _scanFood() async {
+    final food = await showModalBottomSheet<Food>(
+      context: context,
+      scrollControlDisabledMaxHeightRatio: 0.9,
+      builder: (context) => const FoodScanScreen(),
+    );
+
+    if (food != null) {
+      _addFood(food);
+    }
+  }
+
   void _updateSearchQuery(String query) {
     ref.read(foodListViewModel.notifier).updateSearchQuery(query);
   }
@@ -42,10 +56,12 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     ref.read(foodListViewModel.notifier).resetSearch();
   }
 
-  void _addFood() {
+  void _addFood([Food? food]) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const FoodSaveScreen(),
+        builder: (context) => FoodSaveScreen(
+          food: food,
+        ),
       ),
     );
   }
@@ -184,12 +200,19 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
                   ),
                   child: TextInput(
                     controller: _searchController,
+                    prefix: IconButton(
+                      onPressed: _scanFood,
+                      icon: const Icon(
+                        Icons.qr_code_scanner,
+                      ),
+                    ),
                     hintText: l10n(context).hintEdibleSearchBox,
                     suffix: IconButton(
-                        onPressed: _resetSearchQuery,
-                        icon: const Icon(
-                          Icons.clear,
-                        )),
+                      onPressed: _resetSearchQuery,
+                      icon: const Icon(
+                        Icons.clear,
+                      ),
+                    ),
                     textCapitalization: TextCapitalization.words,
                     textInputAction: TextInputAction.search,
                     onChanged: _updateSearchQuery,
