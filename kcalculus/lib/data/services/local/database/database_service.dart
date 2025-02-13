@@ -12,6 +12,7 @@ import 'package:kcalculus/data/services/local/database/meal/meal_service.dart';
 import 'package:kcalculus/data/services/local/database/nutrition_facts/nutrition_facts_service.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
@@ -118,6 +119,56 @@ class DatabaseService {
     }
   }
 
+  static Future<File> exportDatabase() async {
+    final toDir = await getTemporaryDirectory();
+
+    final dbDir = await getDatabasesPath();
+    final dbPath = path.join(dbDir, _kDbName);
+    final dbFile = File(dbPath);
+
+    if (!(await dbFile.exists())) {
+      throw ArgumentError('Database does not exist.');
+    }
+
+    final dbBackupPath = path.join(
+      toDir.path,
+      '$_kDbName.${dt.formatTimestamp(DateTime.now())}.backup',
+    );
+
+    return dbFile.copy(dbBackupPath);
+  }
+
+  static Future<void> importDatabase(File fromFile) async {
+    if (!(await fromFile.exists())) {
+      throw ArgumentError('Source file does not exist.');
+    }
+
+    final dbDir = await getDatabasesPath();
+    final dbPath = path.join(dbDir, _kDbName);
+    final dbFile = File(dbPath);
+
+    File? dbBackupFile;
+
+    try {
+      final dbBackupPath = path.join(
+        dbDir,
+        '$_kDbName.${dt.formatTimestamp(DateTime.now())}.backup',
+      );
+      dbBackupFile = await dbFile.copy(dbBackupPath);
+
+      await fromFile.copy(dbPath);
+
+      await migrateDatabase();
+    } catch (error) {
+      if (await dbBackupFile?.exists() == true) {
+        await dbBackupFile!.copy(dbPath);
+        await dbBackupFile.delete();
+      }
+
+      rethrow;
+    }
+  }
+
   static Future<Database> _openDatabase() async {
     final dbDir = await getDatabasesPath();
     final dbPath = path.join(dbDir, _kDbName);
@@ -163,8 +214,8 @@ class DatabaseService {
     return db.transaction(action);
   }
 
-  void dispose() async {
+  Future<void> dispose() async {
     final db = await _database;
-    db.close();
+    return db.close();
   }
 }

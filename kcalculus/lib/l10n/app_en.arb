@@ -221,5 +221,35 @@
     "actionTryAgain": "Try again",
     "messageCantReadFoodFromBarcode": "Unable to read food information.",
     "messageFoodFromBarcodeVersionMismatch": "This food was created with an incompatible version of the app and cannot be imported correctly.",
-    "messageNoCameraPermission": "Camera is not accessible.\nPlease check permissions."
+    "messageNoCameraPermission": "Camera is not accessible.\nPlease check permissions.",
+    "settingsGroupBackup": "Backup",
+    "settingBackupTitle": "Backup",
+    "settingBackupSubtitle": "Select a directory to store the backup",
+    "settingRestoreTitle": "Restore",
+    "settingRestoreSubtitle": "Select a backup file",
+    "messageBackupFailure": "Failed to backup data",
+    "messageRestoreConfirmation": "PROCEEDING WILL DELETE ALL YOUR CURRENT DATA!\n\nLoad data from {path}?",
+    "@messageRestoreConfirmation": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "messageRestoreSuccess": "Data loaded from {path}",
+    "@messageRestoreSuccess": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "messageRestoreFailure": "Unable to load data from {path}",
+    "@messageRestoreFailure": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    }
 }
