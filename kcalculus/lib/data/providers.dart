@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/repositories/app_settings_repository.dart';
@@ -6,6 +7,7 @@ import 'package:kcalculus/data/repositories/dish_repository.dart';
 import 'package:kcalculus/data/repositories/edible_repository.dart';
 import 'package:kcalculus/data/repositories/food_repository.dart';
 import 'package:kcalculus/data/repositories/local/app_settings_repository.dart';
+import 'package:kcalculus/data/repositories/local/backup_repository.dart';
 import 'package:kcalculus/data/repositories/local/converters/dish_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/edible_search_result_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/food_converter.dart';
@@ -22,6 +24,7 @@ import 'package:kcalculus/data/repositories/local/food_repository.dart';
 import 'package:kcalculus/data/repositories/local/meal_repository.dart';
 import 'package:kcalculus/data/repositories/meal_repository.dart';
 import 'package:kcalculus/data/services/local/app_settings/app_settings_shared_pref_service.dart';
+import 'package:kcalculus/data/services/local/database/database_manager.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 
