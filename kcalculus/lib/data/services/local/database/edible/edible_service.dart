@@ -12,12 +12,27 @@ class EdibleService {
     String? query, {
     bool onlyFoods = false,
     bool onlyDishes = false,
+    int? limit,
+    int? offset,
     Transaction? txn,
   }) async {
+    if (offset != null && limit == null) {
+      throw ArgumentError('Argument "limit" is missing');
+    }
+
+    if (limit != null && limit <= 0) {
+      throw ArgumentError(
+          'If present, "limit" argument must be a positive integer');
+    }
+
+    if (offset != null && offset < 0) {
+      throw ArgumentError(
+          'If present, "offset" argument must be a non-negative integer');
+    }
+
     final executor = txn ?? await database;
 
-    return executor.rawQuery(
-      '''
+    var sql = '''
       SELECT *
       FROM (
         SELECT
@@ -84,13 +99,25 @@ class EdibleService {
           WHEN updated_at IS NOT NULL THEN updated_at
           ELSE created_at
         END DESC
-      ''',
-      [
-        onlyFoods ? 1 : 0,
-        onlyDishes ? 1 : 0,
-        query ?? '',
-      ],
-    ).then((data) => data.map(EdibleSearchResultDbModel.fromJson).toList());
+      ''';
+
+    var arguments = [
+      onlyFoods ? 1 : 0,
+      onlyDishes ? 1 : 0,
+      query ?? '',
+    ];
+
+    if (limit != null) {
+      sql += 'LIMIT ? OFFSET ?';
+      arguments.addAll([
+        limit,
+        offset ?? 0,
+      ]);
+    }
+
+    return executor
+        .rawQuery(sql, arguments)
+        .then((data) => data.map(EdibleSearchResultDbModel.fromJson).toList());
   }
 
   Future<bool> exists(

@@ -4,6 +4,8 @@ abstract class EdibleRepository {
   Future<List<EdibleSearchResult>> search(
     String? query, {
     EdibleSearchResultType? type,
+    int? limit,
+    int? offset,
   });
 
   Future<bool> exists(
