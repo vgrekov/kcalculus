@@ -17,8 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DishListUiState {
   String get searchQuery => throw _privateConstructorUsedError;
-  Future<List<EdibleSearchResult>> get searchResults =>
+  Future<List<EdibleSearchResult>> get dataLoader =>
       throw _privateConstructorUsedError;
+  List<EdibleSearchResult> get data => throw _privateConstructorUsedError;
 
   /// Create a copy of DishListUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +35,9 @@ abstract class $DishListUiStateCopyWith<$Res> {
       _$DishListUiStateCopyWithImpl<$Res, DishListUiState>;
   @useResult
   $Res call(
-      {String searchQuery, Future<List<EdibleSearchResult>> searchResults});
+      {String searchQuery,
+      Future<List<EdibleSearchResult>> dataLoader,
+      List<EdibleSearchResult> data});
 }
 
 /// @nodoc
@@ -53,17 +56,22 @@ class _$DishListUiStateCopyWithImpl<$Res, $Val extends DishListUiState>
   @override
   $Res call({
     Object? searchQuery = null,
-    Object? searchResults = null,
+    Object? dataLoader = null,
+    Object? data = null,
   }) {
     return _then(_value.copyWith(
       searchQuery: null == searchQuery
           ? _value.searchQuery
           : searchQuery // ignore: cast_nullable_to_non_nullable
               as String,
-      searchResults: null == searchResults
-          ? _value.searchResults
-          : searchResults // ignore: cast_nullable_to_non_nullable
+      dataLoader: null == dataLoader
+          ? _value.dataLoader
+          : dataLoader // ignore: cast_nullable_to_non_nullable
               as Future<List<EdibleSearchResult>>,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<EdibleSearchResult>,
     ) as $Val);
   }
 }
@@ -77,7 +85,9 @@ abstract class _$$DishListUiStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String searchQuery, Future<List<EdibleSearchResult>> searchResults});
+      {String searchQuery,
+      Future<List<EdibleSearchResult>> dataLoader,
+      List<EdibleSearchResult> data});
 }
 
 /// @nodoc
@@ -94,17 +104,22 @@ class __$$DishListUiStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? searchQuery = null,
-    Object? searchResults = null,
+    Object? dataLoader = null,
+    Object? data = null,
   }) {
     return _then(_$DishListUiStateImpl(
       searchQuery: null == searchQuery
           ? _value.searchQuery
           : searchQuery // ignore: cast_nullable_to_non_nullable
               as String,
-      searchResults: null == searchResults
-          ? _value.searchResults
-          : searchResults // ignore: cast_nullable_to_non_nullable
+      dataLoader: null == dataLoader
+          ? _value.dataLoader
+          : dataLoader // ignore: cast_nullable_to_non_nullable
               as Future<List<EdibleSearchResult>>,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<EdibleSearchResult>,
     ));
   }
 }
@@ -113,16 +128,27 @@ class __$$DishListUiStateImplCopyWithImpl<$Res>
 
 class _$DishListUiStateImpl implements _DishListUiState {
   const _$DishListUiStateImpl(
-      {required this.searchQuery, required this.searchResults});
+      {required this.searchQuery,
+      required this.dataLoader,
+      final List<EdibleSearchResult> data = const []})
+      : _data = data;
 
   @override
   final String searchQuery;
   @override
-  final Future<List<EdibleSearchResult>> searchResults;
+  final Future<List<EdibleSearchResult>> dataLoader;
+  final List<EdibleSearchResult> _data;
+  @override
+  @JsonKey()
+  List<EdibleSearchResult> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
 
   @override
   String toString() {
-    return 'DishListUiState(searchQuery: $searchQuery, searchResults: $searchResults)';
+    return 'DishListUiState(searchQuery: $searchQuery, dataLoader: $dataLoader, data: $data)';
   }
 
   @override
@@ -132,12 +158,14 @@ class _$DishListUiStateImpl implements _DishListUiState {
             other is _$DishListUiStateImpl &&
             (identical(other.searchQuery, searchQuery) ||
                 other.searchQuery == searchQuery) &&
-            (identical(other.searchResults, searchResults) ||
-                other.searchResults == searchResults));
+            (identical(other.dataLoader, dataLoader) ||
+                other.dataLoader == dataLoader) &&
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, searchQuery, searchResults);
+  int get hashCode => Object.hash(runtimeType, searchQuery, dataLoader,
+      const DeepCollectionEquality().hash(_data));
 
   /// Create a copy of DishListUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -151,14 +179,16 @@ class _$DishListUiStateImpl implements _DishListUiState {
 
 abstract class _DishListUiState implements DishListUiState {
   const factory _DishListUiState(
-          {required final String searchQuery,
-          required final Future<List<EdibleSearchResult>> searchResults}) =
-      _$DishListUiStateImpl;
+      {required final String searchQuery,
+      required final Future<List<EdibleSearchResult>> dataLoader,
+      final List<EdibleSearchResult> data}) = _$DishListUiStateImpl;
 
   @override
   String get searchQuery;
   @override
-  Future<List<EdibleSearchResult>> get searchResults;
+  Future<List<EdibleSearchResult>> get dataLoader;
+  @override
+  List<EdibleSearchResult> get data;
 
   /// Create a copy of DishListUiState
   /// with the given fields replaced by the non-null parameter values.

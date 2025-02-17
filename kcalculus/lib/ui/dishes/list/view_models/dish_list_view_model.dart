@@ -1,7 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/models/dish/ingredient.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/ui/common/view_models/search_debouncer.dart';
+import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrition_ratio.dart';
+import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/ui/common/view_models/paginator.dart';
+import 'package:kcalculus/ui/common/view_models/search_controller.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/dishes/list/view_models/dish_list_ui_state.dart';
@@ -16,7 +25,21 @@ enum DishListCommand {
 }
 
 class DishListViewModel extends Notifier<DishListUiState> {
-  late final _searchDebouncer = SearchDebouncer(_search);
+  static const _kPageSize = 10;
+
+  late final paginator = Paginator(
+    currentData: () => state.data,
+    loadPage: (offset) => _loadData(
+      state.searchQuery,
+      limit: _kPageSize,
+      offset: offset,
+    ),
+    updateState: (data) {
+      state = state.copyWith(data: data);
+    },
+  );
+
+  late final searchController = SearchController(_search);
 
   UiCommander<DishListCommand>? _commander;
 
@@ -27,25 +50,57 @@ class DishListViewModel extends Notifier<DishListUiState> {
     _commander = UiCommander<DishListCommand>(_commander);
 
     ref.onDispose(() {
-      _searchDebouncer.dispose();
+      searchController.dispose();
       _commander?.dispose();
     });
 
-    return _doSearch(stateOrNull?.searchQuery ?? '');
+    String query = stateOrNull?.searchQuery ?? '';
+
+    return DishListUiState(
+      searchQuery: query,
+      dataLoader: _doSearch(query),
+    );
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
-  void resetSearch() {
-    _searchDebouncer.reset();
-  }
-
-  void setSearchQuery(String query) {
-    _searchDebouncer.setQuery(query);
-  }
-
-  void updateSearchQuery(String query) {
-    _searchDebouncer.updateQuery(query);
+  void generateDummyFoodsAndDishes() async {
+    final dishRepo = ref.read(dishRepositoryProvider);
+    for (var i = 50; i > 0; i--) {
+      await dishRepo.save(
+        Dish(
+          name: 'Dummy Dish $i',
+          description: 'For testing pagination',
+          ingredients: [
+            Ingredient(
+              edible: Food(
+                name: 'Dummy Food $i',
+                description: 'For testing pagination',
+                nutritionFacts: [
+                  NutritionFacts(
+                    amount: Amount(unit: Unit.gram, value: 100),
+                    nutrientData: NutrientData(
+                      calories: 100,
+                      fatInGrams: 4,
+                      carbsInGrams: 10,
+                      fiberInGrams: 1,
+                      proteinInGrams: 9,
+                    ),
+                  ),
+                ],
+              ),
+              amount: Amount(unit: Unit.gram, value: 100),
+            ),
+          ],
+          nutritionRatios: {
+            Measure.mass: NutritionRatio(
+              perAmount: Amount(unit: Unit.gram, value: 100),
+              totalAmount: Amount(unit: Unit.gram, value: 100),
+            ),
+          },
+        ),
+      );
+    }
   }
 
   Future<void> deleteDish(String id) async {
@@ -94,17 +149,35 @@ class DishListViewModel extends Notifier<DishListUiState> {
   }
 
   void _search(String query) {
-    state = _doSearch(query);
+    state = DishListUiState(
+      searchQuery: query,
+      dataLoader: _doSearch(query),
+    );
   }
 
-  DishListUiState _doSearch(String query) {
-    return DishListUiState(
-      searchQuery: query,
-      searchResults: ref.read(edibleRepositoryProvider).search(
-            query,
-            type: EdibleSearchResultType.dish,
-          ),
+  Future<List<EdibleSearchResult>> _doSearch(String query) async {
+    final data = await _loadData(
+      query,
+      limit: _kPageSize,
+      offset: 0,
     );
+
+    state = state.copyWith(data: data);
+
+    return data;
+  }
+
+  Future<List<EdibleSearchResult>> _loadData(
+    String query, {
+    required int limit,
+    required int offset,
+  }) async {
+    return ref.read(edibleRepositoryProvider).search(
+          query,
+          type: EdibleSearchResultType.dish,
+          limit: limit,
+          offset: offset,
+        );
   }
 }
 

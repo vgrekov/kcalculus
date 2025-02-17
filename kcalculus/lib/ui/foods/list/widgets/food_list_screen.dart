@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:kcalculus/ui/common/widgets/edible_search_results.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
@@ -36,6 +37,15 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     FoodListCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
   };
 
+  @override
+  void initState() {
+    var uiState = ref.read(foodListViewModel);
+
+    _searchController.text = uiState.searchQuery;
+
+    super.initState();
+  }
+
   void _scanFood() async {
     final food = await showModalBottomSheet<Food>(
       context: context,
@@ -49,11 +59,11 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
   }
 
   void _updateSearchQuery(String query) {
-    ref.read(foodListViewModel.notifier).updateSearchQuery(query);
+    ref.read(foodListViewModel.notifier).searchController.updateQuery(query);
   }
 
   void _resetSearchQuery() {
-    ref.read(foodListViewModel.notifier).resetSearch();
+    ref.read(foodListViewModel.notifier).searchController.reset();
   }
 
   void _addFood([Food? food]) {
@@ -131,114 +141,82 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
 
   @override
   Widget build(BuildContext context) {
-    var uiState = ref.watch(foodListViewModel);
+    final uiState = ref.watch(foodListViewModel);
 
-    _searchController.text = uiState.searchQuery;
+    ref.listen(foodListViewModel, (prev, next) {
+      _searchController.text = next.searchQuery;
+    });
+
+    final viewModel = ref.read(foodListViewModel.notifier);
 
     return UiSubordinate<FoodListCommand>(
-      commandProvider: ref.read(foodListViewModel.notifier).commandProvider,
+      commandProvider: viewModel.commandProvider,
       assignments: _assignments,
-      child: FutureBuilder(
-        future: uiState.searchResults,
-        builder: (context, snapshot) {
-          final Widget? body;
-          final isLoading = snapshot.connectionState == ConnectionState.waiting;
-          final readonly = isLoading || snapshot.hasError;
-          if (isLoading) {
-            body = const Center(
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: CircularProgressIndicator(),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            l10n(context).screenFoods,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+          ),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(50),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
               ),
-            );
-          } else if (snapshot.hasError) {
-            body = Center(
-              child: Text(
-                l10n(context).messageUnknownError,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-              ),
-            );
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            body = Center(
-              child: Text(
-                l10n(context).messageFoodSearchNothingFound,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-              ),
-            );
-          } else {
-            body = EdibleSearchResults(
-              searchResults: snapshot.data!,
-              onSelectSearchResult: _viewFood,
-              confirmDeleteMessage:
-                  l10n(context).messageFoodDeletionConfirmation,
-              onDeleteEdible: (searchResult) {
-                _deleteFood(searchResult.id);
-              },
-            );
-          }
-
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(
-                l10n(context).screenFoods,
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
-              ),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(50),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  child: TextInput(
-                    controller: _searchController,
-                    prefix: IconButton(
-                      onPressed: _scanFood,
-                      icon: const Icon(
-                        Icons.qr_code_scanner,
-                      ),
-                    ),
-                    hintText: l10n(context).hintEdibleSearchBox,
-                    suffix: IconButton(
-                      onPressed: _resetSearchQuery,
-                      icon: const Icon(
-                        Icons.clear,
-                      ),
-                    ),
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.search,
-                    onChanged: _updateSearchQuery,
+              child: TextInput(
+                controller: _searchController,
+                prefix: IconButton(
+                  onPressed: _scanFood,
+                  icon: const Icon(
+                    Icons.qr_code_scanner,
                   ),
                 ),
-              ),
-            ),
-            body: body,
-            floatingActionButton: readonly
-                ? null
-                : FloatingActionButton(
-                    onPressed: _addFood,
-                    shape: const CircleBorder(),
-                    child: const Icon(Icons.add),
+                hintText: l10n(context).hintEdibleSearchBox,
+                suffix: IconButton(
+                  onPressed: _resetSearchQuery,
+                  icon: const Icon(
+                    Icons.clear,
                   ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: Container(
-              color: Theme.of(context).colorScheme.surfaceContainer,
-              padding: EdgeInsets.only(top: 32),
-              child: const ScreenTabBar(
-                selectedTab: ScreenTab.foods,
+                ),
+                textCapitalization: TextCapitalization.words,
+                textInputAction: TextInputAction.search,
+                onChanged: _updateSearchQuery,
               ),
             ),
-          );
-        },
+          ),
+        ),
+        body: EdibleSearchResults(
+          items: uiState.data,
+          itemsLoader: uiState.dataLoader,
+          paginator: viewModel.paginator,
+          onSelectItem: _viewFood,
+          onDeleteItem: (searchResult) {
+            _deleteFood(searchResult.id);
+          },
+          noItemsMessage: l10n(context).messageFoodSearchNothingFound,
+          confirmDeleteMessage: l10n(context).messageFoodDeletionConfirmation,
+        ),
+        floatingActionButton: Awaited(
+          future: uiState.dataLoader,
+          data: (_, __) => FloatingActionButton(
+            onPressed: _addFood,
+            shape: const CircleBorder(),
+            child: const Icon(Icons.add),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: Container(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          padding: EdgeInsets.only(top: 32),
+          child: const ScreenTabBar(
+            selectedTab: ScreenTab.foods,
+          ),
+        ),
       ),
     );
   }

@@ -1,66 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/ui/common/view_models/paginator.dart';
 import 'package:kcalculus/ui/common/widgets/edible_search_results_item.dart';
-import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
+import 'package:kcalculus/ui/common/widgets/paged_list_vew.dart';
 
-class EdibleSearchResults extends StatelessWidget with Messenger {
-  final List<EdibleSearchResult> searchResults;
-  final void Function(EdibleSearchResult) onSelectSearchResult;
-  final String? confirmDeleteMessage;
-  final void Function(EdibleSearchResult)? onDeleteEdible;
-
+class EdibleSearchResults extends StatelessWidget {
   const EdibleSearchResults({
     super.key,
-    required this.searchResults,
-    required this.onSelectSearchResult,
+    required this.items,
+    this.itemsLoader,
+    required this.onSelectItem,
+    this.noItemsMessage,
     this.confirmDeleteMessage,
-    this.onDeleteEdible,
+    this.onDeleteItem,
+    this.paginator,
   });
+
+  final List<EdibleSearchResult> items;
+
+  final Future<dynamic>? itemsLoader;
+
+  final void Function(EdibleSearchResult) onSelectItem;
+
+  final String? noItemsMessage;
+
+  final String? confirmDeleteMessage;
+
+  final void Function(EdibleSearchResult)? onDeleteItem;
+
+  final Paginator<EdibleSearchResult>? paginator;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: searchResults.length,
-      itemBuilder: (context, index) {
-        final searchResult = searchResults[index];
-        final searchResultItem = EdibleSearchResultsItem(
-          searchResult: searchResult,
-          onSelectSearchResult: onSelectSearchResult,
-        );
-        return onDeleteEdible == null
-            ? searchResultItem
-            : Dismissible(
-                key: UniqueKey(),
-                direction: DismissDirection.endToStart,
-                confirmDismiss: (direction) async {
-                  return await showConfirmation(
-                        context,
-                        confirmDeleteMessage ??
-                            l10n(context).messageDeletionConfirmation,
-                      ) ??
-                      false;
-                },
-                onDismissed: (direction) {
-                  onDeleteEdible!(searchResult);
-                },
-                background: Container(
-                  color: Theme.of(context).colorScheme.tertiaryContainer,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Icon(
-                        Icons.delete,
-                        color:
-                            Theme.of(context).colorScheme.onTertiaryContainer,
-                      ),
-                    ),
-                  ),
-                ),
-                child: searchResultItem,
-              );
-      },
+    return PagedListView<EdibleSearchResult>(
+      items: items,
+      itemsLoader: itemsLoader,
+      noItemsMessage: noItemsMessage,
+      onDeleteItem: onDeleteItem,
+      confirmDeleteMessage: confirmDeleteMessage,
+      onRefresh: paginator?.refresh,
+      onLoadNextPage: paginator?.loadNextPage,
+      itemBuilder: (context, index) => EdibleSearchResultsItem(
+        searchResult: items[index],
+        onSelectSearchResult: onSelectItem,
+      ),
     );
   }
 }

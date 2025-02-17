@@ -7,6 +7,7 @@ part 'food_list_ui_state.freezed.dart';
 class FoodListUiState with _$FoodListUiState {
   const factory FoodListUiState({
     required String searchQuery,
-    required Future<List<EdibleSearchResult>> searchResults,
+    required Future<List<EdibleSearchResult>> dataLoader,
+    @Default([]) List<EdibleSearchResult> data,
   }) = _FoodListUiState;
 }
