@@ -2,10 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/ui/common/view_models/search_debouncer.dart';
+import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_helper.dart';
+import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
-import 'package:kcalculus/ui/edibles/search/view_models/edible_search_ui_state.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('EdibleSearchViewModel');
@@ -17,35 +17,29 @@ enum EdibleSearchCommand {
 
 class EdibleSearchViewModel
     extends AutoDisposeFamilyNotifier<EdibleSearchUiState, String> {
-  late final _searchDebouncer = SearchDebouncer(_search);
+  static const _kPageSize = 10;
 
   UiCommander<EdibleSearchCommand>? _commander;
+
+  late final EdibleSearchHelper searchHelper = EdibleSearchHelper(
+    pageSize: _kPageSize,
+    getRef: () => ref,
+    getState: () => state,
+    setState: (value) => state = value,
+  );
 
   @override
   EdibleSearchUiState build(String arg) {
     _commander = UiCommander<EdibleSearchCommand>(_commander);
 
     ref.onDispose(() {
-      _searchDebouncer.dispose();
       _commander?.dispose();
     });
 
-    return _doSearch(arg);
+    return searchHelper.initState(arg);
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
-
-  void resetSearch() {
-    _searchDebouncer.reset();
-  }
-
-  void setSearchQuery(String query) {
-    _searchDebouncer.setQuery(query);
-  }
-
-  void updateSearchQuery(String query) {
-    _searchDebouncer.updateQuery(query);
-  }
 
   Future<void> selectEdible(EdibleSearchResult searchResult) async {
     _log.finer('selectEdible() START');
@@ -93,17 +87,6 @@ class EdibleSearchViewModel
     }
 
     _log.finer('selectEdible() END');
-  }
-
-  void _search(String query) {
-    state = _doSearch(query);
-  }
-
-  EdibleSearchUiState _doSearch(String query) {
-    return EdibleSearchUiState(
-      searchQuery: query,
-      searchResults: ref.read(edibleRepositoryProvider).search(query),
-    );
   }
 }
 

@@ -24,8 +24,6 @@ class DishWizardIngredientsPage extends ConsumerWidget
   final Dish? dish;
 
   void _addIngredient(BuildContext context, WidgetRef ref) {
-    final uiState = ref.read(dishWizardViewModel(dish));
-
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => PortionAddScreen(
@@ -38,8 +36,6 @@ class DishWizardIngredientsPage extends ConsumerWidget
                   ),
                 );
           },
-          edibleSearchFilter:
-              uiState.id == null ? null : (r) => r.id != uiState.id,
         ),
       ),
     );

@@ -17,6 +17,8 @@ class LocalEdibleDao {
   Future<List<EdibleSearchResult>> search(
     String? query, {
     EdibleSearchResultType? type,
+    int? limit,
+    int? offset,
     Transaction? txn,
   }) {
     return _dbService.edible
@@ -24,6 +26,8 @@ class LocalEdibleDao {
           query,
           onlyFoods: type == EdibleSearchResultType.food,
           onlyDishes: type == EdibleSearchResultType.dish,
+          limit: limit,
+          offset: offset,
           txn: txn,
         )
         .then(

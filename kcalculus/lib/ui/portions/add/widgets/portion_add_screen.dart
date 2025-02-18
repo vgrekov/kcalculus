@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/edible_name_input.dart';
@@ -25,14 +24,11 @@ class PortionAddScreen extends ConsumerStatefulWidget {
     super.key,
     required this.title,
     required this.onSavePortion,
-    this.edibleSearchFilter,
   });
 
   final String title;
 
   final FutureOr<void> Function(Edible, Amount) onSavePortion;
-
-  final bool Function(EdibleSearchResult)? edibleSearchFilter;
 
   @override
   ConsumerState<PortionAddScreen> createState() {
@@ -141,7 +137,6 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
       MaterialPageRoute(
         builder: (context) => EdibleSearchScreen(
           initialQuery: query,
-          edibleSearchFilter: widget.edibleSearchFilter,
         ),
       ),
     );

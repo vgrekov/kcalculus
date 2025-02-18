@@ -1,9 +1,9 @@
 import 'dart:async';
 
-class SearchDebouncer {
+class SearchController {
   static const kDefaultDuration = Duration(milliseconds: 500);
 
-  SearchDebouncer(
+  SearchController(
     this.onSearch, {
     this.debounceDuration = kDefaultDuration,
   });

@@ -10,9 +10,18 @@ class LocalEdibleRepository implements EdibleRepository {
   final LocalEdibleDao _edibleDao;
 
   @override
-  Future<List<EdibleSearchResult>> search(String? query,
-      {EdibleSearchResultType? type}) {
-    return _edibleDao.search(query, type: type);
+  Future<List<EdibleSearchResult>> search(
+    String? query, {
+    EdibleSearchResultType? type,
+    int? limit,
+    int? offset,
+  }) {
+    return _edibleDao.search(
+      query,
+      type: type,
+      limit: limit,
+      offset: offset,
+    );
   }
 
   @override

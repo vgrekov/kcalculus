@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:kcalculus/ui/common/widgets/edible_search_results.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
@@ -34,12 +35,25 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
     DishListCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
   };
 
+  @override
+  void initState() {
+    var uiState = ref.read(dishListViewModel);
+
+    _searchController.text = uiState.searchQuery;
+
+    super.initState();
+  }
+
   void _updateSearchQuery(String query) {
-    ref.read(dishListViewModel.notifier).updateSearchQuery(query);
+    ref
+        .read(dishListViewModel.notifier)
+        .searchHelper
+        .searchController
+        .updateQuery(query);
   }
 
   void _resetSearchQuery() {
-    ref.read(dishListViewModel.notifier).resetSearch();
+    ref.read(dishListViewModel.notifier).searchHelper.searchController.reset();
   }
 
   void _addDish() {
@@ -115,107 +129,75 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
 
   @override
   Widget build(BuildContext context) {
-    var uiState = ref.watch(dishListViewModel);
+    final uiState = ref.watch(dishListViewModel);
 
-    _searchController.text = uiState.searchQuery;
+    ref.listen(dishListViewModel, (prev, next) {
+      _searchController.text = next.searchQuery;
+    });
+
+    final viewModel = ref.read(dishListViewModel.notifier);
 
     return UiSubordinate(
-      commandProvider: ref.read(dishListViewModel.notifier).commandProvider,
+      commandProvider: viewModel.commandProvider,
       assignments: _assignments,
-      child: FutureBuilder(
-        future: uiState.searchResults,
-        builder: (context, snapshot) {
-          final Widget? body;
-          final isLoading = snapshot.connectionState == ConnectionState.waiting;
-          final readonly = isLoading || snapshot.hasError;
-          if (isLoading) {
-            body = const Center(
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            body = Center(
-              child: Text(
-                l10n(context).messageUnknownError,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-              ),
-            );
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            body = Center(
-              child: Text(
-                l10n(context).messageDishSearchNothingFound,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-              ),
-            );
-          } else {
-            body = EdibleSearchResults(
-              searchResults: snapshot.data!,
-              onSelectSearchResult: _viewDish,
-              confirmDeleteMessage:
-                  l10n(context).messageDishDeletionConfirmation,
-              onDeleteEdible: (searchResult) {
-                _deleteDish(searchResult.id);
-              },
-            );
-          }
-
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(
-                l10n(context).screenDishes,
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
-              ),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(50),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  child: TextInput(
-                    controller: _searchController,
-                    hintText: l10n(context).hintEdibleSearchBox,
-                    suffix: IconButton(
-                        onPressed: _resetSearchQuery,
-                        icon: const Icon(
-                          Icons.clear,
-                        )),
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.search,
-                    onChanged: _updateSearchQuery,
-                  ),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            l10n(context).screenDishes,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
+          ),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(50),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              child: TextInput(
+                controller: _searchController,
+                hintText: l10n(context).hintEdibleSearchBox,
+                suffix: IconButton(
+                    onPressed: _resetSearchQuery,
+                    icon: const Icon(
+                      Icons.clear,
+                    )),
+                textCapitalization: TextCapitalization.words,
+                textInputAction: TextInputAction.search,
+                onChanged: _updateSearchQuery,
               ),
             ),
-            body: body,
-            floatingActionButton: readonly
-                ? null
-                : FloatingActionButton(
-                    onPressed: _addDish,
-                    shape: const CircleBorder(),
-                    child: const Icon(Icons.add),
-                  ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: Container(
-              color: Theme.of(context).colorScheme.surfaceContainer,
-              padding: EdgeInsets.only(top: 32),
-              child: const ScreenTabBar(
-                selectedTab: ScreenTab.dishes,
-              ),
-            ),
-          );
-        },
+          ),
+        ),
+        body: EdibleSearchResults(
+          items: uiState.data,
+          itemsLoader: uiState.dataLoader,
+          paginator: viewModel.searchHelper.paginator,
+          onSelectItem: _viewDish,
+          onDeleteItem: (searchResult) {
+            _deleteDish(searchResult.id);
+          },
+          noItemsMessage: l10n(context).messageDishSearchNothingFound,
+          confirmDeleteMessage: l10n(context).messageDishDeletionConfirmation,
+        ),
+        floatingActionButton: Awaited(
+          future: uiState.dataLoader,
+          data: (_, __) => FloatingActionButton(
+            onPressed: _addDish,
+            shape: const CircleBorder(),
+            child: const Icon(Icons.add),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: Container(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          padding: EdgeInsets.only(top: 32),
+          child: const ScreenTabBar(
+            selectedTab: ScreenTab.dishes,
+          ),
+        ),
       ),
     );
   }

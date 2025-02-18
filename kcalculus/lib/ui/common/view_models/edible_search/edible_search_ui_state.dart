@@ -7,6 +7,7 @@ part 'edible_search_ui_state.freezed.dart';
 class EdibleSearchUiState with _$EdibleSearchUiState {
   const factory EdibleSearchUiState({
     required String searchQuery,
-    required Future<List<EdibleSearchResult>> searchResults,
+    required Future<List<EdibleSearchResult>> dataLoader,
+    @Default([]) List<EdibleSearchResult> data,
   }) = _EdibleSearchUiState;
 }

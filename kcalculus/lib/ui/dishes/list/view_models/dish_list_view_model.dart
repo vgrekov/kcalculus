@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/ui/common/view_models/search_debouncer.dart';
+import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_helper.dart';
+import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
-import 'package:kcalculus/ui/dishes/list/view_models/dish_list_ui_state.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('DishListViewModel');
@@ -15,38 +15,35 @@ enum DishListCommand {
   showDeletionFailureNotification,
 }
 
-class DishListViewModel extends Notifier<DishListUiState> {
-  late final _searchDebouncer = SearchDebouncer(_search);
+class DishListViewModel extends Notifier<EdibleSearchUiState> {
+  static const _kPageSize = 10;
 
   UiCommander<DishListCommand>? _commander;
 
+  late final EdibleSearchHelper searchHelper = EdibleSearchHelper(
+    searchResultType: EdibleSearchResultType.dish,
+    pageSize: _kPageSize,
+    getRef: () => ref,
+    getState: () => state,
+    setState: (value) => state = value,
+  );
+
   @override
-  DishListUiState build() {
+  EdibleSearchUiState build() {
     ref.watch(dishChangesProvider);
 
     _commander = UiCommander<DishListCommand>(_commander);
 
     ref.onDispose(() {
-      _searchDebouncer.dispose();
       _commander?.dispose();
     });
 
-    return _doSearch(stateOrNull?.searchQuery ?? '');
+    String query = stateOrNull?.searchQuery ?? '';
+
+    return searchHelper.initState(query);
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
-
-  void resetSearch() {
-    _searchDebouncer.reset();
-  }
-
-  void setSearchQuery(String query) {
-    _searchDebouncer.setQuery(query);
-  }
-
-  void updateSearchQuery(String query) {
-    _searchDebouncer.updateQuery(query);
-  }
 
   Future<void> deleteDish(String id) async {
     _log.finer('deleteDish() START');
@@ -92,22 +89,9 @@ class DishListViewModel extends Notifier<DishListUiState> {
 
     _log.finer('restoreDish() END');
   }
-
-  void _search(String query) {
-    state = _doSearch(query);
-  }
-
-  DishListUiState _doSearch(String query) {
-    return DishListUiState(
-      searchQuery: query,
-      searchResults: ref.read(edibleRepositoryProvider).search(
-            query,
-            type: EdibleSearchResultType.dish,
-          ),
-    );
-  }
 }
 
-final dishListViewModel = NotifierProvider<DishListViewModel, DishListUiState>(
+final dishListViewModel =
+    NotifierProvider<DishListViewModel, EdibleSearchUiState>(
   () => DishListViewModel(),
 );
