@@ -59,11 +59,15 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
   }
 
   void _updateSearchQuery(String query) {
-    ref.read(foodListViewModel.notifier).searchController.updateQuery(query);
+    ref
+        .read(foodListViewModel.notifier)
+        .searchHelper
+        .searchController
+        .updateQuery(query);
   }
 
   void _resetSearchQuery() {
-    ref.read(foodListViewModel.notifier).searchController.reset();
+    ref.read(foodListViewModel.notifier).searchHelper.searchController.reset();
   }
 
   void _addFood([Food? food]) {
@@ -193,7 +197,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
         body: EdibleSearchResults(
           items: uiState.data,
           itemsLoader: uiState.dataLoader,
-          paginator: viewModel.paginator,
+          paginator: viewModel.searchHelper.paginator,
           onSelectItem: _viewFood,
           onDeleteItem: (searchResult) {
             _deleteFood(searchResult.id);

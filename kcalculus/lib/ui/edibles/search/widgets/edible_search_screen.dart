@@ -47,6 +47,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
   void _updateSearchQuery(String query) {
     ref
         .read(edibleSearchViewModel(widget.initialQuery).notifier)
+        .searchHelper
         .searchController
         .updateQuery(query);
   }
@@ -54,6 +55,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
   void _resetSearchQuery() {
     ref
         .read(edibleSearchViewModel(widget.initialQuery).notifier)
+        .searchHelper
         .searchController
         .reset();
   }
@@ -142,7 +144,7 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
         body: EdibleSearchResults(
           items: uiState.data,
           itemsLoader: uiState.dataLoader,
-          paginator: viewModel.paginator,
+          paginator: viewModel.searchHelper.paginator,
           onSelectItem: _selectSearchResult,
           noItemsMessage: l10n(context).messageEdibleSearchNothingFound,
         ),

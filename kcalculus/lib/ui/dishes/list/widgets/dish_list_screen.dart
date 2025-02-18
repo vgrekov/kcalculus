@@ -45,11 +45,15 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
   }
 
   void _updateSearchQuery(String query) {
-    ref.read(dishListViewModel.notifier).searchController.updateQuery(query);
+    ref
+        .read(dishListViewModel.notifier)
+        .searchHelper
+        .searchController
+        .updateQuery(query);
   }
 
   void _resetSearchQuery() {
-    ref.read(dishListViewModel.notifier).searchController.reset();
+    ref.read(dishListViewModel.notifier).searchHelper.searchController.reset();
   }
 
   void _addDish() {
@@ -170,7 +174,7 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
         body: EdibleSearchResults(
           items: uiState.data,
           itemsLoader: uiState.dataLoader,
-          paginator: viewModel.paginator,
+          paginator: viewModel.searchHelper.paginator,
           onSelectItem: _viewDish,
           onDeleteItem: (searchResult) {
             _deleteDish(searchResult.id);

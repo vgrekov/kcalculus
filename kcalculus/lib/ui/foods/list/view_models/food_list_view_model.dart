@@ -1,11 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/ui/common/view_models/paginator.dart';
-import 'package:kcalculus/ui/common/view_models/search_controller.dart';
+import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_helper.dart';
+import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
-import 'package:kcalculus/ui/foods/list/view_models/food_list_ui_state.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('FoodListViewModel');
@@ -16,42 +15,32 @@ enum FoodListCommand {
   showDeletionFailureNotification,
 }
 
-class FoodListViewModel extends Notifier<FoodListUiState> {
+class FoodListViewModel extends Notifier<EdibleSearchUiState> {
   static const _kPageSize = 10;
-
-  late final paginator = Paginator(
-    currentData: () => state.data,
-    loadPage: (offset) => _loadData(
-      state.searchQuery,
-      limit: _kPageSize,
-      offset: offset,
-    ),
-    updateState: (data) {
-      state = state.copyWith(data: data);
-    },
-  );
-
-  late final searchController = SearchController(_search);
 
   UiCommander<FoodListCommand>? _commander;
 
+  late final EdibleSearchHelper searchHelper = EdibleSearchHelper(
+    searchResultType: EdibleSearchResultType.food,
+    pageSize: _kPageSize,
+    getRef: () => ref,
+    getState: () => state,
+    setState: (value) => state = value,
+  );
+
   @override
-  FoodListUiState build() {
+  EdibleSearchUiState build() {
     ref.watch(foodChangesProvider);
 
     _commander = UiCommander<FoodListCommand>(_commander);
 
     ref.onDispose(() {
-      searchController.dispose();
       _commander?.dispose();
     });
 
     String query = stateOrNull?.searchQuery ?? '';
 
-    return FoodListUiState(
-      searchQuery: query,
-      dataLoader: _doSearch(query),
-    );
+    return searchHelper.initState(query);
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
@@ -100,40 +89,9 @@ class FoodListViewModel extends Notifier<FoodListUiState> {
 
     _log.finer('restoreFood() END');
   }
-
-  void _search(String query) {
-    state = FoodListUiState(
-      searchQuery: query,
-      dataLoader: _doSearch(query),
-    );
-  }
-
-  Future<List<EdibleSearchResult>> _doSearch(String query) async {
-    final data = await _loadData(
-      query,
-      limit: _kPageSize,
-      offset: 0,
-    );
-
-    state = state.copyWith(data: data);
-
-    return data;
-  }
-
-  Future<List<EdibleSearchResult>> _loadData(
-    String query, {
-    required int limit,
-    required int offset,
-  }) async {
-    return ref.read(edibleRepositoryProvider).search(
-          query,
-          type: EdibleSearchResultType.food,
-          limit: limit,
-          offset: offset,
-        );
-  }
 }
 
-final foodListViewModel = NotifierProvider<FoodListViewModel, FoodListUiState>(
+final foodListViewModel =
+    NotifierProvider<FoodListViewModel, EdibleSearchUiState>(
   () => FoodListViewModel(),
 );
