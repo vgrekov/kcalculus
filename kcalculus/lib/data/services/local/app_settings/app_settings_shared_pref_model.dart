@@ -7,5 +7,6 @@ class AppSettingsSharedPrefModel with _$AppSettingsSharedPrefModel {
   const factory AppSettingsSharedPrefModel({
     String? themeName,
     bool? crashlyticsEnabled,
+    int? signedAgreementVersion,
   }) = _AppSettingsSharedPrefModel;
 }
