@@ -22,6 +22,7 @@ AppSettings _$AppSettingsFromJson(Map<String, dynamic> json) {
 mixin _$AppSettings {
   AppTheme get theme => throw _privateConstructorUsedError;
   bool? get crashlyticsEnabled => throw _privateConstructorUsedError;
+  int? get signedAgreementVersion => throw _privateConstructorUsedError;
 
   /// Serializes this AppSettings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +40,8 @@ abstract class $AppSettingsCopyWith<$Res> {
           AppSettings value, $Res Function(AppSettings) then) =
       _$AppSettingsCopyWithImpl<$Res, AppSettings>;
   @useResult
-  $Res call({AppTheme theme, bool? crashlyticsEnabled});
+  $Res call(
+      {AppTheme theme, bool? crashlyticsEnabled, int? signedAgreementVersion});
 }
 
 /// @nodoc
@@ -59,6 +61,7 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
   $Res call({
     Object? theme = null,
     Object? crashlyticsEnabled = freezed,
+    Object? signedAgreementVersion = freezed,
   }) {
     return _then(_value.copyWith(
       theme: null == theme
@@ -69,6 +72,10 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
           ? _value.crashlyticsEnabled
           : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
               as bool?,
+      signedAgreementVersion: freezed == signedAgreementVersion
+          ? _value.signedAgreementVersion
+          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -81,7 +88,8 @@ abstract class _$$AppSettingsImplCopyWith<$Res>
       __$$AppSettingsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AppTheme theme, bool? crashlyticsEnabled});
+  $Res call(
+      {AppTheme theme, bool? crashlyticsEnabled, int? signedAgreementVersion});
 }
 
 /// @nodoc
@@ -99,6 +107,7 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
   $Res call({
     Object? theme = null,
     Object? crashlyticsEnabled = freezed,
+    Object? signedAgreementVersion = freezed,
   }) {
     return _then(_$AppSettingsImpl(
       theme: null == theme
@@ -109,6 +118,10 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
           ? _value.crashlyticsEnabled
           : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
               as bool?,
+      signedAgreementVersion: freezed == signedAgreementVersion
+          ? _value.signedAgreementVersion
+          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -116,7 +129,10 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AppSettingsImpl implements _AppSettings {
-  const _$AppSettingsImpl({required this.theme, this.crashlyticsEnabled});
+  const _$AppSettingsImpl(
+      {required this.theme,
+      this.crashlyticsEnabled,
+      this.signedAgreementVersion});
 
   factory _$AppSettingsImpl.fromJson(Map<String, dynamic> json) =>
       _$$AppSettingsImplFromJson(json);
@@ -125,10 +141,12 @@ class _$AppSettingsImpl implements _AppSettings {
   final AppTheme theme;
   @override
   final bool? crashlyticsEnabled;
+  @override
+  final int? signedAgreementVersion;
 
   @override
   String toString() {
-    return 'AppSettings(theme: $theme, crashlyticsEnabled: $crashlyticsEnabled)';
+    return 'AppSettings(theme: $theme, crashlyticsEnabled: $crashlyticsEnabled, signedAgreementVersion: $signedAgreementVersion)';
   }
 
   @override
@@ -138,12 +156,15 @@ class _$AppSettingsImpl implements _AppSettings {
             other is _$AppSettingsImpl &&
             (identical(other.theme, theme) || other.theme == theme) &&
             (identical(other.crashlyticsEnabled, crashlyticsEnabled) ||
-                other.crashlyticsEnabled == crashlyticsEnabled));
+                other.crashlyticsEnabled == crashlyticsEnabled) &&
+            (identical(other.signedAgreementVersion, signedAgreementVersion) ||
+                other.signedAgreementVersion == signedAgreementVersion));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, theme, crashlyticsEnabled);
+  int get hashCode => Object.hash(
+      runtimeType, theme, crashlyticsEnabled, signedAgreementVersion);
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -164,7 +185,8 @@ class _$AppSettingsImpl implements _AppSettings {
 abstract class _AppSettings implements AppSettings {
   const factory _AppSettings(
       {required final AppTheme theme,
-      final bool? crashlyticsEnabled}) = _$AppSettingsImpl;
+      final bool? crashlyticsEnabled,
+      final int? signedAgreementVersion}) = _$AppSettingsImpl;
 
   factory _AppSettings.fromJson(Map<String, dynamic> json) =
       _$AppSettingsImpl.fromJson;
@@ -173,6 +195,8 @@ abstract class _AppSettings implements AppSettings {
   AppTheme get theme;
   @override
   bool? get crashlyticsEnabled;
+  @override
+  int? get signedAgreementVersion;
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.

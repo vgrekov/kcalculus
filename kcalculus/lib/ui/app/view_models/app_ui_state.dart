@@ -4,6 +4,7 @@ import 'package:kcalculus/domain/models/app_settings.dart';
 part 'app_ui_state.freezed.dart';
 
 enum AppStage {
+  agreement,
   dataSharingConsent,
   maintenance,
   operation,

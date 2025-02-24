@@ -23,6 +23,7 @@ class AppSettings with _$AppSettings {
   const factory AppSettings({
     required AppTheme theme,
     bool? crashlyticsEnabled,
+    int? signedAgreementVersion,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>

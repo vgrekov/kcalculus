@@ -20,7 +20,11 @@ class Awaited<T> extends StatelessWidget {
 
   final Widget Function(BuildContext, T? data)? data;
 
-  final Widget Function(BuildContext, Object? error)? error;
+  final Widget Function(
+    BuildContext,
+    Object? error,
+    StackTrace? stackTrace,
+  )? error;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class Awaited<T> extends StatelessWidget {
         if (isLoading) {
           return loading?.call(context) ?? const SizedBox.shrink();
         } else if (snapshot.hasError) {
-          return error?.call(context, snapshot.error) ??
+          return error?.call(context, snapshot.error, snapshot.stackTrace) ??
               const SizedBox.shrink();
         } else {
           return data?.call(context, snapshot.data) ?? const SizedBox.shrink();

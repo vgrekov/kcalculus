@@ -24,7 +24,11 @@ class AwaitedList<T> extends StatelessWidget {
 
   final Widget Function(BuildContext)? empty;
 
-  final Widget Function(BuildContext, Object? error)? error;
+  final Widget Function(
+    BuildContext,
+    Object? error,
+    StackTrace? stackTrace,
+  )? error;
 
   @override
   Widget build(BuildContext context) {

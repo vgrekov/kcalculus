@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/ui/agreement/widgets/agreement_screen.dart';
 import 'package:kcalculus/ui/app/view_models/app_ui_state.dart';
 import 'package:kcalculus/ui/app/view_models/app_view_model.dart';
 import 'package:kcalculus/ui/common/themes/dark.dart' as dark;
@@ -40,6 +41,7 @@ class App extends ConsumerWidget {
           },
           navigatorKey: navigatorKey,
           home: switch (value.stage) {
+            AppStage.agreement => const AgreementScreen(),
             AppStage.dataSharingConsent => const ConsentScreen(),
             AppStage.maintenance => const MaintenanceScreen(),
             _ => const MealListScreen(),

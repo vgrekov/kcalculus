@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AppSettingsSharedPrefModel {
   String? get themeName => throw _privateConstructorUsedError;
   bool? get crashlyticsEnabled => throw _privateConstructorUsedError;
+  int? get signedAgreementVersion => throw _privateConstructorUsedError;
 
   /// Create a copy of AppSettingsSharedPrefModel
   /// with the given fields replaced by the non-null parameter values.
@@ -33,7 +34,10 @@ abstract class $AppSettingsSharedPrefModelCopyWith<$Res> {
       _$AppSettingsSharedPrefModelCopyWithImpl<$Res,
           AppSettingsSharedPrefModel>;
   @useResult
-  $Res call({String? themeName, bool? crashlyticsEnabled});
+  $Res call(
+      {String? themeName,
+      bool? crashlyticsEnabled,
+      int? signedAgreementVersion});
 }
 
 /// @nodoc
@@ -54,6 +58,7 @@ class _$AppSettingsSharedPrefModelCopyWithImpl<$Res,
   $Res call({
     Object? themeName = freezed,
     Object? crashlyticsEnabled = freezed,
+    Object? signedAgreementVersion = freezed,
   }) {
     return _then(_value.copyWith(
       themeName: freezed == themeName
@@ -64,6 +69,10 @@ class _$AppSettingsSharedPrefModelCopyWithImpl<$Res,
           ? _value.crashlyticsEnabled
           : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
               as bool?,
+      signedAgreementVersion: freezed == signedAgreementVersion
+          ? _value.signedAgreementVersion
+          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -77,7 +86,10 @@ abstract class _$$AppSettingsSharedPrefModelImplCopyWith<$Res>
       __$$AppSettingsSharedPrefModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? themeName, bool? crashlyticsEnabled});
+  $Res call(
+      {String? themeName,
+      bool? crashlyticsEnabled,
+      int? signedAgreementVersion});
 }
 
 /// @nodoc
@@ -97,6 +109,7 @@ class __$$AppSettingsSharedPrefModelImplCopyWithImpl<$Res>
   $Res call({
     Object? themeName = freezed,
     Object? crashlyticsEnabled = freezed,
+    Object? signedAgreementVersion = freezed,
   }) {
     return _then(_$AppSettingsSharedPrefModelImpl(
       themeName: freezed == themeName
@@ -107,6 +120,10 @@ class __$$AppSettingsSharedPrefModelImplCopyWithImpl<$Res>
           ? _value.crashlyticsEnabled
           : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
               as bool?,
+      signedAgreementVersion: freezed == signedAgreementVersion
+          ? _value.signedAgreementVersion
+          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -115,16 +132,18 @@ class __$$AppSettingsSharedPrefModelImplCopyWithImpl<$Res>
 
 class _$AppSettingsSharedPrefModelImpl implements _AppSettingsSharedPrefModel {
   const _$AppSettingsSharedPrefModelImpl(
-      {this.themeName, this.crashlyticsEnabled});
+      {this.themeName, this.crashlyticsEnabled, this.signedAgreementVersion});
 
   @override
   final String? themeName;
   @override
   final bool? crashlyticsEnabled;
+  @override
+  final int? signedAgreementVersion;
 
   @override
   String toString() {
-    return 'AppSettingsSharedPrefModel(themeName: $themeName, crashlyticsEnabled: $crashlyticsEnabled)';
+    return 'AppSettingsSharedPrefModel(themeName: $themeName, crashlyticsEnabled: $crashlyticsEnabled, signedAgreementVersion: $signedAgreementVersion)';
   }
 
   @override
@@ -135,11 +154,14 @@ class _$AppSettingsSharedPrefModelImpl implements _AppSettingsSharedPrefModel {
             (identical(other.themeName, themeName) ||
                 other.themeName == themeName) &&
             (identical(other.crashlyticsEnabled, crashlyticsEnabled) ||
-                other.crashlyticsEnabled == crashlyticsEnabled));
+                other.crashlyticsEnabled == crashlyticsEnabled) &&
+            (identical(other.signedAgreementVersion, signedAgreementVersion) ||
+                other.signedAgreementVersion == signedAgreementVersion));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, themeName, crashlyticsEnabled);
+  int get hashCode => Object.hash(
+      runtimeType, themeName, crashlyticsEnabled, signedAgreementVersion);
 
   /// Create a copy of AppSettingsSharedPrefModel
   /// with the given fields replaced by the non-null parameter values.
@@ -155,12 +177,15 @@ abstract class _AppSettingsSharedPrefModel
     implements AppSettingsSharedPrefModel {
   const factory _AppSettingsSharedPrefModel(
       {final String? themeName,
-      final bool? crashlyticsEnabled}) = _$AppSettingsSharedPrefModelImpl;
+      final bool? crashlyticsEnabled,
+      final int? signedAgreementVersion}) = _$AppSettingsSharedPrefModelImpl;
 
   @override
   String? get themeName;
   @override
   bool? get crashlyticsEnabled;
+  @override
+  int? get signedAgreementVersion;
 
   /// Create a copy of AppSettingsSharedPrefModel
   /// with the given fields replaced by the non-null parameter values.

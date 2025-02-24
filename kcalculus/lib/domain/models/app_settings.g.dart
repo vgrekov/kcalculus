@@ -10,12 +10,14 @@ _$AppSettingsImpl _$$AppSettingsImplFromJson(Map<String, dynamic> json) =>
     _$AppSettingsImpl(
       theme: $enumDecode(_$AppThemeEnumMap, json['theme']),
       crashlyticsEnabled: json['crashlyticsEnabled'] as bool?,
+      signedAgreementVersion: (json['signedAgreementVersion'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
     <String, dynamic>{
       'theme': _$AppThemeEnumMap[instance.theme]!,
       'crashlyticsEnabled': instance.crashlyticsEnabled,
+      'signedAgreementVersion': instance.signedAgreementVersion,
     };
 
 const _$AppThemeEnumMap = {

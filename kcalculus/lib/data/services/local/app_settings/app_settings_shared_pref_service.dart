@@ -6,20 +6,38 @@ class AppSettingsSharedPrefService {
 
   static const _kCrashlyticsEnabled = 'crashlyticsEnabled';
 
+  static const _kSignedAgreementVersion = 'signedAgreementVersion';
+
   Future<AppSettingsSharedPrefModel> getSettings() async {
     final prefs = await SharedPreferences.getInstance();
 
     return AppSettingsSharedPrefModel(
       themeName: prefs.getString(_kAppTheme),
       crashlyticsEnabled: prefs.getBool(_kCrashlyticsEnabled),
+      signedAgreementVersion: prefs.getInt(_kSignedAgreementVersion),
     );
   }
 
   Future<void> setSettings(AppSettingsSharedPrefModel model) async {
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString(_kAppTheme, model.themeName ?? '');
-    await prefs.setBool(
-        _kCrashlyticsEnabled, model.crashlyticsEnabled ?? false);
+    if (model.themeName != null) {
+      await prefs.setString(_kAppTheme, model.themeName!);
+    } else {
+      await prefs.remove(_kAppTheme);
+    }
+
+    if (model.crashlyticsEnabled != null) {
+      await prefs.setBool(_kCrashlyticsEnabled, model.crashlyticsEnabled!);
+    } else {
+      await prefs.remove(_kCrashlyticsEnabled);
+    }
+
+    if (model.signedAgreementVersion != null) {
+      await prefs.setInt(
+          _kSignedAgreementVersion, model.signedAgreementVersion!);
+    } else {
+      await prefs.remove(_kSignedAgreementVersion);
+    }
   }
 }
