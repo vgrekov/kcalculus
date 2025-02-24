@@ -252,5 +252,7 @@
             }
         }
     },
-    "messageNoData": "No data..."
+    "messageNoData": "No data...",
+    "screenAgreement": "Agreement",
+    "actionIAgree": "I agree"
 }

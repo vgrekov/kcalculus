@@ -7,6 +7,7 @@ import 'package:kcalculus/data/repositories/maintenance/maintenance_status_repos
 import 'package:kcalculus/data/repositories/maintenance/maintenance_task_repository.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/domain/models/maintenance_status.dart';
+import 'package:kcalculus/ui/agreement/view_models/agreement_view_model.dart';
 import 'package:kcalculus/ui/app/view_models/app_ui_state.dart';
 import 'package:logging/logging.dart';
 
@@ -19,7 +20,10 @@ final _appUiStateProvider = FutureProvider<AppUiState>(
     final maintenanceStatus = ref.watch(maintenanceStatusRepository);
 
     AppStage? stage;
-    if (settings.crashlyticsEnabled == null) {
+    if (settings.signedAgreementVersion == null ||
+        settings.signedAgreementVersion! < kAgreementVersion) {
+      stage = AppStage.agreement;
+    } else if (settings.crashlyticsEnabled == null) {
       stage = AppStage.dataSharingConsent;
     } else if (maintenanceStatus == MaintenanceStatus.inProgress ||
         maintenanceStatus == MaintenanceStatus.error) {
