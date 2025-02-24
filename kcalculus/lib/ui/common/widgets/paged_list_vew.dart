@@ -93,7 +93,7 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
           ),
         ),
       ),
-      error: (context, _) => SizedBox(
+      error: (context, _, __) => SizedBox(
         height: 40,
         child: Center(
           child: Text(
@@ -175,7 +175,7 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
           child: CircularProgressIndicator(),
         ),
       ),
-      error: (context, _) => Center(
+      error: (context, _, __) => Center(
         child: Text(
           l10n(context).messageUnknownError,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
