@@ -40,3 +40,27 @@ final _databaseServiceProvider =
     NotifierProvider.autoDispose<_DatabaseServiceNotifier, DatabaseService>(
   _DatabaseServiceNotifier.new,
 );
+
+final _envProvider = Provider<String>(
+  (_) => String.fromEnvironment('env', defaultValue: 'dev'),
+);
+
+final _appConfigProvider = FutureProvider<AppConfig>(
+  (ref) {
+    final env = ref.watch(_envProvider);
+    final service = LocalAppConfigService(env: env);
+
+    return service.getAppConfig();
+  },
+);
+
+final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
+  (ref) async {
+    final appConfig = await ref.watch(_appConfigProvider.future);
+
+    return OpenFoodFactsService(
+      openFoodFactsBaseUrl: appConfig.openFoodFactsBaseUrl,
+      contactEmail: appConfig.contactEmail,
+    );
+  },
+);

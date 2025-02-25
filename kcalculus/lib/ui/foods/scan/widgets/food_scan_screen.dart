@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
+import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/scan/view_models/food_scan_view_model.dart';
 import 'package:kcalculus/ui/foods/scan/widgets/scanner.dart';
+import 'package:kcalculus/ui/foods/scan/widgets/scanner_processing.dart';
 import 'package:kcalculus/ui/foods/scan/widgets/scanner_try_again.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
@@ -39,6 +41,8 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
   StreamSubscription<Object?>? _scannerSubscription;
 
   bool _scannerStarted = false;
+
+  Future<dynamic>? _scannerProcessor;
 
   String? _errorString;
 
@@ -103,9 +107,10 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
     if (barcode?.displayValue != null) {
       _stopScanner();
 
-      ref.read(foodScanViewModel.notifier).readFood(barcode!.displayValue!);
-
       setState(() {
+        _scannerProcessor = ref
+            .read(foodScanViewModel.notifier)
+            .readFood(barcode!.displayValue!);
         _scannerStarted = false;
       });
     }
@@ -146,18 +151,36 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
   Widget build(BuildContext context) {
     ref.watch(foodScanViewModel);
 
-    final Widget content;
-    if (_errorString == null) {
-      content = Scanner(controller: _scannerController);
-    } else {
-      content = ScannerTryAgain(onTryAgain: () {
-        _startScanner();
-        setState(() {
-          _scannerStarted = true;
-          _errorString = null;
-        });
-      });
-    }
+    final Widget content = Awaited(
+      future: _scannerProcessor,
+      loading: (_) => const ScannerProcessing(),
+      error: (_, __, ___) => ScannerTryAgain(
+        onTryAgain: () {
+          _startScanner();
+          setState(() {
+            _scannerStarted = true;
+            _errorString = null;
+          });
+        },
+      ),
+      data: (_, __) {
+        if (_errorString == null) {
+          return Scanner(
+            controller: _scannerController,
+          );
+        } else {
+          return ScannerTryAgain(
+            onTryAgain: () {
+              _startScanner();
+              setState(() {
+                _scannerStarted = true;
+                _errorString = null;
+              });
+            },
+          );
+        }
+      },
+    );
 
     return UiSubordinate(
       commandProvider: ref.read(foodScanViewModel.notifier).commandProvider,

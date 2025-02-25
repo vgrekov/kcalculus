@@ -50,15 +50,15 @@ class _$AgreementColorsCopyWithImpl<$Res, $Val extends AgreementColors>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? backgroundColor = freezed,
-    Object? textColor = freezed,
+    Object? backgroundColor = null,
+    Object? textColor = null,
   }) {
     return _then(_value.copyWith(
-      backgroundColor: freezed == backgroundColor
+      backgroundColor: null == backgroundColor
           ? _value.backgroundColor
           : backgroundColor // ignore: cast_nullable_to_non_nullable
               as Color,
-      textColor: freezed == textColor
+      textColor: null == textColor
           ? _value.textColor
           : textColor // ignore: cast_nullable_to_non_nullable
               as Color,
@@ -90,15 +90,15 @@ class __$$AgreementColorsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? backgroundColor = freezed,
-    Object? textColor = freezed,
+    Object? backgroundColor = null,
+    Object? textColor = null,
   }) {
     return _then(_$AgreementColorsImpl(
-      backgroundColor: freezed == backgroundColor
+      backgroundColor: null == backgroundColor
           ? _value.backgroundColor
           : backgroundColor // ignore: cast_nullable_to_non_nullable
               as Color,
-      textColor: freezed == textColor
+      textColor: null == textColor
           ? _value.textColor
           : textColor // ignore: cast_nullable_to_non_nullable
               as Color,
@@ -127,16 +127,14 @@ class _$AgreementColorsImpl implements _AgreementColors {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AgreementColorsImpl &&
-            const DeepCollectionEquality()
-                .equals(other.backgroundColor, backgroundColor) &&
-            const DeepCollectionEquality().equals(other.textColor, textColor));
+            (identical(other.backgroundColor, backgroundColor) ||
+                other.backgroundColor == backgroundColor) &&
+            (identical(other.textColor, textColor) ||
+                other.textColor == textColor));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(backgroundColor),
-      const DeepCollectionEquality().hash(textColor));
+  int get hashCode => Object.hash(runtimeType, backgroundColor, textColor);
 
   /// Create a copy of AgreementColors
   /// with the given fields replaced by the non-null parameter values.

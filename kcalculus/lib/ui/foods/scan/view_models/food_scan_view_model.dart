@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
@@ -25,46 +26,77 @@ class FoodScanViewModel extends AutoDisposeNotifier<void> {
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
-  void readFood(String barcode) {
+  Future<void> readFood(String barcode) async {
     _log.finer('readFood() START');
 
     try {
       _log.finest('readFood() Reading food from barcode: $barcode');
 
-      final compressedBytes = base64.decode(barcode);
-      final bytes = gzip.decode(compressedBytes);
-      final jsonString = utf8.decode(bytes);
+      Food? food;
 
-      final Map<String, dynamic> json = jsonDecode(jsonString);
-      final jsonVersion = json['version'] as int?;
-      if (jsonVersion != Food.kVersion) {
-        _log.info(
-          '''
-          Version msimatch while reading food from barcode:
-          Expected ${Food.kVersion}, but found $jsonVersion
-          ''',
-        );
+      try {
+        food = _parseSharedFoodBarcode(barcode);
+      } catch (error) {
+        food = await _searchOpenFoodFacts(barcode);
 
-        _commander?.send(FoodScanCommand.showVersionMismatchNotification);
-
-        return;
+        if (food == null) {
+          rethrow;
+        }
       }
 
-      final food = Food.fromJson(json);
-
-      _log.info('Food read from barcode');
-
-      _commander?.send<Food, void>(
-        FoodScanCommand.provideFood,
-        payload: food,
-      );
+      if (food != null) {
+        _commander?.send<Food, void>(
+          FoodScanCommand.provideFood,
+          payload: food,
+        );
+      }
     } catch (error, stackTrace) {
-      _log.info('Failed to read food from barcode', error, stackTrace);
+      _log.severe('Failed to read food from barcode', error, stackTrace);
 
       _commander?.send(FoodScanCommand.showCantReadNotification);
     }
 
     _log.finer('readFood() END');
+  }
+
+  Food? _parseSharedFoodBarcode(String barcode) {
+    final compressedBytes = base64.decode(barcode);
+    final bytes = gzip.decode(compressedBytes);
+    final jsonString = utf8.decode(bytes);
+
+    final Map<String, dynamic> json = jsonDecode(jsonString);
+    final jsonVersion = json['version'] as int?;
+    if (jsonVersion != Food.kVersion) {
+      _log.info(
+        '''
+          Version msimatch while reading food from barcode:
+          Expected ${Food.kVersion}, but found $jsonVersion
+          ''',
+      );
+
+      _commander?.send(FoodScanCommand.showVersionMismatchNotification);
+
+      return null;
+    }
+
+    final food = Food.fromJson(json);
+
+    _log.info('Food read from barcode');
+
+    return food;
+  }
+
+  Future<Food?> _searchOpenFoodFacts(String barcode) async {
+    final openFoodFactsRepository =
+        await ref.read(openFoodFactsRepositoryProvider.future);
+
+    final food = await openFoodFactsRepository.getFoodByBarcode(barcode);
+
+    if (food != null) {
+      _log.info('Food found in OpenFoodFacts');
+    }
+
+    return food;
   }
 }
 
