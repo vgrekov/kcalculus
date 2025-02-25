@@ -23,9 +23,13 @@ import 'package:kcalculus/data/repositories/local/edible_repository.dart';
 import 'package:kcalculus/data/repositories/local/food_repository.dart';
 import 'package:kcalculus/data/repositories/local/meal_repository.dart';
 import 'package:kcalculus/data/repositories/meal_repository.dart';
+import 'package:kcalculus/data/repositories/open_food_facts_repository.dart';
+import 'package:kcalculus/data/services/app_config/app_config.dart';
+import 'package:kcalculus/data/services/app_config/local/app_config_service.dart';
 import 'package:kcalculus/data/services/local/app_settings/app_settings_shared_pref_service.dart';
 import 'package:kcalculus/data/services/local/database/database_manager.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
+import 'package:kcalculus/data/services/open_food_facts/open_food_facts_service.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 
 part 'repositories/local/converters/providers.dart';

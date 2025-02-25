@@ -116,3 +116,13 @@ final backupRepositoryProvider = Provider<BackupRepository>(
     );
   },
 );
+
+final openFoodFactsRepositoryProvider = FutureProvider<OpenFoodFactsRepository>(
+  (ref) async {
+    final service = await ref.watch(_openFoodFactsServiceProvider.future);
+
+    return OpenFoodFactsRepository(
+      service: service,
+    );
+  },
+);
