@@ -44,6 +44,7 @@ flutter:
   generate: true
 
   assets:
+    - assets/
     - assets/db/
     - assets/db/migrations/
     - assets/agreements/
