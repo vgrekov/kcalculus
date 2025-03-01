@@ -7,7 +7,8 @@ part 'meal_list_ui_state.freezed.dart';
 class MealListUiState with _$MealListUiState {
   const factory MealListUiState({
     required DateTime date,
-    required Future<List<Meal>> meals,
+    required Future<List<Meal>> dataLoader,
+    @Default([]) List<Meal> data,
     required bool showCalendar,
   }) = _MealListUiState;
 }

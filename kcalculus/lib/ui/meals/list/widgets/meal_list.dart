@@ -1,65 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/ui/common/widgets/paged_list_vew.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_item.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/messenger.dart';
 
 class MealList extends StatelessWidget with Messenger {
-  final List<Meal> meals;
-  final void Function(Meal meal) onSelectMeal;
-  final void Function(Meal meal) onDeleteMeal;
-  final bool readonly;
-
   const MealList({
     super.key,
-    required this.meals,
+    required this.items,
+    this.itemsLoader,
+    this.onRefresh,
     required this.onSelectMeal,
     required this.onDeleteMeal,
     this.readonly = false,
   });
 
+  final List<Meal> items;
+
+  final Future<dynamic>? itemsLoader;
+
+  final Future<dynamic> Function()? onRefresh;
+
+  final void Function(Meal) onSelectMeal;
+
+  final void Function(Meal) onDeleteMeal;
+
+  final bool readonly;
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: meals.length,
-      itemBuilder: (context, index) {
-        final meal = meals[index];
-        final mealListItem = MealListItem(
-          meal: meal,
-          onSelectMeal: onSelectMeal,
-        );
-        return readonly
-            ? mealListItem
-            : Dismissible(
-                key: UniqueKey(),
-                direction: DismissDirection.endToStart,
-                confirmDismiss: (direction) async {
-                  return await showConfirmation(
-                        context,
-                        l10n(context).messageMealDeletionConfirmation,
-                      ) ??
-                      false;
-                },
-                onDismissed: (direction) {
-                  onDeleteMeal(meal);
-                },
-                background: Container(
-                  color: Theme.of(context).colorScheme.tertiaryContainer,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Icon(
-                        Icons.delete,
-                        color:
-                            Theme.of(context).colorScheme.onTertiaryContainer,
-                      ),
-                    ),
-                  ),
-                ),
-                child: mealListItem,
-              );
-      },
+    return PagedListView<Meal>(
+      items: items,
+      itemsLoader: itemsLoader,
+      noItemsMessage: l10n(context).messageNoMeals,
+      onDeleteItem: onDeleteMeal,
+      confirmDeleteMessage: l10n(context).messageMealDeletionConfirmation,
+      onRefresh: onRefresh,
+      itemBuilder: (context, item) => MealListItem(
+        meal: item,
+        onSelectMeal: onSelectMeal,
+      ),
     );
   }
 }
