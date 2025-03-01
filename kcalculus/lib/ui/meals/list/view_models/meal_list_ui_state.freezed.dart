@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$MealListUiState {
   DateTime get date => throw _privateConstructorUsedError;
-  Future<List<Meal>> get meals => throw _privateConstructorUsedError;
+  Future<List<Meal>> get dataLoader => throw _privateConstructorUsedError;
+  List<Meal> get data => throw _privateConstructorUsedError;
   bool get showCalendar => throw _privateConstructorUsedError;
 
   /// Create a copy of MealListUiState
@@ -33,7 +34,11 @@ abstract class $MealListUiStateCopyWith<$Res> {
           MealListUiState value, $Res Function(MealListUiState) then) =
       _$MealListUiStateCopyWithImpl<$Res, MealListUiState>;
   @useResult
-  $Res call({DateTime date, Future<List<Meal>> meals, bool showCalendar});
+  $Res call(
+      {DateTime date,
+      Future<List<Meal>> dataLoader,
+      List<Meal> data,
+      bool showCalendar});
 }
 
 /// @nodoc
@@ -52,7 +57,8 @@ class _$MealListUiStateCopyWithImpl<$Res, $Val extends MealListUiState>
   @override
   $Res call({
     Object? date = null,
-    Object? meals = null,
+    Object? dataLoader = null,
+    Object? data = null,
     Object? showCalendar = null,
   }) {
     return _then(_value.copyWith(
@@ -60,10 +66,14 @@ class _$MealListUiStateCopyWithImpl<$Res, $Val extends MealListUiState>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      meals: null == meals
-          ? _value.meals
-          : meals // ignore: cast_nullable_to_non_nullable
+      dataLoader: null == dataLoader
+          ? _value.dataLoader
+          : dataLoader // ignore: cast_nullable_to_non_nullable
               as Future<List<Meal>>,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Meal>,
       showCalendar: null == showCalendar
           ? _value.showCalendar
           : showCalendar // ignore: cast_nullable_to_non_nullable
@@ -80,7 +90,11 @@ abstract class _$$MealListUiStateImplCopyWith<$Res>
       __$$MealListUiStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime date, Future<List<Meal>> meals, bool showCalendar});
+  $Res call(
+      {DateTime date,
+      Future<List<Meal>> dataLoader,
+      List<Meal> data,
+      bool showCalendar});
 }
 
 /// @nodoc
@@ -97,7 +111,8 @@ class __$$MealListUiStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? date = null,
-    Object? meals = null,
+    Object? dataLoader = null,
+    Object? data = null,
     Object? showCalendar = null,
   }) {
     return _then(_$MealListUiStateImpl(
@@ -105,10 +120,14 @@ class __$$MealListUiStateImplCopyWithImpl<$Res>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      meals: null == meals
-          ? _value.meals
-          : meals // ignore: cast_nullable_to_non_nullable
+      dataLoader: null == dataLoader
+          ? _value.dataLoader
+          : dataLoader // ignore: cast_nullable_to_non_nullable
               as Future<List<Meal>>,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Meal>,
       showCalendar: null == showCalendar
           ? _value.showCalendar
           : showCalendar // ignore: cast_nullable_to_non_nullable
@@ -121,18 +140,31 @@ class __$$MealListUiStateImplCopyWithImpl<$Res>
 
 class _$MealListUiStateImpl implements _MealListUiState {
   const _$MealListUiStateImpl(
-      {required this.date, required this.meals, required this.showCalendar});
+      {required this.date,
+      required this.dataLoader,
+      final List<Meal> data = const [],
+      required this.showCalendar})
+      : _data = data;
 
   @override
   final DateTime date;
   @override
-  final Future<List<Meal>> meals;
+  final Future<List<Meal>> dataLoader;
+  final List<Meal> _data;
+  @override
+  @JsonKey()
+  List<Meal> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
   @override
   final bool showCalendar;
 
   @override
   String toString() {
-    return 'MealListUiState(date: $date, meals: $meals, showCalendar: $showCalendar)';
+    return 'MealListUiState(date: $date, dataLoader: $dataLoader, data: $data, showCalendar: $showCalendar)';
   }
 
   @override
@@ -141,13 +173,16 @@ class _$MealListUiStateImpl implements _MealListUiState {
         (other.runtimeType == runtimeType &&
             other is _$MealListUiStateImpl &&
             (identical(other.date, date) || other.date == date) &&
-            (identical(other.meals, meals) || other.meals == meals) &&
+            (identical(other.dataLoader, dataLoader) ||
+                other.dataLoader == dataLoader) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
             (identical(other.showCalendar, showCalendar) ||
                 other.showCalendar == showCalendar));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, date, meals, showCalendar);
+  int get hashCode => Object.hash(runtimeType, date, dataLoader,
+      const DeepCollectionEquality().hash(_data), showCalendar);
 
   /// Create a copy of MealListUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -162,13 +197,16 @@ class _$MealListUiStateImpl implements _MealListUiState {
 abstract class _MealListUiState implements MealListUiState {
   const factory _MealListUiState(
       {required final DateTime date,
-      required final Future<List<Meal>> meals,
+      required final Future<List<Meal>> dataLoader,
+      final List<Meal> data,
       required final bool showCalendar}) = _$MealListUiStateImpl;
 
   @override
   DateTime get date;
   @override
-  Future<List<Meal>> get meals;
+  Future<List<Meal>> get dataLoader;
+  @override
+  List<Meal> get data;
   @override
   bool get showCalendar;
 

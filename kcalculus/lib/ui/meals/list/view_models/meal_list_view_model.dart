@@ -64,6 +64,10 @@ class MealListViewModel extends Notifier<MealListUiState> {
     _log.finer('saveMeal() END');
   }
 
+  Future<void> refresh() async {
+    await _doLoadFor(state.date);
+  }
+
   Future<void> deleteMeal(String id) async {
     _log.finer('deleteMeal() START');
 
@@ -112,9 +116,17 @@ class MealListViewModel extends Notifier<MealListUiState> {
   MealListUiState _loadFor(DateTime date) {
     return MealListUiState(
       date: date,
-      meals: ref.read(mealRepositoryProvider).getByDate(date),
+      dataLoader: _doLoadFor(date),
       showCalendar: false,
     );
+  }
+
+  Future<List<Meal>> _doLoadFor(DateTime date) async {
+    final data = await ref.read(mealRepositoryProvider).getByDate(date);
+
+    state = state.copyWith(data: data);
+
+    return data;
   }
 
   void _scheduleNextDaySwitch() {

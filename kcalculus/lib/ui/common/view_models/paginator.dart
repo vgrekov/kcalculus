@@ -18,16 +18,22 @@ class Paginator<Model> {
     _updateState(data);
   }
 
-  Future<void> loadNextPage() async {
+  Future<bool> loadNextPage() async {
     var data = _currentData();
 
     final nextPage = await _loadPage(data.length);
 
-    data = [
-      ...data,
-      ...nextPage,
-    ];
+    if (nextPage.isNotEmpty) {
+      data = [
+        ...data,
+        ...nextPage,
+      ];
 
-    _updateState(data);
+      _updateState(data);
+
+      return true;
+    }
+
+    return false;
   }
 }
