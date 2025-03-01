@@ -40,8 +40,8 @@ class EdibleSearchResults extends StatelessWidget {
       confirmDeleteMessage: confirmDeleteMessage,
       onRefresh: paginator?.refresh,
       onLoadNextPage: paginator?.loadNextPage,
-      itemBuilder: (context, index) => EdibleSearchResultsItem(
-        searchResult: items[index],
+      itemBuilder: (context, item) => EdibleSearchResultsItem(
+        searchResult: item,
         onSelectSearchResult: onSelectItem,
       ),
     );
