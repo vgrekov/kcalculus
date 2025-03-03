@@ -204,6 +204,8 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
           ),
           data: (context, _) {
             if (widget.items.isEmpty) {
+              _isEndReached = true;
+
               return SliverFillRemaining(
                 hasScrollBody: false,
                 child: Center(
@@ -216,6 +218,8 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
                 ),
               );
             } else {
+              _isEndReached = false;
+
               return _buildListView(context);
             }
           },
