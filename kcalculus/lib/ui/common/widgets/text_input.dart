@@ -62,12 +62,14 @@ class TextInput extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         labelStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+          color:
+              Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
           fontWeight: FontWeight.normal,
         ),
         labelText: labelText,
         hintStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+          color:
+              Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
           fontWeight: FontWeight.normal,
         ),
         hintText: hintText,

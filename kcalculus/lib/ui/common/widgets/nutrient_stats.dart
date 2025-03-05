@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/ui/common/themes/macro_nutrients.dart';
 import 'package:kcalculus/ui/common/widgets/macro_split_view.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
@@ -15,7 +14,6 @@ class NutrientStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final macroTheme = Theme.of(context).extension<MacroNutrientsTheme>()!;
     final macroSplit = nutrientData.getMacroSplit();
     return Container(
       padding: const EdgeInsets.only(
@@ -49,7 +47,7 @@ class NutrientStats extends StatelessWidget {
                 l10n(context).statFiber(
                     nb.formatDouble(context, nutrientData.fiberInGrams)),
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: macroTheme.fiberColor,
+                      color: Theme.of(context).colorScheme.tertiary,
                     ),
                 textAlign: TextAlign.center,
               )

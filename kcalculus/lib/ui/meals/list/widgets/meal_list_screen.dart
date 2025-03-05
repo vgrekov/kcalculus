@@ -154,13 +154,13 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
               Text(
                 l10n(context).screenMeals,
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
               ),
               Text(
                 dt.formatDateLocal(context, uiState.date),
                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
               ),
             ],
@@ -169,6 +169,7 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
             IconButton(
               onPressed: _toggleCalendar,
               icon: const Icon(Icons.calendar_month_outlined),
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ],
         ),

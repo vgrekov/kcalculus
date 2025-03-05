@@ -212,7 +212,7 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
                   child: Text(
                     widget.noItemsMessage ?? l10n(context).messageNoData,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                   ),
                 ),
@@ -232,8 +232,9 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
         ? scrollView
         : RefreshIndicator(
             onRefresh: _refresh,
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-            color: Theme.of(context).colorScheme.onSecondary,
+            backgroundColor:
+                Theme.of(context).colorScheme.surfaceContainerHighest,
+            color: Theme.of(context).colorScheme.primary,
             child: scrollView,
           );
   }

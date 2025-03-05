@@ -23,20 +23,21 @@ class ActionSettingTile extends StatelessWidget {
       onTap: onTap,
       leading: Icon(
         icon,
-        color: Theme.of(context).colorScheme.onSecondaryContainer,
+        color: Theme.of(context).colorScheme.onSurface,
       ),
       title: Text(
         title,
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
+        style: Theme.of(context)
+            .textTheme
+            .titleMedium!
+            .copyWith(color: Theme.of(context).colorScheme.onSurface),
       ),
       subtitle: subtitle == null
           ? null
           : Text(
               subtitle!,
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
             ),
     );

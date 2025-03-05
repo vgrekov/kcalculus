@@ -79,7 +79,7 @@ class MacroSplitView extends StatelessWidget {
                 l10n(context).statFatPercentage(
                     nb.formatDouble(context, macroSplit.fatPercentage)),
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
               ),
             ),
@@ -102,7 +102,7 @@ class MacroSplitView extends StatelessWidget {
                 l10n(context).statCarbsPercentage(
                     nb.formatDouble(context, macroSplit.carbsPercentage)),
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
               ),
             ),
@@ -124,7 +124,7 @@ class MacroSplitView extends StatelessWidget {
                 l10n(context).statProteinPercentage(
                     nb.formatDouble(context, macroSplit.proteinPercentage)),
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
               ),
             ),

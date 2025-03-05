@@ -19,21 +19,21 @@ class AppThemeSettingTile extends StatelessWidget {
       onTap: onTap,
       leading: Icon(
         Icons.format_paint,
-        color: Theme.of(context).colorScheme.onSecondaryContainer,
+        color: Theme.of(context).colorScheme.onSurface,
       ),
       title: Row(
         children: [
           Text(
             l10n(context).settingAppTheme,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
           ),
           const Spacer(),
           Text(
             theme?.localName(l10n(context)) ?? '',
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
           ),
         ],
@@ -41,7 +41,7 @@ class AppThemeSettingTile extends StatelessWidget {
       trailing: Icon(
         Icons.arrow_forward_ios,
         size: 16,
-        color: Theme.of(context).colorScheme.onSecondaryContainer,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
     );
   }

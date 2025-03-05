@@ -57,7 +57,7 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
           title: Text(
             widget.measure.localName(context),
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -79,12 +79,12 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
                     children: [
                       Text(
                         l10n(context).labelEstimatedTotal,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelMedium!
-                            .copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.labelMedium!.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

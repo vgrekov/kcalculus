@@ -23,7 +23,7 @@ class EdibleSearchResultsItem extends StatelessWidget {
       title: Text(
         searchResult.name,
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
@@ -33,7 +33,7 @@ class EdibleSearchResultsItem extends StatelessWidget {
           : Text(
               searchResult.description,
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -48,14 +48,14 @@ class EdibleSearchResultsItem extends StatelessWidget {
                 ? l10n(context).labelNotEatenYet
                 : l10n(context).labelLastEatenAt,
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
           ),
           if (searchResult.lastEatenAt != null)
             Text(
               dt.formatDateLocal(context, searchResult.lastEatenAt!),
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
             ),
         ],

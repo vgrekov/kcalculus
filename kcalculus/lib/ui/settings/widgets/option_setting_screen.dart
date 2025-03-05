@@ -30,7 +30,7 @@ class OptionSettingScreen<T> extends StatelessWidget {
         title: Text(
           title,
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
         ),
       ),
@@ -44,9 +44,7 @@ class OptionSettingScreen<T> extends StatelessWidget {
                   title: Text(
                     optionTitleProvider(option),
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSecondaryContainer,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                   ),
                   trailing: option != selectedOption
@@ -54,9 +52,7 @@ class OptionSettingScreen<T> extends StatelessWidget {
                       : Icon(
                           Icons.check,
                           size: 16,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSecondaryContainer,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                   onTap: () {
                     _selectOption(context, option);

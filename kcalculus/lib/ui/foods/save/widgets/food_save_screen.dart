@@ -200,7 +200,7 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
               onPressed: _tryExit,
               icon: Icon(
                 Icons.close,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             centerTitle: true,
@@ -209,13 +209,18 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
                   ? l10n(context).screenEditFood
                   : l10n(context).screenAddFood,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
             ),
             actions: [
               TextButton(
                 onPressed: _saveFood,
-                child: Text(l10n(context).actionSave),
+                child: Text(
+                  l10n(context).actionSave,
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                ),
               ),
             ],
           ),

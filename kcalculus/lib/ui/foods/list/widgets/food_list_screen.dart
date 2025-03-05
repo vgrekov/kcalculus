@@ -162,7 +162,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
           title: Text(
             l10n(context).screenFoods,
             style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
           ),
           bottom: PreferredSize(
@@ -176,15 +176,17 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
                 controller: _searchController,
                 prefix: IconButton(
                   onPressed: _scanFood,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.qr_code_scanner,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 hintText: l10n(context).hintEdibleSearchBox,
                 suffix: IconButton(
                   onPressed: _resetSearchQuery,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.clear,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 textCapitalization: TextCapitalization.words,

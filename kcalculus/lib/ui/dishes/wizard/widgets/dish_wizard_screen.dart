@@ -268,7 +268,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
                 onPressed: _tryExit,
                 icon: Icon(
                   Icons.close,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               centerTitle: true,
@@ -280,15 +280,15 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
                         ? l10n(context).screenAddDish
                         : l10n(context).screenEditDish,
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                   ),
                   if (scaffoldConfig?.subtitle != null)
                     Text(
                       scaffoldConfig!.subtitle!,
                       style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
                     ),
                 ],
@@ -296,7 +296,12 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
               actions: [
                 TextButton(
                   onPressed: _saveDish,
-                  child: Text(l10n(context).actionSave),
+                  child: Text(
+                    l10n(context).actionSave,
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                  ),
                 ),
               ],
             ),

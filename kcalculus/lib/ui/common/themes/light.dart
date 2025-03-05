@@ -1,16 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:kcalculus/ui/common/themes/macro_nutrients.dart';
+part of 'themes.dart';
 
-final _colorScheme = ColorScheme.fromSeed(
+final _lightColorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
-  seedColor: const Color.fromARGB(255, 187, 153, 237),
-  surface: const Color.fromARGB(255, 219, 217, 223),
+  seedColor: _kSeedColor,
 );
 
-final theme = ThemeData().copyWith(
-  scaffoldBackgroundColor: _colorScheme.surface,
-  colorScheme: _colorScheme,
+final kLightTheme = ThemeData().copyWith(
+  scaffoldBackgroundColor: _lightColorScheme.surface,
+  colorScheme: _lightColorScheme,
   textTheme: GoogleFonts.ubuntuCondensedTextTheme().copyWith(
     titleSmall: GoogleFonts.ubuntuCondensed(
       fontWeight: FontWeight.bold,
@@ -24,10 +21,9 @@ final theme = ThemeData().copyWith(
   ),
   extensions: <ThemeExtension<dynamic>>[
     const MacroNutrientsTheme(
-      fatColor: Color.fromARGB(255, 92, 100, 64),
-      carbsColor: Color.fromARGB(255, 141, 50, 14),
-      fiberColor: Color.fromARGB(255, 117, 121, 11),
-      proteinColor: Color.fromARGB(255, 118, 1, 40),
+      fatColor: Color.fromARGB(255, 188, 205, 134),
+      carbsColor: Color.fromARGB(255, 255, 76, 3),
+      proteinColor: Color.fromARGB(255, 202, 3, 70),
     ),
   ],
 );

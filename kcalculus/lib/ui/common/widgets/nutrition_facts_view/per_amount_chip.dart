@@ -24,7 +24,7 @@ class PerAmountChip extends StatelessWidget {
           amount.unit.localName(context),
         ),
         style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
       ),
       color: WidgetStateProperty.resolveWith(
@@ -32,7 +32,9 @@ class PerAmountChip extends StatelessWidget {
       selected: selected,
       side: WidgetStateBorderSide.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
-          return BorderSide(color: Theme.of(context).colorScheme.onSurface);
+          return BorderSide(
+            color: Theme.of(context).colorScheme.onSurface,
+          );
         }
 
         return BorderSide.none;

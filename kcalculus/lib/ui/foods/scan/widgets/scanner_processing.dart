@@ -11,7 +11,7 @@ class ScannerProcessing extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
       child: const SizedBox(

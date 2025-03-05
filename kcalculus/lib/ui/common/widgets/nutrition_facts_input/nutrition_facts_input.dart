@@ -253,20 +253,20 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                 IconButton(
                   onPressed: !isDeletable ? null : _deleteRecord,
                   icon: const Icon(Icons.remove),
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.secondary,
                   iconSize: 24,
                 ),
               Text(
                 l10n(context).titleNutritionFacts,
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
               ),
               if (widget.enabled)
                 IconButton(
                   onPressed: !isLastRecord ? null : _addRecord,
                   icon: const Icon(Icons.add),
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.secondary,
                   iconSize: 24,
                 ),
             ],
@@ -279,7 +279,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
               IconButton(
                 onPressed: _recordIndex <= 0 ? null : _prevRecord,
                 icon: const Icon(Icons.arrow_back_ios_new),
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.secondary,
                 iconSize: 24,
               ),
               const SizedBox(width: 8),
@@ -303,7 +303,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
                     ? null
                     : _nextRecord,
                 icon: const Icon(Icons.arrow_forward_ios),
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.secondary,
                 iconSize: 24,
               ),
             ],
@@ -313,7 +313,7 @@ class _NutritionFactsInputState extends State<NutritionFactsInput>
             l10n(context)
                 .mOfN(_recordIndex + 1, _nutritionFactsUiStates.length),
             style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
           ),
           const SizedBox(height: 16),

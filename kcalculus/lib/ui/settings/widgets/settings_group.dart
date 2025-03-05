@@ -23,7 +23,7 @@ class SettingsGroup extends StatelessWidget {
             child: Text(
               title!,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
             ),
           ),
@@ -31,13 +31,13 @@ class SettingsGroup extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Material(
             borderRadius: BorderRadius.circular(8),
-            color: Theme.of(context).colorScheme.secondaryContainer,
+            color: Theme.of(context).colorScheme.surfaceContainerLow,
             clipBehavior: Clip.antiAlias,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: ListTile.divideTiles(
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.outlineVariant,
                 tiles: children,
               ).toList(),
             ),

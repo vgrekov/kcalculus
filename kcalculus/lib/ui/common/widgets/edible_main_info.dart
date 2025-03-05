@@ -18,7 +18,7 @@ class EdibleMainInfo extends StatelessWidget {
         Text(
           edible.name,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
           textAlign: TextAlign.center,
           maxLines: 3,
@@ -27,7 +27,7 @@ class EdibleMainInfo extends StatelessWidget {
         Text(
           edible.description,
           style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
           textAlign: TextAlign.center,
           maxLines: 3,
