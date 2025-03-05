@@ -21,7 +21,7 @@ class NutritionStatRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle = this.textStyle ??
         Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
+              color: Theme.of(context).colorScheme.onSurface,
             );
 
     return Row(

@@ -261,20 +261,25 @@ class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
               onPressed: _exit,
               icon: Icon(
                 Icons.close,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             centerTitle: true,
             title: Text(
               widget.title,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
             ),
             actions: [
               TextButton(
                 onPressed: _savePortion,
-                child: Text(l10n(context).actionSave),
+                child: Text(
+                  l10n(context).actionSave,
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                ),
               ),
             ],
           ),

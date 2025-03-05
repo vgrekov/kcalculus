@@ -43,7 +43,7 @@ class _NutritionFactsViewState extends State<NutritionFactsView> {
             Text(
               l10n(context).labelPer,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
             ),
             ...widget.nutritionFacts.indexed.map(
@@ -62,25 +62,19 @@ class _NutritionFactsViewState extends State<NutritionFactsView> {
         Divider(
           height: 24,
           thickness: 4,
-          color: Theme.of(context)
-              .colorScheme
-              .onPrimaryContainer
-              .withOpacity(0.75),
+          color: Theme.of(context).colorScheme.outlineVariant,
         ),
         NutritionStatRow(
           labelText: l10n(context).labelCalories,
           amountValue: nf.nutrientData.calories,
           textStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
         ),
         Divider(
           height: 20,
           thickness: 8,
-          color: Theme.of(context)
-              .colorScheme
-              .onPrimaryContainer
-              .withOpacity(0.75),
+          color: Theme.of(context).colorScheme.outlineVariant,
         ),
         NutritionStatRow(
           labelText: l10n(context).labelFat,
@@ -90,10 +84,7 @@ class _NutritionFactsViewState extends State<NutritionFactsView> {
         Divider(
           height: 16,
           thickness: 2,
-          color: Theme.of(context)
-              .colorScheme
-              .onPrimaryContainer
-              .withOpacity(0.75),
+          color: Theme.of(context).colorScheme.outlineVariant,
         ),
         NutritionStatRow(
           labelText: l10n(context).labelCarbs,
@@ -107,17 +98,14 @@ class _NutritionFactsViewState extends State<NutritionFactsView> {
             amountValue: nf.nutrientData.fiberInGrams,
             amountUnit: Unit.gram,
             textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
           ),
         ),
         Divider(
           height: 16,
           thickness: 2,
-          color: Theme.of(context)
-              .colorScheme
-              .onPrimaryContainer
-              .withOpacity(0.75),
+          color: Theme.of(context).colorScheme.outlineVariant,
         ),
         NutritionStatRow(
           labelText: l10n(context).labelProtein,

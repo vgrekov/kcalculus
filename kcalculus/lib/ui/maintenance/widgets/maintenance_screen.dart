@@ -19,15 +19,13 @@ class MaintenanceScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LinearProgressIndicator(
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              color: Theme.of(context).colorScheme.secondary,
               minHeight: 8,
             ),
             const SizedBox(height: 16),
             Text(
               value(context),
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
             ),
           ],
@@ -39,7 +37,6 @@ class MaintenanceScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LinearProgressIndicator(
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               color: Theme.of(context).colorScheme.error,
               minHeight: 8,
               value: 1,
@@ -50,7 +47,7 @@ class MaintenanceScreen extends ConsumerWidget {
                   ? error.localizedMessage(l10n(context))
                   : error.toString(),
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onErrorContainer,
+                    color: Theme.of(context).colorScheme.error,
                   ),
             ),
           ],
@@ -61,7 +58,7 @@ class MaintenanceScreen extends ConsumerWidget {
     }
 
     return Container(
-      color: Theme.of(context).colorScheme.primaryContainer,
+      color: Theme.of(context).colorScheme.surface,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(32, 300, 32, 32),
         child: Column(

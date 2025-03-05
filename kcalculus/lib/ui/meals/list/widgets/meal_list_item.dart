@@ -25,13 +25,13 @@ class MealListItem extends StatelessWidget {
       leading: Text(
         dt.formatTimeLocal(context, meal.eatenAt),
         style: Theme.of(context).textTheme.labelSmall!.copyWith(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
       ),
       title: Text(
         meal.edible.name,
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
@@ -41,7 +41,7 @@ class MealListItem extends StatelessWidget {
           : Text(
               meal.edible.description,
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -57,7 +57,7 @@ class MealListItem extends StatelessWidget {
               meal.amount.unit.localName(context),
             ),
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
           ),
           if (nutrientData != null)
@@ -65,7 +65,7 @@ class MealListItem extends StatelessWidget {
               l10n(context).statCalories(
                   nb.formatDouble(context, nutrientData.calories)),
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
             ),
         ],

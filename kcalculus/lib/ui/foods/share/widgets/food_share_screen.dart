@@ -27,7 +27,7 @@ class FoodShareScreen extends ConsumerWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: Padding(
           padding: EdgeInsets.all(32),
           child: Column(
@@ -37,10 +37,10 @@ class FoodShareScreen extends ConsumerWidget {
               QrImageView(
                 data: data,
                 dataModuleStyle: QrDataModuleStyle(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 eyeStyle: QrEyeStyle(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onSurface,
                   eyeShape: QrEyeShape.square,
                 ),
                 version: QrVersions.auto,

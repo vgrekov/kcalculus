@@ -194,7 +194,6 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
         ),
         clipBehavior: Clip.hardEdge,
         child: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           body: Padding(
             padding: EdgeInsets.all(32),
             child: Column(

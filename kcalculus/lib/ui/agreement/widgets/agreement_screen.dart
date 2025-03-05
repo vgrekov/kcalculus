@@ -33,9 +33,9 @@ class _AgreementScreenState extends ConsumerState<AgreementScreen> {
   }
 
   void _loadAgreement() async {
-    final backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+    final backgroundColor = Theme.of(context).colorScheme.surface;
 
-    final textColor = Theme.of(context).colorScheme.onPrimaryContainer;
+    final textColor = Theme.of(context).colorScheme.onSurface;
 
     _webViewController.setBackgroundColor(backgroundColor);
 
@@ -56,14 +56,12 @@ class _AgreementScreenState extends ConsumerState<AgreementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         centerTitle: true,
         title: Text(
           l10n(context).screenAgreement,
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
         ),
       ),
@@ -97,8 +95,8 @@ class _AgreementScreenState extends ConsumerState<AgreementScreen> {
       bottomNavigationBar: Awaited(
         future: _agreementLoader,
         data: (context, _) => Container(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          padding: const EdgeInsets.fromLTRB(32, 8, 32, 32),
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          padding: const EdgeInsets.fromLTRB(32, 16, 32, 32),
           child: SizedBox(
             width: double.infinity,
             child: TextButton(

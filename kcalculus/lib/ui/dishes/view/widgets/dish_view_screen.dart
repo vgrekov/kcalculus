@@ -134,7 +134,7 @@ class DishViewScreen extends ConsumerWidget with Messenger {
               },
               icon: Icon(
                 Icons.share,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             IconButton(
@@ -143,7 +143,7 @@ class DishViewScreen extends ConsumerWidget with Messenger {
               },
               icon: Icon(
                 Icons.copy,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             IconButton(
@@ -152,7 +152,7 @@ class DishViewScreen extends ConsumerWidget with Messenger {
               },
               icon: Icon(
                 Icons.edit,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             if (onDeleteDish != null)
@@ -162,7 +162,7 @@ class DishViewScreen extends ConsumerWidget with Messenger {
                 },
                 icon: Icon(
                   Icons.delete,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
           ],

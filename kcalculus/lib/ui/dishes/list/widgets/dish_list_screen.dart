@@ -146,7 +146,7 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
           title: Text(
             l10n(context).screenDishes,
             style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
           ),
           bottom: PreferredSize(
@@ -161,8 +161,9 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
                 hintText: l10n(context).hintEdibleSearchBox,
                 suffix: IconButton(
                     onPressed: _resetSearchQuery,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.clear,
+                      color: Theme.of(context).colorScheme.onSurface,
                     )),
                 textCapitalization: TextCapitalization.words,
                 textInputAction: TextInputAction.search,

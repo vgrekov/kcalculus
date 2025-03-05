@@ -15,7 +15,7 @@ class ScannerError extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Theme.of(context).colorScheme.error,
+        color: Theme.of(context).colorScheme.errorContainer,
       ),
       child: Center(
         child: Text(
@@ -23,7 +23,7 @@ class ScannerError extends StatelessWidget {
               ? l10n(context).messageNoCameraPermission
               : l10n(context).messageUnknownError,
           style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onError,
+                color: Theme.of(context).colorScheme.onErrorContainer,
               ),
           textAlign: TextAlign.center,
           maxLines: 3,

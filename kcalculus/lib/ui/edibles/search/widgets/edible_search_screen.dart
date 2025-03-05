@@ -124,14 +124,16 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
                 hintText: l10n(context).hintEdibleSearchBox,
                 prefix: IconButton(
                   onPressed: _exit,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.arrow_back,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 suffix: IconButton(
                   onPressed: _resetSearchQuery,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.clear,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 textCapitalization: TextCapitalization.words,

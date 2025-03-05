@@ -15,14 +15,14 @@ Future<T?> _showMessageDialog<T>({
   final title = Text(
     messageType.localName(context),
     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
   );
 
   final content = Text(
     message,
     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
   );
 
@@ -34,7 +34,7 @@ Future<T?> _showMessageDialog<T>({
       child: Text(
         action.key,
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+              color: Theme.of(context).colorScheme.primary,
             ),
       ),
     );

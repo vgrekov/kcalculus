@@ -24,15 +24,14 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         centerTitle: true,
         title: Text(
           l10n(context).screenConsent,
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium!
+              .copyWith(color: Theme.of(context).colorScheme.onSurface),
         ),
       ),
       body: Padding(
@@ -44,7 +43,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
             Text(
               l10n(context).dataUsageMotivationMessage,
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
               textAlign: TextAlign.center,
             ),
@@ -53,7 +52,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
               title: Text(
                 l10n(context).settingCrashReportingTitle,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
               ),
               value: _crashlyticsEnabled,
@@ -68,8 +67,8 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        padding: const EdgeInsets.fromLTRB(32, 8, 32, 32),
+        color: Theme.of(context).colorScheme.surfaceContainer,
+        padding: const EdgeInsets.fromLTRB(32, 16, 32, 32),
         child: SizedBox(
           width: double.infinity,
           child: TextButton(

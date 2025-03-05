@@ -216,7 +216,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           title: Text(
             l10n(context).screenSettings,
             style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
           ),
         ),
