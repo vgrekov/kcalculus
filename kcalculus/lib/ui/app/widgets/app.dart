@@ -5,8 +5,7 @@ import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/ui/agreement/widgets/agreement_screen.dart';
 import 'package:kcalculus/ui/app/view_models/app_ui_state.dart';
 import 'package:kcalculus/ui/app/view_models/app_view_model.dart';
-import 'package:kcalculus/ui/common/themes/dark.dart' as dark;
-import 'package:kcalculus/ui/common/themes/light.dart' as light;
+import 'package:kcalculus/ui/common/themes/themes.dart';
 import 'package:kcalculus/ui/consent/widgets/consent_screen.dart';
 import 'package:kcalculus/ui/maintenance/widgets/maintenance_screen.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
@@ -33,11 +32,11 @@ class App extends ConsumerWidget {
           theme: switch (value.theme) {
             AppTheme.system => switch (
                   MediaQuery.of(context).platformBrightness) {
-                Brightness.light => light.theme,
-                Brightness.dark => dark.theme,
+                Brightness.light => kLightTheme,
+                Brightness.dark => kDarkTheme,
               },
-            AppTheme.light => light.theme,
-            AppTheme.dark => dark.theme,
+            AppTheme.light => kLightTheme,
+            AppTheme.dark => kDarkTheme,
           },
           navigatorKey: navigatorKey,
           home: switch (value.stage) {
