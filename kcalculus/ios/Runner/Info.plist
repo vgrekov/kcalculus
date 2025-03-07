@@ -51,5 +51,7 @@
 		<string>$(NSCameraUsageDescription)</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>$(NSPhotoLibraryUsageDescription)</string>
+		<key>GADApplicationIdentifier</key>
+		<string>ca-app-pub-2787380297611749~9504253255</string>
 	</dict>
 </plist>
