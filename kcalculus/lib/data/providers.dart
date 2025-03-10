@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/repositories/ad_repository.dart';
 import 'package:kcalculus/data/repositories/app_settings_repository.dart';
 import 'package:kcalculus/data/repositories/dish_repository.dart';
 import 'package:kcalculus/data/repositories/edible_repository.dart';
@@ -24,6 +25,7 @@ import 'package:kcalculus/data/repositories/local/food_repository.dart';
 import 'package:kcalculus/data/repositories/local/meal_repository.dart';
 import 'package:kcalculus/data/repositories/meal_repository.dart';
 import 'package:kcalculus/data/repositories/open_food_facts_repository.dart';
+import 'package:kcalculus/data/services/ad/ad_service.dart';
 import 'package:kcalculus/data/services/app_config/app_config.dart';
 import 'package:kcalculus/data/services/app_config/local/app_config_service.dart';
 import 'package:kcalculus/data/services/local/app_settings/app_settings_shared_pref_service.dart';

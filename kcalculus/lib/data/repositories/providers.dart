@@ -126,3 +126,13 @@ final openFoodFactsRepositoryProvider = FutureProvider<OpenFoodFactsRepository>(
     );
   },
 );
+
+final adRepositoryProvider = FutureProvider<AdRepository>(
+  (ref) async {
+    final service = await ref.watch(_adServiceProvider.future);
+
+    return AdRepository(
+      service: service,
+    );
+  },
+);

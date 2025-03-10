@@ -3,6 +3,7 @@ import 'package:kcalculus/data/exceptions/duplication_exception.dart';
 import 'package:kcalculus/data/exceptions/ingredients_cycle_exception.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/ui/common/view_models/ad_helper.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_step_view_model.dart';
@@ -29,6 +30,8 @@ class DishWizardViewModel
         DishWizardIngredientsStepViewModel,
         DishWizardMeasurementsStepViewModel {
   UiCommander<DishWizardCommand>? _commander;
+
+  late final _adHelper = AdHelper(getRef: () => ref);
 
   bool _hasChanges = false;
 
@@ -79,6 +82,8 @@ class DishWizardViewModel
 
       _log.info('Dish saved');
       _log.finest('saveDish() Saved dish ID: ${dish.id}');
+
+      await _adHelper.showInterstitialAd();
 
       _commander!.send(DishWizardCommand.exit);
     } on DuplicationException {

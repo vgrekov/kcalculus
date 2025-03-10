@@ -10,6 +10,11 @@ _$LocalAppConfigImpl _$$LocalAppConfigImplFromJson(Map<String, dynamic> json) =>
     _$LocalAppConfigImpl(
       openFoodFactsBaseUrl: json['openFoodFactsBaseUrl'] as String,
       contactEmail: json['contactEmail'] as String,
+      androidInterstitialAdUnitId:
+          json['androidInterstitialAdUnitId'] as String,
+      iOsInterstitialAdUnitId: json['iOsInterstitialAdUnitId'] as String,
+      androidUnlockAdUnitId: json['androidUnlockAdUnitId'] as String,
+      iOsUnlockAdUnitId: json['iOsUnlockAdUnitId'] as String,
     );
 
 Map<String, dynamic> _$$LocalAppConfigImplToJson(
@@ -17,4 +22,8 @@ Map<String, dynamic> _$$LocalAppConfigImplToJson(
     <String, dynamic>{
       'openFoodFactsBaseUrl': instance.openFoodFactsBaseUrl,
       'contactEmail': instance.contactEmail,
+      'androidInterstitialAdUnitId': instance.androidInterstitialAdUnitId,
+      'iOsInterstitialAdUnitId': instance.iOsInterstitialAdUnitId,
+      'androidUnlockAdUnitId': instance.androidUnlockAdUnitId,
+      'iOsUnlockAdUnitId': instance.iOsUnlockAdUnitId,
     };

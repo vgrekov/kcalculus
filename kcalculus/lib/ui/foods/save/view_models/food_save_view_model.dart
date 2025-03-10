@@ -5,6 +5,7 @@ import 'package:kcalculus/data/exceptions/duplication_exception.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
+import 'package:kcalculus/ui/common/view_models/ad_helper.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/foods/save/view_models/food_save_ui_state.dart';
@@ -22,6 +23,8 @@ enum FoodSaveCommand {
 class FoodSaveViewModel
     extends AutoDisposeFamilyNotifier<FoodSaveUiState, Food?> {
   UiCommander<FoodSaveCommand>? _commander;
+
+  late final _adHelper = AdHelper(getRef: () => ref);
 
   bool _hasChanges = false;
 
@@ -71,6 +74,8 @@ class FoodSaveViewModel
 
       _log.info('Food saved');
       _log.finest('saveFood() Saved food ID: ${food.id}');
+
+      await _adHelper.showInterstitialAd();
 
       _commander!.send(FoodSaveCommand.exit);
     } on DuplicationException {

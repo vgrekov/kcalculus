@@ -64,3 +64,16 @@ final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
     );
   },
 );
+
+final _adServiceProvider = FutureProvider<AdService>(
+  (ref) async {
+    final appConfig = await ref.watch(_appConfigProvider.future);
+
+    return AdService(
+      androidInterstitialAdUnitId: appConfig.androidInterstitialAdUnitId,
+      iOsInterstitialAdUnitId: appConfig.iOsInterstitialAdUnitId,
+      androidUnlockAdUnitId: appConfig.androidUnlockAdUnitId,
+      iOsUnlockAdUnitId: appConfig.iOsUnlockAdUnitId,
+    );
+  },
+);
