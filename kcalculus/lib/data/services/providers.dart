@@ -42,7 +42,7 @@ final _databaseServiceProvider =
 );
 
 final _envProvider = Provider<String>(
-  (_) => String.fromEnvironment('env', defaultValue: 'dev'),
+  (_) => const String.fromEnvironment('ENV', defaultValue: 'dev'),
 );
 
 final _appConfigProvider = FutureProvider<AppConfig>(
