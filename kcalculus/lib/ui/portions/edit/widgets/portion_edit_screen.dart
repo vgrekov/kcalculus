@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/portion.dart';
+import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
+import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/edible_name_input.dart';
@@ -14,7 +16,6 @@ import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/portions/edit/view_models/portion_edit_ui_state.dart';
 import 'package:kcalculus/ui/portions/edit/view_models/portion_edit_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 
 class PortionEditScreen extends ConsumerStatefulWidget {

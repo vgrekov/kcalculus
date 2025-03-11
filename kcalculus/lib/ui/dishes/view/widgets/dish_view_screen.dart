@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
+import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/edible_main_info.dart';
 import 'package:kcalculus/ui/common/widgets/ingredient_list.dart';
@@ -12,12 +14,11 @@ import 'package:kcalculus/ui/dishes/view/view_models/dish_view_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/ui/foods/share/widgets/food_share_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('DishViewScreen');
 
-class DishViewScreen extends ConsumerWidget with Messenger {
+class DishViewScreen extends ConsumerWidget with WidgetMessenger {
   DishViewScreen({
     super.key,
     required this.dishId,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/nutrition_ratio_input.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_ui_state/dish_wizard_measurements_step_ui_state.dart';
@@ -10,7 +11,6 @@ import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ui_state.dart
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
 
 class DishWizardMeasurementsPage extends ConsumerStatefulWidget {
   const DishWizardMeasurementsPage({

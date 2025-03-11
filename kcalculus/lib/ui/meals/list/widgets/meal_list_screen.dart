@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
+import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:kcalculus/ui/common/widgets/nutrient_stats.dart';
@@ -14,10 +16,9 @@ import 'package:kcalculus/ui/portions/add/widgets/portion_add_screen.dart';
 import 'package:kcalculus/ui/portions/edit/widgets/portion_edit_screen.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
 import 'package:kcalculus/utils/progressive.dart';
 
-class MealListScreen extends ConsumerStatefulWidget with Messenger {
+class MealListScreen extends ConsumerStatefulWidget with WidgetMessenger {
   const MealListScreen({super.key});
 
   @override
