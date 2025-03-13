@@ -77,3 +77,11 @@ final _adServiceProvider = FutureProvider<AdService>(
     );
   },
 );
+
+final _purchaseServiceProvider = Provider<PurchaseService>(
+  (ref) => const PurchaseService(),
+);
+
+final _rewardServiceProvider = Provider<RewardService>(
+  (ref) => const RewardService(),
+);

@@ -15,6 +15,8 @@ _$LocalAppConfigImpl _$$LocalAppConfigImplFromJson(Map<String, dynamic> json) =>
       iOsInterstitialAdUnitId: json['iOsInterstitialAdUnitId'] as String,
       androidUnlockAdUnitId: json['androidUnlockAdUnitId'] as String,
       iOsUnlockAdUnitId: json['iOsUnlockAdUnitId'] as String,
+      unlockWithAdDurationMins:
+          (json['unlockWithAdDurationMins'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$LocalAppConfigImplToJson(
@@ -26,4 +28,5 @@ Map<String, dynamic> _$$LocalAppConfigImplToJson(
       'iOsInterstitialAdUnitId': instance.iOsInterstitialAdUnitId,
       'androidUnlockAdUnitId': instance.androidUnlockAdUnitId,
       'iOsUnlockAdUnitId': instance.iOsUnlockAdUnitId,
+      'unlockWithAdDurationMins': instance.unlockWithAdDurationMins,
     };

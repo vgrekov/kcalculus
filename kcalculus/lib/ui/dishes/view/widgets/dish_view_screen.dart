@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
+import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -35,12 +37,16 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
     DishViewCommand.editDish: _doEditDish,
   };
 
-  void _shareDish(BuildContext context, Dish dish) {
-    showModalBottomSheet(
-      context: context,
-      scrollControlDisabledMaxHeightRatio: 0.9,
-      builder: (context) => FoodShareScreen(food: dish.toFood()),
-    );
+  final _accessGuardKey = UniqueKey();
+
+  void _shareDish(BuildContext context, WidgetRef ref, Dish dish) {
+    premiumFeature(ref, _accessGuardKey, () {
+      showModalBottomSheet(
+        context: context,
+        scrollControlDisabledMaxHeightRatio: 0.9,
+        builder: (context) => FoodShareScreen(food: dish.toFood()),
+      );
+    });
   }
 
   void _copyDish(WidgetRef ref) {
@@ -131,7 +137,7 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
           [
             IconButton(
               onPressed: () {
-                _shareDish(context, dish);
+                _shareDish(context, ref, dish);
               },
               icon: Icon(
                 Icons.share,
@@ -247,18 +253,21 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
       ),
     );
 
-    return UiSubordinate<DishViewCommand>(
-      commandProvider:
-          ref.read(dishViewViewModel(dishId).notifier).commandProvider,
-      assignments: _assignments,
-      child: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            actions: appBarActions,
+    return AccessGuard(
+      key: _accessGuardKey,
+      child: UiSubordinate<DishViewCommand>(
+        commandProvider:
+            ref.read(dishViewViewModel(dishId).notifier).commandProvider,
+        assignments: _assignments,
+        child: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              actions: appBarActions,
+            ),
+            body: body,
+            bottomNavigationBar: bottomNavigationBar,
           ),
-          body: body,
-          bottomNavigationBar: bottomNavigationBar,
         ),
       ),
     );

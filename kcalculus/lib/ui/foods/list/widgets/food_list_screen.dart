@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
+import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
+import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
+import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:kcalculus/ui/common/widgets/edible_search_results.dart';
@@ -13,8 +17,6 @@ import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/scan/widgets/food_scan_screen.dart';
 import 'package:kcalculus/ui/foods/view/widgets/food_view_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
-import 'package:kcalculus/utils/progressive.dart';
 
 class FoodListScreen extends ConsumerStatefulWidget {
   const FoodListScreen({super.key});
@@ -26,7 +28,7 @@ class FoodListScreen extends ConsumerStatefulWidget {
 }
 
 class _FoodListScreenState extends ConsumerState<FoodListScreen>
-    with StateMessenger, ProgressiveState {
+    with StateMessenger {
   final _searchController = TextEditingController();
 
   late final _assignments = <FoodListCommand, UiAssignment>{
@@ -36,6 +38,8 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
         _showDeletionFailureNotification,
     FoodListCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
   };
+
+  final _accessGuardKey = UniqueKey();
 
   @override
   void initState() {
@@ -47,15 +51,17 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
   }
 
   void _scanFood() async {
-    final food = await showModalBottomSheet<Food>(
-      context: context,
-      scrollControlDisabledMaxHeightRatio: 0.9,
-      builder: (context) => const FoodScanScreen(),
-    );
+    premiumFeature(ref, _accessGuardKey, () async {
+      final food = await showModalBottomSheet<Food>(
+        context: context,
+        scrollControlDisabledMaxHeightRatio: 0.9,
+        builder: (context) => const FoodScanScreen(),
+      );
 
-    if (food != null) {
-      _addFood(food);
-    }
+      if (food != null) {
+        _addFood(food);
+      }
+    });
   }
 
   void _updateSearchQuery(String query) {
@@ -94,13 +100,15 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
   }
 
   void _deleteFood(String id) {
-    wrapInProgress(
+    ProgressOverlay.wrap(
+      context,
       ref.read(foodListViewModel.notifier).deleteFood(id),
     );
   }
 
   void _restoreFood(String id) {
-    wrapInProgress(
+    ProgressOverlay.wrap(
+      context,
       ref.read(foodListViewModel.notifier).restoreFood(id),
     );
   }
@@ -153,74 +161,78 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
 
     final viewModel = ref.read(foodListViewModel.notifier);
 
-    return UiSubordinate<FoodListCommand>(
-      commandProvider: viewModel.commandProvider,
-      assignments: _assignments,
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            l10n(context).screenFoods,
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-          ),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(50),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
-              child: TextInput(
-                controller: _searchController,
-                prefix: IconButton(
-                  onPressed: _scanFood,
-                  icon: Icon(
-                    Icons.qr_code_scanner,
+    return AccessGuard(
+      key: _accessGuardKey,
+      child: UiSubordinate<FoodListCommand>(
+        commandProvider: viewModel.commandProvider,
+        assignments: _assignments,
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              l10n(context).screenFoods,
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(50),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
                 ),
-                hintText: l10n(context).hintEdibleSearchBox,
-                suffix: IconButton(
-                  onPressed: _resetSearchQuery,
-                  icon: Icon(
-                    Icons.clear,
-                    color: Theme.of(context).colorScheme.onSurface,
+                child: TextInput(
+                  controller: _searchController,
+                  prefix: IconButton(
+                    onPressed: _scanFood,
+                    icon: Icon(
+                      Icons.qr_code_scanner,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
+                  hintText: l10n(context).hintEdibleSearchBox,
+                  suffix: IconButton(
+                    onPressed: _resetSearchQuery,
+                    icon: Icon(
+                      Icons.clear,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                  textCapitalization: TextCapitalization.words,
+                  textInputAction: TextInputAction.search,
+                  onChanged: _updateSearchQuery,
                 ),
-                textCapitalization: TextCapitalization.words,
-                textInputAction: TextInputAction.search,
-                onChanged: _updateSearchQuery,
               ),
             ),
           ),
-        ),
-        body: EdibleSearchResults(
-          items: uiState.data,
-          itemsLoader: uiState.dataLoader,
-          paginator: viewModel.searchHelper.paginator,
-          onSelectItem: _viewFood,
-          onDeleteItem: (searchResult) {
-            _deleteFood(searchResult.id);
-          },
-          noItemsMessage: l10n(context).messageFoodSearchNothingFound,
-          confirmDeleteMessage: l10n(context).messageFoodDeletionConfirmation,
-        ),
-        floatingActionButton: Awaited(
-          future: uiState.dataLoader,
-          data: (_, __) => FloatingActionButton(
-            onPressed: _addFood,
-            shape: const CircleBorder(),
-            child: const Icon(Icons.add),
+          body: EdibleSearchResults(
+            items: uiState.data,
+            itemsLoader: uiState.dataLoader,
+            paginator: viewModel.searchHelper.paginator,
+            onSelectItem: _viewFood,
+            onDeleteItem: (searchResult) {
+              _deleteFood(searchResult.id);
+            },
+            noItemsMessage: l10n(context).messageFoodSearchNothingFound,
+            confirmDeleteMessage: l10n(context).messageFoodDeletionConfirmation,
           ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: Container(
-          color: Theme.of(context).colorScheme.surfaceContainer,
-          padding: EdgeInsets.only(top: 32),
-          child: const ScreenTabBar(
-            selectedTab: ScreenTab.foods,
+          floatingActionButton: Awaited(
+            future: uiState.dataLoader,
+            data: (_, __) => FloatingActionButton(
+              onPressed: _addFood,
+              shape: const CircleBorder(),
+              child: const Icon(Icons.add),
+            ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: Container(
+            color: Theme.of(context).colorScheme.surfaceContainer,
+            padding: EdgeInsets.only(top: 32),
+            child: const ScreenTabBar(
+              selectedTab: ScreenTab.foods,
+            ),
           ),
         ),
       ),

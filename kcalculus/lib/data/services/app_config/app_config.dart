@@ -10,4 +10,6 @@ abstract interface class AppConfig {
   String get androidUnlockAdUnitId;
 
   String get iOsUnlockAdUnitId;
+
+  int get unlockWithAdDurationMins;
 }

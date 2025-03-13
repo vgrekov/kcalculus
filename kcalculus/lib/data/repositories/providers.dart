@@ -136,3 +136,16 @@ final adRepositoryProvider = FutureProvider<AdRepository>(
     );
   },
 );
+
+final accessLevelRepositoryProvider =
+    FutureProvider<AccessLevelRepository>((ref) async {
+  final appConfig = await ref.watch(_appConfigProvider.future);
+  final purchaseService = ref.watch(_purchaseServiceProvider);
+  final rewardService = ref.watch(_rewardServiceProvider);
+
+  return AccessLevelRepository(
+    appConfig: appConfig,
+    purchaseService: purchaseService,
+    rewardService: rewardService,
+  );
+});

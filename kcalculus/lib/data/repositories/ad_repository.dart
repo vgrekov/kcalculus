@@ -11,4 +11,8 @@ class AdRepository {
   Future<InterstitialAd?> loadInterstitialAd() {
     return _service.loadInterstitialAd();
   }
+
+  Future<RewardedAd?> loadUnlockAd() {
+    return _service.loadUnlockAd();
+  }
 }

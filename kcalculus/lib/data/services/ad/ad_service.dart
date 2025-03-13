@@ -56,4 +56,31 @@ class AdService {
 
     return completer.future;
   }
+
+  Future<RewardedAd?> loadUnlockAd() {
+    final completer = Completer<RewardedAd?>();
+
+    final adUnitId =
+        Platform.isAndroid ? _androidUnlockAdUnitId : _iOsUnlockAdUnitId;
+
+    RewardedAd.load(
+      adUnitId: adUnitId,
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          completer.complete(ad);
+        },
+        onAdFailedToLoad: (error) {
+          _log.info('Failed to load Ad: $adUnitId (error code ${error.code})');
+          if (error.code == _kErrorCodeNoFill) {
+            completer.complete(null);
+          } else {
+            completer.completeError(error);
+          }
+        },
+      ),
+    );
+
+    return completer.future;
+  }
 }
