@@ -17,7 +17,6 @@ import 'package:kcalculus/ui/edibles/search/widgets/edible_search_screen.dart';
 import 'package:kcalculus/ui/portions/add/view_models/portion_add_ui_state.dart';
 import 'package:kcalculus/ui/portions/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/progressive.dart';
 
 class PortionAddScreen extends ConsumerStatefulWidget {
   /// This screen will handle [onSavePortion]'s error handling
@@ -38,7 +37,7 @@ class PortionAddScreen extends ConsumerStatefulWidget {
 }
 
 class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
-    with StateMessenger, ProgressiveState {
+    with StateMessenger {
   final _form = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();

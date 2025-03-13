@@ -4,6 +4,7 @@ import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
+import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:kcalculus/ui/common/widgets/nutrient_stats.dart';
@@ -16,7 +17,6 @@ import 'package:kcalculus/ui/portions/add/widgets/portion_add_screen.dart';
 import 'package:kcalculus/ui/portions/edit/widgets/portion_edit_screen.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/progressive.dart';
 
 class MealListScreen extends ConsumerStatefulWidget with WidgetMessenger {
   const MealListScreen({super.key});
@@ -28,7 +28,7 @@ class MealListScreen extends ConsumerStatefulWidget with WidgetMessenger {
 }
 
 class _MealListScreenState extends ConsumerState<MealListScreen>
-    with StateMessenger, ProgressiveState {
+    with StateMessenger {
   late final _assignments = <MealListCommand, UiAssignment>{
     MealListCommand.showDeletionSuccessNotification:
         _showDeletionSuccessNotification,
@@ -79,19 +79,22 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   }
 
   Future<void> _saveMeal(Meal meal) {
-    return wrapInProgress(
+    return ProgressOverlay.wrap(
+      context,
       ref.read(mealListViewModel.notifier).saveMeal(meal),
     );
   }
 
   void _deleteMeal(Meal meal) {
-    wrapInProgress(
+    ProgressOverlay.wrap(
+      context,
       ref.read(mealListViewModel.notifier).deleteMeal(meal.id!),
     );
   }
 
   void _restoreMeal(String id) {
-    wrapInProgress(
+    ProgressOverlay.wrap(
+      context,
       ref.read(mealListViewModel.notifier).restoreMeal(id),
     );
   }

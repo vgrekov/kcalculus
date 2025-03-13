@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
+import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
@@ -14,7 +15,6 @@ import 'package:kcalculus/ui/settings/widgets/option_setting_screen.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
 import 'package:kcalculus/ui/settings/widgets/switch_setting_tile.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/progressive.dart';
 import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -30,7 +30,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen>
-    with StateMessenger, ProgressiveState {
+    with StateMessenger {
   late final _assignments = <AppSettingsCommand, UiAssignment>{
     AppSettingsCommand.shareBackup: _shareBackup,
     AppSettingsCommand.showBackupFailureNotification:
@@ -65,7 +65,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   }
 
   void _backup() async {
-    wrapInProgress(
+    ProgressOverlay.wrap(
+      context,
       ref.read(appSettingsViewModel.notifier).backup(),
     );
   }
@@ -88,8 +89,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         messageType: MessageType.warning,
       );
 
-      if (confirmed == true) {
-        wrapInProgress(
+      if (confirmed == true && mounted) {
+        ProgressOverlay.wrap(
+          context,
           ref.read(appSettingsViewModel.notifier).restore(fromFile),
         );
       }

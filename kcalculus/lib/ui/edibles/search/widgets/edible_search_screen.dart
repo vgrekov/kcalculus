@@ -3,13 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
+import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/edible_search_results.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/edibles/search/view_models/edible_search_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/progressive.dart';
 
 class EdibleSearchScreen extends ConsumerStatefulWidget {
   const EdibleSearchScreen({
@@ -26,7 +26,7 @@ class EdibleSearchScreen extends ConsumerStatefulWidget {
 }
 
 class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
-    with StateMessenger, ProgressiveState {
+    with StateMessenger {
   final _searchController = TextEditingController();
 
   late final _assignments = <EdibleSearchCommand, UiAssignment>{
@@ -61,7 +61,8 @@ class _EdibleSearchScreenState extends ConsumerState<EdibleSearchScreen>
   }
 
   void _selectSearchResult(EdibleSearchResult searchResult) async {
-    wrapInProgress(
+    ProgressOverlay.wrap(
+      context,
       ref
           .read(edibleSearchViewModel(widget.initialQuery).notifier)
           .selectEdible(searchResult),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
+import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/inattentive.dart';
 import 'package:kcalculus/ui/common/widgets/page_indicator.dart';
@@ -14,7 +15,6 @@ import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_main_page.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_measurements_page.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_summary_page.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/progressive.dart';
 
 class DishWizardScreen extends ConsumerStatefulWidget {
   const DishWizardScreen({
@@ -31,7 +31,7 @@ class DishWizardScreen extends ConsumerStatefulWidget {
 }
 
 class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
-    with StateMessenger, ProgressiveState {
+    with StateMessenger {
   late final Map<DishWizardStep, GlobalKey> _pageKeys;
 
   int _currentPageIndex = 0;
@@ -80,7 +80,8 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
       }
     }
 
-    wrapInProgress(
+    ProgressOverlay.wrap(
+      context,
       ref.read(dishWizardViewModel(widget.dish).notifier).saveDish(),
     );
   }

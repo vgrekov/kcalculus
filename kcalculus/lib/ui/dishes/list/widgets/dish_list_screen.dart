@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
+import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:kcalculus/ui/common/widgets/edible_search_results.dart';
@@ -12,7 +13,6 @@ import 'package:kcalculus/ui/dishes/list/view_models/dish_list_view_model.dart';
 import 'package:kcalculus/ui/dishes/view/widgets/dish_view_screen.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/progressive.dart';
 
 class DishListScreen extends ConsumerStatefulWidget {
   const DishListScreen({super.key});
@@ -24,7 +24,7 @@ class DishListScreen extends ConsumerStatefulWidget {
 }
 
 class _DishListScreenState extends ConsumerState<DishListScreen>
-    with StateMessenger, ProgressiveState {
+    with StateMessenger {
   final _searchController = TextEditingController();
 
   late final _assignments = <DishListCommand, UiAssignment>{
@@ -78,13 +78,15 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
   }
 
   void _deleteDish(String id) {
-    wrapInProgress(
+    ProgressOverlay.wrap(
+      context,
       ref.read(dishListViewModel.notifier).deleteDish(id),
     );
   }
 
   void _restoreDish(String id) {
-    wrapInProgress(
+    ProgressOverlay.wrap(
+      context,
       ref.read(dishListViewModel.notifier).restoreDish(id),
     );
   }

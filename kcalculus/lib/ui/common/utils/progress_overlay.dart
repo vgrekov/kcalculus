@@ -1,14 +1,28 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-mixin ProgressiveState<T extends StatefulWidget> on State<T> {
-  OverlayEntry? _progressOverlay;
+class ProgressOverlay {
+  static Future<R> wrap<R>(
+    BuildContext context,
+    Future<R> future,
+  ) async {
+    final progress = ProgressOverlay();
 
-  void showProgress() {
-    if (_progressOverlay == null && mounted) {
-      _progressOverlay = OverlayEntry(
+    progress.show(context);
+
+    try {
+      return await future;
+    } finally {
+      progress.hide();
+    }
+  }
+
+  OverlayEntry? _overlay;
+
+  void show(BuildContext context) {
+    if (_overlay == null) {
+      _overlay = OverlayEntry(
         opaque: false,
         maintainState: true,
         builder: (context) {
@@ -39,31 +53,15 @@ mixin ProgressiveState<T extends StatefulWidget> on State<T> {
         },
       );
       FocusManager.instance.primaryFocus?.unfocus();
-      Overlay.of(context).insert(_progressOverlay!);
+      Overlay.of(context).insert(_overlay!);
     }
   }
 
-  void hideProgress() {
-    if (_progressOverlay != null) {
-      _progressOverlay!.remove();
-      _progressOverlay!.dispose();
-      _progressOverlay = null;
+  void hide() {
+    if (_overlay != null) {
+      _overlay!.remove();
+      _overlay!.dispose();
+      _overlay = null;
     }
-  }
-
-  Future<R> wrapInProgress<R>(Future<R> future) async {
-    showProgress();
-
-    try {
-      return await future;
-    } finally {
-      hideProgress();
-    }
-  }
-
-  @override
-  void dispose() {
-    hideProgress();
-    super.dispose();
   }
 }
