@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/nutrition_facts_input/nutrition_facts_ui_state.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
 
 class NutritionFactsInput extends StatefulWidget {
   const NutritionFactsInput({

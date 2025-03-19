@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/ui/common/utils/ads.dart';
+import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
+import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
+import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/inattentive.dart';
 import 'package:kcalculus/ui/common/widgets/nutrition_facts_input/nutrition_facts_input.dart';
@@ -9,8 +13,6 @@ import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/save/view_models/food_save_ui_state.dart';
 import 'package:kcalculus/ui/foods/save/view_models/food_save_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
-import 'package:kcalculus/utils/progressive.dart';
 
 class FoodSaveScreen extends ConsumerStatefulWidget {
   final Food? food;
@@ -27,7 +29,7 @@ class FoodSaveScreen extends ConsumerStatefulWidget {
 }
 
 class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
-    with StateMessenger, ProgressiveState {
+    with StateMessenger {
   final _form = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
@@ -114,7 +116,8 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
       nutritionFacts: _nutritionFactsController.nutritionFacts,
     );
 
-    wrapInProgress(
+    await ProgressOverlay.wrap(
+      context,
       viewModel.saveFood(),
     );
   }
@@ -176,8 +179,11 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
     UiCommand? command, {
     required BuildContext context,
     required WidgetRef ref,
-  }) {
+  }) async {
+    await showInterstitialAd(ref);
+
     _exit();
+
     command?.complete();
   }
 

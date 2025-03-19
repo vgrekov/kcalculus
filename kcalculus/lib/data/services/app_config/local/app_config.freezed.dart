@@ -22,6 +22,11 @@ LocalAppConfig _$LocalAppConfigFromJson(Map<String, dynamic> json) {
 mixin _$LocalAppConfig {
   String get openFoodFactsBaseUrl => throw _privateConstructorUsedError;
   String get contactEmail => throw _privateConstructorUsedError;
+  String get androidInterstitialAdUnitId => throw _privateConstructorUsedError;
+  String get iOsInterstitialAdUnitId => throw _privateConstructorUsedError;
+  String get androidUnlockAdUnitId => throw _privateConstructorUsedError;
+  String get iOsUnlockAdUnitId => throw _privateConstructorUsedError;
+  int get unlockWithAdDurationMins => throw _privateConstructorUsedError;
 
   /// Serializes this LocalAppConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +44,14 @@ abstract class $LocalAppConfigCopyWith<$Res> {
           LocalAppConfig value, $Res Function(LocalAppConfig) then) =
       _$LocalAppConfigCopyWithImpl<$Res, LocalAppConfig>;
   @useResult
-  $Res call({String openFoodFactsBaseUrl, String contactEmail});
+  $Res call(
+      {String openFoodFactsBaseUrl,
+      String contactEmail,
+      String androidInterstitialAdUnitId,
+      String iOsInterstitialAdUnitId,
+      String androidUnlockAdUnitId,
+      String iOsUnlockAdUnitId,
+      int unlockWithAdDurationMins});
 }
 
 /// @nodoc
@@ -59,6 +71,11 @@ class _$LocalAppConfigCopyWithImpl<$Res, $Val extends LocalAppConfig>
   $Res call({
     Object? openFoodFactsBaseUrl = null,
     Object? contactEmail = null,
+    Object? androidInterstitialAdUnitId = null,
+    Object? iOsInterstitialAdUnitId = null,
+    Object? androidUnlockAdUnitId = null,
+    Object? iOsUnlockAdUnitId = null,
+    Object? unlockWithAdDurationMins = null,
   }) {
     return _then(_value.copyWith(
       openFoodFactsBaseUrl: null == openFoodFactsBaseUrl
@@ -69,6 +86,26 @@ class _$LocalAppConfigCopyWithImpl<$Res, $Val extends LocalAppConfig>
           ? _value.contactEmail
           : contactEmail // ignore: cast_nullable_to_non_nullable
               as String,
+      androidInterstitialAdUnitId: null == androidInterstitialAdUnitId
+          ? _value.androidInterstitialAdUnitId
+          : androidInterstitialAdUnitId // ignore: cast_nullable_to_non_nullable
+              as String,
+      iOsInterstitialAdUnitId: null == iOsInterstitialAdUnitId
+          ? _value.iOsInterstitialAdUnitId
+          : iOsInterstitialAdUnitId // ignore: cast_nullable_to_non_nullable
+              as String,
+      androidUnlockAdUnitId: null == androidUnlockAdUnitId
+          ? _value.androidUnlockAdUnitId
+          : androidUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
+              as String,
+      iOsUnlockAdUnitId: null == iOsUnlockAdUnitId
+          ? _value.iOsUnlockAdUnitId
+          : iOsUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
+              as String,
+      unlockWithAdDurationMins: null == unlockWithAdDurationMins
+          ? _value.unlockWithAdDurationMins
+          : unlockWithAdDurationMins // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -81,7 +118,14 @@ abstract class _$$LocalAppConfigImplCopyWith<$Res>
       __$$LocalAppConfigImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String openFoodFactsBaseUrl, String contactEmail});
+  $Res call(
+      {String openFoodFactsBaseUrl,
+      String contactEmail,
+      String androidInterstitialAdUnitId,
+      String iOsInterstitialAdUnitId,
+      String androidUnlockAdUnitId,
+      String iOsUnlockAdUnitId,
+      int unlockWithAdDurationMins});
 }
 
 /// @nodoc
@@ -99,6 +143,11 @@ class __$$LocalAppConfigImplCopyWithImpl<$Res>
   $Res call({
     Object? openFoodFactsBaseUrl = null,
     Object? contactEmail = null,
+    Object? androidInterstitialAdUnitId = null,
+    Object? iOsInterstitialAdUnitId = null,
+    Object? androidUnlockAdUnitId = null,
+    Object? iOsUnlockAdUnitId = null,
+    Object? unlockWithAdDurationMins = null,
   }) {
     return _then(_$LocalAppConfigImpl(
       openFoodFactsBaseUrl: null == openFoodFactsBaseUrl
@@ -109,6 +158,26 @@ class __$$LocalAppConfigImplCopyWithImpl<$Res>
           ? _value.contactEmail
           : contactEmail // ignore: cast_nullable_to_non_nullable
               as String,
+      androidInterstitialAdUnitId: null == androidInterstitialAdUnitId
+          ? _value.androidInterstitialAdUnitId
+          : androidInterstitialAdUnitId // ignore: cast_nullable_to_non_nullable
+              as String,
+      iOsInterstitialAdUnitId: null == iOsInterstitialAdUnitId
+          ? _value.iOsInterstitialAdUnitId
+          : iOsInterstitialAdUnitId // ignore: cast_nullable_to_non_nullable
+              as String,
+      androidUnlockAdUnitId: null == androidUnlockAdUnitId
+          ? _value.androidUnlockAdUnitId
+          : androidUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
+              as String,
+      iOsUnlockAdUnitId: null == iOsUnlockAdUnitId
+          ? _value.iOsUnlockAdUnitId
+          : iOsUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
+              as String,
+      unlockWithAdDurationMins: null == unlockWithAdDurationMins
+          ? _value.unlockWithAdDurationMins
+          : unlockWithAdDurationMins // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -117,7 +186,13 @@ class __$$LocalAppConfigImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$LocalAppConfigImpl implements _LocalAppConfig {
   const _$LocalAppConfigImpl(
-      {required this.openFoodFactsBaseUrl, required this.contactEmail});
+      {required this.openFoodFactsBaseUrl,
+      required this.contactEmail,
+      required this.androidInterstitialAdUnitId,
+      required this.iOsInterstitialAdUnitId,
+      required this.androidUnlockAdUnitId,
+      required this.iOsUnlockAdUnitId,
+      required this.unlockWithAdDurationMins});
 
   factory _$LocalAppConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$LocalAppConfigImplFromJson(json);
@@ -126,10 +201,20 @@ class _$LocalAppConfigImpl implements _LocalAppConfig {
   final String openFoodFactsBaseUrl;
   @override
   final String contactEmail;
+  @override
+  final String androidInterstitialAdUnitId;
+  @override
+  final String iOsInterstitialAdUnitId;
+  @override
+  final String androidUnlockAdUnitId;
+  @override
+  final String iOsUnlockAdUnitId;
+  @override
+  final int unlockWithAdDurationMins;
 
   @override
   String toString() {
-    return 'LocalAppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, contactEmail: $contactEmail)';
+    return 'LocalAppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, contactEmail: $contactEmail, androidInterstitialAdUnitId: $androidInterstitialAdUnitId, iOsInterstitialAdUnitId: $iOsInterstitialAdUnitId, androidUnlockAdUnitId: $androidUnlockAdUnitId, iOsUnlockAdUnitId: $iOsUnlockAdUnitId, unlockWithAdDurationMins: $unlockWithAdDurationMins)';
   }
 
   @override
@@ -140,13 +225,34 @@ class _$LocalAppConfigImpl implements _LocalAppConfig {
             (identical(other.openFoodFactsBaseUrl, openFoodFactsBaseUrl) ||
                 other.openFoodFactsBaseUrl == openFoodFactsBaseUrl) &&
             (identical(other.contactEmail, contactEmail) ||
-                other.contactEmail == contactEmail));
+                other.contactEmail == contactEmail) &&
+            (identical(other.androidInterstitialAdUnitId,
+                    androidInterstitialAdUnitId) ||
+                other.androidInterstitialAdUnitId ==
+                    androidInterstitialAdUnitId) &&
+            (identical(
+                    other.iOsInterstitialAdUnitId, iOsInterstitialAdUnitId) ||
+                other.iOsInterstitialAdUnitId == iOsInterstitialAdUnitId) &&
+            (identical(other.androidUnlockAdUnitId, androidUnlockAdUnitId) ||
+                other.androidUnlockAdUnitId == androidUnlockAdUnitId) &&
+            (identical(other.iOsUnlockAdUnitId, iOsUnlockAdUnitId) ||
+                other.iOsUnlockAdUnitId == iOsUnlockAdUnitId) &&
+            (identical(
+                    other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
+                other.unlockWithAdDurationMins == unlockWithAdDurationMins));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, openFoodFactsBaseUrl, contactEmail);
+  int get hashCode => Object.hash(
+      runtimeType,
+      openFoodFactsBaseUrl,
+      contactEmail,
+      androidInterstitialAdUnitId,
+      iOsInterstitialAdUnitId,
+      androidUnlockAdUnitId,
+      iOsUnlockAdUnitId,
+      unlockWithAdDurationMins);
 
   /// Create a copy of LocalAppConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -168,7 +274,12 @@ class _$LocalAppConfigImpl implements _LocalAppConfig {
 abstract class _LocalAppConfig implements LocalAppConfig {
   const factory _LocalAppConfig(
       {required final String openFoodFactsBaseUrl,
-      required final String contactEmail}) = _$LocalAppConfigImpl;
+      required final String contactEmail,
+      required final String androidInterstitialAdUnitId,
+      required final String iOsInterstitialAdUnitId,
+      required final String androidUnlockAdUnitId,
+      required final String iOsUnlockAdUnitId,
+      required final int unlockWithAdDurationMins}) = _$LocalAppConfigImpl;
 
   factory _LocalAppConfig.fromJson(Map<String, dynamic> json) =
       _$LocalAppConfigImpl.fromJson;
@@ -177,6 +288,16 @@ abstract class _LocalAppConfig implements LocalAppConfig {
   String get openFoodFactsBaseUrl;
   @override
   String get contactEmail;
+  @override
+  String get androidInterstitialAdUnitId;
+  @override
+  String get iOsInterstitialAdUnitId;
+  @override
+  String get androidUnlockAdUnitId;
+  @override
+  String get iOsUnlockAdUnitId;
+  @override
+  int get unlockWithAdDurationMins;
 
   /// Create a copy of LocalAppConfig
   /// with the given fields replaced by the non-null parameter values.

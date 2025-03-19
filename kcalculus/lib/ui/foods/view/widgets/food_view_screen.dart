@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
+import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
+import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
+import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/edible_main_info.dart';
 import 'package:kcalculus/ui/common/widgets/macro_split_view.dart';
@@ -10,12 +14,11 @@ import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/share/widgets/food_share_screen.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('FoodViewScreen');
 
-class FoodViewScreen extends ConsumerWidget with Messenger {
+class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
   FoodViewScreen({
     super.key,
     required this.foodId,
@@ -32,12 +35,16 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
     FoodViewCommand.editFood: _doEditFood,
   };
 
-  void _shareFood(BuildContext context, Food food) {
-    showModalBottomSheet(
-      context: context,
-      scrollControlDisabledMaxHeightRatio: 0.9,
-      builder: (context) => FoodShareScreen(food: food),
-    );
+  final _accessGuardKey = UniqueKey();
+
+  void _shareFood(BuildContext context, WidgetRef ref, Food food) {
+    premiumFeature(ref, _accessGuardKey, () async {
+      showModalBottomSheet(
+        context: context,
+        scrollControlDisabledMaxHeightRatio: 0.9,
+        builder: (context) => FoodShareScreen(food: food),
+      );
+    });
   }
 
   void _copyFood(WidgetRef ref) {
@@ -124,7 +131,7 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
           [
             IconButton(
               onPressed: () {
-                _shareFood(context, food);
+                _shareFood(context, ref, food);
               },
               icon: Icon(
                 Icons.share,
@@ -241,18 +248,21 @@ class FoodViewScreen extends ConsumerWidget with Messenger {
       ),
     );
 
-    return UiSubordinate<FoodViewCommand>(
-      commandProvider:
-          ref.read(foodViewViewModel(foodId).notifier).commandProvider,
-      assignments: _assignments,
-      child: DefaultTabController(
-        length: 1,
-        child: Scaffold(
-          appBar: AppBar(
-            actions: appBarActions,
+    return AccessGuard(
+      key: _accessGuardKey,
+      child: UiSubordinate<FoodViewCommand>(
+        commandProvider:
+            ref.read(foodViewViewModel(foodId).notifier).commandProvider,
+        assignments: _assignments,
+        child: DefaultTabController(
+          length: 1,
+          child: Scaffold(
+            appBar: AppBar(
+              actions: appBarActions,
+            ),
+            body: body,
+            bottomNavigationBar: bottomNavigationBar,
           ),
-          body: body,
-          bottomNavigationBar: bottomNavigationBar,
         ),
       ),
     );

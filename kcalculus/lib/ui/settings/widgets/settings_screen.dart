@@ -2,6 +2,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
+import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
+import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
+import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
+import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
@@ -12,8 +17,6 @@ import 'package:kcalculus/ui/settings/widgets/option_setting_screen.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
 import 'package:kcalculus/ui/settings/widgets/switch_setting_tile.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
-import 'package:kcalculus/utils/progressive.dart';
 import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -29,7 +32,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen>
-    with StateMessenger, ProgressiveState {
+    with StateMessenger {
   late final _assignments = <AppSettingsCommand, UiAssignment>{
     AppSettingsCommand.shareBackup: _shareBackup,
     AppSettingsCommand.showBackupFailureNotification:
@@ -39,6 +42,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     AppSettingsCommand.showRestoreFailureNotification:
         _showRestoreFailureNotification,
   };
+
+  final _accessGuardKey = UniqueKey();
 
   void _selectTheme(AppSettings settings) async {
     final theme = await Navigator.of(context).push<AppTheme>(
@@ -64,35 +69,41 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   }
 
   void _backup() async {
-    wrapInProgress(
-      ref.read(appSettingsViewModel.notifier).backup(),
-    );
+    premiumFeature(ref, _accessGuardKey, () {
+      ProgressOverlay.wrap(
+        context,
+        ref.read(appSettingsViewModel.notifier).backup(),
+      );
+    });
   }
 
   void _restore() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result == null) {
-      return;
-    }
-
-    final fromFile = result.files.single.path!;
-
-    if (mounted) {
-      final confirmed = await showMessageDialog<bool>(
-        message: l10n(context).messageRestoreConfirmation(fromFile),
-        actions: {
-          l10n(context).actionProceed: () => true,
-          l10n(context).actionCancel: () => false,
-        },
-        messageType: MessageType.warning,
-      );
-
-      if (confirmed == true) {
-        wrapInProgress(
-          ref.read(appSettingsViewModel.notifier).restore(fromFile),
-        );
+    premiumFeature(ref, _accessGuardKey, () async {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+      if (result == null) {
+        return;
       }
-    }
+
+      final fromFile = result.files.single.path!;
+
+      if (mounted) {
+        final confirmed = await showMessageDialog<bool>(
+          message: l10n(context).messageRestoreConfirmation(fromFile),
+          actions: {
+            l10n(context).actionProceed: () => true,
+            l10n(context).actionCancel: () => false,
+          },
+          messageType: MessageType.warning,
+        );
+
+        if (confirmed == true && mounted) {
+          ProgressOverlay.wrap(
+            context,
+            ref.read(appSettingsViewModel.notifier).restore(fromFile),
+          );
+        }
+      }
+    });
   }
 
   void _shareBackup(
@@ -207,25 +218,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
     final viewModel = ref.read(appSettingsViewModel.notifier);
 
-    return UiSubordinate(
-      commandProvider: viewModel.commandProvider,
-      assignments: _assignments,
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            l10n(context).screenSettings,
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+    return AccessGuard(
+      key: _accessGuardKey,
+      child: UiSubordinate(
+        commandProvider: viewModel.commandProvider,
+        assignments: _assignments,
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              l10n(context).screenSettings,
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+            ),
           ),
-        ),
-        body: body,
-        bottomNavigationBar: Container(
-          color: Theme.of(context).colorScheme.surfaceContainer,
-          padding: EdgeInsets.only(top: 32),
-          child: const ScreenTabBar(
-            selectedTab: ScreenTab.settings,
+          body: body,
+          bottomNavigationBar: Container(
+            color: Theme.of(context).colorScheme.surfaceContainer,
+            padding: EdgeInsets.only(top: 32),
+            child: const ScreenTabBar(
+              selectedTab: ScreenTab.settings,
+            ),
           ),
         ),
       ),

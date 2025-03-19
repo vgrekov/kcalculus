@@ -23,6 +23,10 @@ String formatDateLocal(BuildContext context, DateTime dateTime) {
   return DateFormat(l10n(context).formatDate).format(dateTime);
 }
 
+String formatDateTimeLocal(BuildContext context, DateTime dateTime) {
+  return DateFormat(l10n(context).formatDateTime).format(dateTime);
+}
+
 String formatISO8601(DateTime dateTime) {
   return _dateTimeFormatISO8601.format(dateTime);
 }

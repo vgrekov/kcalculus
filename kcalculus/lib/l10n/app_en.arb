@@ -37,6 +37,7 @@
     "unitCupUSCustomary": "cup (US customary)",
     "formatDate": "EEE, MMM d, yyyy",
     "formatTime": "HH:mm",
+    "formatDateTime": "EEE, MMM d, yyyy HH:mm",
     "formatDouble": "##0.##",
     "messageUnknownError": "Oops.. Something went wrong...",
     "validationErrorMaxLengthExceeded": "Value exceeds the maximum allowed length",
@@ -254,5 +255,14 @@
     },
     "messageNoData": "No data...",
     "screenAgreement": "Agreement",
-    "actionIAgree": "I agree"
+    "actionIAgree": "I agree",
+    "messageUnlockWithAdConfirmation": "Watch an ad to unlock this functionality?",
+    "messageUnlockedWithAd": "Premium features unlocked until\n{until}",
+    "@messageUnlockedWithAd": {
+        "placeholders": {
+            "until": {
+                "type": "String"
+            }
+        }
+    }
 }

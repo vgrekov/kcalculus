@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/paged_list_vew.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_item.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
 
-class MealList extends StatelessWidget with Messenger {
+class MealList extends StatelessWidget with WidgetMessenger {
   const MealList({
     super.key,
     required this.items,

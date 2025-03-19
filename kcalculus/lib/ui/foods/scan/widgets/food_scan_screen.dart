@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
@@ -11,7 +12,6 @@ import 'package:kcalculus/ui/foods/scan/widgets/scanner.dart';
 import 'package:kcalculus/ui/foods/scan/widgets/scanner_processing.dart';
 import 'package:kcalculus/ui/foods/scan/widgets/scanner_try_again.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class FoodScanScreen extends ConsumerStatefulWidget {

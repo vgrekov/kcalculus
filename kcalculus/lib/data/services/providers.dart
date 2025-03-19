@@ -42,7 +42,7 @@ final _databaseServiceProvider =
 );
 
 final _envProvider = Provider<String>(
-  (_) => String.fromEnvironment('env', defaultValue: 'dev'),
+  (_) => const String.fromEnvironment('ENV', defaultValue: 'dev'),
 );
 
 final _appConfigProvider = FutureProvider<AppConfig>(
@@ -63,4 +63,25 @@ final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
       contactEmail: appConfig.contactEmail,
     );
   },
+);
+
+final _adServiceProvider = FutureProvider<AdService>(
+  (ref) async {
+    final appConfig = await ref.watch(_appConfigProvider.future);
+
+    return AdService(
+      androidInterstitialAdUnitId: appConfig.androidInterstitialAdUnitId,
+      iOsInterstitialAdUnitId: appConfig.iOsInterstitialAdUnitId,
+      androidUnlockAdUnitId: appConfig.androidUnlockAdUnitId,
+      iOsUnlockAdUnitId: appConfig.iOsUnlockAdUnitId,
+    );
+  },
+);
+
+final _purchaseServiceProvider = Provider<PurchaseService>(
+  (ref) => const PurchaseService(),
+);
+
+final _rewardServiceProvider = Provider<RewardService>(
+  (ref) => const RewardService(),
 );

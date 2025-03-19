@@ -1,4 +1,9 @@
 {
     "openFoodFactsBaseUrl": "https://world.openfoodfacts.org",
-    "contactEmail": "contact@remexola.dev"
+    "contactEmail": "contact@remexola.dev",
+    "androidInterstitialAdUnitId": "ca-app-pub-2787380297611749/4895790371",
+    "iOsInterstitialAdUnitId": "ca-app-pub-2787380297611749/3603127685",
+    "androidUnlockAdUnitId": "ca-app-pub-2787380297611749/3343035556",
+    "iOsUnlockAdUnitId": "ca-app-pub-2787380297611749/1722832122",
+    "unlockWithAdDurationMins": 1440
 }

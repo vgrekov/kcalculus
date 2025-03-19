@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/dish/ingredient.dart';
+import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/ingredient_list_item.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
 
-class IngredientList extends StatelessWidget with Messenger {
+class IngredientList extends StatelessWidget with WidgetMessenger {
   final List<Ingredient> ingredients;
   final void Function(Ingredient ingredient, int index)? onSelectIngredient;
   final void Function(Ingredient ingredient, int index)? onDeleteIngredient;

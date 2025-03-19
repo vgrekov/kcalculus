@@ -1,0 +1,50 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:kcalculus/data/providers.dart';
+import 'package:logging/logging.dart';
+
+final _log = Logger('AdViewModel');
+
+class AdViewModel extends Notifier<void> {
+  @override
+  void build() {}
+
+  Future<InterstitialAd?> loadInterstitialAd() async {
+    try {
+      final adRepository = await ref.read(adRepositoryProvider.future);
+
+      final ad = await adRepository.loadInterstitialAd();
+
+      if (ad != null) {
+        ad.fullScreenContentCallback = FullScreenContentCallback(
+          onAdImpression: (ad) {
+            _log.info('Ad impression occurred: ${ad.adUnitId}');
+          },
+          onAdClicked: (ad) {
+            _log.info('Ad clicked: ${ad.adUnitId}');
+          },
+          onAdDismissedFullScreenContent: (ad) {
+            _log.finer('Ad dismissed: ${ad.adUnitId}');
+
+            ad.dispose();
+          },
+          onAdFailedToShowFullScreenContent: (ad, error) {
+            _log.severe('Failed to show an Ad', error);
+
+            ad.dispose();
+          },
+        );
+      }
+
+      return ad;
+    } catch (error, stackTrace) {
+      _log.severe('Failed to load an Ad', error, stackTrace);
+
+      return null;
+    }
+  }
+}
+
+final adViewModel = NotifierProvider<AdViewModel, void>(
+  AdViewModel.new,
+);

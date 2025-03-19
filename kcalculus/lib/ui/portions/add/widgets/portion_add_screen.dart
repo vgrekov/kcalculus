@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
+import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
+import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/edible_name_input.dart';
@@ -15,8 +17,6 @@ import 'package:kcalculus/ui/edibles/search/widgets/edible_search_screen.dart';
 import 'package:kcalculus/ui/portions/add/view_models/portion_add_ui_state.dart';
 import 'package:kcalculus/ui/portions/add/view_models/portion_add_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/messenger.dart';
-import 'package:kcalculus/utils/progressive.dart';
 
 class PortionAddScreen extends ConsumerStatefulWidget {
   /// This screen will handle [onSavePortion]'s error handling
@@ -37,7 +37,7 @@ class PortionAddScreen extends ConsumerStatefulWidget {
 }
 
 class _PortionAddScreenState extends ConsumerState<PortionAddScreen>
-    with StateMessenger, ProgressiveState {
+    with StateMessenger {
   final _form = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
