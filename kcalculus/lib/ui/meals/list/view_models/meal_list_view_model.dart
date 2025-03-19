@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/ui/common/view_models/ad_helper.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_ui_state.dart';
@@ -21,8 +20,6 @@ class MealListViewModel extends Notifier<MealListUiState> {
   Timer? _timer;
 
   UiCommander<MealListCommand>? _commander;
-
-  late final _adHelper = AdHelper(getRef: () => ref);
 
   @override
   MealListUiState build() {
@@ -63,8 +60,6 @@ class MealListViewModel extends Notifier<MealListUiState> {
 
     _log.info('Meal saved');
     _log.finest('saveMeal() Saved meal ID: ${meal.id}');
-
-    await _adHelper.showInterstitialAd();
 
     _log.finer('saveMeal() END');
   }

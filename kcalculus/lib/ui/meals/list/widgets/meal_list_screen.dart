@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
@@ -78,11 +79,13 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
     );
   }
 
-  Future<void> _saveMeal(Meal meal) {
-    return ProgressOverlay.wrap(
+  Future<void> _saveMeal(Meal meal) async {
+    await ProgressOverlay.wrap(
       context,
       ref.read(mealListViewModel.notifier).saveMeal(meal),
     );
+
+    await showInterstitialAd(ref);
   }
 
   void _deleteMeal(Meal meal) {

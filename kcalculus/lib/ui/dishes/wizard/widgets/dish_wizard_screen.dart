@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
@@ -243,8 +244,11 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     UiCommand command, {
     required BuildContext context,
     required WidgetRef ref,
-  }) {
+  }) async {
+    await showInterstitialAd(ref);
+
     _exit();
+
     command.complete();
   }
 
