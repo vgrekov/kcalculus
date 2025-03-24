@@ -24,4 +24,5 @@ Map<String, dynamic> _$$IngredientDbModelImplToJson(
       'edible_id': instance.edible_id,
       'amount_unit': instance.amount_unit,
       'amount_value': instance.amount_value,
+      'sequence_number': instance.sequence_number,
     };

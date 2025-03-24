@@ -28,6 +28,8 @@ mixin _$IngredientDbModel {
   String? get edible_dish_id => throw _privateConstructorUsedError;
   String get amount_unit => throw _privateConstructorUsedError;
   double get amount_value => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  int? get sequence_number => throw _privateConstructorUsedError;
 
   /// Serializes this IngredientDbModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,7 +55,9 @@ abstract class $IngredientDbModelCopyWith<$Res> {
       @JsonKey(includeToJson: false, includeFromJson: true)
       String? edible_dish_id,
       String amount_unit,
-      double amount_value});
+      double amount_value,
+      @JsonKey(includeToJson: true, includeFromJson: false)
+      int? sequence_number});
 }
 
 /// @nodoc
@@ -77,6 +81,7 @@ class _$IngredientDbModelCopyWithImpl<$Res, $Val extends IngredientDbModel>
     Object? edible_dish_id = freezed,
     Object? amount_unit = null,
     Object? amount_value = null,
+    Object? sequence_number = freezed,
   }) {
     return _then(_value.copyWith(
       dish_id: null == dish_id
@@ -103,6 +108,10 @@ class _$IngredientDbModelCopyWithImpl<$Res, $Val extends IngredientDbModel>
           ? _value.amount_value
           : amount_value // ignore: cast_nullable_to_non_nullable
               as double,
+      sequence_number: freezed == sequence_number
+          ? _value.sequence_number
+          : sequence_number // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -123,7 +132,9 @@ abstract class _$$IngredientDbModelImplCopyWith<$Res>
       @JsonKey(includeToJson: false, includeFromJson: true)
       String? edible_dish_id,
       String amount_unit,
-      double amount_value});
+      double amount_value,
+      @JsonKey(includeToJson: true, includeFromJson: false)
+      int? sequence_number});
 }
 
 /// @nodoc
@@ -145,6 +156,7 @@ class __$$IngredientDbModelImplCopyWithImpl<$Res>
     Object? edible_dish_id = freezed,
     Object? amount_unit = null,
     Object? amount_value = null,
+    Object? sequence_number = freezed,
   }) {
     return _then(_$IngredientDbModelImpl(
       dish_id: null == dish_id
@@ -171,6 +183,10 @@ class __$$IngredientDbModelImplCopyWithImpl<$Res>
           ? _value.amount_value
           : amount_value // ignore: cast_nullable_to_non_nullable
               as double,
+      sequence_number: freezed == sequence_number
+          ? _value.sequence_number
+          : sequence_number // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -184,7 +200,9 @@ class _$IngredientDbModelImpl implements _IngredientDbModel {
       @JsonKey(includeToJson: false, includeFromJson: true) this.edible_food_id,
       @JsonKey(includeToJson: false, includeFromJson: true) this.edible_dish_id,
       required this.amount_unit,
-      required this.amount_value});
+      required this.amount_value,
+      @JsonKey(includeToJson: true, includeFromJson: false)
+      this.sequence_number});
 
   factory _$IngredientDbModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$IngredientDbModelImplFromJson(json);
@@ -203,10 +221,13 @@ class _$IngredientDbModelImpl implements _IngredientDbModel {
   final String amount_unit;
   @override
   final double amount_value;
+  @override
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  final int? sequence_number;
 
   @override
   String toString() {
-    return 'IngredientDbModel(dish_id: $dish_id, edible_id: $edible_id, edible_food_id: $edible_food_id, edible_dish_id: $edible_dish_id, amount_unit: $amount_unit, amount_value: $amount_value)';
+    return 'IngredientDbModel(dish_id: $dish_id, edible_id: $edible_id, edible_food_id: $edible_food_id, edible_dish_id: $edible_dish_id, amount_unit: $amount_unit, amount_value: $amount_value, sequence_number: $sequence_number)';
   }
 
   @override
@@ -224,13 +245,22 @@ class _$IngredientDbModelImpl implements _IngredientDbModel {
             (identical(other.amount_unit, amount_unit) ||
                 other.amount_unit == amount_unit) &&
             (identical(other.amount_value, amount_value) ||
-                other.amount_value == amount_value));
+                other.amount_value == amount_value) &&
+            (identical(other.sequence_number, sequence_number) ||
+                other.sequence_number == sequence_number));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, dish_id, edible_id,
-      edible_food_id, edible_dish_id, amount_unit, amount_value);
+  int get hashCode => Object.hash(
+      runtimeType,
+      dish_id,
+      edible_id,
+      edible_food_id,
+      edible_dish_id,
+      amount_unit,
+      amount_value,
+      sequence_number);
 
   /// Create a copy of IngredientDbModel
   /// with the given fields replaced by the non-null parameter values.
@@ -258,7 +288,9 @@ abstract class _IngredientDbModel implements IngredientDbModel {
       @JsonKey(includeToJson: false, includeFromJson: true)
       final String? edible_dish_id,
       required final String amount_unit,
-      required final double amount_value}) = _$IngredientDbModelImpl;
+      required final double amount_value,
+      @JsonKey(includeToJson: true, includeFromJson: false)
+      final int? sequence_number}) = _$IngredientDbModelImpl;
 
   factory _IngredientDbModel.fromJson(Map<String, dynamic> json) =
       _$IngredientDbModelImpl.fromJson;
@@ -277,6 +309,9 @@ abstract class _IngredientDbModel implements IngredientDbModel {
   String get amount_unit;
   @override
   double get amount_value;
+  @override
+  @JsonKey(includeToJson: true, includeFromJson: false)
+  int? get sequence_number;
 
   /// Create a copy of IngredientDbModel
   /// with the given fields replaced by the non-null parameter values.

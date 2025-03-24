@@ -18,7 +18,7 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseService {
   static const _kDbName = 'kcalculus.db';
 
-  static const _kDbVersion = 16;
+  static const _kDbVersion = 17;
 
   static const _kSqlStatementSeparator = '--SQL-STATEMENT-SEPARATOR';
 

@@ -173,7 +173,10 @@ class LocalDishDao {
       } else if (edible is Dish) {
         await _saveDish(edible, edibleId, txn);
 
-        for (final ingredient in edible.ingredients) {
+        for (final item in edible.ingredients.indexed) {
+          final ingredient = item.$2;
+          final index = item.$1;
+
           final ingredientEdibleId = ingredient.edible.id ?? generateId();
 
           ingredientsByDish[edibleId] = (ingredientsByDish[edibleId] ?? [])
@@ -181,6 +184,7 @@ class LocalDishDao {
               ingredient,
               edibleId,
               ingredientEdibleId,
+              index,
             ));
 
           if (ingredient.edible.id == null) {

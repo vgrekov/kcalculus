@@ -22,6 +22,11 @@ class IngredientDbModel with _$IngredientDbModel {
     String? edible_dish_id,
     required String amount_unit,
     required double amount_value,
+    @JsonKey(
+      includeToJson: true,
+      includeFromJson: false,
+    )
+    int? sequence_number,
   }) = _IngredientDbModel;
 
   factory IngredientDbModel.fromJson(Map<String, dynamic> json) =>
