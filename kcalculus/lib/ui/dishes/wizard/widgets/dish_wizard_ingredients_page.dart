@@ -105,10 +105,9 @@ class DishWizardIngredientsPage extends ConsumerWidget
 
   @override
   ScaffoldConfig? buildScaffoldConfig(BuildContext context, WidgetRef ref) {
-    final totalNutrientData = ref
-        .read(dishWizardViewModel(dish))
-        .ingredientsStepState
-        .ingredients
+    final uiState = ref.watch(dishWizardViewModel(dish));
+
+    final totalNutrientData = uiState.ingredientsStepState.ingredients
         .map((m) => m.getNutrientData() ?? NutrientData.empty())
         .fold(
           NutrientData.empty(),
