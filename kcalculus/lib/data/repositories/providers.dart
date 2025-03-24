@@ -30,7 +30,6 @@ final _foodChangesStreamControllerProvider = Provider<StreamController<void>>(
 
 final foodChangesProvider = StreamProvider<void>(
   (ref) {
-    ref.watch(_databaseServiceProvider);
     final controller = ref.watch(_foodChangesStreamControllerProvider);
     return controller.stream;
   },
@@ -59,7 +58,6 @@ final _dishChangesStreamControllerProvider = Provider<StreamController<void>>(
 
 final dishChangesProvider = StreamProvider<void>(
   (ref) {
-    ref.watch(_databaseServiceProvider);
     final controller = ref.watch(_dishChangesStreamControllerProvider);
     return controller.stream;
   },
@@ -88,7 +86,6 @@ final _mealChangesStreamControllerProvider = Provider<StreamController<void>>(
 
 final mealChangesProvider = StreamProvider<void>(
   (ref) {
-    ref.watch(_databaseServiceProvider);
     final controller = ref.watch(_mealChangesStreamControllerProvider);
     return controller.stream;
   },
