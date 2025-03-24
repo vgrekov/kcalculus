@@ -29,6 +29,8 @@ class IngredientService {
         dishes.id = ingredients.edible_id
       WHERE
         ingredients.dish_id = ?
+      ORDER BY
+        ingredients.sequence_number ASC
       ''',
       [dishId],
     ).then((data) => data.map(IngredientDbModel.fromJson).toList());

@@ -9,12 +9,14 @@ class LocalIngredientConverter {
     Ingredient model,
     String dishId, [
     String? edibleId,
+    int? sequenceNumber,
   ]) {
     return IngredientDbModel(
       dish_id: dishId,
       edible_id: (edibleId ?? model.edible.id)!,
       amount_unit: model.amount.unit.name,
       amount_value: model.amount.value,
+      sequence_number: sequenceNumber,
     );
   }
 
