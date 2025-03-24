@@ -31,6 +31,8 @@ class DishListViewModel extends Notifier<EdibleSearchUiState> {
 
   @override
   EdibleSearchUiState build() {
+    ref.watch(dishRepositoryProvider);
+
     ref.watch(dishChangesProvider);
 
     _commander = UiCommander<DishListCommand>(_commander);
