@@ -14,6 +14,7 @@ import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/share/widgets/food_share_screen.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('FoodViewScreen');
@@ -39,6 +40,8 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
 
   void _shareFood(BuildContext context, WidgetRef ref, Food food) {
     premiumFeature(ref, _accessGuardKey, () async {
+      _log.eventFoodShare();
+
       showModalBottomSheet(
         context: context,
         scrollControlDisabledMaxHeightRatio: 0.9,

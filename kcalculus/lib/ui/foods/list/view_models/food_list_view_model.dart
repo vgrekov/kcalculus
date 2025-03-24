@@ -5,6 +5,7 @@ import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_help
 import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('FoodListViewModel');
@@ -54,6 +55,7 @@ class FoodListViewModel extends Notifier<EdibleSearchUiState> {
       final deleted = await ref.read(foodRepositoryProvider).delete(id);
 
       _log.info('Food deleted: $deleted');
+      _log.eventFoodDelete();
 
       if (deleted) {
         _commander!.send<String, void>(
@@ -81,6 +83,7 @@ class FoodListViewModel extends Notifier<EdibleSearchUiState> {
       final restored = await ref.read(foodRepositoryProvider).restore(id);
 
       _log.info('Food restored: $restored');
+      _log.eventFoodRestore();
     } catch (error, stackTrace) {
       _log.severe('Failed to restore food', error, stackTrace);
 

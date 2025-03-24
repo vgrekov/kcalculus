@@ -9,6 +9,7 @@ import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_s
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_main_step_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ui_state.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('DishWizardViewModel');
@@ -79,10 +80,11 @@ class DishWizardViewModel
 
       _log.info('Dish saved');
       _log.finest('saveDish() Saved dish ID: ${dish.id}');
+      _log.eventDishSave();
 
       _commander!.send(DishWizardCommand.exit);
     } on DuplicationException {
-      _log.info('Edible already exists');
+      _log.finer('Edible already exists');
 
       _commander!.send(DishWizardCommand.showEdibleAlreadyExistsDialog);
     } on IngredientsCycleException {

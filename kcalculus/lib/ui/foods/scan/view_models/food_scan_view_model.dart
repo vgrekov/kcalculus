@@ -6,6 +6,7 @@ import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final _log = Logger('FoodScanCommand');
@@ -73,6 +74,7 @@ class FoodScanViewModel extends AutoDisposeNotifier<void> {
           Expected ${Food.kVersion}, but found $jsonVersion
           ''',
       );
+      _log.eventFoodScanVersionMismatch(Food.kVersion, jsonVersion);
 
       _commander?.send(FoodScanCommand.showVersionMismatchNotification);
 
@@ -82,6 +84,7 @@ class FoodScanViewModel extends AutoDisposeNotifier<void> {
     final food = Food.fromJson(json);
 
     _log.info('Food read from barcode');
+    _log.eventFoodScanFromBarcode();
 
     return food;
   }
@@ -94,6 +97,7 @@ class FoodScanViewModel extends AutoDisposeNotifier<void> {
 
     if (food != null) {
       _log.info('Food found in OpenFoodFacts');
+      _log.eventFoodScanFromOFF();
     }
 
     return food;

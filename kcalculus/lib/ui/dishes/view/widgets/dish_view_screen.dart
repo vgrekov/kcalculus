@@ -16,6 +16,7 @@ import 'package:kcalculus/ui/dishes/view/view_models/dish_view_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/ui/foods/share/widgets/food_share_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('DishViewScreen');
@@ -41,6 +42,8 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
 
   void _shareDish(BuildContext context, WidgetRef ref, Dish dish) {
     premiumFeature(ref, _accessGuardKey, () {
+      _log.eventDishShare();
+
       showModalBottomSheet(
         context: context,
         scrollControlDisabledMaxHeightRatio: 0.9,

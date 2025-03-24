@@ -6,6 +6,7 @@ import 'package:kcalculus/domain/models/access_level.dart';
 import 'package:kcalculus/ui/access_guard/view_models/premium_status.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('AccessGuardViewModel');
@@ -55,6 +56,7 @@ class AccessGuardViewModel extends AutoDisposeFamilyNotifier<void, Key?> {
 
       if (ad == null) {
         _log.info('No Ad to show, granting premium');
+        _log.eventNoAd();
 
         return const PremiumGranted();
       }
@@ -71,9 +73,11 @@ class AccessGuardViewModel extends AutoDisposeFamilyNotifier<void, Key?> {
       ad.fullScreenContentCallback = FullScreenContentCallback(
         onAdImpression: (ad) {
           _log.info('Ad impression occurred: ${ad.adUnitId}');
+          _log.eventAdImpression(ad);
         },
         onAdClicked: (ad) {
           _log.info('Ad clicked: ${ad.adUnitId}');
+          _log.eventAdClicked(ad);
         },
         onAdDismissedFullScreenContent: (ad) {
           _log.finer('Ad dismissed: ${ad.adUnitId}');
@@ -103,6 +107,7 @@ class AccessGuardViewModel extends AutoDisposeFamilyNotifier<void, Key?> {
 
   Future<void> rewardPremium() async {
     _log.info('Premium reward earned');
+    _log.eventPremiumRewardEarned();
 
     try {
       final accessLevelRepository =

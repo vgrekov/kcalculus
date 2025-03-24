@@ -8,6 +8,7 @@ import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/foods/save/view_models/food_save_ui_state.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('FoodSaveViewModel');
@@ -71,10 +72,11 @@ class FoodSaveViewModel
 
       _log.info('Food saved');
       _log.finest('saveFood() Saved food ID: ${food.id}');
+      _log.eventFoodSave();
 
       _commander!.send(FoodSaveCommand.exit);
     } on DuplicationException {
-      _log.info('Edible already exists');
+      _log.finer('Edible already exists');
 
       _commander!.send(FoodSaveCommand.showEdibleAlreadyExistsDialog);
     } catch (error, stackTrace) {
