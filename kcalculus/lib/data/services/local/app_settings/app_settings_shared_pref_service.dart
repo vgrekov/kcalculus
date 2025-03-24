@@ -6,6 +6,8 @@ class AppSettingsSharedPrefService {
 
   static const _kCrashlyticsEnabled = 'crashlyticsEnabled';
 
+  static const _kAnalyticsEnabled = 'analyticsEnabled';
+
   static const _kSignedAgreementVersion = 'signedAgreementVersion';
 
   Future<AppSettingsSharedPrefModel> getSettings() async {
@@ -14,6 +16,7 @@ class AppSettingsSharedPrefService {
     return AppSettingsSharedPrefModel(
       themeName: prefs.getString(_kAppTheme),
       crashlyticsEnabled: prefs.getBool(_kCrashlyticsEnabled),
+      analyticsEnabled: prefs.getBool(_kAnalyticsEnabled),
       signedAgreementVersion: prefs.getInt(_kSignedAgreementVersion),
     );
   }
@@ -31,6 +34,12 @@ class AppSettingsSharedPrefService {
       await prefs.setBool(_kCrashlyticsEnabled, model.crashlyticsEnabled!);
     } else {
       await prefs.remove(_kCrashlyticsEnabled);
+    }
+
+    if (model.analyticsEnabled != null) {
+      await prefs.setBool(_kAnalyticsEnabled, model.analyticsEnabled!);
+    } else {
+      await prefs.remove(_kAnalyticsEnabled);
     }
 
     if (model.signedAgreementVersion != null) {

@@ -9,12 +9,14 @@ class ConsentViewModel extends AutoDisposeNotifier<void> {
 
   void saveSettings({
     required bool crashlyticsEnabled,
+    required bool analyticsEnabled,
   }) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
     final settings = await ref.read(appSettingsRepositoryProvider.future);
     repository.setSettings(
       settings.copyWith(
         crashlyticsEnabled: crashlyticsEnabled,
+        analyticsEnabled: analyticsEnabled,
       ),
     );
   }

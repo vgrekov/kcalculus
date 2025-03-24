@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final _log = Logger('AdViewModel');
@@ -19,9 +20,11 @@ class AdViewModel extends Notifier<void> {
         ad.fullScreenContentCallback = FullScreenContentCallback(
           onAdImpression: (ad) {
             _log.info('Ad impression occurred: ${ad.adUnitId}');
+            _log.eventAdImpression(ad);
           },
           onAdClicked: (ad) {
             _log.info('Ad clicked: ${ad.adUnitId}');
+            _log.eventAdClicked(ad);
           },
           onAdDismissedFullScreenContent: (ad) {
             _log.finer('Ad dismissed: ${ad.adUnitId}');

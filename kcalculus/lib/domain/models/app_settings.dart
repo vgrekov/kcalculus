@@ -23,6 +23,7 @@ class AppSettings with _$AppSettings {
   const factory AppSettings({
     required AppTheme theme,
     bool? crashlyticsEnabled,
+    bool? analyticsEnabled,
     int? signedAgreementVersion,
   }) = _AppSettings;
 

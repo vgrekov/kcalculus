@@ -1,0 +1,144 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:logging/logging.dart';
+
+extension Analytics on Logger {
+  void eventNoAd() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'no_ad_to_show',
+    );
+  }
+
+  void eventAdImpression(Ad ad) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'ad_impression',
+      parameters: {
+        'ad_unit_id': ad.adUnitId,
+      },
+    );
+  }
+
+  void eventAdClicked(Ad ad) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'ad_clicked',
+      parameters: {
+        'ad_unit_id': ad.adUnitId,
+      },
+    );
+  }
+
+  void eventPremiumRewardEarned() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'premium_reward_earned',
+    );
+  }
+
+  void eventFoodSave() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_save',
+    );
+  }
+
+  void eventFoodDelete() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_delete',
+    );
+  }
+
+  void eventFoodRestore() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_restore',
+    );
+  }
+
+  void eventFoodShare() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_share',
+    );
+  }
+
+  void eventFoodScan() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_scan',
+    );
+  }
+
+  void eventFoodScanVersionMismatch(
+    int expectedVersion,
+    int? foundVersion,
+  ) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_scan_version_mismatch',
+      parameters: {
+        'expected_version': expectedVersion,
+        if (foundVersion != null) 'found_version': foundVersion,
+      },
+    );
+  }
+
+  void eventFoodScanFromBarcode() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_scan_from_barcode',
+    );
+  }
+
+  void eventFoodScanFromOFF() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_scan_from_off',
+    );
+  }
+
+  void eventDishSave() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'dish_save',
+    );
+  }
+
+  void eventDishDelete() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'dish_delete',
+    );
+  }
+
+  void eventDishRestore() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'dish_restore',
+    );
+  }
+
+  void eventDishShare() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'dish_share',
+    );
+  }
+
+  void eventMealSave() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'meal_save',
+    );
+  }
+
+  void eventMealDelete() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'meal_delete',
+    );
+  }
+
+  void eventMealRestore() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'meal_restore',
+    );
+  }
+
+  void eventDbBackup() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'db_backup',
+    );
+  }
+
+  void eventDbRestore() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'db_restore',
+    );
+  }
+}

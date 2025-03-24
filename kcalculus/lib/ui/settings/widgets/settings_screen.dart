@@ -68,6 +68,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     viewModel.setCrashlyticsEnabled(enabled);
   }
 
+  void _setAnalyticsEnabled(bool enabled) {
+    final viewModel = ref.read(appSettingsViewModel.notifier);
+    viewModel.setAnalyticsEnabled(enabled);
+  }
+
   void _backup() async {
     premiumFeature(ref, _accessGuardKey, () {
       ProgressOverlay.wrap(
@@ -190,6 +195,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     title: l10n(context).settingCrashReportingTitle,
                     subtitle: l10n(context).settingCrashReportingSubtitle,
                     icon: Icons.bug_report,
+                  ),
+                  SwitchSettingTile(
+                    value: settings.valueOrNull?.analyticsEnabled ?? false,
+                    onChanged: settings.isLoading ? null : _setAnalyticsEnabled,
+                    title: l10n(context).settingAnalyticsTitle,
+                    subtitle: l10n(context).settingAnalyticsSubtitle,
+                    icon: Icons.analytics,
                   ),
                 ],
               ),

@@ -6,6 +6,7 @@ import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final _log = Logger('AppSettingsViewModel');
@@ -51,6 +52,15 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
     );
   }
 
+  Future<void> setAnalyticsEnabled(bool enabled) async {
+    final repository = ref.read(appSettingsRepositoryProvider.notifier);
+    await repository.setSettings(
+      state.value!.copyWith(
+        analyticsEnabled: enabled,
+      ),
+    );
+  }
+
   Future<void> backup() async {
     _log.finer('backup() START');
 
@@ -62,6 +72,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
 
       _log.info('Backup complete');
       _log.finest('backup() Backed up to: ${backupFile.path}');
+      _log.eventDbBackup();
 
       _commander!.send<String, void>(
         AppSettingsCommand.shareBackup,
@@ -88,6 +99,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
       await backupRepository.restore(File(fromFile));
 
       _log.info('Restore complete');
+      _log.eventDbRestore();
 
       _commander!.send<String, void>(
         AppSettingsCommand.showRestoreSuccessNotification,

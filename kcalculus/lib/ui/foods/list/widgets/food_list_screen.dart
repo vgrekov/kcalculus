@@ -17,6 +17,10 @@ import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/scan/widgets/food_scan_screen.dart';
 import 'package:kcalculus/ui/foods/view/widgets/food_view_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
+import 'package:logging/logging.dart';
+
+final _log = Logger('FoodListScreen');
 
 class FoodListScreen extends ConsumerStatefulWidget {
   const FoodListScreen({super.key});
@@ -52,6 +56,8 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
 
   void _scanFood() async {
     premiumFeature(ref, _accessGuardKey, () async {
+      _log.eventFoodScan();
+
       final food = await showModalBottomSheet<Food>(
         context: context,
         scrollControlDisabledMaxHeightRatio: 0.9,

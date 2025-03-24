@@ -6,6 +6,7 @@ import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_ui_state.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('MealListViewModel');
@@ -60,6 +61,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
 
     _log.info('Meal saved');
     _log.finest('saveMeal() Saved meal ID: ${meal.id}');
+    _log.eventMealSave();
 
     _log.finer('saveMeal() END');
   }
@@ -77,6 +79,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
       final deleted = await ref.read(mealRepositoryProvider).delete(id);
 
       _log.info('Meal deleted: $deleted');
+      _log.eventMealDelete();
 
       if (deleted) {
         _commander!.send<String, void>(
@@ -104,6 +107,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
       final restored = await ref.read(mealRepositoryProvider).restore(id);
 
       _log.info('Meal restored: $restored');
+      _log.eventMealRestore();
     } catch (error, stackTrace) {
       _log.severe('Failed to restore meal', error, stackTrace);
 

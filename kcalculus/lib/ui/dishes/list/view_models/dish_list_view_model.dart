@@ -5,6 +5,7 @@ import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_help
 import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('DishListViewModel');
@@ -54,6 +55,7 @@ class DishListViewModel extends Notifier<EdibleSearchUiState> {
       final deleted = await ref.read(dishRepositoryProvider).delete(id);
 
       _log.info('Dish deleted: $deleted');
+      _log.eventDishDelete();
 
       if (deleted) {
         _commander!.send<String, void>(
@@ -81,6 +83,7 @@ class DishListViewModel extends Notifier<EdibleSearchUiState> {
       final restored = await ref.read(dishRepositoryProvider).restore(id);
 
       _log.info('Dish restored: $restored');
+      _log.eventDishRestore();
     } catch (error, stackTrace) {
       _log.severe('Failed to restore dish', error, stackTrace);
 

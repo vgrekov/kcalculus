@@ -264,5 +264,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "settingAnalyticsTitle": "Allow usage data collection",
+    "settingAnalyticsSubtitle": "Help improve the app by sharing anonymous usage data"
 }
