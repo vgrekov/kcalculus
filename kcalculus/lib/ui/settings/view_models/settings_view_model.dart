@@ -51,6 +51,15 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
     );
   }
 
+  Future<void> setAnalyticsEnabled(bool enabled) async {
+    final repository = ref.read(appSettingsRepositoryProvider.notifier);
+    await repository.setSettings(
+      state.value!.copyWith(
+        analyticsEnabled: enabled,
+      ),
+    );
+  }
+
   Future<void> backup() async {
     _log.finer('backup() START');
 

@@ -15,9 +15,12 @@ class ConsentScreen extends ConsumerStatefulWidget {
 class _ConsentScreenState extends ConsumerState<ConsentScreen> {
   bool _crashlyticsEnabled = true;
 
+  bool _analyticsEnabled = true;
+
   void _proceed() {
     ref.read(consentViewModel.notifier).saveSettings(
           crashlyticsEnabled: _crashlyticsEnabled,
+          analyticsEnabled: _analyticsEnabled,
         );
   }
 
@@ -48,19 +51,39 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
               textAlign: TextAlign.center,
             ),
             const Spacer(),
-            SwitchListTile(
-              title: Text(
-                l10n(context).settingCrashReportingTitle,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-              ),
-              value: _crashlyticsEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _crashlyticsEnabled = value;
-                });
-              },
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SwitchListTile(
+                  title: Text(
+                    l10n(context).settingCrashReportingTitle,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                  ),
+                  value: _crashlyticsEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      _crashlyticsEnabled = value;
+                    });
+                  },
+                ),
+                SwitchListTile(
+                  title: Text(
+                    l10n(context).settingAnalyticsTitle,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                  ),
+                  value: _analyticsEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      _analyticsEnabled = value;
+                    });
+                  },
+                ),
+              ],
             ),
             const Spacer(),
           ],

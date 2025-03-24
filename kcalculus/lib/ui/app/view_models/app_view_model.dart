@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
@@ -23,7 +24,8 @@ final _appUiStateProvider = FutureProvider<AppUiState>(
     if (settings.signedAgreementVersion == null ||
         settings.signedAgreementVersion! < kAgreementVersion) {
       stage = AppStage.agreement;
-    } else if (settings.crashlyticsEnabled == null) {
+    } else if (settings.crashlyticsEnabled == null ||
+        settings.analyticsEnabled == null) {
       stage = AppStage.dataSharingConsent;
     } else if (maintenanceStatus == MaintenanceStatus.inProgress ||
         maintenanceStatus == MaintenanceStatus.error) {
@@ -70,6 +72,7 @@ class AppViewModel extends AsyncNotifier<AppUiState> {
     next.whenData(
       (settings) {
         _toggleCrashlyticsIfNeeded(settings);
+        _toggleAnalytics(settings);
       },
     );
   }
@@ -82,8 +85,16 @@ class AppViewModel extends AsyncNotifier<AppUiState> {
       FirebaseCrashlytics.instance
           .setCrashlyticsCollectionEnabled(settingEnabled);
 
-      _log.info('crashlyticsEnabled: ${settings.crashlyticsEnabled}');
+      _log.info('crashlyticsEnabled: $settingEnabled');
     }
+  }
+
+  void _toggleAnalytics(AppSettings settings) {
+    final settingEnabled = settings.analyticsEnabled ?? false;
+
+    FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(settingEnabled);
+
+    _log.info('analyticsEnabled: $settingEnabled');
   }
 }
 
