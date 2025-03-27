@@ -69,8 +69,15 @@ class DishWizardIngredientsPage extends ConsumerWidget
           .deleteIngredientAt(index);
 
       if (isDeleted) {
-        showNotification(
-            context, l10n(context).messageIngredientDeletionSuccess);
+        showNotificationWithUndo(
+          context,
+          l10n(context).messageIngredientDeletionSuccess,
+          undoAction: () {
+            ref
+                .read(dishWizardViewModel(dish).notifier)
+                .restoreIngredientAt(index, ingredient);
+          },
+        );
       } else {
         showNotification(
             context, l10n(context).messageIngredientDeletionFailure);
@@ -137,7 +144,7 @@ class DishWizardIngredientsPage extends ConsumerWidget
         child: Text(
           l10n(context).messageNoIngredients,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
         ),
       );
