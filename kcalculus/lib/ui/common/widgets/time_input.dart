@@ -57,7 +57,6 @@ class _TimeInputState extends State<TimeInput> {
           dt.formatTimeLocal(context, widget.controller.dateTime),
           style: Theme.of(context).textTheme.labelLarge!.copyWith(
                 color: Theme.of(context).colorScheme.tertiary,
-                decoration: TextDecoration.underline,
               ),
         ),
       ),

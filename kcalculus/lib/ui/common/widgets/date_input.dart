@@ -58,7 +58,6 @@ class _DateInputState extends State<DateInput> {
           dt.formatDateLocal(context, widget.controller.dateTime),
           style: Theme.of(context).textTheme.labelLarge!.copyWith(
                 color: Theme.of(context).colorScheme.tertiary,
-                decoration: TextDecoration.underline,
               ),
         ),
       ),
