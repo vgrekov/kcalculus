@@ -9,8 +9,7 @@ import 'package:kcalculus/ui/common/widgets/nutrient_stats.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_step_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
-import 'package:kcalculus/ui/portions/add/widgets/portion_add_screen.dart';
-import 'package:kcalculus/ui/portions/edit/widgets/portion_edit_screen.dart';
+import 'package:kcalculus/ui/dishes/wizard/widgets/ingredient_save_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class DishWizardIngredientsPage extends ConsumerWidget
@@ -26,15 +25,11 @@ class DishWizardIngredientsPage extends ConsumerWidget
   void _addIngredient(BuildContext context, WidgetRef ref) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => PortionAddScreen(
-          title: l10n(context).screenAddIngredient,
-          onSavePortion: (edible, amount) {
-            ref.read(dishWizardViewModel(dish).notifier).addIngredient(
-                  Ingredient(
-                    edible: edible,
-                    amount: amount,
-                  ),
-                );
+        builder: (context) => IngredientSaveScreen(
+          onSaveIngredient: (ingredient) {
+            ref
+                .read(dishWizardViewModel(dish).notifier)
+                .addIngredient(ingredient);
           },
         ),
       ),
@@ -49,15 +44,12 @@ class DishWizardIngredientsPage extends ConsumerWidget
   ) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => PortionEditScreen(
-          title: l10n(context).screenEditIngredient,
-          portion: ingredient,
-          onSavePortion: (newAmount) {
+        builder: (context) => IngredientSaveScreen(
+          ingredient: ingredient,
+          onSaveIngredient: (newIngredient) {
             ref.read(dishWizardViewModel(dish).notifier).replaceIngredientAt(
                   index,
-                  ingredient.copyWith(
-                    amount: newAmount,
-                  ),
+                  newIngredient,
                 );
           },
         ),
