@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
@@ -14,8 +13,7 @@ import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_view_model.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_calendar.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list.dart';
-import 'package:kcalculus/ui/portions/add/widgets/portion_add_screen.dart';
-import 'package:kcalculus/ui/portions/edit/widgets/portion_edit_screen.dart';
+import 'package:kcalculus/ui/meals/save/widgets/meal_save_screen.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 
@@ -45,18 +43,7 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   void _addMeal() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => PortionAddScreen(
-          title: l10n(context).screenNewMeal,
-          onSavePortion: (edible, amount) {
-            return _saveMeal(
-              Meal(
-                edible: edible,
-                amount: amount,
-                eatenAt: DateTime.now(),
-              ),
-            );
-          },
-        ),
+        builder: (context) => MealSaveScreen(),
       ),
     );
   }
@@ -64,28 +51,11 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   void _selectMeal(Meal meal) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => PortionEditScreen(
-          title: l10n(context).screenEditMeal,
-          portion: meal,
-          onSavePortion: (newAmount) {
-            return _saveMeal(
-              meal.copyWith(
-                amount: newAmount,
-              ),
-            );
-          },
+        builder: (context) => MealSaveScreen(
+          meal: meal,
         ),
       ),
     );
-  }
-
-  Future<void> _saveMeal(Meal meal) async {
-    await ProgressOverlay.wrap(
-      context,
-      ref.read(mealListViewModel.notifier).saveMeal(meal),
-    );
-
-    await showInterstitialAd(ref);
   }
 
   void _deleteMeal(Meal meal) {
