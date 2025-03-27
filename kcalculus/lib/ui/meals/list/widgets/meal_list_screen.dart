@@ -114,11 +114,7 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
-
     final uiState = ref.watch(mealListViewModel);
-
-    final readonly = !dt.isSameDay(now, uiState.date);
 
     return UiSubordinate<MealListCommand>(
       commandProvider: ref.read(mealListViewModel.notifier).commandProvider,
@@ -165,21 +161,18 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
                 onRefresh: _refresh,
                 onSelectMeal: _selectMeal,
                 onDeleteMeal: _deleteMeal,
-                readonly: readonly,
               ),
             ),
           ],
         ),
-        floatingActionButton: readonly
-            ? null
-            : Awaited(
-                future: uiState.dataLoader,
-                data: (_, __) => FloatingActionButton(
-                  onPressed: _addMeal,
-                  shape: const CircleBorder(),
-                  child: const Icon(Icons.add),
-                ),
-              ),
+        floatingActionButton: Awaited(
+          future: uiState.dataLoader,
+          data: (_, __) => FloatingActionButton(
+            onPressed: _addMeal,
+            shape: const CircleBorder(),
+            child: const Icon(Icons.add),
+          ),
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
