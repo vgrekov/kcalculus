@@ -141,3 +141,17 @@ Future<void> selectEdible(
 
   await tester.pumpAndSettle();
 }
+
+Future<void> selectMeal(
+  WidgetTester tester,
+  String edibleName,
+) async {
+  final itemFinder = find.widgetWithText(
+    ListTile,
+    edibleName,
+  );
+
+  await tester.tap(itemFinder);
+
+  await tester.pumpAndSettle();
+}
