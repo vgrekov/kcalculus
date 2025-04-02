@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'portion_add_ui_state.dart';
+part of 'portion_form_ui_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$PortionAddUiState {
+mixin _$PortionFormUiState {
   Edible? get selectedEdible => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
@@ -24,18 +24,18 @@ mixin _$PortionAddUiState {
   List<NutritionFacts>? get nutritionFacts =>
       throw _privateConstructorUsedError;
 
-  /// Create a copy of PortionAddUiState
+  /// Create a copy of PortionFormUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PortionAddUiStateCopyWith<PortionAddUiState> get copyWith =>
+  $PortionFormUiStateCopyWith<PortionFormUiState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PortionAddUiStateCopyWith<$Res> {
-  factory $PortionAddUiStateCopyWith(
-          PortionAddUiState value, $Res Function(PortionAddUiState) then) =
-      _$PortionAddUiStateCopyWithImpl<$Res, PortionAddUiState>;
+abstract class $PortionFormUiStateCopyWith<$Res> {
+  factory $PortionFormUiStateCopyWith(
+          PortionFormUiState value, $Res Function(PortionFormUiState) then) =
+      _$PortionFormUiStateCopyWithImpl<$Res, PortionFormUiState>;
   @useResult
   $Res call(
       {Edible? selectedEdible,
@@ -47,16 +47,16 @@ abstract class $PortionAddUiStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PortionAddUiStateCopyWithImpl<$Res, $Val extends PortionAddUiState>
-    implements $PortionAddUiStateCopyWith<$Res> {
-  _$PortionAddUiStateCopyWithImpl(this._value, this._then);
+class _$PortionFormUiStateCopyWithImpl<$Res, $Val extends PortionFormUiState>
+    implements $PortionFormUiStateCopyWith<$Res> {
+  _$PortionFormUiStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of PortionAddUiState
+  /// Create a copy of PortionFormUiState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -98,11 +98,11 @@ class _$PortionAddUiStateCopyWithImpl<$Res, $Val extends PortionAddUiState>
 }
 
 /// @nodoc
-abstract class _$$PortionAddUiStateImplCopyWith<$Res>
-    implements $PortionAddUiStateCopyWith<$Res> {
-  factory _$$PortionAddUiStateImplCopyWith(_$PortionAddUiStateImpl value,
-          $Res Function(_$PortionAddUiStateImpl) then) =
-      __$$PortionAddUiStateImplCopyWithImpl<$Res>;
+abstract class _$$PortionFormUiStateImplCopyWith<$Res>
+    implements $PortionFormUiStateCopyWith<$Res> {
+  factory _$$PortionFormUiStateImplCopyWith(_$PortionFormUiStateImpl value,
+          $Res Function(_$PortionFormUiStateImpl) then) =
+      __$$PortionFormUiStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -115,14 +115,14 @@ abstract class _$$PortionAddUiStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$PortionAddUiStateImplCopyWithImpl<$Res>
-    extends _$PortionAddUiStateCopyWithImpl<$Res, _$PortionAddUiStateImpl>
-    implements _$$PortionAddUiStateImplCopyWith<$Res> {
-  __$$PortionAddUiStateImplCopyWithImpl(_$PortionAddUiStateImpl _value,
-      $Res Function(_$PortionAddUiStateImpl) _then)
+class __$$PortionFormUiStateImplCopyWithImpl<$Res>
+    extends _$PortionFormUiStateCopyWithImpl<$Res, _$PortionFormUiStateImpl>
+    implements _$$PortionFormUiStateImplCopyWith<$Res> {
+  __$$PortionFormUiStateImplCopyWithImpl(_$PortionFormUiStateImpl _value,
+      $Res Function(_$PortionFormUiStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PortionAddUiState
+  /// Create a copy of PortionFormUiState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -134,7 +134,7 @@ class __$$PortionAddUiStateImplCopyWithImpl<$Res>
     Object? amountValue = freezed,
     Object? nutritionFacts = freezed,
   }) {
-    return _then(_$PortionAddUiStateImpl(
+    return _then(_$PortionFormUiStateImpl(
       selectedEdible: freezed == selectedEdible
           ? _value.selectedEdible
           : selectedEdible // ignore: cast_nullable_to_non_nullable
@@ -165,8 +165,8 @@ class __$$PortionAddUiStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PortionAddUiStateImpl extends _PortionAddUiState {
-  const _$PortionAddUiStateImpl(
+class _$PortionFormUiStateImpl extends _PortionFormUiState {
+  const _$PortionFormUiStateImpl(
       {this.selectedEdible,
       this.name = '',
       this.description = '',
@@ -201,14 +201,14 @@ class _$PortionAddUiStateImpl extends _PortionAddUiState {
 
   @override
   String toString() {
-    return 'PortionAddUiState(selectedEdible: $selectedEdible, name: $name, description: $description, amountUnit: $amountUnit, amountValue: $amountValue, nutritionFacts: $nutritionFacts)';
+    return 'PortionFormUiState(selectedEdible: $selectedEdible, name: $name, description: $description, amountUnit: $amountUnit, amountValue: $amountValue, nutritionFacts: $nutritionFacts)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PortionAddUiStateImpl &&
+            other is _$PortionFormUiStateImpl &&
             (identical(other.selectedEdible, selectedEdible) ||
                 other.selectedEdible == selectedEdible) &&
             (identical(other.name, name) || other.name == name) &&
@@ -232,25 +232,25 @@ class _$PortionAddUiStateImpl extends _PortionAddUiState {
       amountValue,
       const DeepCollectionEquality().hash(_nutritionFacts));
 
-  /// Create a copy of PortionAddUiState
+  /// Create a copy of PortionFormUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$PortionAddUiStateImplCopyWith<_$PortionAddUiStateImpl> get copyWith =>
-      __$$PortionAddUiStateImplCopyWithImpl<_$PortionAddUiStateImpl>(
+  _$$PortionFormUiStateImplCopyWith<_$PortionFormUiStateImpl> get copyWith =>
+      __$$PortionFormUiStateImplCopyWithImpl<_$PortionFormUiStateImpl>(
           this, _$identity);
 }
 
-abstract class _PortionAddUiState extends PortionAddUiState {
-  const factory _PortionAddUiState(
+abstract class _PortionFormUiState extends PortionFormUiState {
+  const factory _PortionFormUiState(
       {final Edible? selectedEdible,
       final String name,
       final String description,
       final Unit? amountUnit,
       final double? amountValue,
-      final List<NutritionFacts>? nutritionFacts}) = _$PortionAddUiStateImpl;
-  const _PortionAddUiState._() : super._();
+      final List<NutritionFacts>? nutritionFacts}) = _$PortionFormUiStateImpl;
+  const _PortionFormUiState._() : super._();
 
   @override
   Edible? get selectedEdible;
@@ -265,10 +265,10 @@ abstract class _PortionAddUiState extends PortionAddUiState {
   @override
   List<NutritionFacts>? get nutritionFacts;
 
-  /// Create a copy of PortionAddUiState
+  /// Create a copy of PortionFormUiState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PortionAddUiStateImplCopyWith<_$PortionAddUiStateImpl> get copyWith =>
+  _$$PortionFormUiStateImplCopyWith<_$PortionFormUiStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

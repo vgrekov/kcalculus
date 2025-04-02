@@ -37,10 +37,21 @@ mixin DishWizardIngredientsStepViewModel {
 
   bool deleteIngredientAt(int index) {
     state = state.copyWith.ingredientsStepState(
-      ingredients: state.ingredientsStepState.ingredients.indexed
-          .where((pair) => pair.$1 != index)
-          .map((pair) => pair.$2)
-          .toList(),
+      ingredients: [
+        ...state.ingredientsStepState.ingredients,
+      ]..removeAt(index),
+    );
+
+    onUserInteractionChange();
+
+    return true;
+  }
+
+  bool restoreIngredientAt(int index, Ingredient ingredient) {
+    state = state.copyWith.ingredientsStepState(
+      ingredients: [
+        ...state.ingredientsStepState.ingredients,
+      ]..insert(index, ingredient),
     );
 
     onUserInteractionChange();

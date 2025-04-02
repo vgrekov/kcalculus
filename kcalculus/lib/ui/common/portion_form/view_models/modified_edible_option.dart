@@ -1,0 +1,4 @@
+enum ModifiedEdibleOption {
+  useSelected,
+  createNew,
+}

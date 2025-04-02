@@ -54,20 +54,6 @@ class MealListViewModel extends Notifier<MealListUiState> {
     );
   }
 
-  Future<void> saveMeal(Meal meal) async {
-    _log.finer('saveMeal() START');
-
-    _log.finest('saveMeal() Saving meal: ${meal.toJson()}');
-
-    meal = await ref.read(mealRepositoryProvider).save(meal);
-
-    _log.info('Meal saved');
-    _log.finest('saveMeal() Saved meal ID: ${meal.id}');
-    _log.eventMealSave();
-
-    _log.finer('saveMeal() END');
-  }
-
   Future<void> refresh() async {
     await _doLoadFor(state.date);
   }
