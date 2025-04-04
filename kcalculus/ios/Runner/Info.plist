@@ -48,9 +48,9 @@
 		<key>UIStatusBarHidden</key>
 		<false/>
 		<key>NSCameraUsageDescription</key>
-		<string>$(NSCameraUsageDescription)</string>
+		<string>This app needs camera access to scan QR codes</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>$(NSPhotoLibraryUsageDescription)</string>
+		<string>This app needs photos access to get QR code from photo library</string>
 		<key>GADApplicationIdentifier</key>
 		<string>ca-app-pub-2787380297611749~9504253255</string>
 	</dict>
