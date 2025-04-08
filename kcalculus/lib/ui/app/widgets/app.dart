@@ -27,6 +27,7 @@ class App extends ConsumerWidget {
     switch (uiState) {
       case AsyncData(:final value):
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           theme: switch (value.theme) {
