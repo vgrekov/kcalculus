@@ -38,7 +38,9 @@ class AdService {
 
     InterstitialAd.load(
       adUnitId: adUnitId,
-      request: const AdRequest(),
+      request: const AdRequest(
+        nonPersonalizedAds: true,
+      ),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
           completer.complete(ad);
@@ -65,7 +67,9 @@ class AdService {
 
     RewardedAd.load(
       adUnitId: adUnitId,
-      request: const AdRequest(),
+      request: const AdRequest(
+        nonPersonalizedAds: true,
+      ),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
           completer.complete(ad);
