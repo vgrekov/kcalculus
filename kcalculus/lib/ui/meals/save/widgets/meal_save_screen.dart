@@ -11,15 +11,24 @@ import 'package:kcalculus/ui/common/widgets/inattentive.dart';
 import 'package:kcalculus/ui/common/widgets/time_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/meals/save/view_models/meal_save_view_model.dart';
+import 'package:kcalculus/ui/meals/save/view_models/meal_save_view_model_arg.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class MealSaveScreen extends ConsumerStatefulWidget {
-  const MealSaveScreen({
+  MealSaveScreen({
     super.key,
-    this.meal,
-  });
+    Meal? meal,
+    DateTime? date,
+  }) : _viewModelArg = MealSaveViewModelArg(
+          meal: meal,
+          date: date,
+        ) {
+    if (meal != null && date != null) {
+      throw 'When a meal is specified, date must be null.';
+    }
+  }
 
-  final Meal? meal;
+  final MealSaveViewModelArg _viewModelArg;
 
   @override
   ConsumerState createState() {
@@ -42,7 +51,7 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
 
   @override
   void initState() {
-    final uiState = ref.read(mealSaveViewModel(widget.meal));
+    final uiState = ref.read(mealSaveViewModel(widget._viewModelArg));
 
     _dateController.dateTime = uiState.eatenAt;
     _timeController.dateTime = uiState.eatenAt;
@@ -73,7 +82,8 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
       final date = _dateController.dateTime;
       final time = _timeController.dateTime;
 
-      final viewModel = ref.read(mealSaveViewModel(widget.meal).notifier);
+      final viewModel =
+          ref.read(mealSaveViewModel(widget._viewModelArg).notifier);
 
       viewModel.updateState(
         (state) => state.copyWith(
@@ -125,11 +135,12 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(mealSaveViewModel(widget.meal));
+    ref.watch(mealSaveViewModel(widget._viewModelArg));
 
     return UiSubordinate<MealSaveCommand>(
-      commandProvider:
-          ref.read(mealSaveViewModel(widget.meal).notifier).commandProvider,
+      commandProvider: ref
+          .read(mealSaveViewModel(widget._viewModelArg).notifier)
+          .commandProvider,
       assignments: _assignments,
       child: Inattentive(
         child: Scaffold(
@@ -144,7 +155,7 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
             ),
             centerTitle: true,
             title: Text(
-              widget.meal?.id == null
+              widget._viewModelArg.meal?.id == null
                   ? l10n(context).screenNewMeal
                   : l10n(context).screenEditMeal,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(

@@ -43,7 +43,9 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   void _addMeal() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => MealSaveScreen(),
+        builder: (context) => MealSaveScreen(
+          date: ref.read(mealListViewModel).date,
+        ),
       ),
     );
   }
