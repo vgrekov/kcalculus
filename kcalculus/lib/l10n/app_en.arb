@@ -266,5 +266,13 @@
         }
     },
     "settingAnalyticsTitle": "Allow usage data collection",
-    "settingAnalyticsSubtitle": "Help improve the app by sharing anonymous usage data"
+    "settingAnalyticsSubtitle": "Help improve the app by sharing anonymous usage data",
+    "messageSwitchToLogDateConfirmation": "Meal saved for {date}.\nSwitch to that day?",
+    "@messageSwitchToLogDateConfirmation": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    }
 }

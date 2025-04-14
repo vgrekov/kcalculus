@@ -69,7 +69,10 @@ class MealSaveViewModel
       _log.finest('saveMeal() Saved meal ID: ${meal.id}');
       _log.eventMealSave();
 
-      _commander!.send(MealSaveCommand.exit);
+      _commander!.send<Meal?, void>(
+        MealSaveCommand.exit,
+        payload: meal,
+      );
     } catch (error, stackTrace) {
       _log.severe('Failed to save a meal', error, stackTrace);
 

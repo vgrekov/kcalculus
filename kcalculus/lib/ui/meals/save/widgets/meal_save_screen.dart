@@ -111,8 +111,8 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
     }
   }
 
-  void _exit() {
-    Navigator.of(context).pop();
+  void _exit([Meal? meal]) {
+    Navigator.of(context).pop(meal);
   }
 
   void _showUnknownErrorNotification(
@@ -129,7 +129,7 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
     required BuildContext context,
     required WidgetRef ref,
   }) {
-    _exit();
+    _exit(command?.payload as Meal?);
     command?.complete();
   }
 

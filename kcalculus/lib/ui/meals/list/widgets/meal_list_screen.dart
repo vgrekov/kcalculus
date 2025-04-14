@@ -40,24 +40,28 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
     return ref.read(mealListViewModel.notifier).refresh();
   }
 
-  void _addMeal() {
-    Navigator.of(context).push(
+  void _addMeal() async {
+    final meal = await Navigator.of(context).push<Meal>(
       MaterialPageRoute(
         builder: (context) => MealSaveScreen(
           date: ref.read(mealListViewModel).date,
         ),
       ),
     );
+
+    _checkIfMealSavedOnAnotherDay(meal);
   }
 
-  void _selectMeal(Meal meal) {
-    Navigator.of(context).push(
+  void _selectMeal(Meal meal) async {
+    final savedMeal = await Navigator.of(context).push<Meal>(
       MaterialPageRoute(
         builder: (context) => MealSaveScreen(
           meal: meal,
         ),
       ),
     );
+
+    _checkIfMealSavedOnAnotherDay(savedMeal);
   }
 
   void _deleteMeal(Meal meal) {
@@ -80,6 +84,26 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
 
   void _selectDate(DateTime date) {
     ref.read(mealListViewModel.notifier).selectDate(date);
+  }
+
+  void _checkIfMealSavedOnAnotherDay(Meal? meal) async {
+    if (meal != null) {
+      final date = ref.read(mealListViewModel).date;
+      if (!dt.isSameDay(date, meal.eatenAt)) {
+        final confirmed = await showConfirmation(
+          l10n(context).messageSwitchToLogDateConfirmation(
+            dt.formatDateLocal(
+              context,
+              meal.eatenAt,
+            ),
+          ),
+        );
+
+        if (confirmed == true) {
+          ref.read(mealListViewModel.notifier).selectDate(meal.eatenAt);
+        }
+      }
+    }
   }
 
   void _showDeletionSuccessNotification(
