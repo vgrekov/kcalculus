@@ -41,6 +41,7 @@ class _IngredientSaveScreenState extends State<IngredientSaveScreen> {
   void _saveIngredient() async {
     _portionFormController.validate();
     if (!_portionFormController.isValid) {
+      FocusManager.instance.primaryFocus?.unfocus();
       return;
     }
 

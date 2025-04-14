@@ -72,6 +72,7 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
   void _saveMeal() async {
     _portionFormController.validate();
     if (!_portionFormController.isValid) {
+      FocusManager.instance.primaryFocus?.unfocus();
       return;
     }
 
