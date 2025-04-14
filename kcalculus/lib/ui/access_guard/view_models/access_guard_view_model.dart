@@ -99,7 +99,7 @@ class AccessGuardViewModel extends AutoDisposeFamilyNotifier<void, Key?> {
 
       _commander!.send(AccessGuardCommand.showUnknownErrorNotification);
 
-      return const PremiumDenied();
+      return const PremiumGranted();
     } finally {
       _commander!.send(AccessGuardCommand.hideProgress);
     }
