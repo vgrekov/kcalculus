@@ -12,9 +12,9 @@ class LocalizedException implements Exception {
   @override
   String toString() {
     if (cause != null) {
-      return "IngredientsCycleException caused by:\n$cause";
+      return "LocalizedException caused by:\n$cause";
     }
 
-    return "IngredientsCycleException";
+    return "LocalizedException";
   }
 }
