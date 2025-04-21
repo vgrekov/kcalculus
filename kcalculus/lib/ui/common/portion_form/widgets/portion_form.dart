@@ -165,15 +165,10 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
 
     final viewModel = ref.read(portionFormViewModel(_portion).notifier);
 
-    viewModel.updateState(
-      (state) => state.copyWith(
-        selectedEdible: edible,
-        name: edible.name,
-        description: edible.description,
-        amountUnit: _amountController.unit,
-        amountValue: _amountController.value,
-        nutritionFacts: edible.getNutritionFacts(),
-      ),
+    viewModel.selectEdible(
+      edible,
+      _amountController.unit,
+      _amountController.value,
     );
 
     _amountFocusNode.requestFocus();
