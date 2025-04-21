@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +20,7 @@ import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
 import 'package:kcalculus/ui/settings/widgets/switch_setting_tile.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:logging/logging.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:path/path.dart' as path;
 
 final Logger _log = Logger('SettingsScreen');
 
@@ -116,9 +118,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     required BuildContext context,
     required WidgetRef ref,
   }) {
-    Share.shareXFiles([
-      XFile(command.payload as String),
-    ]);
+    final file = command.payload as File;
+    FilePicker.platform.saveFile(
+      fileName: path.basename(file.path),
+      bytes: file.readAsBytesSync(),
+    );
     command.complete();
   }
 

@@ -74,9 +74,9 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
       _log.finest('backup() Backed up to: ${backupFile.path}');
       _log.eventDbBackup();
 
-      _commander!.send<String, void>(
+      _commander!.send<File, void>(
         AppSettingsCommand.shareBackup,
-        payload: backupFile.path,
+        payload: backupFile,
       );
     } catch (error, stackTrace) {
       _log.severe('Failed to backup', error, stackTrace);
