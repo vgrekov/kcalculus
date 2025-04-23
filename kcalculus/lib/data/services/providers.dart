@@ -74,6 +74,8 @@ final _adServiceProvider = FutureProvider<AdService>(
       iOsInterstitialAdUnitId: appConfig.iOsInterstitialAdUnitId,
       androidUnlockAdUnitId: appConfig.androidUnlockAdUnitId,
       iOsUnlockAdUnitId: appConfig.iOsUnlockAdUnitId,
+      interstitialAdCooldownDurationMins:
+          appConfig.interstitialAdCooldownDurationMins,
     );
   },
 );

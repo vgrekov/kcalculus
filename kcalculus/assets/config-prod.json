@@ -5,5 +5,6 @@
     "iOsInterstitialAdUnitId": "ca-app-pub-2787380297611749/3603127685",
     "androidUnlockAdUnitId": "ca-app-pub-2787380297611749/3343035556",
     "iOsUnlockAdUnitId": "ca-app-pub-2787380297611749/1722832122",
-    "unlockWithAdDurationMins": 1440
+    "unlockWithAdDurationMins": 1440,
+    "interstitialAdCooldownDurationMins": 30
 }

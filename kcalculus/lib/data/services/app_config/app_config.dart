@@ -12,4 +12,6 @@ abstract interface class AppConfig {
   String get iOsUnlockAdUnitId;
 
   int get unlockWithAdDurationMins;
+
+  int get interstitialAdCooldownDurationMins;
 }
