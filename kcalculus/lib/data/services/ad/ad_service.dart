@@ -115,6 +115,7 @@ class AdService {
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
           completer.complete(ad);
+          _startCooldown();
         },
         onAdFailedToLoad: (error) {
           _log.info('Failed to load Ad: $adUnitId (error code ${error.code})');
