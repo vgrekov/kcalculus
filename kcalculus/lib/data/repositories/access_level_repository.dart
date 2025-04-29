@@ -1,51 +1,85 @@
 import 'dart:async';
 
-import 'package:kcalculus/data/services/app_config/app_config.dart';
-import 'package:kcalculus/data/services/purchase/purchase_service.dart';
-import 'package:kcalculus/data/services/reward/reward_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/access_level.dart';
 
-class AccessLevelRepository {
-  const AccessLevelRepository({
-    required AppConfig appConfig,
-    required PurchaseService purchaseService,
-    required RewardService rewardService,
-  })  : _appConfig = appConfig,
-        _purchaseService = purchaseService,
-        _rewardService = rewardService;
+class AccessLevelRepository extends AsyncNotifier<AccessLevel> {
+  Timer? _rewardExpirer;
 
-  final AppConfig _appConfig;
+  @override
+  FutureOr<AccessLevel> build() {
+    ref.watch(appConfigProvider);
+    ref.watch(purchaseServiceProvider);
+    ref.watch(rewardServiceProvider);
 
-  final PurchaseService _purchaseService;
+    ref.onDispose(() {
+      _rewardExpirer?.cancel();
+    });
 
-  final RewardService _rewardService;
+    return _getAccessLevel().then((accessLevel) {
+      if (accessLevel is AccessLevelAdSupportedPremium) {
+        final rewardDuration =
+            accessLevel.expirationDate.difference(DateTime.now());
+        _scheduleRewardExpiration(rewardDuration);
+      }
 
-  Future<AccessLevel> getAccessLevel() async {
-    final isPurchased = await _purchaseService.isPurchased();
+      return accessLevel;
+    });
+  }
+
+  Future<AccessLevel> _getAccessLevel() async {
+    final appConfig = await ref.watch(appConfigProvider.future);
+    final purchaseService = ref.watch(purchaseServiceProvider);
+    final rewardService = ref.watch(rewardServiceProvider);
+
+    final isPurchased = await purchaseService.isPurchased();
 
     if (isPurchased) {
-      return AccessLevel.premium;
+      return const AccessLevelPremium();
     }
 
-    final rewardDate = await _rewardService.getRewardDate();
+    final rewardDate = await rewardService.getRewardDate();
     if (rewardDate != null) {
-      final rewardDurationMins =
-          DateTime.now().difference(rewardDate).inMinutes;
-      if (rewardDurationMins <= _appConfig.unlockWithAdDurationMins) {
-        return AccessLevel.adSupportedPremium;
+      final expirationDate = rewardDate.add(
+        Duration(
+          minutes: appConfig.unlockWithAdDurationMins,
+        ),
+      );
+      if (expirationDate.isAfter(DateTime.now())) {
+        return AccessLevelAdSupportedPremium(expirationDate);
       }
     }
 
-    return AccessLevel.free;
+    return const AccessLevelFree();
   }
 
   Future<DateTime> rewardUnlock() async {
-    final unlockStart = await _rewardService.reward();
+    final appConfig = await ref.watch(appConfigProvider.future);
+    final rewardService = ref.watch(rewardServiceProvider);
 
-    final unlockEnd = unlockStart.add(
-      Duration(minutes: _appConfig.unlockWithAdDurationMins),
+    final unlockStart = await rewardService.reward();
+
+    final rewardDuration = Duration(
+      minutes: appConfig.unlockWithAdDurationMins,
     );
 
+    final unlockEnd = unlockStart.add(rewardDuration);
+
+    state = AsyncData(AccessLevelAdSupportedPremium(unlockEnd));
+
+    _scheduleRewardExpiration(rewardDuration);
+
     return unlockEnd;
+  }
+
+  void _scheduleRewardExpiration(Duration duration) {
+    _rewardExpirer?.cancel();
+    _rewardExpirer = Timer(
+      duration.isNegative ? Duration.zero : duration,
+      () async {
+        state = await AsyncValue.guard(_getAccessLevel);
+      },
+    );
   }
 }

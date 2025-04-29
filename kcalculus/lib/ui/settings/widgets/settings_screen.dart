@@ -16,6 +16,7 @@ import 'package:kcalculus/ui/settings/view_models/settings_view_model.dart';
 import 'package:kcalculus/ui/settings/widgets/action_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/app_theme_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/option_setting_screen.dart';
+import 'package:kcalculus/ui/settings/widgets/premium_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
 import 'package:kcalculus/ui/settings/widgets/switch_setting_tile.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -181,6 +182,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: ListView(
             children: [
+              const SettingsGroup(
+                children: [
+                  PremiumSettingTile(),
+                ],
+              ),
               SettingsGroup(
                 title: l10n(context).settingsGroupCommon,
                 children: [
@@ -217,12 +223,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     title: l10n(context).settingBackupTitle,
                     subtitle: l10n(context).settingBackupSubtitle,
                     icon: Icons.download,
+                    premiumFeature: true,
                   ),
                   ActionSettingTile(
                     onTap: settings.isLoading ? null : _restore,
                     title: l10n(context).settingRestoreTitle,
                     subtitle: l10n(context).settingRestoreSubtitle,
                     icon: Icons.upload,
+                    premiumFeature: true,
                   ),
                 ],
               ),

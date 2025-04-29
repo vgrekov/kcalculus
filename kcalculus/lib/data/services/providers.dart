@@ -45,7 +45,7 @@ final _envProvider = Provider<String>(
   (_) => const String.fromEnvironment('ENV', defaultValue: 'dev'),
 );
 
-final _appConfigProvider = FutureProvider<AppConfig>(
+final appConfigProvider = FutureProvider<AppConfig>(
   (ref) {
     final env = ref.watch(_envProvider);
     final service = LocalAppConfigService(env: env);
@@ -56,7 +56,7 @@ final _appConfigProvider = FutureProvider<AppConfig>(
 
 final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
   (ref) async {
-    final appConfig = await ref.watch(_appConfigProvider.future);
+    final appConfig = await ref.watch(appConfigProvider.future);
 
     return OpenFoodFactsService(
       openFoodFactsBaseUrl: appConfig.openFoodFactsBaseUrl,
@@ -67,7 +67,7 @@ final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
 
 final _adServiceProvider = FutureProvider<AdService>(
   (ref) async {
-    final appConfig = await ref.watch(_appConfigProvider.future);
+    final appConfig = await ref.watch(appConfigProvider.future);
 
     return AdService(
       androidInterstitialAdUnitId: appConfig.androidInterstitialAdUnitId,
@@ -80,10 +80,10 @@ final _adServiceProvider = FutureProvider<AdService>(
   },
 );
 
-final _purchaseServiceProvider = Provider<PurchaseService>(
+final purchaseServiceProvider = Provider<PurchaseService>(
   (ref) => const PurchaseService(),
 );
 
-final _rewardServiceProvider = Provider<RewardService>(
+final rewardServiceProvider = Provider<RewardService>(
   (ref) => const RewardService(),
 );
