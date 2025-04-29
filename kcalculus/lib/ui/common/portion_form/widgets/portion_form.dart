@@ -105,6 +105,10 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
 
     // Force build
     setState(() {});
+
+    if (_portion != null) {
+      _amountFocusNode.requestFocus();
+    }
   }
 
   void _loadUiState(PortionFormUiState uiState) {
