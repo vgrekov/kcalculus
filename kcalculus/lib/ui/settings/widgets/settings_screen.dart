@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,11 +16,12 @@ import 'package:kcalculus/ui/settings/view_models/settings_view_model.dart';
 import 'package:kcalculus/ui/settings/widgets/action_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/app_theme_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/option_setting_screen.dart';
+import 'package:kcalculus/ui/settings/widgets/premium_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
 import 'package:kcalculus/ui/settings/widgets/switch_setting_tile.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:logging/logging.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:path/path.dart' as path;
 
 final Logger _log = Logger('SettingsScreen');
 
@@ -116,9 +119,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     required BuildContext context,
     required WidgetRef ref,
   }) {
-    Share.shareXFiles([
-      XFile(command.payload as String),
-    ]);
+    final file = command.payload as File;
+    FilePicker.platform.saveFile(
+      fileName: path.basename(file.path),
+      bytes: file.readAsBytesSync(),
+    );
     command.complete();
   }
 
@@ -177,6 +182,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: ListView(
             children: [
+              const SettingsGroup(
+                children: [
+                  PremiumSettingTile(),
+                ],
+              ),
               SettingsGroup(
                 title: l10n(context).settingsGroupCommon,
                 children: [
@@ -213,12 +223,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     title: l10n(context).settingBackupTitle,
                     subtitle: l10n(context).settingBackupSubtitle,
                     icon: Icons.download,
+                    premiumFeature: true,
                   ),
                   ActionSettingTile(
                     onTap: settings.isLoading ? null : _restore,
                     title: l10n(context).settingRestoreTitle,
                     subtitle: l10n(context).settingRestoreSubtitle,
                     icon: Icons.upload,
+                    premiumFeature: true,
                   ),
                 ],
               ),

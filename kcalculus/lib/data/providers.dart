@@ -35,6 +35,7 @@ import 'package:kcalculus/data/services/local/database/database_service.dart';
 import 'package:kcalculus/data/services/open_food_facts/open_food_facts_service.dart';
 import 'package:kcalculus/data/services/purchase/purchase_service.dart';
 import 'package:kcalculus/data/services/reward/reward_service.dart';
+import 'package:kcalculus/domain/models/access_level.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 
 part 'repositories/local/converters/providers.dart';

@@ -35,14 +35,11 @@ class AccessGuardViewModel extends AutoDisposeFamilyNotifier<void, Key?> {
     try {
       _commander!.send(AccessGuardCommand.showProgress);
 
-      final accessLevelRepository =
-          await ref.read(accessLevelRepositoryProvider.future);
-
-      final accessLevel = await accessLevelRepository.getAccessLevel();
+      final accessLevel = await ref.read(accessLevelRepositoryProvider.future);
 
       switch (accessLevel) {
-        case AccessLevel.premium:
-        case AccessLevel.adSupportedPremium:
+        case AccessLevelPremium():
+        case AccessLevelAdSupportedPremium():
           _log.finer('Premium granted');
           return const PremiumGranted();
         default:
@@ -55,8 +52,10 @@ class AccessGuardViewModel extends AutoDisposeFamilyNotifier<void, Key?> {
       _commander!.send(AccessGuardCommand.hideProgress);
 
       if (ad == null) {
-        _log.info('No Ad to show, granting premium');
+        _log.info('No Ad to show, rewarding premium');
         _log.eventNoAd();
+
+        await rewardPremium();
 
         return const PremiumGranted();
       }
@@ -99,7 +98,7 @@ class AccessGuardViewModel extends AutoDisposeFamilyNotifier<void, Key?> {
 
       _commander!.send(AccessGuardCommand.showUnknownErrorNotification);
 
-      return const PremiumDenied();
+      return const PremiumGranted();
     } finally {
       _commander!.send(AccessGuardCommand.hideProgress);
     }
@@ -111,7 +110,7 @@ class AccessGuardViewModel extends AutoDisposeFamilyNotifier<void, Key?> {
 
     try {
       final accessLevelRepository =
-          await ref.read(accessLevelRepositoryProvider.future);
+          ref.read(accessLevelRepositoryProvider.notifier);
 
       final until = await accessLevelRepository.rewardUnlock();
 

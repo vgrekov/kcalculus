@@ -14,6 +14,7 @@ class LocalAppConfig with _$LocalAppConfig implements AppConfig {
     required String androidUnlockAdUnitId,
     required String iOsUnlockAdUnitId,
     required int unlockWithAdDurationMins,
+    required int interstitialAdCooldownDurationMins,
   }) = _LocalAppConfig;
 
   factory LocalAppConfig.fromJson(Map<String, dynamic> json) =>

@@ -256,7 +256,7 @@
     "messageNoData": "No data...",
     "screenAgreement": "Agreement",
     "actionIAgree": "I agree",
-    "messageUnlockWithAdConfirmation": "Watch an ad to unlock this functionality?",
+    "messageUnlockWithAdConfirmation": "Watch an unskippable ad to temporary unlock premium features?",
     "messageUnlockedWithAd": "Premium features unlocked until\n{until}",
     "@messageUnlockedWithAd": {
         "placeholders": {
@@ -266,5 +266,24 @@
         }
     },
     "settingAnalyticsTitle": "Allow usage data collection",
-    "settingAnalyticsSubtitle": "Help improve the app by sharing anonymous usage data"
+    "settingAnalyticsSubtitle": "Help improve the app by sharing anonymous usage data",
+    "messageSwitchToLogDateConfirmation": "Meal saved for {date}.\nSwitch to that day?",
+    "@messageSwitchToLogDateConfirmation": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "settingPremiumTitle": "Premium status",
+    "settingPremiumSubtitleLocked": "Unlock premium features",
+    "settingPremiumSubtitleUnlocked": "Premium features unlocked",
+    "settingPremiumSubtitleUnlockedUntil": "Premium features unlocked until {until}",
+    "@settingPremiumSubtitleUnlockedUntil": {
+        "placeholders": {
+            "until": {
+                "type": "String"
+            }
+        }
+    }
 }

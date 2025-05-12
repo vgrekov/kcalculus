@@ -7,6 +7,7 @@ import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/nutrition/portion.dart';
+import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/edible_already_exists_exception.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/modified_edible_option.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/no_common_measure_exception.dart';
@@ -17,6 +18,12 @@ import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:logging/logging.dart';
 
 final _log = Logger('PortionFormViewModel');
+
+final _kMeasuresInOrder = [
+  Measure.quantity,
+  Measure.mass,
+  Measure.volume,
+];
 
 enum PortionFormCommand {
   showUnknownErrorNotification,
@@ -45,12 +52,40 @@ class PortionFormViewModel
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
-  void _selectEdible(Edible edible) {
+  void selectEdible(
+    Edible edible, [
+    Unit? amountUnit,
+    double? amountValue,
+  ]) {
+    final nutritionFacts = edible.getNutritionFacts();
+
+    if (amountValue == null) {
+      amountUnit = ([
+        ...nutritionFacts.map((nf) => nf.amount.unit),
+      ]..sort(
+              (u1, u2) {
+                int index1 = _kMeasuresInOrder.indexOf(u1.measure);
+                int index2 = _kMeasuresInOrder.indexOf(u2.measure);
+
+                if (index1 != -1 && index2 == -1) {
+                  return -1;
+                } else if (index1 == -1 && index2 != -1) {
+                  return 1;
+                } else {
+                  return index1 - index2;
+                }
+              },
+            ))
+          .firstOrNull;
+    }
+
     state = state.copyWith(
       selectedEdible: edible,
       name: edible.name,
       description: edible.description,
-      nutritionFacts: edible.getNutritionFacts(),
+      amountUnit: amountUnit,
+      amountValue: amountValue,
+      nutritionFacts: nutritionFacts,
     );
   }
 
@@ -140,7 +175,11 @@ class PortionFormViewModel
       if (edibleOption != null) {
         switch (edibleOption) {
           case ModifiedEdibleOption.useSelected:
-            _selectEdible(state.selectedEdible!);
+            selectEdible(
+              state.selectedEdible!,
+              state.amountUnit,
+              state.amountValue,
+            );
 
             _checkIfCommonMeasureExists();
 

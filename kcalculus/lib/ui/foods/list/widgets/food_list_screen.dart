@@ -9,6 +9,7 @@ import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:kcalculus/ui/common/widgets/edible_search_results.dart';
+import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
@@ -192,9 +193,11 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
                   controller: _searchController,
                   prefix: IconButton(
                     onPressed: _scanFood,
-                    icon: Icon(
-                      Icons.qr_code_scanner,
-                      color: Theme.of(context).colorScheme.onSurface,
+                    icon: PremiumBadge(
+                      child: Icon(
+                        Icons.qr_code_scanner,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
                   ),
                   hintText: l10n(context).hintEdibleSearchBox,

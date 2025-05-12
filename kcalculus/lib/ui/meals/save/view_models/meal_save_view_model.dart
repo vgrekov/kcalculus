@@ -4,6 +4,7 @@ import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/meals/save/view_models/meal_save_ui_state.dart';
+import 'package:kcalculus/ui/meals/save/view_models/meal_save_view_model_arg.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
@@ -15,18 +16,31 @@ enum MealSaveCommand {
 }
 
 class MealSaveViewModel
-    extends AutoDisposeFamilyNotifier<MealSaveUiState, Meal?> {
+    extends AutoDisposeFamilyNotifier<MealSaveUiState, MealSaveViewModelArg> {
   UiCommander<MealSaveCommand>? _commander;
 
   @override
-  MealSaveUiState build(Meal? arg) {
+  MealSaveUiState build(MealSaveViewModelArg arg) {
     _commander = UiCommander<MealSaveCommand>(_commander);
 
     ref.onDispose(() {
       _commander?.dispose();
     });
 
-    return arg != null ? MealSaveUiState.fromMeal(arg) : MealSaveUiState();
+    if (arg.meal != null) {
+      return MealSaveUiState.fromMeal(arg.meal!);
+    } else if (arg.date != null) {
+      final now = DateTime.now();
+      return MealSaveUiState(
+        eatenAt: now.copyWith(
+          year: arg.date!.year,
+          month: arg.date!.month,
+          day: arg.date!.day,
+        ),
+      );
+    }
+
+    return MealSaveUiState();
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
@@ -55,7 +69,10 @@ class MealSaveViewModel
       _log.finest('saveMeal() Saved meal ID: ${meal.id}');
       _log.eventMealSave();
 
-      _commander!.send(MealSaveCommand.exit);
+      _commander!.send<Meal?, void>(
+        MealSaveCommand.exit,
+        payload: meal,
+      );
     } catch (error, stackTrace) {
       _log.severe('Failed to save a meal', error, stackTrace);
 
@@ -69,6 +86,6 @@ class MealSaveViewModel
 }
 
 final mealSaveViewModel = NotifierProvider.family
-    .autoDispose<MealSaveViewModel, MealSaveUiState, Meal?>(
+    .autoDispose<MealSaveViewModel, MealSaveUiState, MealSaveViewModelArg>(
   MealSaveViewModel.new,
 );

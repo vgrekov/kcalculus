@@ -11,6 +11,7 @@ import 'package:kcalculus/ui/common/widgets/edible_main_info.dart';
 import 'package:kcalculus/ui/common/widgets/ingredient_list.dart';
 import 'package:kcalculus/ui/common/widgets/nutrient_stats.dart';
 import 'package:kcalculus/ui/common/widgets/nutrition_facts_view/nutrition_facts_view.dart';
+import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/dishes/view/view_models/dish_view_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
@@ -142,9 +143,11 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
               onPressed: () {
                 _shareDish(context, ref, dish);
               },
-              icon: Icon(
-                Icons.share,
-                color: Theme.of(context).colorScheme.onSurface,
+              icon: PremiumBadge(
+                child: Icon(
+                  Icons.share,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             ),
             IconButton(
