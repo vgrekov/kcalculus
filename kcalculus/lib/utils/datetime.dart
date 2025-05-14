@@ -44,3 +44,10 @@ bool isSameDay(DateTime date1, DateTime date2) {
       date1.month == date2.month &&
       date1.day == date2.day;
 }
+
+bool isNextDay(DateTime curr, DateTime next) {
+  final currMidnight = DateTime(curr.year, curr.month, curr.day);
+  final nextMidnight = DateTime(next.year, next.month, next.day);
+  final diff = nextMidnight.difference(currMidnight);
+  return diff.inDays == 1;
+}
