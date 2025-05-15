@@ -1,10 +1,10 @@
 {
     "openFoodFactsBaseUrl": "https://world.openfoodfacts.org",
     "contactEmail": "contact@remexola.dev",
-    "androidInterstitialAdUnitId": "ca-app-pub-2787380297611749/4895790371",
-    "iOsInterstitialAdUnitId": "ca-app-pub-2787380297611749/3603127685",
-    "androidUnlockAdUnitId": "ca-app-pub-2787380297611749/3343035556",
-    "iOsUnlockAdUnitId": "ca-app-pub-2787380297611749/1722832122",
+    "androidInterstitialAdUnitId": "ca-app-pub-8782160862076829/7162801965",
+    "iOsInterstitialAdUnitId": "ca-app-pub-8782160862076829/8846600483",
+    "androidUnlockAdUnitId": "ca-app-pub-8782160862076829/5807464059",
+    "iOsUnlockAdUnitId": "ca-app-pub-8782160862076829/4604103144",
     "unlockWithAdDurationMins": 1440,
     "interstitialAdCooldownDurationMins": 60
 }
