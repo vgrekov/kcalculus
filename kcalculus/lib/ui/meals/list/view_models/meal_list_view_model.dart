@@ -6,6 +6,7 @@ import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_ui_state.dart';
+import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
@@ -132,9 +133,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
 
   void _switchToNextDay() {
     final now = DateTime.now();
-    if (now.year == state.date.year &&
-        now.month == state.date.month &&
-        now.day == state.date.day + 1) {
+    if (dt.isNextDay(state.date, now)) {
       selectDate(now);
     }
     _scheduleNextDaySwitch();
