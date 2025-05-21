@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/food_container.dart';
+import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
@@ -278,6 +279,7 @@ class _FoodContainerSaveScreenState
                     AmountInput(
                       label: l10n(context).labelFoodContainerWeight,
                       controller: _weightController,
+                      fixedMeasure: Measure.mass,
                       focusNode: _weightFocusNode,
                       textInputAction: TextInputAction.done,
                       allowZero: false,
