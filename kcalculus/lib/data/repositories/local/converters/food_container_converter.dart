@@ -24,10 +24,10 @@ class LocalFoodContainerConverter {
         unit: Unit.of(dbModel.weight_unit),
         value: dbModel.weight_value,
       ),
-      createdAt: dbModel.created_at != null
+      createdAt: (dbModel.created_at?.isNotEmpty ?? false)
           ? dt.parseISO8601(dbModel.created_at!)
           : null,
-      updatedAt: dbModel.updated_at != null
+      updatedAt: (dbModel.updated_at?.isNotEmpty ?? false)
           ? dt.parseISO8601(dbModel.updated_at!)
           : null,
     );
