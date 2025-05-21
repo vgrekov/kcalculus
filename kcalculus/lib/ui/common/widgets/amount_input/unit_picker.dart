@@ -8,9 +8,12 @@ class UnitPicker extends StatefulWidget {
   const UnitPicker({
     super.key,
     this.initialValue,
+    this.fixedMeasure,
   });
 
   final Unit? initialValue;
+
+  final Measure? fixedMeasure;
 
   @override
   State<StatefulWidget> createState() {
@@ -37,7 +40,9 @@ class _UnitPickerState extends State<UnitPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final measures = Measure.pickableValues;
+    final measures = widget.fixedMeasure != null
+        ? [widget.fixedMeasure!]
+        : Measure.pickableValues;
 
     final systems = Unit.values
         .where((u) => u.measure == _measure)

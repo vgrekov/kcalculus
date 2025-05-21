@@ -27,9 +27,20 @@ class AmountInput extends StatefulWidget {
     this.autofocus = false,
     this.validator,
     this.onUserInteractionChange,
+    this.fixedMeasure,
   }) {
     if (fixedUnit && initialUnit == null && initialAmount == null) {
       throw 'When fixed, a unit must be provided.';
+    }
+
+    if (fixedMeasure != null) {
+      final unit = initialUnit ??
+          initialAmount?.unit ??
+          controller?._unit ??
+          _defaultUnit;
+      if (unit.measure != fixedMeasure) {
+        throw 'A fixed measure is incompatible with the unit.';
+      }
     }
   }
 
@@ -64,6 +75,8 @@ class AmountInput extends StatefulWidget {
   final String? Function(String?)? validator;
 
   final void Function()? onUserInteractionChange;
+
+  final Measure? fixedMeasure;
 
   @override
   State<StatefulWidget> createState() {
@@ -126,6 +139,7 @@ class _AmountInputState extends State<AmountInput> {
       context: context,
       builder: (context) => UnitPicker(
         initialValue: _unit,
+        fixedMeasure: widget.fixedMeasure,
       ),
     );
 
