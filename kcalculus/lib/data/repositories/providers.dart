@@ -138,3 +138,12 @@ final accessLevelRepositoryProvider =
     AsyncNotifierProvider<AccessLevelRepository, AccessLevel>(
   AccessLevelRepository.new,
 );
+
+final containerRepositoryProvider = Provider<FoodContainerRepository>(
+  (ref) {
+    final containerDao = ref.watch(_localContainerDaoProvider);
+    return LocalContainerRepository(
+      containerDao: containerDao,
+    );
+  },
+);
