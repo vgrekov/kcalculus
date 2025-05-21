@@ -139,11 +139,30 @@ final accessLevelRepositoryProvider =
   AccessLevelRepository.new,
 );
 
-final containerRepositoryProvider = Provider<FoodContainerRepository>(
+final _foodContainerChangesStreamControllerProvider =
+    Provider<StreamController<void>>(
   (ref) {
-    final containerDao = ref.watch(_localContainerDaoProvider);
+    final controller = StreamController<void>.broadcast();
+    ref.onDispose(controller.close);
+    return controller;
+  },
+);
+
+final foodContainerChangesProvider = StreamProvider<void>(
+  (ref) {
+    final controller = ref.watch(_foodContainerChangesStreamControllerProvider);
+    return controller.stream;
+  },
+);
+
+final foodContainerRepositoryProvider = Provider<FoodContainerRepository>(
+  (ref) {
+    final containerDao = ref.watch(_localFoodContainerDaoProvider);
+    final changeController =
+        ref.watch(_foodContainerChangesStreamControllerProvider);
     return LocalContainerRepository(
       containerDao: containerDao,
+      changeController: changeController,
     );
   },
 );
