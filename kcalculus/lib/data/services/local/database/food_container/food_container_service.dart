@@ -128,7 +128,10 @@ class FoodContainerService {
 
     await executor.insert(
       'food_containers',
-      model.toJson(),
+      {
+        ...model.toJson(),
+        'created_at': dt.formatISO8601(DateTime.now()),
+      },
     );
   }
 
@@ -140,7 +143,10 @@ class FoodContainerService {
 
     await executor.update(
       'food_containers',
-      model.toJson(),
+      {
+        ...model.toJson(),
+        'updated_at': dt.formatISO8601(DateTime.now()),
+      },
       where: 'id = ?',
       whereArgs: [model.id],
     );
