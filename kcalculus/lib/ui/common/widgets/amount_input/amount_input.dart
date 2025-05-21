@@ -9,23 +9,6 @@ import 'package:kcalculus/utils/number.dart' as nb;
 const _defaultUnit = Unit.gram;
 
 class AmountInput extends StatefulWidget {
-  final AmountInputController? controller;
-  final String? label;
-  final String? hint;
-  final Amount? initialAmount;
-  final Unit? initialUnit;
-  final double? initialValue;
-  final bool fixedUnit;
-  final bool allowZero;
-  final bool enabled;
-  final TextInputAction? textInputAction;
-  final void Function(String)? onFieldSubmitted;
-  final void Function(Amount?)? onSaveAmount;
-  final FocusNode? focusNode;
-  final bool autofocus;
-  final String? Function(String?)? validator;
-  final void Function()? onUserInteractionChange;
-
   AmountInput({
     super.key,
     this.controller,
@@ -50,6 +33,38 @@ class AmountInput extends StatefulWidget {
     }
   }
 
+  final AmountInputController? controller;
+
+  final String? label;
+
+  final String? hint;
+
+  final Amount? initialAmount;
+
+  final Unit? initialUnit;
+
+  final double? initialValue;
+
+  final bool fixedUnit;
+
+  final bool allowZero;
+
+  final bool enabled;
+
+  final TextInputAction? textInputAction;
+
+  final void Function(String)? onFieldSubmitted;
+
+  final void Function(Amount?)? onSaveAmount;
+
+  final FocusNode? focusNode;
+
+  final bool autofocus;
+
+  final String? Function(String?)? validator;
+
+  final void Function()? onUserInteractionChange;
+
   @override
   State<StatefulWidget> createState() {
     return _AmountInputState();
@@ -60,6 +75,7 @@ class _AmountInputState extends State<AmountInput> {
   late RegExp _valueMask;
 
   late Unit _unit;
+
   late double? _value;
 
   final TextEditingController _valueController = TextEditingController();
@@ -233,6 +249,7 @@ class _AmountInputState extends State<AmountInput> {
 
 class AmountInputController extends ChangeNotifier {
   Unit? _unit;
+
   double? _value;
 
   Unit? get unit => _unit;

@@ -5,12 +5,12 @@ const _defaultMeasure = Measure.mass;
 const _defaultSystem = MeasureSystem.metric;
 
 class UnitPicker extends StatefulWidget {
-  final Unit? initialValue;
-
   const UnitPicker({
     super.key,
     this.initialValue,
   });
+
+  final Unit? initialValue;
 
   @override
   State<StatefulWidget> createState() {
@@ -20,6 +20,7 @@ class UnitPicker extends StatefulWidget {
 
 class _UnitPickerState extends State<UnitPicker> {
   late Measure _measure;
+
   late MeasureSystem _system;
 
   @override
