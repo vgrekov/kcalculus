@@ -285,5 +285,8 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "screenMore": "More",
+    "moreItemContainersTitle": "Containers",
+    "moreItemContainersSubtitle": "For cooking or storing food"
 }
