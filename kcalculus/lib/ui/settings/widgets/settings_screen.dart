@@ -260,7 +260,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           body: body,
           bottomNavigationBar: Container(
             color: Theme.of(context).colorScheme.surfaceContainer,
-            padding: EdgeInsets.only(top: 32),
+            padding: EdgeInsets.only(top: 8),
             child: const ScreenTabBar(
               selectedTab: ScreenTab.settings,
             ),
