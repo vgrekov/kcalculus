@@ -288,5 +288,20 @@
     },
     "screenMore": "More",
     "moreItemContainersTitle": "Containers",
-    "moreItemContainersSubtitle": "For cooking or storing food"
+    "moreItemContainersSubtitle": "For cooking or storing food",
+    "screenFoodContainers": "Containers",
+    "messageFoodContainerDeletionSuccess": "Container deleted",
+    "messageFoodContainerDeletionFailure": "Failed to delete the container",
+    "hintFoodContainerSearchBox": "Search by name...",
+    "messageFoodContainerSearchNothingFound": "Nothing found...",
+    "messageFoodContainerDeletionConfirmation": "Delete this container?",
+    "screenAddFoodContainer": "New Container",
+    "screenEditFoodContainer": "Edit Container",
+    "labelFoodContainerName": "Name",
+    "validationErrorFoodContainerNameMissing": "Name is required",
+    "labelFoodContainerDescription": "Description",
+    "labelFoodContainerWeight": "Weight",
+    "messageFoodContainerAlreadyExists": "A container with this name and description already exists.\nPlease make sure these are unique before saving.",
+    "messageNewFoodContainerCancellationConfirmation": "Cancel container creation?",
+    "messageEditFoodContainerCancellationConfirmation": "Cancel container editing?"
 }
