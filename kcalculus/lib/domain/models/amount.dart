@@ -43,6 +43,20 @@ class Amount with _$Amount {
     );
   }
 
+  Amount operator -(Amount other) {
+    if (unit.measure != other.unit.measure) {
+      throw 'Operands must be of the same measure.';
+    }
+
+    final targetUnit = Unit.defaultFor(unit.measure);
+
+    return Amount(
+      unit: targetUnit,
+      value: value * unit.factor / targetUnit.factor -
+          other.value * other.unit.factor / targetUnit.factor,
+    );
+  }
+
   double _compareTo(Amount other) {
     if (unit.measure != other.unit.measure) {
       throw 'Both amounts must be of the same measure.';
