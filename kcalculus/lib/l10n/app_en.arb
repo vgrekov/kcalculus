@@ -303,5 +303,20 @@
     "labelFoodContainerWeight": "Weight",
     "messageFoodContainerAlreadyExists": "A container with this name and description already exists.\nPlease make sure these are unique before saving.",
     "messageNewFoodContainerCancellationConfirmation": "Cancel container creation?",
-    "messageEditFoodContainerCancellationConfirmation": "Cancel container editing?"
+    "messageEditFoodContainerCancellationConfirmation": "Cancel container editing?",
+    "labelFoodContainerSelect": "Weighing in a container?",
+    "labelFoodContainerSelected": "{name} ({weight} {unit})",
+    "@labelFoodContainerSelected": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    }
 }
