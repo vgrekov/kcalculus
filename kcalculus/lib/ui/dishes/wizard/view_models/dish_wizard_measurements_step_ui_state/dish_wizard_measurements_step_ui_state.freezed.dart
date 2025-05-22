@@ -198,6 +198,7 @@ abstract class _MeasurementsStepValidationResult
 
 /// @nodoc
 mixin _$DishWizardMeasurementsStepUiState {
+  FoodContainer? get container => throw _privateConstructorUsedError;
   List<NutritionRatioUiState> get nutritionRatioStates =>
       throw _privateConstructorUsedError;
 
@@ -216,7 +217,11 @@ abstract class $DishWizardMeasurementsStepUiStateCopyWith<$Res> {
       _$DishWizardMeasurementsStepUiStateCopyWithImpl<$Res,
           DishWizardMeasurementsStepUiState>;
   @useResult
-  $Res call({List<NutritionRatioUiState> nutritionRatioStates});
+  $Res call(
+      {FoodContainer? container,
+      List<NutritionRatioUiState> nutritionRatioStates});
+
+  $FoodContainerCopyWith<$Res>? get container;
 }
 
 /// @nodoc
@@ -235,14 +240,33 @@ class _$DishWizardMeasurementsStepUiStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? container = freezed,
     Object? nutritionRatioStates = null,
   }) {
     return _then(_value.copyWith(
+      container: freezed == container
+          ? _value.container
+          : container // ignore: cast_nullable_to_non_nullable
+              as FoodContainer?,
       nutritionRatioStates: null == nutritionRatioStates
           ? _value.nutritionRatioStates
           : nutritionRatioStates // ignore: cast_nullable_to_non_nullable
               as List<NutritionRatioUiState>,
     ) as $Val);
+  }
+
+  /// Create a copy of DishWizardMeasurementsStepUiState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $FoodContainerCopyWith<$Res>? get container {
+    if (_value.container == null) {
+      return null;
+    }
+
+    return $FoodContainerCopyWith<$Res>(_value.container!, (value) {
+      return _then(_value.copyWith(container: value) as $Val);
+    });
   }
 }
 
@@ -255,7 +279,12 @@ abstract class _$$DishWizardMeasurementsStepUiStateImplCopyWith<$Res>
       __$$DishWizardMeasurementsStepUiStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<NutritionRatioUiState> nutritionRatioStates});
+  $Res call(
+      {FoodContainer? container,
+      List<NutritionRatioUiState> nutritionRatioStates});
+
+  @override
+  $FoodContainerCopyWith<$Res>? get container;
 }
 
 /// @nodoc
@@ -273,9 +302,14 @@ class __$$DishWizardMeasurementsStepUiStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? container = freezed,
     Object? nutritionRatioStates = null,
   }) {
     return _then(_$DishWizardMeasurementsStepUiStateImpl(
+      container: freezed == container
+          ? _value.container
+          : container // ignore: cast_nullable_to_non_nullable
+              as FoodContainer?,
       nutritionRatioStates: null == nutritionRatioStates
           ? _value._nutritionRatioStates
           : nutritionRatioStates // ignore: cast_nullable_to_non_nullable
@@ -289,10 +323,13 @@ class __$$DishWizardMeasurementsStepUiStateImplCopyWithImpl<$Res>
 class _$DishWizardMeasurementsStepUiStateImpl
     extends _DishWizardMeasurementsStepUiState {
   const _$DishWizardMeasurementsStepUiStateImpl(
-      {required final List<NutritionRatioUiState> nutritionRatioStates})
+      {this.container,
+      required final List<NutritionRatioUiState> nutritionRatioStates})
       : _nutritionRatioStates = nutritionRatioStates,
         super._();
 
+  @override
+  final FoodContainer? container;
   final List<NutritionRatioUiState> _nutritionRatioStates;
   @override
   List<NutritionRatioUiState> get nutritionRatioStates {
@@ -304,7 +341,7 @@ class _$DishWizardMeasurementsStepUiStateImpl
 
   @override
   String toString() {
-    return 'DishWizardMeasurementsStepUiState._default(nutritionRatioStates: $nutritionRatioStates)';
+    return 'DishWizardMeasurementsStepUiState._default(container: $container, nutritionRatioStates: $nutritionRatioStates)';
   }
 
   @override
@@ -312,13 +349,15 @@ class _$DishWizardMeasurementsStepUiStateImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DishWizardMeasurementsStepUiStateImpl &&
+            (identical(other.container, container) ||
+                other.container == container) &&
             const DeepCollectionEquality()
                 .equals(other._nutritionRatioStates, _nutritionRatioStates));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_nutritionRatioStates));
+  int get hashCode => Object.hash(runtimeType, container,
+      const DeepCollectionEquality().hash(_nutritionRatioStates));
 
   /// Create a copy of DishWizardMeasurementsStepUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -334,10 +373,13 @@ class _$DishWizardMeasurementsStepUiStateImpl
 abstract class _DishWizardMeasurementsStepUiState
     extends DishWizardMeasurementsStepUiState {
   const factory _DishWizardMeasurementsStepUiState(
-          {required final List<NutritionRatioUiState> nutritionRatioStates}) =
+          {final FoodContainer? container,
+          required final List<NutritionRatioUiState> nutritionRatioStates}) =
       _$DishWizardMeasurementsStepUiStateImpl;
   const _DishWizardMeasurementsStepUiState._() : super._();
 
+  @override
+  FoodContainer? get container;
   @override
   List<NutritionRatioUiState> get nutritionRatioStates;
 

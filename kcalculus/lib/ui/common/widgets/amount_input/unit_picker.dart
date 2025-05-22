@@ -5,12 +5,15 @@ const _defaultMeasure = Measure.mass;
 const _defaultSystem = MeasureSystem.metric;
 
 class UnitPicker extends StatefulWidget {
-  final Unit? initialValue;
-
   const UnitPicker({
     super.key,
     this.initialValue,
+    this.fixedMeasure,
   });
+
+  final Unit? initialValue;
+
+  final Measure? fixedMeasure;
 
   @override
   State<StatefulWidget> createState() {
@@ -20,6 +23,7 @@ class UnitPicker extends StatefulWidget {
 
 class _UnitPickerState extends State<UnitPicker> {
   late Measure _measure;
+
   late MeasureSystem _system;
 
   @override
@@ -36,7 +40,9 @@ class _UnitPickerState extends State<UnitPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final measures = Measure.pickableValues;
+    final measures = widget.fixedMeasure != null
+        ? [widget.fixedMeasure!]
+        : Measure.pickableValues;
 
     final systems = Unit.values
         .where((u) => u.measure == _measure)

@@ -138,3 +138,31 @@ final accessLevelRepositoryProvider =
     AsyncNotifierProvider<AccessLevelRepository, AccessLevel>(
   AccessLevelRepository.new,
 );
+
+final _foodContainerChangesStreamControllerProvider =
+    Provider<StreamController<void>>(
+  (ref) {
+    final controller = StreamController<void>.broadcast();
+    ref.onDispose(controller.close);
+    return controller;
+  },
+);
+
+final foodContainerChangesProvider = StreamProvider<void>(
+  (ref) {
+    final controller = ref.watch(_foodContainerChangesStreamControllerProvider);
+    return controller.stream;
+  },
+);
+
+final foodContainerRepositoryProvider = Provider<FoodContainerRepository>(
+  (ref) {
+    final containerDao = ref.watch(_localFoodContainerDaoProvider);
+    final changeController =
+        ref.watch(_foodContainerChangesStreamControllerProvider);
+    return LocalContainerRepository(
+      containerDao: containerDao,
+      changeController: changeController,
+    );
+  },
+);

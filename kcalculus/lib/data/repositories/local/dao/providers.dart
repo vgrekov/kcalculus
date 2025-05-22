@@ -61,3 +61,14 @@ final _localMealDaoProvider = Provider(
     );
   },
 );
+
+final _localFoodContainerDaoProvider = Provider(
+  (ref) {
+    final dbService = ref.watch(_databaseServiceProvider);
+    final containerConverter = ref.watch(_localFoodContainerConverterProvider);
+    return LocalFoodContainerDao(
+      dbService: dbService,
+      containerConverter: containerConverter,
+    );
+  },
+);

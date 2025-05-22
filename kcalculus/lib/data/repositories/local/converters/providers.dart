@@ -31,3 +31,7 @@ final _localDishConverterProvider = Provider(
 final _localMealConverterProvider = Provider(
   (ref) => LocalMealConverter(),
 );
+
+final _localFoodContainerConverterProvider = Provider(
+  (ref) => LocalFoodContainerConverter(),
+);

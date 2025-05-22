@@ -141,4 +141,22 @@ extension Analytics on Logger {
       name: 'db_restore',
     );
   }
+
+  void eventFoodContainerSave() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_container_save',
+    );
+  }
+
+  void eventFoodContainerDelete() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_container_delete',
+    );
+  }
+
+  void eventFoodContainerRestore() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_container_restore',
+    );
+  }
 }

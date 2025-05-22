@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/models/food_container.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
+import 'package:kcalculus/ui/common/widgets/food_container_picker.dart';
 import 'package:kcalculus/ui/common/widgets/nutrition_ratio_input.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_ui_state/dish_wizard_measurements_step_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_ui_state/nutrition_ratio_ui_state.dart';
@@ -137,6 +139,8 @@ class _DishWizardMeasurementsPageState
       case NutritionRatioValidationResult.bothAmountsHaveWrongMeasure:
         return l10n(context)
             .validationErrorAmountMustBeOfMeasure(measure.localName(context));
+      case NutritionRatioValidationResult.totalNotHeavierThanContainer:
+        return l10n(context).validationErrorTotalMustBeHeavierThanContainer;
       default:
         return null;
     }
@@ -146,6 +150,22 @@ class _DishWizardMeasurementsPageState
     ref
         .read(dishWizardViewModel(widget.dish).notifier)
         .onUserInteractionChange();
+  }
+
+  void _selectFoodContainer(FoodContainer container) async {
+    _saveState();
+
+    ref
+        .read(dishWizardViewModel(widget.dish).notifier)
+        .selectFoodContainer(container);
+  }
+
+  void _unselectFoodContainer() {
+    _saveState();
+
+    ref
+        .read(dishWizardViewModel(widget.dish).notifier)
+        .selectFoodContainer(null);
   }
 
   @override
@@ -206,7 +226,20 @@ class _DishWizardMeasurementsPageState
         key: _form,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: ratioWidgets,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: FoodContainerPicker(
+                  container: uiState.measurementsStepState.container,
+                  onSelectContainer: _selectFoodContainer,
+                  onUnselectContainer: _unselectFoodContainer,
+                ),
+              ),
+            ),
+            ...ratioWidgets,
+          ],
         ),
       ),
     );
