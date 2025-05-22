@@ -181,6 +181,7 @@
             }
         }
     },
+    "validationErrorTotalMustBeHeavierThanContainer": "Must be heavier than container",
     "messageDishSelectMeasurementOptionError": "Please select at least one measurement option",
     "dishWizardPageSummary": "Nutrition Facts",
     "messageNewDishCancellationConfirmation": "Cancel dish creation?",

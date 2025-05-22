@@ -46,11 +46,7 @@ class DishWizardUiState with _$DishWizardUiState {
       name: mainStepState.name,
       description: mainStepState.description,
       ingredients: ingredientsStepState.ingredients,
-      nutritionRatios: {
-        for (final rs in measurementsStepState.nutritionRatioStates
-            .where((rs) => rs.enabled))
-          rs.measure: rs.toModel()
-      },
+      nutritionRatios: measurementsStepState.toNutritionRatios(),
     );
   }
 
@@ -76,6 +72,10 @@ class DishWizardUiState with _$DishWizardUiState {
           totalAmount += convertedAmount;
         }
       }
+    }
+
+    if (measure == Measure.mass && measurementsStepState.container != null) {
+      totalAmount += measurementsStepState.container!.weight;
     }
 
     return totalAmount.value > 0 ? totalAmount : null;
