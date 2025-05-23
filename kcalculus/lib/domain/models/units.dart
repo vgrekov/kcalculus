@@ -76,6 +76,11 @@ enum Unit {
     system: MeasureSystem.metric,
     factor: 0.001,
   ),
+  microgram(
+    measure: Measure.mass,
+    system: MeasureSystem.metric,
+    factor: 0.000001,
+  ),
   // Metric - Volume
   litre(
     measure: Measure.volume,
@@ -208,6 +213,7 @@ enum Unit {
       gram => l10n(context).unitGram,
       kilogram => l10n(context).unitKilogram,
       milligram => l10n(context).unitMilligram,
+      microgram => l10n(context).unitMicrogram,
       litre => l10n(context).unitLitre,
       millilitre => l10n(context).unitMillilitre,
       pound => l10n(context).unitPound,
