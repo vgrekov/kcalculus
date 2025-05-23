@@ -373,5 +373,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "hintNutrientSearchBox": "Search by name...",
+    "messageNutrientSearchNothingFound": "Nothing found..."
 }
