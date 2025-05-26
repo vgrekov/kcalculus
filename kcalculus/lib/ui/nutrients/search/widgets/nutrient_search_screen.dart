@@ -108,9 +108,11 @@ class _NutrientSearchScreenState extends ConsumerState<NutrientSearchScreen>
           ),
         ),
       ),
-      body: NutrientSearchList(
-        items: uiState.data,
-        onSelectItem: _selectNutrient,
+      body: SafeArea(
+        child: NutrientSearchList(
+          items: uiState.data,
+          onSelectItem: _selectNutrient,
+        ),
       ),
     );
   }

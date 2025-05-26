@@ -182,14 +182,16 @@ class _FoodContainerListScreenState
               ),
             ),
           ),
-          body: FoodContainerList(
-            items: uiState.data,
-            itemsLoader: uiState.dataLoader,
-            paginator: viewModel.searchHelper.paginator,
-            onSelectItem: _editFoodContainer,
-            onDeleteItem: (item) {
-              _deleteFoodContainer(item.id!);
-            },
+          body: SafeArea(
+            child: FoodContainerList(
+              items: uiState.data,
+              itemsLoader: uiState.dataLoader,
+              paginator: viewModel.searchHelper.paginator,
+              onSelectItem: _editFoodContainer,
+              onDeleteItem: (item) {
+                _deleteFoodContainer(item.id!);
+              },
+            ),
           ),
           floatingActionButton: Awaited(
             future: uiState.dataLoader,
@@ -200,7 +202,7 @@ class _FoodContainerListScreenState
             ),
           ),
           floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+              FloatingActionButtonLocation.centerFloat,
         ),
       ),
     );
