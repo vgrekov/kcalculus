@@ -341,6 +341,9 @@
             }
         }
     },
+    "settingsGroupAdvanced": "Advanced",
+    "settingDefaultNutrientsTitle": "Default nutrients",
+    "settingDefaultNutrientsSubtitle": "Select default set of nutrients for edibles",
     "screenMore": "More",
     "moreItemContainersTitle": "Containers",
     "moreItemContainersSubtitle": "For cooking or storing food",
@@ -375,5 +378,10 @@
         }
     },
     "hintNutrientSearchBox": "Search by name...",
-    "messageNutrientSearchNothingFound": "Nothing found..."
+    "messageNutrientSearchNothingFound": "Nothing found...",
+    "screenDefaultNutrients": "Default Nutrients",
+    "messageDefaultNutrientDeletionSuccess": "Container deleted",
+    "messageDefaultNutrientDeletionFailure": "Failed to delete the container",
+    "labelDefaultNutrientRequired": "Required",
+    "messageDefaultNutrientDeletionConfirmation": "Delete this nutrient?"
 }

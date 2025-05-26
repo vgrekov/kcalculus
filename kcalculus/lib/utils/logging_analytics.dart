@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:logging/logging.dart';
 
 extension Analytics on Logger {
@@ -157,6 +158,33 @@ extension Analytics on Logger {
   void eventFoodContainerRestore() {
     FirebaseAnalytics.instance.logEvent(
       name: 'food_container_restore',
+    );
+  }
+
+  void eventDefaultNutrientAdd(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'default_nutrient_add',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
+    );
+  }
+
+  void eventDefaultNutrientDelete(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'default_nutrient_delete',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
+    );
+  }
+
+  void eventDefaultNutrientRestore(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'default_nutrient_restore',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
     );
   }
 }
