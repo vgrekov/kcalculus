@@ -4,22 +4,18 @@ import 'package:kcalculus/domain/models/units.dart';
 enum Nutrient {
   energy(
     defaultUnit: Unit.calorie,
-    defaultIndex: 0,
     required: true,
   ),
   fat(
     defaultUnit: Unit.gram,
-    defaultIndex: 1,
     required: true,
   ),
   saturatedFat(
     defaultUnit: Unit.gram,
-    defaultIndex: 2,
     partOf: fat,
   ),
   transFat(
     defaultUnit: Unit.gram,
-    defaultIndex: 3,
     partOf: fat,
   ),
   unsaturatedFat(
@@ -48,17 +44,14 @@ enum Nutrient {
   ),
   totalCarbs(
     defaultUnit: Unit.gram,
-    defaultIndex: 4,
     required: true,
   ),
   fiber(
     defaultUnit: Unit.gram,
-    defaultIndex: 5,
     partOf: totalCarbs,
   ),
   sugar(
     defaultUnit: Unit.gram,
-    defaultIndex: 6,
     partOf: totalCarbs,
   ),
   polyols(
@@ -71,28 +64,22 @@ enum Nutrient {
   ),
   protein(
     defaultUnit: Unit.gram,
-    defaultIndex: 7,
     required: true,
   ),
   cholesterol(
     defaultUnit: Unit.milligram,
-    defaultIndex: 8,
   ),
   sodium(
     defaultUnit: Unit.milligram,
-    defaultIndex: 9,
   ),
   potassium(
     defaultUnit: Unit.milligram,
-    defaultIndex: 10,
   ),
   calcium(
     defaultUnit: Unit.milligram,
-    defaultIndex: 11,
   ),
   iron(
     defaultUnit: Unit.milligram,
-    defaultIndex: 12,
   ),
   betaCarotene(
     defaultUnit: Unit.gram,
@@ -191,19 +178,20 @@ enum Nutrient {
     defaultUnit: Unit.milligram,
   );
 
+  static Nutrient of(String name) {
+    return Nutrient.values.firstWhere((u) => u.name == name);
+  }
+
   final Unit defaultUnit;
 
   final Nutrient? partOf;
 
   final bool required;
 
-  final int? defaultIndex;
-
   const Nutrient({
     required this.defaultUnit,
     this.partOf,
     this.required = false,
-    this.defaultIndex,
   });
 
   String localName(AppLocalizations l10n) {
