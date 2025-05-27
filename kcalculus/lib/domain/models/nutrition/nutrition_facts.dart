@@ -10,6 +10,7 @@ class NutritionFacts with _$NutritionFacts {
   const NutritionFacts._();
 
   const factory NutritionFacts({
+    String? id,
     required Amount amount,
     required NutrientData nutrientData,
   }) = _NutritionFacts;
