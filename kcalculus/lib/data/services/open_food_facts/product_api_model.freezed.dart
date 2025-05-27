@@ -25,7 +25,7 @@ mixin _$ProductApiModel {
   String? get serving_quantity_unit => throw _privateConstructorUsedError;
   Object? get serving_quantity => throw _privateConstructorUsedError;
   String? get nutrition_data_per => throw _privateConstructorUsedError;
-  NutrimentsApiModel? get nutriments => throw _privateConstructorUsedError;
+  Map<String, dynamic>? get nutriments => throw _privateConstructorUsedError;
 
   /// Serializes this ProductApiModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,9 +49,7 @@ abstract class $ProductApiModelCopyWith<$Res> {
       String? serving_quantity_unit,
       Object? serving_quantity,
       String? nutrition_data_per,
-      NutrimentsApiModel? nutriments});
-
-  $NutrimentsApiModelCopyWith<$Res>? get nutriments;
+      Map<String, dynamic>? nutriments});
 }
 
 /// @nodoc
@@ -99,22 +97,8 @@ class _$ProductApiModelCopyWithImpl<$Res, $Val extends ProductApiModel>
       nutriments: freezed == nutriments
           ? _value.nutriments
           : nutriments // ignore: cast_nullable_to_non_nullable
-              as NutrimentsApiModel?,
+              as Map<String, dynamic>?,
     ) as $Val);
-  }
-
-  /// Create a copy of ProductApiModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $NutrimentsApiModelCopyWith<$Res>? get nutriments {
-    if (_value.nutriments == null) {
-      return null;
-    }
-
-    return $NutrimentsApiModelCopyWith<$Res>(_value.nutriments!, (value) {
-      return _then(_value.copyWith(nutriments: value) as $Val);
-    });
   }
 }
 
@@ -132,10 +116,7 @@ abstract class _$$ProductApiModelImplCopyWith<$Res>
       String? serving_quantity_unit,
       Object? serving_quantity,
       String? nutrition_data_per,
-      NutrimentsApiModel? nutriments});
-
-  @override
-  $NutrimentsApiModelCopyWith<$Res>? get nutriments;
+      Map<String, dynamic>? nutriments});
 }
 
 /// @nodoc
@@ -179,9 +160,9 @@ class __$$ProductApiModelImplCopyWithImpl<$Res>
           : nutrition_data_per // ignore: cast_nullable_to_non_nullable
               as String?,
       nutriments: freezed == nutriments
-          ? _value.nutriments
+          ? _value._nutriments
           : nutriments // ignore: cast_nullable_to_non_nullable
-              as NutrimentsApiModel?,
+              as Map<String, dynamic>?,
     ));
   }
 }
@@ -195,7 +176,8 @@ class _$ProductApiModelImpl implements _ProductApiModel {
       this.serving_quantity_unit,
       this.serving_quantity,
       this.nutrition_data_per,
-      this.nutriments});
+      final Map<String, dynamic>? nutriments})
+      : _nutriments = nutriments;
 
   factory _$ProductApiModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductApiModelImplFromJson(json);
@@ -210,8 +192,15 @@ class _$ProductApiModelImpl implements _ProductApiModel {
   final Object? serving_quantity;
   @override
   final String? nutrition_data_per;
+  final Map<String, dynamic>? _nutriments;
   @override
-  final NutrimentsApiModel? nutriments;
+  Map<String, dynamic>? get nutriments {
+    final value = _nutriments;
+    if (value == null) return null;
+    if (_nutriments is EqualUnmodifiableMapView) return _nutriments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
 
   @override
   String toString() {
@@ -232,8 +221,8 @@ class _$ProductApiModelImpl implements _ProductApiModel {
                 .equals(other.serving_quantity, serving_quantity) &&
             (identical(other.nutrition_data_per, nutrition_data_per) ||
                 other.nutrition_data_per == nutrition_data_per) &&
-            (identical(other.nutriments, nutriments) ||
-                other.nutriments == nutriments));
+            const DeepCollectionEquality()
+                .equals(other._nutriments, _nutriments));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -245,7 +234,7 @@ class _$ProductApiModelImpl implements _ProductApiModel {
       serving_quantity_unit,
       const DeepCollectionEquality().hash(serving_quantity),
       nutrition_data_per,
-      nutriments);
+      const DeepCollectionEquality().hash(_nutriments));
 
   /// Create a copy of ProductApiModel
   /// with the given fields replaced by the non-null parameter values.
@@ -271,7 +260,7 @@ abstract class _ProductApiModel implements ProductApiModel {
       final String? serving_quantity_unit,
       final Object? serving_quantity,
       final String? nutrition_data_per,
-      final NutrimentsApiModel? nutriments}) = _$ProductApiModelImpl;
+      final Map<String, dynamic>? nutriments}) = _$ProductApiModelImpl;
 
   factory _ProductApiModel.fromJson(Map<String, dynamic> json) =
       _$ProductApiModelImpl.fromJson;
@@ -287,7 +276,7 @@ abstract class _ProductApiModel implements ProductApiModel {
   @override
   String? get nutrition_data_per;
   @override
-  NutrimentsApiModel? get nutriments;
+  Map<String, dynamic>? get nutriments;
 
   /// Create a copy of ProductApiModel
   /// with the given fields replaced by the non-null parameter values.

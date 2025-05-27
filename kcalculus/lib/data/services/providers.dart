@@ -57,10 +57,13 @@ final appConfigProvider = FutureProvider<AppConfig>(
 final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
   (ref) async {
     final appConfig = await ref.watch(appConfigProvider.future);
-
+    final packageInfo = await PackageInfo.fromPlatform();
     return OpenFoodFactsService(
       openFoodFactsBaseUrl: appConfig.openFoodFactsBaseUrl,
       contactEmail: appConfig.contactEmail,
+      appName: packageInfo.appName,
+      version: packageInfo.version,
+      httpClient: http.Client(),
     );
   },
 );

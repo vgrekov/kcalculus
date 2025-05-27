@@ -14,18 +14,32 @@ final _localEdibleDaoProvider = Provider(
   },
 );
 
+final _localNutritionFactsDaoProvider = Provider(
+  (ref) {
+    final dbService = ref.watch(_databaseServiceProvider);
+    final nutritionFactsConverter =
+        ref.watch(_localNutritionFactsConverterProvider);
+    final nutrientAmountConverter =
+        ref.watch(_localNutrientAmountConverterProvider);
+    return LocalNutritionFactsDao(
+      dbService: dbService,
+      nutritionFactsConverter: nutritionFactsConverter,
+      nutrientAmountConverter: nutrientAmountConverter,
+    );
+  },
+);
+
 final _localFoodDaoProvider = Provider(
   (ref) {
     final dbService = ref.watch(_databaseServiceProvider);
     final edibleDao = ref.watch(_localEdibleDaoProvider);
+    final nutritionFactsDao = ref.watch(_localNutritionFactsDaoProvider);
     final foodConverter = ref.watch(_localFoodConverterProvider);
-    final nutritionFactsConverter =
-        ref.watch(_localNutritionFactsConverterProvider);
     return LocalFoodDao(
       dbService: dbService,
       edibleDao: edibleDao,
+      nutritionFactsDao: nutritionFactsDao,
       foodConverter: foodConverter,
-      nutritionFactsConverter: nutritionFactsConverter,
     );
   },
 );

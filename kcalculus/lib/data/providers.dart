@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:kcalculus/data/repositories/access_level_repository.dart';
 import 'package:kcalculus/data/repositories/ad_repository.dart';
 import 'package:kcalculus/data/repositories/app_settings_repository.dart';
@@ -18,6 +19,7 @@ import 'package:kcalculus/data/repositories/local/converters/food_container_conv
 import 'package:kcalculus/data/repositories/local/converters/food_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/ingredient_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/meal_coverter.dart';
+import 'package:kcalculus/data/repositories/local/converters/nutrient_amount_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/nutrition_facts_converter.dart';
 import 'package:kcalculus/data/repositories/local/dao/default_nutrient_dao.dart';
 import 'package:kcalculus/data/repositories/local/dao/dish_dao.dart';
@@ -25,6 +27,7 @@ import 'package:kcalculus/data/repositories/local/dao/edible_dao.dart';
 import 'package:kcalculus/data/repositories/local/dao/food_container_dao.dart';
 import 'package:kcalculus/data/repositories/local/dao/food_dao.dart';
 import 'package:kcalculus/data/repositories/local/dao/meal_dao.dart';
+import 'package:kcalculus/data/repositories/local/dao/nutrition_facts_dao.dart';
 import 'package:kcalculus/data/repositories/local/dish_repository.dart';
 import 'package:kcalculus/data/repositories/local/edible_repository.dart';
 import 'package:kcalculus/data/repositories/local/food_container_repository.dart';
@@ -45,6 +48,7 @@ import 'package:kcalculus/data/services/purchase/purchase_service.dart';
 import 'package:kcalculus/data/services/reward/reward_service.dart';
 import 'package:kcalculus/domain/models/access_level.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 part 'repositories/local/converters/providers.dart';
 part 'repositories/local/dao/providers.dart';

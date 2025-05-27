@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'nutrition_facts_db_model.dart';
+part of 'nutrient_amount_db_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$NutritionFactsDbModelImpl _$$NutritionFactsDbModelImplFromJson(
+_$NutrientAmountDbModelImpl _$$NutrientAmountDbModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$NutritionFactsDbModelImpl(
-      id: json['id'] as String,
-      edible_id: json['edible_id'] as String,
+    _$NutrientAmountDbModelImpl(
+      nutrition_facts_id: json['nutrition_facts_id'] as String,
+      nutrient: json['nutrient'] as String,
       amount_unit: json['amount_unit'] as String,
       amount_value: (json['amount_value'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$NutritionFactsDbModelImplToJson(
-        _$NutritionFactsDbModelImpl instance) =>
+Map<String, dynamic> _$$NutrientAmountDbModelImplToJson(
+        _$NutrientAmountDbModelImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'edible_id': instance.edible_id,
+      'nutrition_facts_id': instance.nutrition_facts_id,
+      'nutrient': instance.nutrient,
       'amount_unit': instance.amount_unit,
       'amount_value': instance.amount_value,
     };
