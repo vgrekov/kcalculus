@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/inattentive.dart';
-import 'package:kcalculus/ui/common/widgets/nutrition_facts_input/nutrition_facts_input.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/save/view_models/food_save_ui_state.dart';
@@ -15,12 +16,15 @@ import 'package:kcalculus/ui/foods/save/view_models/food_save_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class FoodSaveScreen extends ConsumerStatefulWidget {
-  final Food? food;
-
   const FoodSaveScreen({
     super.key,
     this.food,
+    required this.nutrientDefaults,
   });
+
+  final Food? food;
+
+  final List<Nutrient> nutrientDefaults;
 
   @override
   ConsumerState<FoodSaveScreen> createState() {
@@ -80,7 +84,7 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
   void _loadUiState(FoodSaveUiState uiState) {
     _nameController.text = uiState.name;
     _descriptionController.text = uiState.description;
-    _nutritionFactsController.nutritionFacts = uiState.nutritionFacts;
+    _nutritionFactsController.load(uiState.nutritionFacts);
   }
 
   void _exit() {
@@ -96,26 +100,20 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
   }
 
   void _saveFood() async {
-    if (!_form.currentState!.validate()) {
-      FocusManager.instance.primaryFocus?.unfocus();
-      return;
-    }
-
-    _nutritionFactsController.validate();
-    if (!_nutritionFactsController.isValid) {
+    if (!_form.currentState!.validate() ||
+        !_nutritionFactsController.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
       return;
     }
 
     _form.currentState!.save();
-    _nutritionFactsController.save();
 
     final viewModel = ref.read(foodSaveViewModel(widget.food).notifier);
 
     viewModel.updateState(
       name: _nameController.text,
       description: _descriptionController.text,
-      nutritionFacts: _nutritionFactsController.nutritionFacts,
+      nutritionFacts: _nutritionFactsController.save(),
     );
 
     await ProgressOverlay.wrap(
@@ -194,6 +192,8 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
     ref.listen(foodSaveViewModel(widget.food), (prev, next) {
       _loadUiState(next);
     });
+
+    final uiState = ref.read(foodSaveViewModel(widget.food));
 
     final viewModel = ref.read(foodSaveViewModel(widget.food).notifier);
 
@@ -275,6 +275,8 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
                     ),
                     const SizedBox(height: 32),
                     NutritionFactsInput(
+                      nutritionFacts: uiState.nutritionFacts,
+                      defaultNutrients: widget.nutrientDefaults,
                       controller: _nutritionFactsController,
                       focusNode: _nutritionFactsFocusNode,
                       onUserInteractionChange: _onUserInteractionChange,

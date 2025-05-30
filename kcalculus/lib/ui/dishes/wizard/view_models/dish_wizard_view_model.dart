@@ -3,6 +3,7 @@ import 'package:kcalculus/data/exceptions/duplication_exception.dart';
 import 'package:kcalculus/data/exceptions/ingredients_cycle_exception.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_step_view_model.dart';
@@ -110,6 +111,10 @@ class DishWizardViewModel
     }
 
     return result == true;
+  }
+
+  Future<List<Nutrient>> getNutrientDefaults() {
+    return ref.read(nutrientRepositoryProvider).getDefaults();
   }
 
   @override

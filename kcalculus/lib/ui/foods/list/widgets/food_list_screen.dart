@@ -83,14 +83,20 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     ref.read(foodListViewModel.notifier).searchHelper.searchController.reset();
   }
 
-  void _addFood([Food? food]) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => FoodSaveScreen(
-          food: food,
+  void _addFood([Food? food]) async {
+    final nutrientDefaults =
+        await ref.read(foodListViewModel.notifier).getNutrientDefaults();
+
+    if (mounted) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => FoodSaveScreen(
+            food: food,
+            nutrientDefaults: nutrientDefaults,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   void _viewFood(EdibleSearchResult searchResult) {

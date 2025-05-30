@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/dish/ingredient.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/portion_form/widgets/portion_form.dart';
 import 'package:kcalculus/ui/common/widgets/inattentive.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -8,10 +9,13 @@ class IngredientSaveScreen extends StatefulWidget {
   const IngredientSaveScreen({
     super.key,
     this.ingredient,
+    required this.nutrientDefaults,
     required this.onSaveIngredient,
   });
 
   final Ingredient? ingredient;
+
+  final List<Nutrient> nutrientDefaults;
 
   final void Function(Ingredient) onSaveIngredient;
 
@@ -103,6 +107,7 @@ class _IngredientSaveScreenState extends State<IngredientSaveScreen> {
             padding: const EdgeInsets.all(16),
             child: PortionForm(
               controller: _portionFormController,
+              nutrientDefaults: widget.nutrientDefaults,
             ),
           ),
         ),

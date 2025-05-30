@@ -106,15 +106,22 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
     UiCommand command, {
     required BuildContext context,
     required WidgetRef ref,
-  }) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => FoodSaveScreen(
-          food: command.payload as Food,
+  }) async {
+    final nutrientDefaults = await ref
+        .read(foodViewViewModel(foodId).notifier)
+        .getNutrientDefaults();
+
+    if (context.mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => FoodSaveScreen(
+            food: command.payload as Food,
+            nutrientDefaults: nutrientDefaults,
+          ),
         ),
-      ),
-    );
-    command.complete();
+      );
+      command.complete();
+    }
   }
 
   @override

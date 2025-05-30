@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/portion_form/widgets/portion_form.dart';
 import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
@@ -19,6 +20,7 @@ class MealSaveScreen extends ConsumerStatefulWidget {
     super.key,
     Meal? meal,
     DateTime? date,
+    required this.nutrientDefaults,
   }) : _viewModelArg = MealSaveViewModelArg(
           meal: meal,
           date: date,
@@ -27,6 +29,8 @@ class MealSaveScreen extends ConsumerStatefulWidget {
       throw 'When a meal is specified, date must be null.';
     }
   }
+
+  final List<Nutrient> nutrientDefaults;
 
   final MealSaveViewModelArg _viewModelArg;
 
@@ -196,6 +200,7 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
                   const SizedBox(height: 24),
                   PortionForm(
                     controller: _portionFormController,
+                    nutrientDefaults: widget.nutrientDefaults,
                   ),
                 ],
               ),

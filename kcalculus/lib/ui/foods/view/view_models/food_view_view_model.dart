@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 
@@ -73,6 +74,10 @@ class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<Food, String> {
         );
       }
     }
+  }
+
+  Future<List<Nutrient>> getNutrientDefaults() {
+    return ref.read(nutrientRepositoryProvider).getDefaults();
   }
 }
 

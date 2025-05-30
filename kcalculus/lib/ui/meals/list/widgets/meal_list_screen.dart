@@ -41,27 +41,39 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   }
 
   void _addMeal() async {
-    final meal = await Navigator.of(context).push<Meal>(
-      MaterialPageRoute(
-        builder: (context) => MealSaveScreen(
-          date: ref.read(mealListViewModel).date,
-        ),
-      ),
-    );
+    final nutrientDefaults =
+        await ref.read(mealListViewModel.notifier).getNutrientDefaults();
 
-    _checkIfMealSavedOnAnotherDay(meal);
+    if (mounted) {
+      final meal = await Navigator.of(context).push<Meal>(
+        MaterialPageRoute(
+          builder: (context) => MealSaveScreen(
+            date: ref.read(mealListViewModel).date,
+            nutrientDefaults: nutrientDefaults,
+          ),
+        ),
+      );
+
+      _checkIfMealSavedOnAnotherDay(meal);
+    }
   }
 
   void _selectMeal(Meal meal) async {
-    final savedMeal = await Navigator.of(context).push<Meal>(
-      MaterialPageRoute(
-        builder: (context) => MealSaveScreen(
-          meal: meal,
-        ),
-      ),
-    );
+    final nutrientDefaults =
+        await ref.read(mealListViewModel.notifier).getNutrientDefaults();
 
-    _checkIfMealSavedOnAnotherDay(savedMeal);
+    if (mounted) {
+      final savedMeal = await Navigator.of(context).push<Meal>(
+        MaterialPageRoute(
+          builder: (context) => MealSaveScreen(
+            meal: meal,
+            nutrientDefaults: nutrientDefaults,
+          ),
+        ),
+      );
+
+      _checkIfMealSavedOnAnotherDay(savedMeal);
+    }
   }
 
   void _deleteMeal(Meal meal) {

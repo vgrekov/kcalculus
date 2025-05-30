@@ -22,18 +22,25 @@ class DishWizardIngredientsPage extends ConsumerWidget
 
   final Dish? dish;
 
-  void _addIngredient(BuildContext context, WidgetRef ref) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => IngredientSaveScreen(
-          onSaveIngredient: (ingredient) {
-            ref
-                .read(dishWizardViewModel(dish).notifier)
-                .addIngredient(ingredient);
-          },
+  void _addIngredient(BuildContext context, WidgetRef ref) async {
+    final nutrientDefaults = await ref
+        .read(dishWizardViewModel(dish).notifier)
+        .getNutrientDefaults();
+
+    if (context.mounted) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => IngredientSaveScreen(
+            nutrientDefaults: nutrientDefaults,
+            onSaveIngredient: (ingredient) {
+              ref
+                  .read(dishWizardViewModel(dish).notifier)
+                  .addIngredient(ingredient);
+            },
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   void _selectIngredient(
@@ -41,20 +48,27 @@ class DishWizardIngredientsPage extends ConsumerWidget
     WidgetRef ref,
     Ingredient ingredient,
     int index,
-  ) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => IngredientSaveScreen(
-          ingredient: ingredient,
-          onSaveIngredient: (newIngredient) {
-            ref.read(dishWizardViewModel(dish).notifier).replaceIngredientAt(
-                  index,
-                  newIngredient,
-                );
-          },
+  ) async {
+    final nutrientDefaults = await ref
+        .read(dishWizardViewModel(dish).notifier)
+        .getNutrientDefaults();
+
+    if (context.mounted) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => IngredientSaveScreen(
+            ingredient: ingredient,
+            nutrientDefaults: nutrientDefaults,
+            onSaveIngredient: (newIngredient) {
+              ref.read(dishWizardViewModel(dish).notifier).replaceIngredientAt(
+                    index,
+                    newIngredient,
+                  );
+            },
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   void _deleteIngredient(
