@@ -383,5 +383,53 @@
     "messageDefaultNutrientDeletionSuccess": "Container deleted",
     "messageDefaultNutrientDeletionFailure": "Failed to delete the container",
     "labelDefaultNutrientRequired": "Required",
-    "messageDefaultNutrientDeletionConfirmation": "Delete this nutrient?"
+    "messageDefaultNutrientDeletionConfirmation": "Delete this nutrient?",
+    "labelAddNutrient": "Add nutrient",
+    "messageRequiredNutrientsMissing": "Required nutrients missing:\n\n{nutrients}",
+    "@messageRequiredNutrientsMissing": {
+        "placeholders": {
+            "nutrients": {
+                "type": "String"
+            }
+        }
+    },
+    "messageInconsistentNutrients": "The following nutrients must be provided for all nutrition facts records or omitted entirely:\n\n{nutrients}",
+    "@messageInconsistentNutrients": {
+        "placeholders": {
+            "nutrients": {
+                "type": "String"
+            }
+        }
+    },
+    "messageSubNutrientsExceedTotal": "Sub-nutrients exceed total:\n\n{details}",
+    "@messageSubNutrientsExceedTotal": {
+        "placeholders": {
+            "details": {
+                "type": "String"
+            }
+        }
+    },
+    "partExceedsWhole": " - {part} ({partValue}{partUnit}) > {whole} ({wholeValue}{wholeUnit})",
+    "@partExceedsWhole": {
+        "placeholders": {
+            "part": {
+                "type": "String"
+            },
+            "partUnit": {
+                "type": "String"
+            },
+            "partValue": {
+                "type": "String"
+            },
+            "whole": {
+                "type": "String"
+            },
+            "wholeUnit": {
+                "type": "String"
+            },
+            "wholeValue": {
+                "type": "String"
+            }
+        }
+    }
 }
