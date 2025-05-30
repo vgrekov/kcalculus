@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/ui/common/widgets/nutrition_facts_view/nutrition_facts_view.dart';
+import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/nutrition_facts_view.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';

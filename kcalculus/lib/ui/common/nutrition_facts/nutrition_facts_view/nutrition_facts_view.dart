@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
-import 'package:kcalculus/ui/common/widgets/nutrition_facts_view/nutrition_stat_row.dart';
-import 'package:kcalculus/ui/common/widgets/nutrition_facts_view/per_amount_chip.dart';
+import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/nutrition_stat_row.dart';
+import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/per_amount_chip.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class NutritionFactsView extends StatefulWidget {
