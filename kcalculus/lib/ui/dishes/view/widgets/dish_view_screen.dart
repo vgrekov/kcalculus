@@ -4,7 +4,7 @@ import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
-import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/nutrition_facts_view.dart';
+import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/widgets/nutrition_facts_view.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
