@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
+import 'package:kcalculus/ui/foods/view/view_models/food_view_ui_state.dart';
 
 enum FoodViewCommand {
   showUnknownErrorNotification,
@@ -13,11 +12,12 @@ enum FoodViewCommand {
   editFood,
 }
 
-class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<Food, String> {
+class FoodViewViewModel
+    extends AutoDisposeFamilyAsyncNotifier<FoodViewUiState, String> {
   UiCommander<FoodViewCommand>? _commander;
 
   @override
-  FutureOr<Food> build(String arg) async {
+  FutureOr<FoodViewUiState> build(String arg) async {
     _commander = UiCommander<FoodViewCommand>(_commander);
 
     ref.onDispose(() {
@@ -30,26 +30,34 @@ class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<Food, String> {
       throw ArgumentError('Food not found for ID: $arg');
     }
 
-    return food;
+    final nutrientDefaults =
+        await ref.read(nutrientRepositoryProvider).getDefaults();
+
+    return FoodViewUiState(
+      food: food,
+      nutrientDefaults: nutrientDefaults,
+    );
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
   void copyFood() {
-    final food = state.unwrapPrevious().valueOrNull;
-    if (food != null) {
-      _commander!.send<Food, void>(
+    final uiState = state.unwrapPrevious().valueOrNull;
+    if (uiState != null) {
+      _commander!.send<FoodViewUiState, void>(
         FoodViewCommand.editFood,
-        payload: food.copy(),
+        payload: uiState.copyWith(
+          food: uiState.food.copy(),
+        ),
       );
     }
   }
 
   void editFood() async {
-    final food = state.unwrapPrevious().valueOrNull;
-    if (food != null) {
+    final uiState = state.unwrapPrevious().valueOrNull;
+    if (uiState != null) {
       final edibleRepository = ref.read(edibleRepositoryProvider);
-      final wasEaten = await edibleRepository.wasEaten(food.id!);
+      final wasEaten = await edibleRepository.wasEaten(uiState.food.id!);
 
       if (wasEaten) {
         final editConfirmed = await _commander!.send<void, bool?>(
@@ -57,31 +65,29 @@ class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<Food, String> {
         );
 
         if (editConfirmed == true) {
-          _commander!.send<Food, void>(
+          _commander!.send<FoodViewUiState, void>(
             FoodViewCommand.editFood,
-            payload: food,
+            payload: uiState,
           );
         } else if (editConfirmed == false) {
-          _commander!.send<Food, void>(
+          _commander!.send<FoodViewUiState, void>(
             FoodViewCommand.editFood,
-            payload: food.copy(),
+            payload: uiState.copyWith(
+              food: uiState.food.copy(),
+            ),
           );
         }
       } else {
-        _commander!.send<Food, void>(
+        _commander!.send<FoodViewUiState, void>(
           FoodViewCommand.editFood,
-          payload: food,
+          payload: uiState,
         );
       }
     }
   }
-
-  Future<List<Nutrient>> getNutrientDefaults() {
-    return ref.read(nutrientRepositoryProvider).getDefaults();
-  }
 }
 
-final foodViewViewModel =
-    AsyncNotifierProvider.autoDispose.family<FoodViewViewModel, Food, String>(
+final foodViewViewModel = AsyncNotifierProvider.autoDispose
+    .family<FoodViewViewModel, FoodViewUiState, String>(
   FoodViewViewModel.new,
 );

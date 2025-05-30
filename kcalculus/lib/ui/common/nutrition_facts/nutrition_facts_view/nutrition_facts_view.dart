@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/nutrition_stat_row.dart';
@@ -6,12 +7,15 @@ import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/per_amo
 import 'package:kcalculus/utils/l10n.dart';
 
 class NutritionFactsView extends StatefulWidget {
-  final List<NutritionFacts> nutritionFacts;
-
   const NutritionFactsView({
     super.key,
     required this.nutritionFacts,
+    required this.nutrientDefaults,
   });
+
+  final List<NutritionFacts> nutritionFacts;
+
+  final List<Nutrient> nutrientDefaults;
 
   @override
   State<StatefulWidget> createState() {

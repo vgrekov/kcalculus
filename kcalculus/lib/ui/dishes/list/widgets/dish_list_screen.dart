@@ -56,12 +56,19 @@ class _DishListScreenState extends ConsumerState<DishListScreen>
     ref.read(dishListViewModel.notifier).searchHelper.searchController.reset();
   }
 
-  void _addDish() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const DishWizardScreen(),
-      ),
-    );
+  void _addDish() async {
+    final nutrientDefaults =
+        await ref.read(dishListViewModel.notifier).getNutrientDefaults();
+
+    if (mounted) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => DishWizardScreen(
+            nutrientDefaults: nutrientDefaults,
+          ),
+        ),
+      );
+    }
   }
 
   void _viewDish(EdibleSearchResult searchResult) {

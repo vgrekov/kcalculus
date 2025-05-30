@@ -13,6 +13,7 @@ import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/share/widgets/food_share_screen.dart';
+import 'package:kcalculus/ui/foods/view/view_models/food_view_ui_state.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
@@ -107,34 +108,30 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
     required BuildContext context,
     required WidgetRef ref,
   }) async {
-    final nutrientDefaults = await ref
-        .read(foodViewViewModel(foodId).notifier)
-        .getNutrientDefaults();
+    final uiState = command.payload as FoodViewUiState;
 
-    if (context.mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => FoodSaveScreen(
-            food: command.payload as Food,
-            nutrientDefaults: nutrientDefaults,
-          ),
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => FoodSaveScreen(
+          food: uiState.food,
+          nutrientDefaults: uiState.nutrientDefaults,
         ),
-      );
-      command.complete();
-    }
+      ),
+    );
+    command.complete();
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final foodAsync = ref.watch(foodViewViewModel(foodId));
+    final uiStateAsync = ref.watch(foodViewViewModel(foodId));
 
     final (
       List<Widget>? appBarActions,
       Widget? body,
       Widget? bottomNavigationBar,
-    ) = foodAsync.when(
-      data: (food) {
-        final nutritionFacts = food.getNutritionFacts();
+    ) = uiStateAsync.when(
+      data: (uiState) {
+        final nutritionFacts = uiState.food.getNutritionFacts();
         final macroSplit =
             nutritionFacts.firstOrNull?.nutrientData.getMacroSplit();
 
@@ -142,7 +139,7 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
           [
             IconButton(
               onPressed: () {
-                _shareFood(context, ref, food);
+                _shareFood(context, ref, uiState.food);
               },
               icon: PremiumBadge(
                 child: Icon(
@@ -188,7 +185,7 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: EdibleMainInfo(
-                      edible: food,
+                      edible: uiState.food,
                     ),
                   ),
                   TabBar(
@@ -207,6 +204,7 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
                       padding: const EdgeInsets.all(16),
                       child: NutritionFactsView(
                         nutritionFacts: nutritionFacts,
+                        nutrientDefaults: uiState.nutrientDefaults,
                       ),
                     ),
                   ],

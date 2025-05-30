@@ -13,6 +13,7 @@ import 'package:kcalculus/ui/common/widgets/ingredient_list.dart';
 import 'package:kcalculus/ui/common/widgets/nutrient_stats.dart';
 import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
+import 'package:kcalculus/ui/dishes/view/view_models/dish_view_ui_state.dart';
 import 'package:kcalculus/ui/dishes/view/view_models/dish_view_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/ui/foods/share/widgets/food_share_screen.dart';
@@ -109,10 +110,12 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
     required BuildContext context,
     required WidgetRef ref,
   }) {
+    final uiState = command.payload as DishViewUiState;
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => DishWizardScreen(
-          dish: command.payload as Dish,
+          dish: uiState.dish,
+          nutrientDefaults: uiState.nutrientDefaults,
         ),
       ),
     );
@@ -121,16 +124,16 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dishAsync = ref.watch(dishViewViewModel(dishId));
+    final uiStateAsync = ref.watch(dishViewViewModel(dishId));
 
     final (
       List<Widget>? appBarActions,
       Widget? body,
       Widget? bottomNavigationBar,
-    ) = dishAsync.when(
-      data: (dish) {
-        final nutritionFacts = dish.getNutritionFacts();
-        final totalNutrientData = dish.ingredients
+    ) = uiStateAsync.when(
+      data: (uiState) {
+        final nutritionFacts = uiState.dish.getNutritionFacts();
+        final totalNutrientData = uiState.dish.ingredients
             .map((m) => m.getNutrientData() ?? NutrientData.empty())
             .fold(
               NutrientData.empty(),
@@ -141,7 +144,7 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
           [
             IconButton(
               onPressed: () {
-                _shareDish(context, ref, dish);
+                _shareDish(context, ref, uiState.dish);
               },
               icon: PremiumBadge(
                 child: Icon(
@@ -187,7 +190,7 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: EdibleMainInfo(
-                      edible: dish,
+                      edible: uiState.dish,
                     ),
                   ),
                   TabBar(
@@ -209,10 +212,11 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
                       padding: const EdgeInsets.all(16),
                       child: NutritionFactsView(
                         nutritionFacts: nutritionFacts,
+                        nutrientDefaults: uiState.nutrientDefaults,
                       ),
                     ),
                     IngredientList(
-                      ingredients: dish.ingredients,
+                      ingredients: uiState.dish.ingredients,
                     ),
                   ],
                 ),

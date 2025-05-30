@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
+import 'package:kcalculus/ui/dishes/view/view_models/dish_view_ui_state.dart';
 
 enum DishViewCommand {
   showUnknownErrorNotification,
@@ -12,11 +12,12 @@ enum DishViewCommand {
   editDish,
 }
 
-class DishViewViewModel extends AutoDisposeFamilyAsyncNotifier<Dish, String> {
+class DishViewViewModel
+    extends AutoDisposeFamilyAsyncNotifier<DishViewUiState, String> {
   UiCommander<DishViewCommand>? _commander;
 
   @override
-  FutureOr<Dish> build(String arg) async {
+  FutureOr<DishViewUiState> build(String arg) async {
     _commander = UiCommander<DishViewCommand>(_commander);
 
     ref.onDispose(() {
@@ -29,26 +30,34 @@ class DishViewViewModel extends AutoDisposeFamilyAsyncNotifier<Dish, String> {
       throw ArgumentError('Dish not found for ID: $arg');
     }
 
-    return dish;
+    final nutrientDefaults =
+        await ref.read(nutrientRepositoryProvider).getDefaults();
+
+    return DishViewUiState(
+      dish: dish,
+      nutrientDefaults: nutrientDefaults,
+    );
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
   void copyDish() {
-    final dish = state.unwrapPrevious().valueOrNull;
-    if (dish != null) {
-      _commander!.send<Dish, void>(
+    final uiState = state.unwrapPrevious().valueOrNull;
+    if (uiState != null) {
+      _commander!.send<DishViewUiState, void>(
         DishViewCommand.editDish,
-        payload: dish.copy(),
+        payload: uiState.copyWith(
+          dish: uiState.dish.copy(),
+        ),
       );
     }
   }
 
   void editDish() async {
-    final dish = state.unwrapPrevious().valueOrNull;
-    if (dish != null) {
+    final uiState = state.unwrapPrevious().valueOrNull;
+    if (uiState != null) {
       final edibleRepository = ref.read(edibleRepositoryProvider);
-      final wasEaten = await edibleRepository.wasEaten(dish.id!);
+      final wasEaten = await edibleRepository.wasEaten(uiState.dish.id!);
 
       if (wasEaten) {
         final editConfirmed = await _commander!.send<void, bool?>(
@@ -56,27 +65,29 @@ class DishViewViewModel extends AutoDisposeFamilyAsyncNotifier<Dish, String> {
         );
 
         if (editConfirmed == true) {
-          _commander!.send<Dish, void>(
+          _commander!.send<DishViewUiState, void>(
             DishViewCommand.editDish,
-            payload: dish,
+            payload: uiState,
           );
         } else if (editConfirmed == false) {
-          _commander!.send<Dish, void>(
+          _commander!.send<DishViewUiState, void>(
             DishViewCommand.editDish,
-            payload: dish.copy(),
+            payload: uiState.copyWith(
+              dish: uiState.dish.copy(),
+            ),
           );
         }
       } else {
-        _commander!.send<Dish, void>(
+        _commander!.send<DishViewUiState, void>(
           DishViewCommand.editDish,
-          payload: dish,
+          payload: uiState,
         );
       }
     }
   }
 }
 
-final dishViewViewModel =
-    AsyncNotifierProvider.autoDispose.family<DishViewViewModel, Dish, String>(
+final dishViewViewModel = AsyncNotifierProvider.autoDispose
+    .family<DishViewViewModel, DishViewUiState, String>(
   DishViewViewModel.new,
 );
