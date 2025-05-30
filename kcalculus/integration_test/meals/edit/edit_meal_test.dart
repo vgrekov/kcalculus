@@ -51,7 +51,7 @@ void main() {
                 unit: Unit.gram,
                 value: 100,
               ),
-              nutrientData: NutrientData(
+              nutrientData: NutrientData.legacy(
                 calories: 100,
                 fatInGrams: 4,
                 carbsInGrams: 10,
