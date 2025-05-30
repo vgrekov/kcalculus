@@ -11,6 +11,7 @@ import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/maintenance_status.dart';
 import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
@@ -38,6 +39,7 @@ void main() {
       late MockAppSettingsRepository appSettingsRepository;
       late MockAdRepository adRepository;
       late MockMealRepository mealRepository;
+      late MockNutrientRepository nutrientRepository;
 
       final existingMeal = Meal(
         id: 'meal_id',
@@ -96,6 +98,18 @@ void main() {
           },
         );
 
+        nutrientRepository = MockNutrientRepository();
+
+        when(() => nutrientRepository.getDefaults()).thenAnswer(
+          (_) async => [
+            Nutrient.energy,
+            Nutrient.fat,
+            Nutrient.totalCarbs,
+            Nutrient.fiber,
+            Nutrient.protein,
+          ],
+        );
+
         commonOverrides = [
           appSettingsRepositoryProvider.overrideWith(
             () => appSettingsRepository,
@@ -111,6 +125,9 @@ void main() {
           ),
           mealRepositoryProvider.overrideWith(
             (ref) => mealRepository,
+          ),
+          nutrientRepositoryProvider.overrideWith(
+            (ref) => nutrientRepository,
           ),
         ];
       });

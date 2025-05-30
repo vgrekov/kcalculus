@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/firebase_options.dart';
 import 'package:kcalculus/ui/app/widgets/app.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
@@ -154,4 +155,13 @@ Future<void> selectMeal(
   await tester.tap(itemFinder);
 
   await tester.pumpAndSettle();
+}
+
+Finder findNutrientAmountInput(Nutrient nutrient, AppLocalizations l10n) {
+  String label = nutrient.localName(l10n);
+  if (nutrient.required) {
+    label += ' *';
+  }
+
+  return find.widgetWithText(TextFormField, label);
 }
