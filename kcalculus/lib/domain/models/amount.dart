@@ -45,6 +45,16 @@ class Amount with _$Amount {
     );
   }
 
+  Amount convert(Unit toUnit) {
+    final result = tryConvert(toUnit);
+
+    if (result == null) {
+      throw 'Target unit must be of the same measure.';
+    }
+
+    return result;
+  }
+
   Amount withPrecision(int fractionDigits, [bool round = true]) {
     return Amount(
       unit: unit,
@@ -81,6 +91,8 @@ class Amount with _$Amount {
   }
 
   Amount operator *(double factor) {
+    if (factor == 1) return this;
+
     return Amount(
       unit: unit,
       value: value * factor,

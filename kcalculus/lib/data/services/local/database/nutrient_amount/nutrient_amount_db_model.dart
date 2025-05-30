@@ -11,6 +11,7 @@ class NutrientAmountDbModel with _$NutrientAmountDbModel {
     required String nutrient,
     required String amount_unit,
     required double amount_value,
+    required int position,
   }) = _NutrientAmountDbModel;
 
   factory NutrientAmountDbModel.fromJson(Map<String, dynamic> json) =>

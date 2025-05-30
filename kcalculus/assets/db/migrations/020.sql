@@ -36,6 +36,7 @@ CREATE TABLE nutrient_amounts (
     nutrient TEXT NOT NULL,
     amount_value REAL NOT NULL,
     amount_unit TEXT NOT NULL,
+    position INTEGER NOT NULL,
     FOREIGN KEY (nutrition_facts_id) REFERENCES nutrition_facts (id),
     PRIMARY KEY(nutrition_facts_id, nutrient)
 );
@@ -46,13 +47,15 @@ INSERT INTO nutrient_amounts (
     nutrition_facts_id,
     nutrient,
     amount_value,
-    amount_unit
+    amount_unit,
+    position
 )
 SELECT
     edible_id || '_' || amount_unit,
     'energy',
     calories,
-    'calorie'
+    'calorie',
+    0
 FROM nutrition_facts_old;
 
 --SQL-STATEMENT-SEPARATOR
@@ -61,13 +64,15 @@ INSERT INTO nutrient_amounts (
     nutrition_facts_id,
     nutrient,
     amount_value,
-    amount_unit
+    amount_unit,
+    position
 )
 SELECT
     edible_id || '_' || amount_unit,
     'fat',
     fat_in_grams,
-    'gram'
+    'gram',
+    1
 FROM nutrition_facts_old;
 
 --SQL-STATEMENT-SEPARATOR
@@ -76,13 +81,15 @@ INSERT INTO nutrient_amounts (
     nutrition_facts_id,
     nutrient,
     amount_value,
-    amount_unit
+    amount_unit,
+    position
 )
 SELECT
     edible_id || '_' || amount_unit,
     'totalCarbs',
     carbs_in_grams,
-    'gram'
+    'gram',
+    2
 FROM nutrition_facts_old;
 
 --SQL-STATEMENT-SEPARATOR
@@ -91,13 +98,15 @@ INSERT INTO nutrient_amounts (
     nutrition_facts_id,
     nutrient,
     amount_value,
-    amount_unit
+    amount_unit,
+    position
 )
 SELECT
     edible_id || '_' || amount_unit,
     'fiber',
     fiber_in_grams,
-    'gram'
+    'gram',
+    3
 FROM nutrition_facts_old;
 
 --SQL-STATEMENT-SEPARATOR
@@ -106,13 +115,15 @@ INSERT INTO nutrient_amounts (
     nutrition_facts_id,
     nutrient,
     amount_value,
-    amount_unit
+    amount_unit,
+    position
 )
 SELECT
     edible_id || '_' || amount_unit,
     'protein',
     protein_in_grams,
-    'gram'
+    'gram',
+    4
 FROM nutrition_facts_old;
 
 --SQL-STATEMENT-SEPARATOR

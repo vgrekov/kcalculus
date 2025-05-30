@@ -25,6 +25,7 @@ mixin _$NutrientAmountDbModel {
   String get nutrient => throw _privateConstructorUsedError;
   String get amount_unit => throw _privateConstructorUsedError;
   double get amount_value => throw _privateConstructorUsedError;
+  int get position => throw _privateConstructorUsedError;
 
   /// Serializes this NutrientAmountDbModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,7 +47,8 @@ abstract class $NutrientAmountDbModelCopyWith<$Res> {
       {String nutrition_facts_id,
       String nutrient,
       String amount_unit,
-      double amount_value});
+      double amount_value,
+      int position});
 }
 
 /// @nodoc
@@ -69,6 +71,7 @@ class _$NutrientAmountDbModelCopyWithImpl<$Res,
     Object? nutrient = null,
     Object? amount_unit = null,
     Object? amount_value = null,
+    Object? position = null,
   }) {
     return _then(_value.copyWith(
       nutrition_facts_id: null == nutrition_facts_id
@@ -87,6 +90,10 @@ class _$NutrientAmountDbModelCopyWithImpl<$Res,
           ? _value.amount_value
           : amount_value // ignore: cast_nullable_to_non_nullable
               as double,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -104,7 +111,8 @@ abstract class _$$NutrientAmountDbModelImplCopyWith<$Res>
       {String nutrition_facts_id,
       String nutrient,
       String amount_unit,
-      double amount_value});
+      double amount_value,
+      int position});
 }
 
 /// @nodoc
@@ -125,6 +133,7 @@ class __$$NutrientAmountDbModelImplCopyWithImpl<$Res>
     Object? nutrient = null,
     Object? amount_unit = null,
     Object? amount_value = null,
+    Object? position = null,
   }) {
     return _then(_$NutrientAmountDbModelImpl(
       nutrition_facts_id: null == nutrition_facts_id
@@ -143,6 +152,10 @@ class __$$NutrientAmountDbModelImplCopyWithImpl<$Res>
           ? _value.amount_value
           : amount_value // ignore: cast_nullable_to_non_nullable
               as double,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -154,7 +167,8 @@ class _$NutrientAmountDbModelImpl implements _NutrientAmountDbModel {
       {required this.nutrition_facts_id,
       required this.nutrient,
       required this.amount_unit,
-      required this.amount_value});
+      required this.amount_value,
+      required this.position});
 
   factory _$NutrientAmountDbModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$NutrientAmountDbModelImplFromJson(json);
@@ -167,10 +181,12 @@ class _$NutrientAmountDbModelImpl implements _NutrientAmountDbModel {
   final String amount_unit;
   @override
   final double amount_value;
+  @override
+  final int position;
 
   @override
   String toString() {
-    return 'NutrientAmountDbModel(nutrition_facts_id: $nutrition_facts_id, nutrient: $nutrient, amount_unit: $amount_unit, amount_value: $amount_value)';
+    return 'NutrientAmountDbModel(nutrition_facts_id: $nutrition_facts_id, nutrient: $nutrient, amount_unit: $amount_unit, amount_value: $amount_value, position: $position)';
   }
 
   @override
@@ -185,13 +201,15 @@ class _$NutrientAmountDbModelImpl implements _NutrientAmountDbModel {
             (identical(other.amount_unit, amount_unit) ||
                 other.amount_unit == amount_unit) &&
             (identical(other.amount_value, amount_value) ||
-                other.amount_value == amount_value));
+                other.amount_value == amount_value) &&
+            (identical(other.position, position) ||
+                other.position == position));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, nutrition_facts_id, nutrient, amount_unit, amount_value);
+  int get hashCode => Object.hash(runtimeType, nutrition_facts_id, nutrient,
+      amount_unit, amount_value, position);
 
   /// Create a copy of NutrientAmountDbModel
   /// with the given fields replaced by the non-null parameter values.
@@ -215,7 +233,8 @@ abstract class _NutrientAmountDbModel implements NutrientAmountDbModel {
       {required final String nutrition_facts_id,
       required final String nutrient,
       required final String amount_unit,
-      required final double amount_value}) = _$NutrientAmountDbModelImpl;
+      required final double amount_value,
+      required final int position}) = _$NutrientAmountDbModelImpl;
 
   factory _NutrientAmountDbModel.fromJson(Map<String, dynamic> json) =
       _$NutrientAmountDbModelImpl.fromJson;
@@ -228,6 +247,8 @@ abstract class _NutrientAmountDbModel implements NutrientAmountDbModel {
   String get amount_unit;
   @override
   double get amount_value;
+  @override
+  int get position;
 
   /// Create a copy of NutrientAmountDbModel
   /// with the given fields replaced by the non-null parameter values.

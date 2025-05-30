@@ -20,7 +20,9 @@ NutrientData _$NutrientDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$NutrientData {
-  Map<Nutrient, Amount> get nutrientAmounts =>
+  List<NutrientAmount> get nutrientAmounts =>
+      throw _privateConstructorUsedError;
+  Map<Nutrient, Amount> get nutrientAmountsMap =>
       throw _privateConstructorUsedError;
 
   /// Serializes this NutrientData to a JSON map.
@@ -39,7 +41,9 @@ abstract class $NutrientDataCopyWith<$Res> {
           NutrientData value, $Res Function(NutrientData) then) =
       _$NutrientDataCopyWithImpl<$Res, NutrientData>;
   @useResult
-  $Res call({Map<Nutrient, Amount> nutrientAmounts});
+  $Res call(
+      {List<NutrientAmount> nutrientAmounts,
+      Map<Nutrient, Amount> nutrientAmountsMap});
 }
 
 /// @nodoc
@@ -58,11 +62,16 @@ class _$NutrientDataCopyWithImpl<$Res, $Val extends NutrientData>
   @override
   $Res call({
     Object? nutrientAmounts = null,
+    Object? nutrientAmountsMap = null,
   }) {
     return _then(_value.copyWith(
       nutrientAmounts: null == nutrientAmounts
           ? _value.nutrientAmounts
           : nutrientAmounts // ignore: cast_nullable_to_non_nullable
+              as List<NutrientAmount>,
+      nutrientAmountsMap: null == nutrientAmountsMap
+          ? _value.nutrientAmountsMap
+          : nutrientAmountsMap // ignore: cast_nullable_to_non_nullable
               as Map<Nutrient, Amount>,
     ) as $Val);
   }
@@ -76,7 +85,9 @@ abstract class _$$NutrientDataImplCopyWith<$Res>
       __$$NutrientDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<Nutrient, Amount> nutrientAmounts});
+  $Res call(
+      {List<NutrientAmount> nutrientAmounts,
+      Map<Nutrient, Amount> nutrientAmountsMap});
 }
 
 /// @nodoc
@@ -93,11 +104,16 @@ class __$$NutrientDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? nutrientAmounts = null,
+    Object? nutrientAmountsMap = null,
   }) {
     return _then(_$NutrientDataImpl(
       nutrientAmounts: null == nutrientAmounts
           ? _value._nutrientAmounts
           : nutrientAmounts // ignore: cast_nullable_to_non_nullable
+              as List<NutrientAmount>,
+      nutrientAmountsMap: null == nutrientAmountsMap
+          ? _value._nutrientAmountsMap
+          : nutrientAmountsMap // ignore: cast_nullable_to_non_nullable
               as Map<Nutrient, Amount>,
     ));
   }
@@ -107,24 +123,35 @@ class __$$NutrientDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NutrientDataImpl extends _NutrientData {
   const _$NutrientDataImpl(
-      {required final Map<Nutrient, Amount> nutrientAmounts})
+      {required final List<NutrientAmount> nutrientAmounts,
+      required final Map<Nutrient, Amount> nutrientAmountsMap})
       : _nutrientAmounts = nutrientAmounts,
+        _nutrientAmountsMap = nutrientAmountsMap,
         super._();
 
   factory _$NutrientDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$NutrientDataImplFromJson(json);
 
-  final Map<Nutrient, Amount> _nutrientAmounts;
+  final List<NutrientAmount> _nutrientAmounts;
   @override
-  Map<Nutrient, Amount> get nutrientAmounts {
-    if (_nutrientAmounts is EqualUnmodifiableMapView) return _nutrientAmounts;
+  List<NutrientAmount> get nutrientAmounts {
+    if (_nutrientAmounts is EqualUnmodifiableListView) return _nutrientAmounts;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_nutrientAmounts);
+    return EqualUnmodifiableListView(_nutrientAmounts);
+  }
+
+  final Map<Nutrient, Amount> _nutrientAmountsMap;
+  @override
+  Map<Nutrient, Amount> get nutrientAmountsMap {
+    if (_nutrientAmountsMap is EqualUnmodifiableMapView)
+      return _nutrientAmountsMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_nutrientAmountsMap);
   }
 
   @override
   String toString() {
-    return 'NutrientData(nutrientAmounts: $nutrientAmounts)';
+    return 'NutrientData._default(nutrientAmounts: $nutrientAmounts, nutrientAmountsMap: $nutrientAmountsMap)';
   }
 
   @override
@@ -133,13 +160,17 @@ class _$NutrientDataImpl extends _NutrientData {
         (other.runtimeType == runtimeType &&
             other is _$NutrientDataImpl &&
             const DeepCollectionEquality()
-                .equals(other._nutrientAmounts, _nutrientAmounts));
+                .equals(other._nutrientAmounts, _nutrientAmounts) &&
+            const DeepCollectionEquality()
+                .equals(other._nutrientAmountsMap, _nutrientAmountsMap));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_nutrientAmounts));
+      runtimeType,
+      const DeepCollectionEquality().hash(_nutrientAmounts),
+      const DeepCollectionEquality().hash(_nutrientAmountsMap));
 
   /// Create a copy of NutrientData
   /// with the given fields replaced by the non-null parameter values.
@@ -159,7 +190,8 @@ class _$NutrientDataImpl extends _NutrientData {
 
 abstract class _NutrientData extends NutrientData {
   const factory _NutrientData(
-          {required final Map<Nutrient, Amount> nutrientAmounts}) =
+          {required final List<NutrientAmount> nutrientAmounts,
+          required final Map<Nutrient, Amount> nutrientAmountsMap}) =
       _$NutrientDataImpl;
   const _NutrientData._() : super._();
 
@@ -167,7 +199,9 @@ abstract class _NutrientData extends NutrientData {
       _$NutrientDataImpl.fromJson;
 
   @override
-  Map<Nutrient, Amount> get nutrientAmounts;
+  List<NutrientAmount> get nutrientAmounts;
+  @override
+  Map<Nutrient, Amount> get nutrientAmountsMap;
 
   /// Create a copy of NutrientData
   /// with the given fields replaced by the non-null parameter values.

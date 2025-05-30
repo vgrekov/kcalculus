@@ -1,28 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'nutrient_data.dart';
+part of 'nutrient_amount.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$NutrientDataImpl _$$NutrientDataImplFromJson(Map<String, dynamic> json) =>
-    _$NutrientDataImpl(
-      nutrientAmounts: (json['nutrientAmounts'] as List<dynamic>)
-          .map((e) => NutrientAmount.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nutrientAmountsMap:
-          (json['nutrientAmountsMap'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry($enumDecode(_$NutrientEnumMap, k),
-            Amount.fromJson(e as Map<String, dynamic>)),
-      ),
+_$NutrientAmountImpl _$$NutrientAmountImplFromJson(Map<String, dynamic> json) =>
+    _$NutrientAmountImpl(
+      nutrient: $enumDecode(_$NutrientEnumMap, json['nutrient']),
+      amount: Amount.fromJson(json['amount'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$NutrientDataImplToJson(_$NutrientDataImpl instance) =>
+Map<String, dynamic> _$$NutrientAmountImplToJson(
+        _$NutrientAmountImpl instance) =>
     <String, dynamic>{
-      'nutrientAmounts': instance.nutrientAmounts,
-      'nutrientAmountsMap': instance.nutrientAmountsMap
-          .map((k, e) => MapEntry(_$NutrientEnumMap[k]!, e)),
+      'nutrient': _$NutrientEnumMap[instance.nutrient]!,
+      'amount': instance.amount,
     };
 
 const _$NutrientEnumMap = {

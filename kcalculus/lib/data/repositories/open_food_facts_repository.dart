@@ -3,6 +3,7 @@ import 'package:kcalculus/data/services/open_food_facts/product_api_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
@@ -99,13 +100,19 @@ class OpenFoodFactsRepository {
 
   final OpenFoodFactsService _service;
 
-  Future<Food?> getFoodByBarcode(String barcode) async {
+  Future<Food?> getFoodByBarcode(
+    String barcode,
+    List<Nutrient> nutrientDefaults,
+  ) async {
     final product = await _service.getProductByBarcode(barcode);
 
-    return _productToFood(product);
+    return _productToFood(product, nutrientDefaults);
   }
 
-  Food? _productToFood(ProductApiModel? product) {
+  Food? _productToFood(
+    ProductApiModel? product,
+    List<Nutrient> nutrientDefaults,
+  ) {
     if (product == null) {
       return null;
     }
@@ -115,30 +122,64 @@ class OpenFoodFactsRepository {
       final perAmount = _kPerAmounts[product.nutrition_data_per];
 
       if (perAmount != null) {
-        final nutritionAmounts = {
-          for (final nutrient in Nutrient.values)
-            if (_getNutrientAmount(product, nutrient)
-                    ?.tryConvert(nutrient.defaultUnit)
-                case Amount amount)
-              nutrient: amount,
+        final nutritionAmounts = <NutrientAmount>[];
+
+        // Collect whatever nutrient info came from OFF
+        for (final nutrient in Nutrient.values) {
+          final amount = _getNutrientAmount(product, nutrient)
+              ?.tryConvert(nutrient.defaultUnit);
+          if (amount != null) {
+            nutritionAmounts.add(
+              NutrientAmount(
+                nutrient: nutrient,
+                amount: amount,
+              ),
+            );
+          }
+        }
+
+        // A handy map of amounts by nutrients
+        final nutritionAmountsMap = {
+          for (final na in nutritionAmounts) na.nutrient: na.amount,
         };
 
+        // Sometimes net carbs are provided instead of total carbs
         final netCarbsAmount =
             _getNutrimentAmount(product, _kNetCarbsNutrimentId);
-        if (!nutritionAmounts.containsKey(Nutrient.totalCarbs) &&
+        if (!nutritionAmountsMap.containsKey(Nutrient.totalCarbs) &&
             netCarbsAmount != null) {
           Amount totalCarbsAmount = netCarbsAmount;
-          if (nutritionAmounts.containsKey(Nutrient.fiber)) {
-            totalCarbsAmount += nutritionAmounts[Nutrient.fiber]!;
+
+          final fiberAmount = nutritionAmountsMap[Nutrient.fiber];
+          if (fiberAmount != null) {
+            totalCarbsAmount += fiberAmount;
           }
 
-          nutritionAmounts[Nutrient.totalCarbs] = totalCarbsAmount;
+          nutritionAmounts.add(
+            NutrientAmount(
+              nutrient: Nutrient.totalCarbs,
+              amount: totalCarbsAmount,
+            ),
+          );
+          nutritionAmountsMap[Nutrient.totalCarbs] = totalCarbsAmount;
         }
+
+        // A map of positions by nutrients (used below for sorting)
+        final nutrientDefaultPositions = {
+          for (final pair in nutrientDefaults.indexed) pair.$2: pair.$1,
+        };
 
         final nf = NutritionFacts(
           amount: perAmount,
           nutrientData: NutrientData(
-            nutrientAmounts: nutritionAmounts,
+            nutrientAmounts: nutritionAmounts
+              ..sort(
+                (na1, na2) =>
+                    (nutrientDefaultPositions[na1.nutrient] ??
+                        Nutrient.values.length) -
+                    (nutrientDefaultPositions[na2.nutrient] ??
+                        Nutrient.values.length),
+              ),
           ),
         );
 

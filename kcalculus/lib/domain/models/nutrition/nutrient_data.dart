@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/macro_split.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_ratio.dart';
 import 'package:kcalculus/domain/models/units.dart';
@@ -17,12 +18,86 @@ const _kProteinCaloriesPerGram = 4;
 class NutrientData with _$NutrientData {
   const NutrientData._();
 
-  const factory NutrientData({
-    required Map<Nutrient, Amount> nutrientAmounts,
+  const factory NutrientData._default({
+    required List<NutrientAmount> nutrientAmounts,
+    required Map<Nutrient, Amount> nutrientAmountsMap,
   }) = _NutrientData;
 
+  factory NutrientData({
+    required List<NutrientAmount> nutrientAmounts,
+  }) =>
+      NutrientData._default(
+        nutrientAmounts: nutrientAmounts,
+        nutrientAmountsMap: {
+          for (final na in nutrientAmounts) na.nutrient: na.amount
+        },
+      );
+
+  factory NutrientData.legacy({
+    required double calories,
+    required double fatInGrams,
+    required double carbsInGrams,
+    required double fiberInGrams,
+    required double proteinInGrams,
+  }) =>
+      NutrientData(
+        nutrientAmounts: [
+          NutrientAmount(
+            nutrient: Nutrient.energy,
+            amount: Amount(
+              unit: Unit.calorie,
+              value: calories,
+            ),
+          ),
+          NutrientAmount(
+            nutrient: Nutrient.fat,
+            amount: Amount(
+              unit: Unit.gram,
+              value: fatInGrams,
+            ),
+          ),
+          NutrientAmount(
+            nutrient: Nutrient.totalCarbs,
+            amount: Amount(
+              unit: Unit.gram,
+              value: carbsInGrams,
+            ),
+          ),
+          NutrientAmount(
+            nutrient: Nutrient.fiber,
+            amount: Amount(
+              unit: Unit.gram,
+              value: fiberInGrams,
+            ),
+          ),
+          NutrientAmount(
+            nutrient: Nutrient.protein,
+            amount: Amount(
+              unit: Unit.gram,
+              value: proteinInGrams,
+            ),
+          ),
+        ],
+      );
+
   factory NutrientData.empty() {
-    return const NutrientData(nutrientAmounts: {});
+    return NutrientData(nutrientAmounts: []);
+  }
+
+  factory NutrientData.zeros(List<Nutrient> nutrients) {
+    return NutrientData(
+      nutrientAmounts: nutrients
+          .map(
+            (n) => NutrientAmount(
+              nutrient: n,
+              amount: Amount(
+                unit: n.defaultUnit,
+                value: 0,
+              ),
+            ),
+          )
+          .toList(),
+    );
   }
 
   factory NutrientData.fromJson(Map<String, dynamic> json) =>
@@ -39,39 +114,47 @@ class NutrientData with _$NutrientData {
   double get proteinInGrams => _nutrientValue(Nutrient.protein, Unit.gram);
 
   double _nutrientValue(Nutrient nutrient, Unit unit) {
-    return nutrientAmounts[nutrient]?.tryConvert(unit)?.value ?? 0;
+    return nutrientAmountsMap[nutrient]?.tryConvert(unit)?.value ?? 0;
   }
 
   NutrientData operator +(NutrientData other) {
-    final nutrientAmountsSum = <Nutrient, Amount>{};
-    for (final nutrient in Nutrient.values) {
-      final amount = nutrientAmounts[nutrient];
-      final otherAmount = other.nutrientAmounts[nutrient];
-
-      Amount? result;
-      if (amount != null && otherAmount != null) {
-        result = amount + otherAmount;
-      } else if (amount != null) {
-        result = amount;
-      } else if (otherAmount != null) {
-        result = otherAmount;
-      }
-
-      result = result?.tryConvert(nutrient.defaultUnit);
-
-      if (result != null) {
-        nutrientAmountsSum[nutrient] = result;
-      }
+    if (other.nutrientAmounts.isEmpty) {
+      return this;
     }
 
+    if (nutrientAmounts.isEmpty) {
+      return other;
+    }
+
+    final otherNutrientAmountsMap = {
+      for (final na in other.nutrientAmounts) na.nutrient: na,
+    };
+
     return NutrientData(
-      nutrientAmounts: nutrientAmountsSum,
+      nutrientAmounts: [
+        ...nutrientAmounts.map(
+          (na) {
+            final otherNa = otherNutrientAmountsMap.remove(na.nutrient);
+
+            return otherNa != null ? na + otherNa : na;
+          },
+        ),
+        ...other.nutrientAmounts.where(
+          (na) => otherNutrientAmountsMap.containsKey(na.nutrient),
+        ),
+      ],
     );
   }
 
   NutrientData operator *(double factor) {
+    if (factor == 1) return this;
+
     return NutrientData(
-      nutrientAmounts: nutrientAmounts.map((n, a) => MapEntry(n, a * factor)),
+      nutrientAmounts: nutrientAmounts
+          .map(
+            (na) => na * factor,
+          )
+          .toList(),
     );
   }
 
@@ -95,9 +178,14 @@ class NutrientData with _$NutrientData {
 
   NutrientData withPrecision(int fractionDigits, [bool round = true]) {
     return NutrientData(
-      nutrientAmounts: nutrientAmounts.map(
-        (n, a) => MapEntry(n, a.withPrecision(fractionDigits, round)),
-      ),
+      nutrientAmounts: nutrientAmounts
+          .map(
+            (na) => NutrientAmount(
+              nutrient: na.nutrient,
+              amount: na.amount.withPrecision(fractionDigits, round),
+            ),
+          )
+          .toList(),
     );
   }
 

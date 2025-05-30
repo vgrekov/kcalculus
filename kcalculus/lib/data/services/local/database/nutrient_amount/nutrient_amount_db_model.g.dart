@@ -13,6 +13,7 @@ _$NutrientAmountDbModelImpl _$$NutrientAmountDbModelImplFromJson(
       nutrient: json['nutrient'] as String,
       amount_unit: json['amount_unit'] as String,
       amount_value: (json['amount_value'] as num).toDouble(),
+      position: (json['position'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$NutrientAmountDbModelImplToJson(
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$NutrientAmountDbModelImplToJson(
       'nutrient': instance.nutrient,
       'amount_unit': instance.amount_unit,
       'amount_value': instance.amount_value,
+      'position': instance.position,
     };
