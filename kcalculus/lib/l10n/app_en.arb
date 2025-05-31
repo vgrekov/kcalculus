@@ -409,7 +409,7 @@
             }
         }
     },
-    "partExceedsWhole": " - {part} ({partValue}{partUnit}) > {whole} ({wholeValue}{wholeUnit})",
+    "partExceedsWhole": " - {part} ({partValue} {partUnit}) > {whole} ({wholeValue} {wholeUnit})",
     "@partExceedsWhole": {
         "placeholders": {
             "part": {
