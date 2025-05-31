@@ -208,11 +208,13 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
               Expanded(
                 child: TabBarView(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: NutritionFactsView(
-                        nutritionFacts: nutritionFacts,
-                        nutrientDefaults: uiState.nutrientDefaults,
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: NutritionFactsView(
+                          nutritionFacts: nutritionFacts,
+                          nutrientDefaults: uiState.nutrientDefaults,
+                        ),
                       ),
                     ),
                     IngredientList(

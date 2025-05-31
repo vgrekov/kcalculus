@@ -40,16 +40,18 @@ class DishWizardSummaryPage extends ConsumerWidget implements DishWizardPage {
     if (!uiState.validate().containsValue(false)) {
       final dish = uiState.toDish();
 
-      return Padding(
-        padding: const EdgeInsets.only(
-          bottom: 16,
-          left: 16,
-          right: 16,
-          top: 32,
-        ),
-        child: NutritionFactsView(
-          nutritionFacts: dish.getNutritionFacts(),
-          nutrientDefaults: nutrientDefaults,
+      return SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            bottom: 16,
+            left: 16,
+            right: 16,
+            top: 32,
+          ),
+          child: NutritionFactsView(
+            nutritionFacts: dish.getNutritionFacts(),
+            nutrientDefaults: nutrientDefaults,
+          ),
         ),
       );
     } else {
