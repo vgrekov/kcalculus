@@ -32,7 +32,7 @@ class NutritionStatRow extends StatelessWidget {
           labelText,
           style: textStyle,
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: 8),
         Text(
           amountUnit != null
               ? l10n(context).statWithUnit(
