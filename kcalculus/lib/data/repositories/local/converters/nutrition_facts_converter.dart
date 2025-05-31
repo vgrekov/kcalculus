@@ -27,6 +27,7 @@ class LocalNutritionFactsConverter {
     List<NutrientAmountDbModel> nutritionAmountDbModels,
   ) {
     return NutritionFacts(
+      id: dbModel.id,
       amount: Amount(
         unit: Unit.of(dbModel.amount_unit),
         value: dbModel.amount_value,
