@@ -193,8 +193,6 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
       _loadUiState(next);
     });
 
-    final uiState = ref.read(foodSaveViewModel(widget.food));
-
     final viewModel = ref.read(foodSaveViewModel(widget.food).notifier);
 
     return UiSubordinate(
@@ -275,7 +273,6 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
                     ),
                     const SizedBox(height: 32),
                     NutritionFactsInput(
-                      nutritionFacts: uiState.nutritionFacts,
                       defaultNutrients: widget.nutrientDefaults,
                       controller: _nutritionFactsController,
                       focusNode: _nutritionFactsFocusNode,

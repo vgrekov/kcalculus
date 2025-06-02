@@ -277,8 +277,6 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
       _loadUiState(next);
     });
 
-    final uiState = ref.read(portionFormViewModel(_portion));
-
     return UiSubordinate<PortionFormCommand>(
       commandProvider:
           ref.read(portionFormViewModel(_portion).notifier).commandProvider,
@@ -331,7 +329,6 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
             ),
             const SizedBox(height: 32),
             NutritionFactsInput(
-              nutritionFacts: uiState.nutritionFacts,
               defaultNutrients: widget.nutrientDefaults,
               controller: _nutritionFactsController,
               focusNode: _nutritionFactsFocusNode,
