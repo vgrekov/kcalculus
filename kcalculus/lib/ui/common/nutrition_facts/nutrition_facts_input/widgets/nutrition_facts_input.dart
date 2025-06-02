@@ -4,6 +4,7 @@ import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/view_models/nutrient_amount_ui_state.dart';
+import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/view_models/nutrition_facts_input_ui_state.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/view_models/nutrition_facts_input_view_model.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/view_models/nutrition_facts_input_view_model_arg.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/view_models/nutrition_facts_ui_state.dart';
@@ -27,7 +28,7 @@ class NutritionFactsInput extends ConsumerStatefulWidget {
     this.focusNode,
     this.onUserInteractionChange,
   })  : viewModelArg = NutritionFactsInputViewModelArg(
-          nutritionFacts: nutritionFacts,
+          nutritionFacts: nutritionFacts ?? controller?._nutritionFacts,
           defaultNutrients: defaultNutrients,
         ),
         defaultNutrientsSet = defaultNutrients.toSet();
@@ -58,7 +59,7 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
 
   final _form = GlobalKey<FormState>();
 
-  late Map<Nutrient, AmountInputController> _nutrientAmountControllers;
+  final _nutrientAmountControllers = <Nutrient, AmountInputController>{};
 
   late FocusNode _perAmountFocusNode;
 
@@ -81,10 +82,7 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
       nutritionFactsInputViewModel(widget.viewModelArg),
     );
 
-    _nutrientAmountControllers = {
-      for (final nutrient in uiState.nutrients)
-        nutrient: AmountInputController(),
-    };
+    _loadNutrientAmountControllers(uiState);
 
     _loadRecordUiState(uiState.selectedRecordState);
 
@@ -102,9 +100,7 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
     widget.controller?.removeListener(_onControllerCommand);
 
     _perAmountController.dispose();
-    for (final amountController in _nutrientAmountControllers.values) {
-      amountController.dispose();
-    }
+    _disposeOfNutrientAmountControllers();
 
     if (widget.focusNode == null) {
       _perAmountFocusNode.dispose();
@@ -113,6 +109,28 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
     _lastNutrientAmountFocusNode.dispose();
 
     super.dispose();
+  }
+
+  void _loadNutrientAmountControllers(NutritionFactsInputUiState uiState) {
+    final nutrientsWithController = Set.of(_nutrientAmountControllers.keys);
+
+    // Add new ones
+    for (final nutrient in uiState.nutrients) {
+      if (!nutrientsWithController.remove(nutrient)) {
+        _nutrientAmountControllers[nutrient] = AmountInputController();
+      }
+    }
+
+    // Remove old ones
+    for (final nutrient in nutrientsWithController) {
+      _nutrientAmountControllers.remove(nutrient)?.dispose();
+    }
+  }
+
+  void _disposeOfNutrientAmountControllers() {
+    for (final amountController in _nutrientAmountControllers.values) {
+      amountController.dispose();
+    }
   }
 
   void _loadRecordUiState(NutritionFactsUiState recordState) {
@@ -168,10 +186,14 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
       nutritionFactsInputViewModel(widget.viewModelArg).notifier,
     );
 
-    viewModel.load(
+    final uiState = viewModel.load(
       widget.controller!._nutritionFacts,
       widget.defaultNutrients,
     );
+
+    _loadNutrientAmountControllers(uiState);
+
+    _loadRecordUiState(uiState.selectedRecordState);
   }
 
   void _onControllerValidate() {
@@ -285,7 +307,7 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
         .deleteNutrient(nutrient);
 
     if (deleted) {
-      _nutrientAmountControllers.remove(nutrient);
+      _nutrientAmountControllers.remove(nutrient)?.dispose();
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _lastNutrientAmountFocusNode.unfocus();
@@ -366,7 +388,7 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
     command.complete();
   }
 
-  List<Widget> buildNutrientAmountInput({
+  List<Widget> _buildNutrientAmountInput({
     required Nutrient nutrient,
     required bool isFirst,
     required bool isLast,
@@ -464,7 +486,7 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
             const SizedBox(height: 16),
             ...[
               for (final (index, nutrient) in uiState.nutrients.indexed)
-                buildNutrientAmountInput(
+                _buildNutrientAmountInput(
                     nutrient: nutrient,
                     isFirst: index == 0,
                     isLast: index == uiState.nutrients.length - 1),

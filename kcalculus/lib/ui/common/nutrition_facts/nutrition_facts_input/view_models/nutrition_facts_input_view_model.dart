@@ -55,7 +55,7 @@ class NutritionFactsInputViewModel extends AutoDisposeFamilyNotifier<
     }
   }
 
-  void load(
+  NutritionFactsInputUiState load(
     List<NutritionFacts>? nutritionFacts,
     List<Nutrient> defaultNutrients,
   ) {
@@ -63,6 +63,8 @@ class NutritionFactsInputViewModel extends AutoDisposeFamilyNotifier<
       nutritionFacts,
       defaultNutrients,
     );
+
+    return state;
   }
 
   void saveRecordState(
