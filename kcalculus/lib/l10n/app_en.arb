@@ -431,5 +431,19 @@
                 "type": "String"
             }
         }
+    },
+    "appVersion": "{appName} {version} ({buildNumber})",
+    "@appVersion": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "buildNumber": {
+                "type": "String"
+            }
+        }
     }
 }
