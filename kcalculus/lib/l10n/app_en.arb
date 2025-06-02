@@ -16,6 +16,7 @@
     "unitGram": "g",
     "unitKilogram": "kg",
     "unitMilligram": "mg",
+    "unitMicrogram": "µg",
     "unitLitre": "l",
     "unitMillilitre": "ml",
     "unitPound": "lb",
@@ -35,6 +36,59 @@
     "unitGallonUS": "gal (US)",
     "unitCupUSLegal": "cup (US legal)",
     "unitCupUSCustomary": "cup (US customary)",
+    "nutrientEnergy": "Calories",
+    "nutrientFat": "Fat",
+    "nutrientSaturatedFat": "Saturated fat",
+    "nutrientTransFat": "Trans fat",
+    "nutrientUnsaturatedFat": "Unsaturated fat",
+    "nutrientOmega3Fat": "Omega 3 fat",
+    "nutrientOmega6Fat": "Omega 6 fat",
+    "nutrientOmega9Fat": "Omega 9 fat",
+    "nutrientMonounsaturatedFat": "Monounsaturated fat",
+    "nutrientPolyunsaturatedFat": "Polyunsaturated fat",
+    "nutrientTotalCarbs": "Carbohydrates",
+    "nutrientFiber": "Fiber",
+    "nutrientSugar": "Sugar",
+    "nutrientPolyols": "Polyols (sugar alcohols)",
+    "nutrientErythritol": "Erythritol",
+    "nutrientProtein": "Protein",
+    "nutrientCholesterol": "Cholesterol",
+    "nutrientSodium": "Sodium",
+    "nutrientPotassium": "Potassium",
+    "nutrientCalcium": "Calcium",
+    "nutrientIron": "Iron",
+    "nutrientBetaCarotene": "Beta carotene",
+    "nutrientBiotin": "Biotin",
+    "nutrientVitaminA": "Vitamin A",
+    "nutrientVitaminB1": "Vitamin B1 (Thiamin)",
+    "nutrientVitaminB2": "Vitamin B2 (Riboflavin)",
+    "nutrientVitaminB3": "Vitamin B3/PP (Niacin)",
+    "nutrientVitaminB5": "Vitamin B5 (Pantothenic acid)",
+    "nutrientVitaminB6": "Vitamin B6 (Pyridoxin)",
+    "nutrientVitaminB9": "Vitamin B9 (Folic acid)",
+    "nutrientVitaminB12": "Vitamin B12 (Cobalamin)",
+    "nutrientVitaminC": "Vitamin C (Ascorbic acid)",
+    "nutrientVitaminD": "Vitamin D (D3)",
+    "nutrientVitaminE": "Vitamin E",
+    "nutrientVitaminK": "Vitamin K",
+    "nutrientSilica": "Silica",
+    "nutrientBicarbonate": "Bicarbonate",
+    "nutrientChloride": "Chloride",
+    "nutrientPhosphorus": "Phosphorus",
+    "nutrientMagnesium": "Magnesium",
+    "nutrientZinc": "Zinc",
+    "nutrientCopper": "Copper",
+    "nutrientManganese": "Manganese",
+    "nutrientFluoride": "Fluoride",
+    "nutrientSelenium": "Selenium",
+    "nutrientChromium": "Chromium",
+    "nutrientMolybdenum": "Molybdenum",
+    "nutrientIodine": "Iodine",
+    "nutrientCaffeine": "Caffeine",
+    "nutrientTaurine": "Taurine",
+    "nutrientChlorophyl": "Chlorophyl",
+    "nutrientSulfate": "Sulfate",
+    "nutrientNitrate": "Nitrate",
     "formatDate": "EEE, MMM d, yyyy",
     "formatTime": "HH:mm",
     "formatDateTime": "EEE, MMM d, yyyy HH:mm",
@@ -287,6 +341,9 @@
             }
         }
     },
+    "settingsGroupAdvanced": "Advanced",
+    "settingDefaultNutrientsTitle": "Default nutrients",
+    "settingDefaultNutrientsSubtitle": "Select default set of nutrients for edibles",
     "screenMore": "More",
     "moreItemContainersTitle": "Containers",
     "moreItemContainersSubtitle": "For cooking or storing food",
@@ -316,6 +373,61 @@
                 "type": "String"
             },
             "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "hintNutrientSearchBox": "Search by name...",
+    "messageNutrientSearchNothingFound": "Nothing found...",
+    "screenDefaultNutrients": "Default Nutrients",
+    "messageDefaultNutrientDeletionSuccess": "Container deleted",
+    "messageDefaultNutrientDeletionFailure": "Failed to delete the container",
+    "labelDefaultNutrientRequired": "Required",
+    "messageDefaultNutrientDeletionConfirmation": "Delete this nutrient?",
+    "labelAddNutrient": "Add nutrient",
+    "messageRequiredNutrientsMissing": "Required nutrients missing:\n\n{nutrients}",
+    "@messageRequiredNutrientsMissing": {
+        "placeholders": {
+            "nutrients": {
+                "type": "String"
+            }
+        }
+    },
+    "messageInconsistentNutrients": "The following nutrients must be provided for all nutrition facts records or omitted entirely:\n\n{nutrients}",
+    "@messageInconsistentNutrients": {
+        "placeholders": {
+            "nutrients": {
+                "type": "String"
+            }
+        }
+    },
+    "messageSubNutrientsExceedTotal": "Sub-nutrients exceed total:\n\n{details}",
+    "@messageSubNutrientsExceedTotal": {
+        "placeholders": {
+            "details": {
+                "type": "String"
+            }
+        }
+    },
+    "partExceedsWhole": " - {part} ({partValue} {partUnit}) > {whole} ({wholeValue} {wholeUnit})",
+    "@partExceedsWhole": {
+        "placeholders": {
+            "part": {
+                "type": "String"
+            },
+            "partUnit": {
+                "type": "String"
+            },
+            "partValue": {
+                "type": "String"
+            },
+            "whole": {
+                "type": "String"
+            },
+            "wholeUnit": {
+                "type": "String"
+            },
+            "wholeValue": {
                 "type": "String"
             }
         }

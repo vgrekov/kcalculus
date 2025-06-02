@@ -2,6 +2,8 @@ import 'package:kcalculus/data/services/open_food_facts/open_food_facts_service.
 import 'package:kcalculus/data/services/open_food_facts/product_api_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
@@ -22,17 +24,74 @@ class OpenFoodFactsRepository {
     ),
   };
 
-  static const _kUnitToGramFactors = <String, double>{
-    'kg': 1000,
-    'mg': 0.001,
-    'mcg': 0.000001,
-    'µg': 0.000001,
-    'g': 1,
-  };
-
-  static const _kServingUnits = <String, Unit>{
+  static const _kServingToNutrientUnits = <String, Unit>{
     'g': Unit.gram,
     'ml': Unit.millilitre,
+  };
+
+  static const _kNutrientToNutrimentIds = <Nutrient, String>{
+    Nutrient.energy: 'energy-kcal',
+    Nutrient.fat: 'fat',
+    Nutrient.saturatedFat: 'saturated-fat',
+    Nutrient.unsaturatedFat: 'unsaturated-fat',
+    Nutrient.monounsaturatedFat: 'monounsaturated-fat',
+    Nutrient.omega9Fat: 'omega-9-fat',
+    Nutrient.polyunsaturatedFat: 'polyunsaturated-fat',
+    Nutrient.omega3Fat: 'omega-3-fat',
+    Nutrient.omega6Fat: 'omega-6-fat',
+    Nutrient.transFat: 'trans-fat',
+    Nutrient.cholesterol: 'cholesterol',
+    Nutrient.sodium: 'sodium',
+    Nutrient.totalCarbs: 'carbohydrates-total',
+    Nutrient.fiber: 'fiber',
+    Nutrient.sugar: 'sugars',
+    Nutrient.polyols: 'polyols',
+    Nutrient.erythritol: 'erythritol',
+    Nutrient.protein: 'proteins',
+    Nutrient.vitaminA: 'vitamin-a',
+    Nutrient.betaCarotene: 'beta-carotene',
+    Nutrient.vitaminD: 'vitamin-d',
+    Nutrient.vitaminE: 'vitamin-e',
+    Nutrient.vitaminK: 'vitamin-k',
+    Nutrient.vitaminC: 'vitamin-c',
+    Nutrient.vitaminB1: 'vitamin-b1',
+    Nutrient.vitaminB2: 'vitamin-b2',
+    Nutrient.vitaminB3: 'vitamin-pp',
+    Nutrient.vitaminB6: 'vitamin-b6',
+    Nutrient.vitaminB9: 'vitamin-b9',
+    Nutrient.vitaminB12: 'vitamin-b12',
+    Nutrient.biotin: 'biotin',
+    Nutrient.vitaminB5: 'pantothenic-acid',
+    Nutrient.calcium: 'calcium',
+    Nutrient.iron: 'iron',
+    Nutrient.potassium: 'potassium',
+    Nutrient.silica: 'silica',
+    Nutrient.bicarbonate: 'bicarbonate',
+    Nutrient.chloride: 'chloride',
+    Nutrient.phosphorus: 'phosphorus',
+    Nutrient.magnesium: 'magnesium',
+    Nutrient.zinc: 'zinc',
+    Nutrient.copper: 'copper',
+    Nutrient.manganese: 'manganese',
+    Nutrient.fluoride: 'fluoride',
+    Nutrient.selenium: 'selenium',
+    Nutrient.chromium: 'chromium',
+    Nutrient.molybdenum: 'molybdenum',
+    Nutrient.iodine: 'iodine',
+    Nutrient.caffeine: 'caffeine',
+    Nutrient.taurine: 'taurine',
+    Nutrient.chlorophyl: 'chlorophyl',
+    Nutrient.sulfate: 'sulfate',
+    Nutrient.nitrate: 'nitrate',
+  };
+
+  static const _kNetCarbsNutrimentId = 'carbohydrates';
+
+  static const _kNutrimentToNutrientUnits = <String, Unit>{
+    'kcal': Unit.calorie,
+    'g': Unit.gram,
+    'mg': Unit.milligram,
+    'µg': Unit.microgram,
   };
 
   OpenFoodFactsRepository({
@@ -41,13 +100,19 @@ class OpenFoodFactsRepository {
 
   final OpenFoodFactsService _service;
 
-  Future<Food?> getFoodByBarcode(String barcode) async {
+  Future<Food?> getFoodByBarcode(
+    String barcode,
+    List<Nutrient> nutrientDefaults,
+  ) async {
     final product = await _service.getProductByBarcode(barcode);
 
-    return _productToFood(product);
+    return _productToFood(product, nutrientDefaults);
   }
 
-  Food? _productToFood(ProductApiModel? product) {
+  Food? _productToFood(
+    ProductApiModel? product,
+    List<Nutrient> nutrientDefaults,
+  ) {
     if (product == null) {
       return null;
     }
@@ -56,28 +121,65 @@ class OpenFoodFactsRepository {
     if (product.nutrition_data_per != null && product.nutriments != null) {
       final perAmount = _kPerAmounts[product.nutrition_data_per];
 
-      final fatFactor = _kUnitToGramFactors[product.nutriments!.fat_unit] ?? 0;
-
-      final carbsFactor =
-          _kUnitToGramFactors[product.nutriments!.carbohydrates_unit] ?? 0;
-
-      final fiberFactor =
-          _kUnitToGramFactors[product.nutriments!.fiber_unit] ?? 0;
-
-      final proteinFactor =
-          _kUnitToGramFactors[product.nutriments!.proteins_unit] ?? 0;
-
       if (perAmount != null) {
+        final nutritionAmounts = <NutrientAmount>[];
+
+        // Collect whatever nutrient info came from OFF
+        for (final nutrient in Nutrient.values) {
+          final amount = _getNutrientAmount(product, nutrient)
+              ?.tryConvert(nutrient.defaultUnit);
+          if (amount != null) {
+            nutritionAmounts.add(
+              NutrientAmount(
+                nutrient: nutrient,
+                amount: amount,
+              ),
+            );
+          }
+        }
+
+        // A handy map of amounts by nutrients
+        final nutritionAmountsMap = {
+          for (final na in nutritionAmounts) na.nutrient: na.amount,
+        };
+
+        // Sometimes net carbs are provided instead of total carbs
+        final netCarbsAmount =
+            _getNutrimentAmount(product, _kNetCarbsNutrimentId);
+        if (!nutritionAmountsMap.containsKey(Nutrient.totalCarbs) &&
+            netCarbsAmount != null) {
+          Amount totalCarbsAmount = netCarbsAmount;
+
+          final fiberAmount = nutritionAmountsMap[Nutrient.fiber];
+          if (fiberAmount != null) {
+            totalCarbsAmount += fiberAmount;
+          }
+
+          nutritionAmounts.add(
+            NutrientAmount(
+              nutrient: Nutrient.totalCarbs,
+              amount: totalCarbsAmount,
+            ),
+          );
+          nutritionAmountsMap[Nutrient.totalCarbs] = totalCarbsAmount;
+        }
+
+        // A map of positions by nutrients (used below for sorting)
+        final nutrientDefaultPositions = {
+          for (final pair in nutrientDefaults.indexed) pair.$2: pair.$1,
+        };
+
         final nf = NutritionFacts(
           amount: perAmount,
           nutrientData: NutrientData(
-            calories: product.nutriments!.energy_kcal,
-            fatInGrams: (product.nutriments!.fat_value ?? 0) * fatFactor,
-            carbsInGrams:
-                (product.nutriments!.carbohydrates_value ?? 0) * carbsFactor,
-            fiberInGrams: (product.nutriments!.fiber_value ?? 0) * fiberFactor,
-            proteinInGrams:
-                (product.nutriments!.proteins_value ?? 0) * proteinFactor,
+            nutrientAmounts: nutritionAmounts
+              ..sort(
+                (na1, na2) =>
+                    (nutrientDefaultPositions[na1.nutrient] ??
+                        Nutrient.values.length) -
+                    (nutrientDefaultPositions[na2.nutrient] ??
+                        Nutrient.values.length),
+              ),
           ),
         );
 
@@ -85,7 +187,8 @@ class OpenFoodFactsRepository {
 
         if (product.nutrition_data_per == _kNutritionDataPerServing &&
             product.serving_quantity != null) {
-          final servingUnit = _kServingUnits[product.serving_quantity_unit];
+          final servingUnit =
+              _kServingToNutrientUnits[product.serving_quantity_unit];
           final servingValue =
               double.tryParse(product.serving_quantity!.toString());
           if (servingUnit != null && servingValue != null) {
@@ -107,5 +210,32 @@ class OpenFoodFactsRepository {
       description: product.brands ?? '',
       nutritionFacts: nutritionFacts,
     );
+  }
+
+  Amount? _getNutrientAmount(ProductApiModel product, Nutrient nutrient) {
+    return _getNutrimentAmount(product, _kNutrientToNutrimentIds[nutrient]);
+  }
+
+  Amount? _getNutrimentAmount(ProductApiModel product, String? nutrimentId) {
+    if (product.nutriments?.isEmpty ?? true) {
+      return null;
+    }
+
+    if (nutrimentId != null) {
+      final nutrimentUnit =
+          product.nutriments?['${nutrimentId}_unit'] as String?;
+      final nutrientUnit = _kNutrimentToNutrientUnits[nutrimentUnit];
+      final nutrimentValue =
+          (product.nutriments?['${nutrimentId}_value'] as num?)?.toDouble();
+
+      if (nutrientUnit != null && nutrimentValue != null) {
+        return Amount(
+          unit: nutrientUnit,
+          value: nutrimentValue,
+        );
+      }
+    }
+
+    return null;
   }
 }

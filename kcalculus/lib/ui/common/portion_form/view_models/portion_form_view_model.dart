@@ -217,9 +217,17 @@ class PortionFormViewModel
         return true;
       }
 
-      final nutritionFactsEntered = state.nutritionFacts!.toSet();
-      final nutritionFactsSelected =
-          state.selectedEdible!.getNutritionFacts().toSet();
+      final nutritionFactsEntered = state.nutritionFacts!
+          .map(
+            (nf) => nf.copyWith(id: null),
+          )
+          .toSet();
+      final nutritionFactsSelected = state.selectedEdible!
+          .getNutritionFacts()
+          .map(
+            (nf) => nf.copyWith(id: null),
+          )
+          .toSet();
       if (!setEquals(nutritionFactsEntered, nutritionFactsSelected)) {
         return true;
       }

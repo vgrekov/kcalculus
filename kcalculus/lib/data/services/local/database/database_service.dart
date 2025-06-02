@@ -4,12 +4,14 @@ import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 import 'package:kcalculus/data/exceptions/localized_exception.dart';
-import 'package:kcalculus/data/services/local/database/food_container/food_container_service.dart';
+import 'package:kcalculus/data/services/local/database/default_nutrient/default_nutrient_service.dart';
 import 'package:kcalculus/data/services/local/database/dish/dish_service.dart';
 import 'package:kcalculus/data/services/local/database/edible/edible_service.dart';
 import 'package:kcalculus/data/services/local/database/food/food_service.dart';
+import 'package:kcalculus/data/services/local/database/food_container/food_container_service.dart';
 import 'package:kcalculus/data/services/local/database/ingredient/ingredient_service.dart';
 import 'package:kcalculus/data/services/local/database/meal/meal_service.dart';
+import 'package:kcalculus/data/services/local/database/nutrient_amount/nutrient_amount_service.dart';
 import 'package:kcalculus/data/services/local/database/nutrition_facts/nutrition_facts_service.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:path/path.dart' as path;
@@ -19,7 +21,7 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseService {
   static const _kDbName = 'kcalculus.db';
 
-  static const _kDbVersion = 18;
+  static const _kDbVersion = 20;
 
   static const _kSqlStatementSeparator = '--SQL-STATEMENT-SEPARATOR';
 
@@ -195,6 +197,8 @@ class DatabaseService {
     dish = DishService(_database);
     meal = MealService(_database);
     foodContainer = FoodContainerService(_database);
+    defaultNutrient = DefaultNutrientService(_database);
+    nutrientAmount = NutrientAmountService(_database);
   }
 
   late final Future<Database> _database;
@@ -212,6 +216,10 @@ class DatabaseService {
   late final MealService meal;
 
   late final FoodContainerService foodContainer;
+
+  late final DefaultNutrientService defaultNutrient;
+
+  late final NutrientAmountService nutrientAmount;
 
   Future<T> transaction<T>(Future<T> Function(Transaction) action) async {
     final db = await _database;

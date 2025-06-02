@@ -3,16 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
+import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/widgets/nutrition_facts_view.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/edible_main_info.dart';
 import 'package:kcalculus/ui/common/widgets/macro_split_view.dart';
-import 'package:kcalculus/ui/common/widgets/nutrition_facts_view/nutrition_facts_view.dart';
 import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/share/widgets/food_share_screen.dart';
+import 'package:kcalculus/ui/foods/view/view_models/food_view_ui_state.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
@@ -106,11 +107,14 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
     UiCommand command, {
     required BuildContext context,
     required WidgetRef ref,
-  }) {
+  }) async {
+    final uiState = command.payload as FoodViewUiState;
+
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => FoodSaveScreen(
-          food: command.payload as Food,
+          food: uiState.food,
+          nutrientDefaults: uiState.nutrientDefaults,
         ),
       ),
     );
@@ -119,15 +123,15 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final foodAsync = ref.watch(foodViewViewModel(foodId));
+    final uiStateAsync = ref.watch(foodViewViewModel(foodId));
 
     final (
       List<Widget>? appBarActions,
       Widget? body,
       Widget? bottomNavigationBar,
-    ) = foodAsync.when(
-      data: (food) {
-        final nutritionFacts = food.getNutritionFacts();
+    ) = uiStateAsync.when(
+      data: (uiState) {
+        final nutritionFacts = uiState.food.getNutritionFacts();
         final macroSplit =
             nutritionFacts.firstOrNull?.nutrientData.getMacroSplit();
 
@@ -135,7 +139,7 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
           [
             IconButton(
               onPressed: () {
-                _shareFood(context, ref, food);
+                _shareFood(context, ref, uiState.food);
               },
               icon: PremiumBadge(
                 child: Icon(
@@ -181,7 +185,7 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: EdibleMainInfo(
-                      edible: food,
+                      edible: uiState.food,
                     ),
                   ),
                   TabBar(
@@ -196,10 +200,13 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
               Expanded(
                 child: TabBarView(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: NutritionFactsView(
-                        nutritionFacts: nutritionFacts,
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: NutritionFactsView(
+                          nutritionFacts: nutritionFacts,
+                          nutrientDefaults: uiState.nutrientDefaults,
+                        ),
                       ),
                     ),
                   ],

@@ -29,7 +29,7 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
           unit: Unit.gram,
           value: 100,
         ),
-        nutrientData: NutrientData(
+        nutrientData: NutrientData.legacy(
           calories: 100,
           fatInGrams: 4,
           carbsInGrams: 10,
@@ -150,7 +150,7 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
 
   await tester.pumpAndSettle();
 
-  await enterAmount(context, tester, l10n.labelPer, amount);
+  await enterAmount(context, tester, '${l10n.labelPer} *', amount);
 
   await tester.pumpAndSettle();
 

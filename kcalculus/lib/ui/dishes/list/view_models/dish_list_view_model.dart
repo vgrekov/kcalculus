@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/edible_search_helper.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -93,6 +94,10 @@ class DishListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
     }
 
     _log.finer('restoreDish() END');
+  }
+
+  Future<List<Nutrient>> getNutrientDefaults() {
+    return ref.read(nutrientRepositoryProvider).getDefaults();
   }
 }
 

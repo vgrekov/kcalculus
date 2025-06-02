@@ -93,7 +93,13 @@ class FoodScanViewModel extends AutoDisposeNotifier<void> {
     final openFoodFactsRepository =
         await ref.read(openFoodFactsRepositoryProvider.future);
 
-    final food = await openFoodFactsRepository.getFoodByBarcode(barcode);
+    final nutrientDefaults =
+        await ref.read(nutrientRepositoryProvider).getDefaults();
+
+    final food = await openFoodFactsRepository.getFoodByBarcode(
+      barcode,
+      nutrientDefaults,
+    );
 
     if (food != null) {
       _log.info('Food found in OpenFoodFacts');

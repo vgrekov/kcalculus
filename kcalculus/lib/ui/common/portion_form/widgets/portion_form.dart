@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/edible.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/portion.dart';
+import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/modified_edible_option.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/portion_form_ui_state.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/portion_form_view_model.dart';
@@ -12,7 +14,6 @@ import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/edible_name_input.dart';
-import 'package:kcalculus/ui/common/widgets/nutrition_facts_input/nutrition_facts_input.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/edibles/search/widgets/edible_search_screen.dart';
@@ -22,9 +23,12 @@ class PortionForm extends ConsumerStatefulWidget {
   const PortionForm({
     super.key,
     required this.controller,
+    required this.nutrientDefaults,
   });
 
   final PortionFormController controller;
+
+  final List<Nutrient> nutrientDefaults;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -116,25 +120,16 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
     _descriptionController.text = uiState.description;
     _amountController.setUnit(uiState.amountUnit);
     _amountController.setValue(uiState.amountValue);
-    _nutritionFactsController.nutritionFacts = uiState.nutritionFacts;
+    _nutritionFactsController.load(uiState.nutritionFacts);
   }
 
   bool _validate() {
-    if (!_form.currentState!.validate()) {
-      return false;
-    }
-
-    _nutritionFactsController.validate();
-    if (!_nutritionFactsController.isValid) {
-      return false;
-    }
-
-    return true;
+    return _form.currentState!.validate() &&
+        _nutritionFactsController.validate();
   }
 
   void _saveUiState() {
     _form.currentState!.save();
-    _nutritionFactsController.save();
 
     final viewModel = ref.read(portionFormViewModel(_portion).notifier);
 
@@ -144,7 +139,7 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
         description: _descriptionController.text,
         amountUnit: _amountController.unit,
         amountValue: _amountController.value,
-        nutritionFacts: _nutritionFactsController.nutritionFacts,
+        nutritionFacts: _nutritionFactsController.save(),
       ),
     );
   }
@@ -334,6 +329,7 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
             ),
             const SizedBox(height: 32),
             NutritionFactsInput(
+              defaultNutrients: widget.nutrientDefaults,
               controller: _nutritionFactsController,
               focusNode: _nutritionFactsFocusNode,
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/dish/ingredient.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/ingredient_list.dart';
@@ -18,14 +19,18 @@ class DishWizardIngredientsPage extends ConsumerWidget
   const DishWizardIngredientsPage({
     super.key,
     this.dish,
+    required this.nutrientDefaults,
   });
 
   final Dish? dish;
 
-  void _addIngredient(BuildContext context, WidgetRef ref) {
+  final List<Nutrient> nutrientDefaults;
+
+  void _addIngredient(BuildContext context, WidgetRef ref) async {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => IngredientSaveScreen(
+          nutrientDefaults: nutrientDefaults,
           onSaveIngredient: (ingredient) {
             ref
                 .read(dishWizardViewModel(dish).notifier)
@@ -41,11 +46,12 @@ class DishWizardIngredientsPage extends ConsumerWidget
     WidgetRef ref,
     Ingredient ingredient,
     int index,
-  ) {
+  ) async {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => IngredientSaveScreen(
           ingredient: ingredient,
+          nutrientDefaults: nutrientDefaults,
           onSaveIngredient: (newIngredient) {
             ref.read(dishWizardViewModel(dish).notifier).replaceIngredientAt(
                   index,

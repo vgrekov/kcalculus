@@ -20,6 +20,7 @@ NutritionFacts _$NutritionFactsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$NutritionFacts {
+  String? get id => throw _privateConstructorUsedError;
   Amount get amount => throw _privateConstructorUsedError;
   NutrientData get nutrientData => throw _privateConstructorUsedError;
 
@@ -39,7 +40,7 @@ abstract class $NutritionFactsCopyWith<$Res> {
           NutritionFacts value, $Res Function(NutritionFacts) then) =
       _$NutritionFactsCopyWithImpl<$Res, NutritionFacts>;
   @useResult
-  $Res call({Amount amount, NutrientData nutrientData});
+  $Res call({String? id, Amount amount, NutrientData nutrientData});
 
   $AmountCopyWith<$Res> get amount;
   $NutrientDataCopyWith<$Res> get nutrientData;
@@ -60,10 +61,15 @@ class _$NutritionFactsCopyWithImpl<$Res, $Val extends NutritionFacts>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? amount = null,
     Object? nutrientData = null,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -104,7 +110,7 @@ abstract class _$$NutritionFactsImplCopyWith<$Res>
       __$$NutritionFactsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Amount amount, NutrientData nutrientData});
+  $Res call({String? id, Amount amount, NutrientData nutrientData});
 
   @override
   $AmountCopyWith<$Res> get amount;
@@ -125,10 +131,15 @@ class __$$NutritionFactsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? amount = null,
     Object? nutrientData = null,
   }) {
     return _then(_$NutritionFactsImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -144,12 +155,15 @@ class __$$NutritionFactsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$NutritionFactsImpl extends _NutritionFacts {
-  const _$NutritionFactsImpl({required this.amount, required this.nutrientData})
+  const _$NutritionFactsImpl(
+      {this.id, required this.amount, required this.nutrientData})
       : super._();
 
   factory _$NutritionFactsImpl.fromJson(Map<String, dynamic> json) =>
       _$$NutritionFactsImplFromJson(json);
 
+  @override
+  final String? id;
   @override
   final Amount amount;
   @override
@@ -157,7 +171,7 @@ class _$NutritionFactsImpl extends _NutritionFacts {
 
   @override
   String toString() {
-    return 'NutritionFacts(amount: $amount, nutrientData: $nutrientData)';
+    return 'NutritionFacts(id: $id, amount: $amount, nutrientData: $nutrientData)';
   }
 
   @override
@@ -165,6 +179,7 @@ class _$NutritionFactsImpl extends _NutritionFacts {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NutritionFactsImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.nutrientData, nutrientData) ||
                 other.nutrientData == nutrientData));
@@ -172,7 +187,7 @@ class _$NutritionFactsImpl extends _NutritionFacts {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, amount, nutrientData);
+  int get hashCode => Object.hash(runtimeType, id, amount, nutrientData);
 
   /// Create a copy of NutritionFacts
   /// with the given fields replaced by the non-null parameter values.
@@ -193,13 +208,16 @@ class _$NutritionFactsImpl extends _NutritionFacts {
 
 abstract class _NutritionFacts extends NutritionFacts {
   const factory _NutritionFacts(
-      {required final Amount amount,
+      {final String? id,
+      required final Amount amount,
       required final NutrientData nutrientData}) = _$NutritionFactsImpl;
   const _NutritionFacts._() : super._();
 
   factory _NutritionFacts.fromJson(Map<String, dynamic> json) =
       _$NutritionFactsImpl.fromJson;
 
+  @override
+  String? get id;
   @override
   Amount get amount;
   @override

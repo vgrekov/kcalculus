@@ -6,17 +6,23 @@ final _localEdibleSearchResultConverter = Provider(
   (ref) => LocalEdibleSearchResultConverter(),
 );
 
+final _localNutrientAmountConverterProvider = Provider(
+  (ref) => LocalNutrientAmountConverter(),
+);
+
 final _localNutritionFactsConverterProvider = Provider(
-  (ref) => LocalNutritionFactsConverter(),
+  (ref) {
+    final nutrientAmountConverter =
+        ref.watch(_localNutrientAmountConverterProvider);
+    return LocalNutritionFactsConverter(
+      nutritionAmountConverter: nutrientAmountConverter,
+    );
+  },
 );
 
 final _localFoodConverterProvider = Provider(
   (ref) {
-    final nutritionFactsConverter =
-        ref.watch(_localNutritionFactsConverterProvider);
-    return LocalFoodConverter(
-      nutritionFactsConverter: nutritionFactsConverter,
-    );
+    return LocalFoodConverter();
   },
 );
 
@@ -34,4 +40,8 @@ final _localMealConverterProvider = Provider(
 
 final _localFoodContainerConverterProvider = Provider(
   (ref) => LocalFoodContainerConverter(),
+);
+
+final _localDefaultNutrientConverterProvider = Provider(
+  (ref) => LocalDefaultNutrientConverter(),
 );

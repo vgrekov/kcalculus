@@ -20,11 +20,10 @@ NutrientData _$NutrientDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$NutrientData {
-  double get calories => throw _privateConstructorUsedError;
-  double get fatInGrams => throw _privateConstructorUsedError;
-  double get carbsInGrams => throw _privateConstructorUsedError;
-  double get fiberInGrams => throw _privateConstructorUsedError;
-  double get proteinInGrams => throw _privateConstructorUsedError;
+  List<NutrientAmount> get nutrientAmounts =>
+      throw _privateConstructorUsedError;
+  Map<Nutrient, Amount> get nutrientAmountsMap =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this NutrientData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,11 +42,8 @@ abstract class $NutrientDataCopyWith<$Res> {
       _$NutrientDataCopyWithImpl<$Res, NutrientData>;
   @useResult
   $Res call(
-      {double calories,
-      double fatInGrams,
-      double carbsInGrams,
-      double fiberInGrams,
-      double proteinInGrams});
+      {List<NutrientAmount> nutrientAmounts,
+      Map<Nutrient, Amount> nutrientAmountsMap});
 }
 
 /// @nodoc
@@ -65,33 +61,18 @@ class _$NutrientDataCopyWithImpl<$Res, $Val extends NutrientData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? calories = null,
-    Object? fatInGrams = null,
-    Object? carbsInGrams = null,
-    Object? fiberInGrams = null,
-    Object? proteinInGrams = null,
+    Object? nutrientAmounts = null,
+    Object? nutrientAmountsMap = null,
   }) {
     return _then(_value.copyWith(
-      calories: null == calories
-          ? _value.calories
-          : calories // ignore: cast_nullable_to_non_nullable
-              as double,
-      fatInGrams: null == fatInGrams
-          ? _value.fatInGrams
-          : fatInGrams // ignore: cast_nullable_to_non_nullable
-              as double,
-      carbsInGrams: null == carbsInGrams
-          ? _value.carbsInGrams
-          : carbsInGrams // ignore: cast_nullable_to_non_nullable
-              as double,
-      fiberInGrams: null == fiberInGrams
-          ? _value.fiberInGrams
-          : fiberInGrams // ignore: cast_nullable_to_non_nullable
-              as double,
-      proteinInGrams: null == proteinInGrams
-          ? _value.proteinInGrams
-          : proteinInGrams // ignore: cast_nullable_to_non_nullable
-              as double,
+      nutrientAmounts: null == nutrientAmounts
+          ? _value.nutrientAmounts
+          : nutrientAmounts // ignore: cast_nullable_to_non_nullable
+              as List<NutrientAmount>,
+      nutrientAmountsMap: null == nutrientAmountsMap
+          ? _value.nutrientAmountsMap
+          : nutrientAmountsMap // ignore: cast_nullable_to_non_nullable
+              as Map<Nutrient, Amount>,
     ) as $Val);
   }
 }
@@ -105,11 +86,8 @@ abstract class _$$NutrientDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {double calories,
-      double fatInGrams,
-      double carbsInGrams,
-      double fiberInGrams,
-      double proteinInGrams});
+      {List<NutrientAmount> nutrientAmounts,
+      Map<Nutrient, Amount> nutrientAmountsMap});
 }
 
 /// @nodoc
@@ -125,33 +103,18 @@ class __$$NutrientDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? calories = null,
-    Object? fatInGrams = null,
-    Object? carbsInGrams = null,
-    Object? fiberInGrams = null,
-    Object? proteinInGrams = null,
+    Object? nutrientAmounts = null,
+    Object? nutrientAmountsMap = null,
   }) {
     return _then(_$NutrientDataImpl(
-      calories: null == calories
-          ? _value.calories
-          : calories // ignore: cast_nullable_to_non_nullable
-              as double,
-      fatInGrams: null == fatInGrams
-          ? _value.fatInGrams
-          : fatInGrams // ignore: cast_nullable_to_non_nullable
-              as double,
-      carbsInGrams: null == carbsInGrams
-          ? _value.carbsInGrams
-          : carbsInGrams // ignore: cast_nullable_to_non_nullable
-              as double,
-      fiberInGrams: null == fiberInGrams
-          ? _value.fiberInGrams
-          : fiberInGrams // ignore: cast_nullable_to_non_nullable
-              as double,
-      proteinInGrams: null == proteinInGrams
-          ? _value.proteinInGrams
-          : proteinInGrams // ignore: cast_nullable_to_non_nullable
-              as double,
+      nutrientAmounts: null == nutrientAmounts
+          ? _value._nutrientAmounts
+          : nutrientAmounts // ignore: cast_nullable_to_non_nullable
+              as List<NutrientAmount>,
+      nutrientAmountsMap: null == nutrientAmountsMap
+          ? _value._nutrientAmountsMap
+          : nutrientAmountsMap // ignore: cast_nullable_to_non_nullable
+              as Map<Nutrient, Amount>,
     ));
   }
 }
@@ -160,30 +123,35 @@ class __$$NutrientDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NutrientDataImpl extends _NutrientData {
   const _$NutrientDataImpl(
-      {required this.calories,
-      required this.fatInGrams,
-      required this.carbsInGrams,
-      required this.fiberInGrams,
-      required this.proteinInGrams})
-      : super._();
+      {required final List<NutrientAmount> nutrientAmounts,
+      required final Map<Nutrient, Amount> nutrientAmountsMap})
+      : _nutrientAmounts = nutrientAmounts,
+        _nutrientAmountsMap = nutrientAmountsMap,
+        super._();
 
   factory _$NutrientDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$NutrientDataImplFromJson(json);
 
+  final List<NutrientAmount> _nutrientAmounts;
   @override
-  final double calories;
+  List<NutrientAmount> get nutrientAmounts {
+    if (_nutrientAmounts is EqualUnmodifiableListView) return _nutrientAmounts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_nutrientAmounts);
+  }
+
+  final Map<Nutrient, Amount> _nutrientAmountsMap;
   @override
-  final double fatInGrams;
-  @override
-  final double carbsInGrams;
-  @override
-  final double fiberInGrams;
-  @override
-  final double proteinInGrams;
+  Map<Nutrient, Amount> get nutrientAmountsMap {
+    if (_nutrientAmountsMap is EqualUnmodifiableMapView)
+      return _nutrientAmountsMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_nutrientAmountsMap);
+  }
 
   @override
   String toString() {
-    return 'NutrientData(calories: $calories, fatInGrams: $fatInGrams, carbsInGrams: $carbsInGrams, fiberInGrams: $fiberInGrams, proteinInGrams: $proteinInGrams)';
+    return 'NutrientData._default(nutrientAmounts: $nutrientAmounts, nutrientAmountsMap: $nutrientAmountsMap)';
   }
 
   @override
@@ -191,22 +159,18 @@ class _$NutrientDataImpl extends _NutrientData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NutrientDataImpl &&
-            (identical(other.calories, calories) ||
-                other.calories == calories) &&
-            (identical(other.fatInGrams, fatInGrams) ||
-                other.fatInGrams == fatInGrams) &&
-            (identical(other.carbsInGrams, carbsInGrams) ||
-                other.carbsInGrams == carbsInGrams) &&
-            (identical(other.fiberInGrams, fiberInGrams) ||
-                other.fiberInGrams == fiberInGrams) &&
-            (identical(other.proteinInGrams, proteinInGrams) ||
-                other.proteinInGrams == proteinInGrams));
+            const DeepCollectionEquality()
+                .equals(other._nutrientAmounts, _nutrientAmounts) &&
+            const DeepCollectionEquality()
+                .equals(other._nutrientAmountsMap, _nutrientAmountsMap));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, calories, fatInGrams,
-      carbsInGrams, fiberInGrams, proteinInGrams);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_nutrientAmounts),
+      const DeepCollectionEquality().hash(_nutrientAmountsMap));
 
   /// Create a copy of NutrientData
   /// with the given fields replaced by the non-null parameter values.
@@ -226,26 +190,18 @@ class _$NutrientDataImpl extends _NutrientData {
 
 abstract class _NutrientData extends NutrientData {
   const factory _NutrientData(
-      {required final double calories,
-      required final double fatInGrams,
-      required final double carbsInGrams,
-      required final double fiberInGrams,
-      required final double proteinInGrams}) = _$NutrientDataImpl;
+          {required final List<NutrientAmount> nutrientAmounts,
+          required final Map<Nutrient, Amount> nutrientAmountsMap}) =
+      _$NutrientDataImpl;
   const _NutrientData._() : super._();
 
   factory _NutrientData.fromJson(Map<String, dynamic> json) =
       _$NutrientDataImpl.fromJson;
 
   @override
-  double get calories;
+  List<NutrientAmount> get nutrientAmounts;
   @override
-  double get fatInGrams;
-  @override
-  double get carbsInGrams;
-  @override
-  double get fiberInGrams;
-  @override
-  double get proteinInGrams;
+  Map<Nutrient, Amount> get nutrientAmountsMap;
 
   /// Create a copy of NutrientData
   /// with the given fields replaced by the non-null parameter values.

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
@@ -21,9 +22,12 @@ class DishWizardScreen extends ConsumerStatefulWidget {
   const DishWizardScreen({
     super.key,
     this.dish,
+    required this.nutrientDefaults,
   });
 
   final Dish? dish;
+
+  final List<Nutrient> nutrientDefaults;
 
   @override
   ConsumerState<DishWizardScreen> createState() {
@@ -110,6 +114,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
       DishWizardStep.ingredients => DishWizardIngredientsPage(
           key: pageKey,
           dish: widget.dish,
+          nutrientDefaults: widget.nutrientDefaults,
         ),
       DishWizardStep.measurements => DishWizardMeasurementsPage(
           key: pageKey,
@@ -118,6 +123,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
       DishWizardStep.summary => DishWizardSummaryPage(
           key: pageKey,
           dish: widget.dish,
+          nutrientDefaults: widget.nutrientDefaults,
         ),
     };
   }

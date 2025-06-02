@@ -12,6 +12,7 @@ import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
+import 'package:kcalculus/ui/nutrients/defaults/widgets/nutrient_defaults_screen.dart';
 import 'package:kcalculus/ui/settings/view_models/settings_view_model.dart';
 import 'package:kcalculus/ui/settings/widgets/action_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/app_theme_setting_tile.dart';
@@ -74,6 +75,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   void _setAnalyticsEnabled(bool enabled) {
     final viewModel = ref.read(appSettingsViewModel.notifier);
     viewModel.setAnalyticsEnabled(enabled);
+  }
+
+  void _configureDefaultNutrients() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => NutrientDefaultsScreen(),
+      ),
+    );
   }
 
   void _backup() async {
@@ -212,6 +221,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     title: l10n(context).settingAnalyticsTitle,
                     subtitle: l10n(context).settingAnalyticsSubtitle,
                     icon: Icons.analytics,
+                  ),
+                ],
+              ),
+              SettingsGroup(
+                title: l10n(context).settingsGroupAdvanced,
+                children: [
+                  ActionSettingTile(
+                    onTap:
+                        settings.isLoading ? null : _configureDefaultNutrients,
+                    title: l10n(context).settingDefaultNutrientsTitle,
+                    subtitle: l10n(context).settingDefaultNutrientsSubtitle,
+                    icon: Icons.list_alt,
+                    premiumFeature: false,
                   ),
                 ],
               ),

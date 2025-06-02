@@ -28,6 +28,7 @@ class AmountInput extends StatefulWidget {
     this.validator,
     this.onUserInteractionChange,
     this.fixedMeasure,
+    this.required = true,
   }) {
     if (fixedUnit && initialUnit == null && initialAmount == null) {
       throw 'When fixed, a unit must be provided.';
@@ -77,6 +78,8 @@ class AmountInput extends StatefulWidget {
   final void Function()? onUserInteractionChange;
 
   final Measure? fixedMeasure;
+
+  final bool required;
 
   @override
   State<StatefulWidget> createState() {
@@ -157,19 +160,21 @@ class _AmountInputState extends State<AmountInput> {
   }
 
   String? _validateAmountValue(String? value) {
-    if (value == null || value.trim().isEmpty) {
+    final isBlank = value?.trim().isEmpty ?? true;
+
+    if (isBlank && widget.required) {
       return l10n(context).validationErrorAmountValueMissing;
-    }
+    } else if (!isBlank) {
+      final doubleValue = double.tryParse(value!);
+      if (doubleValue == null) {
+        return l10n(context).validationErrorAmountValueNaN;
+      }
 
-    final doubleValue = double.tryParse(value);
-    if (doubleValue == null) {
-      return l10n(context).validationErrorAmountValueNaN;
-    }
-
-    if (widget.allowZero && doubleValue < 0) {
-      return l10n(context).validationErrorAmountValueNegative;
-    } else if (!widget.allowZero && doubleValue <= 0) {
-      return l10n(context).validationErrorAmountValueNotPositive;
+      if (widget.allowZero && doubleValue < 0) {
+        return l10n(context).validationErrorAmountValueNegative;
+      } else if (!widget.allowZero && doubleValue <= 0) {
+        return l10n(context).validationErrorAmountValueNotPositive;
+      }
     }
 
     return widget.validator != null ? widget.validator!(value) : null;

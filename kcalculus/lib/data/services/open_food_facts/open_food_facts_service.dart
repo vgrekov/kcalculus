@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:kcalculus/data/services/open_food_facts/product_api_model.dart';
 import 'package:logging/logging.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 final _log = Logger('OpenFoodFactsService');
 
@@ -11,12 +10,24 @@ class OpenFoodFactsService {
   OpenFoodFactsService({
     required String openFoodFactsBaseUrl,
     required String contactEmail,
+    required String appName,
+    required String version,
+    required http.Client httpClient,
   })  : _openFoodFactsBaseUrl = openFoodFactsBaseUrl,
-        _contactEmail = contactEmail;
+        _contactEmail = contactEmail,
+        _appName = appName,
+        _version = version,
+        _httpClient = httpClient;
 
   final String _openFoodFactsBaseUrl;
 
   final String _contactEmail;
+
+  final String _appName;
+
+  final String _version;
+
+  final http.Client _httpClient;
 
   Uri _getProductByBarcodeUrl(String barcode) => Uri.parse(
         '$_openFoodFactsBaseUrl/api/v2/product/$barcode',
@@ -35,13 +46,8 @@ class OpenFoodFactsService {
       );
 
   Future<Map<String, String>> _getUserAgent() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-    String appName = packageInfo.appName;
-    String version = packageInfo.version;
-
     return {
-      'User-Agent': '$appName/$version ($_contactEmail)',
+      'User-Agent': '$_appName/$_version ($_contactEmail)',
     };
   }
 
@@ -50,7 +56,7 @@ class OpenFoodFactsService {
 
     _log.finest('getProductByBarcode() Getting product by barcode: $barcode');
 
-    final response = await http.get(
+    final response = await _httpClient.get(
       _getProductByBarcodeUrl(barcode),
       headers: await _getUserAgent(),
     );

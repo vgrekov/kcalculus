@@ -23,6 +23,7 @@ const _$UnitEnumMap = {
   Unit.gram: 'gram',
   Unit.kilogram: 'kilogram',
   Unit.milligram: 'milligram',
+  Unit.microgram: 'microgram',
   Unit.litre: 'litre',
   Unit.millilitre: 'millilitre',
   Unit.pound: 'pound',
