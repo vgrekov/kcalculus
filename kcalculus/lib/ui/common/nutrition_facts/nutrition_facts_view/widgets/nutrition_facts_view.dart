@@ -79,24 +79,11 @@ class NutritionFactsView extends ConsumerWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 16.0 * node.level),
                   child: NutritionStatRow(
-                    labelText: node.nutrient.localName(l10n(context)),
+                    nutrient: node.nutrient,
                     amountUnit: node.nutrient == Nutrient.energy
                         ? null
                         : node.amount.unit,
                     amountValue: node.amount.value,
-                    textStyle: switch (node.level) {
-                      0 => Theme.of(context).textTheme.titleLarge!.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                      1 => Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                      _ => Theme.of(context).textTheme.titleSmall!.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                    },
                   ),
                 ),
               ],
