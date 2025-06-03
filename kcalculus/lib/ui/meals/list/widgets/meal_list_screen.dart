@@ -212,27 +212,28 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Awaited(
+        bottomNavigationBar: Container(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Awaited(
                 future: uiState.dataLoader,
-                data: (_, __) {
-                  final totalNutrientData = uiState.data
+                data: (_, __) => NutrientStats(
+                  date: uiState.date,
+                  nutrientData: uiState.data
                       .map((m) => m.getNutrientData() ?? NutrientData.empty())
                       .fold(
                         NutrientData.empty(),
                         (nd1, nd2) => nd1 + nd2,
-                      );
-
-                  return NutrientStats(
-                    nutrientData: totalNutrientData,
-                  );
-                }),
-            const ScreenTabBar(
-              selectedTab: ScreenTab.meals,
-            ),
-          ],
+                      ),
+                ),
+              ),
+              const ScreenTabBar(
+                selectedTab: ScreenTab.meals,
+              ),
+            ],
+          ),
         ),
       ),
     );
