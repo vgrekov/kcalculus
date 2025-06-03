@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/nutrition/portion.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/edible_already_exists_exception.dart';
@@ -217,22 +217,13 @@ class PortionFormViewModel
         return true;
       }
 
-      final nutritionFactsEntered = state.nutritionFacts!
-          .map(
-            (nf) => nf.copyWith(id: null),
-          )
-          .toSet();
-      final nutritionFactsSelected = state.selectedEdible!
-          .getNutritionFacts()
-          .map(
-            (nf) => nf.copyWith(id: null),
-          )
-          .toSet();
-      if (!setEquals(nutritionFactsEntered, nutritionFactsSelected)) {
-        return true;
-      }
+      final nutritionFactsEntered = state.nutritionFacts!;
+      final nutritionFactsSelected = state.selectedEdible!.getNutritionFacts();
 
-      return false;
+      return !NutritionFacts.areSame(
+        nutritionFactsEntered,
+        nutritionFactsSelected,
+      );
     }
 
     return null;
