@@ -103,6 +103,85 @@ class NutrientData with _$NutrientData {
   factory NutrientData.fromJson(Map<String, dynamic> json) =>
       _$NutrientDataFromJson(json);
 
+  Iterable<T> toRows<T>(
+    List<Nutrient> defaults,
+    T Function(Nutrient, Amount, int) rowBuilder,
+  ) sync* {
+    final partsOf = <Nutrient, List<Nutrient>>{};
+    for (final nutrient in Nutrient.values) {
+      if (nutrient.partOf != null) {
+        partsOf
+            .putIfAbsent(
+              nutrient.partOf!,
+              () => [],
+            )
+            .add(nutrient);
+      }
+    }
+
+    final processedNutrients = <Nutrient>{};
+
+    final defaultPositions = {
+      for (final pair in defaults.indexed) pair.$2: pair.$1,
+    };
+
+    final modelPositions = {
+      for (final pair in nutrientAmounts.indexed) pair.$2.nutrient: pair.$1,
+    };
+
+    int compareNutrients(Nutrient a, Nutrient b) {
+      int result = (defaultPositions[a] ?? defaults.length) -
+          (defaultPositions[b] ?? defaults.length);
+
+      if (result == 0) {
+        result = (modelPositions[a] ?? nutrientAmounts.length) -
+            (modelPositions[b] ?? nutrientAmounts.length);
+      }
+
+      return result;
+    }
+
+    final topLevelNutrientAmounts = nutrientAmounts
+        .where((na) => na.nutrient.partOf == null)
+        .map((na) => na.nutrient)
+        .toList()
+      ..sort(compareNutrients);
+
+    final stack = <(Nutrient, int)>[
+      ...topLevelNutrientAmounts.reversed.map(
+        (n) => (n, 0),
+      ),
+    ];
+
+    while (stack.isNotEmpty) {
+      var (nutrient, level) = stack.removeLast();
+
+      final amount = nutrientAmountsMap[nutrient];
+      if (amount != null) {
+        yield rowBuilder(nutrient, amount, level);
+
+        processedNutrients.add(nutrient);
+
+        level++;
+      }
+
+      final parts = partsOf[nutrient];
+      if (parts != null) {
+        stack.addAll(
+          (parts..sort(compareNutrients)).reversed.map(
+                (n) => (n, level),
+              ),
+        );
+      }
+    }
+
+    for (final na in nutrientAmounts) {
+      if (!processedNutrients.contains(na.nutrient)) {
+        yield rowBuilder(na.nutrient, na.amount, 0);
+      }
+    }
+  }
+
   double get calories => _nutrientValue(Nutrient.energy, Unit.calorie);
 
   double get fatInGrams => _nutrientValue(Nutrient.fat, Unit.gram);

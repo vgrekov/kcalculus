@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/ui/common/nutrient_stats/widgets/nutrient_stats_daily_trigger.dart';
 import 'package:kcalculus/ui/common/widgets/macro_split_view.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
 class NutrientStats extends StatelessWidget {
-  final NutrientData nutrientData;
-
   const NutrientStats({
     super.key,
     required this.nutrientData,
+    this.date,
   });
+
+  final NutrientData nutrientData;
+
+  final DateTime? date;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +36,7 @@ class NutrientStats extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 l10n(context).statCalories(
@@ -43,14 +46,21 @@ class NutrientStats extends StatelessWidget {
                     ),
                 textAlign: TextAlign.left,
               ),
-              Text(
-                l10n(context).statFiber(
-                    nb.formatDouble(context, nutrientData.fiberInGrams)),
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
-                textAlign: TextAlign.center,
-              )
+              const Spacer(),
+              if (date == null)
+                Text(
+                  l10n(context).statFiber(
+                      nb.formatDouble(context, nutrientData.fiberInGrams)),
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+              if (date != null)
+                NutrientStatsDailyTrigger(
+                  data: nutrientData,
+                  date: date!,
+                ),
             ],
           ),
           if (macroSplit != null)

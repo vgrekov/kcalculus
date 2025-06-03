@@ -8,7 +8,7 @@ part 'food.g.dart';
 
 @freezed
 class Food with _$Food implements Edible {
-  static const kVersion = 1;
+  static const kVersion = 2;
 
   const Food._();
 

@@ -154,7 +154,8 @@ class __$$NutritionFactsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NutritionFactsImpl extends _NutritionFacts {
+class _$NutritionFactsImpl extends _NutritionFacts
+    with DiagnosticableTreeMixin {
   const _$NutritionFactsImpl(
       {this.id, required this.amount, required this.nutrientData})
       : super._();
@@ -170,8 +171,18 @@ class _$NutritionFactsImpl extends _NutritionFacts {
   final NutrientData nutrientData;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'NutritionFacts(id: $id, amount: $amount, nutrientData: $nutrientData)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'NutritionFacts'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('nutrientData', nutrientData));
   }
 
   @override

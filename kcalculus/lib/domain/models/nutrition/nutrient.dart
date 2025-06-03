@@ -5,10 +5,12 @@ enum Nutrient {
   energy(
     defaultUnit: Unit.calorie,
     required: true,
+    displayPriority: 0,
   ),
   fat(
     defaultUnit: Unit.gram,
     required: true,
+    displayPriority: 1,
   ),
   saturatedFat(
     defaultUnit: Unit.gram,
@@ -25,26 +27,32 @@ enum Nutrient {
   omega3Fat(
     defaultUnit: Unit.milligram,
     partOf: unsaturatedFat,
+    displayPriority: 3,
   ),
   omega6Fat(
     defaultUnit: Unit.milligram,
     partOf: unsaturatedFat,
+    displayPriority: 3,
   ),
   omega9Fat(
     defaultUnit: Unit.milligram,
     partOf: unsaturatedFat,
+    displayPriority: 3,
   ),
   monounsaturatedFat(
     defaultUnit: Unit.gram,
     partOf: unsaturatedFat,
+    displayPriority: 3,
   ),
   polyunsaturatedFat(
     defaultUnit: Unit.gram,
     partOf: unsaturatedFat,
+    displayPriority: 3,
   ),
   totalCarbs(
     defaultUnit: Unit.gram,
     required: true,
+    displayPriority: 1,
   ),
   fiber(
     defaultUnit: Unit.gram,
@@ -65,12 +73,15 @@ enum Nutrient {
   protein(
     defaultUnit: Unit.gram,
     required: true,
+    displayPriority: 1,
   ),
   cholesterol(
     defaultUnit: Unit.milligram,
+    displayPriority: 1,
   ),
   sodium(
     defaultUnit: Unit.milligram,
+    displayPriority: 1,
   ),
   potassium(
     defaultUnit: Unit.milligram,
@@ -188,10 +199,13 @@ enum Nutrient {
 
   final bool required;
 
+  final int displayPriority;
+
   const Nutrient({
     required this.defaultUnit,
     this.partOf,
     this.required = false,
+    this.displayPriority = 2,
   });
 
   String localName(AppLocalizations l10n) {
