@@ -445,5 +445,6 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "screenDailyStats": "Daily Stats"
 }
