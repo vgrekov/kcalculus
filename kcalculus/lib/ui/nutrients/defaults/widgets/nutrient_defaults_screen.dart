@@ -9,6 +9,9 @@ import 'package:kcalculus/ui/nutrients/defaults/view_models/nutrient_defaults_vi
 import 'package:kcalculus/ui/nutrients/defaults/widgets/nutrient_defaults_list.dart';
 import 'package:kcalculus/ui/nutrients/search/widgets/nutrient_search_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:logging/logging.dart';
+
+final _log = Logger('NutrientDefaultsScreen');
 
 class NutrientDefaultsScreen extends ConsumerWidget with WidgetMessenger {
   NutrientDefaultsScreen({super.key});
@@ -107,60 +110,64 @@ class NutrientDefaultsScreen extends ConsumerWidget with WidgetMessenger {
   Widget build(BuildContext context, WidgetRef ref) {
     final uiState = ref.watch(nutrientDefaultsViewModel);
 
-    return uiState.when(
-      data: (data) {
-        final viewModel = ref.read(nutrientDefaultsViewModel.notifier);
+    final viewModel = ref.read(nutrientDefaultsViewModel.notifier);
 
-        return UiSubordinate<NutrientDefaultsCommand>(
-          commandProvider: viewModel.commandProvider,
-          assignments: _assignments,
-          child: Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(
-                l10n(context).screenDefaultNutrients,
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-              ),
-            ),
-            body: SafeArea(
-              child: NutrientDefaultsList(
-                items: data,
-                onDeleteItem: (item) {
-                  _deleteNutrient(context, ref, item);
-                },
-                onReorderItems: (oldIndex, newIndex) {
-                  _reorderNutrients(context, ref, oldIndex, newIndex);
-                },
-              ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                _addNutrient(context, ref);
-              },
-              shape: const CircleBorder(),
-              child: const Icon(Icons.add),
-            ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
+    return UiSubordinate<NutrientDefaultsCommand>(
+      commandProvider: viewModel.commandProvider,
+      assignments: _assignments,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            l10n(context).screenDefaultNutrients,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
           ),
-        );
-      },
-      error: (_, __) => Center(
-        child: Text(
-          l10n(context).messageUnknownError,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.error,
+        ),
+        body: SafeArea(
+          child: uiState.when(
+            data: (data) => NutrientDefaultsList(
+              items: data,
+              onDeleteItem: (item) {
+                _deleteNutrient(context, ref, item);
+              },
+              onReorderItems: (oldIndex, newIndex) {
+                _reorderNutrients(context, ref, oldIndex, newIndex);
+              },
+            ),
+            error: (error, stackTrace) {
+              _log.severe(
+                  'Failed to load default nutrients', error, stackTrace);
+
+              return Center(
+                child: Text(
+                  l10n(context).messageUnknownError,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                ),
+              );
+            },
+            loading: () => const Center(
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: CircularProgressIndicator(),
               ),
+            ),
+          ),
         ),
-      ),
-      loading: () => const Center(
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child: CircularProgressIndicator(),
+        floatingActionButton: uiState.whenOrNull(
+          data: (_) => FloatingActionButton(
+            onPressed: () {
+              _addNutrient(context, ref);
+            },
+            shape: const CircleBorder(),
+            child: const Icon(Icons.add),
+          ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
