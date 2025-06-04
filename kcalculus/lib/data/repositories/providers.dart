@@ -175,3 +175,12 @@ final nutrientRepositoryProvider = Provider<NutrientRepository>(
     );
   },
 );
+
+final nutrientGoalRepositoryProvider = Provider<NutrientGoalRepository>(
+  (ref) {
+    final nutrientGoalDao = ref.watch(_localNutrientGoalDaoProvider);
+    return LocalNutrientGoalRepository(
+      nutrientGoalDao: nutrientGoalDao,
+    );
+  },
+);
