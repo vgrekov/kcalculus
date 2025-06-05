@@ -31,6 +31,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
     ref.watch(foodChangesProvider);
     ref.watch(dishChangesProvider);
     ref.watch(mealChangesProvider);
+    ref.watch(goalChangesProvider);
 
     _scheduleNextDaySwitch();
 
@@ -122,7 +123,15 @@ class MealListViewModel extends Notifier<MealListUiState> {
   Future<List<Meal>> _doLoadFor(DateTime date) async {
     final data = await ref.read(mealRepositoryProvider).getByDate(date);
 
-    state = state.copyWith(data: data);
+    final goals =
+        await ref.read(nutrientGoalRepositoryProvider).getActiveGoals(date);
+    final energyGoal =
+        goals.where((goal) => goal.nutrient == Nutrient.energy).firstOrNull;
+
+    state = state.copyWith(
+      data: data,
+      energyGoalAmount: energyGoal?.amount,
+    );
 
     return data;
   }
