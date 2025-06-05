@@ -35,6 +35,7 @@ void main() {
       late MockAdRepository adRepository;
       late MockMealRepository mealRepository;
       late MockNutrientRepository nutrientRepository;
+      late MockNutrientGoalRepository nutrientGoalRepository;
 
       late List<Override> commonOverrides;
 
@@ -74,6 +75,12 @@ void main() {
           ],
         );
 
+        nutrientGoalRepository = MockNutrientGoalRepository();
+
+        when(() => nutrientGoalRepository.getActiveGoals(any())).thenAnswer(
+          (_) async => [],
+        );
+
         commonOverrides = [
           appSettingsRepositoryProvider.overrideWith(
             () => appSettingsRepository,
@@ -92,6 +99,9 @@ void main() {
           ),
           nutrientRepositoryProvider.overrideWith(
             (ref) => nutrientRepository,
+          ),
+          nutrientGoalRepositoryProvider.overrideWith(
+            (ref) => nutrientGoalRepository,
           ),
         ];
       });
