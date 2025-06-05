@@ -176,11 +176,28 @@ final nutrientRepositoryProvider = Provider<NutrientRepository>(
   },
 );
 
+final _goalChangesStreamControllerProvider = Provider<StreamController<void>>(
+  (ref) {
+    final controller = StreamController<void>.broadcast();
+    ref.onDispose(controller.close);
+    return controller;
+  },
+);
+
+final goalChangesProvider = StreamProvider<void>(
+  (ref) {
+    final controller = ref.watch(_goalChangesStreamControllerProvider);
+    return controller.stream;
+  },
+);
+
 final nutrientGoalRepositoryProvider = Provider<NutrientGoalRepository>(
   (ref) {
     final nutrientGoalDao = ref.watch(_localNutrientGoalDaoProvider);
+    final changeController = ref.watch(_goalChangesStreamControllerProvider);
     return LocalNutrientGoalRepository(
       nutrientGoalDao: nutrientGoalDao,
+      changeController: changeController,
     );
   },
 );
