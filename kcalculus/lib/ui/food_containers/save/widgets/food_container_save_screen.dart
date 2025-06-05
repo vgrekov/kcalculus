@@ -171,9 +171,7 @@ class _FoodContainerSaveScreenState
   }) {
     command.complete(
       showConfirmation(
-        widget.container?.id == null
-            ? l10n(context).messageNewFoodContainerCancellationConfirmation
-            : l10n(context).messageEditFoodContainerCancellationConfirmation,
+        l10n(context).messageDiscardChangesConfirmation,
       ),
     );
   }
