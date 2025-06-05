@@ -20,6 +20,7 @@ mixin _$MealListUiState {
   Future<List<Meal>> get dataLoader => throw _privateConstructorUsedError;
   List<Meal> get data => throw _privateConstructorUsedError;
   bool get showCalendar => throw _privateConstructorUsedError;
+  Amount? get energyGoalAmount => throw _privateConstructorUsedError;
 
   /// Create a copy of MealListUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -38,7 +39,10 @@ abstract class $MealListUiStateCopyWith<$Res> {
       {DateTime date,
       Future<List<Meal>> dataLoader,
       List<Meal> data,
-      bool showCalendar});
+      bool showCalendar,
+      Amount? energyGoalAmount});
+
+  $AmountCopyWith<$Res>? get energyGoalAmount;
 }
 
 /// @nodoc
@@ -60,6 +64,7 @@ class _$MealListUiStateCopyWithImpl<$Res, $Val extends MealListUiState>
     Object? dataLoader = null,
     Object? data = null,
     Object? showCalendar = null,
+    Object? energyGoalAmount = freezed,
   }) {
     return _then(_value.copyWith(
       date: null == date
@@ -78,7 +83,25 @@ class _$MealListUiStateCopyWithImpl<$Res, $Val extends MealListUiState>
           ? _value.showCalendar
           : showCalendar // ignore: cast_nullable_to_non_nullable
               as bool,
+      energyGoalAmount: freezed == energyGoalAmount
+          ? _value.energyGoalAmount
+          : energyGoalAmount // ignore: cast_nullable_to_non_nullable
+              as Amount?,
     ) as $Val);
+  }
+
+  /// Create a copy of MealListUiState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AmountCopyWith<$Res>? get energyGoalAmount {
+    if (_value.energyGoalAmount == null) {
+      return null;
+    }
+
+    return $AmountCopyWith<$Res>(_value.energyGoalAmount!, (value) {
+      return _then(_value.copyWith(energyGoalAmount: value) as $Val);
+    });
   }
 }
 
@@ -94,7 +117,11 @@ abstract class _$$MealListUiStateImplCopyWith<$Res>
       {DateTime date,
       Future<List<Meal>> dataLoader,
       List<Meal> data,
-      bool showCalendar});
+      bool showCalendar,
+      Amount? energyGoalAmount});
+
+  @override
+  $AmountCopyWith<$Res>? get energyGoalAmount;
 }
 
 /// @nodoc
@@ -114,6 +141,7 @@ class __$$MealListUiStateImplCopyWithImpl<$Res>
     Object? dataLoader = null,
     Object? data = null,
     Object? showCalendar = null,
+    Object? energyGoalAmount = freezed,
   }) {
     return _then(_$MealListUiStateImpl(
       date: null == date
@@ -132,6 +160,10 @@ class __$$MealListUiStateImplCopyWithImpl<$Res>
           ? _value.showCalendar
           : showCalendar // ignore: cast_nullable_to_non_nullable
               as bool,
+      energyGoalAmount: freezed == energyGoalAmount
+          ? _value.energyGoalAmount
+          : energyGoalAmount // ignore: cast_nullable_to_non_nullable
+              as Amount?,
     ));
   }
 }
@@ -143,7 +175,8 @@ class _$MealListUiStateImpl implements _MealListUiState {
       {required this.date,
       required this.dataLoader,
       final List<Meal> data = const [],
-      required this.showCalendar})
+      required this.showCalendar,
+      this.energyGoalAmount})
       : _data = data;
 
   @override
@@ -161,10 +194,12 @@ class _$MealListUiStateImpl implements _MealListUiState {
 
   @override
   final bool showCalendar;
+  @override
+  final Amount? energyGoalAmount;
 
   @override
   String toString() {
-    return 'MealListUiState(date: $date, dataLoader: $dataLoader, data: $data, showCalendar: $showCalendar)';
+    return 'MealListUiState(date: $date, dataLoader: $dataLoader, data: $data, showCalendar: $showCalendar, energyGoalAmount: $energyGoalAmount)';
   }
 
   @override
@@ -177,12 +212,19 @@ class _$MealListUiStateImpl implements _MealListUiState {
                 other.dataLoader == dataLoader) &&
             const DeepCollectionEquality().equals(other._data, _data) &&
             (identical(other.showCalendar, showCalendar) ||
-                other.showCalendar == showCalendar));
+                other.showCalendar == showCalendar) &&
+            (identical(other.energyGoalAmount, energyGoalAmount) ||
+                other.energyGoalAmount == energyGoalAmount));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, date, dataLoader,
-      const DeepCollectionEquality().hash(_data), showCalendar);
+  int get hashCode => Object.hash(
+      runtimeType,
+      date,
+      dataLoader,
+      const DeepCollectionEquality().hash(_data),
+      showCalendar,
+      energyGoalAmount);
 
   /// Create a copy of MealListUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -199,7 +241,8 @@ abstract class _MealListUiState implements MealListUiState {
       {required final DateTime date,
       required final Future<List<Meal>> dataLoader,
       final List<Meal> data,
-      required final bool showCalendar}) = _$MealListUiStateImpl;
+      required final bool showCalendar,
+      final Amount? energyGoalAmount}) = _$MealListUiStateImpl;
 
   @override
   DateTime get date;
@@ -209,6 +252,8 @@ abstract class _MealListUiState implements MealListUiState {
   List<Meal> get data;
   @override
   bool get showCalendar;
+  @override
+  Amount? get energyGoalAmount;
 
   /// Create a copy of MealListUiState
   /// with the given fields replaced by the non-null parameter values.

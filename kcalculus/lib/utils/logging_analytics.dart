@@ -187,4 +187,31 @@ extension Analytics on Logger {
       },
     );
   }
+
+  void eventNutrientGoalAdd(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'nutrient_goal_add',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
+    );
+  }
+
+  void eventNutrientGoalDelete(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'nutrient_goal_delete',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
+    );
+  }
+
+  void eventNutrientGoalRestore(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'nutrient_goal_restore',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
+    );
+  }
 }

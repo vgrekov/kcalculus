@@ -251,7 +251,6 @@
     "maintenanceTaskDbMigrationTitle": "Migrating the database...",
     "maintenanceTaskDbMigrationFailedMessage": "Database migration failed. Not able to proceed.",
     "screenSettings": "Settings",
-    "settingsGroupCommon": "Common",
     "settingAppTheme": "Theme",
     "settingAppThemeSystem": "System",
     "settingAppThemeLight": "Light",
@@ -341,7 +340,6 @@
             }
         }
     },
-    "settingsGroupAdvanced": "Advanced",
     "settingDefaultNutrientsTitle": "Default nutrients",
     "settingDefaultNutrientsSubtitle": "Select default set of nutrients for edibles",
     "screenMore": "More",
@@ -380,8 +378,8 @@
     "hintNutrientSearchBox": "Search by name...",
     "messageNutrientSearchNothingFound": "Nothing found...",
     "screenDefaultNutrients": "Default Nutrients",
-    "messageDefaultNutrientDeletionSuccess": "Container deleted",
-    "messageDefaultNutrientDeletionFailure": "Failed to delete the container",
+    "messageDefaultNutrientDeletionSuccess": "Nutrient deleted",
+    "messageDefaultNutrientDeletionFailure": "Failed to delete the nutrient",
     "labelDefaultNutrientRequired": "Required",
     "messageDefaultNutrientDeletionConfirmation": "Delete this nutrient?",
     "labelAddNutrient": "Add nutrient",
@@ -446,5 +444,45 @@
             }
         }
     },
-    "screenDailyStats": "Daily Stats"
+    "screenDailyStats": "Daily Stats",
+    "settingsGroupDataSharing": "Data sharing",
+    "settingNutrientGoalsTitle": "Daily goals",
+    "settingNutrientGoalsSubtitle": "Set daily goals for any nutrient",
+    "screenNutrientGoals": "Daily Goals",
+    "messageNutrientGoalshNoData": "No goals so far...",
+    "messageNutrientGoalDeletionConfirmation": "Delete this goal?",
+    "messageNutrientGoalDeletionSuccess": "Goal deleted",
+    "messageNutrientGoalDeletionFailure": "Failed to delete the goal",
+    "screenAddNutrientGoal": "New Goal",
+    "screenEditNutrientGoal": "Edit Goal",
+    "ofStatWithUnit": " / {value} {unit}",
+    "@ofStatWithUnit": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "statWithUnitLeft": "{value} {unit} left",
+    "@statWithUnitLeft": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "percentage": "{value} %",
+    "@percentage": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    }
 }

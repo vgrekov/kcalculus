@@ -13,6 +13,7 @@ import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/nutrients/defaults/widgets/nutrient_defaults_screen.dart';
+import 'package:kcalculus/ui/nutrients/goals/list/widgets/nutrient_goal_list_screen.dart';
 import 'package:kcalculus/ui/settings/view_models/settings_view_model.dart';
 import 'package:kcalculus/ui/settings/widgets/action_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/app_theme_setting_tile.dart';
@@ -81,6 +82,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => NutrientDefaultsScreen(),
+      ),
+    );
+  }
+
+  void _configureNutrientGoals() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => NutrientGoalListScreen(),
       ),
     );
   }
@@ -203,7 +212,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ],
               ),
               SettingsGroup(
-                title: l10n(context).settingsGroupCommon,
+                // title: l10n(context).settingsGroupCommon,
                 children: [
                   AppThemeSettingTile(
                     theme: uiState.valueOrNull?.settings.theme,
@@ -213,34 +222,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                             _selectTheme(uiState.value!.settings);
                           },
                   ),
-                  SwitchSettingTile(
-                    value: uiState.valueOrNull?.settings.crashlyticsEnabled ??
-                        false,
-                    onChanged:
-                        uiState.isLoading ? null : _setCrashlyticsEnabled,
-                    title: l10n(context).settingCrashReportingTitle,
-                    subtitle: l10n(context).settingCrashReportingSubtitle,
-                    icon: Icons.bug_report,
-                  ),
-                  SwitchSettingTile(
-                    value:
-                        uiState.valueOrNull?.settings.analyticsEnabled ?? false,
-                    onChanged: uiState.isLoading ? null : _setAnalyticsEnabled,
-                    title: l10n(context).settingAnalyticsTitle,
-                    subtitle: l10n(context).settingAnalyticsSubtitle,
-                    icon: Icons.analytics,
-                  ),
-                ],
-              ),
-              SettingsGroup(
-                title: l10n(context).settingsGroupAdvanced,
-                children: [
                   ActionSettingTile(
                     onTap:
                         uiState.isLoading ? null : _configureDefaultNutrients,
                     title: l10n(context).settingDefaultNutrientsTitle,
                     subtitle: l10n(context).settingDefaultNutrientsSubtitle,
                     icon: Icons.list_alt,
+                    premiumFeature: false,
+                  ),
+                  ActionSettingTile(
+                    onTap: uiState.isLoading ? null : _configureNutrientGoals,
+                    title: l10n(context).settingNutrientGoalsTitle,
+                    subtitle: l10n(context).settingNutrientGoalsSubtitle,
+                    icon: Icons.track_changes,
                     premiumFeature: false,
                   ),
                 ],
@@ -261,6 +255,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     subtitle: l10n(context).settingRestoreSubtitle,
                     icon: Icons.upload,
                     premiumFeature: true,
+                  ),
+                ],
+              ),
+              SettingsGroup(
+                title: l10n(context).settingsGroupDataSharing,
+                children: [
+                  SwitchSettingTile(
+                    value: uiState.valueOrNull?.settings.crashlyticsEnabled ??
+                        false,
+                    onChanged:
+                        uiState.isLoading ? null : _setCrashlyticsEnabled,
+                    title: l10n(context).settingCrashReportingTitle,
+                    subtitle: l10n(context).settingCrashReportingSubtitle,
+                    icon: Icons.bug_report,
+                  ),
+                  SwitchSettingTile(
+                    value:
+                        uiState.valueOrNull?.settings.analyticsEnabled ?? false,
+                    onChanged: uiState.isLoading ? null : _setAnalyticsEnabled,
+                    title: l10n(context).settingAnalyticsTitle,
+                    subtitle: l10n(context).settingAnalyticsSubtitle,
+                    icon: Icons.analytics,
                   ),
                 ],
               ),
