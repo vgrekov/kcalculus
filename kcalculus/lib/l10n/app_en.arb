@@ -454,5 +454,35 @@
     "messageNutrientGoalDeletionSuccess": "Goal deleted",
     "messageNutrientGoalDeletionFailure": "Failed to delete the goal",
     "screenAddNutrientGoal": "New Goal",
-    "screenEditNutrientGoal": "Edit Goal"
+    "screenEditNutrientGoal": "Edit Goal",
+    "ofStatWithUnit": " / {value} {unit}",
+    "@ofStatWithUnit": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "statWithUnitLeft": "{value} {unit} left",
+    "@statWithUnitLeft": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "percentage": "{value} %",
+    "@percentage": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    }
 }
