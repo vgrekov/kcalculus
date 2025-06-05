@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:kcalculus/utils/datetime.dart';
@@ -28,6 +29,10 @@ class AdService {
 
   static const _kInterstitialAdLoadedAt = 'kInterstitialAdLoadedAt';
 
+  static const _kInterstitialAdProbability = 0.5;
+
+  static final _randomizer = Random();
+
   final String _androidInterstitialAdUnitId;
 
   final String _iOsInterstitialAdUnitId;
@@ -42,6 +47,11 @@ class AdService {
     final cooldownOver = await _isCooldownOver();
     if (!cooldownOver) {
       _log.finer('Still cooling down interstitial ads');
+      return null;
+    }
+
+    if (_kInterstitialAdProbability < _randomizer.nextDouble()) {
+      _log.finer('Skipping interstitial ad on a chance');
       return null;
     }
 
