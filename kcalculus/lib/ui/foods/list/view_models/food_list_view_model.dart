@@ -18,7 +18,7 @@ enum FoodListCommand {
 }
 
 class FoodListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
-  static const _kPageSize = 10;
+  static const _kPageSize = 25;
 
   UiCommander<FoodListCommand>? _commander;
 
