@@ -1,0 +1,4 @@
+enum ExceededGoalOption {
+  adjust,
+  proceed,
+}

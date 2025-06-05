@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/models/nutrition/portion.dart';
 import 'package:kcalculus/ui/common/portion_form/widgets/portion_form.dart';
 import 'package:kcalculus/ui/common/utils/ads.dart';
+import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -11,6 +13,8 @@ import 'package:kcalculus/ui/common/widgets/date_input.dart';
 import 'package:kcalculus/ui/common/widgets/inattentive.dart';
 import 'package:kcalculus/ui/common/widgets/time_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
+import 'package:kcalculus/ui/meals/save/view_models/exceeded_goal_option.dart';
+import 'package:kcalculus/ui/meals/save/view_models/meal_save_ui_state.dart';
 import 'package:kcalculus/ui/meals/save/view_models/meal_save_view_model.dart';
 import 'package:kcalculus/ui/meals/save/view_models/meal_save_view_model_arg.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -49,6 +53,7 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
   final _portionFormController = PortionFormController();
 
   late final _assignments = <MealSaveCommand, UiAssignment>{
+    MealSaveCommand.showExceededEnergyGoalDialog: _showExceededEnergyGoalDialog,
     MealSaveCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
     MealSaveCommand.exit: _exitOnCommand,
   };
@@ -57,9 +62,7 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
   void initState() {
     final uiState = ref.read(mealSaveViewModel(widget._viewModelArg));
 
-    _dateController.dateTime = uiState.eatenAt;
-    _timeController.dateTime = uiState.eatenAt;
-    _portionFormController.setPortion(uiState.portion);
+    _loadUiState(uiState);
 
     super.initState();
   }
@@ -73,7 +76,13 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
     super.dispose();
   }
 
-  void _saveMeal() async {
+  void _loadUiState(MealSaveUiState uiState) {
+    _dateController.dateTime = uiState.eatenAt;
+    _timeController.dateTime = uiState.eatenAt;
+    _portionFormController.setPortion(uiState.portion);
+  }
+
+  void _saveMeal({bool force = false}) async {
     _portionFormController.validate();
     if (!_portionFormController.isValid) {
       FocusManager.instance.primaryFocus?.unfocus();
@@ -106,7 +115,7 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
       if (mounted) {
         final saved = await ProgressOverlay.wrap(
           context,
-          viewModel.saveMeal(),
+          viewModel.saveMeal(force: force),
         );
 
         if (saved) {
@@ -118,6 +127,43 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
 
   void _exit([Meal? meal]) {
     Navigator.of(context).pop(meal);
+  }
+
+  void _showExceededEnergyGoalDialog(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) async {
+    final adjustedPortion = command.payload as Portion?;
+
+    final String message = adjustedPortion != null
+        ? l10n(context).messageExceededEnergyGoalAdjustableConfirmation
+        : l10n(context).messageExceededEnergyGoalConfirmation;
+
+    final actions = {
+      l10n(context).actionCancel: () => null,
+      if (adjustedPortion != null)
+        l10n(context).actionAdjust: () => ExceededGoalOption.adjust,
+      l10n(context).actionProceed: () => ExceededGoalOption.proceed,
+    };
+
+    final option = await showMessageDialog<ExceededGoalOption>(
+      message: message,
+      actions: actions,
+      messageType: MessageType.warning,
+    );
+
+    command.complete();
+
+    switch (option) {
+      case ExceededGoalOption.adjust:
+        _portionFormController.setPortion(adjustedPortion);
+        break;
+      case ExceededGoalOption.proceed:
+        _saveMeal(force: true);
+        break;
+      default:
+    }
   }
 
   void _showUnknownErrorNotification(
@@ -140,7 +186,12 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(mealSaveViewModel(widget._viewModelArg));
+    ref.listen(
+      mealSaveViewModel(widget._viewModelArg),
+      (previous, next) {
+        _loadUiState(next);
+      },
+    );
 
     return UiSubordinate<MealSaveCommand>(
       commandProvider: ref
