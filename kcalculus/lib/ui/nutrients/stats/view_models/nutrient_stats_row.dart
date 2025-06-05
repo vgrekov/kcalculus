@@ -10,5 +10,6 @@ class NutrientStatsRow with _$NutrientStatsRow {
     required Nutrient nutrient,
     required Amount amount,
     @Default(0) int level,
+    Amount? goalAmount,
   }) = _NutrientStatsRow;
 }

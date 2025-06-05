@@ -19,6 +19,7 @@ mixin _$NutrientStatsRow {
   Nutrient get nutrient => throw _privateConstructorUsedError;
   Amount get amount => throw _privateConstructorUsedError;
   int get level => throw _privateConstructorUsedError;
+  Amount? get goalAmount => throw _privateConstructorUsedError;
 
   /// Create a copy of NutrientStatsRow
   /// with the given fields replaced by the non-null parameter values.
@@ -33,9 +34,10 @@ abstract class $NutrientStatsRowCopyWith<$Res> {
           NutrientStatsRow value, $Res Function(NutrientStatsRow) then) =
       _$NutrientStatsRowCopyWithImpl<$Res, NutrientStatsRow>;
   @useResult
-  $Res call({Nutrient nutrient, Amount amount, int level});
+  $Res call({Nutrient nutrient, Amount amount, int level, Amount? goalAmount});
 
   $AmountCopyWith<$Res> get amount;
+  $AmountCopyWith<$Res>? get goalAmount;
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$NutrientStatsRowCopyWithImpl<$Res, $Val extends NutrientStatsRow>
     Object? nutrient = null,
     Object? amount = null,
     Object? level = null,
+    Object? goalAmount = freezed,
   }) {
     return _then(_value.copyWith(
       nutrient: null == nutrient
@@ -70,6 +73,10 @@ class _$NutrientStatsRowCopyWithImpl<$Res, $Val extends NutrientStatsRow>
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
               as int,
+      goalAmount: freezed == goalAmount
+          ? _value.goalAmount
+          : goalAmount // ignore: cast_nullable_to_non_nullable
+              as Amount?,
     ) as $Val);
   }
 
@@ -82,6 +89,20 @@ class _$NutrientStatsRowCopyWithImpl<$Res, $Val extends NutrientStatsRow>
       return _then(_value.copyWith(amount: value) as $Val);
     });
   }
+
+  /// Create a copy of NutrientStatsRow
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AmountCopyWith<$Res>? get goalAmount {
+    if (_value.goalAmount == null) {
+      return null;
+    }
+
+    return $AmountCopyWith<$Res>(_value.goalAmount!, (value) {
+      return _then(_value.copyWith(goalAmount: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -92,10 +113,12 @@ abstract class _$$NutrientStatsRowImplCopyWith<$Res>
       __$$NutrientStatsRowImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Nutrient nutrient, Amount amount, int level});
+  $Res call({Nutrient nutrient, Amount amount, int level, Amount? goalAmount});
 
   @override
   $AmountCopyWith<$Res> get amount;
+  @override
+  $AmountCopyWith<$Res>? get goalAmount;
 }
 
 /// @nodoc
@@ -114,6 +137,7 @@ class __$$NutrientStatsRowImplCopyWithImpl<$Res>
     Object? nutrient = null,
     Object? amount = null,
     Object? level = null,
+    Object? goalAmount = freezed,
   }) {
     return _then(_$NutrientStatsRowImpl(
       nutrient: null == nutrient
@@ -128,6 +152,10 @@ class __$$NutrientStatsRowImplCopyWithImpl<$Res>
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
               as int,
+      goalAmount: freezed == goalAmount
+          ? _value.goalAmount
+          : goalAmount // ignore: cast_nullable_to_non_nullable
+              as Amount?,
     ));
   }
 }
@@ -136,7 +164,10 @@ class __$$NutrientStatsRowImplCopyWithImpl<$Res>
 
 class _$NutrientStatsRowImpl implements _NutrientStatsRow {
   const _$NutrientStatsRowImpl(
-      {required this.nutrient, required this.amount, this.level = 0});
+      {required this.nutrient,
+      required this.amount,
+      this.level = 0,
+      this.goalAmount});
 
   @override
   final Nutrient nutrient;
@@ -145,10 +176,12 @@ class _$NutrientStatsRowImpl implements _NutrientStatsRow {
   @override
   @JsonKey()
   final int level;
+  @override
+  final Amount? goalAmount;
 
   @override
   String toString() {
-    return 'NutrientStatsRow(nutrient: $nutrient, amount: $amount, level: $level)';
+    return 'NutrientStatsRow(nutrient: $nutrient, amount: $amount, level: $level, goalAmount: $goalAmount)';
   }
 
   @override
@@ -159,11 +192,14 @@ class _$NutrientStatsRowImpl implements _NutrientStatsRow {
             (identical(other.nutrient, nutrient) ||
                 other.nutrient == nutrient) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.level, level) || other.level == level));
+            (identical(other.level, level) || other.level == level) &&
+            (identical(other.goalAmount, goalAmount) ||
+                other.goalAmount == goalAmount));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, nutrient, amount, level);
+  int get hashCode =>
+      Object.hash(runtimeType, nutrient, amount, level, goalAmount);
 
   /// Create a copy of NutrientStatsRow
   /// with the given fields replaced by the non-null parameter values.
@@ -179,7 +215,8 @@ abstract class _NutrientStatsRow implements NutrientStatsRow {
   const factory _NutrientStatsRow(
       {required final Nutrient nutrient,
       required final Amount amount,
-      final int level}) = _$NutrientStatsRowImpl;
+      final int level,
+      final Amount? goalAmount}) = _$NutrientStatsRowImpl;
 
   @override
   Nutrient get nutrient;
@@ -187,6 +224,8 @@ abstract class _NutrientStatsRow implements NutrientStatsRow {
   Amount get amount;
   @override
   int get level;
+  @override
+  Amount? get goalAmount;
 
   /// Create a copy of NutrientStatsRow
   /// with the given fields replaced by the non-null parameter values.

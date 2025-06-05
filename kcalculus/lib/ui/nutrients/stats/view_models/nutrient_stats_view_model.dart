@@ -8,10 +8,14 @@ final nutrientStatsViewModel = FutureProvider.family
   (ref, arg) async {
     final defaults = await ref.read(nutrientRepositoryProvider).getDefaults();
 
+    final goals =
+        await ref.read(nutrientGoalRepositoryProvider).getActiveGoals(arg.date);
+
     return NutrientStatsUiState(
       date: arg.date,
       data: arg.data,
       defaults: defaults,
+      goals: goals,
     );
   },
 );
