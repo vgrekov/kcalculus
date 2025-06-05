@@ -17,7 +17,7 @@ enum EdibleSearchCommand {
 
 class EdibleSearchViewModel extends AutoDisposeFamilyNotifier<
     SearchUiState<EdibleSearchResult>, String> {
-  static const _kPageSize = 10;
+  static const _kPageSize = 25;
 
   UiCommander<EdibleSearchCommand>? _commander;
 
