@@ -238,16 +238,12 @@
     "validationErrorTotalMustBeHeavierThanContainer": "Must be heavier than container",
     "messageDishSelectMeasurementOptionError": "Please select at least one measurement option",
     "dishWizardPageSummary": "Nutrition Facts",
-    "messageNewDishCancellationConfirmation": "Cancel dish creation?",
-    "messageEditDishCancellationConfirmation": "Cancel dish editing?",
     "validationErrorIngredientsCycleDetected": "Sorry, this would create a dish-ingredient cycle.",
     "titleIngredients": "Ingredients",
     "messageConfirmEatenEdibleEdit": "This was already eaten, so editing it may affect meals history.\nDo you want to make a copy instead?",
     "actionEdit": "Edit",
     "actionCopy": "Copy",
     "actionUndo": "Undo",
-    "messageNewFoodCancellationConfirmation": "Cancel food creation?",
-    "messageEditFoodCancellationConfirmation": "Cancel food editing?",
     "maintenanceTaskDbMigrationTitle": "Migrating the database...",
     "maintenanceTaskDbMigrationFailedMessage": "Database migration failed. Not able to proceed.",
     "screenSettings": "Settings",
@@ -358,8 +354,6 @@
     "labelFoodContainerDescription": "Description",
     "labelFoodContainerWeight": "Weight",
     "messageFoodContainerAlreadyExists": "A container with this name and description already exists.\nPlease make sure these are unique before saving.",
-    "messageNewFoodContainerCancellationConfirmation": "Cancel container creation?",
-    "messageEditFoodContainerCancellationConfirmation": "Cancel container editing?",
     "labelFoodContainerSelect": "Weighing in a container?",
     "labelFoodContainerSelected": "{name} ({weight} {unit})",
     "@labelFoodContainerSelected": {
@@ -487,5 +481,6 @@
     },
     "actionAdjust": "Adjust",
     "messageExceededEnergyGoalConfirmation": "This meal exceeds your calories goal.\nWhat would you like to do?",
-    "messageExceededEnergyGoalAdjustableConfirmation": "This meal exceeds your calories goal, but we can adjust the amount to keep you on track.\nWhat would you like to do?"
+    "messageExceededEnergyGoalAdjustableConfirmation": "This meal exceeds your calories goal, but we can adjust the amount to keep you on track.\nWhat would you like to do?",
+    "messageDiscardChangesConfirmation": "Discard changes?"
 }

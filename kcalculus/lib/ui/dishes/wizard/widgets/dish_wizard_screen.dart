@@ -225,9 +225,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
   }) {
     command.complete(
       showConfirmation(
-        widget.dish?.id == null
-            ? l10n(context).messageNewDishCancellationConfirmation
-            : l10n(context).messageEditDishCancellationConfirmation,
+        l10n(context).messageDiscardChangesConfirmation,
       ),
     );
   }

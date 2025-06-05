@@ -168,9 +168,7 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
   }) {
     command.complete(
       showConfirmation(
-        widget.food?.id == null
-            ? l10n(context).messageNewFoodCancellationConfirmation
-            : l10n(context).messageEditFoodCancellationConfirmation,
+        l10n(context).messageDiscardChangesConfirmation,
       ),
     );
   }
