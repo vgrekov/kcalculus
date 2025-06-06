@@ -29,8 +29,8 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
     with StateMessenger, WidgetsBindingObserver {
   late final _assignments = <FoodScanCommand, UiAssignment>{
     FoodScanCommand.showCantReadNotification: _showCantReadNotification,
-    FoodScanCommand.showVersionMismatchNotification:
-        _showVersionMismatchNotification,
+    FoodScanCommand.showUnsupportedVersionNotification:
+        _showUnsupportedVersionNotification,
     FoodScanCommand.provideFood: _provideFood,
   };
 
@@ -127,13 +127,13 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
     command.complete();
   }
 
-  void _showVersionMismatchNotification(
+  void _showUnsupportedVersionNotification(
     UiCommand command, {
     required BuildContext context,
     required WidgetRef ref,
   }) {
     setState(() {
-      _errorString = l10n(context).messageFoodFromBarcodeVersionMismatch;
+      _errorString = l10n(context).messageFoodFromBarcodeUnsupportedVersion;
     });
     command.complete();
   }

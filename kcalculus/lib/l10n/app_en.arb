@@ -271,7 +271,7 @@
     "actionClose": "Close",
     "actionTryAgain": "Try again",
     "messageCantReadFoodFromBarcode": "Unable to read food information.",
-    "messageFoodFromBarcodeVersionMismatch": "This food was created with an incompatible version of the app and cannot be imported correctly.",
+    "messageFoodFromBarcodeUnsupportedVersion": "This food was created with an incompatible version of the app and cannot be imported correctly.",
     "messageNoCameraPermission": "Camera is not accessible.\nPlease check permissions.",
     "settingsGroupBackup": "Backup",
     "settingBackupTitle": "Backup",
