@@ -75,8 +75,10 @@ final _adServiceProvider = FutureProvider<AdService>(
     return AdService(
       androidInterstitialAdUnitId: appConfig.androidInterstitialAdUnitId,
       iOsInterstitialAdUnitId: appConfig.iOsInterstitialAdUnitId,
+      interstitialAdTimeoutMillis: appConfig.interstitialAdTimeoutMillis,
       androidUnlockAdUnitId: appConfig.androidUnlockAdUnitId,
       iOsUnlockAdUnitId: appConfig.iOsUnlockAdUnitId,
+      unlockAdTimeoutMillis: appConfig.unlockAdTimeoutMillis,
       interstitialAdCooldownDurationMins:
           appConfig.interstitialAdCooldownDurationMins,
     );
