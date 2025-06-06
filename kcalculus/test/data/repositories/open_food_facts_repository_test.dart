@@ -37,6 +37,7 @@ void main() {
           appName: '',
           version: '',
           httpClient: httpClient,
+          timeoutMillis: 5000,
         );
         repository = OpenFoodFactsRepository(service: service);
       });

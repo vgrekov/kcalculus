@@ -21,11 +21,14 @@ LocalAppConfig _$LocalAppConfigFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$LocalAppConfig {
   String get openFoodFactsBaseUrl => throw _privateConstructorUsedError;
+  int get openFoodFactsTimeoutMillis => throw _privateConstructorUsedError;
   String get contactEmail => throw _privateConstructorUsedError;
   String get androidInterstitialAdUnitId => throw _privateConstructorUsedError;
   String get iOsInterstitialAdUnitId => throw _privateConstructorUsedError;
+  int get interstitialAdTimeoutMillis => throw _privateConstructorUsedError;
   String get androidUnlockAdUnitId => throw _privateConstructorUsedError;
   String get iOsUnlockAdUnitId => throw _privateConstructorUsedError;
+  int get unlockAdTimeoutMillis => throw _privateConstructorUsedError;
   int get unlockWithAdDurationMins => throw _privateConstructorUsedError;
   int get interstitialAdCooldownDurationMins =>
       throw _privateConstructorUsedError;
@@ -48,11 +51,14 @@ abstract class $LocalAppConfigCopyWith<$Res> {
   @useResult
   $Res call(
       {String openFoodFactsBaseUrl,
+      int openFoodFactsTimeoutMillis,
       String contactEmail,
       String androidInterstitialAdUnitId,
       String iOsInterstitialAdUnitId,
+      int interstitialAdTimeoutMillis,
       String androidUnlockAdUnitId,
       String iOsUnlockAdUnitId,
+      int unlockAdTimeoutMillis,
       int unlockWithAdDurationMins,
       int interstitialAdCooldownDurationMins});
 }
@@ -73,11 +79,14 @@ class _$LocalAppConfigCopyWithImpl<$Res, $Val extends LocalAppConfig>
   @override
   $Res call({
     Object? openFoodFactsBaseUrl = null,
+    Object? openFoodFactsTimeoutMillis = null,
     Object? contactEmail = null,
     Object? androidInterstitialAdUnitId = null,
     Object? iOsInterstitialAdUnitId = null,
+    Object? interstitialAdTimeoutMillis = null,
     Object? androidUnlockAdUnitId = null,
     Object? iOsUnlockAdUnitId = null,
+    Object? unlockAdTimeoutMillis = null,
     Object? unlockWithAdDurationMins = null,
     Object? interstitialAdCooldownDurationMins = null,
   }) {
@@ -86,6 +95,10 @@ class _$LocalAppConfigCopyWithImpl<$Res, $Val extends LocalAppConfig>
           ? _value.openFoodFactsBaseUrl
           : openFoodFactsBaseUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      openFoodFactsTimeoutMillis: null == openFoodFactsTimeoutMillis
+          ? _value.openFoodFactsTimeoutMillis
+          : openFoodFactsTimeoutMillis // ignore: cast_nullable_to_non_nullable
+              as int,
       contactEmail: null == contactEmail
           ? _value.contactEmail
           : contactEmail // ignore: cast_nullable_to_non_nullable
@@ -98,6 +111,10 @@ class _$LocalAppConfigCopyWithImpl<$Res, $Val extends LocalAppConfig>
           ? _value.iOsInterstitialAdUnitId
           : iOsInterstitialAdUnitId // ignore: cast_nullable_to_non_nullable
               as String,
+      interstitialAdTimeoutMillis: null == interstitialAdTimeoutMillis
+          ? _value.interstitialAdTimeoutMillis
+          : interstitialAdTimeoutMillis // ignore: cast_nullable_to_non_nullable
+              as int,
       androidUnlockAdUnitId: null == androidUnlockAdUnitId
           ? _value.androidUnlockAdUnitId
           : androidUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
@@ -106,6 +123,10 @@ class _$LocalAppConfigCopyWithImpl<$Res, $Val extends LocalAppConfig>
           ? _value.iOsUnlockAdUnitId
           : iOsUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
               as String,
+      unlockAdTimeoutMillis: null == unlockAdTimeoutMillis
+          ? _value.unlockAdTimeoutMillis
+          : unlockAdTimeoutMillis // ignore: cast_nullable_to_non_nullable
+              as int,
       unlockWithAdDurationMins: null == unlockWithAdDurationMins
           ? _value.unlockWithAdDurationMins
           : unlockWithAdDurationMins // ignore: cast_nullable_to_non_nullable
@@ -129,11 +150,14 @@ abstract class _$$LocalAppConfigImplCopyWith<$Res>
   @useResult
   $Res call(
       {String openFoodFactsBaseUrl,
+      int openFoodFactsTimeoutMillis,
       String contactEmail,
       String androidInterstitialAdUnitId,
       String iOsInterstitialAdUnitId,
+      int interstitialAdTimeoutMillis,
       String androidUnlockAdUnitId,
       String iOsUnlockAdUnitId,
+      int unlockAdTimeoutMillis,
       int unlockWithAdDurationMins,
       int interstitialAdCooldownDurationMins});
 }
@@ -152,11 +176,14 @@ class __$$LocalAppConfigImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? openFoodFactsBaseUrl = null,
+    Object? openFoodFactsTimeoutMillis = null,
     Object? contactEmail = null,
     Object? androidInterstitialAdUnitId = null,
     Object? iOsInterstitialAdUnitId = null,
+    Object? interstitialAdTimeoutMillis = null,
     Object? androidUnlockAdUnitId = null,
     Object? iOsUnlockAdUnitId = null,
+    Object? unlockAdTimeoutMillis = null,
     Object? unlockWithAdDurationMins = null,
     Object? interstitialAdCooldownDurationMins = null,
   }) {
@@ -165,6 +192,10 @@ class __$$LocalAppConfigImplCopyWithImpl<$Res>
           ? _value.openFoodFactsBaseUrl
           : openFoodFactsBaseUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      openFoodFactsTimeoutMillis: null == openFoodFactsTimeoutMillis
+          ? _value.openFoodFactsTimeoutMillis
+          : openFoodFactsTimeoutMillis // ignore: cast_nullable_to_non_nullable
+              as int,
       contactEmail: null == contactEmail
           ? _value.contactEmail
           : contactEmail // ignore: cast_nullable_to_non_nullable
@@ -177,6 +208,10 @@ class __$$LocalAppConfigImplCopyWithImpl<$Res>
           ? _value.iOsInterstitialAdUnitId
           : iOsInterstitialAdUnitId // ignore: cast_nullable_to_non_nullable
               as String,
+      interstitialAdTimeoutMillis: null == interstitialAdTimeoutMillis
+          ? _value.interstitialAdTimeoutMillis
+          : interstitialAdTimeoutMillis // ignore: cast_nullable_to_non_nullable
+              as int,
       androidUnlockAdUnitId: null == androidUnlockAdUnitId
           ? _value.androidUnlockAdUnitId
           : androidUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
@@ -185,6 +220,10 @@ class __$$LocalAppConfigImplCopyWithImpl<$Res>
           ? _value.iOsUnlockAdUnitId
           : iOsUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
               as String,
+      unlockAdTimeoutMillis: null == unlockAdTimeoutMillis
+          ? _value.unlockAdTimeoutMillis
+          : unlockAdTimeoutMillis // ignore: cast_nullable_to_non_nullable
+              as int,
       unlockWithAdDurationMins: null == unlockWithAdDurationMins
           ? _value.unlockWithAdDurationMins
           : unlockWithAdDurationMins // ignore: cast_nullable_to_non_nullable
@@ -203,11 +242,14 @@ class __$$LocalAppConfigImplCopyWithImpl<$Res>
 class _$LocalAppConfigImpl implements _LocalAppConfig {
   const _$LocalAppConfigImpl(
       {required this.openFoodFactsBaseUrl,
+      required this.openFoodFactsTimeoutMillis,
       required this.contactEmail,
       required this.androidInterstitialAdUnitId,
       required this.iOsInterstitialAdUnitId,
+      required this.interstitialAdTimeoutMillis,
       required this.androidUnlockAdUnitId,
       required this.iOsUnlockAdUnitId,
+      required this.unlockAdTimeoutMillis,
       required this.unlockWithAdDurationMins,
       required this.interstitialAdCooldownDurationMins});
 
@@ -217,15 +259,21 @@ class _$LocalAppConfigImpl implements _LocalAppConfig {
   @override
   final String openFoodFactsBaseUrl;
   @override
+  final int openFoodFactsTimeoutMillis;
+  @override
   final String contactEmail;
   @override
   final String androidInterstitialAdUnitId;
   @override
   final String iOsInterstitialAdUnitId;
   @override
+  final int interstitialAdTimeoutMillis;
+  @override
   final String androidUnlockAdUnitId;
   @override
   final String iOsUnlockAdUnitId;
+  @override
+  final int unlockAdTimeoutMillis;
   @override
   final int unlockWithAdDurationMins;
   @override
@@ -233,7 +281,7 @@ class _$LocalAppConfigImpl implements _LocalAppConfig {
 
   @override
   String toString() {
-    return 'LocalAppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, contactEmail: $contactEmail, androidInterstitialAdUnitId: $androidInterstitialAdUnitId, iOsInterstitialAdUnitId: $iOsInterstitialAdUnitId, androidUnlockAdUnitId: $androidUnlockAdUnitId, iOsUnlockAdUnitId: $iOsUnlockAdUnitId, unlockWithAdDurationMins: $unlockWithAdDurationMins, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins)';
+    return 'LocalAppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, androidInterstitialAdUnitId: $androidInterstitialAdUnitId, iOsInterstitialAdUnitId: $iOsInterstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, androidUnlockAdUnitId: $androidUnlockAdUnitId, iOsUnlockAdUnitId: $iOsUnlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins)';
   }
 
   @override
@@ -243,19 +291,27 @@ class _$LocalAppConfigImpl implements _LocalAppConfig {
             other is _$LocalAppConfigImpl &&
             (identical(other.openFoodFactsBaseUrl, openFoodFactsBaseUrl) ||
                 other.openFoodFactsBaseUrl == openFoodFactsBaseUrl) &&
+            (identical(other.openFoodFactsTimeoutMillis, openFoodFactsTimeoutMillis) ||
+                other.openFoodFactsTimeoutMillis ==
+                    openFoodFactsTimeoutMillis) &&
             (identical(other.contactEmail, contactEmail) ||
                 other.contactEmail == contactEmail) &&
             (identical(other.androidInterstitialAdUnitId,
                     androidInterstitialAdUnitId) ||
                 other.androidInterstitialAdUnitId ==
                     androidInterstitialAdUnitId) &&
-            (identical(
-                    other.iOsInterstitialAdUnitId, iOsInterstitialAdUnitId) ||
+            (identical(other.iOsInterstitialAdUnitId, iOsInterstitialAdUnitId) ||
                 other.iOsInterstitialAdUnitId == iOsInterstitialAdUnitId) &&
+            (identical(other.interstitialAdTimeoutMillis,
+                    interstitialAdTimeoutMillis) ||
+                other.interstitialAdTimeoutMillis ==
+                    interstitialAdTimeoutMillis) &&
             (identical(other.androidUnlockAdUnitId, androidUnlockAdUnitId) ||
                 other.androidUnlockAdUnitId == androidUnlockAdUnitId) &&
             (identical(other.iOsUnlockAdUnitId, iOsUnlockAdUnitId) ||
                 other.iOsUnlockAdUnitId == iOsUnlockAdUnitId) &&
+            (identical(other.unlockAdTimeoutMillis, unlockAdTimeoutMillis) ||
+                other.unlockAdTimeoutMillis == unlockAdTimeoutMillis) &&
             (identical(
                     other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
                 other.unlockWithAdDurationMins == unlockWithAdDurationMins) &&
@@ -270,11 +326,14 @@ class _$LocalAppConfigImpl implements _LocalAppConfig {
   int get hashCode => Object.hash(
       runtimeType,
       openFoodFactsBaseUrl,
+      openFoodFactsTimeoutMillis,
       contactEmail,
       androidInterstitialAdUnitId,
       iOsInterstitialAdUnitId,
+      interstitialAdTimeoutMillis,
       androidUnlockAdUnitId,
       iOsUnlockAdUnitId,
+      unlockAdTimeoutMillis,
       unlockWithAdDurationMins,
       interstitialAdCooldownDurationMins);
 
@@ -298,11 +357,14 @@ class _$LocalAppConfigImpl implements _LocalAppConfig {
 abstract class _LocalAppConfig implements LocalAppConfig {
   const factory _LocalAppConfig(
           {required final String openFoodFactsBaseUrl,
+          required final int openFoodFactsTimeoutMillis,
           required final String contactEmail,
           required final String androidInterstitialAdUnitId,
           required final String iOsInterstitialAdUnitId,
+          required final int interstitialAdTimeoutMillis,
           required final String androidUnlockAdUnitId,
           required final String iOsUnlockAdUnitId,
+          required final int unlockAdTimeoutMillis,
           required final int unlockWithAdDurationMins,
           required final int interstitialAdCooldownDurationMins}) =
       _$LocalAppConfigImpl;
@@ -313,15 +375,21 @@ abstract class _LocalAppConfig implements LocalAppConfig {
   @override
   String get openFoodFactsBaseUrl;
   @override
+  int get openFoodFactsTimeoutMillis;
+  @override
   String get contactEmail;
   @override
   String get androidInterstitialAdUnitId;
   @override
   String get iOsInterstitialAdUnitId;
   @override
+  int get interstitialAdTimeoutMillis;
+  @override
   String get androidUnlockAdUnitId;
   @override
   String get iOsUnlockAdUnitId;
+  @override
+  int get unlockAdTimeoutMillis;
   @override
   int get unlockWithAdDurationMins;
   @override

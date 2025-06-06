@@ -64,6 +64,7 @@ final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
       appName: packageInfo.appName,
       version: packageInfo.version,
       httpClient: http.Client(),
+      timeoutMillis: appConfig.openFoodFactsTimeoutMillis,
     );
   },
 );
@@ -75,8 +76,10 @@ final _adServiceProvider = FutureProvider<AdService>(
     return AdService(
       androidInterstitialAdUnitId: appConfig.androidInterstitialAdUnitId,
       iOsInterstitialAdUnitId: appConfig.iOsInterstitialAdUnitId,
+      interstitialAdTimeoutMillis: appConfig.interstitialAdTimeoutMillis,
       androidUnlockAdUnitId: appConfig.androidUnlockAdUnitId,
       iOsUnlockAdUnitId: appConfig.iOsUnlockAdUnitId,
+      unlockAdTimeoutMillis: appConfig.unlockAdTimeoutMillis,
       interstitialAdCooldownDurationMins:
           appConfig.interstitialAdCooldownDurationMins,
     );

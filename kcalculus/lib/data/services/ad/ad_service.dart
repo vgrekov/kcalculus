@@ -13,13 +13,17 @@ class AdService {
   const AdService({
     required String androidInterstitialAdUnitId,
     required String iOsInterstitialAdUnitId,
+    required int interstitialAdTimeoutMillis,
     required String androidUnlockAdUnitId,
     required String iOsUnlockAdUnitId,
+    required int unlockAdTimeoutMillis,
     required int interstitialAdCooldownDurationMins,
   })  : _androidInterstitialAdUnitId = androidInterstitialAdUnitId,
         _iOsInterstitialAdUnitId = iOsInterstitialAdUnitId,
+        _interstitialAdTimeoutMillis = interstitialAdTimeoutMillis,
         _androidUnlockAdUnitId = androidUnlockAdUnitId,
         _iOsUnlockAdUnitId = iOsUnlockAdUnitId,
+        _unlockAdTimeoutMillis = unlockAdTimeoutMillis,
         _interstitialAdCooldownDurationMins =
             interstitialAdCooldownDurationMins;
 
@@ -37,9 +41,13 @@ class AdService {
 
   final String _iOsInterstitialAdUnitId;
 
+  final int _interstitialAdTimeoutMillis;
+
   final String _androidUnlockAdUnitId;
 
   final String _iOsUnlockAdUnitId;
+
+  final int _unlockAdTimeoutMillis;
 
   final int _interstitialAdCooldownDurationMins;
 
@@ -61,6 +69,8 @@ class AdService {
         ? _androidInterstitialAdUnitId
         : _iOsInterstitialAdUnitId;
 
+    _startTimeout(completer, _interstitialAdTimeoutMillis);
+
     InterstitialAd.load(
       adUnitId: adUnitId,
       request: const AdRequest(
@@ -68,15 +78,21 @@ class AdService {
       ),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
-          completer.complete(ad);
-          _startCooldown();
+          if (!completer.isCompleted) {
+            completer.complete(ad);
+            _startCooldown();
+          } else {
+            ad.dispose();
+          }
         },
         onAdFailedToLoad: (error) {
           _log.info('Failed to load Ad: $adUnitId (error code ${error.code})');
-          if (error.code == _kErrorCodeNoFill) {
-            completer.complete(null);
-          } else {
-            completer.completeError(error);
+          if (!completer.isCompleted) {
+            if (error.code == _kErrorCodeNoFill) {
+              completer.complete(null);
+            } else {
+              completer.completeError(error);
+            }
           }
         },
       ),
@@ -111,11 +127,13 @@ class AdService {
     return true;
   }
 
-  Future<RewardedAd?> loadUnlockAd() {
+  Future<RewardedAd?> loadUnlockAd() async {
     final completer = Completer<RewardedAd?>();
 
     final adUnitId =
         Platform.isAndroid ? _androidUnlockAdUnitId : _iOsUnlockAdUnitId;
+
+    _startTimeout(completer, _unlockAdTimeoutMillis);
 
     RewardedAd.load(
       adUnitId: adUnitId,
@@ -139,5 +157,17 @@ class AdService {
     );
 
     return completer.future;
+  }
+
+  void _startTimeout<T>(Completer<T> completer, int timeoutMillis) {
+    final timeoutDuration = Duration(milliseconds: timeoutMillis);
+    Future.delayed(
+      timeoutDuration,
+      () {
+        if (!completer.isCompleted) {
+          completer.completeError(TimeoutException(null, timeoutDuration));
+        }
+      },
+    );
   }
 }

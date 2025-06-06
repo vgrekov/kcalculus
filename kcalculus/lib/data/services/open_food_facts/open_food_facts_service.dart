@@ -13,11 +13,13 @@ class OpenFoodFactsService {
     required String appName,
     required String version,
     required http.Client httpClient,
+    required int timeoutMillis,
   })  : _openFoodFactsBaseUrl = openFoodFactsBaseUrl,
         _contactEmail = contactEmail,
         _appName = appName,
         _version = version,
-        _httpClient = httpClient;
+        _httpClient = httpClient,
+        _timeoutMillis = timeoutMillis;
 
   final String _openFoodFactsBaseUrl;
 
@@ -28,6 +30,8 @@ class OpenFoodFactsService {
   final String _version;
 
   final http.Client _httpClient;
+
+  final int _timeoutMillis;
 
   Uri _getProductByBarcodeUrl(String barcode) => Uri.parse(
         '$_openFoodFactsBaseUrl/api/v2/product/$barcode',
@@ -56,10 +60,12 @@ class OpenFoodFactsService {
 
     _log.finest('getProductByBarcode() Getting product by barcode: $barcode');
 
-    final response = await _httpClient.get(
-      _getProductByBarcodeUrl(barcode),
-      headers: await _getUserAgent(),
-    );
+    final response = await _httpClient
+        .get(
+          _getProductByBarcodeUrl(barcode),
+          headers: await _getUserAgent(),
+        )
+        .timeout(Duration(milliseconds: _timeoutMillis));
 
     _log.finer(
         'getProductByBarcode() Response status code: ${response.statusCode}');
