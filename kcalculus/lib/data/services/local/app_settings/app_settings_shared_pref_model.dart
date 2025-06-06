@@ -9,5 +9,6 @@ class AppSettingsSharedPrefModel with _$AppSettingsSharedPrefModel {
     bool? crashlyticsEnabled,
     bool? analyticsEnabled,
     int? signedAgreementVersion,
+    bool? scannerDisclaimerEnabled,
   }) = _AppSettingsSharedPrefModel;
 }
