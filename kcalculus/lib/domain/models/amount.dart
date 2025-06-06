@@ -62,6 +62,10 @@ class Amount with _$Amount {
     );
   }
 
+  bool isEmpty() => value == 0;
+
+  bool isNotEmpty() => value > 0;
+
   Amount operator +(Amount other) {
     if (unit.measure != other.unit.measure) {
       throw 'Addends must be of the same measure.';
