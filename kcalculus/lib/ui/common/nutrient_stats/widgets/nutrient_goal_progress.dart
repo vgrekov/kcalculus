@@ -13,6 +13,13 @@ class NutrientGoalProgress extends StatelessWidget {
     required this.nutrient,
     required this.goalAmount,
     required this.actualAmount,
+    this.actualAmountTextStyle,
+    this.goalAmountTextStyle,
+    this.diffAmountTextStyle,
+    this.percentageTextStyle,
+    this.progressBarHeight,
+    this.progressBarPadding,
+    this.animated = true,
   });
 
   final Nutrient nutrient;
@@ -21,15 +28,49 @@ class NutrientGoalProgress extends StatelessWidget {
 
   final Amount actualAmount;
 
+  final TextStyle? actualAmountTextStyle;
+
+  final TextStyle? goalAmountTextStyle;
+
+  final TextStyle? diffAmountTextStyle;
+
+  final TextStyle? percentageTextStyle;
+
+  final double? progressBarHeight;
+
+  final EdgeInsets? progressBarPadding;
+
+  final bool animated;
+
   @override
   Widget build(BuildContext context) {
     final convertedGoalAmount = goalAmount.convert(actualAmount.unit);
 
-    final leftAmount = convertedGoalAmount > actualAmount
-        ? (convertedGoalAmount - actualAmount).convert(actualAmount.unit)
-        : null;
+    final aboveGoal = convertedGoalAmount < actualAmount;
+
+    final diffAmount = (aboveGoal
+            ? actualAmount - convertedGoalAmount
+            : convertedGoalAmount - actualAmount)
+        .convert(actualAmount.unit);
 
     final progress = actualAmount.value / convertedGoalAmount.value;
+
+    final actualAmountTextStyle =
+        this.actualAmountTextStyle ?? textStyleOf(context, nutrient);
+
+    final goalAmountTextStyle =
+        this.goalAmountTextStyle ?? Theme.of(context).textTheme.bodySmall!;
+
+    final diffAmountTextStyle =
+        this.diffAmountTextStyle ?? Theme.of(context).textTheme.bodySmall!;
+
+    final percentageTextStyle =
+        this.percentageTextStyle ?? Theme.of(context).textTheme.bodySmall!;
+
+    final progressBarHeight = this.progressBarHeight ?? 4;
+
+    final progressBarPadding =
+        this.progressBarPadding ?? const EdgeInsets.symmetric(vertical: 4);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -40,62 +81,72 @@ class NutrientGoalProgress extends StatelessWidget {
           children: [
             Text(
               nb.formatDouble(context, actualAmount.value),
-              style: textStyleOf(context, nutrient),
+              style: actualAmountTextStyle.copyWith(
+                color: colorOf(context, nutrient),
+              ),
             ),
             Text(
               l10n(context).ofStatWithUnit(
                 nb.formatDouble(context, convertedGoalAmount.value),
                 convertedGoalAmount.unit.localName(context),
               ),
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+              style: goalAmountTextStyle.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             const Spacer(),
           ],
         ),
-        const SizedBox(height: 4),
-        Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(2),
+        Padding(
+          padding: progressBarPadding,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(progressBarHeight / 2),
+              ),
             ),
-          ),
-          clipBehavior: Clip.hardEdge,
-          height: 4,
-          child: TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0, end: min(progress, 1.0)),
-            duration: const Duration(milliseconds: 600),
-            builder: (context, value, child) => LinearProgressIndicator(
-              backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
-              color: colorOf(context, nutrient),
-              value: value,
+            clipBehavior: Clip.hardEdge,
+            height: progressBarHeight,
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: min(progress, 1.0)),
+              duration:
+                  animated ? const Duration(milliseconds: 600) : Duration.zero,
+              builder: (context, value, child) => LinearProgressIndicator(
+                backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+                color: colorOf(context, nutrient),
+                value: value,
+              ),
             ),
           ),
         ),
-        const SizedBox(height: 4),
         Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            if (leftAmount != null)
-              Text(
-                l10n(context).statWithUnitLeft(
-                  nb.formatDouble(context, leftAmount.value),
-                  leftAmount.unit.localName(context),
-                ),
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
+            Text(
+              aboveGoal
+                  ? l10n(context).statWithUnitOver(
+                      nb.formatDouble(context, diffAmount.value),
+                      diffAmount.unit.localName(context),
+                    )
+                  : l10n(context).statWithUnitLeft(
+                      nb.formatDouble(context, diffAmount.value),
+                      diffAmount.unit.localName(context),
                     ),
+              style: diffAmountTextStyle.copyWith(
+                color: aboveGoal
+                    ? Theme.of(context).colorScheme.error
+                    : Theme.of(context).colorScheme.onSurface,
               ),
+            ),
             const SizedBox(width: 16),
             const Spacer(),
             const SizedBox(width: 16),
             Text(
               l10n(context).percentage((progress * 100).floor().toString()),
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+              style: percentageTextStyle.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ],
         ),
