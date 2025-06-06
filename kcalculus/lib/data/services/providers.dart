@@ -64,6 +64,7 @@ final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
       appName: packageInfo.appName,
       version: packageInfo.version,
       httpClient: http.Client(),
+      timeoutMillis: appConfig.openFoodFactsTimeoutMillis,
     );
   },
 );
