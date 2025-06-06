@@ -25,6 +25,7 @@ class AppSettings with _$AppSettings {
     bool? crashlyticsEnabled,
     bool? analyticsEnabled,
     int? signedAgreementVersion,
+    required bool scannerDisclaimerEnabled,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>

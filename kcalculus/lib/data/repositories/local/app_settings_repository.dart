@@ -22,6 +22,7 @@ class LocalAppSettingsRepository extends AppSettingsRepository {
       crashlyticsEnabled: model.crashlyticsEnabled,
       analyticsEnabled: model.analyticsEnabled,
       signedAgreementVersion: model.signedAgreementVersion,
+      scannerDisclaimerEnabled: model.scannerDisclaimerEnabled ?? true,
     );
   }
 
@@ -38,6 +39,7 @@ class LocalAppSettingsRepository extends AppSettingsRepository {
         crashlyticsEnabled: settings.crashlyticsEnabled,
         analyticsEnabled: settings.analyticsEnabled,
         signedAgreementVersion: settings.signedAgreementVersion,
+        scannerDisclaimerEnabled: settings.scannerDisclaimerEnabled,
       ),
     );
 

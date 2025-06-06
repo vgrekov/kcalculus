@@ -49,6 +49,7 @@ void main() {
               analyticsEnabled: false,
               crashlyticsEnabled: false,
               signedAgreementVersion: kAgreementVersion,
+              scannerDisclaimerEnabled: false,
             );
           },
         );

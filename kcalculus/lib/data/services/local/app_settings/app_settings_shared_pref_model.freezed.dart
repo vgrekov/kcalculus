@@ -20,6 +20,7 @@ mixin _$AppSettingsSharedPrefModel {
   bool? get crashlyticsEnabled => throw _privateConstructorUsedError;
   bool? get analyticsEnabled => throw _privateConstructorUsedError;
   int? get signedAgreementVersion => throw _privateConstructorUsedError;
+  bool? get scannerDisclaimerEnabled => throw _privateConstructorUsedError;
 
   /// Create a copy of AppSettingsSharedPrefModel
   /// with the given fields replaced by the non-null parameter values.
@@ -39,7 +40,8 @@ abstract class $AppSettingsSharedPrefModelCopyWith<$Res> {
       {String? themeName,
       bool? crashlyticsEnabled,
       bool? analyticsEnabled,
-      int? signedAgreementVersion});
+      int? signedAgreementVersion,
+      bool? scannerDisclaimerEnabled});
 }
 
 /// @nodoc
@@ -62,6 +64,7 @@ class _$AppSettingsSharedPrefModelCopyWithImpl<$Res,
     Object? crashlyticsEnabled = freezed,
     Object? analyticsEnabled = freezed,
     Object? signedAgreementVersion = freezed,
+    Object? scannerDisclaimerEnabled = freezed,
   }) {
     return _then(_value.copyWith(
       themeName: freezed == themeName
@@ -80,6 +83,10 @@ class _$AppSettingsSharedPrefModelCopyWithImpl<$Res,
           ? _value.signedAgreementVersion
           : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
               as int?,
+      scannerDisclaimerEnabled: freezed == scannerDisclaimerEnabled
+          ? _value.scannerDisclaimerEnabled
+          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -97,7 +104,8 @@ abstract class _$$AppSettingsSharedPrefModelImplCopyWith<$Res>
       {String? themeName,
       bool? crashlyticsEnabled,
       bool? analyticsEnabled,
-      int? signedAgreementVersion});
+      int? signedAgreementVersion,
+      bool? scannerDisclaimerEnabled});
 }
 
 /// @nodoc
@@ -119,6 +127,7 @@ class __$$AppSettingsSharedPrefModelImplCopyWithImpl<$Res>
     Object? crashlyticsEnabled = freezed,
     Object? analyticsEnabled = freezed,
     Object? signedAgreementVersion = freezed,
+    Object? scannerDisclaimerEnabled = freezed,
   }) {
     return _then(_$AppSettingsSharedPrefModelImpl(
       themeName: freezed == themeName
@@ -137,6 +146,10 @@ class __$$AppSettingsSharedPrefModelImplCopyWithImpl<$Res>
           ? _value.signedAgreementVersion
           : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
               as int?,
+      scannerDisclaimerEnabled: freezed == scannerDisclaimerEnabled
+          ? _value.scannerDisclaimerEnabled
+          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -148,7 +161,8 @@ class _$AppSettingsSharedPrefModelImpl implements _AppSettingsSharedPrefModel {
       {this.themeName,
       this.crashlyticsEnabled,
       this.analyticsEnabled,
-      this.signedAgreementVersion});
+      this.signedAgreementVersion,
+      this.scannerDisclaimerEnabled});
 
   @override
   final String? themeName;
@@ -158,10 +172,12 @@ class _$AppSettingsSharedPrefModelImpl implements _AppSettingsSharedPrefModel {
   final bool? analyticsEnabled;
   @override
   final int? signedAgreementVersion;
+  @override
+  final bool? scannerDisclaimerEnabled;
 
   @override
   String toString() {
-    return 'AppSettingsSharedPrefModel(themeName: $themeName, crashlyticsEnabled: $crashlyticsEnabled, analyticsEnabled: $analyticsEnabled, signedAgreementVersion: $signedAgreementVersion)';
+    return 'AppSettingsSharedPrefModel(themeName: $themeName, crashlyticsEnabled: $crashlyticsEnabled, analyticsEnabled: $analyticsEnabled, signedAgreementVersion: $signedAgreementVersion, scannerDisclaimerEnabled: $scannerDisclaimerEnabled)';
   }
 
   @override
@@ -176,12 +192,15 @@ class _$AppSettingsSharedPrefModelImpl implements _AppSettingsSharedPrefModel {
             (identical(other.analyticsEnabled, analyticsEnabled) ||
                 other.analyticsEnabled == analyticsEnabled) &&
             (identical(other.signedAgreementVersion, signedAgreementVersion) ||
-                other.signedAgreementVersion == signedAgreementVersion));
+                other.signedAgreementVersion == signedAgreementVersion) &&
+            (identical(
+                    other.scannerDisclaimerEnabled, scannerDisclaimerEnabled) ||
+                other.scannerDisclaimerEnabled == scannerDisclaimerEnabled));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, themeName, crashlyticsEnabled,
-      analyticsEnabled, signedAgreementVersion);
+      analyticsEnabled, signedAgreementVersion, scannerDisclaimerEnabled);
 
   /// Create a copy of AppSettingsSharedPrefModel
   /// with the given fields replaced by the non-null parameter values.
@@ -199,7 +218,8 @@ abstract class _AppSettingsSharedPrefModel
       {final String? themeName,
       final bool? crashlyticsEnabled,
       final bool? analyticsEnabled,
-      final int? signedAgreementVersion}) = _$AppSettingsSharedPrefModelImpl;
+      final int? signedAgreementVersion,
+      final bool? scannerDisclaimerEnabled}) = _$AppSettingsSharedPrefModelImpl;
 
   @override
   String? get themeName;
@@ -209,6 +229,8 @@ abstract class _AppSettingsSharedPrefModel
   bool? get analyticsEnabled;
   @override
   int? get signedAgreementVersion;
+  @override
+  bool? get scannerDisclaimerEnabled;
 
   /// Create a copy of AppSettingsSharedPrefModel
   /// with the given fields replaced by the non-null parameter values.

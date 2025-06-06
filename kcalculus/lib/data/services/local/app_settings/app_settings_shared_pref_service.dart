@@ -10,6 +10,8 @@ class AppSettingsSharedPrefService {
 
   static const _kSignedAgreementVersion = 'signedAgreementVersion';
 
+  static const _kScannerDisclaimerEnabled = 'scannerDisclaimerEnabled';
+
   Future<AppSettingsSharedPrefModel> getSettings() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -18,6 +20,7 @@ class AppSettingsSharedPrefService {
       crashlyticsEnabled: prefs.getBool(_kCrashlyticsEnabled),
       analyticsEnabled: prefs.getBool(_kAnalyticsEnabled),
       signedAgreementVersion: prefs.getInt(_kSignedAgreementVersion),
+      scannerDisclaimerEnabled: prefs.getBool(_kScannerDisclaimerEnabled),
     );
   }
 
@@ -47,6 +50,13 @@ class AppSettingsSharedPrefService {
           _kSignedAgreementVersion, model.signedAgreementVersion!);
     } else {
       await prefs.remove(_kSignedAgreementVersion);
+    }
+
+    if (model.scannerDisclaimerEnabled != null) {
+      await prefs.setBool(
+          _kScannerDisclaimerEnabled, model.scannerDisclaimerEnabled!);
+    } else {
+      await prefs.remove(_kScannerDisclaimerEnabled);
     }
   }
 }

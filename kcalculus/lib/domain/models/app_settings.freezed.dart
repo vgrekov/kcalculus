@@ -24,6 +24,7 @@ mixin _$AppSettings {
   bool? get crashlyticsEnabled => throw _privateConstructorUsedError;
   bool? get analyticsEnabled => throw _privateConstructorUsedError;
   int? get signedAgreementVersion => throw _privateConstructorUsedError;
+  bool get scannerDisclaimerEnabled => throw _privateConstructorUsedError;
 
   /// Serializes this AppSettings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +46,8 @@ abstract class $AppSettingsCopyWith<$Res> {
       {AppTheme theme,
       bool? crashlyticsEnabled,
       bool? analyticsEnabled,
-      int? signedAgreementVersion});
+      int? signedAgreementVersion,
+      bool scannerDisclaimerEnabled});
 }
 
 /// @nodoc
@@ -67,6 +69,7 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
     Object? crashlyticsEnabled = freezed,
     Object? analyticsEnabled = freezed,
     Object? signedAgreementVersion = freezed,
+    Object? scannerDisclaimerEnabled = null,
   }) {
     return _then(_value.copyWith(
       theme: null == theme
@@ -85,6 +88,10 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
           ? _value.signedAgreementVersion
           : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
               as int?,
+      scannerDisclaimerEnabled: null == scannerDisclaimerEnabled
+          ? _value.scannerDisclaimerEnabled
+          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -101,7 +108,8 @@ abstract class _$$AppSettingsImplCopyWith<$Res>
       {AppTheme theme,
       bool? crashlyticsEnabled,
       bool? analyticsEnabled,
-      int? signedAgreementVersion});
+      int? signedAgreementVersion,
+      bool scannerDisclaimerEnabled});
 }
 
 /// @nodoc
@@ -121,6 +129,7 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
     Object? crashlyticsEnabled = freezed,
     Object? analyticsEnabled = freezed,
     Object? signedAgreementVersion = freezed,
+    Object? scannerDisclaimerEnabled = null,
   }) {
     return _then(_$AppSettingsImpl(
       theme: null == theme
@@ -139,6 +148,10 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
           ? _value.signedAgreementVersion
           : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
               as int?,
+      scannerDisclaimerEnabled: null == scannerDisclaimerEnabled
+          ? _value.scannerDisclaimerEnabled
+          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -150,7 +163,8 @@ class _$AppSettingsImpl implements _AppSettings {
       {required this.theme,
       this.crashlyticsEnabled,
       this.analyticsEnabled,
-      this.signedAgreementVersion});
+      this.signedAgreementVersion,
+      required this.scannerDisclaimerEnabled});
 
   factory _$AppSettingsImpl.fromJson(Map<String, dynamic> json) =>
       _$$AppSettingsImplFromJson(json);
@@ -163,10 +177,12 @@ class _$AppSettingsImpl implements _AppSettings {
   final bool? analyticsEnabled;
   @override
   final int? signedAgreementVersion;
+  @override
+  final bool scannerDisclaimerEnabled;
 
   @override
   String toString() {
-    return 'AppSettings(theme: $theme, crashlyticsEnabled: $crashlyticsEnabled, analyticsEnabled: $analyticsEnabled, signedAgreementVersion: $signedAgreementVersion)';
+    return 'AppSettings(theme: $theme, crashlyticsEnabled: $crashlyticsEnabled, analyticsEnabled: $analyticsEnabled, signedAgreementVersion: $signedAgreementVersion, scannerDisclaimerEnabled: $scannerDisclaimerEnabled)';
   }
 
   @override
@@ -180,13 +196,16 @@ class _$AppSettingsImpl implements _AppSettings {
             (identical(other.analyticsEnabled, analyticsEnabled) ||
                 other.analyticsEnabled == analyticsEnabled) &&
             (identical(other.signedAgreementVersion, signedAgreementVersion) ||
-                other.signedAgreementVersion == signedAgreementVersion));
+                other.signedAgreementVersion == signedAgreementVersion) &&
+            (identical(
+                    other.scannerDisclaimerEnabled, scannerDisclaimerEnabled) ||
+                other.scannerDisclaimerEnabled == scannerDisclaimerEnabled));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, theme, crashlyticsEnabled,
-      analyticsEnabled, signedAgreementVersion);
+      analyticsEnabled, signedAgreementVersion, scannerDisclaimerEnabled);
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -209,7 +228,8 @@ abstract class _AppSettings implements AppSettings {
       {required final AppTheme theme,
       final bool? crashlyticsEnabled,
       final bool? analyticsEnabled,
-      final int? signedAgreementVersion}) = _$AppSettingsImpl;
+      final int? signedAgreementVersion,
+      required final bool scannerDisclaimerEnabled}) = _$AppSettingsImpl;
 
   factory _AppSettings.fromJson(Map<String, dynamic> json) =
       _$AppSettingsImpl.fromJson;
@@ -222,6 +242,8 @@ abstract class _AppSettings implements AppSettings {
   bool? get analyticsEnabled;
   @override
   int? get signedAgreementVersion;
+  @override
+  bool get scannerDisclaimerEnabled;
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.

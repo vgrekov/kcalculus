@@ -100,6 +100,21 @@ class FoodListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
   Future<List<Nutrient>> getNutrientDefaults() {
     return ref.read(nutrientRepositoryProvider).getDefaults();
   }
+
+  Future<bool> isScannerDisclaimerEnabled() async {
+    final settings = await ref.read(appSettingsRepositoryProvider.future);
+    return settings.scannerDisclaimerEnabled;
+  }
+
+  Future<void> disableScannerDisclaimer() async {
+    final settingsRepository = ref.read(appSettingsRepositoryProvider.notifier);
+    final settings = await ref.read(appSettingsRepositoryProvider.future);
+    await settingsRepository.setSettings(
+      settings.copyWith(
+        scannerDisclaimerEnabled: false,
+      ),
+    );
+  }
 }
 
 final foodListViewModel =

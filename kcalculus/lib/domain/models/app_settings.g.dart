@@ -12,6 +12,7 @@ _$AppSettingsImpl _$$AppSettingsImplFromJson(Map<String, dynamic> json) =>
       crashlyticsEnabled: json['crashlyticsEnabled'] as bool?,
       analyticsEnabled: json['analyticsEnabled'] as bool?,
       signedAgreementVersion: (json['signedAgreementVersion'] as num?)?.toInt(),
+      scannerDisclaimerEnabled: json['scannerDisclaimerEnabled'] as bool,
     );
 
 Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
@@ -20,6 +21,7 @@ Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
       'crashlyticsEnabled': instance.crashlyticsEnabled,
       'analyticsEnabled': instance.analyticsEnabled,
       'signedAgreementVersion': instance.signedAgreementVersion,
+      'scannerDisclaimerEnabled': instance.scannerDisclaimerEnabled,
     };
 
 const _$AppThemeEnumMap = {
