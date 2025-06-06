@@ -69,7 +69,13 @@ class DishWizardUiState with _$DishWizardUiState {
         final convertedAmount = ingredientNF.convertAmount(ingredient.amount,
             targetNutritionFacts: targetNF);
         if (convertedAmount != null) {
-          totalAmount += convertedAmount;
+          if (measure != Measure.quantity) {
+            // Sum up if not quantity
+            totalAmount += convertedAmount;
+          } else if (totalAmount.isEmpty() || totalAmount > convertedAmount) {
+            // Take min if quantity
+            totalAmount = convertedAmount;
+          }
         }
       }
     }
