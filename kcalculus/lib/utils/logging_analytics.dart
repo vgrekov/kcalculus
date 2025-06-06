@@ -64,15 +64,13 @@ extension Analytics on Logger {
     );
   }
 
-  void eventFoodScanVersionMismatch(
-    int expectedVersion,
-    int? foundVersion,
+  void eventFoodScanUnsupportedVersion(
+    int? version,
   ) {
     FirebaseAnalytics.instance.logEvent(
-      name: 'food_scan_version_mismatch',
+      name: 'food_scan_unsupported_version',
       parameters: {
-        'expected_version': expectedVersion,
-        if (foundVersion != null) 'found_version': foundVersion,
+        if (version != null) 'version': version,
       },
     );
   }
