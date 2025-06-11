@@ -6,7 +6,7 @@ import 'package:kcalculus/domain/models/units.dart';
 part 'food_container_save_ui_state.freezed.dart';
 
 @freezed
-class FoodContainerSaveUiState with _$FoodContainerSaveUiState {
+sealed class FoodContainerSaveUiState with _$FoodContainerSaveUiState {
   const FoodContainerSaveUiState._();
 
   const factory FoodContainerSaveUiState({

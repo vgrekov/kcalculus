@@ -8,7 +8,7 @@ import 'package:kcalculus/domain/models/units.dart';
 part 'portion_form_ui_state.freezed.dart';
 
 @freezed
-class PortionFormUiState with _$PortionFormUiState {
+sealed class PortionFormUiState with _$PortionFormUiState {
   const PortionFormUiState._();
 
   const factory PortionFormUiState({

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,78 +10,51 @@ part of 'dish_wizard_measurements_step_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$MeasurementsStepValidationResult {
-  bool get measurementsMissing => throw _privateConstructorUsedError;
-  Map<Measure, NutritionRatioValidationResult?>
-      get ratioStateValidationResults => throw _privateConstructorUsedError;
+  bool get measurementsMissing;
+  Map<Measure, NutritionRatioValidationResult?> get ratioStateValidationResults;
 
   /// Create a copy of MeasurementsStepValidationResult
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $MeasurementsStepValidationResultCopyWith<MeasurementsStepValidationResult>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MeasurementsStepValidationResultCopyWith<$Res> {
-  factory $MeasurementsStepValidationResultCopyWith(
-          MeasurementsStepValidationResult value,
-          $Res Function(MeasurementsStepValidationResult) then) =
-      _$MeasurementsStepValidationResultCopyWithImpl<$Res,
-          MeasurementsStepValidationResult>;
-  @useResult
-  $Res call(
-      {bool measurementsMissing,
-      Map<Measure, NutritionRatioValidationResult?>
-          ratioStateValidationResults});
-}
-
-/// @nodoc
-class _$MeasurementsStepValidationResultCopyWithImpl<$Res,
-        $Val extends MeasurementsStepValidationResult>
-    implements $MeasurementsStepValidationResultCopyWith<$Res> {
-  _$MeasurementsStepValidationResultCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of MeasurementsStepValidationResult
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $MeasurementsStepValidationResultCopyWith<MeasurementsStepValidationResult>
+      get copyWith => _$MeasurementsStepValidationResultCopyWithImpl<
+              MeasurementsStepValidationResult>(
+          this as MeasurementsStepValidationResult, _$identity);
+
   @override
-  $Res call({
-    Object? measurementsMissing = null,
-    Object? ratioStateValidationResults = null,
-  }) {
-    return _then(_value.copyWith(
-      measurementsMissing: null == measurementsMissing
-          ? _value.measurementsMissing
-          : measurementsMissing // ignore: cast_nullable_to_non_nullable
-              as bool,
-      ratioStateValidationResults: null == ratioStateValidationResults
-          ? _value.ratioStateValidationResults
-          : ratioStateValidationResults // ignore: cast_nullable_to_non_nullable
-              as Map<Measure, NutritionRatioValidationResult?>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is MeasurementsStepValidationResult &&
+            (identical(other.measurementsMissing, measurementsMissing) ||
+                other.measurementsMissing == measurementsMissing) &&
+            const DeepCollectionEquality().equals(
+                other.ratioStateValidationResults,
+                ratioStateValidationResults));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, measurementsMissing,
+      const DeepCollectionEquality().hash(ratioStateValidationResults));
+
+  @override
+  String toString() {
+    return 'MeasurementsStepValidationResult(measurementsMissing: $measurementsMissing, ratioStateValidationResults: $ratioStateValidationResults)';
   }
 }
 
 /// @nodoc
-abstract class _$$MeasurementsStepValidationResultImplCopyWith<$Res>
-    implements $MeasurementsStepValidationResultCopyWith<$Res> {
-  factory _$$MeasurementsStepValidationResultImplCopyWith(
-          _$MeasurementsStepValidationResultImpl value,
-          $Res Function(_$MeasurementsStepValidationResultImpl) then) =
-      __$$MeasurementsStepValidationResultImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $MeasurementsStepValidationResultCopyWith<$Res> {
+  factory $MeasurementsStepValidationResultCopyWith(
+          MeasurementsStepValidationResult value,
+          $Res Function(MeasurementsStepValidationResult) _then) =
+      _$MeasurementsStepValidationResultCopyWithImpl;
   @useResult
   $Res call(
       {bool measurementsMissing,
@@ -89,14 +63,12 @@ abstract class _$$MeasurementsStepValidationResultImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$MeasurementsStepValidationResultImplCopyWithImpl<$Res>
-    extends _$MeasurementsStepValidationResultCopyWithImpl<$Res,
-        _$MeasurementsStepValidationResultImpl>
-    implements _$$MeasurementsStepValidationResultImplCopyWith<$Res> {
-  __$$MeasurementsStepValidationResultImplCopyWithImpl(
-      _$MeasurementsStepValidationResultImpl _value,
-      $Res Function(_$MeasurementsStepValidationResultImpl) _then)
-      : super(_value, _then);
+class _$MeasurementsStepValidationResultCopyWithImpl<$Res>
+    implements $MeasurementsStepValidationResultCopyWith<$Res> {
+  _$MeasurementsStepValidationResultCopyWithImpl(this._self, this._then);
+
+  final MeasurementsStepValidationResult _self;
+  final $Res Function(MeasurementsStepValidationResult) _then;
 
   /// Create a copy of MeasurementsStepValidationResult
   /// with the given fields replaced by the non-null parameter values.
@@ -106,13 +78,13 @@ class __$$MeasurementsStepValidationResultImplCopyWithImpl<$Res>
     Object? measurementsMissing = null,
     Object? ratioStateValidationResults = null,
   }) {
-    return _then(_$MeasurementsStepValidationResultImpl(
+    return _then(_self.copyWith(
       measurementsMissing: null == measurementsMissing
-          ? _value.measurementsMissing
+          ? _self.measurementsMissing
           : measurementsMissing // ignore: cast_nullable_to_non_nullable
               as bool,
       ratioStateValidationResults: null == ratioStateValidationResults
-          ? _value._ratioStateValidationResults
+          ? _self.ratioStateValidationResults
           : ratioStateValidationResults // ignore: cast_nullable_to_non_nullable
               as Map<Measure, NutritionRatioValidationResult?>,
     ));
@@ -121,9 +93,9 @@ class __$$MeasurementsStepValidationResultImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MeasurementsStepValidationResultImpl
-    implements _MeasurementsStepValidationResult {
-  const _$MeasurementsStepValidationResultImpl(
+class _MeasurementsStepValidationResult
+    implements MeasurementsStepValidationResult {
+  const _MeasurementsStepValidationResult(
       {required this.measurementsMissing,
       required final Map<Measure, NutritionRatioValidationResult?>
           ratioStateValidationResults})
@@ -142,16 +114,20 @@ class _$MeasurementsStepValidationResultImpl
     return EqualUnmodifiableMapView(_ratioStateValidationResults);
   }
 
+  /// Create a copy of MeasurementsStepValidationResult
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'MeasurementsStepValidationResult(measurementsMissing: $measurementsMissing, ratioStateValidationResults: $ratioStateValidationResults)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$MeasurementsStepValidationResultCopyWith<_MeasurementsStepValidationResult>
+      get copyWith => __$MeasurementsStepValidationResultCopyWithImpl<
+          _MeasurementsStepValidationResult>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MeasurementsStepValidationResultImpl &&
+            other is _MeasurementsStepValidationResult &&
             (identical(other.measurementsMissing, measurementsMissing) ||
                 other.measurementsMissing == measurementsMissing) &&
             const DeepCollectionEquality().equals(
@@ -163,59 +139,97 @@ class _$MeasurementsStepValidationResultImpl
   int get hashCode => Object.hash(runtimeType, measurementsMissing,
       const DeepCollectionEquality().hash(_ratioStateValidationResults));
 
-  /// Create a copy of MeasurementsStepValidationResult
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$MeasurementsStepValidationResultImplCopyWith<
-          _$MeasurementsStepValidationResultImpl>
-      get copyWith => __$$MeasurementsStepValidationResultImplCopyWithImpl<
-          _$MeasurementsStepValidationResultImpl>(this, _$identity);
+  String toString() {
+    return 'MeasurementsStepValidationResult(measurementsMissing: $measurementsMissing, ratioStateValidationResults: $ratioStateValidationResults)';
+  }
 }
 
-abstract class _MeasurementsStepValidationResult
-    implements MeasurementsStepValidationResult {
-  const factory _MeasurementsStepValidationResult(
-          {required final bool measurementsMissing,
-          required final Map<Measure, NutritionRatioValidationResult?>
-              ratioStateValidationResults}) =
-      _$MeasurementsStepValidationResultImpl;
+/// @nodoc
+abstract mixin class _$MeasurementsStepValidationResultCopyWith<$Res>
+    implements $MeasurementsStepValidationResultCopyWith<$Res> {
+  factory _$MeasurementsStepValidationResultCopyWith(
+          _MeasurementsStepValidationResult value,
+          $Res Function(_MeasurementsStepValidationResult) _then) =
+      __$MeasurementsStepValidationResultCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {bool measurementsMissing,
+      Map<Measure, NutritionRatioValidationResult?>
+          ratioStateValidationResults});
+}
 
-  @override
-  bool get measurementsMissing;
-  @override
-  Map<Measure, NutritionRatioValidationResult?> get ratioStateValidationResults;
+/// @nodoc
+class __$MeasurementsStepValidationResultCopyWithImpl<$Res>
+    implements _$MeasurementsStepValidationResultCopyWith<$Res> {
+  __$MeasurementsStepValidationResultCopyWithImpl(this._self, this._then);
+
+  final _MeasurementsStepValidationResult _self;
+  final $Res Function(_MeasurementsStepValidationResult) _then;
 
   /// Create a copy of MeasurementsStepValidationResult
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MeasurementsStepValidationResultImplCopyWith<
-          _$MeasurementsStepValidationResultImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? measurementsMissing = null,
+    Object? ratioStateValidationResults = null,
+  }) {
+    return _then(_MeasurementsStepValidationResult(
+      measurementsMissing: null == measurementsMissing
+          ? _self.measurementsMissing
+          : measurementsMissing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      ratioStateValidationResults: null == ratioStateValidationResults
+          ? _self._ratioStateValidationResults
+          : ratioStateValidationResults // ignore: cast_nullable_to_non_nullable
+              as Map<Measure, NutritionRatioValidationResult?>,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$DishWizardMeasurementsStepUiState {
-  FoodContainer? get container => throw _privateConstructorUsedError;
-  List<NutritionRatioUiState> get nutritionRatioStates =>
-      throw _privateConstructorUsedError;
+  FoodContainer? get container;
+  List<NutritionRatioUiState> get nutritionRatioStates;
 
   /// Create a copy of DishWizardMeasurementsStepUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $DishWizardMeasurementsStepUiStateCopyWith<DishWizardMeasurementsStepUiState>
-      get copyWith => throw _privateConstructorUsedError;
+      get copyWith => _$DishWizardMeasurementsStepUiStateCopyWithImpl<
+              DishWizardMeasurementsStepUiState>(
+          this as DishWizardMeasurementsStepUiState, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DishWizardMeasurementsStepUiState &&
+            (identical(other.container, container) ||
+                other.container == container) &&
+            const DeepCollectionEquality()
+                .equals(other.nutritionRatioStates, nutritionRatioStates));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, container,
+      const DeepCollectionEquality().hash(nutritionRatioStates));
+
+  @override
+  String toString() {
+    return 'DishWizardMeasurementsStepUiState(container: $container, nutritionRatioStates: $nutritionRatioStates)';
+  }
 }
 
 /// @nodoc
-abstract class $DishWizardMeasurementsStepUiStateCopyWith<$Res> {
+abstract mixin class $DishWizardMeasurementsStepUiStateCopyWith<$Res> {
   factory $DishWizardMeasurementsStepUiStateCopyWith(
           DishWizardMeasurementsStepUiState value,
-          $Res Function(DishWizardMeasurementsStepUiState) then) =
-      _$DishWizardMeasurementsStepUiStateCopyWithImpl<$Res,
-          DishWizardMeasurementsStepUiState>;
+          $Res Function(DishWizardMeasurementsStepUiState) _then) =
+      _$DishWizardMeasurementsStepUiStateCopyWithImpl;
   @useResult
   $Res call(
       {FoodContainer? container,
@@ -225,15 +239,12 @@ abstract class $DishWizardMeasurementsStepUiStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DishWizardMeasurementsStepUiStateCopyWithImpl<$Res,
-        $Val extends DishWizardMeasurementsStepUiState>
+class _$DishWizardMeasurementsStepUiStateCopyWithImpl<$Res>
     implements $DishWizardMeasurementsStepUiStateCopyWith<$Res> {
-  _$DishWizardMeasurementsStepUiStateCopyWithImpl(this._value, this._then);
+  _$DishWizardMeasurementsStepUiStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final DishWizardMeasurementsStepUiState _self;
+  final $Res Function(DishWizardMeasurementsStepUiState) _then;
 
   /// Create a copy of DishWizardMeasurementsStepUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -243,16 +254,16 @@ class _$DishWizardMeasurementsStepUiStateCopyWithImpl<$Res,
     Object? container = freezed,
     Object? nutritionRatioStates = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       container: freezed == container
-          ? _value.container
+          ? _self.container
           : container // ignore: cast_nullable_to_non_nullable
               as FoodContainer?,
       nutritionRatioStates: null == nutritionRatioStates
-          ? _value.nutritionRatioStates
+          ? _self.nutritionRatioStates
           : nutritionRatioStates // ignore: cast_nullable_to_non_nullable
               as List<NutritionRatioUiState>,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of DishWizardMeasurementsStepUiState
@@ -260,69 +271,21 @@ class _$DishWizardMeasurementsStepUiStateCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $FoodContainerCopyWith<$Res>? get container {
-    if (_value.container == null) {
+    if (_self.container == null) {
       return null;
     }
 
-    return $FoodContainerCopyWith<$Res>(_value.container!, (value) {
-      return _then(_value.copyWith(container: value) as $Val);
+    return $FoodContainerCopyWith<$Res>(_self.container!, (value) {
+      return _then(_self.copyWith(container: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$DishWizardMeasurementsStepUiStateImplCopyWith<$Res>
-    implements $DishWizardMeasurementsStepUiStateCopyWith<$Res> {
-  factory _$$DishWizardMeasurementsStepUiStateImplCopyWith(
-          _$DishWizardMeasurementsStepUiStateImpl value,
-          $Res Function(_$DishWizardMeasurementsStepUiStateImpl) then) =
-      __$$DishWizardMeasurementsStepUiStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {FoodContainer? container,
-      List<NutritionRatioUiState> nutritionRatioStates});
 
-  @override
-  $FoodContainerCopyWith<$Res>? get container;
-}
-
-/// @nodoc
-class __$$DishWizardMeasurementsStepUiStateImplCopyWithImpl<$Res>
-    extends _$DishWizardMeasurementsStepUiStateCopyWithImpl<$Res,
-        _$DishWizardMeasurementsStepUiStateImpl>
-    implements _$$DishWizardMeasurementsStepUiStateImplCopyWith<$Res> {
-  __$$DishWizardMeasurementsStepUiStateImplCopyWithImpl(
-      _$DishWizardMeasurementsStepUiStateImpl _value,
-      $Res Function(_$DishWizardMeasurementsStepUiStateImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of DishWizardMeasurementsStepUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? container = freezed,
-    Object? nutritionRatioStates = null,
-  }) {
-    return _then(_$DishWizardMeasurementsStepUiStateImpl(
-      container: freezed == container
-          ? _value.container
-          : container // ignore: cast_nullable_to_non_nullable
-              as FoodContainer?,
-      nutritionRatioStates: null == nutritionRatioStates
-          ? _value._nutritionRatioStates
-          : nutritionRatioStates // ignore: cast_nullable_to_non_nullable
-              as List<NutritionRatioUiState>,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$DishWizardMeasurementsStepUiStateImpl
-    extends _DishWizardMeasurementsStepUiState {
-  const _$DishWizardMeasurementsStepUiStateImpl(
+class _DishWizardMeasurementsStepUiState
+    extends DishWizardMeasurementsStepUiState {
+  const _DishWizardMeasurementsStepUiState(
       {this.container,
       required final List<NutritionRatioUiState> nutritionRatioStates})
       : _nutritionRatioStates = nutritionRatioStates,
@@ -339,16 +302,21 @@ class _$DishWizardMeasurementsStepUiStateImpl
     return EqualUnmodifiableListView(_nutritionRatioStates);
   }
 
+  /// Create a copy of DishWizardMeasurementsStepUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'DishWizardMeasurementsStepUiState._default(container: $container, nutritionRatioStates: $nutritionRatioStates)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$DishWizardMeasurementsStepUiStateCopyWith<
+          _DishWizardMeasurementsStepUiState>
+      get copyWith => __$DishWizardMeasurementsStepUiStateCopyWithImpl<
+          _DishWizardMeasurementsStepUiState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DishWizardMeasurementsStepUiStateImpl &&
+            other is _DishWizardMeasurementsStepUiState &&
             (identical(other.container, container) ||
                 other.container == container) &&
             const DeepCollectionEquality()
@@ -359,35 +327,70 @@ class _$DishWizardMeasurementsStepUiStateImpl
   int get hashCode => Object.hash(runtimeType, container,
       const DeepCollectionEquality().hash(_nutritionRatioStates));
 
+  @override
+  String toString() {
+    return 'DishWizardMeasurementsStepUiState._default(container: $container, nutritionRatioStates: $nutritionRatioStates)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$DishWizardMeasurementsStepUiStateCopyWith<$Res>
+    implements $DishWizardMeasurementsStepUiStateCopyWith<$Res> {
+  factory _$DishWizardMeasurementsStepUiStateCopyWith(
+          _DishWizardMeasurementsStepUiState value,
+          $Res Function(_DishWizardMeasurementsStepUiState) _then) =
+      __$DishWizardMeasurementsStepUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {FoodContainer? container,
+      List<NutritionRatioUiState> nutritionRatioStates});
+
+  @override
+  $FoodContainerCopyWith<$Res>? get container;
+}
+
+/// @nodoc
+class __$DishWizardMeasurementsStepUiStateCopyWithImpl<$Res>
+    implements _$DishWizardMeasurementsStepUiStateCopyWith<$Res> {
+  __$DishWizardMeasurementsStepUiStateCopyWithImpl(this._self, this._then);
+
+  final _DishWizardMeasurementsStepUiState _self;
+  final $Res Function(_DishWizardMeasurementsStepUiState) _then;
+
   /// Create a copy of DishWizardMeasurementsStepUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$DishWizardMeasurementsStepUiStateImplCopyWith<
-          _$DishWizardMeasurementsStepUiStateImpl>
-      get copyWith => __$$DishWizardMeasurementsStepUiStateImplCopyWithImpl<
-          _$DishWizardMeasurementsStepUiStateImpl>(this, _$identity);
-}
-
-abstract class _DishWizardMeasurementsStepUiState
-    extends DishWizardMeasurementsStepUiState {
-  const factory _DishWizardMeasurementsStepUiState(
-          {final FoodContainer? container,
-          required final List<NutritionRatioUiState> nutritionRatioStates}) =
-      _$DishWizardMeasurementsStepUiStateImpl;
-  const _DishWizardMeasurementsStepUiState._() : super._();
-
-  @override
-  FoodContainer? get container;
-  @override
-  List<NutritionRatioUiState> get nutritionRatioStates;
+  $Res call({
+    Object? container = freezed,
+    Object? nutritionRatioStates = null,
+  }) {
+    return _then(_DishWizardMeasurementsStepUiState(
+      container: freezed == container
+          ? _self.container
+          : container // ignore: cast_nullable_to_non_nullable
+              as FoodContainer?,
+      nutritionRatioStates: null == nutritionRatioStates
+          ? _self._nutritionRatioStates
+          : nutritionRatioStates // ignore: cast_nullable_to_non_nullable
+              as List<NutritionRatioUiState>,
+    ));
+  }
 
   /// Create a copy of DishWizardMeasurementsStepUiState
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DishWizardMeasurementsStepUiStateImplCopyWith<
-          _$DishWizardMeasurementsStepUiStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $FoodContainerCopyWith<$Res>? get container {
+    if (_self.container == null) {
+      return null;
+    }
+
+    return $FoodContainerCopyWith<$Res>(_self.container!, (value) {
+      return _then(_self.copyWith(container: value));
+    });
+  }
 }
+
+// dart format on

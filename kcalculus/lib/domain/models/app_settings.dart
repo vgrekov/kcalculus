@@ -1,5 +1,5 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kcalculus/l10n/app_localizations.dart';
 
 part 'app_settings.freezed.dart';
 part 'app_settings.g.dart';
@@ -19,7 +19,7 @@ enum AppTheme {
 }
 
 @freezed
-class AppSettings with _$AppSettings {
+sealed class AppSettings with _$AppSettings {
   const factory AppSettings({
     required AppTheme theme,
     bool? crashlyticsEnabled,

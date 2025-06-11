@@ -6,8 +6,8 @@ part of 'app_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LocalAppConfigImpl _$$LocalAppConfigImplFromJson(Map<String, dynamic> json) =>
-    _$LocalAppConfigImpl(
+_LocalAppConfig _$LocalAppConfigFromJson(Map<String, dynamic> json) =>
+    _LocalAppConfig(
       openFoodFactsBaseUrl: json['openFoodFactsBaseUrl'] as String,
       openFoodFactsTimeoutMillis:
           (json['openFoodFactsTimeoutMillis'] as num).toInt(),
@@ -26,8 +26,7 @@ _$LocalAppConfigImpl _$$LocalAppConfigImplFromJson(Map<String, dynamic> json) =>
           (json['interstitialAdCooldownDurationMins'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$LocalAppConfigImplToJson(
-        _$LocalAppConfigImpl instance) =>
+Map<String, dynamic> _$LocalAppConfigToJson(_LocalAppConfig instance) =>
     <String, dynamic>{
       'openFoodFactsBaseUrl': instance.openFoodFactsBaseUrl,
       'openFoodFactsTimeoutMillis': instance.openFoodFactsTimeoutMillis,

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/l10n/app_localizations.dart';
 
 final navigatorKeyProvider = Provider(
   (ref) => GlobalKey<NavigatorState>(),

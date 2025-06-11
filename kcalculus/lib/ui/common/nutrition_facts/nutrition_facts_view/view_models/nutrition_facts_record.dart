@@ -7,7 +7,7 @@ import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/view_mo
 part 'nutrition_facts_record.freezed.dart';
 
 @freezed
-class NutritionFactsRecord with _$NutritionFactsRecord {
+sealed class NutritionFactsRecord with _$NutritionFactsRecord {
   const factory NutritionFactsRecord({
     required Amount perAmount,
     required List<NutrientNode> nodes,

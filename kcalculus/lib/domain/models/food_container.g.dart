@@ -6,7 +6,7 @@ part of 'food_container.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Map<String, dynamic> _$$FoodContainerImplToJson(_$FoodContainerImpl instance) =>
+Map<String, dynamic> _$FoodContainerToJson(_FoodContainer instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

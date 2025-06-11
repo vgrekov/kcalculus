@@ -4,7 +4,7 @@ part 'nutrient_data_v1.freezed.dart';
 part 'nutrient_data_v1.g.dart';
 
 @freezed
-class NutrientDataV1 with _$NutrientDataV1 {
+sealed class NutrientDataV1 with _$NutrientDataV1 {
   const factory NutrientDataV1({
     required double calories,
     required double fatInGrams,

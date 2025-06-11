@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,82 +10,51 @@ part of 'nutrition_facts_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$NutritionFactsUiState {
-  Unit get perAmountUnit => throw _privateConstructorUsedError;
-  double? get perAmountValue => throw _privateConstructorUsedError;
-  List<NutrientAmountUiState> get nutrientAmounts =>
-      throw _privateConstructorUsedError;
+  Unit get perAmountUnit;
+  double? get perAmountValue;
+  List<NutrientAmountUiState> get nutrientAmounts;
 
   /// Create a copy of NutritionFactsUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NutritionFactsUiStateCopyWith<NutritionFactsUiState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NutritionFactsUiStateCopyWith<$Res> {
-  factory $NutritionFactsUiStateCopyWith(NutritionFactsUiState value,
-          $Res Function(NutritionFactsUiState) then) =
-      _$NutritionFactsUiStateCopyWithImpl<$Res, NutritionFactsUiState>;
-  @useResult
-  $Res call(
-      {Unit perAmountUnit,
-      double? perAmountValue,
-      List<NutrientAmountUiState> nutrientAmounts});
-}
-
-/// @nodoc
-class _$NutritionFactsUiStateCopyWithImpl<$Res,
-        $Val extends NutritionFactsUiState>
-    implements $NutritionFactsUiStateCopyWith<$Res> {
-  _$NutritionFactsUiStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NutritionFactsUiState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $NutritionFactsUiStateCopyWith<NutritionFactsUiState> get copyWith =>
+      _$NutritionFactsUiStateCopyWithImpl<NutritionFactsUiState>(
+          this as NutritionFactsUiState, _$identity);
+
   @override
-  $Res call({
-    Object? perAmountUnit = null,
-    Object? perAmountValue = freezed,
-    Object? nutrientAmounts = null,
-  }) {
-    return _then(_value.copyWith(
-      perAmountUnit: null == perAmountUnit
-          ? _value.perAmountUnit
-          : perAmountUnit // ignore: cast_nullable_to_non_nullable
-              as Unit,
-      perAmountValue: freezed == perAmountValue
-          ? _value.perAmountValue
-          : perAmountValue // ignore: cast_nullable_to_non_nullable
-              as double?,
-      nutrientAmounts: null == nutrientAmounts
-          ? _value.nutrientAmounts
-          : nutrientAmounts // ignore: cast_nullable_to_non_nullable
-              as List<NutrientAmountUiState>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NutritionFactsUiState &&
+            (identical(other.perAmountUnit, perAmountUnit) ||
+                other.perAmountUnit == perAmountUnit) &&
+            (identical(other.perAmountValue, perAmountValue) ||
+                other.perAmountValue == perAmountValue) &&
+            const DeepCollectionEquality()
+                .equals(other.nutrientAmounts, nutrientAmounts));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, perAmountUnit, perAmountValue,
+      const DeepCollectionEquality().hash(nutrientAmounts));
+
+  @override
+  String toString() {
+    return 'NutritionFactsUiState(perAmountUnit: $perAmountUnit, perAmountValue: $perAmountValue, nutrientAmounts: $nutrientAmounts)';
   }
 }
 
 /// @nodoc
-abstract class _$$NutritionFactsUiStateImplCopyWith<$Res>
-    implements $NutritionFactsUiStateCopyWith<$Res> {
-  factory _$$NutritionFactsUiStateImplCopyWith(
-          _$NutritionFactsUiStateImpl value,
-          $Res Function(_$NutritionFactsUiStateImpl) then) =
-      __$$NutritionFactsUiStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $NutritionFactsUiStateCopyWith<$Res> {
+  factory $NutritionFactsUiStateCopyWith(NutritionFactsUiState value,
+          $Res Function(NutritionFactsUiState) _then) =
+      _$NutritionFactsUiStateCopyWithImpl;
   @useResult
   $Res call(
       {Unit perAmountUnit,
@@ -93,13 +63,12 @@ abstract class _$$NutritionFactsUiStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$NutritionFactsUiStateImplCopyWithImpl<$Res>
-    extends _$NutritionFactsUiStateCopyWithImpl<$Res,
-        _$NutritionFactsUiStateImpl>
-    implements _$$NutritionFactsUiStateImplCopyWith<$Res> {
-  __$$NutritionFactsUiStateImplCopyWithImpl(_$NutritionFactsUiStateImpl _value,
-      $Res Function(_$NutritionFactsUiStateImpl) _then)
-      : super(_value, _then);
+class _$NutritionFactsUiStateCopyWithImpl<$Res>
+    implements $NutritionFactsUiStateCopyWith<$Res> {
+  _$NutritionFactsUiStateCopyWithImpl(this._self, this._then);
+
+  final NutritionFactsUiState _self;
+  final $Res Function(NutritionFactsUiState) _then;
 
   /// Create a copy of NutritionFactsUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -110,17 +79,17 @@ class __$$NutritionFactsUiStateImplCopyWithImpl<$Res>
     Object? perAmountValue = freezed,
     Object? nutrientAmounts = null,
   }) {
-    return _then(_$NutritionFactsUiStateImpl(
+    return _then(_self.copyWith(
       perAmountUnit: null == perAmountUnit
-          ? _value.perAmountUnit
+          ? _self.perAmountUnit
           : perAmountUnit // ignore: cast_nullable_to_non_nullable
               as Unit,
       perAmountValue: freezed == perAmountValue
-          ? _value.perAmountValue
+          ? _self.perAmountValue
           : perAmountValue // ignore: cast_nullable_to_non_nullable
               as double?,
       nutrientAmounts: null == nutrientAmounts
-          ? _value._nutrientAmounts
+          ? _self.nutrientAmounts
           : nutrientAmounts // ignore: cast_nullable_to_non_nullable
               as List<NutrientAmountUiState>,
     ));
@@ -129,8 +98,8 @@ class __$$NutritionFactsUiStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NutritionFactsUiStateImpl extends _NutritionFactsUiState {
-  const _$NutritionFactsUiStateImpl(
+class _NutritionFactsUiState extends NutritionFactsUiState {
+  const _NutritionFactsUiState(
       {required this.perAmountUnit,
       this.perAmountValue,
       required final List<NutrientAmountUiState> nutrientAmounts})
@@ -149,16 +118,20 @@ class _$NutritionFactsUiStateImpl extends _NutritionFactsUiState {
     return EqualUnmodifiableListView(_nutrientAmounts);
   }
 
+  /// Create a copy of NutritionFactsUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NutritionFactsUiState._default(perAmountUnit: $perAmountUnit, perAmountValue: $perAmountValue, nutrientAmounts: $nutrientAmounts)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NutritionFactsUiStateCopyWith<_NutritionFactsUiState> get copyWith =>
+      __$NutritionFactsUiStateCopyWithImpl<_NutritionFactsUiState>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NutritionFactsUiStateImpl &&
+            other is _NutritionFactsUiState &&
             (identical(other.perAmountUnit, perAmountUnit) ||
                 other.perAmountUnit == perAmountUnit) &&
             (identical(other.perAmountValue, perAmountValue) ||
@@ -171,35 +144,58 @@ class _$NutritionFactsUiStateImpl extends _NutritionFactsUiState {
   int get hashCode => Object.hash(runtimeType, perAmountUnit, perAmountValue,
       const DeepCollectionEquality().hash(_nutrientAmounts));
 
+  @override
+  String toString() {
+    return 'NutritionFactsUiState._default(perAmountUnit: $perAmountUnit, perAmountValue: $perAmountValue, nutrientAmounts: $nutrientAmounts)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$NutritionFactsUiStateCopyWith<$Res>
+    implements $NutritionFactsUiStateCopyWith<$Res> {
+  factory _$NutritionFactsUiStateCopyWith(_NutritionFactsUiState value,
+          $Res Function(_NutritionFactsUiState) _then) =
+      __$NutritionFactsUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {Unit perAmountUnit,
+      double? perAmountValue,
+      List<NutrientAmountUiState> nutrientAmounts});
+}
+
+/// @nodoc
+class __$NutritionFactsUiStateCopyWithImpl<$Res>
+    implements _$NutritionFactsUiStateCopyWith<$Res> {
+  __$NutritionFactsUiStateCopyWithImpl(this._self, this._then);
+
+  final _NutritionFactsUiState _self;
+  final $Res Function(_NutritionFactsUiState) _then;
+
   /// Create a copy of NutritionFactsUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$NutritionFactsUiStateImplCopyWith<_$NutritionFactsUiStateImpl>
-      get copyWith => __$$NutritionFactsUiStateImplCopyWithImpl<
-          _$NutritionFactsUiStateImpl>(this, _$identity);
+  $Res call({
+    Object? perAmountUnit = null,
+    Object? perAmountValue = freezed,
+    Object? nutrientAmounts = null,
+  }) {
+    return _then(_NutritionFactsUiState(
+      perAmountUnit: null == perAmountUnit
+          ? _self.perAmountUnit
+          : perAmountUnit // ignore: cast_nullable_to_non_nullable
+              as Unit,
+      perAmountValue: freezed == perAmountValue
+          ? _self.perAmountValue
+          : perAmountValue // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nutrientAmounts: null == nutrientAmounts
+          ? _self._nutrientAmounts
+          : nutrientAmounts // ignore: cast_nullable_to_non_nullable
+              as List<NutrientAmountUiState>,
+    ));
+  }
 }
 
-abstract class _NutritionFactsUiState extends NutritionFactsUiState {
-  const factory _NutritionFactsUiState(
-          {required final Unit perAmountUnit,
-          final double? perAmountValue,
-          required final List<NutrientAmountUiState> nutrientAmounts}) =
-      _$NutritionFactsUiStateImpl;
-  const _NutritionFactsUiState._() : super._();
-
-  @override
-  Unit get perAmountUnit;
-  @override
-  double? get perAmountValue;
-  @override
-  List<NutrientAmountUiState> get nutrientAmounts;
-
-  /// Create a copy of NutritionFactsUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutritionFactsUiStateImplCopyWith<_$NutritionFactsUiStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

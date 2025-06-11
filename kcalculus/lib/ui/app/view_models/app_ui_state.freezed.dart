@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,81 +10,54 @@ part of 'app_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AppUiState {
-  AppTheme get theme => throw _privateConstructorUsedError;
-  AppStage get stage => throw _privateConstructorUsedError;
+  AppTheme get theme;
+  AppStage get stage;
 
   /// Create a copy of AppUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AppUiStateCopyWith<AppUiState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AppUiStateCopyWith<$Res> {
-  factory $AppUiStateCopyWith(
-          AppUiState value, $Res Function(AppUiState) then) =
-      _$AppUiStateCopyWithImpl<$Res, AppUiState>;
-  @useResult
-  $Res call({AppTheme theme, AppStage stage});
-}
-
-/// @nodoc
-class _$AppUiStateCopyWithImpl<$Res, $Val extends AppUiState>
-    implements $AppUiStateCopyWith<$Res> {
-  _$AppUiStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AppUiState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $AppUiStateCopyWith<AppUiState> get copyWith =>
+      _$AppUiStateCopyWithImpl<AppUiState>(this as AppUiState, _$identity);
+
   @override
-  $Res call({
-    Object? theme = null,
-    Object? stage = null,
-  }) {
-    return _then(_value.copyWith(
-      theme: null == theme
-          ? _value.theme
-          : theme // ignore: cast_nullable_to_non_nullable
-              as AppTheme,
-      stage: null == stage
-          ? _value.stage
-          : stage // ignore: cast_nullable_to_non_nullable
-              as AppStage,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AppUiState &&
+            (identical(other.theme, theme) || other.theme == theme) &&
+            (identical(other.stage, stage) || other.stage == stage));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, theme, stage);
+
+  @override
+  String toString() {
+    return 'AppUiState(theme: $theme, stage: $stage)';
   }
 }
 
 /// @nodoc
-abstract class _$$AppUiStateImplCopyWith<$Res>
-    implements $AppUiStateCopyWith<$Res> {
-  factory _$$AppUiStateImplCopyWith(
-          _$AppUiStateImpl value, $Res Function(_$AppUiStateImpl) then) =
-      __$$AppUiStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $AppUiStateCopyWith<$Res> {
+  factory $AppUiStateCopyWith(
+          AppUiState value, $Res Function(AppUiState) _then) =
+      _$AppUiStateCopyWithImpl;
   @useResult
   $Res call({AppTheme theme, AppStage stage});
 }
 
 /// @nodoc
-class __$$AppUiStateImplCopyWithImpl<$Res>
-    extends _$AppUiStateCopyWithImpl<$Res, _$AppUiStateImpl>
-    implements _$$AppUiStateImplCopyWith<$Res> {
-  __$$AppUiStateImplCopyWithImpl(
-      _$AppUiStateImpl _value, $Res Function(_$AppUiStateImpl) _then)
-      : super(_value, _then);
+class _$AppUiStateCopyWithImpl<$Res> implements $AppUiStateCopyWith<$Res> {
+  _$AppUiStateCopyWithImpl(this._self, this._then);
+
+  final AppUiState _self;
+  final $Res Function(AppUiState) _then;
 
   /// Create a copy of AppUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -93,13 +67,13 @@ class __$$AppUiStateImplCopyWithImpl<$Res>
     Object? theme = null,
     Object? stage = null,
   }) {
-    return _then(_$AppUiStateImpl(
+    return _then(_self.copyWith(
       theme: null == theme
-          ? _value.theme
+          ? _self.theme
           : theme // ignore: cast_nullable_to_non_nullable
               as AppTheme,
       stage: null == stage
-          ? _value.stage
+          ? _self.stage
           : stage // ignore: cast_nullable_to_non_nullable
               as AppStage,
     ));
@@ -108,24 +82,27 @@ class __$$AppUiStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AppUiStateImpl implements _AppUiState {
-  const _$AppUiStateImpl({required this.theme, required this.stage});
+class _AppUiState implements AppUiState {
+  const _AppUiState({required this.theme, required this.stage});
 
   @override
   final AppTheme theme;
   @override
   final AppStage stage;
 
+  /// Create a copy of AppUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'AppUiState(theme: $theme, stage: $stage)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AppUiStateCopyWith<_AppUiState> get copyWith =>
+      __$AppUiStateCopyWithImpl<_AppUiState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AppUiStateImpl &&
+            other is _AppUiState &&
             (identical(other.theme, theme) || other.theme == theme) &&
             (identical(other.stage, stage) || other.stage == stage));
   }
@@ -133,29 +110,49 @@ class _$AppUiStateImpl implements _AppUiState {
   @override
   int get hashCode => Object.hash(runtimeType, theme, stage);
 
+  @override
+  String toString() {
+    return 'AppUiState(theme: $theme, stage: $stage)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$AppUiStateCopyWith<$Res>
+    implements $AppUiStateCopyWith<$Res> {
+  factory _$AppUiStateCopyWith(
+          _AppUiState value, $Res Function(_AppUiState) _then) =
+      __$AppUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call({AppTheme theme, AppStage stage});
+}
+
+/// @nodoc
+class __$AppUiStateCopyWithImpl<$Res> implements _$AppUiStateCopyWith<$Res> {
+  __$AppUiStateCopyWithImpl(this._self, this._then);
+
+  final _AppUiState _self;
+  final $Res Function(_AppUiState) _then;
+
   /// Create a copy of AppUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AppUiStateImplCopyWith<_$AppUiStateImpl> get copyWith =>
-      __$$AppUiStateImplCopyWithImpl<_$AppUiStateImpl>(this, _$identity);
+  $Res call({
+    Object? theme = null,
+    Object? stage = null,
+  }) {
+    return _then(_AppUiState(
+      theme: null == theme
+          ? _self.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as AppTheme,
+      stage: null == stage
+          ? _self.stage
+          : stage // ignore: cast_nullable_to_non_nullable
+              as AppStage,
+    ));
+  }
 }
 
-abstract class _AppUiState implements AppUiState {
-  const factory _AppUiState(
-      {required final AppTheme theme,
-      required final AppStage stage}) = _$AppUiStateImpl;
-
-  @override
-  AppTheme get theme;
-  @override
-  AppStage get stage;
-
-  /// Create a copy of AppUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AppUiStateImplCopyWith<_$AppUiStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

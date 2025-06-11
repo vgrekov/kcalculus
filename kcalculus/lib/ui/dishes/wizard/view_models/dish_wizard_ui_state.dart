@@ -16,7 +16,7 @@ enum DishWizardStep {
 }
 
 @freezed
-class DishWizardUiState with _$DishWizardUiState {
+sealed class DishWizardUiState with _$DishWizardUiState {
   const DishWizardUiState._();
 
   const factory DishWizardUiState._default({

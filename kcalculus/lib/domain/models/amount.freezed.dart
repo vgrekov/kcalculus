@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,130 +10,29 @@ part of 'amount.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-Amount _$AmountFromJson(Map<String, dynamic> json) {
-  return _Amount.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Amount {
-  Unit get unit => throw _privateConstructorUsedError;
-  double get value => throw _privateConstructorUsedError;
-
-  /// Serializes this Amount to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Unit get unit;
+  double get value;
 
   /// Create a copy of Amount
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AmountCopyWith<Amount> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AmountCopyWith<$Res> {
-  factory $AmountCopyWith(Amount value, $Res Function(Amount) then) =
-      _$AmountCopyWithImpl<$Res, Amount>;
-  @useResult
-  $Res call({Unit unit, double value});
-}
-
-/// @nodoc
-class _$AmountCopyWithImpl<$Res, $Val extends Amount>
-    implements $AmountCopyWith<$Res> {
-  _$AmountCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Amount
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? unit = null,
-    Object? value = null,
-  }) {
-    return _then(_value.copyWith(
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as Unit,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
-  }
-}
+  $AmountCopyWith<Amount> get copyWith =>
+      _$AmountCopyWithImpl<Amount>(this as Amount, _$identity);
 
-/// @nodoc
-abstract class _$$AmountImplCopyWith<$Res> implements $AmountCopyWith<$Res> {
-  factory _$$AmountImplCopyWith(
-          _$AmountImpl value, $Res Function(_$AmountImpl) then) =
-      __$$AmountImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Unit unit, double value});
-}
-
-/// @nodoc
-class __$$AmountImplCopyWithImpl<$Res>
-    extends _$AmountCopyWithImpl<$Res, _$AmountImpl>
-    implements _$$AmountImplCopyWith<$Res> {
-  __$$AmountImplCopyWithImpl(
-      _$AmountImpl _value, $Res Function(_$AmountImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Amount
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? unit = null,
-    Object? value = null,
-  }) {
-    return _then(_$AmountImpl(
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as Unit,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$AmountImpl extends _Amount {
-  const _$AmountImpl({required this.unit, required this.value}) : super._();
-
-  factory _$AmountImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AmountImplFromJson(json);
-
-  @override
-  final Unit unit;
-  @override
-  final double value;
-
-  @override
-  String toString() {
-    return 'Amount._default(unit: $unit, value: $value)';
-  }
+  /// Serializes this Amount to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AmountImpl &&
+            other is Amount &&
             (identical(other.unit, unit) || other.unit == unit) &&
             (identical(other.value, value) || other.value == value));
   }
@@ -141,38 +41,128 @@ class _$AmountImpl extends _Amount {
   @override
   int get hashCode => Object.hash(runtimeType, unit, value);
 
-  /// Create a copy of Amount
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$AmountImplCopyWith<_$AmountImpl> get copyWith =>
-      __$$AmountImplCopyWithImpl<_$AmountImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AmountImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Amount(unit: $unit, value: $value)';
   }
 }
 
-abstract class _Amount extends Amount {
-  const factory _Amount(
-      {required final Unit unit, required final double value}) = _$AmountImpl;
-  const _Amount._() : super._();
+/// @nodoc
+abstract mixin class $AmountCopyWith<$Res> {
+  factory $AmountCopyWith(Amount value, $Res Function(Amount) _then) =
+      _$AmountCopyWithImpl;
+  @useResult
+  $Res call({Unit unit, double value});
+}
 
-  factory _Amount.fromJson(Map<String, dynamic> json) = _$AmountImpl.fromJson;
+/// @nodoc
+class _$AmountCopyWithImpl<$Res> implements $AmountCopyWith<$Res> {
+  _$AmountCopyWithImpl(this._self, this._then);
+
+  final Amount _self;
+  final $Res Function(Amount) _then;
+
+  /// Create a copy of Amount
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? unit = null,
+    Object? value = null,
+  }) {
+    return _then(_self.copyWith(
+      unit: null == unit
+          ? _self.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as Unit,
+      value: null == value
+          ? _self.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _Amount extends Amount {
+  const _Amount({required this.unit, required this.value}) : super._();
+  factory _Amount.fromJson(Map<String, dynamic> json) => _$AmountFromJson(json);
 
   @override
-  Unit get unit;
+  final Unit unit;
   @override
-  double get value;
+  final double value;
 
   /// Create a copy of Amount
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AmountImplCopyWith<_$AmountImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$AmountCopyWith<_Amount> get copyWith =>
+      __$AmountCopyWithImpl<_Amount>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$AmountToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Amount &&
+            (identical(other.unit, unit) || other.unit == unit) &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, unit, value);
+
+  @override
+  String toString() {
+    return 'Amount._default(unit: $unit, value: $value)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$AmountCopyWith<$Res> implements $AmountCopyWith<$Res> {
+  factory _$AmountCopyWith(_Amount value, $Res Function(_Amount) _then) =
+      __$AmountCopyWithImpl;
+  @override
+  @useResult
+  $Res call({Unit unit, double value});
+}
+
+/// @nodoc
+class __$AmountCopyWithImpl<$Res> implements _$AmountCopyWith<$Res> {
+  __$AmountCopyWithImpl(this._self, this._then);
+
+  final _Amount _self;
+  final $Res Function(_Amount) _then;
+
+  /// Create a copy of Amount
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? unit = null,
+    Object? value = null,
+  }) {
+    return _then(_Amount(
+      unit: null == unit
+          ? _self.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as Unit,
+      value: null == value
+          ? _self.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+// dart format on

@@ -5,7 +5,8 @@ import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 part 'nutrition_facts_view_view_model_arg.freezed.dart';
 
 @freezed
-class NutritionFactsViewViewModelArg with _$NutritionFactsViewViewModelArg {
+sealed class NutritionFactsViewViewModelArg
+    with _$NutritionFactsViewViewModelArg {
   const factory NutritionFactsViewViewModelArg({
     required List<NutritionFacts> nutritionFacts,
     required List<Nutrient> nutrientDefaults,

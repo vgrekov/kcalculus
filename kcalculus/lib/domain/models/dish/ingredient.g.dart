@@ -6,7 +6,7 @@ part of 'ingredient.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Map<String, dynamic> _$$IngredientImplToJson(_$IngredientImpl instance) =>
+Map<String, dynamic> _$IngredientToJson(_Ingredient instance) =>
     <String, dynamic>{
       'edible': instance.edible,
       'amount': instance.amount,

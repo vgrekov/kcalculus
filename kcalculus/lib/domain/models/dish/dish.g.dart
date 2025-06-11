@@ -6,8 +6,7 @@ part of 'dish.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Map<String, dynamic> _$$DishImplToJson(_$DishImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$DishToJson(_Dish instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,

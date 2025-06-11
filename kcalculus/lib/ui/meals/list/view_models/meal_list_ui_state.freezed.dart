@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,31 +10,60 @@ part of 'meal_list_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$MealListUiState {
-  DateTime get date => throw _privateConstructorUsedError;
-  Future<List<Meal>> get dataLoader => throw _privateConstructorUsedError;
-  List<Meal> get data => throw _privateConstructorUsedError;
-  bool get showCalendar => throw _privateConstructorUsedError;
-  Amount? get energyGoalAmount => throw _privateConstructorUsedError;
+  DateTime get date;
+  Future<List<Meal>> get dataLoader;
+  List<Meal> get data;
+  bool get showCalendar;
+  Amount? get energyGoalAmount;
 
   /// Create a copy of MealListUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $MealListUiStateCopyWith<MealListUiState> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$MealListUiStateCopyWithImpl<MealListUiState>(
+          this as MealListUiState, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is MealListUiState &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.dataLoader, dataLoader) ||
+                other.dataLoader == dataLoader) &&
+            const DeepCollectionEquality().equals(other.data, data) &&
+            (identical(other.showCalendar, showCalendar) ||
+                other.showCalendar == showCalendar) &&
+            (identical(other.energyGoalAmount, energyGoalAmount) ||
+                other.energyGoalAmount == energyGoalAmount));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      date,
+      dataLoader,
+      const DeepCollectionEquality().hash(data),
+      showCalendar,
+      energyGoalAmount);
+
+  @override
+  String toString() {
+    return 'MealListUiState(date: $date, dataLoader: $dataLoader, data: $data, showCalendar: $showCalendar, energyGoalAmount: $energyGoalAmount)';
+  }
 }
 
 /// @nodoc
-abstract class $MealListUiStateCopyWith<$Res> {
+abstract mixin class $MealListUiStateCopyWith<$Res> {
   factory $MealListUiStateCopyWith(
-          MealListUiState value, $Res Function(MealListUiState) then) =
-      _$MealListUiStateCopyWithImpl<$Res, MealListUiState>;
+          MealListUiState value, $Res Function(MealListUiState) _then) =
+      _$MealListUiStateCopyWithImpl;
   @useResult
   $Res call(
       {DateTime date,
@@ -46,14 +76,12 @@ abstract class $MealListUiStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MealListUiStateCopyWithImpl<$Res, $Val extends MealListUiState>
+class _$MealListUiStateCopyWithImpl<$Res>
     implements $MealListUiStateCopyWith<$Res> {
-  _$MealListUiStateCopyWithImpl(this._value, this._then);
+  _$MealListUiStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final MealListUiState _self;
+  final $Res Function(MealListUiState) _then;
 
   /// Create a copy of MealListUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -66,28 +94,28 @@ class _$MealListUiStateCopyWithImpl<$Res, $Val extends MealListUiState>
     Object? showCalendar = null,
     Object? energyGoalAmount = freezed,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       date: null == date
-          ? _value.date
+          ? _self.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
       dataLoader: null == dataLoader
-          ? _value.dataLoader
+          ? _self.dataLoader
           : dataLoader // ignore: cast_nullable_to_non_nullable
               as Future<List<Meal>>,
       data: null == data
-          ? _value.data
+          ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<Meal>,
       showCalendar: null == showCalendar
-          ? _value.showCalendar
+          ? _self.showCalendar
           : showCalendar // ignore: cast_nullable_to_non_nullable
               as bool,
       energyGoalAmount: freezed == energyGoalAmount
-          ? _value.energyGoalAmount
+          ? _self.energyGoalAmount
           : energyGoalAmount // ignore: cast_nullable_to_non_nullable
               as Amount?,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of MealListUiState
@@ -95,83 +123,20 @@ class _$MealListUiStateCopyWithImpl<$Res, $Val extends MealListUiState>
   @override
   @pragma('vm:prefer-inline')
   $AmountCopyWith<$Res>? get energyGoalAmount {
-    if (_value.energyGoalAmount == null) {
+    if (_self.energyGoalAmount == null) {
       return null;
     }
 
-    return $AmountCopyWith<$Res>(_value.energyGoalAmount!, (value) {
-      return _then(_value.copyWith(energyGoalAmount: value) as $Val);
+    return $AmountCopyWith<$Res>(_self.energyGoalAmount!, (value) {
+      return _then(_self.copyWith(energyGoalAmount: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$MealListUiStateImplCopyWith<$Res>
-    implements $MealListUiStateCopyWith<$Res> {
-  factory _$$MealListUiStateImplCopyWith(_$MealListUiStateImpl value,
-          $Res Function(_$MealListUiStateImpl) then) =
-      __$$MealListUiStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {DateTime date,
-      Future<List<Meal>> dataLoader,
-      List<Meal> data,
-      bool showCalendar,
-      Amount? energyGoalAmount});
 
-  @override
-  $AmountCopyWith<$Res>? get energyGoalAmount;
-}
-
-/// @nodoc
-class __$$MealListUiStateImplCopyWithImpl<$Res>
-    extends _$MealListUiStateCopyWithImpl<$Res, _$MealListUiStateImpl>
-    implements _$$MealListUiStateImplCopyWith<$Res> {
-  __$$MealListUiStateImplCopyWithImpl(
-      _$MealListUiStateImpl _value, $Res Function(_$MealListUiStateImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of MealListUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? date = null,
-    Object? dataLoader = null,
-    Object? data = null,
-    Object? showCalendar = null,
-    Object? energyGoalAmount = freezed,
-  }) {
-    return _then(_$MealListUiStateImpl(
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      dataLoader: null == dataLoader
-          ? _value.dataLoader
-          : dataLoader // ignore: cast_nullable_to_non_nullable
-              as Future<List<Meal>>,
-      data: null == data
-          ? _value._data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<Meal>,
-      showCalendar: null == showCalendar
-          ? _value.showCalendar
-          : showCalendar // ignore: cast_nullable_to_non_nullable
-              as bool,
-      energyGoalAmount: freezed == energyGoalAmount
-          ? _value.energyGoalAmount
-          : energyGoalAmount // ignore: cast_nullable_to_non_nullable
-              as Amount?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$MealListUiStateImpl implements _MealListUiState {
-  const _$MealListUiStateImpl(
+class _MealListUiState implements MealListUiState {
+  const _MealListUiState(
       {required this.date,
       required this.dataLoader,
       final List<Meal> data = const [],
@@ -197,16 +162,19 @@ class _$MealListUiStateImpl implements _MealListUiState {
   @override
   final Amount? energyGoalAmount;
 
+  /// Create a copy of MealListUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'MealListUiState(date: $date, dataLoader: $dataLoader, data: $data, showCalendar: $showCalendar, energyGoalAmount: $energyGoalAmount)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$MealListUiStateCopyWith<_MealListUiState> get copyWith =>
+      __$MealListUiStateCopyWithImpl<_MealListUiState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MealListUiStateImpl &&
+            other is _MealListUiState &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.dataLoader, dataLoader) ||
                 other.dataLoader == dataLoader) &&
@@ -226,39 +194,87 @@ class _$MealListUiStateImpl implements _MealListUiState {
       showCalendar,
       energyGoalAmount);
 
+  @override
+  String toString() {
+    return 'MealListUiState(date: $date, dataLoader: $dataLoader, data: $data, showCalendar: $showCalendar, energyGoalAmount: $energyGoalAmount)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$MealListUiStateCopyWith<$Res>
+    implements $MealListUiStateCopyWith<$Res> {
+  factory _$MealListUiStateCopyWith(
+          _MealListUiState value, $Res Function(_MealListUiState) _then) =
+      __$MealListUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {DateTime date,
+      Future<List<Meal>> dataLoader,
+      List<Meal> data,
+      bool showCalendar,
+      Amount? energyGoalAmount});
+
+  @override
+  $AmountCopyWith<$Res>? get energyGoalAmount;
+}
+
+/// @nodoc
+class __$MealListUiStateCopyWithImpl<$Res>
+    implements _$MealListUiStateCopyWith<$Res> {
+  __$MealListUiStateCopyWithImpl(this._self, this._then);
+
+  final _MealListUiState _self;
+  final $Res Function(_MealListUiState) _then;
+
   /// Create a copy of MealListUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$MealListUiStateImplCopyWith<_$MealListUiStateImpl> get copyWith =>
-      __$$MealListUiStateImplCopyWithImpl<_$MealListUiStateImpl>(
-          this, _$identity);
-}
-
-abstract class _MealListUiState implements MealListUiState {
-  const factory _MealListUiState(
-      {required final DateTime date,
-      required final Future<List<Meal>> dataLoader,
-      final List<Meal> data,
-      required final bool showCalendar,
-      final Amount? energyGoalAmount}) = _$MealListUiStateImpl;
-
-  @override
-  DateTime get date;
-  @override
-  Future<List<Meal>> get dataLoader;
-  @override
-  List<Meal> get data;
-  @override
-  bool get showCalendar;
-  @override
-  Amount? get energyGoalAmount;
+  $Res call({
+    Object? date = null,
+    Object? dataLoader = null,
+    Object? data = null,
+    Object? showCalendar = null,
+    Object? energyGoalAmount = freezed,
+  }) {
+    return _then(_MealListUiState(
+      date: null == date
+          ? _self.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      dataLoader: null == dataLoader
+          ? _self.dataLoader
+          : dataLoader // ignore: cast_nullable_to_non_nullable
+              as Future<List<Meal>>,
+      data: null == data
+          ? _self._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Meal>,
+      showCalendar: null == showCalendar
+          ? _self.showCalendar
+          : showCalendar // ignore: cast_nullable_to_non_nullable
+              as bool,
+      energyGoalAmount: freezed == energyGoalAmount
+          ? _self.energyGoalAmount
+          : energyGoalAmount // ignore: cast_nullable_to_non_nullable
+              as Amount?,
+    ));
+  }
 
   /// Create a copy of MealListUiState
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MealListUiStateImplCopyWith<_$MealListUiStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $AmountCopyWith<$Res>? get energyGoalAmount {
+    if (_self.energyGoalAmount == null) {
+      return null;
+    }
+
+    return $AmountCopyWith<$Res>(_self.energyGoalAmount!, (value) {
+      return _then(_self.copyWith(energyGoalAmount: value));
+    });
+  }
 }
+
+// dart format on

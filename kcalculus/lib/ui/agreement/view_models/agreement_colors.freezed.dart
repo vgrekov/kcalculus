@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,124 +10,27 @@ part of 'agreement_colors.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AgreementColors {
-  Color get backgroundColor => throw _privateConstructorUsedError;
-  Color get textColor => throw _privateConstructorUsedError;
+  Color get backgroundColor;
+  Color get textColor;
 
   /// Create a copy of AgreementColors
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $AgreementColorsCopyWith<AgreementColors> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AgreementColorsCopyWith<$Res> {
-  factory $AgreementColorsCopyWith(
-          AgreementColors value, $Res Function(AgreementColors) then) =
-      _$AgreementColorsCopyWithImpl<$Res, AgreementColors>;
-  @useResult
-  $Res call({Color backgroundColor, Color textColor});
-}
-
-/// @nodoc
-class _$AgreementColorsCopyWithImpl<$Res, $Val extends AgreementColors>
-    implements $AgreementColorsCopyWith<$Res> {
-  _$AgreementColorsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AgreementColors
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? backgroundColor = null,
-    Object? textColor = null,
-  }) {
-    return _then(_value.copyWith(
-      backgroundColor: null == backgroundColor
-          ? _value.backgroundColor
-          : backgroundColor // ignore: cast_nullable_to_non_nullable
-              as Color,
-      textColor: null == textColor
-          ? _value.textColor
-          : textColor // ignore: cast_nullable_to_non_nullable
-              as Color,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$AgreementColorsImplCopyWith<$Res>
-    implements $AgreementColorsCopyWith<$Res> {
-  factory _$$AgreementColorsImplCopyWith(_$AgreementColorsImpl value,
-          $Res Function(_$AgreementColorsImpl) then) =
-      __$$AgreementColorsImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Color backgroundColor, Color textColor});
-}
-
-/// @nodoc
-class __$$AgreementColorsImplCopyWithImpl<$Res>
-    extends _$AgreementColorsCopyWithImpl<$Res, _$AgreementColorsImpl>
-    implements _$$AgreementColorsImplCopyWith<$Res> {
-  __$$AgreementColorsImplCopyWithImpl(
-      _$AgreementColorsImpl _value, $Res Function(_$AgreementColorsImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AgreementColors
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? backgroundColor = null,
-    Object? textColor = null,
-  }) {
-    return _then(_$AgreementColorsImpl(
-      backgroundColor: null == backgroundColor
-          ? _value.backgroundColor
-          : backgroundColor // ignore: cast_nullable_to_non_nullable
-              as Color,
-      textColor: null == textColor
-          ? _value.textColor
-          : textColor // ignore: cast_nullable_to_non_nullable
-              as Color,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$AgreementColorsImpl implements _AgreementColors {
-  const _$AgreementColorsImpl(
-      {required this.backgroundColor, required this.textColor});
-
-  @override
-  final Color backgroundColor;
-  @override
-  final Color textColor;
-
-  @override
-  String toString() {
-    return 'AgreementColors(backgroundColor: $backgroundColor, textColor: $textColor)';
-  }
+      _$AgreementColorsCopyWithImpl<AgreementColors>(
+          this as AgreementColors, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AgreementColorsImpl &&
+            other is AgreementColors &&
             (identical(other.backgroundColor, backgroundColor) ||
                 other.backgroundColor == backgroundColor) &&
             (identical(other.textColor, textColor) ||
@@ -136,30 +40,127 @@ class _$AgreementColorsImpl implements _AgreementColors {
   @override
   int get hashCode => Object.hash(runtimeType, backgroundColor, textColor);
 
+  @override
+  String toString() {
+    return 'AgreementColors(backgroundColor: $backgroundColor, textColor: $textColor)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $AgreementColorsCopyWith<$Res> {
+  factory $AgreementColorsCopyWith(
+          AgreementColors value, $Res Function(AgreementColors) _then) =
+      _$AgreementColorsCopyWithImpl;
+  @useResult
+  $Res call({Color backgroundColor, Color textColor});
+}
+
+/// @nodoc
+class _$AgreementColorsCopyWithImpl<$Res>
+    implements $AgreementColorsCopyWith<$Res> {
+  _$AgreementColorsCopyWithImpl(this._self, this._then);
+
+  final AgreementColors _self;
+  final $Res Function(AgreementColors) _then;
+
   /// Create a copy of AgreementColors
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? backgroundColor = null,
+    Object? textColor = null,
+  }) {
+    return _then(_self.copyWith(
+      backgroundColor: null == backgroundColor
+          ? _self.backgroundColor
+          : backgroundColor // ignore: cast_nullable_to_non_nullable
+              as Color,
+      textColor: null == textColor
+          ? _self.textColor
+          : textColor // ignore: cast_nullable_to_non_nullable
+              as Color,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _AgreementColors implements AgreementColors {
+  const _AgreementColors(
+      {required this.backgroundColor, required this.textColor});
+
+  @override
+  final Color backgroundColor;
+  @override
+  final Color textColor;
+
+  /// Create a copy of AgreementColors
+  /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AgreementColorsCopyWith<_AgreementColors> get copyWith =>
+      __$AgreementColorsCopyWithImpl<_AgreementColors>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _AgreementColors &&
+            (identical(other.backgroundColor, backgroundColor) ||
+                other.backgroundColor == backgroundColor) &&
+            (identical(other.textColor, textColor) ||
+                other.textColor == textColor));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, backgroundColor, textColor);
+
+  @override
+  String toString() {
+    return 'AgreementColors(backgroundColor: $backgroundColor, textColor: $textColor)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$AgreementColorsCopyWith<$Res>
+    implements $AgreementColorsCopyWith<$Res> {
+  factory _$AgreementColorsCopyWith(
+          _AgreementColors value, $Res Function(_AgreementColors) _then) =
+      __$AgreementColorsCopyWithImpl;
+  @override
+  @useResult
+  $Res call({Color backgroundColor, Color textColor});
+}
+
+/// @nodoc
+class __$AgreementColorsCopyWithImpl<$Res>
+    implements _$AgreementColorsCopyWith<$Res> {
+  __$AgreementColorsCopyWithImpl(this._self, this._then);
+
+  final _AgreementColors _self;
+  final $Res Function(_AgreementColors) _then;
+
+  /// Create a copy of AgreementColors
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  _$$AgreementColorsImplCopyWith<_$AgreementColorsImpl> get copyWith =>
-      __$$AgreementColorsImplCopyWithImpl<_$AgreementColorsImpl>(
-          this, _$identity);
+  $Res call({
+    Object? backgroundColor = null,
+    Object? textColor = null,
+  }) {
+    return _then(_AgreementColors(
+      backgroundColor: null == backgroundColor
+          ? _self.backgroundColor
+          : backgroundColor // ignore: cast_nullable_to_non_nullable
+              as Color,
+      textColor: null == textColor
+          ? _self.textColor
+          : textColor // ignore: cast_nullable_to_non_nullable
+              as Color,
+    ));
+  }
 }
 
-abstract class _AgreementColors implements AgreementColors {
-  const factory _AgreementColors(
-      {required final Color backgroundColor,
-      required final Color textColor}) = _$AgreementColorsImpl;
-
-  @override
-  Color get backgroundColor;
-  @override
-  Color get textColor;
-
-  /// Create a copy of AgreementColors
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AgreementColorsImplCopyWith<_$AgreementColorsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

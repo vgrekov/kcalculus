@@ -45,12 +45,16 @@ class AgreementViewModel
   }
 
   String _colorToRgba(Color color) {
-    int r = color.red;
-    int g = color.green;
-    int b = color.blue;
-    double a = color.alpha / 255.0;
+    int r = _denormalizeChannel(color.r);
+    int g = _denormalizeChannel(color.g);
+    int b = _denormalizeChannel(color.b);
+    double a = color.a;
 
     return 'rgba($r, $g, $b, $a)';
+  }
+
+  int _denormalizeChannel(double channel) {
+    return (channel * 255.0).round() & 0xff;
   }
 }
 

@@ -5,7 +5,7 @@ import 'package:kcalculus/domain/models/meal.dart';
 part 'meal_list_ui_state.freezed.dart';
 
 @freezed
-class MealListUiState with _$MealListUiState {
+sealed class MealListUiState with _$MealListUiState {
   const factory MealListUiState({
     required DateTime date,
     required Future<List<Meal>> dataLoader,

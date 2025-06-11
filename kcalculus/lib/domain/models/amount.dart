@@ -6,7 +6,7 @@ part 'amount.freezed.dart';
 part 'amount.g.dart';
 
 @freezed
-class Amount with _$Amount {
+sealed class Amount with _$Amount {
   const Amount._();
 
   const factory Amount._default({

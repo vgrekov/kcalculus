@@ -6,7 +6,7 @@ part 'nutrition_facts_v1.freezed.dart';
 part 'nutrition_facts_v1.g.dart';
 
 @freezed
-class NutritionFactsV1 with _$NutritionFactsV1 {
+sealed class NutritionFactsV1 with _$NutritionFactsV1 {
   const factory NutritionFactsV1({
     required Amount amount,
     required NutrientDataV1 nutrientData,

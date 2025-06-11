@@ -5,7 +5,7 @@ import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 part 'nutrient_node.freezed.dart';
 
 @freezed
-class NutrientNode with _$NutrientNode {
+sealed class NutrientNode with _$NutrientNode {
   const factory NutrientNode({
     required Nutrient nutrient,
     required Amount amount,

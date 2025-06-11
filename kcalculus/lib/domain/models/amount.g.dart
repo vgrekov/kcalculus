@@ -6,13 +6,12 @@ part of 'amount.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AmountImpl _$$AmountImplFromJson(Map<String, dynamic> json) => _$AmountImpl(
+_Amount _$AmountFromJson(Map<String, dynamic> json) => _Amount(
       unit: $enumDecode(_$UnitEnumMap, json['unit']),
       value: (json['value'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$AmountImplToJson(_$AmountImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$AmountToJson(_Amount instance) => <String, dynamic>{
       'unit': _$UnitEnumMap[instance.unit]!,
       'value': instance.value,
     };

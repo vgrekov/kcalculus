@@ -6,7 +6,7 @@ part 'nutrient_goal_db_model.freezed.dart';
 part 'nutrient_goal_db_model.g.dart';
 
 @freezed
-class NutrientGoalDbModel with _$NutrientGoalDbModel {
+sealed class NutrientGoalDbModel with _$NutrientGoalDbModel {
   const factory NutrientGoalDbModel({
     required String id,
     required String nutrient,

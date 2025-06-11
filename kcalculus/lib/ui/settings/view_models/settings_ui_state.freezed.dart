@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,138 +10,27 @@ part of 'settings_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SettingsUiState {
-  AppSettings get settings => throw _privateConstructorUsedError;
-  PackageInfo? get packageInfo => throw _privateConstructorUsedError;
+  AppSettings get settings;
+  PackageInfo? get packageInfo;
 
   /// Create a copy of SettingsUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $SettingsUiStateCopyWith<SettingsUiState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SettingsUiStateCopyWith<$Res> {
-  factory $SettingsUiStateCopyWith(
-          SettingsUiState value, $Res Function(SettingsUiState) then) =
-      _$SettingsUiStateCopyWithImpl<$Res, SettingsUiState>;
-  @useResult
-  $Res call({AppSettings settings, PackageInfo? packageInfo});
-
-  $AppSettingsCopyWith<$Res> get settings;
-}
-
-/// @nodoc
-class _$SettingsUiStateCopyWithImpl<$Res, $Val extends SettingsUiState>
-    implements $SettingsUiStateCopyWith<$Res> {
-  _$SettingsUiStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of SettingsUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? settings = null,
-    Object? packageInfo = freezed,
-  }) {
-    return _then(_value.copyWith(
-      settings: null == settings
-          ? _value.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as AppSettings,
-      packageInfo: freezed == packageInfo
-          ? _value.packageInfo
-          : packageInfo // ignore: cast_nullable_to_non_nullable
-              as PackageInfo?,
-    ) as $Val);
-  }
-
-  /// Create a copy of SettingsUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AppSettingsCopyWith<$Res> get settings {
-    return $AppSettingsCopyWith<$Res>(_value.settings, (value) {
-      return _then(_value.copyWith(settings: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$SettingsUiStateImplCopyWith<$Res>
-    implements $SettingsUiStateCopyWith<$Res> {
-  factory _$$SettingsUiStateImplCopyWith(_$SettingsUiStateImpl value,
-          $Res Function(_$SettingsUiStateImpl) then) =
-      __$$SettingsUiStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({AppSettings settings, PackageInfo? packageInfo});
-
-  @override
-  $AppSettingsCopyWith<$Res> get settings;
-}
-
-/// @nodoc
-class __$$SettingsUiStateImplCopyWithImpl<$Res>
-    extends _$SettingsUiStateCopyWithImpl<$Res, _$SettingsUiStateImpl>
-    implements _$$SettingsUiStateImplCopyWith<$Res> {
-  __$$SettingsUiStateImplCopyWithImpl(
-      _$SettingsUiStateImpl _value, $Res Function(_$SettingsUiStateImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of SettingsUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? settings = null,
-    Object? packageInfo = freezed,
-  }) {
-    return _then(_$SettingsUiStateImpl(
-      settings: null == settings
-          ? _value.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as AppSettings,
-      packageInfo: freezed == packageInfo
-          ? _value.packageInfo
-          : packageInfo // ignore: cast_nullable_to_non_nullable
-              as PackageInfo?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$SettingsUiStateImpl implements _SettingsUiState {
-  const _$SettingsUiStateImpl({required this.settings, this.packageInfo});
-
-  @override
-  final AppSettings settings;
-  @override
-  final PackageInfo? packageInfo;
-
-  @override
-  String toString() {
-    return 'SettingsUiState(settings: $settings, packageInfo: $packageInfo)';
-  }
+      _$SettingsUiStateCopyWithImpl<SettingsUiState>(
+          this as SettingsUiState, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SettingsUiStateImpl &&
+            other is SettingsUiState &&
             (identical(other.settings, settings) ||
                 other.settings == settings) &&
             (identical(other.packageInfo, packageInfo) ||
@@ -150,30 +40,151 @@ class _$SettingsUiStateImpl implements _SettingsUiState {
   @override
   int get hashCode => Object.hash(runtimeType, settings, packageInfo);
 
+  @override
+  String toString() {
+    return 'SettingsUiState(settings: $settings, packageInfo: $packageInfo)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SettingsUiStateCopyWith<$Res> {
+  factory $SettingsUiStateCopyWith(
+          SettingsUiState value, $Res Function(SettingsUiState) _then) =
+      _$SettingsUiStateCopyWithImpl;
+  @useResult
+  $Res call({AppSettings settings, PackageInfo? packageInfo});
+
+  $AppSettingsCopyWith<$Res> get settings;
+}
+
+/// @nodoc
+class _$SettingsUiStateCopyWithImpl<$Res>
+    implements $SettingsUiStateCopyWith<$Res> {
+  _$SettingsUiStateCopyWithImpl(this._self, this._then);
+
+  final SettingsUiState _self;
+  final $Res Function(SettingsUiState) _then;
+
   /// Create a copy of SettingsUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? settings = null,
+    Object? packageInfo = freezed,
+  }) {
+    return _then(_self.copyWith(
+      settings: null == settings
+          ? _self.settings
+          : settings // ignore: cast_nullable_to_non_nullable
+              as AppSettings,
+      packageInfo: freezed == packageInfo
+          ? _self.packageInfo
+          : packageInfo // ignore: cast_nullable_to_non_nullable
+              as PackageInfo?,
+    ));
+  }
+
+  /// Create a copy of SettingsUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  _$$SettingsUiStateImplCopyWith<_$SettingsUiStateImpl> get copyWith =>
-      __$$SettingsUiStateImplCopyWithImpl<_$SettingsUiStateImpl>(
-          this, _$identity);
+  $AppSettingsCopyWith<$Res> get settings {
+    return $AppSettingsCopyWith<$Res>(_self.settings, (value) {
+      return _then(_self.copyWith(settings: value));
+    });
+  }
 }
 
-abstract class _SettingsUiState implements SettingsUiState {
-  const factory _SettingsUiState(
-      {required final AppSettings settings,
-      final PackageInfo? packageInfo}) = _$SettingsUiStateImpl;
+/// @nodoc
+
+class _SettingsUiState implements SettingsUiState {
+  const _SettingsUiState({required this.settings, this.packageInfo});
 
   @override
-  AppSettings get settings;
+  final AppSettings settings;
   @override
-  PackageInfo? get packageInfo;
+  final PackageInfo? packageInfo;
 
   /// Create a copy of SettingsUiState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SettingsUiStateImplCopyWith<_$SettingsUiStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$SettingsUiStateCopyWith<_SettingsUiState> get copyWith =>
+      __$SettingsUiStateCopyWithImpl<_SettingsUiState>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SettingsUiState &&
+            (identical(other.settings, settings) ||
+                other.settings == settings) &&
+            (identical(other.packageInfo, packageInfo) ||
+                other.packageInfo == packageInfo));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, settings, packageInfo);
+
+  @override
+  String toString() {
+    return 'SettingsUiState(settings: $settings, packageInfo: $packageInfo)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$SettingsUiStateCopyWith<$Res>
+    implements $SettingsUiStateCopyWith<$Res> {
+  factory _$SettingsUiStateCopyWith(
+          _SettingsUiState value, $Res Function(_SettingsUiState) _then) =
+      __$SettingsUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call({AppSettings settings, PackageInfo? packageInfo});
+
+  @override
+  $AppSettingsCopyWith<$Res> get settings;
+}
+
+/// @nodoc
+class __$SettingsUiStateCopyWithImpl<$Res>
+    implements _$SettingsUiStateCopyWith<$Res> {
+  __$SettingsUiStateCopyWithImpl(this._self, this._then);
+
+  final _SettingsUiState _self;
+  final $Res Function(_SettingsUiState) _then;
+
+  /// Create a copy of SettingsUiState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? settings = null,
+    Object? packageInfo = freezed,
+  }) {
+    return _then(_SettingsUiState(
+      settings: null == settings
+          ? _self.settings
+          : settings // ignore: cast_nullable_to_non_nullable
+              as AppSettings,
+      packageInfo: freezed == packageInfo
+          ? _self.packageInfo
+          : packageInfo // ignore: cast_nullable_to_non_nullable
+              as PackageInfo?,
+    ));
+  }
+
+  /// Create a copy of SettingsUiState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AppSettingsCopyWith<$Res> get settings {
+    return $AppSettingsCopyWith<$Res>(_self.settings, (value) {
+      return _then(_self.copyWith(settings: value));
+    });
+  }
+}
+
+// dart format on

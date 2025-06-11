@@ -6,14 +6,13 @@ part of 'nutrient_amount.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$NutrientAmountImpl _$$NutrientAmountImplFromJson(Map<String, dynamic> json) =>
-    _$NutrientAmountImpl(
+_NutrientAmount _$NutrientAmountFromJson(Map<String, dynamic> json) =>
+    _NutrientAmount(
       nutrient: $enumDecode(_$NutrientEnumMap, json['nutrient']),
       amount: Amount.fromJson(json['amount'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$NutrientAmountImplToJson(
-        _$NutrientAmountImpl instance) =>
+Map<String, dynamic> _$NutrientAmountToJson(_NutrientAmount instance) =>
     <String, dynamic>{
       'nutrient': _$NutrientEnumMap[instance.nutrient]!,
       'amount': instance.amount,

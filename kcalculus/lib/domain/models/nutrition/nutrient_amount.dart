@@ -6,7 +6,7 @@ part 'nutrient_amount.freezed.dart';
 part 'nutrient_amount.g.dart';
 
 @freezed
-class NutrientAmount with _$NutrientAmount {
+sealed class NutrientAmount with _$NutrientAmount {
   const NutrientAmount._();
 
   const factory NutrientAmount({

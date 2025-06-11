@@ -6,9 +6,8 @@ part of 'edible_search_result.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EdibleSearchResultImpl _$$EdibleSearchResultImplFromJson(
-        Map<String, dynamic> json) =>
-    _$EdibleSearchResultImpl(
+_EdibleSearchResult _$EdibleSearchResultFromJson(Map<String, dynamic> json) =>
+    _EdibleSearchResult(
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String,
@@ -18,8 +17,7 @@ _$EdibleSearchResultImpl _$$EdibleSearchResultImplFromJson(
           : DateTime.parse(json['lastEatenAt'] as String),
     );
 
-Map<String, dynamic> _$$EdibleSearchResultImplToJson(
-        _$EdibleSearchResultImpl instance) =>
+Map<String, dynamic> _$EdibleSearchResultToJson(_EdibleSearchResult instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

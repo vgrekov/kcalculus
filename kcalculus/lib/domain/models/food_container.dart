@@ -8,7 +8,7 @@ part 'food_container.g.dart';
   fromJson: false,
   toJson: true,
 )
-class FoodContainer with _$FoodContainer {
+sealed class FoodContainer with _$FoodContainer {
   const factory FoodContainer({
     String? id,
     required String name,

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,90 +10,64 @@ part of 'nutrition_facts_input_view_model_arg.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$NutritionFactsInputViewModelArg {
-  List<NutritionFacts>? get nutritionFacts =>
-      throw _privateConstructorUsedError;
-  List<Nutrient> get defaultNutrients => throw _privateConstructorUsedError;
+  List<NutritionFacts>? get nutritionFacts;
+  List<Nutrient> get defaultNutrients;
 
   /// Create a copy of NutritionFactsInputViewModelArg
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NutritionFactsInputViewModelArgCopyWith<NutritionFactsInputViewModelArg>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NutritionFactsInputViewModelArgCopyWith<$Res> {
-  factory $NutritionFactsInputViewModelArgCopyWith(
-          NutritionFactsInputViewModelArg value,
-          $Res Function(NutritionFactsInputViewModelArg) then) =
-      _$NutritionFactsInputViewModelArgCopyWithImpl<$Res,
-          NutritionFactsInputViewModelArg>;
-  @useResult
-  $Res call(
-      {List<NutritionFacts>? nutritionFacts, List<Nutrient> defaultNutrients});
-}
-
-/// @nodoc
-class _$NutritionFactsInputViewModelArgCopyWithImpl<$Res,
-        $Val extends NutritionFactsInputViewModelArg>
-    implements $NutritionFactsInputViewModelArgCopyWith<$Res> {
-  _$NutritionFactsInputViewModelArgCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NutritionFactsInputViewModelArg
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $NutritionFactsInputViewModelArgCopyWith<NutritionFactsInputViewModelArg>
+      get copyWith => _$NutritionFactsInputViewModelArgCopyWithImpl<
+              NutritionFactsInputViewModelArg>(
+          this as NutritionFactsInputViewModelArg, _$identity);
+
   @override
-  $Res call({
-    Object? nutritionFacts = freezed,
-    Object? defaultNutrients = null,
-  }) {
-    return _then(_value.copyWith(
-      nutritionFacts: freezed == nutritionFacts
-          ? _value.nutritionFacts
-          : nutritionFacts // ignore: cast_nullable_to_non_nullable
-              as List<NutritionFacts>?,
-      defaultNutrients: null == defaultNutrients
-          ? _value.defaultNutrients
-          : defaultNutrients // ignore: cast_nullable_to_non_nullable
-              as List<Nutrient>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NutritionFactsInputViewModelArg &&
+            const DeepCollectionEquality()
+                .equals(other.nutritionFacts, nutritionFacts) &&
+            const DeepCollectionEquality()
+                .equals(other.defaultNutrients, defaultNutrients));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(nutritionFacts),
+      const DeepCollectionEquality().hash(defaultNutrients));
+
+  @override
+  String toString() {
+    return 'NutritionFactsInputViewModelArg(nutritionFacts: $nutritionFacts, defaultNutrients: $defaultNutrients)';
   }
 }
 
 /// @nodoc
-abstract class _$$NutritionFactsInputViewModelArgImplCopyWith<$Res>
-    implements $NutritionFactsInputViewModelArgCopyWith<$Res> {
-  factory _$$NutritionFactsInputViewModelArgImplCopyWith(
-          _$NutritionFactsInputViewModelArgImpl value,
-          $Res Function(_$NutritionFactsInputViewModelArgImpl) then) =
-      __$$NutritionFactsInputViewModelArgImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $NutritionFactsInputViewModelArgCopyWith<$Res> {
+  factory $NutritionFactsInputViewModelArgCopyWith(
+          NutritionFactsInputViewModelArg value,
+          $Res Function(NutritionFactsInputViewModelArg) _then) =
+      _$NutritionFactsInputViewModelArgCopyWithImpl;
   @useResult
   $Res call(
       {List<NutritionFacts>? nutritionFacts, List<Nutrient> defaultNutrients});
 }
 
 /// @nodoc
-class __$$NutritionFactsInputViewModelArgImplCopyWithImpl<$Res>
-    extends _$NutritionFactsInputViewModelArgCopyWithImpl<$Res,
-        _$NutritionFactsInputViewModelArgImpl>
-    implements _$$NutritionFactsInputViewModelArgImplCopyWith<$Res> {
-  __$$NutritionFactsInputViewModelArgImplCopyWithImpl(
-      _$NutritionFactsInputViewModelArgImpl _value,
-      $Res Function(_$NutritionFactsInputViewModelArgImpl) _then)
-      : super(_value, _then);
+class _$NutritionFactsInputViewModelArgCopyWithImpl<$Res>
+    implements $NutritionFactsInputViewModelArgCopyWith<$Res> {
+  _$NutritionFactsInputViewModelArgCopyWithImpl(this._self, this._then);
+
+  final NutritionFactsInputViewModelArg _self;
+  final $Res Function(NutritionFactsInputViewModelArg) _then;
 
   /// Create a copy of NutritionFactsInputViewModelArg
   /// with the given fields replaced by the non-null parameter values.
@@ -102,13 +77,13 @@ class __$$NutritionFactsInputViewModelArgImplCopyWithImpl<$Res>
     Object? nutritionFacts = freezed,
     Object? defaultNutrients = null,
   }) {
-    return _then(_$NutritionFactsInputViewModelArgImpl(
+    return _then(_self.copyWith(
       nutritionFacts: freezed == nutritionFacts
-          ? _value._nutritionFacts
+          ? _self.nutritionFacts
           : nutritionFacts // ignore: cast_nullable_to_non_nullable
               as List<NutritionFacts>?,
       defaultNutrients: null == defaultNutrients
-          ? _value._defaultNutrients
+          ? _self.defaultNutrients
           : defaultNutrients // ignore: cast_nullable_to_non_nullable
               as List<Nutrient>,
     ));
@@ -117,9 +92,9 @@ class __$$NutritionFactsInputViewModelArgImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NutritionFactsInputViewModelArgImpl
-    implements _NutritionFactsInputViewModelArg {
-  const _$NutritionFactsInputViewModelArgImpl(
+class _NutritionFactsInputViewModelArg
+    implements NutritionFactsInputViewModelArg {
+  const _NutritionFactsInputViewModelArg(
       {final List<NutritionFacts>? nutritionFacts,
       required final List<Nutrient> defaultNutrients})
       : _nutritionFacts = nutritionFacts,
@@ -144,16 +119,20 @@ class _$NutritionFactsInputViewModelArgImpl
     return EqualUnmodifiableListView(_defaultNutrients);
   }
 
+  /// Create a copy of NutritionFactsInputViewModelArg
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NutritionFactsInputViewModelArg(nutritionFacts: $nutritionFacts, defaultNutrients: $defaultNutrients)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NutritionFactsInputViewModelArgCopyWith<_NutritionFactsInputViewModelArg>
+      get copyWith => __$NutritionFactsInputViewModelArgCopyWithImpl<
+          _NutritionFactsInputViewModelArg>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NutritionFactsInputViewModelArgImpl &&
+            other is _NutritionFactsInputViewModelArg &&
             const DeepCollectionEquality()
                 .equals(other._nutritionFacts, _nutritionFacts) &&
             const DeepCollectionEquality()
@@ -166,34 +145,52 @@ class _$NutritionFactsInputViewModelArgImpl
       const DeepCollectionEquality().hash(_nutritionFacts),
       const DeepCollectionEquality().hash(_defaultNutrients));
 
+  @override
+  String toString() {
+    return 'NutritionFactsInputViewModelArg(nutritionFacts: $nutritionFacts, defaultNutrients: $defaultNutrients)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$NutritionFactsInputViewModelArgCopyWith<$Res>
+    implements $NutritionFactsInputViewModelArgCopyWith<$Res> {
+  factory _$NutritionFactsInputViewModelArgCopyWith(
+          _NutritionFactsInputViewModelArg value,
+          $Res Function(_NutritionFactsInputViewModelArg) _then) =
+      __$NutritionFactsInputViewModelArgCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<NutritionFacts>? nutritionFacts, List<Nutrient> defaultNutrients});
+}
+
+/// @nodoc
+class __$NutritionFactsInputViewModelArgCopyWithImpl<$Res>
+    implements _$NutritionFactsInputViewModelArgCopyWith<$Res> {
+  __$NutritionFactsInputViewModelArgCopyWithImpl(this._self, this._then);
+
+  final _NutritionFactsInputViewModelArg _self;
+  final $Res Function(_NutritionFactsInputViewModelArg) _then;
+
   /// Create a copy of NutritionFactsInputViewModelArg
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$NutritionFactsInputViewModelArgImplCopyWith<
-          _$NutritionFactsInputViewModelArgImpl>
-      get copyWith => __$$NutritionFactsInputViewModelArgImplCopyWithImpl<
-          _$NutritionFactsInputViewModelArgImpl>(this, _$identity);
+  $Res call({
+    Object? nutritionFacts = freezed,
+    Object? defaultNutrients = null,
+  }) {
+    return _then(_NutritionFactsInputViewModelArg(
+      nutritionFacts: freezed == nutritionFacts
+          ? _self._nutritionFacts
+          : nutritionFacts // ignore: cast_nullable_to_non_nullable
+              as List<NutritionFacts>?,
+      defaultNutrients: null == defaultNutrients
+          ? _self._defaultNutrients
+          : defaultNutrients // ignore: cast_nullable_to_non_nullable
+              as List<Nutrient>,
+    ));
+  }
 }
 
-abstract class _NutritionFactsInputViewModelArg
-    implements NutritionFactsInputViewModelArg {
-  const factory _NutritionFactsInputViewModelArg(
-          {final List<NutritionFacts>? nutritionFacts,
-          required final List<Nutrient> defaultNutrients}) =
-      _$NutritionFactsInputViewModelArgImpl;
-
-  @override
-  List<NutritionFacts>? get nutritionFacts;
-  @override
-  List<Nutrient> get defaultNutrients;
-
-  /// Create a copy of NutritionFactsInputViewModelArg
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutritionFactsInputViewModelArgImplCopyWith<
-          _$NutritionFactsInputViewModelArgImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

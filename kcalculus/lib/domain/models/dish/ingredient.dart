@@ -10,7 +10,9 @@ part 'ingredient.g.dart';
   fromJson: false,
   toJson: true,
 )
-class Ingredient with _$Ingredient, Portion {
+sealed class Ingredient with _$Ingredient, Portion {
+  const Ingredient._();
+
   @With<Portion>()
   const factory Ingredient({
     required Edible edible,

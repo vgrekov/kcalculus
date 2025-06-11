@@ -1,5 +1,5 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/l10n/app_localizations.dart';
 
 enum Nutrient {
   energy(

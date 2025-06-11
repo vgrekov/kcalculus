@@ -26,7 +26,7 @@ class Scanner extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: MobileScanner(
           controller: controller,
-          errorBuilder: (context, error, widget) {
+          errorBuilder: (context, error) {
             return ScannerError(error: error);
           },
         ),

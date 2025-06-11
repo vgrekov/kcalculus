@@ -5,7 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 part 'settings_ui_state.freezed.dart';
 
 @freezed
-class SettingsUiState with _$SettingsUiState {
+sealed class SettingsUiState with _$SettingsUiState {
   const factory SettingsUiState({
     required AppSettings settings,
     PackageInfo? packageInfo,

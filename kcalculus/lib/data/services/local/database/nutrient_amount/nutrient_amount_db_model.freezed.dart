@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,191 +10,33 @@ part of 'nutrient_amount_db_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-NutrientAmountDbModel _$NutrientAmountDbModelFromJson(
-    Map<String, dynamic> json) {
-  return _NutrientAmountDbModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$NutrientAmountDbModel {
-  String get nutrition_facts_id => throw _privateConstructorUsedError;
-  String get nutrient => throw _privateConstructorUsedError;
-  String get amount_unit => throw _privateConstructorUsedError;
-  double get amount_value => throw _privateConstructorUsedError;
-  int get position => throw _privateConstructorUsedError;
-
-  /// Serializes this NutrientAmountDbModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get nutrition_facts_id;
+  String get nutrient;
+  String get amount_unit;
+  double get amount_value;
+  int get position;
 
   /// Create a copy of NutrientAmountDbModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NutrientAmountDbModelCopyWith<NutrientAmountDbModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$NutrientAmountDbModelCopyWithImpl<NutrientAmountDbModel>(
+          this as NutrientAmountDbModel, _$identity);
 
-/// @nodoc
-abstract class $NutrientAmountDbModelCopyWith<$Res> {
-  factory $NutrientAmountDbModelCopyWith(NutrientAmountDbModel value,
-          $Res Function(NutrientAmountDbModel) then) =
-      _$NutrientAmountDbModelCopyWithImpl<$Res, NutrientAmountDbModel>;
-  @useResult
-  $Res call(
-      {String nutrition_facts_id,
-      String nutrient,
-      String amount_unit,
-      double amount_value,
-      int position});
-}
-
-/// @nodoc
-class _$NutrientAmountDbModelCopyWithImpl<$Res,
-        $Val extends NutrientAmountDbModel>
-    implements $NutrientAmountDbModelCopyWith<$Res> {
-  _$NutrientAmountDbModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NutrientAmountDbModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? nutrition_facts_id = null,
-    Object? nutrient = null,
-    Object? amount_unit = null,
-    Object? amount_value = null,
-    Object? position = null,
-  }) {
-    return _then(_value.copyWith(
-      nutrition_facts_id: null == nutrition_facts_id
-          ? _value.nutrition_facts_id
-          : nutrition_facts_id // ignore: cast_nullable_to_non_nullable
-              as String,
-      nutrient: null == nutrient
-          ? _value.nutrient
-          : nutrient // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount_unit: null == amount_unit
-          ? _value.amount_unit
-          : amount_unit // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount_value: null == amount_value
-          ? _value.amount_value
-          : amount_value // ignore: cast_nullable_to_non_nullable
-              as double,
-      position: null == position
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$NutrientAmountDbModelImplCopyWith<$Res>
-    implements $NutrientAmountDbModelCopyWith<$Res> {
-  factory _$$NutrientAmountDbModelImplCopyWith(
-          _$NutrientAmountDbModelImpl value,
-          $Res Function(_$NutrientAmountDbModelImpl) then) =
-      __$$NutrientAmountDbModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String nutrition_facts_id,
-      String nutrient,
-      String amount_unit,
-      double amount_value,
-      int position});
-}
-
-/// @nodoc
-class __$$NutrientAmountDbModelImplCopyWithImpl<$Res>
-    extends _$NutrientAmountDbModelCopyWithImpl<$Res,
-        _$NutrientAmountDbModelImpl>
-    implements _$$NutrientAmountDbModelImplCopyWith<$Res> {
-  __$$NutrientAmountDbModelImplCopyWithImpl(_$NutrientAmountDbModelImpl _value,
-      $Res Function(_$NutrientAmountDbModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NutrientAmountDbModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? nutrition_facts_id = null,
-    Object? nutrient = null,
-    Object? amount_unit = null,
-    Object? amount_value = null,
-    Object? position = null,
-  }) {
-    return _then(_$NutrientAmountDbModelImpl(
-      nutrition_facts_id: null == nutrition_facts_id
-          ? _value.nutrition_facts_id
-          : nutrition_facts_id // ignore: cast_nullable_to_non_nullable
-              as String,
-      nutrient: null == nutrient
-          ? _value.nutrient
-          : nutrient // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount_unit: null == amount_unit
-          ? _value.amount_unit
-          : amount_unit // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount_value: null == amount_value
-          ? _value.amount_value
-          : amount_value // ignore: cast_nullable_to_non_nullable
-              as double,
-      position: null == position
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$NutrientAmountDbModelImpl implements _NutrientAmountDbModel {
-  _$NutrientAmountDbModelImpl(
-      {required this.nutrition_facts_id,
-      required this.nutrient,
-      required this.amount_unit,
-      required this.amount_value,
-      required this.position});
-
-  factory _$NutrientAmountDbModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$NutrientAmountDbModelImplFromJson(json);
-
-  @override
-  final String nutrition_facts_id;
-  @override
-  final String nutrient;
-  @override
-  final String amount_unit;
-  @override
-  final double amount_value;
-  @override
-  final int position;
-
-  @override
-  String toString() {
-    return 'NutrientAmountDbModel(nutrition_facts_id: $nutrition_facts_id, nutrient: $nutrient, amount_unit: $amount_unit, amount_value: $amount_value, position: $position)';
-  }
+  /// Serializes this NutrientAmountDbModel to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NutrientAmountDbModelImpl &&
+            other is NutrientAmountDbModel &&
             (identical(other.nutrition_facts_id, nutrition_facts_id) ||
                 other.nutrition_facts_id == nutrition_facts_id) &&
             (identical(other.nutrient, nutrient) ||
@@ -211,49 +54,195 @@ class _$NutrientAmountDbModelImpl implements _NutrientAmountDbModel {
   int get hashCode => Object.hash(runtimeType, nutrition_facts_id, nutrient,
       amount_unit, amount_value, position);
 
-  /// Create a copy of NutrientAmountDbModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NutrientAmountDbModelImplCopyWith<_$NutrientAmountDbModelImpl>
-      get copyWith => __$$NutrientAmountDbModelImplCopyWithImpl<
-          _$NutrientAmountDbModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NutrientAmountDbModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NutrientAmountDbModel(nutrition_facts_id: $nutrition_facts_id, nutrient: $nutrient, amount_unit: $amount_unit, amount_value: $amount_value, position: $position)';
   }
 }
 
-abstract class _NutrientAmountDbModel implements NutrientAmountDbModel {
-  factory _NutrientAmountDbModel(
-      {required final String nutrition_facts_id,
-      required final String nutrient,
-      required final String amount_unit,
-      required final double amount_value,
-      required final int position}) = _$NutrientAmountDbModelImpl;
+/// @nodoc
+abstract mixin class $NutrientAmountDbModelCopyWith<$Res> {
+  factory $NutrientAmountDbModelCopyWith(NutrientAmountDbModel value,
+          $Res Function(NutrientAmountDbModel) _then) =
+      _$NutrientAmountDbModelCopyWithImpl;
+  @useResult
+  $Res call(
+      {String nutrition_facts_id,
+      String nutrient,
+      String amount_unit,
+      double amount_value,
+      int position});
+}
 
-  factory _NutrientAmountDbModel.fromJson(Map<String, dynamic> json) =
-      _$NutrientAmountDbModelImpl.fromJson;
+/// @nodoc
+class _$NutrientAmountDbModelCopyWithImpl<$Res>
+    implements $NutrientAmountDbModelCopyWith<$Res> {
+  _$NutrientAmountDbModelCopyWithImpl(this._self, this._then);
+
+  final NutrientAmountDbModel _self;
+  final $Res Function(NutrientAmountDbModel) _then;
+
+  /// Create a copy of NutrientAmountDbModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? nutrition_facts_id = null,
+    Object? nutrient = null,
+    Object? amount_unit = null,
+    Object? amount_value = null,
+    Object? position = null,
+  }) {
+    return _then(_self.copyWith(
+      nutrition_facts_id: null == nutrition_facts_id
+          ? _self.nutrition_facts_id
+          : nutrition_facts_id // ignore: cast_nullable_to_non_nullable
+              as String,
+      nutrient: null == nutrient
+          ? _self.nutrient
+          : nutrient // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount_unit: null == amount_unit
+          ? _self.amount_unit
+          : amount_unit // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount_value: null == amount_value
+          ? _self.amount_value
+          : amount_value // ignore: cast_nullable_to_non_nullable
+              as double,
+      position: null == position
+          ? _self.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _NutrientAmountDbModel implements NutrientAmountDbModel {
+  _NutrientAmountDbModel(
+      {required this.nutrition_facts_id,
+      required this.nutrient,
+      required this.amount_unit,
+      required this.amount_value,
+      required this.position});
+  factory _NutrientAmountDbModel.fromJson(Map<String, dynamic> json) =>
+      _$NutrientAmountDbModelFromJson(json);
 
   @override
-  String get nutrition_facts_id;
+  final String nutrition_facts_id;
   @override
-  String get nutrient;
+  final String nutrient;
   @override
-  String get amount_unit;
+  final String amount_unit;
   @override
-  double get amount_value;
+  final double amount_value;
   @override
-  int get position;
+  final int position;
 
   /// Create a copy of NutrientAmountDbModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutrientAmountDbModelImplCopyWith<_$NutrientAmountDbModelImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$NutrientAmountDbModelCopyWith<_NutrientAmountDbModel> get copyWith =>
+      __$NutrientAmountDbModelCopyWithImpl<_NutrientAmountDbModel>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NutrientAmountDbModelToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _NutrientAmountDbModel &&
+            (identical(other.nutrition_facts_id, nutrition_facts_id) ||
+                other.nutrition_facts_id == nutrition_facts_id) &&
+            (identical(other.nutrient, nutrient) ||
+                other.nutrient == nutrient) &&
+            (identical(other.amount_unit, amount_unit) ||
+                other.amount_unit == amount_unit) &&
+            (identical(other.amount_value, amount_value) ||
+                other.amount_value == amount_value) &&
+            (identical(other.position, position) ||
+                other.position == position));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, nutrition_facts_id, nutrient,
+      amount_unit, amount_value, position);
+
+  @override
+  String toString() {
+    return 'NutrientAmountDbModel(nutrition_facts_id: $nutrition_facts_id, nutrient: $nutrient, amount_unit: $amount_unit, amount_value: $amount_value, position: $position)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$NutrientAmountDbModelCopyWith<$Res>
+    implements $NutrientAmountDbModelCopyWith<$Res> {
+  factory _$NutrientAmountDbModelCopyWith(_NutrientAmountDbModel value,
+          $Res Function(_NutrientAmountDbModel) _then) =
+      __$NutrientAmountDbModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String nutrition_facts_id,
+      String nutrient,
+      String amount_unit,
+      double amount_value,
+      int position});
+}
+
+/// @nodoc
+class __$NutrientAmountDbModelCopyWithImpl<$Res>
+    implements _$NutrientAmountDbModelCopyWith<$Res> {
+  __$NutrientAmountDbModelCopyWithImpl(this._self, this._then);
+
+  final _NutrientAmountDbModel _self;
+  final $Res Function(_NutrientAmountDbModel) _then;
+
+  /// Create a copy of NutrientAmountDbModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? nutrition_facts_id = null,
+    Object? nutrient = null,
+    Object? amount_unit = null,
+    Object? amount_value = null,
+    Object? position = null,
+  }) {
+    return _then(_NutrientAmountDbModel(
+      nutrition_facts_id: null == nutrition_facts_id
+          ? _self.nutrition_facts_id
+          : nutrition_facts_id // ignore: cast_nullable_to_non_nullable
+              as String,
+      nutrient: null == nutrient
+          ? _self.nutrient
+          : nutrient // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount_unit: null == amount_unit
+          ? _self.amount_unit
+          : amount_unit // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount_value: null == amount_value
+          ? _self.amount_value
+          : amount_value // ignore: cast_nullable_to_non_nullable
+              as double,
+      position: null == position
+          ? _self.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+// dart format on

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,29 +10,48 @@ part of 'nutrient_node.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$NutrientNode {
-  Nutrient get nutrient => throw _privateConstructorUsedError;
-  Amount get amount => throw _privateConstructorUsedError;
-  int get level => throw _privateConstructorUsedError;
+  Nutrient get nutrient;
+  Amount get amount;
+  int get level;
 
   /// Create a copy of NutrientNode
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NutrientNodeCopyWith<NutrientNode> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$NutrientNodeCopyWithImpl<NutrientNode>(
+          this as NutrientNode, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NutrientNode &&
+            (identical(other.nutrient, nutrient) ||
+                other.nutrient == nutrient) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.level, level) || other.level == level));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, nutrient, amount, level);
+
+  @override
+  String toString() {
+    return 'NutrientNode(nutrient: $nutrient, amount: $amount, level: $level)';
+  }
 }
 
 /// @nodoc
-abstract class $NutrientNodeCopyWith<$Res> {
+abstract mixin class $NutrientNodeCopyWith<$Res> {
   factory $NutrientNodeCopyWith(
-          NutrientNode value, $Res Function(NutrientNode) then) =
-      _$NutrientNodeCopyWithImpl<$Res, NutrientNode>;
+          NutrientNode value, $Res Function(NutrientNode) _then) =
+      _$NutrientNodeCopyWithImpl;
   @useResult
   $Res call({Nutrient nutrient, Amount amount, int level});
 
@@ -39,14 +59,11 @@ abstract class $NutrientNodeCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NutrientNodeCopyWithImpl<$Res, $Val extends NutrientNode>
-    implements $NutrientNodeCopyWith<$Res> {
-  _$NutrientNodeCopyWithImpl(this._value, this._then);
+class _$NutrientNodeCopyWithImpl<$Res> implements $NutrientNodeCopyWith<$Res> {
+  _$NutrientNodeCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final NutrientNode _self;
+  final $Res Function(NutrientNode) _then;
 
   /// Create a copy of NutrientNode
   /// with the given fields replaced by the non-null parameter values.
@@ -57,20 +74,20 @@ class _$NutrientNodeCopyWithImpl<$Res, $Val extends NutrientNode>
     Object? amount = null,
     Object? level = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       nutrient: null == nutrient
-          ? _value.nutrient
+          ? _self.nutrient
           : nutrient // ignore: cast_nullable_to_non_nullable
               as Nutrient,
       amount: null == amount
-          ? _value.amount
+          ? _self.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as Amount,
       level: null == level
-          ? _value.level
+          ? _self.level
           : level // ignore: cast_nullable_to_non_nullable
               as int,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of NutrientNode
@@ -78,64 +95,16 @@ class _$NutrientNodeCopyWithImpl<$Res, $Val extends NutrientNode>
   @override
   @pragma('vm:prefer-inline')
   $AmountCopyWith<$Res> get amount {
-    return $AmountCopyWith<$Res>(_value.amount, (value) {
-      return _then(_value.copyWith(amount: value) as $Val);
+    return $AmountCopyWith<$Res>(_self.amount, (value) {
+      return _then(_self.copyWith(amount: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$NutrientNodeImplCopyWith<$Res>
-    implements $NutrientNodeCopyWith<$Res> {
-  factory _$$NutrientNodeImplCopyWith(
-          _$NutrientNodeImpl value, $Res Function(_$NutrientNodeImpl) then) =
-      __$$NutrientNodeImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Nutrient nutrient, Amount amount, int level});
 
-  @override
-  $AmountCopyWith<$Res> get amount;
-}
-
-/// @nodoc
-class __$$NutrientNodeImplCopyWithImpl<$Res>
-    extends _$NutrientNodeCopyWithImpl<$Res, _$NutrientNodeImpl>
-    implements _$$NutrientNodeImplCopyWith<$Res> {
-  __$$NutrientNodeImplCopyWithImpl(
-      _$NutrientNodeImpl _value, $Res Function(_$NutrientNodeImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NutrientNode
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? nutrient = null,
-    Object? amount = null,
-    Object? level = null,
-  }) {
-    return _then(_$NutrientNodeImpl(
-      nutrient: null == nutrient
-          ? _value.nutrient
-          : nutrient // ignore: cast_nullable_to_non_nullable
-              as Nutrient,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as Amount,
-      level: null == level
-          ? _value.level
-          : level // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$NutrientNodeImpl implements _NutrientNode {
-  const _$NutrientNodeImpl(
+class _NutrientNode implements NutrientNode {
+  const _NutrientNode(
       {required this.nutrient, required this.amount, this.level = 0});
 
   @override
@@ -146,16 +115,19 @@ class _$NutrientNodeImpl implements _NutrientNode {
   @JsonKey()
   final int level;
 
+  /// Create a copy of NutrientNode
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NutrientNode(nutrient: $nutrient, amount: $amount, level: $level)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NutrientNodeCopyWith<_NutrientNode> get copyWith =>
+      __$NutrientNodeCopyWithImpl<_NutrientNode>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NutrientNodeImpl &&
+            other is _NutrientNode &&
             (identical(other.nutrient, nutrient) ||
                 other.nutrient == nutrient) &&
             (identical(other.amount, amount) || other.amount == amount) &&
@@ -165,32 +137,68 @@ class _$NutrientNodeImpl implements _NutrientNode {
   @override
   int get hashCode => Object.hash(runtimeType, nutrient, amount, level);
 
+  @override
+  String toString() {
+    return 'NutrientNode(nutrient: $nutrient, amount: $amount, level: $level)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$NutrientNodeCopyWith<$Res>
+    implements $NutrientNodeCopyWith<$Res> {
+  factory _$NutrientNodeCopyWith(
+          _NutrientNode value, $Res Function(_NutrientNode) _then) =
+      __$NutrientNodeCopyWithImpl;
+  @override
+  @useResult
+  $Res call({Nutrient nutrient, Amount amount, int level});
+
+  @override
+  $AmountCopyWith<$Res> get amount;
+}
+
+/// @nodoc
+class __$NutrientNodeCopyWithImpl<$Res>
+    implements _$NutrientNodeCopyWith<$Res> {
+  __$NutrientNodeCopyWithImpl(this._self, this._then);
+
+  final _NutrientNode _self;
+  final $Res Function(_NutrientNode) _then;
+
   /// Create a copy of NutrientNode
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$NutrientNodeImplCopyWith<_$NutrientNodeImpl> get copyWith =>
-      __$$NutrientNodeImplCopyWithImpl<_$NutrientNodeImpl>(this, _$identity);
-}
-
-abstract class _NutrientNode implements NutrientNode {
-  const factory _NutrientNode(
-      {required final Nutrient nutrient,
-      required final Amount amount,
-      final int level}) = _$NutrientNodeImpl;
-
-  @override
-  Nutrient get nutrient;
-  @override
-  Amount get amount;
-  @override
-  int get level;
+  $Res call({
+    Object? nutrient = null,
+    Object? amount = null,
+    Object? level = null,
+  }) {
+    return _then(_NutrientNode(
+      nutrient: null == nutrient
+          ? _self.nutrient
+          : nutrient // ignore: cast_nullable_to_non_nullable
+              as Nutrient,
+      amount: null == amount
+          ? _self.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as Amount,
+      level: null == level
+          ? _self.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 
   /// Create a copy of NutrientNode
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutrientNodeImplCopyWith<_$NutrientNodeImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $AmountCopyWith<$Res> get amount {
+    return $AmountCopyWith<$Res>(_self.amount, (value) {
+      return _then(_self.copyWith(amount: value));
+    });
+  }
 }
+
+// dart format on

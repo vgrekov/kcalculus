@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,187 +10,32 @@ part of 'app_settings.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-AppSettings _$AppSettingsFromJson(Map<String, dynamic> json) {
-  return _AppSettings.fromJson(json);
-}
 
 /// @nodoc
 mixin _$AppSettings {
-  AppTheme get theme => throw _privateConstructorUsedError;
-  bool? get crashlyticsEnabled => throw _privateConstructorUsedError;
-  bool? get analyticsEnabled => throw _privateConstructorUsedError;
-  int? get signedAgreementVersion => throw _privateConstructorUsedError;
-  bool get scannerDisclaimerEnabled => throw _privateConstructorUsedError;
-
-  /// Serializes this AppSettings to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  AppTheme get theme;
+  bool? get crashlyticsEnabled;
+  bool? get analyticsEnabled;
+  int? get signedAgreementVersion;
+  bool get scannerDisclaimerEnabled;
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $AppSettingsCopyWith<AppSettings> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$AppSettingsCopyWithImpl<AppSettings>(this as AppSettings, _$identity);
 
-/// @nodoc
-abstract class $AppSettingsCopyWith<$Res> {
-  factory $AppSettingsCopyWith(
-          AppSettings value, $Res Function(AppSettings) then) =
-      _$AppSettingsCopyWithImpl<$Res, AppSettings>;
-  @useResult
-  $Res call(
-      {AppTheme theme,
-      bool? crashlyticsEnabled,
-      bool? analyticsEnabled,
-      int? signedAgreementVersion,
-      bool scannerDisclaimerEnabled});
-}
-
-/// @nodoc
-class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
-    implements $AppSettingsCopyWith<$Res> {
-  _$AppSettingsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AppSettings
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? theme = null,
-    Object? crashlyticsEnabled = freezed,
-    Object? analyticsEnabled = freezed,
-    Object? signedAgreementVersion = freezed,
-    Object? scannerDisclaimerEnabled = null,
-  }) {
-    return _then(_value.copyWith(
-      theme: null == theme
-          ? _value.theme
-          : theme // ignore: cast_nullable_to_non_nullable
-              as AppTheme,
-      crashlyticsEnabled: freezed == crashlyticsEnabled
-          ? _value.crashlyticsEnabled
-          : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      analyticsEnabled: freezed == analyticsEnabled
-          ? _value.analyticsEnabled
-          : analyticsEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      signedAgreementVersion: freezed == signedAgreementVersion
-          ? _value.signedAgreementVersion
-          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
-              as int?,
-      scannerDisclaimerEnabled: null == scannerDisclaimerEnabled
-          ? _value.scannerDisclaimerEnabled
-          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$AppSettingsImplCopyWith<$Res>
-    implements $AppSettingsCopyWith<$Res> {
-  factory _$$AppSettingsImplCopyWith(
-          _$AppSettingsImpl value, $Res Function(_$AppSettingsImpl) then) =
-      __$$AppSettingsImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {AppTheme theme,
-      bool? crashlyticsEnabled,
-      bool? analyticsEnabled,
-      int? signedAgreementVersion,
-      bool scannerDisclaimerEnabled});
-}
-
-/// @nodoc
-class __$$AppSettingsImplCopyWithImpl<$Res>
-    extends _$AppSettingsCopyWithImpl<$Res, _$AppSettingsImpl>
-    implements _$$AppSettingsImplCopyWith<$Res> {
-  __$$AppSettingsImplCopyWithImpl(
-      _$AppSettingsImpl _value, $Res Function(_$AppSettingsImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AppSettings
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? theme = null,
-    Object? crashlyticsEnabled = freezed,
-    Object? analyticsEnabled = freezed,
-    Object? signedAgreementVersion = freezed,
-    Object? scannerDisclaimerEnabled = null,
-  }) {
-    return _then(_$AppSettingsImpl(
-      theme: null == theme
-          ? _value.theme
-          : theme // ignore: cast_nullable_to_non_nullable
-              as AppTheme,
-      crashlyticsEnabled: freezed == crashlyticsEnabled
-          ? _value.crashlyticsEnabled
-          : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      analyticsEnabled: freezed == analyticsEnabled
-          ? _value.analyticsEnabled
-          : analyticsEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      signedAgreementVersion: freezed == signedAgreementVersion
-          ? _value.signedAgreementVersion
-          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
-              as int?,
-      scannerDisclaimerEnabled: null == scannerDisclaimerEnabled
-          ? _value.scannerDisclaimerEnabled
-          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$AppSettingsImpl implements _AppSettings {
-  const _$AppSettingsImpl(
-      {required this.theme,
-      this.crashlyticsEnabled,
-      this.analyticsEnabled,
-      this.signedAgreementVersion,
-      required this.scannerDisclaimerEnabled});
-
-  factory _$AppSettingsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AppSettingsImplFromJson(json);
-
-  @override
-  final AppTheme theme;
-  @override
-  final bool? crashlyticsEnabled;
-  @override
-  final bool? analyticsEnabled;
-  @override
-  final int? signedAgreementVersion;
-  @override
-  final bool scannerDisclaimerEnabled;
-
-  @override
-  String toString() {
-    return 'AppSettings(theme: $theme, crashlyticsEnabled: $crashlyticsEnabled, analyticsEnabled: $analyticsEnabled, signedAgreementVersion: $signedAgreementVersion, scannerDisclaimerEnabled: $scannerDisclaimerEnabled)';
-  }
+  /// Serializes this AppSettings to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AppSettingsImpl &&
+            other is AppSettings &&
             (identical(other.theme, theme) || other.theme == theme) &&
             (identical(other.crashlyticsEnabled, crashlyticsEnabled) ||
                 other.crashlyticsEnabled == crashlyticsEnabled) &&
@@ -207,48 +53,192 @@ class _$AppSettingsImpl implements _AppSettings {
   int get hashCode => Object.hash(runtimeType, theme, crashlyticsEnabled,
       analyticsEnabled, signedAgreementVersion, scannerDisclaimerEnabled);
 
-  /// Create a copy of AppSettings
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$AppSettingsImplCopyWith<_$AppSettingsImpl> get copyWith =>
-      __$$AppSettingsImplCopyWithImpl<_$AppSettingsImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AppSettingsImplToJson(
-      this,
-    );
+  String toString() {
+    return 'AppSettings(theme: $theme, crashlyticsEnabled: $crashlyticsEnabled, analyticsEnabled: $analyticsEnabled, signedAgreementVersion: $signedAgreementVersion, scannerDisclaimerEnabled: $scannerDisclaimerEnabled)';
   }
 }
 
-abstract class _AppSettings implements AppSettings {
-  const factory _AppSettings(
-      {required final AppTheme theme,
-      final bool? crashlyticsEnabled,
-      final bool? analyticsEnabled,
-      final int? signedAgreementVersion,
-      required final bool scannerDisclaimerEnabled}) = _$AppSettingsImpl;
+/// @nodoc
+abstract mixin class $AppSettingsCopyWith<$Res> {
+  factory $AppSettingsCopyWith(
+          AppSettings value, $Res Function(AppSettings) _then) =
+      _$AppSettingsCopyWithImpl;
+  @useResult
+  $Res call(
+      {AppTheme theme,
+      bool? crashlyticsEnabled,
+      bool? analyticsEnabled,
+      int? signedAgreementVersion,
+      bool scannerDisclaimerEnabled});
+}
 
-  factory _AppSettings.fromJson(Map<String, dynamic> json) =
-      _$AppSettingsImpl.fromJson;
+/// @nodoc
+class _$AppSettingsCopyWithImpl<$Res> implements $AppSettingsCopyWith<$Res> {
+  _$AppSettingsCopyWithImpl(this._self, this._then);
+
+  final AppSettings _self;
+  final $Res Function(AppSettings) _then;
+
+  /// Create a copy of AppSettings
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? theme = null,
+    Object? crashlyticsEnabled = freezed,
+    Object? analyticsEnabled = freezed,
+    Object? signedAgreementVersion = freezed,
+    Object? scannerDisclaimerEnabled = null,
+  }) {
+    return _then(_self.copyWith(
+      theme: null == theme
+          ? _self.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as AppTheme,
+      crashlyticsEnabled: freezed == crashlyticsEnabled
+          ? _self.crashlyticsEnabled
+          : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      analyticsEnabled: freezed == analyticsEnabled
+          ? _self.analyticsEnabled
+          : analyticsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      signedAgreementVersion: freezed == signedAgreementVersion
+          ? _self.signedAgreementVersion
+          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannerDisclaimerEnabled: null == scannerDisclaimerEnabled
+          ? _self.scannerDisclaimerEnabled
+          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _AppSettings implements AppSettings {
+  const _AppSettings(
+      {required this.theme,
+      this.crashlyticsEnabled,
+      this.analyticsEnabled,
+      this.signedAgreementVersion,
+      required this.scannerDisclaimerEnabled});
+  factory _AppSettings.fromJson(Map<String, dynamic> json) =>
+      _$AppSettingsFromJson(json);
 
   @override
-  AppTheme get theme;
+  final AppTheme theme;
   @override
-  bool? get crashlyticsEnabled;
+  final bool? crashlyticsEnabled;
   @override
-  bool? get analyticsEnabled;
+  final bool? analyticsEnabled;
   @override
-  int? get signedAgreementVersion;
+  final int? signedAgreementVersion;
   @override
-  bool get scannerDisclaimerEnabled;
+  final bool scannerDisclaimerEnabled;
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AppSettingsImplCopyWith<_$AppSettingsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$AppSettingsCopyWith<_AppSettings> get copyWith =>
+      __$AppSettingsCopyWithImpl<_AppSettings>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$AppSettingsToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _AppSettings &&
+            (identical(other.theme, theme) || other.theme == theme) &&
+            (identical(other.crashlyticsEnabled, crashlyticsEnabled) ||
+                other.crashlyticsEnabled == crashlyticsEnabled) &&
+            (identical(other.analyticsEnabled, analyticsEnabled) ||
+                other.analyticsEnabled == analyticsEnabled) &&
+            (identical(other.signedAgreementVersion, signedAgreementVersion) ||
+                other.signedAgreementVersion == signedAgreementVersion) &&
+            (identical(
+                    other.scannerDisclaimerEnabled, scannerDisclaimerEnabled) ||
+                other.scannerDisclaimerEnabled == scannerDisclaimerEnabled));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, theme, crashlyticsEnabled,
+      analyticsEnabled, signedAgreementVersion, scannerDisclaimerEnabled);
+
+  @override
+  String toString() {
+    return 'AppSettings(theme: $theme, crashlyticsEnabled: $crashlyticsEnabled, analyticsEnabled: $analyticsEnabled, signedAgreementVersion: $signedAgreementVersion, scannerDisclaimerEnabled: $scannerDisclaimerEnabled)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$AppSettingsCopyWith<$Res>
+    implements $AppSettingsCopyWith<$Res> {
+  factory _$AppSettingsCopyWith(
+          _AppSettings value, $Res Function(_AppSettings) _then) =
+      __$AppSettingsCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {AppTheme theme,
+      bool? crashlyticsEnabled,
+      bool? analyticsEnabled,
+      int? signedAgreementVersion,
+      bool scannerDisclaimerEnabled});
+}
+
+/// @nodoc
+class __$AppSettingsCopyWithImpl<$Res> implements _$AppSettingsCopyWith<$Res> {
+  __$AppSettingsCopyWithImpl(this._self, this._then);
+
+  final _AppSettings _self;
+  final $Res Function(_AppSettings) _then;
+
+  /// Create a copy of AppSettings
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? theme = null,
+    Object? crashlyticsEnabled = freezed,
+    Object? analyticsEnabled = freezed,
+    Object? signedAgreementVersion = freezed,
+    Object? scannerDisclaimerEnabled = null,
+  }) {
+    return _then(_AppSettings(
+      theme: null == theme
+          ? _self.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as AppTheme,
+      crashlyticsEnabled: freezed == crashlyticsEnabled
+          ? _self.crashlyticsEnabled
+          : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      analyticsEnabled: freezed == analyticsEnabled
+          ? _self.analyticsEnabled
+          : analyticsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      signedAgreementVersion: freezed == signedAgreementVersion
+          ? _self.signedAgreementVersion
+          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannerDisclaimerEnabled: null == scannerDisclaimerEnabled
+          ? _self.scannerDisclaimerEnabled
+          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+// dart format on

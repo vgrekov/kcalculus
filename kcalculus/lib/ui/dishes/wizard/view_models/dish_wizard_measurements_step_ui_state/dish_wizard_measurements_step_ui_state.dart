@@ -9,7 +9,8 @@ import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_
 part 'dish_wizard_measurements_step_ui_state.freezed.dart';
 
 @freezed
-class MeasurementsStepValidationResult with _$MeasurementsStepValidationResult {
+sealed class MeasurementsStepValidationResult
+    with _$MeasurementsStepValidationResult {
   const factory MeasurementsStepValidationResult({
     required bool measurementsMissing,
     required Map<Measure, NutritionRatioValidationResult?>
@@ -18,7 +19,7 @@ class MeasurementsStepValidationResult with _$MeasurementsStepValidationResult {
 }
 
 @freezed
-class DishWizardMeasurementsStepUiState
+sealed class DishWizardMeasurementsStepUiState
     with _$DishWizardMeasurementsStepUiState {
   const DishWizardMeasurementsStepUiState._();
 

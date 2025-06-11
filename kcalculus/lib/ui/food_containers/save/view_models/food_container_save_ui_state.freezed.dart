@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,95 +10,55 @@ part of 'food_container_save_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$FoodContainerSaveUiState {
-  String? get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  Unit get weightUnit => throw _privateConstructorUsedError;
-  double? get weightValue => throw _privateConstructorUsedError;
+  String? get id;
+  String get name;
+  String get description;
+  Unit get weightUnit;
+  double? get weightValue;
 
   /// Create a copy of FoodContainerSaveUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $FoodContainerSaveUiStateCopyWith<FoodContainerSaveUiState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FoodContainerSaveUiStateCopyWith<$Res> {
-  factory $FoodContainerSaveUiStateCopyWith(FoodContainerSaveUiState value,
-          $Res Function(FoodContainerSaveUiState) then) =
-      _$FoodContainerSaveUiStateCopyWithImpl<$Res, FoodContainerSaveUiState>;
-  @useResult
-  $Res call(
-      {String? id,
-      String name,
-      String description,
-      Unit weightUnit,
-      double? weightValue});
-}
-
-/// @nodoc
-class _$FoodContainerSaveUiStateCopyWithImpl<$Res,
-        $Val extends FoodContainerSaveUiState>
-    implements $FoodContainerSaveUiStateCopyWith<$Res> {
-  _$FoodContainerSaveUiStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of FoodContainerSaveUiState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $FoodContainerSaveUiStateCopyWith<FoodContainerSaveUiState> get copyWith =>
+      _$FoodContainerSaveUiStateCopyWithImpl<FoodContainerSaveUiState>(
+          this as FoodContainerSaveUiState, _$identity);
+
   @override
-  $Res call({
-    Object? id = freezed,
-    Object? name = null,
-    Object? description = null,
-    Object? weightUnit = null,
-    Object? weightValue = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightUnit: null == weightUnit
-          ? _value.weightUnit
-          : weightUnit // ignore: cast_nullable_to_non_nullable
-              as Unit,
-      weightValue: freezed == weightValue
-          ? _value.weightValue
-          : weightValue // ignore: cast_nullable_to_non_nullable
-              as double?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FoodContainerSaveUiState &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.weightUnit, weightUnit) ||
+                other.weightUnit == weightUnit) &&
+            (identical(other.weightValue, weightValue) ||
+                other.weightValue == weightValue));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, description, weightUnit, weightValue);
+
+  @override
+  String toString() {
+    return 'FoodContainerSaveUiState(id: $id, name: $name, description: $description, weightUnit: $weightUnit, weightValue: $weightValue)';
   }
 }
 
 /// @nodoc
-abstract class _$$FoodContainerSaveUiStateImplCopyWith<$Res>
-    implements $FoodContainerSaveUiStateCopyWith<$Res> {
-  factory _$$FoodContainerSaveUiStateImplCopyWith(
-          _$FoodContainerSaveUiStateImpl value,
-          $Res Function(_$FoodContainerSaveUiStateImpl) then) =
-      __$$FoodContainerSaveUiStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $FoodContainerSaveUiStateCopyWith<$Res> {
+  factory $FoodContainerSaveUiStateCopyWith(FoodContainerSaveUiState value,
+          $Res Function(FoodContainerSaveUiState) _then) =
+      _$FoodContainerSaveUiStateCopyWithImpl;
   @useResult
   $Res call(
       {String? id,
@@ -108,14 +69,12 @@ abstract class _$$FoodContainerSaveUiStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$FoodContainerSaveUiStateImplCopyWithImpl<$Res>
-    extends _$FoodContainerSaveUiStateCopyWithImpl<$Res,
-        _$FoodContainerSaveUiStateImpl>
-    implements _$$FoodContainerSaveUiStateImplCopyWith<$Res> {
-  __$$FoodContainerSaveUiStateImplCopyWithImpl(
-      _$FoodContainerSaveUiStateImpl _value,
-      $Res Function(_$FoodContainerSaveUiStateImpl) _then)
-      : super(_value, _then);
+class _$FoodContainerSaveUiStateCopyWithImpl<$Res>
+    implements $FoodContainerSaveUiStateCopyWith<$Res> {
+  _$FoodContainerSaveUiStateCopyWithImpl(this._self, this._then);
+
+  final FoodContainerSaveUiState _self;
+  final $Res Function(FoodContainerSaveUiState) _then;
 
   /// Create a copy of FoodContainerSaveUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -128,25 +87,25 @@ class __$$FoodContainerSaveUiStateImplCopyWithImpl<$Res>
     Object? weightUnit = null,
     Object? weightValue = freezed,
   }) {
-    return _then(_$FoodContainerSaveUiStateImpl(
+    return _then(_self.copyWith(
       id: freezed == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
       weightUnit: null == weightUnit
-          ? _value.weightUnit
+          ? _self.weightUnit
           : weightUnit // ignore: cast_nullable_to_non_nullable
               as Unit,
       weightValue: freezed == weightValue
-          ? _value.weightValue
+          ? _self.weightValue
           : weightValue // ignore: cast_nullable_to_non_nullable
               as double?,
     ));
@@ -155,8 +114,8 @@ class __$$FoodContainerSaveUiStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FoodContainerSaveUiStateImpl extends _FoodContainerSaveUiState {
-  const _$FoodContainerSaveUiStateImpl(
+class _FoodContainerSaveUiState extends FoodContainerSaveUiState {
+  const _FoodContainerSaveUiState(
       {this.id,
       this.name = '',
       this.description = '',
@@ -178,16 +137,20 @@ class _$FoodContainerSaveUiStateImpl extends _FoodContainerSaveUiState {
   @override
   final double? weightValue;
 
+  /// Create a copy of FoodContainerSaveUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FoodContainerSaveUiState(id: $id, name: $name, description: $description, weightUnit: $weightUnit, weightValue: $weightValue)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FoodContainerSaveUiStateCopyWith<_FoodContainerSaveUiState> get copyWith =>
+      __$FoodContainerSaveUiStateCopyWithImpl<_FoodContainerSaveUiState>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FoodContainerSaveUiStateImpl &&
+            other is _FoodContainerSaveUiState &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
@@ -202,40 +165,70 @@ class _$FoodContainerSaveUiStateImpl extends _FoodContainerSaveUiState {
   int get hashCode =>
       Object.hash(runtimeType, id, name, description, weightUnit, weightValue);
 
+  @override
+  String toString() {
+    return 'FoodContainerSaveUiState(id: $id, name: $name, description: $description, weightUnit: $weightUnit, weightValue: $weightValue)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$FoodContainerSaveUiStateCopyWith<$Res>
+    implements $FoodContainerSaveUiStateCopyWith<$Res> {
+  factory _$FoodContainerSaveUiStateCopyWith(_FoodContainerSaveUiState value,
+          $Res Function(_FoodContainerSaveUiState) _then) =
+      __$FoodContainerSaveUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String? id,
+      String name,
+      String description,
+      Unit weightUnit,
+      double? weightValue});
+}
+
+/// @nodoc
+class __$FoodContainerSaveUiStateCopyWithImpl<$Res>
+    implements _$FoodContainerSaveUiStateCopyWith<$Res> {
+  __$FoodContainerSaveUiStateCopyWithImpl(this._self, this._then);
+
+  final _FoodContainerSaveUiState _self;
+  final $Res Function(_FoodContainerSaveUiState) _then;
+
   /// Create a copy of FoodContainerSaveUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$FoodContainerSaveUiStateImplCopyWith<_$FoodContainerSaveUiStateImpl>
-      get copyWith => __$$FoodContainerSaveUiStateImplCopyWithImpl<
-          _$FoodContainerSaveUiStateImpl>(this, _$identity);
+  $Res call({
+    Object? id = freezed,
+    Object? name = null,
+    Object? description = null,
+    Object? weightUnit = null,
+    Object? weightValue = freezed,
+  }) {
+    return _then(_FoodContainerSaveUiState(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      weightUnit: null == weightUnit
+          ? _self.weightUnit
+          : weightUnit // ignore: cast_nullable_to_non_nullable
+              as Unit,
+      weightValue: freezed == weightValue
+          ? _self.weightValue
+          : weightValue // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
 }
 
-abstract class _FoodContainerSaveUiState extends FoodContainerSaveUiState {
-  const factory _FoodContainerSaveUiState(
-      {final String? id,
-      final String name,
-      final String description,
-      final Unit weightUnit,
-      final double? weightValue}) = _$FoodContainerSaveUiStateImpl;
-  const _FoodContainerSaveUiState._() : super._();
-
-  @override
-  String? get id;
-  @override
-  String get name;
-  @override
-  String get description;
-  @override
-  Unit get weightUnit;
-  @override
-  double? get weightValue;
-
-  /// Create a copy of FoodContainerSaveUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FoodContainerSaveUiStateImplCopyWith<_$FoodContainerSaveUiStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

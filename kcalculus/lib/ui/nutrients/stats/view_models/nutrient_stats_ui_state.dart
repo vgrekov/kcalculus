@@ -7,7 +7,7 @@ import 'package:kcalculus/ui/nutrients/stats/view_models/nutrient_stats_row.dart
 part 'nutrient_stats_ui_state.freezed.dart';
 
 @freezed
-class NutrientStatsUiState with _$NutrientStatsUiState {
+sealed class NutrientStatsUiState with _$NutrientStatsUiState {
   const factory NutrientStatsUiState._default({
     required DateTime date,
     required NutrientData data,

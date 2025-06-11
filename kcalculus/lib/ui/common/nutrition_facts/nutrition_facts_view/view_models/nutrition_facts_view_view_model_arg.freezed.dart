@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,89 +10,64 @@ part of 'nutrition_facts_view_view_model_arg.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$NutritionFactsViewViewModelArg {
-  List<NutritionFacts> get nutritionFacts => throw _privateConstructorUsedError;
-  List<Nutrient> get nutrientDefaults => throw _privateConstructorUsedError;
+  List<NutritionFacts> get nutritionFacts;
+  List<Nutrient> get nutrientDefaults;
 
   /// Create a copy of NutritionFactsViewViewModelArg
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NutritionFactsViewViewModelArgCopyWith<NutritionFactsViewViewModelArg>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NutritionFactsViewViewModelArgCopyWith<$Res> {
-  factory $NutritionFactsViewViewModelArgCopyWith(
-          NutritionFactsViewViewModelArg value,
-          $Res Function(NutritionFactsViewViewModelArg) then) =
-      _$NutritionFactsViewViewModelArgCopyWithImpl<$Res,
-          NutritionFactsViewViewModelArg>;
-  @useResult
-  $Res call(
-      {List<NutritionFacts> nutritionFacts, List<Nutrient> nutrientDefaults});
-}
-
-/// @nodoc
-class _$NutritionFactsViewViewModelArgCopyWithImpl<$Res,
-        $Val extends NutritionFactsViewViewModelArg>
-    implements $NutritionFactsViewViewModelArgCopyWith<$Res> {
-  _$NutritionFactsViewViewModelArgCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NutritionFactsViewViewModelArg
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $NutritionFactsViewViewModelArgCopyWith<NutritionFactsViewViewModelArg>
+      get copyWith => _$NutritionFactsViewViewModelArgCopyWithImpl<
+              NutritionFactsViewViewModelArg>(
+          this as NutritionFactsViewViewModelArg, _$identity);
+
   @override
-  $Res call({
-    Object? nutritionFacts = null,
-    Object? nutrientDefaults = null,
-  }) {
-    return _then(_value.copyWith(
-      nutritionFacts: null == nutritionFacts
-          ? _value.nutritionFacts
-          : nutritionFacts // ignore: cast_nullable_to_non_nullable
-              as List<NutritionFacts>,
-      nutrientDefaults: null == nutrientDefaults
-          ? _value.nutrientDefaults
-          : nutrientDefaults // ignore: cast_nullable_to_non_nullable
-              as List<Nutrient>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NutritionFactsViewViewModelArg &&
+            const DeepCollectionEquality()
+                .equals(other.nutritionFacts, nutritionFacts) &&
+            const DeepCollectionEquality()
+                .equals(other.nutrientDefaults, nutrientDefaults));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(nutritionFacts),
+      const DeepCollectionEquality().hash(nutrientDefaults));
+
+  @override
+  String toString() {
+    return 'NutritionFactsViewViewModelArg(nutritionFacts: $nutritionFacts, nutrientDefaults: $nutrientDefaults)';
   }
 }
 
 /// @nodoc
-abstract class _$$NutritionFactsViewViewModelArgImplCopyWith<$Res>
-    implements $NutritionFactsViewViewModelArgCopyWith<$Res> {
-  factory _$$NutritionFactsViewViewModelArgImplCopyWith(
-          _$NutritionFactsViewViewModelArgImpl value,
-          $Res Function(_$NutritionFactsViewViewModelArgImpl) then) =
-      __$$NutritionFactsViewViewModelArgImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $NutritionFactsViewViewModelArgCopyWith<$Res> {
+  factory $NutritionFactsViewViewModelArgCopyWith(
+          NutritionFactsViewViewModelArg value,
+          $Res Function(NutritionFactsViewViewModelArg) _then) =
+      _$NutritionFactsViewViewModelArgCopyWithImpl;
   @useResult
   $Res call(
       {List<NutritionFacts> nutritionFacts, List<Nutrient> nutrientDefaults});
 }
 
 /// @nodoc
-class __$$NutritionFactsViewViewModelArgImplCopyWithImpl<$Res>
-    extends _$NutritionFactsViewViewModelArgCopyWithImpl<$Res,
-        _$NutritionFactsViewViewModelArgImpl>
-    implements _$$NutritionFactsViewViewModelArgImplCopyWith<$Res> {
-  __$$NutritionFactsViewViewModelArgImplCopyWithImpl(
-      _$NutritionFactsViewViewModelArgImpl _value,
-      $Res Function(_$NutritionFactsViewViewModelArgImpl) _then)
-      : super(_value, _then);
+class _$NutritionFactsViewViewModelArgCopyWithImpl<$Res>
+    implements $NutritionFactsViewViewModelArgCopyWith<$Res> {
+  _$NutritionFactsViewViewModelArgCopyWithImpl(this._self, this._then);
+
+  final NutritionFactsViewViewModelArg _self;
+  final $Res Function(NutritionFactsViewViewModelArg) _then;
 
   /// Create a copy of NutritionFactsViewViewModelArg
   /// with the given fields replaced by the non-null parameter values.
@@ -101,13 +77,13 @@ class __$$NutritionFactsViewViewModelArgImplCopyWithImpl<$Res>
     Object? nutritionFacts = null,
     Object? nutrientDefaults = null,
   }) {
-    return _then(_$NutritionFactsViewViewModelArgImpl(
+    return _then(_self.copyWith(
       nutritionFacts: null == nutritionFacts
-          ? _value._nutritionFacts
+          ? _self.nutritionFacts
           : nutritionFacts // ignore: cast_nullable_to_non_nullable
               as List<NutritionFacts>,
       nutrientDefaults: null == nutrientDefaults
-          ? _value._nutrientDefaults
+          ? _self.nutrientDefaults
           : nutrientDefaults // ignore: cast_nullable_to_non_nullable
               as List<Nutrient>,
     ));
@@ -116,9 +92,9 @@ class __$$NutritionFactsViewViewModelArgImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NutritionFactsViewViewModelArgImpl
-    implements _NutritionFactsViewViewModelArg {
-  const _$NutritionFactsViewViewModelArgImpl(
+class _NutritionFactsViewViewModelArg
+    implements NutritionFactsViewViewModelArg {
+  const _NutritionFactsViewViewModelArg(
       {required final List<NutritionFacts> nutritionFacts,
       required final List<Nutrient> nutrientDefaults})
       : _nutritionFacts = nutritionFacts,
@@ -141,16 +117,20 @@ class _$NutritionFactsViewViewModelArgImpl
     return EqualUnmodifiableListView(_nutrientDefaults);
   }
 
+  /// Create a copy of NutritionFactsViewViewModelArg
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NutritionFactsViewViewModelArg(nutritionFacts: $nutritionFacts, nutrientDefaults: $nutrientDefaults)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NutritionFactsViewViewModelArgCopyWith<_NutritionFactsViewViewModelArg>
+      get copyWith => __$NutritionFactsViewViewModelArgCopyWithImpl<
+          _NutritionFactsViewViewModelArg>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NutritionFactsViewViewModelArgImpl &&
+            other is _NutritionFactsViewViewModelArg &&
             const DeepCollectionEquality()
                 .equals(other._nutritionFacts, _nutritionFacts) &&
             const DeepCollectionEquality()
@@ -163,34 +143,52 @@ class _$NutritionFactsViewViewModelArgImpl
       const DeepCollectionEquality().hash(_nutritionFacts),
       const DeepCollectionEquality().hash(_nutrientDefaults));
 
+  @override
+  String toString() {
+    return 'NutritionFactsViewViewModelArg(nutritionFacts: $nutritionFacts, nutrientDefaults: $nutrientDefaults)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$NutritionFactsViewViewModelArgCopyWith<$Res>
+    implements $NutritionFactsViewViewModelArgCopyWith<$Res> {
+  factory _$NutritionFactsViewViewModelArgCopyWith(
+          _NutritionFactsViewViewModelArg value,
+          $Res Function(_NutritionFactsViewViewModelArg) _then) =
+      __$NutritionFactsViewViewModelArgCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<NutritionFacts> nutritionFacts, List<Nutrient> nutrientDefaults});
+}
+
+/// @nodoc
+class __$NutritionFactsViewViewModelArgCopyWithImpl<$Res>
+    implements _$NutritionFactsViewViewModelArgCopyWith<$Res> {
+  __$NutritionFactsViewViewModelArgCopyWithImpl(this._self, this._then);
+
+  final _NutritionFactsViewViewModelArg _self;
+  final $Res Function(_NutritionFactsViewViewModelArg) _then;
+
   /// Create a copy of NutritionFactsViewViewModelArg
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$NutritionFactsViewViewModelArgImplCopyWith<
-          _$NutritionFactsViewViewModelArgImpl>
-      get copyWith => __$$NutritionFactsViewViewModelArgImplCopyWithImpl<
-          _$NutritionFactsViewViewModelArgImpl>(this, _$identity);
+  $Res call({
+    Object? nutritionFacts = null,
+    Object? nutrientDefaults = null,
+  }) {
+    return _then(_NutritionFactsViewViewModelArg(
+      nutritionFacts: null == nutritionFacts
+          ? _self._nutritionFacts
+          : nutritionFacts // ignore: cast_nullable_to_non_nullable
+              as List<NutritionFacts>,
+      nutrientDefaults: null == nutrientDefaults
+          ? _self._nutrientDefaults
+          : nutrientDefaults // ignore: cast_nullable_to_non_nullable
+              as List<Nutrient>,
+    ));
+  }
 }
 
-abstract class _NutritionFactsViewViewModelArg
-    implements NutritionFactsViewViewModelArg {
-  const factory _NutritionFactsViewViewModelArg(
-          {required final List<NutritionFacts> nutritionFacts,
-          required final List<Nutrient> nutrientDefaults}) =
-      _$NutritionFactsViewViewModelArgImpl;
-
-  @override
-  List<NutritionFacts> get nutritionFacts;
-  @override
-  List<Nutrient> get nutrientDefaults;
-
-  /// Create a copy of NutritionFactsViewViewModelArg
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutritionFactsViewViewModelArgImplCopyWith<
-          _$NutritionFactsViewViewModelArgImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

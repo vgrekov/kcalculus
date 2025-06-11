@@ -15,7 +15,7 @@ part 'dish.g.dart';
   fromJson: false,
   toJson: true,
 )
-class Dish with _$Dish implements Edible {
+sealed class Dish with _$Dish implements Edible {
   const Dish._();
 
   const factory Dish({

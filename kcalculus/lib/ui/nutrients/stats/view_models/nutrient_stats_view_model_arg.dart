@@ -4,7 +4,7 @@ import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 part 'nutrient_stats_view_model_arg.freezed.dart';
 
 @freezed
-class NutrientStatsViewModelArg with _$NutrientStatsViewModelArg {
+sealed class NutrientStatsViewModelArg with _$NutrientStatsViewModelArg {
   const factory NutrientStatsViewModelArg({
     required DateTime date,
     required NutrientData data,
