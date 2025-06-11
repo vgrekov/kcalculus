@@ -56,3 +56,4 @@ flutter:
     - assets/db/migrations/
     - assets/agreements/
     - assets/images/
+    - assets/dumps/
