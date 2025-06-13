@@ -15,9 +15,12 @@ import 'package:kcalculus/data/services/local/database/nutrient_amount/nutrient_
 import 'package:kcalculus/data/services/local/database/nutrient_goal/nutrient_goal_service.dart';
 import 'package:kcalculus/data/services/local/database/nutrition_facts/nutrition_facts_service.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+
+final _log = Logger('DatabaseService');
 
 class DatabaseService {
   static const _kDbName = 'kcalculus.db';
@@ -37,16 +40,26 @@ class DatabaseService {
 
     final dbFile = File(dbPath);
     final dbExists = await dbFile.exists();
-    if (!dbExists) return true;
+    if (!dbExists) {
+      _log.finer('Initial migration required');
+      return true;
+    }
 
     Database? db;
     try {
       db = await openDatabase(dbPath);
       final dbVersion = await db.getVersion();
       if (dbVersion < _kDbVersion) {
+        _log.finer('Migration required to version $_kDbVersion');
         return true;
       }
-    } catch (error) {
+
+      _log.finer('No migration required');
+      return false;
+    } catch (error, stackTrace) {
+      _log.severe(
+          'Failed to check if database migration required', error, stackTrace);
+
       throw LocalizedException(
         (loc) => loc.maintenanceTaskDbMigrationFailedMessage,
         cause: error,
@@ -56,8 +69,6 @@ class DatabaseService {
         await db?.close();
       }
     }
-
-    return false;
   }
 
   static FutureOr<void> migrateDatabase() async {
@@ -103,10 +114,14 @@ class DatabaseService {
         version: _kDbVersion,
       );
 
+      _log.info('Migrated to version $_kDbVersion');
+
       await db.close();
 
       await dbBackupFile?.delete();
-    } catch (error) {
+    } catch (error, stackTrace) {
+      _log.severe('Failed to migrate database', error, stackTrace);
+
       if (db?.isOpen == true) {
         await db?.close();
       }
