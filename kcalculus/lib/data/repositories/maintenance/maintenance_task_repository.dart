@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
+import 'package:kcalculus/data/services/usda/usda_service.dart';
 import 'package:kcalculus/domain/models/maintenance_task.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
@@ -11,6 +12,13 @@ final maintenanceTaskRepository = FutureProvider<List<MaintenanceTask>>(
         title: (context) => l10n(context).maintenanceTaskDbMigrationTitle,
         shouldRun: (ref) => DatabaseService.isMigrationRequired(),
         run: (ref) => DatabaseService.migrateDatabase(),
+      ),
+      // USDA FoodData Loading
+      MaintenanceTask(
+        title: (context) =>
+            l10n(context).maintenanceTaskUsdaFoodDataLoadingTitle,
+        shouldRun: (ref) => UsdaService.isDumpLoadRequired(),
+        run: (ref) => UsdaService.loadDump(),
       ),
     ];
 
