@@ -5,11 +5,11 @@ dw \
 -i surveyFoods path/to/surveyDownload.json \
 -i selectNutrients select_nutrients.json \
 -f trimmer.dwl \
-| gzip > ../../kcalculus/assets/dumps/usda_foods.json.gz
+| gzip > ../../kcalculus/assets/dumps/usda_foods.ndjson.gz
 */
 
 %dw 2.0
-output application/json indent=false
+output application/x-ndjson
 ---
 (
     foundationFoods.FoundationFoods
