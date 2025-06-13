@@ -1744,6 +1744,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Don\'\'t show again'**
   String get actionDontShowAgain;
+
+  /// No description provided for @maintenanceTaskUsdaFoodDataLoadingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading common foods...'**
+  String get maintenanceTaskUsdaFoodDataLoadingTitle;
+
+  /// No description provided for @maintenanceTaskUsdaFoodDataLoadingFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading common foods failed. Not able to proceed.'**
+  String get maintenanceTaskUsdaFoodDataLoadingFailedMessage;
 }
 
 class _AppLocalizationsDelegate

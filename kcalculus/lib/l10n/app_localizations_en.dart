@@ -911,4 +911,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionDontShowAgain => 'Don\'t show again';
+
+  @override
+  String get maintenanceTaskUsdaFoodDataLoadingTitle =>
+      'Loading common foods...';
+
+  @override
+  String get maintenanceTaskUsdaFoodDataLoadingFailedMessage =>
+      'Loading common foods failed. Not able to proceed.';
 }
