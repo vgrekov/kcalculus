@@ -29,4 +29,5 @@ Map<String, dynamic> _$EdibleSearchResultToJson(_EdibleSearchResult instance) =>
 const _$EdibleSearchResultTypeEnumMap = {
   EdibleSearchResultType.food: 'food',
   EdibleSearchResultType.dish: 'dish',
+  EdibleSearchResultType.usda: 'usda',
 };

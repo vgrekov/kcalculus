@@ -120,4 +120,71 @@ class UsdaService {
       directory: path.join(docsDir.path, _kStoreName),
     );
   }
+
+  final _store = _openStore();
+
+  Future<List<FoodUsdaModel>> search(
+    String? queryString, {
+    int? limit,
+    int? offset,
+  }) async {
+    if (offset != null && limit == null) {
+      throw ArgumentError('Argument "limit" is missing');
+    }
+
+    if (limit != null && limit <= 0) {
+      throw ArgumentError(
+          'If present, "limit" argument must be a positive integer');
+    }
+
+    if (offset != null && offset < 0) {
+      throw ArgumentError(
+          'If present, "offset" argument must be a non-negative integer');
+    }
+
+    final store = await _store;
+
+    final QueryBuilder<FoodUsdaModel> queryBuilder;
+    if (queryString?.isEmpty == true) {
+      queryBuilder = store.box<FoodUsdaModel>().query();
+    } else {
+      queryBuilder = store.box<FoodUsdaModel>().query(
+            FoodUsdaModel_.description.contains(
+              queryString!,
+              caseSensitive: false,
+            ),
+          );
+    }
+
+    final query = queryBuilder
+        .order(FoodUsdaModel_.priority)
+        .order(FoodUsdaModel_.description)
+        .build();
+
+    if (limit != null) {
+      query.limit = limit;
+      query.offset = offset ?? 0;
+    }
+
+    return query.find();
+  }
+
+  Future<FoodUsdaModel?> getByFdcId(int fdcId) async {
+    final store = await _store;
+
+    return store
+        .box<FoodUsdaModel>()
+        .query(
+          FoodUsdaModel_.fdcId.equals(fdcId),
+        )
+        .build()
+        .findFirst();
+  }
+
+  void dispose() async {
+    final store = await _store;
+    if (!store.isClosed()) {
+      store.close();
+    }
+  }
 }

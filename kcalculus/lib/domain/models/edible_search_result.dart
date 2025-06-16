@@ -6,6 +6,7 @@ part 'edible_search_result.g.dart';
 enum EdibleSearchResultType {
   food,
   dish,
+  usda,
 }
 
 @freezed
