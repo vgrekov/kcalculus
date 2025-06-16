@@ -57,11 +57,18 @@ class EdibleSearchViewModel extends AutoDisposeFamilyNotifier<
           final dishRepository = ref.read(dishRepositoryProvider);
           edible = await dishRepository.getById(searchResult.id);
           break;
-        default:
+        case EdibleSearchResultType.food:
           _log.finer('selectEdible() Loading food');
 
           final foodRepository = ref.read(foodRepositoryProvider);
           edible = await foodRepository.getById(searchResult.id);
+          break;
+        case EdibleSearchResultType.usda:
+          _log.finer('selectEdible() Loading USDA food');
+
+          final usdaFoodRepository = ref.read(usdaFoodRepositoryProvider);
+          edible = await usdaFoodRepository.getById(searchResult.id);
+          break;
       }
 
       if (edible != null) {

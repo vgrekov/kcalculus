@@ -1,5 +1,5 @@
-import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/domain/providers.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_helper.dart';
 
 class EdibleSearchHelper extends SearchHelper<EdibleSearchResult> {
@@ -19,7 +19,7 @@ class EdibleSearchHelper extends SearchHelper<EdibleSearchResult> {
     required int limit,
     required int offset,
   }) {
-    return getRef().read(edibleRepositoryProvider).search(
+    return getRef().read(edibleSearchUseCaseProvider).search(
           query,
           type: _searchResultType,
           limit: limit,
