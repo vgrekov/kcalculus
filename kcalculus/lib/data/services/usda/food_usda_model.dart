@@ -9,6 +9,7 @@ class FoodUsdaModel {
     required this.fdcId,
     required this.description,
     required this.dataType,
+    required this.priority,
   });
 
   factory FoodUsdaModel.fromJson(Map<String, dynamic> json) {
@@ -16,6 +17,7 @@ class FoodUsdaModel {
       fdcId: json['fdcId'] as int,
       description: json['description'] as String,
       dataType: json['dataType'] as String,
+      priority: json['priority'] as int,
     );
 
     final portions = json['portions'];
@@ -37,12 +39,14 @@ class FoodUsdaModel {
 
   int? id;
 
-  @Index()
+  @Unique()
   final int fdcId;
 
   final String description;
 
   final String dataType;
+
+  final int priority;
 
   @Backlink('food')
   final portions = ToMany<PortionUsdaModel>();

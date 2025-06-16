@@ -108,7 +108,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(3, 5397781313285217229),
     name: 'FoodUsdaModel',
-    lastPropertyId: const obx_int.IdUid(4, 8197077236200161832),
+    lastPropertyId: const obx_int.IdUid(5, 7697376153497432482),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -121,7 +121,7 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(2, 7398406017981703753),
         name: 'fdcId',
         type: 6,
-        flags: 8,
+        flags: 40,
         indexId: const obx_int.IdUid(3, 4581952073606111299),
       ),
       obx_int.ModelProperty(
@@ -134,6 +134,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(4, 8197077236200161832),
         name: 'dataType',
         type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 7697376153497432482),
+        name: 'priority',
+        type: 6,
         flags: 0,
       ),
     ],
@@ -342,11 +348,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (FoodUsdaModel object, fb.Builder fbb) {
         final descriptionOffset = fbb.writeString(object.description);
         final dataTypeOffset = fbb.writeString(object.dataType);
-        fbb.startTable(5);
+        fbb.startTable(6);
         fbb.addInt64(0, object.id ?? 0);
         fbb.addInt64(1, object.fdcId);
         fbb.addOffset(2, descriptionOffset);
         fbb.addOffset(3, dataTypeOffset);
+        fbb.addInt64(4, object.priority);
         fbb.finish(fbb.endTable());
         return object.id ?? 0;
       },
@@ -370,11 +377,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final dataTypeParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 10, '');
+        final priorityParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          12,
+          0,
+        );
         final object = FoodUsdaModel(
           id: idParam,
           fdcId: fdcIdParam,
           description: descriptionParam,
           dataType: dataTypeParam,
+          priority: priorityParam,
         );
         obx_int.InternalToManyAccess.setRelInfo<FoodUsdaModel>(
           object.portions,
@@ -478,6 +492,11 @@ class FoodUsdaModel_ {
   /// See [FoodUsdaModel.dataType].
   static final dataType = obx.QueryStringProperty<FoodUsdaModel>(
     _entities[2].properties[3],
+  );
+
+  /// See [FoodUsdaModel.priority].
+  static final priority = obx.QueryIntegerProperty<FoodUsdaModel>(
+    _entities[2].properties[4],
   );
 
   /// see [FoodUsdaModel.portions]
