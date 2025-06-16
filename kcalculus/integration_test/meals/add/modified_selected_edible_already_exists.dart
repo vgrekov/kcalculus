@@ -8,6 +8,7 @@ import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/providers.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils.dart';
@@ -43,10 +44,10 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
     name: 'Food 2',
   );
 
-  final edibleRepository = MockEdibleRepository();
+  final edibleSearchUseCase = MockEdibleSearchUseCase();
 
   when(
-    () => edibleRepository.search(
+    () => edibleSearchUseCase.search(
       any(),
       type: any(named: 'type'),
       limit: any(named: 'limit'),
@@ -69,6 +70,8 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
           .toList();
     },
   );
+
+  final edibleRepository = MockEdibleRepository();
 
   when(
     () => edibleRepository.exists(
@@ -111,6 +114,9 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
       ),
       foodRepositoryProvider.overrideWith(
         (ref) => foodRepository,
+      ),
+      edibleSearchUseCaseProvider.overrideWith(
+        (ref) => edibleSearchUseCase,
       ),
     ],
   );
