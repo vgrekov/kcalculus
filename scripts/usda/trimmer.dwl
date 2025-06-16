@@ -14,10 +14,15 @@ output application/x-ndjson
 (
     foundationFoods.FoundationFoods
     ++ surveyFoods.SurveyFoods
-) map (food) -> {
+) map ((food) -> {
     fdcId: food.fdcId,
     description: food.description,
     dataType: food.dataType,
+    priority: food.dataType match {
+        case 'Foundation' -> 0
+        case 'Survey (FNDDS)' -> 1
+        else -> 2
+    },
     portions: food.foodPortions map (portion) -> {
         measureUnitId: portion.measureUnit.id,
         amount: portion.amount,
@@ -32,4 +37,4 @@ output application/x-ndjson
             unitName: nutrient.nutrient.unitName,
         }
     )
-}
+}) distinctBy lower($.description)
