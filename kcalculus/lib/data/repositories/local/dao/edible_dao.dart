@@ -35,6 +35,19 @@ class LocalEdibleDao {
         );
   }
 
+  Future<int> count(
+    String? query, {
+    EdibleSearchResultType? type,
+    Transaction? txn,
+  }) {
+    return _dbService.edible.count(
+      query,
+      onlyFoods: type == EdibleSearchResultType.food,
+      onlyDishes: type == EdibleSearchResultType.dish,
+      txn: txn,
+    );
+  }
+
   Future<bool> exists(
     String name,
     String description, {
