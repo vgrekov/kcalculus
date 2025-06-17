@@ -73,7 +73,7 @@ class EdibleService {
               ? = 0
               OR dishes.id IS NOT NULL
             )
-            AND UPPER(edibles.name) LIKE '%' || UPPER(?) || '%'
+            AND UPPER(edibles.name || ', ' || edibles.description) LIKE '%' || UPPER(?) || '%'
         ) results
         GROUP BY
           results.id,
@@ -138,7 +138,7 @@ class EdibleService {
           ? = 0
           OR dishes.id IS NOT NULL
         )
-        AND UPPER(edibles.name) LIKE '%' || UPPER(?) || '%'
+        AND UPPER(edibles.name || ', ' || edibles.description) LIKE '%' || UPPER(?) || '%'
       ''';
 
     var arguments = [
