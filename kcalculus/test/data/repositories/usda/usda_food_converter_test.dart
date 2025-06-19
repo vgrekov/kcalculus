@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kcalculus/data/repositories/usda/usda_food_converter.dart';
-import 'package:kcalculus/data/services/usda/food_usda_model.dart';
+import 'package:kcalculus/data/services/usda/food/usda_food_dto_converter.dart';
+import 'package:kcalculus/data/services/usda/food/usda_food_dto_model.dart';
+import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_dto_converter.dart';
+import 'package:kcalculus/data/services/usda/portion/usda_portion_dto_converter.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
@@ -15,9 +18,15 @@ void main() {
     'UsdaFoodConverter - toModel',
     () {
       late UsdaFoodConverter usdaFoodConverter;
+      late UsdaFoodDtoConverter foodDtoConverter;
+      late UsdaPortionDtoConverter portionDtoConverter;
+      late UsdaNutrientDtoConverter nutrientDtoConverter;
 
       setUp(() {
         usdaFoodConverter = UsdaFoodConverter();
+        foodDtoConverter = UsdaFoodDtoConverter();
+        portionDtoConverter = UsdaPortionDtoConverter();
+        nutrientDtoConverter = UsdaNutrientDtoConverter();
       });
 
       test(
@@ -27,9 +36,20 @@ void main() {
             'test/data/repositories/usda/fixtures/egg.json',
           );
 
-          final usdaModel = FoodUsdaModel.fromJson(jsonDecode(modelJson));
+          final dtoModel = UsdaFoodDtoModel.fromJson(jsonDecode(modelJson));
 
-          final model = usdaFoodConverter.toModel(usdaModel);
+          final model = usdaFoodConverter.toModel(
+            foodDtoConverter.toDbModel(dtoModel),
+            dtoModel.portions
+                    ?.map((portion) =>
+                        portionDtoConverter.toDbModel(portion, dtoModel.fdcId))
+                    .toList() ??
+                const [],
+            dtoModel.nutrients
+                .map((nutrient) =>
+                    nutrientDtoConverter.toDbModel(nutrient, dtoModel.fdcId))
+                .toList(),
+          );
 
           expect(model.name, 'Eggs');
           expect(model.description, 'Grade A, Large, egg whole');
@@ -299,9 +319,20 @@ void main() {
             'test/data/repositories/usda/fixtures/cucumber.json',
           );
 
-          final usdaModel = FoodUsdaModel.fromJson(jsonDecode(modelJson));
+          final dtoModel = UsdaFoodDtoModel.fromJson(jsonDecode(modelJson));
 
-          final model = usdaFoodConverter.toModel(usdaModel);
+          final model = usdaFoodConverter.toModel(
+            foodDtoConverter.toDbModel(dtoModel),
+            dtoModel.portions
+                    ?.map((portion) =>
+                        portionDtoConverter.toDbModel(portion, dtoModel.fdcId))
+                    .toList() ??
+                const [],
+            dtoModel.nutrients
+                .map((nutrient) =>
+                    nutrientDtoConverter.toDbModel(nutrient, dtoModel.fdcId))
+                .toList(),
+          );
 
           expect(model.name, 'Cucumber');
           expect(model.description, 'With peel, raw');
