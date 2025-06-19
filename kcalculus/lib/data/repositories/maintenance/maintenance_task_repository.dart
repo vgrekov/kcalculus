@@ -13,6 +13,12 @@ final maintenanceTaskRepository = FutureProvider<List<MaintenanceTask>>(
         shouldRun: (ref) => DatabaseService.isMigrationRequired(),
         run: (ref) => DatabaseService.migrateDatabase(),
       ),
+      // USDA DB Migration
+      MaintenanceTask(
+        title: (context) => l10n(context).maintenanceTaskUsdaDbMigrationTitle,
+        shouldRun: (ref) => UsdaService.isMigrationRequired(),
+        run: (ref) => UsdaService.migrateDatabase(),
+      ),
       // USDA FoodData Loading
       MaintenanceTask(
         title: (context) =>

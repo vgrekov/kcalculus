@@ -1756,6 +1756,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading common foods failed. Not able to proceed.'**
   String get maintenanceTaskUsdaFoodDataLoadingFailedMessage;
+
+  /// No description provided for @maintenanceTaskUsdaDbMigrationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Migrating the common foods database...'**
+  String get maintenanceTaskUsdaDbMigrationTitle;
+
+  /// No description provided for @maintenanceTaskUsdaDbMigrationFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Common foods database migration failed. Not able to proceed.'**
+  String get maintenanceTaskUsdaDbMigrationFailedMessage;
 }
 
 class _AppLocalizationsDelegate

@@ -5,28 +5,58 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
 import 'package:kcalculus/data/exceptions/localized_exception.dart';
-import 'package:kcalculus/data/objectbox.g.dart';
-import 'package:kcalculus/data/services/usda/food_usda_model.dart';
-import 'package:kcalculus/data/services/usda/nutrient_usda_model.dart';
-import 'package:kcalculus/data/services/usda/portion_usda_model.dart';
+import 'package:kcalculus/data/services/usda/food/usda_food_dto_model.dart';
+import 'package:kcalculus/data/services/usda/food/usda_food_service.dart';
+import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_service.dart';
+import 'package:kcalculus/data/services/usda/portion/usda_portion_service.dart';
+import 'package:kcalculus/data/utils/db_utils.dart';
 import 'package:kcalculus/utils/assets.dart';
 import 'package:kcalculus/utils/batcher.dart';
 import 'package:kcalculus/utils/crypto.dart';
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 final _log = Logger('UsdaService');
 
 class UsdaService {
-  static const _kStoreName = 'usda-foods';
+  static const _kDbName = 'usda.db';
+
+  static const _kDbVersion = 1;
+
+  static const _kDbMigrationsDir = 'assets/usda_db/migrations';
 
   static const _kDumpAssetFilename = 'usda_foods.ndjson.gz';
 
   static const _kDumpAssetPath = 'assets/dumps/$_kDumpAssetFilename';
 
   static const _kDumpChecksumKey = 'USDA-Foods-Dump-Checksum';
+
+  static FutureOr<bool> isMigrationRequired() async {
+    try {
+      return await isDbMigrationRequired(_kDbName, _kDbVersion);
+    } catch (error) {
+      throw LocalizedException(
+        (loc) => loc.maintenanceTaskUsdaDbMigrationFailedMessage,
+        cause: error,
+      );
+    }
+  }
+
+  static FutureOr<void> migrateDatabase() async {
+    try {
+      await migrateDb(
+        _kDbName,
+        _kDbVersion,
+        _kDbMigrationsDir,
+      );
+    } catch (error) {
+      throw LocalizedException(
+        (loc) => loc.maintenanceTaskUsdaDbMigrationFailedMessage,
+        cause: error,
+      );
+    }
+  }
 
   static FutureOr<bool> isDumpLoadRequired() async {
     try {
@@ -58,7 +88,7 @@ class UsdaService {
   }
 
   static FutureOr<void> loadDump() async {
-    Store? store;
+    Database? db;
 
     try {
       final md5Tap = HashTap(hash: md5);
@@ -70,22 +100,48 @@ class UsdaService {
           .transform(const LineSplitter())
           .transform(Batcher(200));
 
-      store = await _openStore();
+      db = await openDb(_kDbName);
 
-      store.box<PortionUsdaModel>().removeAll();
-      store.box<NutrientUsdaModel>().removeAll();
-      store.box<FoodUsdaModel>().removeAll();
+      final foodService = UsdaFoodService(db);
+      final portionService = UsdaPortionService(db);
+      final nutrientService = UsdaNutrientService(db);
+
+      await db.transaction((txn) async {
+        await nutrientService.deleteAll(txn: txn);
+        await portionService.deleteAll(txn: txn);
+        await foodService.deleteAll(txn: txn);
+      });
 
       int size = 0;
-      await for (final batch in lineBatches) {
-        final ids = store.box<FoodUsdaModel>().putMany(
-              batch
-                  .map(jsonDecode)
-                  .cast<Map<String, dynamic>>()
-                  .map(FoodUsdaModel.fromJson)
-                  .toList(),
+      await for (final lines in lineBatches) {
+        final batch = db.batch();
+
+        final foods = lines
+            .map(jsonDecode)
+            .cast<Map<String, dynamic>>()
+            .map(UsdaFoodDtoModel.fromJson)
+            .toList();
+
+        foodService.batchInsert(foods, batch: batch);
+
+        for (final food in foods) {
+          if (food.portions != null) {
+            portionService.batchInsert(
+              food.portions!,
+              food.fdcId,
+              batch: batch,
             );
-        size += ids.length;
+          }
+          nutrientService.batchInsert(
+            food.nutrients,
+            food.fdcId,
+            batch: batch,
+          );
+        }
+
+        batch.commit(noResult: true);
+
+        size += lines.length;
       }
 
       final dumpChecksum = md5Tap.digest.toString();
@@ -102,7 +158,7 @@ class UsdaService {
         cause: error,
       );
     } finally {
-      store?.close();
+      db?.close();
     }
   }
 
@@ -114,77 +170,25 @@ class UsdaService {
     return digest.toString();
   }
 
-  static Future<Store> _openStore() async {
-    final docsDir = await getApplicationDocumentsDirectory();
-    return openStore(
-      directory: path.join(docsDir.path, _kStoreName),
-    );
+  UsdaService() {
+    _database = openDb(_kDbName);
+    foods = UsdaFoodService(_database);
+    portions = UsdaPortionService(_database);
+    nutrients = UsdaNutrientService(_database);
   }
 
-  final _store = _openStore();
+  late final Future<Database> _database;
 
-  Future<List<FoodUsdaModel>> search(
-    String? queryString, {
-    int? limit,
-    int? offset,
-  }) async {
-    if (offset != null && limit == null) {
-      throw ArgumentError('Argument "limit" is missing');
-    }
+  late final UsdaFoodService foods;
 
-    if (limit != null && limit <= 0) {
-      throw ArgumentError(
-          'If present, "limit" argument must be a positive integer');
-    }
+  late final UsdaPortionService portions;
 
-    if (offset != null && offset < 0) {
-      throw ArgumentError(
-          'If present, "offset" argument must be a non-negative integer');
-    }
-
-    final store = await _store;
-
-    final QueryBuilder<FoodUsdaModel> queryBuilder;
-    if (queryString?.isEmpty == true) {
-      queryBuilder = store.box<FoodUsdaModel>().query();
-    } else {
-      queryBuilder = store.box<FoodUsdaModel>().query(
-            FoodUsdaModel_.description.contains(
-              queryString!,
-              caseSensitive: false,
-            ),
-          );
-    }
-
-    final query = queryBuilder
-        .order(FoodUsdaModel_.priority)
-        .order(FoodUsdaModel_.description)
-        .build();
-
-    if (limit != null) {
-      query.limit = limit;
-      query.offset = offset ?? 0;
-    }
-
-    return query.find();
-  }
-
-  Future<FoodUsdaModel?> getByFdcId(int fdcId) async {
-    final store = await _store;
-
-    return store
-        .box<FoodUsdaModel>()
-        .query(
-          FoodUsdaModel_.fdcId.equals(fdcId),
-        )
-        .build()
-        .findFirst();
-  }
+  late final UsdaNutrientService nutrients;
 
   void dispose() async {
-    final store = await _store;
-    if (!store.isClosed()) {
-      store.close();
+    final db = await _database;
+    if (db.isOpen) {
+      db.close();
     }
   }
 }

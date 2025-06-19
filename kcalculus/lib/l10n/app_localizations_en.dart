@@ -919,4 +919,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get maintenanceTaskUsdaFoodDataLoadingFailedMessage =>
       'Loading common foods failed. Not able to proceed.';
+
+  @override
+  String get maintenanceTaskUsdaDbMigrationTitle =>
+      'Migrating the common foods database...';
+
+  @override
+  String get maintenanceTaskUsdaDbMigrationFailedMessage =>
+      'Common foods database migration failed. Not able to proceed.';
 }

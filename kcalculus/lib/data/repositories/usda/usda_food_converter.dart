@@ -1,9 +1,9 @@
 import 'package:kcalculus/data/repositories/usda/usda_nutrients.dart';
 import 'package:kcalculus/data/repositories/usda/usda_portion_units.dart';
 import 'package:kcalculus/data/repositories/usda/usda_units.dart';
-import 'package:kcalculus/data/services/usda/food_usda_model.dart';
-import 'package:kcalculus/data/services/usda/nutrient_usda_model.dart';
-import 'package:kcalculus/data/services/usda/portion_usda_model.dart';
+import 'package:kcalculus/data/services/usda/food/usda_food_db_model.dart';
+import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_db_model.dart';
+import 'package:kcalculus/data/services/usda/portion/usda_portion_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
@@ -12,39 +12,35 @@ import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
-import 'package:kcalculus/utils/string_ext.dart';
 
 class UsdaFoodConverter {
-  static final _kDescriptionDelim = RegExp(r'\s*,\s*');
-
-  EdibleSearchResult toSearchResult(FoodUsdaModel usdaModel) {
-    final (name, description) = _splitDescription(usdaModel.description);
-
+  EdibleSearchResult toSearchResult(UsdaFoodDbModel dbModel) {
     return EdibleSearchResult(
-      id: usdaModel.fdcId.toString(),
-      name: name,
-      description: description,
+      id: dbModel.fdc_id.toString(),
+      name: dbModel.name,
+      description: dbModel.description,
       type: EdibleSearchResultType.usda,
     );
   }
 
-  Food toModel(FoodUsdaModel usdaModel) {
-    final (name, description) = _splitDescription(usdaModel.description);
-
-    final mainNutrientData = _mainNutrientData(usdaModel);
+  Food toModel(
+    UsdaFoodDbModel dbModel,
+    List<UsdaPortionDbModel> portionDbModels,
+    List<UsdaNutrientDbModel> nutrientDbModels,
+  ) {
+    final mainNutrientData = _mainNutrientData(nutrientDbModels);
 
     return Food(
-      name: name,
-      description: description,
+      name: dbModel.name,
+      description: dbModel.description,
       nutritionFacts: [
         NutritionFacts(
           amount: Amount(unit: Unit.gram, value: 100),
           nutrientData: mainNutrientData.withPrecision(2),
         ),
-        ...usdaModel.portions
+        ...portionDbModels
             .map(
               (portion) => _portionNutritionFacts(
-                usdaModel,
                 portion,
                 mainNutrientData,
               ),
@@ -54,27 +50,15 @@ class UsdaFoodConverter {
     );
   }
 
-  (String, String) _splitDescription(String description) {
-    final chunks = description
-        .trim()
-        .split(_kDescriptionDelim)
-        .where((c) => c.isNotEmpty)
-        .toList();
-    return (
-      chunks.firstOrNull?.capitalize() ?? '',
-      chunks.isEmpty ? '' : chunks.sublist(1).join(', ').capitalize(),
-    );
-  }
-
-  NutrientData _mainNutrientData(FoodUsdaModel usdaModel) {
-    final nutrientAmounts = usdaModel.nutrients
+  NutrientData _mainNutrientData(List<UsdaNutrientDbModel> nutrientDbModels) {
+    final nutrientAmounts = nutrientDbModels
         .where(
           (n) =>
               kUsdaNutrientsPrioritized.containsKey(n.number) &&
-              kUsdaUnits.containsKey(n.unitName),
+              kUsdaUnits.containsKey(n.unit_name),
         )
         .fold(
-          <Nutrient, (NutrientUsdaModel, int)>{},
+          <Nutrient, (UsdaNutrientDbModel, int)>{},
           (acc, n) {
             final (nutrient, priority) = kUsdaNutrientsPrioritized[n.number]!;
             return acc
@@ -90,7 +74,7 @@ class UsdaFoodConverter {
           (e) => NutrientAmount(
             nutrient: e.key,
             amount: Amount(
-              unit: kUsdaUnits[e.value.$1.unitName]!,
+              unit: kUsdaUnits[e.value.$1.unit_name]!,
               value: e.value.$1.amount,
             ),
           ),
@@ -119,22 +103,21 @@ class UsdaFoodConverter {
   }
 
   NutritionFacts? _portionNutritionFacts(
-    FoodUsdaModel usdaModel,
-    PortionUsdaModel portion,
+    UsdaPortionDbModel portionDbModel,
     NutrientData mainNutrientData,
   ) {
-    if (portion.amount == null ||
-        !kUsdaPortionUnits.containsKey(portion.measureUnitId)) {
+    if (portionDbModel.amount == null ||
+        !kUsdaPortionUnits.containsKey(portionDbModel.measure_unit_id)) {
       return null;
     }
 
     return NutritionFacts(
       amount: Amount(
-        unit: kUsdaPortionUnits[portion.measureUnitId]!,
-        value: portion.amount!,
+        unit: kUsdaPortionUnits[portionDbModel.measure_unit_id]!,
+        value: portionDbModel.amount!,
       ),
-      nutrientData:
-          (mainNutrientData * (portion.gramWeight / 100)).withPrecision(2),
+      nutrientData: (mainNutrientData * (portionDbModel.gram_weight / 100))
+          .withPrecision(2),
     );
   }
 }

@@ -19,22 +19,30 @@ class UsdaFoodRepository {
     int? limit,
     int? offset,
   }) async {
-    final usdaModels = await _usdaService.search(
+    final foodDbModels = await _usdaService.foods.search(
       query,
       limit: limit,
       offset: offset,
     );
 
-    return usdaModels.map(_usdaFoodConverter.toSearchResult).toList();
+    return foodDbModels.map(_usdaFoodConverter.toSearchResult).toList();
   }
 
   Future<Food?> getById(String id) async {
     final fdcId = int.tryParse(id);
     if (fdcId == null) return null;
 
-    final usdaModel = await _usdaService.getByFdcId(fdcId);
-    if (usdaModel == null) return null;
+    final foodDbModel = await _usdaService.foods.getByFdcId(fdcId);
+    if (foodDbModel == null) return null;
 
-    return _usdaFoodConverter.toModel(usdaModel);
+    final portionDbModels = await _usdaService.portions.getByFdcId(fdcId);
+
+    final nutrientDbModels = await _usdaService.nutrients.getByFdcId(fdcId);
+
+    return _usdaFoodConverter.toModel(
+      foodDbModel,
+      portionDbModels,
+      nutrientDbModels,
+    );
   }
 }
