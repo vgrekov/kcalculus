@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_db_model.dart';
+import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_dto_converter.dart';
 import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_dto_model.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -10,6 +11,8 @@ class UsdaNutrientService {
   ) : _database = database;
 
   final FutureOr<Database> _database;
+
+  final _converter = const UsdaNutrientDtoConverter();
 
   Future<List<UsdaNutrientDbModel>> getByFdcId(
     int fdcId, {
@@ -29,7 +32,11 @@ class UsdaNutrientService {
     int fdcId, {
     required Batch batch,
   }) async {
-    dtoModels.map((dtoModel) => _fromDto(dtoModel, fdcId)).forEach(
+    dtoModels
+        .map(
+          (dtoModel) => _converter.toDbModel(dtoModel, fdcId),
+        )
+        .forEach(
           (dbModel) => batch.insert(
             'nutrients',
             dbModel.toJson(),
@@ -43,14 +50,5 @@ class UsdaNutrientService {
     final executor = txn ?? await _database;
 
     await executor.delete('nutrients');
-  }
-
-  UsdaNutrientDbModel _fromDto(UsdaNutrientDtoModel dtoModel, int fdcId) {
-    return UsdaNutrientDbModel(
-      fdc_id: fdcId,
-      number: dtoModel.number,
-      amount: dtoModel.amount,
-      unit_name: dtoModel.unitName,
-    );
   }
 }

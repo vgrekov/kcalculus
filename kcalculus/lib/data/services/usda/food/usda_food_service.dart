@@ -1,18 +1,18 @@
 import 'dart:async';
 
 import 'package:kcalculus/data/services/usda/food/usda_food_db_model.dart';
+import 'package:kcalculus/data/services/usda/food/usda_food_dto_converter.dart';
 import 'package:kcalculus/data/services/usda/food/usda_food_dto_model.dart';
-import 'package:kcalculus/utils/string_ext.dart';
 import 'package:sqflite/sqflite.dart';
 
 class UsdaFoodService {
-  static final _kDescriptionDelim = RegExp(r'\s*,\s*');
-
   const UsdaFoodService(
     FutureOr<Database> database,
   ) : _database = database;
 
   final FutureOr<Database> _database;
+
+  final _converter = const UsdaFoodDtoConverter();
 
   Future<List<UsdaFoodDbModel>> search(
     String? query, {
@@ -133,7 +133,7 @@ class UsdaFoodService {
     Iterable<UsdaFoodDtoModel> dtoModels, {
     required Batch batch,
   }) async {
-    dtoModels.map(_fromDto).forEach(
+    dtoModels.map(_converter.toDbModel).forEach(
           (dbModel) => batch.insert(
             'foods',
             dbModel.toJson(),
@@ -147,28 +147,5 @@ class UsdaFoodService {
     final executor = txn ?? await _database;
 
     await executor.delete('foods');
-  }
-
-  UsdaFoodDbModel _fromDto(UsdaFoodDtoModel dtoModel) {
-    final (name, description) = _splitDescription(dtoModel.description);
-    return UsdaFoodDbModel(
-      fdc_id: dtoModel.fdcId,
-      name: name,
-      description: description,
-      data_type: dtoModel.dataType,
-      priority: dtoModel.priority,
-    );
-  }
-
-  (String, String) _splitDescription(String description) {
-    final chunks = description
-        .trim()
-        .split(_kDescriptionDelim)
-        .where((c) => c.isNotEmpty)
-        .toList();
-    return (
-      chunks.firstOrNull?.capitalize() ?? '',
-      chunks.isEmpty ? '' : chunks.sublist(1).join(', ').capitalize(),
-    );
   }
 }

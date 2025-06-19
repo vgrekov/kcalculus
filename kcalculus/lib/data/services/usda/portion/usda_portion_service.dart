@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:kcalculus/data/services/usda/portion/usda_portion_db_model.dart';
+import 'package:kcalculus/data/services/usda/portion/usda_portion_dto_converter.dart';
 import 'package:kcalculus/data/services/usda/portion/usda_portion_dto_model.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -10,6 +11,8 @@ class UsdaPortionService {
   ) : _database = database;
 
   final FutureOr<Database> _database;
+
+  final _converter = const UsdaPortionDtoConverter();
 
   Future<List<UsdaPortionDbModel>> getByFdcId(
     int fdcId, {
@@ -29,7 +32,11 @@ class UsdaPortionService {
     int fdcId, {
     required Batch batch,
   }) async {
-    dtoModels.map((dtoModel) => _fromDto(dtoModel, fdcId)).forEach(
+    dtoModels
+        .map(
+          (dtoModel) => _converter.toDbModel(dtoModel, fdcId),
+        )
+        .forEach(
           (dbModel) => batch.insert(
             'portions',
             dbModel.toJson(),
@@ -43,14 +50,5 @@ class UsdaPortionService {
     final executor = txn ?? await _database;
 
     await executor.delete('portions');
-  }
-
-  UsdaPortionDbModel _fromDto(UsdaPortionDtoModel dtoModel, int fdcId) {
-    return UsdaPortionDbModel(
-      fdc_id: fdcId,
-      measure_unit_id: dtoModel.measureUnitId,
-      amount: dtoModel.amount,
-      gram_weight: dtoModel.gramWeight,
-    );
   }
 }
