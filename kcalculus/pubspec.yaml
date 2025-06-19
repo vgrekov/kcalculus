@@ -57,5 +57,5 @@ flutter:
     - assets/db/migrations/
     - assets/agreements/
     - assets/images/
-    - assets/dumps/
-    - assets/usda_db/migrations/
+    - assets/usda/dumps/
+    - assets/usda/db/migrations/

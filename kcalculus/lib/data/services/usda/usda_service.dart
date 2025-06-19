@@ -24,11 +24,11 @@ class UsdaService {
 
   static const _kDbVersion = 1;
 
-  static const _kDbMigrationsDir = 'assets/usda_db/migrations';
+  static const _kDbMigrationsDir = 'assets/usda/db/migrations';
 
   static const _kDumpAssetFilename = 'usda_foods.ndjson.gz';
 
-  static const _kDumpAssetPath = 'assets/dumps/$_kDumpAssetFilename';
+  static const _kDumpAssetPath = 'assets/usda/dumps/$_kDumpAssetFilename';
 
   static const _kDumpChecksumKey = 'USDA-Foods-Dump-Checksum';
 
