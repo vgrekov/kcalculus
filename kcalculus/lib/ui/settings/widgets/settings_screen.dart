@@ -136,13 +136,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     UiCommand command, {
     required BuildContext context,
     required WidgetRef ref,
-  }) {
+  }) async {
     final file = command.payload as File;
-    FilePicker.platform.saveFile(
+
+    command.complete();
+
+    final backupPath = await FilePicker.platform.saveFile(
       fileName: path.basename(file.path),
       bytes: file.readAsBytesSync(),
     );
-    command.complete();
+
+    if (backupPath != null) {
+      _showBackupSuccessNotification(backupPath);
+    }
+  }
+
+  void _showBackupSuccessNotification(String backupPath) {
+    showMessage(
+      l10n(context).messageBackupSuccess(backupPath),
+      MessageType.info,
+    );
   }
 
   void _showBackupFailureNotification(

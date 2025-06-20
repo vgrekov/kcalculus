@@ -278,6 +278,14 @@
     "settingBackupSubtitle": "Select a directory to store the backup",
     "settingRestoreTitle": "Restore",
     "settingRestoreSubtitle": "Select a backup file",
+    "messageBackupSuccess": "Data saved to {path}",
+    "@messageBackupSuccess": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
     "messageBackupFailure": "Failed to backup data",
     "messageRestoreConfirmation": "PROCEEDING WILL DELETE ALL YOUR CURRENT DATA!\n\nLoad data from {path}?",
     "@messageRestoreConfirmation": {

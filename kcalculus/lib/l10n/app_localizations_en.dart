@@ -659,6 +659,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingRestoreSubtitle => 'Select a backup file';
 
   @override
+  String messageBackupSuccess(String path) {
+    return 'Data saved to $path';
+  }
+
+  @override
   String get messageBackupFailure => 'Failed to backup data';
 
   @override

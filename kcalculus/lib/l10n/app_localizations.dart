@@ -1324,6 +1324,12 @@ abstract class AppLocalizations {
   /// **'Select a backup file'**
   String get settingRestoreSubtitle;
 
+  /// No description provided for @messageBackupSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data saved to {path}'**
+  String messageBackupSuccess(String path);
+
   /// No description provided for @messageBackupFailure.
   ///
   /// In en, this message translates to:
