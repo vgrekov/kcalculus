@@ -6,9 +6,8 @@ part of 'product_api_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ProductApiModelImpl _$$ProductApiModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ProductApiModelImpl(
+_ProductApiModel _$ProductApiModelFromJson(Map<String, dynamic> json) =>
+    _ProductApiModel(
       product_name: json['product_name'] as String,
       brands: json['brands'] as String?,
       serving_quantity_unit: json['serving_quantity_unit'] as String?,
@@ -17,8 +16,7 @@ _$ProductApiModelImpl _$$ProductApiModelImplFromJson(
       nutriments: json['nutriments'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$ProductApiModelImplToJson(
-        _$ProductApiModelImpl instance) =>
+Map<String, dynamic> _$ProductApiModelToJson(_ProductApiModel instance) =>
     <String, dynamic>{
       'product_name': instance.product_name,
       'brands': instance.brands,

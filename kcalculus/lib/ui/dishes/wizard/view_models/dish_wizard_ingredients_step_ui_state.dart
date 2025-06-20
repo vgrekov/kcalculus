@@ -9,7 +9,8 @@ enum IngredientsStepValidationResult {
 }
 
 @freezed
-class DishWizardIngredientsStepUiState with _$DishWizardIngredientsStepUiState {
+sealed class DishWizardIngredientsStepUiState
+    with _$DishWizardIngredientsStepUiState {
   const DishWizardIngredientsStepUiState._();
 
   const factory DishWizardIngredientsStepUiState({

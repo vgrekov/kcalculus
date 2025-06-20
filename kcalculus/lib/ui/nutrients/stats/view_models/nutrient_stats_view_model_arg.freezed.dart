@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,143 +10,27 @@ part of 'nutrient_stats_view_model_arg.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$NutrientStatsViewModelArg {
-  DateTime get date => throw _privateConstructorUsedError;
-  NutrientData get data => throw _privateConstructorUsedError;
+  DateTime get date;
+  NutrientData get data;
 
   /// Create a copy of NutrientStatsViewModelArg
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NutrientStatsViewModelArgCopyWith<NutrientStatsViewModelArg> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NutrientStatsViewModelArgCopyWith<$Res> {
-  factory $NutrientStatsViewModelArgCopyWith(NutrientStatsViewModelArg value,
-          $Res Function(NutrientStatsViewModelArg) then) =
-      _$NutrientStatsViewModelArgCopyWithImpl<$Res, NutrientStatsViewModelArg>;
-  @useResult
-  $Res call({DateTime date, NutrientData data});
-
-  $NutrientDataCopyWith<$Res> get data;
-}
-
-/// @nodoc
-class _$NutrientStatsViewModelArgCopyWithImpl<$Res,
-        $Val extends NutrientStatsViewModelArg>
-    implements $NutrientStatsViewModelArgCopyWith<$Res> {
-  _$NutrientStatsViewModelArgCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NutrientStatsViewModelArg
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? date = null,
-    Object? data = null,
-  }) {
-    return _then(_value.copyWith(
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as NutrientData,
-    ) as $Val);
-  }
-
-  /// Create a copy of NutrientStatsViewModelArg
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $NutrientDataCopyWith<$Res> get data {
-    return $NutrientDataCopyWith<$Res>(_value.data, (value) {
-      return _then(_value.copyWith(data: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$NutrientStatsViewModelArgImplCopyWith<$Res>
-    implements $NutrientStatsViewModelArgCopyWith<$Res> {
-  factory _$$NutrientStatsViewModelArgImplCopyWith(
-          _$NutrientStatsViewModelArgImpl value,
-          $Res Function(_$NutrientStatsViewModelArgImpl) then) =
-      __$$NutrientStatsViewModelArgImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({DateTime date, NutrientData data});
-
-  @override
-  $NutrientDataCopyWith<$Res> get data;
-}
-
-/// @nodoc
-class __$$NutrientStatsViewModelArgImplCopyWithImpl<$Res>
-    extends _$NutrientStatsViewModelArgCopyWithImpl<$Res,
-        _$NutrientStatsViewModelArgImpl>
-    implements _$$NutrientStatsViewModelArgImplCopyWith<$Res> {
-  __$$NutrientStatsViewModelArgImplCopyWithImpl(
-      _$NutrientStatsViewModelArgImpl _value,
-      $Res Function(_$NutrientStatsViewModelArgImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NutrientStatsViewModelArg
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? date = null,
-    Object? data = null,
-  }) {
-    return _then(_$NutrientStatsViewModelArgImpl(
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as NutrientData,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$NutrientStatsViewModelArgImpl implements _NutrientStatsViewModelArg {
-  const _$NutrientStatsViewModelArgImpl(
-      {required this.date, required this.data});
-
-  @override
-  final DateTime date;
-  @override
-  final NutrientData data;
-
-  @override
-  String toString() {
-    return 'NutrientStatsViewModelArg(date: $date, data: $data)';
-  }
+      _$NutrientStatsViewModelArgCopyWithImpl<NutrientStatsViewModelArg>(
+          this as NutrientStatsViewModelArg, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NutrientStatsViewModelArgImpl &&
+            other is NutrientStatsViewModelArg &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.data, data) || other.data == data));
   }
@@ -153,30 +38,151 @@ class _$NutrientStatsViewModelArgImpl implements _NutrientStatsViewModelArg {
   @override
   int get hashCode => Object.hash(runtimeType, date, data);
 
+  @override
+  String toString() {
+    return 'NutrientStatsViewModelArg(date: $date, data: $data)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $NutrientStatsViewModelArgCopyWith<$Res> {
+  factory $NutrientStatsViewModelArgCopyWith(NutrientStatsViewModelArg value,
+          $Res Function(NutrientStatsViewModelArg) _then) =
+      _$NutrientStatsViewModelArgCopyWithImpl;
+  @useResult
+  $Res call({DateTime date, NutrientData data});
+
+  $NutrientDataCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class _$NutrientStatsViewModelArgCopyWithImpl<$Res>
+    implements $NutrientStatsViewModelArgCopyWith<$Res> {
+  _$NutrientStatsViewModelArgCopyWithImpl(this._self, this._then);
+
+  final NutrientStatsViewModelArg _self;
+  final $Res Function(NutrientStatsViewModelArg) _then;
+
   /// Create a copy of NutrientStatsViewModelArg
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? date = null,
+    Object? data = null,
+  }) {
+    return _then(_self.copyWith(
+      date: null == date
+          ? _self.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      data: null == data
+          ? _self.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as NutrientData,
+    ));
+  }
+
+  /// Create a copy of NutrientStatsViewModelArg
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  _$$NutrientStatsViewModelArgImplCopyWith<_$NutrientStatsViewModelArgImpl>
-      get copyWith => __$$NutrientStatsViewModelArgImplCopyWithImpl<
-          _$NutrientStatsViewModelArgImpl>(this, _$identity);
+  $NutrientDataCopyWith<$Res> get data {
+    return $NutrientDataCopyWith<$Res>(_self.data, (value) {
+      return _then(_self.copyWith(data: value));
+    });
+  }
 }
 
-abstract class _NutrientStatsViewModelArg implements NutrientStatsViewModelArg {
-  const factory _NutrientStatsViewModelArg(
-      {required final DateTime date,
-      required final NutrientData data}) = _$NutrientStatsViewModelArgImpl;
+/// @nodoc
+
+class _NutrientStatsViewModelArg implements NutrientStatsViewModelArg {
+  const _NutrientStatsViewModelArg({required this.date, required this.data});
 
   @override
-  DateTime get date;
+  final DateTime date;
   @override
-  NutrientData get data;
+  final NutrientData data;
 
   /// Create a copy of NutrientStatsViewModelArg
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutrientStatsViewModelArgImplCopyWith<_$NutrientStatsViewModelArgImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$NutrientStatsViewModelArgCopyWith<_NutrientStatsViewModelArg>
+      get copyWith =>
+          __$NutrientStatsViewModelArgCopyWithImpl<_NutrientStatsViewModelArg>(
+              this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _NutrientStatsViewModelArg &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, date, data);
+
+  @override
+  String toString() {
+    return 'NutrientStatsViewModelArg(date: $date, data: $data)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$NutrientStatsViewModelArgCopyWith<$Res>
+    implements $NutrientStatsViewModelArgCopyWith<$Res> {
+  factory _$NutrientStatsViewModelArgCopyWith(_NutrientStatsViewModelArg value,
+          $Res Function(_NutrientStatsViewModelArg) _then) =
+      __$NutrientStatsViewModelArgCopyWithImpl;
+  @override
+  @useResult
+  $Res call({DateTime date, NutrientData data});
+
+  @override
+  $NutrientDataCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$NutrientStatsViewModelArgCopyWithImpl<$Res>
+    implements _$NutrientStatsViewModelArgCopyWith<$Res> {
+  __$NutrientStatsViewModelArgCopyWithImpl(this._self, this._then);
+
+  final _NutrientStatsViewModelArg _self;
+  final $Res Function(_NutrientStatsViewModelArg) _then;
+
+  /// Create a copy of NutrientStatsViewModelArg
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? date = null,
+    Object? data = null,
+  }) {
+    return _then(_NutrientStatsViewModelArg(
+      date: null == date
+          ? _self.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      data: null == data
+          ? _self.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as NutrientData,
+    ));
+  }
+
+  /// Create a copy of NutrientStatsViewModelArg
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NutrientDataCopyWith<$Res> get data {
+    return $NutrientDataCopyWith<$Res>(_self.data, (value) {
+      return _then(_self.copyWith(data: value));
+    });
+  }
+}
+
+// dart format on

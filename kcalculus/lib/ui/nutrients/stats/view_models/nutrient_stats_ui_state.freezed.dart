@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,29 +10,48 @@ part of 'nutrient_stats_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$NutrientStatsUiState {
-  DateTime get date => throw _privateConstructorUsedError;
-  NutrientData get data => throw _privateConstructorUsedError;
-  List<NutrientStatsRow> get rows => throw _privateConstructorUsedError;
+  DateTime get date;
+  NutrientData get data;
+  List<NutrientStatsRow> get rows;
 
   /// Create a copy of NutrientStatsUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NutrientStatsUiStateCopyWith<NutrientStatsUiState> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$NutrientStatsUiStateCopyWithImpl<NutrientStatsUiState>(
+          this as NutrientStatsUiState, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NutrientStatsUiState &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.data, data) || other.data == data) &&
+            const DeepCollectionEquality().equals(other.rows, rows));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, date, data, const DeepCollectionEquality().hash(rows));
+
+  @override
+  String toString() {
+    return 'NutrientStatsUiState(date: $date, data: $data, rows: $rows)';
+  }
 }
 
 /// @nodoc
-abstract class $NutrientStatsUiStateCopyWith<$Res> {
+abstract mixin class $NutrientStatsUiStateCopyWith<$Res> {
   factory $NutrientStatsUiStateCopyWith(NutrientStatsUiState value,
-          $Res Function(NutrientStatsUiState) then) =
-      _$NutrientStatsUiStateCopyWithImpl<$Res, NutrientStatsUiState>;
+          $Res Function(NutrientStatsUiState) _then) =
+      _$NutrientStatsUiStateCopyWithImpl;
   @useResult
   $Res call({DateTime date, NutrientData data, List<NutrientStatsRow> rows});
 
@@ -39,15 +59,12 @@ abstract class $NutrientStatsUiStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NutrientStatsUiStateCopyWithImpl<$Res,
-        $Val extends NutrientStatsUiState>
+class _$NutrientStatsUiStateCopyWithImpl<$Res>
     implements $NutrientStatsUiStateCopyWith<$Res> {
-  _$NutrientStatsUiStateCopyWithImpl(this._value, this._then);
+  _$NutrientStatsUiStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final NutrientStatsUiState _self;
+  final $Res Function(NutrientStatsUiState) _then;
 
   /// Create a copy of NutrientStatsUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -58,20 +75,20 @@ class _$NutrientStatsUiStateCopyWithImpl<$Res,
     Object? data = null,
     Object? rows = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       date: null == date
-          ? _value.date
+          ? _self.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
       data: null == data
-          ? _value.data
+          ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as NutrientData,
       rows: null == rows
-          ? _value.rows
+          ? _self.rows
           : rows // ignore: cast_nullable_to_non_nullable
               as List<NutrientStatsRow>,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of NutrientStatsUiState
@@ -79,64 +96,16 @@ class _$NutrientStatsUiStateCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $NutrientDataCopyWith<$Res> get data {
-    return $NutrientDataCopyWith<$Res>(_value.data, (value) {
-      return _then(_value.copyWith(data: value) as $Val);
+    return $NutrientDataCopyWith<$Res>(_self.data, (value) {
+      return _then(_self.copyWith(data: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$NutrientStatsUiStateImplCopyWith<$Res>
-    implements $NutrientStatsUiStateCopyWith<$Res> {
-  factory _$$NutrientStatsUiStateImplCopyWith(_$NutrientStatsUiStateImpl value,
-          $Res Function(_$NutrientStatsUiStateImpl) then) =
-      __$$NutrientStatsUiStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({DateTime date, NutrientData data, List<NutrientStatsRow> rows});
 
-  @override
-  $NutrientDataCopyWith<$Res> get data;
-}
-
-/// @nodoc
-class __$$NutrientStatsUiStateImplCopyWithImpl<$Res>
-    extends _$NutrientStatsUiStateCopyWithImpl<$Res, _$NutrientStatsUiStateImpl>
-    implements _$$NutrientStatsUiStateImplCopyWith<$Res> {
-  __$$NutrientStatsUiStateImplCopyWithImpl(_$NutrientStatsUiStateImpl _value,
-      $Res Function(_$NutrientStatsUiStateImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NutrientStatsUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? date = null,
-    Object? data = null,
-    Object? rows = null,
-  }) {
-    return _then(_$NutrientStatsUiStateImpl(
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as NutrientData,
-      rows: null == rows
-          ? _value._rows
-          : rows // ignore: cast_nullable_to_non_nullable
-              as List<NutrientStatsRow>,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$NutrientStatsUiStateImpl implements _NutrientStatsUiState {
-  const _$NutrientStatsUiStateImpl(
+class _NutrientStatsUiState implements NutrientStatsUiState {
+  const _NutrientStatsUiState(
       {required this.date,
       required this.data,
       required final List<NutrientStatsRow> rows})
@@ -154,16 +123,20 @@ class _$NutrientStatsUiStateImpl implements _NutrientStatsUiState {
     return EqualUnmodifiableListView(_rows);
   }
 
+  /// Create a copy of NutrientStatsUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NutrientStatsUiState._default(date: $date, data: $data, rows: $rows)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NutrientStatsUiStateCopyWith<_NutrientStatsUiState> get copyWith =>
+      __$NutrientStatsUiStateCopyWithImpl<_NutrientStatsUiState>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NutrientStatsUiStateImpl &&
+            other is _NutrientStatsUiState &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.data, data) || other.data == data) &&
             const DeepCollectionEquality().equals(other._rows, _rows));
@@ -173,34 +146,68 @@ class _$NutrientStatsUiStateImpl implements _NutrientStatsUiState {
   int get hashCode => Object.hash(
       runtimeType, date, data, const DeepCollectionEquality().hash(_rows));
 
+  @override
+  String toString() {
+    return 'NutrientStatsUiState._default(date: $date, data: $data, rows: $rows)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$NutrientStatsUiStateCopyWith<$Res>
+    implements $NutrientStatsUiStateCopyWith<$Res> {
+  factory _$NutrientStatsUiStateCopyWith(_NutrientStatsUiState value,
+          $Res Function(_NutrientStatsUiState) _then) =
+      __$NutrientStatsUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call({DateTime date, NutrientData data, List<NutrientStatsRow> rows});
+
+  @override
+  $NutrientDataCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$NutrientStatsUiStateCopyWithImpl<$Res>
+    implements _$NutrientStatsUiStateCopyWith<$Res> {
+  __$NutrientStatsUiStateCopyWithImpl(this._self, this._then);
+
+  final _NutrientStatsUiState _self;
+  final $Res Function(_NutrientStatsUiState) _then;
+
   /// Create a copy of NutrientStatsUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$NutrientStatsUiStateImplCopyWith<_$NutrientStatsUiStateImpl>
-      get copyWith =>
-          __$$NutrientStatsUiStateImplCopyWithImpl<_$NutrientStatsUiStateImpl>(
-              this, _$identity);
-}
-
-abstract class _NutrientStatsUiState implements NutrientStatsUiState {
-  const factory _NutrientStatsUiState(
-      {required final DateTime date,
-      required final NutrientData data,
-      required final List<NutrientStatsRow> rows}) = _$NutrientStatsUiStateImpl;
-
-  @override
-  DateTime get date;
-  @override
-  NutrientData get data;
-  @override
-  List<NutrientStatsRow> get rows;
+  $Res call({
+    Object? date = null,
+    Object? data = null,
+    Object? rows = null,
+  }) {
+    return _then(_NutrientStatsUiState(
+      date: null == date
+          ? _self.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      data: null == data
+          ? _self.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as NutrientData,
+      rows: null == rows
+          ? _self._rows
+          : rows // ignore: cast_nullable_to_non_nullable
+              as List<NutrientStatsRow>,
+    ));
+  }
 
   /// Create a copy of NutrientStatsUiState
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutrientStatsUiStateImplCopyWith<_$NutrientStatsUiStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $NutrientDataCopyWith<$Res> get data {
+    return $NutrientDataCopyWith<$Res>(_self.data, (value) {
+      return _then(_self.copyWith(data: value));
+    });
+  }
 }
+
+// dart format on

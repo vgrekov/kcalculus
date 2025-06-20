@@ -17,7 +17,7 @@ enum NutritionRatioValidationResult {
 }
 
 @freezed
-class NutritionRatioUiState with _$NutritionRatioUiState {
+sealed class NutritionRatioUiState with _$NutritionRatioUiState {
   const NutritionRatioUiState._();
 
   const factory NutritionRatioUiState._default({

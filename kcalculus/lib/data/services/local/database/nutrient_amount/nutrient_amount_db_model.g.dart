@@ -6,9 +6,9 @@ part of 'nutrient_amount_db_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$NutrientAmountDbModelImpl _$$NutrientAmountDbModelImplFromJson(
+_NutrientAmountDbModel _$NutrientAmountDbModelFromJson(
         Map<String, dynamic> json) =>
-    _$NutrientAmountDbModelImpl(
+    _NutrientAmountDbModel(
       nutrition_facts_id: json['nutrition_facts_id'] as String,
       nutrient: json['nutrient'] as String,
       amount_unit: json['amount_unit'] as String,
@@ -16,8 +16,8 @@ _$NutrientAmountDbModelImpl _$$NutrientAmountDbModelImplFromJson(
       position: (json['position'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$NutrientAmountDbModelImplToJson(
-        _$NutrientAmountDbModelImpl instance) =>
+Map<String, dynamic> _$NutrientAmountDbModelToJson(
+        _NutrientAmountDbModel instance) =>
     <String, dynamic>{
       'nutrition_facts_id': instance.nutrition_facts_id,
       'nutrient': instance.nutrient,

@@ -5,7 +5,7 @@ part 'edible_search_result_db_model.freezed.dart';
 part 'edible_search_result_db_model.g.dart';
 
 @freezed
-class EdibleSearchResultDbModel with _$EdibleSearchResultDbModel {
+sealed class EdibleSearchResultDbModel with _$EdibleSearchResultDbModel {
   factory EdibleSearchResultDbModel({
     required String id,
     String? food_id,

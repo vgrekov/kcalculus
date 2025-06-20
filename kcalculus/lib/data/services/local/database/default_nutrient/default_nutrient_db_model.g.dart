@@ -6,15 +6,15 @@ part of 'default_nutrient_db_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DefaultNutrientDbModelImpl _$$DefaultNutrientDbModelImplFromJson(
+_DefaultNutrientDbModel _$DefaultNutrientDbModelFromJson(
         Map<String, dynamic> json) =>
-    _$DefaultNutrientDbModelImpl(
+    _DefaultNutrientDbModel(
       name: json['name'] as String,
       position: (json['position'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$DefaultNutrientDbModelImplToJson(
-        _$DefaultNutrientDbModelImpl instance) =>
+Map<String, dynamic> _$DefaultNutrientDbModelToJson(
+        _DefaultNutrientDbModel instance) =>
     <String, dynamic>{
       'name': instance.name,
       'position': instance.position,

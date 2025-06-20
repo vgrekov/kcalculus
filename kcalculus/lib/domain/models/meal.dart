@@ -10,7 +10,9 @@ part 'meal.g.dart';
   fromJson: false,
   toJson: true,
 )
-class Meal with _$Meal, Portion {
+abstract class Meal with _$Meal, Portion {
+  const Meal._();
+
   @With<Portion>()
   const factory Meal({
     String? id,

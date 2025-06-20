@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,162 +10,31 @@ part of 'nutrient_goal.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-NutrientGoal _$NutrientGoalFromJson(Map<String, dynamic> json) {
-  return _NutrientGoal.fromJson(json);
-}
 
 /// @nodoc
 mixin _$NutrientGoal {
-  String? get id => throw _privateConstructorUsedError;
-  Nutrient get nutrient => throw _privateConstructorUsedError;
-  Amount get amount => throw _privateConstructorUsedError;
-
-  /// Serializes this NutrientGoal to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String? get id;
+  Nutrient get nutrient;
+  Amount get amount;
 
   /// Create a copy of NutrientGoal
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NutrientGoalCopyWith<NutrientGoal> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$NutrientGoalCopyWithImpl<NutrientGoal>(
+          this as NutrientGoal, _$identity);
 
-/// @nodoc
-abstract class $NutrientGoalCopyWith<$Res> {
-  factory $NutrientGoalCopyWith(
-          NutrientGoal value, $Res Function(NutrientGoal) then) =
-      _$NutrientGoalCopyWithImpl<$Res, NutrientGoal>;
-  @useResult
-  $Res call({String? id, Nutrient nutrient, Amount amount});
-
-  $AmountCopyWith<$Res> get amount;
-}
-
-/// @nodoc
-class _$NutrientGoalCopyWithImpl<$Res, $Val extends NutrientGoal>
-    implements $NutrientGoalCopyWith<$Res> {
-  _$NutrientGoalCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NutrientGoal
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? nutrient = null,
-    Object? amount = null,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      nutrient: null == nutrient
-          ? _value.nutrient
-          : nutrient // ignore: cast_nullable_to_non_nullable
-              as Nutrient,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as Amount,
-    ) as $Val);
-  }
-
-  /// Create a copy of NutrientGoal
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AmountCopyWith<$Res> get amount {
-    return $AmountCopyWith<$Res>(_value.amount, (value) {
-      return _then(_value.copyWith(amount: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$NutrientGoalImplCopyWith<$Res>
-    implements $NutrientGoalCopyWith<$Res> {
-  factory _$$NutrientGoalImplCopyWith(
-          _$NutrientGoalImpl value, $Res Function(_$NutrientGoalImpl) then) =
-      __$$NutrientGoalImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String? id, Nutrient nutrient, Amount amount});
-
-  @override
-  $AmountCopyWith<$Res> get amount;
-}
-
-/// @nodoc
-class __$$NutrientGoalImplCopyWithImpl<$Res>
-    extends _$NutrientGoalCopyWithImpl<$Res, _$NutrientGoalImpl>
-    implements _$$NutrientGoalImplCopyWith<$Res> {
-  __$$NutrientGoalImplCopyWithImpl(
-      _$NutrientGoalImpl _value, $Res Function(_$NutrientGoalImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NutrientGoal
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? nutrient = null,
-    Object? amount = null,
-  }) {
-    return _then(_$NutrientGoalImpl(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      nutrient: null == nutrient
-          ? _value.nutrient
-          : nutrient // ignore: cast_nullable_to_non_nullable
-              as Nutrient,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as Amount,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$NutrientGoalImpl implements _NutrientGoal {
-  const _$NutrientGoalImpl(
-      {this.id, required this.nutrient, required this.amount});
-
-  factory _$NutrientGoalImpl.fromJson(Map<String, dynamic> json) =>
-      _$$NutrientGoalImplFromJson(json);
-
-  @override
-  final String? id;
-  @override
-  final Nutrient nutrient;
-  @override
-  final Amount amount;
-
-  @override
-  String toString() {
-    return 'NutrientGoal(id: $id, nutrient: $nutrient, amount: $amount)';
-  }
+  /// Serializes this NutrientGoal to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NutrientGoalImpl &&
+            other is NutrientGoal &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nutrient, nutrient) ||
                 other.nutrient == nutrient) &&
@@ -175,42 +45,172 @@ class _$NutrientGoalImpl implements _NutrientGoal {
   @override
   int get hashCode => Object.hash(runtimeType, id, nutrient, amount);
 
-  /// Create a copy of NutrientGoal
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NutrientGoalImplCopyWith<_$NutrientGoalImpl> get copyWith =>
-      __$$NutrientGoalImplCopyWithImpl<_$NutrientGoalImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NutrientGoalImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NutrientGoal(id: $id, nutrient: $nutrient, amount: $amount)';
   }
 }
 
-abstract class _NutrientGoal implements NutrientGoal {
-  const factory _NutrientGoal(
-      {final String? id,
-      required final Nutrient nutrient,
-      required final Amount amount}) = _$NutrientGoalImpl;
+/// @nodoc
+abstract mixin class $NutrientGoalCopyWith<$Res> {
+  factory $NutrientGoalCopyWith(
+          NutrientGoal value, $Res Function(NutrientGoal) _then) =
+      _$NutrientGoalCopyWithImpl;
+  @useResult
+  $Res call({String? id, Nutrient nutrient, Amount amount});
 
-  factory _NutrientGoal.fromJson(Map<String, dynamic> json) =
-      _$NutrientGoalImpl.fromJson;
+  $AmountCopyWith<$Res> get amount;
+}
+
+/// @nodoc
+class _$NutrientGoalCopyWithImpl<$Res> implements $NutrientGoalCopyWith<$Res> {
+  _$NutrientGoalCopyWithImpl(this._self, this._then);
+
+  final NutrientGoal _self;
+  final $Res Function(NutrientGoal) _then;
+
+  /// Create a copy of NutrientGoal
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? nutrient = null,
+    Object? amount = null,
+  }) {
+    return _then(_self.copyWith(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nutrient: null == nutrient
+          ? _self.nutrient
+          : nutrient // ignore: cast_nullable_to_non_nullable
+              as Nutrient,
+      amount: null == amount
+          ? _self.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as Amount,
+    ));
+  }
+
+  /// Create a copy of NutrientGoal
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AmountCopyWith<$Res> get amount {
+    return $AmountCopyWith<$Res>(_self.amount, (value) {
+      return _then(_self.copyWith(amount: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _NutrientGoal implements NutrientGoal {
+  const _NutrientGoal({this.id, required this.nutrient, required this.amount});
+  factory _NutrientGoal.fromJson(Map<String, dynamic> json) =>
+      _$NutrientGoalFromJson(json);
 
   @override
-  String? get id;
+  final String? id;
   @override
-  Nutrient get nutrient;
+  final Nutrient nutrient;
   @override
-  Amount get amount;
+  final Amount amount;
 
   /// Create a copy of NutrientGoal
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutrientGoalImplCopyWith<_$NutrientGoalImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$NutrientGoalCopyWith<_NutrientGoal> get copyWith =>
+      __$NutrientGoalCopyWithImpl<_NutrientGoal>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NutrientGoalToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _NutrientGoal &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.nutrient, nutrient) ||
+                other.nutrient == nutrient) &&
+            (identical(other.amount, amount) || other.amount == amount));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, nutrient, amount);
+
+  @override
+  String toString() {
+    return 'NutrientGoal(id: $id, nutrient: $nutrient, amount: $amount)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$NutrientGoalCopyWith<$Res>
+    implements $NutrientGoalCopyWith<$Res> {
+  factory _$NutrientGoalCopyWith(
+          _NutrientGoal value, $Res Function(_NutrientGoal) _then) =
+      __$NutrientGoalCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String? id, Nutrient nutrient, Amount amount});
+
+  @override
+  $AmountCopyWith<$Res> get amount;
+}
+
+/// @nodoc
+class __$NutrientGoalCopyWithImpl<$Res>
+    implements _$NutrientGoalCopyWith<$Res> {
+  __$NutrientGoalCopyWithImpl(this._self, this._then);
+
+  final _NutrientGoal _self;
+  final $Res Function(_NutrientGoal) _then;
+
+  /// Create a copy of NutrientGoal
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = freezed,
+    Object? nutrient = null,
+    Object? amount = null,
+  }) {
+    return _then(_NutrientGoal(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nutrient: null == nutrient
+          ? _self.nutrient
+          : nutrient // ignore: cast_nullable_to_non_nullable
+              as Nutrient,
+      amount: null == amount
+          ? _self.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as Amount,
+    ));
+  }
+
+  /// Create a copy of NutrientGoal
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AmountCopyWith<$Res> get amount {
+    return $AmountCopyWith<$Res>(_self.amount, (value) {
+      return _then(_self.copyWith(amount: value));
+    });
+  }
+}
+
+// dart format on

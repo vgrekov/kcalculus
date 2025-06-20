@@ -30,7 +30,7 @@ class MoreGridItem extends StatelessWidget {
             backgroundColor: Theme.of(context)
                 .colorScheme
                 .surfaceContainerHighest
-                .withOpacity(0.8),
+                .withValues(alpha: 0.8),
             title: Center(
               child: Text(
                 title,

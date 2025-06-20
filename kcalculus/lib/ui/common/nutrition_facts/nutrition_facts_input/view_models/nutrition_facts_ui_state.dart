@@ -10,7 +10,7 @@ import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/view_m
 part 'nutrition_facts_ui_state.freezed.dart';
 
 @freezed
-class NutritionFactsUiState with _$NutritionFactsUiState {
+sealed class NutritionFactsUiState with _$NutritionFactsUiState {
   const NutritionFactsUiState._();
 
   const factory NutritionFactsUiState._default({

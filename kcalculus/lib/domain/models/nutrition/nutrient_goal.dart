@@ -6,7 +6,7 @@ part 'nutrient_goal.freezed.dart';
 part 'nutrient_goal.g.dart';
 
 @freezed
-class NutrientGoal with _$NutrientGoal {
+sealed class NutrientGoal with _$NutrientGoal {
   const factory NutrientGoal({
     String? id,
     required Nutrient nutrient,

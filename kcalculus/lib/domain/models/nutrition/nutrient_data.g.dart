@@ -6,8 +6,8 @@ part of 'nutrient_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$NutrientDataImpl _$$NutrientDataImplFromJson(Map<String, dynamic> json) =>
-    _$NutrientDataImpl(
+_NutrientData _$NutrientDataFromJson(Map<String, dynamic> json) =>
+    _NutrientData(
       nutrientAmounts: (json['nutrientAmounts'] as List<dynamic>)
           .map((e) => NutrientAmount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18,7 +18,7 @@ _$NutrientDataImpl _$$NutrientDataImplFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$$NutrientDataImplToJson(_$NutrientDataImpl instance) =>
+Map<String, dynamic> _$NutrientDataToJson(_NutrientData instance) =>
     <String, dynamic>{
       'nutrientAmounts': instance.nutrientAmounts,
       'nutrientAmountsMap': instance.nutrientAmountsMap

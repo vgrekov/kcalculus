@@ -9,7 +9,7 @@ part 'food.freezed.dart';
 part 'food.g.dart';
 
 @freezed
-class Food with _$Food implements Edible {
+sealed class Food with _$Food implements Edible {
   static const kVersion = 2;
 
   static final kParsers = {

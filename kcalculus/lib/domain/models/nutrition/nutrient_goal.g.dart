@@ -6,14 +6,14 @@ part of 'nutrient_goal.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$NutrientGoalImpl _$$NutrientGoalImplFromJson(Map<String, dynamic> json) =>
-    _$NutrientGoalImpl(
+_NutrientGoal _$NutrientGoalFromJson(Map<String, dynamic> json) =>
+    _NutrientGoal(
       id: json['id'] as String?,
       nutrient: $enumDecode(_$NutrientEnumMap, json['nutrient']),
       amount: Amount.fromJson(json['amount'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$NutrientGoalImplToJson(_$NutrientGoalImpl instance) =>
+Map<String, dynamic> _$NutrientGoalToJson(_NutrientGoal instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nutrient': _$NutrientEnumMap[instance.nutrient]!,

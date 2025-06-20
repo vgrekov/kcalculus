@@ -6,7 +6,7 @@ part 'product_api_model.freezed.dart';
 part 'product_api_model.g.dart';
 
 @freezed
-class ProductApiModel with _$ProductApiModel {
+sealed class ProductApiModel with _$ProductApiModel {
   const factory ProductApiModel({
     required String product_name,
     String? brands,

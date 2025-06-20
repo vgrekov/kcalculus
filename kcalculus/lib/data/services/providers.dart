@@ -93,3 +93,15 @@ final purchaseServiceProvider = Provider<PurchaseService>(
 final rewardServiceProvider = Provider<RewardService>(
   (ref) => const RewardService(),
 );
+
+final _usdaServiceProvider = Provider<UsdaService>(
+  (ref) {
+    final service = UsdaService();
+
+    ref.onDispose(() {
+      service.dispose();
+    });
+
+    return service;
+  },
+);

@@ -6,7 +6,7 @@ part of 'food_v1.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FoodV1Impl _$$FoodV1ImplFromJson(Map<String, dynamic> json) => _$FoodV1Impl(
+_FoodV1 _$FoodV1FromJson(Map<String, dynamic> json) => _FoodV1(
       id: json['id'] as String?,
       name: json['name'] as String,
       description: json['description'] as String,
@@ -21,8 +21,7 @@ _$FoodV1Impl _$$FoodV1ImplFromJson(Map<String, dynamic> json) => _$FoodV1Impl(
           : DateTime.parse(json['updatedAt'] as String),
     );
 
-Map<String, dynamic> _$$FoodV1ImplToJson(_$FoodV1Impl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$FoodV1ToJson(_FoodV1 instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,

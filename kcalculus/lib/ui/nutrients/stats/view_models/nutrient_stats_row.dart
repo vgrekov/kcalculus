@@ -5,7 +5,7 @@ import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 part 'nutrient_stats_row.freezed.dart';
 
 @freezed
-class NutrientStatsRow with _$NutrientStatsRow {
+sealed class NutrientStatsRow with _$NutrientStatsRow {
   const factory NutrientStatsRow({
     required Nutrient nutrient,
     required Amount amount,

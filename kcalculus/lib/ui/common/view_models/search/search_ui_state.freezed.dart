@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,90 +10,61 @@ part of 'search_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SearchUiState<Model> {
-  String get searchQuery => throw _privateConstructorUsedError;
-  Future<List<Model>> get dataLoader => throw _privateConstructorUsedError;
-  List<Model> get data => throw _privateConstructorUsedError;
+  String get searchQuery;
+  Future<List<Model>> get dataLoader;
+  List<Model> get data;
 
   /// Create a copy of SearchUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SearchUiStateCopyWith<Model, SearchUiState<Model>> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SearchUiStateCopyWith<Model, $Res> {
-  factory $SearchUiStateCopyWith(SearchUiState<Model> value,
-          $Res Function(SearchUiState<Model>) then) =
-      _$SearchUiStateCopyWithImpl<Model, $Res, SearchUiState<Model>>;
-  @useResult
-  $Res call(
-      {String searchQuery, Future<List<Model>> dataLoader, List<Model> data});
-}
-
-/// @nodoc
-class _$SearchUiStateCopyWithImpl<Model, $Res,
-        $Val extends SearchUiState<Model>>
-    implements $SearchUiStateCopyWith<Model, $Res> {
-  _$SearchUiStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of SearchUiState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $SearchUiStateCopyWith<Model, SearchUiState<Model>> get copyWith =>
+      _$SearchUiStateCopyWithImpl<Model, SearchUiState<Model>>(
+          this as SearchUiState<Model>, _$identity);
+
   @override
-  $Res call({
-    Object? searchQuery = null,
-    Object? dataLoader = null,
-    Object? data = null,
-  }) {
-    return _then(_value.copyWith(
-      searchQuery: null == searchQuery
-          ? _value.searchQuery
-          : searchQuery // ignore: cast_nullable_to_non_nullable
-              as String,
-      dataLoader: null == dataLoader
-          ? _value.dataLoader
-          : dataLoader // ignore: cast_nullable_to_non_nullable
-              as Future<List<Model>>,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<Model>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SearchUiState<Model> &&
+            (identical(other.searchQuery, searchQuery) ||
+                other.searchQuery == searchQuery) &&
+            (identical(other.dataLoader, dataLoader) ||
+                other.dataLoader == dataLoader) &&
+            const DeepCollectionEquality().equals(other.data, data));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, searchQuery, dataLoader,
+      const DeepCollectionEquality().hash(data));
+
+  @override
+  String toString() {
+    return 'SearchUiState<$Model>(searchQuery: $searchQuery, dataLoader: $dataLoader, data: $data)';
   }
 }
 
 /// @nodoc
-abstract class _$$SearchUiStateImplCopyWith<Model, $Res>
-    implements $SearchUiStateCopyWith<Model, $Res> {
-  factory _$$SearchUiStateImplCopyWith(_$SearchUiStateImpl<Model> value,
-          $Res Function(_$SearchUiStateImpl<Model>) then) =
-      __$$SearchUiStateImplCopyWithImpl<Model, $Res>;
-  @override
+abstract mixin class $SearchUiStateCopyWith<Model, $Res> {
+  factory $SearchUiStateCopyWith(SearchUiState<Model> value,
+      $Res Function(SearchUiState<Model>) _then) = _$SearchUiStateCopyWithImpl;
   @useResult
   $Res call(
       {String searchQuery, Future<List<Model>> dataLoader, List<Model> data});
 }
 
 /// @nodoc
-class __$$SearchUiStateImplCopyWithImpl<Model, $Res>
-    extends _$SearchUiStateCopyWithImpl<Model, $Res, _$SearchUiStateImpl<Model>>
-    implements _$$SearchUiStateImplCopyWith<Model, $Res> {
-  __$$SearchUiStateImplCopyWithImpl(_$SearchUiStateImpl<Model> _value,
-      $Res Function(_$SearchUiStateImpl<Model>) _then)
-      : super(_value, _then);
+class _$SearchUiStateCopyWithImpl<Model, $Res>
+    implements $SearchUiStateCopyWith<Model, $Res> {
+  _$SearchUiStateCopyWithImpl(this._self, this._then);
+
+  final SearchUiState<Model> _self;
+  final $Res Function(SearchUiState<Model>) _then;
 
   /// Create a copy of SearchUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -103,17 +75,17 @@ class __$$SearchUiStateImplCopyWithImpl<Model, $Res>
     Object? dataLoader = null,
     Object? data = null,
   }) {
-    return _then(_$SearchUiStateImpl<Model>(
+    return _then(_self.copyWith(
       searchQuery: null == searchQuery
-          ? _value.searchQuery
+          ? _self.searchQuery
           : searchQuery // ignore: cast_nullable_to_non_nullable
               as String,
       dataLoader: null == dataLoader
-          ? _value.dataLoader
+          ? _self.dataLoader
           : dataLoader // ignore: cast_nullable_to_non_nullable
               as Future<List<Model>>,
       data: null == data
-          ? _value._data
+          ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<Model>,
     ));
@@ -122,8 +94,8 @@ class __$$SearchUiStateImplCopyWithImpl<Model, $Res>
 
 /// @nodoc
 
-class _$SearchUiStateImpl<Model> implements _SearchUiState<Model> {
-  const _$SearchUiStateImpl(
+class _SearchUiState<Model> implements SearchUiState<Model> {
+  const _SearchUiState(
       {required this.searchQuery,
       required this.dataLoader,
       final List<Model> data = const []})
@@ -142,16 +114,20 @@ class _$SearchUiStateImpl<Model> implements _SearchUiState<Model> {
     return EqualUnmodifiableListView(_data);
   }
 
+  /// Create a copy of SearchUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'SearchUiState<$Model>(searchQuery: $searchQuery, dataLoader: $dataLoader, data: $data)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SearchUiStateCopyWith<Model, _SearchUiState<Model>> get copyWith =>
+      __$SearchUiStateCopyWithImpl<Model, _SearchUiState<Model>>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SearchUiStateImpl<Model> &&
+            other is _SearchUiState<Model> &&
             (identical(other.searchQuery, searchQuery) ||
                 other.searchQuery == searchQuery) &&
             (identical(other.dataLoader, dataLoader) ||
@@ -163,34 +139,56 @@ class _$SearchUiStateImpl<Model> implements _SearchUiState<Model> {
   int get hashCode => Object.hash(runtimeType, searchQuery, dataLoader,
       const DeepCollectionEquality().hash(_data));
 
+  @override
+  String toString() {
+    return 'SearchUiState<$Model>(searchQuery: $searchQuery, dataLoader: $dataLoader, data: $data)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SearchUiStateCopyWith<Model, $Res>
+    implements $SearchUiStateCopyWith<Model, $Res> {
+  factory _$SearchUiStateCopyWith(_SearchUiState<Model> value,
+          $Res Function(_SearchUiState<Model>) _then) =
+      __$SearchUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String searchQuery, Future<List<Model>> dataLoader, List<Model> data});
+}
+
+/// @nodoc
+class __$SearchUiStateCopyWithImpl<Model, $Res>
+    implements _$SearchUiStateCopyWith<Model, $Res> {
+  __$SearchUiStateCopyWithImpl(this._self, this._then);
+
+  final _SearchUiState<Model> _self;
+  final $Res Function(_SearchUiState<Model>) _then;
+
   /// Create a copy of SearchUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SearchUiStateImplCopyWith<Model, _$SearchUiStateImpl<Model>>
-      get copyWith =>
-          __$$SearchUiStateImplCopyWithImpl<Model, _$SearchUiStateImpl<Model>>(
-              this, _$identity);
+  $Res call({
+    Object? searchQuery = null,
+    Object? dataLoader = null,
+    Object? data = null,
+  }) {
+    return _then(_SearchUiState<Model>(
+      searchQuery: null == searchQuery
+          ? _self.searchQuery
+          : searchQuery // ignore: cast_nullable_to_non_nullable
+              as String,
+      dataLoader: null == dataLoader
+          ? _self.dataLoader
+          : dataLoader // ignore: cast_nullable_to_non_nullable
+              as Future<List<Model>>,
+      data: null == data
+          ? _self._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Model>,
+    ));
+  }
 }
 
-abstract class _SearchUiState<Model> implements SearchUiState<Model> {
-  const factory _SearchUiState(
-      {required final String searchQuery,
-      required final Future<List<Model>> dataLoader,
-      final List<Model> data}) = _$SearchUiStateImpl<Model>;
-
-  @override
-  String get searchQuery;
-  @override
-  Future<List<Model>> get dataLoader;
-  @override
-  List<Model> get data;
-
-  /// Create a copy of SearchUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SearchUiStateImplCopyWith<Model, _$SearchUiStateImpl<Model>>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

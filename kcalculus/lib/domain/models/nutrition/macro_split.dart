@@ -4,7 +4,7 @@ part 'macro_split.freezed.dart';
 part 'macro_split.g.dart';
 
 @freezed
-class MacroSplit with _$MacroSplit {
+sealed class MacroSplit with _$MacroSplit {
   const factory MacroSplit._default({
     required double fatPercentage,
     required double carbsPercentage,

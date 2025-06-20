@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,28 +10,47 @@ part of 'dish_view_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$DishViewUiState {
-  Dish get dish => throw _privateConstructorUsedError;
-  List<Nutrient> get nutrientDefaults => throw _privateConstructorUsedError;
+  Dish get dish;
+  List<Nutrient> get nutrientDefaults;
 
   /// Create a copy of DishViewUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $DishViewUiStateCopyWith<DishViewUiState> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$DishViewUiStateCopyWithImpl<DishViewUiState>(
+          this as DishViewUiState, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DishViewUiState &&
+            (identical(other.dish, dish) || other.dish == dish) &&
+            const DeepCollectionEquality()
+                .equals(other.nutrientDefaults, nutrientDefaults));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, dish, const DeepCollectionEquality().hash(nutrientDefaults));
+
+  @override
+  String toString() {
+    return 'DishViewUiState(dish: $dish, nutrientDefaults: $nutrientDefaults)';
+  }
 }
 
 /// @nodoc
-abstract class $DishViewUiStateCopyWith<$Res> {
+abstract mixin class $DishViewUiStateCopyWith<$Res> {
   factory $DishViewUiStateCopyWith(
-          DishViewUiState value, $Res Function(DishViewUiState) then) =
-      _$DishViewUiStateCopyWithImpl<$Res, DishViewUiState>;
+          DishViewUiState value, $Res Function(DishViewUiState) _then) =
+      _$DishViewUiStateCopyWithImpl;
   @useResult
   $Res call({Dish dish, List<Nutrient> nutrientDefaults});
 
@@ -38,14 +58,12 @@ abstract class $DishViewUiStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DishViewUiStateCopyWithImpl<$Res, $Val extends DishViewUiState>
+class _$DishViewUiStateCopyWithImpl<$Res>
     implements $DishViewUiStateCopyWith<$Res> {
-  _$DishViewUiStateCopyWithImpl(this._value, this._then);
+  _$DishViewUiStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final DishViewUiState _self;
+  final $Res Function(DishViewUiState) _then;
 
   /// Create a copy of DishViewUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -55,16 +73,16 @@ class _$DishViewUiStateCopyWithImpl<$Res, $Val extends DishViewUiState>
     Object? dish = null,
     Object? nutrientDefaults = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       dish: null == dish
-          ? _value.dish
+          ? _self.dish
           : dish // ignore: cast_nullable_to_non_nullable
               as Dish,
       nutrientDefaults: null == nutrientDefaults
-          ? _value.nutrientDefaults
+          ? _self.nutrientDefaults
           : nutrientDefaults // ignore: cast_nullable_to_non_nullable
               as List<Nutrient>,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of DishViewUiState
@@ -72,59 +90,16 @@ class _$DishViewUiStateCopyWithImpl<$Res, $Val extends DishViewUiState>
   @override
   @pragma('vm:prefer-inline')
   $DishCopyWith<$Res> get dish {
-    return $DishCopyWith<$Res>(_value.dish, (value) {
-      return _then(_value.copyWith(dish: value) as $Val);
+    return $DishCopyWith<$Res>(_self.dish, (value) {
+      return _then(_self.copyWith(dish: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$DishViewUiStateImplCopyWith<$Res>
-    implements $DishViewUiStateCopyWith<$Res> {
-  factory _$$DishViewUiStateImplCopyWith(_$DishViewUiStateImpl value,
-          $Res Function(_$DishViewUiStateImpl) then) =
-      __$$DishViewUiStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Dish dish, List<Nutrient> nutrientDefaults});
 
-  @override
-  $DishCopyWith<$Res> get dish;
-}
-
-/// @nodoc
-class __$$DishViewUiStateImplCopyWithImpl<$Res>
-    extends _$DishViewUiStateCopyWithImpl<$Res, _$DishViewUiStateImpl>
-    implements _$$DishViewUiStateImplCopyWith<$Res> {
-  __$$DishViewUiStateImplCopyWithImpl(
-      _$DishViewUiStateImpl _value, $Res Function(_$DishViewUiStateImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of DishViewUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? dish = null,
-    Object? nutrientDefaults = null,
-  }) {
-    return _then(_$DishViewUiStateImpl(
-      dish: null == dish
-          ? _value.dish
-          : dish // ignore: cast_nullable_to_non_nullable
-              as Dish,
-      nutrientDefaults: null == nutrientDefaults
-          ? _value._nutrientDefaults
-          : nutrientDefaults // ignore: cast_nullable_to_non_nullable
-              as List<Nutrient>,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$DishViewUiStateImpl implements _DishViewUiState {
-  const _$DishViewUiStateImpl(
+class _DishViewUiState implements DishViewUiState {
+  const _DishViewUiState(
       {required this.dish, required final List<Nutrient> nutrientDefaults})
       : _nutrientDefaults = nutrientDefaults;
 
@@ -139,16 +114,19 @@ class _$DishViewUiStateImpl implements _DishViewUiState {
     return EqualUnmodifiableListView(_nutrientDefaults);
   }
 
+  /// Create a copy of DishViewUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'DishViewUiState(dish: $dish, nutrientDefaults: $nutrientDefaults)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$DishViewUiStateCopyWith<_DishViewUiState> get copyWith =>
+      __$DishViewUiStateCopyWithImpl<_DishViewUiState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DishViewUiStateImpl &&
+            other is _DishViewUiState &&
             (identical(other.dish, dish) || other.dish == dish) &&
             const DeepCollectionEquality()
                 .equals(other._nutrientDefaults, _nutrientDefaults));
@@ -158,30 +136,63 @@ class _$DishViewUiStateImpl implements _DishViewUiState {
   int get hashCode => Object.hash(runtimeType, dish,
       const DeepCollectionEquality().hash(_nutrientDefaults));
 
+  @override
+  String toString() {
+    return 'DishViewUiState(dish: $dish, nutrientDefaults: $nutrientDefaults)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$DishViewUiStateCopyWith<$Res>
+    implements $DishViewUiStateCopyWith<$Res> {
+  factory _$DishViewUiStateCopyWith(
+          _DishViewUiState value, $Res Function(_DishViewUiState) _then) =
+      __$DishViewUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call({Dish dish, List<Nutrient> nutrientDefaults});
+
+  @override
+  $DishCopyWith<$Res> get dish;
+}
+
+/// @nodoc
+class __$DishViewUiStateCopyWithImpl<$Res>
+    implements _$DishViewUiStateCopyWith<$Res> {
+  __$DishViewUiStateCopyWithImpl(this._self, this._then);
+
+  final _DishViewUiState _self;
+  final $Res Function(_DishViewUiState) _then;
+
   /// Create a copy of DishViewUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$DishViewUiStateImplCopyWith<_$DishViewUiStateImpl> get copyWith =>
-      __$$DishViewUiStateImplCopyWithImpl<_$DishViewUiStateImpl>(
-          this, _$identity);
-}
-
-abstract class _DishViewUiState implements DishViewUiState {
-  const factory _DishViewUiState(
-      {required final Dish dish,
-      required final List<Nutrient> nutrientDefaults}) = _$DishViewUiStateImpl;
-
-  @override
-  Dish get dish;
-  @override
-  List<Nutrient> get nutrientDefaults;
+  $Res call({
+    Object? dish = null,
+    Object? nutrientDefaults = null,
+  }) {
+    return _then(_DishViewUiState(
+      dish: null == dish
+          ? _self.dish
+          : dish // ignore: cast_nullable_to_non_nullable
+              as Dish,
+      nutrientDefaults: null == nutrientDefaults
+          ? _self._nutrientDefaults
+          : nutrientDefaults // ignore: cast_nullable_to_non_nullable
+              as List<Nutrient>,
+    ));
+  }
 
   /// Create a copy of DishViewUiState
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DishViewUiStateImplCopyWith<_$DishViewUiStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $DishCopyWith<$Res> get dish {
+    return $DishCopyWith<$Res>(_self.dish, (value) {
+      return _then(_self.copyWith(dish: value));
+    });
+  }
 }
+
+// dart format on

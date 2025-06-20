@@ -12,7 +12,7 @@ part 'food_v1.freezed.dart';
 part 'food_v1.g.dart';
 
 @freezed
-class FoodV1 with _$FoodV1 {
+sealed class FoodV1 with _$FoodV1 {
   static const kVersion = 1;
 
   const FoodV1._();

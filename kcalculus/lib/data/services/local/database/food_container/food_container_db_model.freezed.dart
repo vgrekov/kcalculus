@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,244 +10,39 @@ part of 'food_container_db_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-FoodContainerDbModel _$FoodContainerDbModelFromJson(Map<String, dynamic> json) {
-  return _FoodContainerDbModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$FoodContainerDbModel {
-  String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
-  String get weight_unit => throw _privateConstructorUsedError;
-  double get weight_value => throw _privateConstructorUsedError;
+  String get id;
+  String get name;
+  String? get description;
+  String get weight_unit;
+  double get weight_value;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get created_at => throw _privateConstructorUsedError;
+  String? get created_at;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get updated_at => throw _privateConstructorUsedError;
+  String? get updated_at;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get deleted_at => throw _privateConstructorUsedError;
-
-  /// Serializes this FoodContainerDbModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String? get deleted_at;
 
   /// Create a copy of FoodContainerDbModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $FoodContainerDbModelCopyWith<FoodContainerDbModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$FoodContainerDbModelCopyWithImpl<FoodContainerDbModel>(
+          this as FoodContainerDbModel, _$identity);
 
-/// @nodoc
-abstract class $FoodContainerDbModelCopyWith<$Res> {
-  factory $FoodContainerDbModelCopyWith(FoodContainerDbModel value,
-          $Res Function(FoodContainerDbModel) then) =
-      _$FoodContainerDbModelCopyWithImpl<$Res, FoodContainerDbModel>;
-  @useResult
-  $Res call(
-      {String id,
-      String name,
-      String? description,
-      String weight_unit,
-      double weight_value,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      String? deleted_at});
-}
-
-/// @nodoc
-class _$FoodContainerDbModelCopyWithImpl<$Res,
-        $Val extends FoodContainerDbModel>
-    implements $FoodContainerDbModelCopyWith<$Res> {
-  _$FoodContainerDbModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of FoodContainerDbModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? description = freezed,
-    Object? weight_unit = null,
-    Object? weight_value = null,
-    Object? created_at = freezed,
-    Object? updated_at = freezed,
-    Object? deleted_at = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      weight_unit: null == weight_unit
-          ? _value.weight_unit
-          : weight_unit // ignore: cast_nullable_to_non_nullable
-              as String,
-      weight_value: null == weight_value
-          ? _value.weight_value
-          : weight_value // ignore: cast_nullable_to_non_nullable
-              as double,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updated_at: freezed == updated_at
-          ? _value.updated_at
-          : updated_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-      deleted_at: freezed == deleted_at
-          ? _value.deleted_at
-          : deleted_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$FoodContainerDbModelImplCopyWith<$Res>
-    implements $FoodContainerDbModelCopyWith<$Res> {
-  factory _$$FoodContainerDbModelImplCopyWith(_$FoodContainerDbModelImpl value,
-          $Res Function(_$FoodContainerDbModelImpl) then) =
-      __$$FoodContainerDbModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String id,
-      String name,
-      String? description,
-      String weight_unit,
-      double weight_value,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      String? deleted_at});
-}
-
-/// @nodoc
-class __$$FoodContainerDbModelImplCopyWithImpl<$Res>
-    extends _$FoodContainerDbModelCopyWithImpl<$Res, _$FoodContainerDbModelImpl>
-    implements _$$FoodContainerDbModelImplCopyWith<$Res> {
-  __$$FoodContainerDbModelImplCopyWithImpl(_$FoodContainerDbModelImpl _value,
-      $Res Function(_$FoodContainerDbModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of FoodContainerDbModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? description = freezed,
-    Object? weight_unit = null,
-    Object? weight_value = null,
-    Object? created_at = freezed,
-    Object? updated_at = freezed,
-    Object? deleted_at = freezed,
-  }) {
-    return _then(_$FoodContainerDbModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      weight_unit: null == weight_unit
-          ? _value.weight_unit
-          : weight_unit // ignore: cast_nullable_to_non_nullable
-              as String,
-      weight_value: null == weight_value
-          ? _value.weight_value
-          : weight_value // ignore: cast_nullable_to_non_nullable
-              as double,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updated_at: freezed == updated_at
-          ? _value.updated_at
-          : updated_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-      deleted_at: freezed == deleted_at
-          ? _value.deleted_at
-          : deleted_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$FoodContainerDbModelImpl implements _FoodContainerDbModel {
-  _$FoodContainerDbModelImpl(
-      {required this.id,
-      required this.name,
-      this.description,
-      required this.weight_unit,
-      required this.weight_value,
-      @JsonKey(includeToJson: false, includeFromJson: true) this.created_at,
-      @JsonKey(includeToJson: false, includeFromJson: true) this.updated_at,
-      @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at});
-
-  factory _$FoodContainerDbModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FoodContainerDbModelImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final String name;
-  @override
-  final String? description;
-  @override
-  final String weight_unit;
-  @override
-  final double weight_value;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  final String? created_at;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  final String? updated_at;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  final String? deleted_at;
-
-  @override
-  String toString() {
-    return 'FoodContainerDbModel(id: $id, name: $name, description: $description, weight_unit: $weight_unit, weight_value: $weight_value, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
-  }
+  /// Serializes this FoodContainerDbModel to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FoodContainerDbModelImpl &&
+            other is FoodContainerDbModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
@@ -268,65 +64,249 @@ class _$FoodContainerDbModelImpl implements _FoodContainerDbModel {
   int get hashCode => Object.hash(runtimeType, id, name, description,
       weight_unit, weight_value, created_at, updated_at, deleted_at);
 
-  /// Create a copy of FoodContainerDbModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$FoodContainerDbModelImplCopyWith<_$FoodContainerDbModelImpl>
-      get copyWith =>
-          __$$FoodContainerDbModelImplCopyWithImpl<_$FoodContainerDbModelImpl>(
-              this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FoodContainerDbModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'FoodContainerDbModel(id: $id, name: $name, description: $description, weight_unit: $weight_unit, weight_value: $weight_value, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 }
 
-abstract class _FoodContainerDbModel implements FoodContainerDbModel {
-  factory _FoodContainerDbModel(
-      {required final String id,
-      required final String name,
-      final String? description,
-      required final String weight_unit,
-      required final double weight_value,
+/// @nodoc
+abstract mixin class $FoodContainerDbModelCopyWith<$Res> {
+  factory $FoodContainerDbModelCopyWith(FoodContainerDbModel value,
+          $Res Function(FoodContainerDbModel) _then) =
+      _$FoodContainerDbModelCopyWithImpl;
+  @useResult
+  $Res call(
+      {String id,
+      String name,
+      String? description,
+      String weight_unit,
+      double weight_value,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true)
-      final String? created_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      final String? updated_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      final String? deleted_at}) = _$FoodContainerDbModelImpl;
+      String? deleted_at});
+}
 
-  factory _FoodContainerDbModel.fromJson(Map<String, dynamic> json) =
-      _$FoodContainerDbModelImpl.fromJson;
+/// @nodoc
+class _$FoodContainerDbModelCopyWithImpl<$Res>
+    implements $FoodContainerDbModelCopyWith<$Res> {
+  _$FoodContainerDbModelCopyWithImpl(this._self, this._then);
+
+  final FoodContainerDbModel _self;
+  final $Res Function(FoodContainerDbModel) _then;
+
+  /// Create a copy of FoodContainerDbModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? description = freezed,
+    Object? weight_unit = null,
+    Object? weight_value = null,
+    Object? created_at = freezed,
+    Object? updated_at = freezed,
+    Object? deleted_at = freezed,
+  }) {
+    return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      weight_unit: null == weight_unit
+          ? _self.weight_unit
+          : weight_unit // ignore: cast_nullable_to_non_nullable
+              as String,
+      weight_value: null == weight_value
+          ? _self.weight_value
+          : weight_value // ignore: cast_nullable_to_non_nullable
+              as double,
+      created_at: freezed == created_at
+          ? _self.created_at
+          : created_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updated_at: freezed == updated_at
+          ? _self.updated_at
+          : updated_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deleted_at: freezed == deleted_at
+          ? _self.deleted_at
+          : deleted_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _FoodContainerDbModel implements FoodContainerDbModel {
+  _FoodContainerDbModel(
+      {required this.id,
+      required this.name,
+      this.description,
+      required this.weight_unit,
+      required this.weight_value,
+      @JsonKey(includeToJson: false, includeFromJson: true) this.created_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) this.updated_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at});
+  factory _FoodContainerDbModel.fromJson(Map<String, dynamic> json) =>
+      _$FoodContainerDbModelFromJson(json);
 
   @override
-  String get id;
+  final String id;
   @override
-  String get name;
+  final String name;
   @override
-  String? get description;
+  final String? description;
   @override
-  String get weight_unit;
+  final String weight_unit;
   @override
-  double get weight_value;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get created_at;
+  final double weight_value;
   @override
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get updated_at;
+  final String? created_at;
   @override
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get deleted_at;
+  final String? updated_at;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  final String? deleted_at;
 
   /// Create a copy of FoodContainerDbModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FoodContainerDbModelImplCopyWith<_$FoodContainerDbModelImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$FoodContainerDbModelCopyWith<_FoodContainerDbModel> get copyWith =>
+      __$FoodContainerDbModelCopyWithImpl<_FoodContainerDbModel>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FoodContainerDbModelToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FoodContainerDbModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.weight_unit, weight_unit) ||
+                other.weight_unit == weight_unit) &&
+            (identical(other.weight_value, weight_value) ||
+                other.weight_value == weight_value) &&
+            (identical(other.created_at, created_at) ||
+                other.created_at == created_at) &&
+            (identical(other.updated_at, updated_at) ||
+                other.updated_at == updated_at) &&
+            (identical(other.deleted_at, deleted_at) ||
+                other.deleted_at == deleted_at));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, description,
+      weight_unit, weight_value, created_at, updated_at, deleted_at);
+
+  @override
+  String toString() {
+    return 'FoodContainerDbModel(id: $id, name: $name, description: $description, weight_unit: $weight_unit, weight_value: $weight_value, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$FoodContainerDbModelCopyWith<$Res>
+    implements $FoodContainerDbModelCopyWith<$Res> {
+  factory _$FoodContainerDbModelCopyWith(_FoodContainerDbModel value,
+          $Res Function(_FoodContainerDbModel) _then) =
+      __$FoodContainerDbModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String name,
+      String? description,
+      String weight_unit,
+      double weight_value,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      String? deleted_at});
+}
+
+/// @nodoc
+class __$FoodContainerDbModelCopyWithImpl<$Res>
+    implements _$FoodContainerDbModelCopyWith<$Res> {
+  __$FoodContainerDbModelCopyWithImpl(this._self, this._then);
+
+  final _FoodContainerDbModel _self;
+  final $Res Function(_FoodContainerDbModel) _then;
+
+  /// Create a copy of FoodContainerDbModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? description = freezed,
+    Object? weight_unit = null,
+    Object? weight_value = null,
+    Object? created_at = freezed,
+    Object? updated_at = freezed,
+    Object? deleted_at = freezed,
+  }) {
+    return _then(_FoodContainerDbModel(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      weight_unit: null == weight_unit
+          ? _self.weight_unit
+          : weight_unit // ignore: cast_nullable_to_non_nullable
+              as String,
+      weight_value: null == weight_value
+          ? _self.weight_value
+          : weight_value // ignore: cast_nullable_to_non_nullable
+              as double,
+      created_at: freezed == created_at
+          ? _self.created_at
+          : created_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updated_at: freezed == updated_at
+          ? _self.updated_at
+          : updated_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deleted_at: freezed == deleted_at
+          ? _self.deleted_at
+          : deleted_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+// dart format on

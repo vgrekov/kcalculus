@@ -6,7 +6,7 @@ part 'meal_db_model.freezed.dart';
 part 'meal_db_model.g.dart';
 
 @freezed
-class MealDbModel with _$MealDbModel {
+sealed class MealDbModel with _$MealDbModel {
   factory MealDbModel({
     required String id,
     required String edible_id,

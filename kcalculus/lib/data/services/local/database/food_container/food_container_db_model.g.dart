@@ -6,9 +6,9 @@ part of 'food_container_db_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FoodContainerDbModelImpl _$$FoodContainerDbModelImplFromJson(
+_FoodContainerDbModel _$FoodContainerDbModelFromJson(
         Map<String, dynamic> json) =>
-    _$FoodContainerDbModelImpl(
+    _FoodContainerDbModel(
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
@@ -19,8 +19,8 @@ _$FoodContainerDbModelImpl _$$FoodContainerDbModelImplFromJson(
       deleted_at: json['deleted_at'] as String?,
     );
 
-Map<String, dynamic> _$$FoodContainerDbModelImplToJson(
-        _$FoodContainerDbModelImpl instance) =>
+Map<String, dynamic> _$FoodContainerDbModelToJson(
+        _FoodContainerDbModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

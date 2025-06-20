@@ -7,8 +7,8 @@ part 'nutrition_facts.freezed.dart';
 part 'nutrition_facts.g.dart';
 
 @freezed
-class NutritionFacts with _$NutritionFacts {
-  static areSame(List<NutritionFacts> a, List<NutritionFacts> b) {
+sealed class NutritionFacts with _$NutritionFacts {
+  static bool areSame(List<NutritionFacts> a, List<NutritionFacts> b) {
     return a.length == b.length &&
         a.indexed.every(
           (pair) => pair.$2.isSameAs(b[pair.$1]),

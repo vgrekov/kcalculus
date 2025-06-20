@@ -7,7 +7,7 @@ import 'package:kcalculus/domain/models/units.dart';
 part 'nutrient_amount_ui_state.freezed.dart';
 
 @freezed
-class NutrientAmountUiState with _$NutrientAmountUiState {
+sealed class NutrientAmountUiState with _$NutrientAmountUiState {
   const NutrientAmountUiState._();
 
   const factory NutrientAmountUiState._default({

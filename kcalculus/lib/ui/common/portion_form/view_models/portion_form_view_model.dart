@@ -80,7 +80,9 @@ class PortionFormViewModel
     }
 
     state = state.copyWith(
-      selectedEdible: edible,
+      // If selected edible has no ID (i.e. USDA Food)
+      // then it's more of a 'template'
+      selectedEdible: edible.id == null ? null : edible,
       name: edible.name,
       description: edible.description,
       amountUnit: amountUnit,

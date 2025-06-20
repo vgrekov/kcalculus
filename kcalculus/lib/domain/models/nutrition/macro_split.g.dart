@@ -6,14 +6,13 @@ part of 'macro_split.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MacroSplitImpl _$$MacroSplitImplFromJson(Map<String, dynamic> json) =>
-    _$MacroSplitImpl(
+_MacroSplit _$MacroSplitFromJson(Map<String, dynamic> json) => _MacroSplit(
       fatPercentage: (json['fatPercentage'] as num).toDouble(),
       carbsPercentage: (json['carbsPercentage'] as num).toDouble(),
       proteinPercentage: (json['proteinPercentage'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$MacroSplitImplToJson(_$MacroSplitImpl instance) =>
+Map<String, dynamic> _$MacroSplitToJson(_MacroSplit instance) =>
     <String, dynamic>{
       'fatPercentage': instance.fatPercentage,
       'carbsPercentage': instance.carbsPercentage,

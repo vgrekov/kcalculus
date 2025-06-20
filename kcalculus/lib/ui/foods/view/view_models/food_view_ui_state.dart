@@ -5,7 +5,7 @@ import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 part 'food_view_ui_state.freezed.dart';
 
 @freezed
-class FoodViewUiState with _$FoodViewUiState {
+sealed class FoodViewUiState with _$FoodViewUiState {
   const factory FoodViewUiState({
     required Food food,
     required List<Nutrient> nutrientDefaults,

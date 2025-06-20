@@ -4,7 +4,7 @@ part 'default_nutrient_db_model.freezed.dart';
 part 'default_nutrient_db_model.g.dart';
 
 @freezed
-class DefaultNutrientDbModel with _$DefaultNutrientDbModel {
+sealed class DefaultNutrientDbModel with _$DefaultNutrientDbModel {
   const factory DefaultNutrientDbModel({
     required String name,
     required int position,

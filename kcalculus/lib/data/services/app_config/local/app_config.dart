@@ -5,7 +5,7 @@ part 'app_config.freezed.dart';
 part 'app_config.g.dart';
 
 @freezed
-class LocalAppConfig with _$LocalAppConfig implements AppConfig {
+sealed class LocalAppConfig with _$LocalAppConfig implements AppConfig {
   const factory LocalAppConfig({
     required String openFoodFactsBaseUrl,
     required int openFoodFactsTimeoutMillis,

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,85 +10,66 @@ part of 'nutrition_facts_view_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
-mixin _$NutritionFactsViewUiState {
-  List<NutritionFactsRecord> get records => throw _privateConstructorUsedError;
-  int get selectedRecordIndex => throw _privateConstructorUsedError;
+mixin _$NutritionFactsViewUiState implements DiagnosticableTreeMixin {
+  List<NutritionFactsRecord> get records;
+  int get selectedRecordIndex;
 
   /// Create a copy of NutritionFactsViewUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NutritionFactsViewUiStateCopyWith<NutritionFactsViewUiState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NutritionFactsViewUiStateCopyWith<$Res> {
-  factory $NutritionFactsViewUiStateCopyWith(NutritionFactsViewUiState value,
-          $Res Function(NutritionFactsViewUiState) then) =
-      _$NutritionFactsViewUiStateCopyWithImpl<$Res, NutritionFactsViewUiState>;
-  @useResult
-  $Res call({List<NutritionFactsRecord> records, int selectedRecordIndex});
-}
-
-/// @nodoc
-class _$NutritionFactsViewUiStateCopyWithImpl<$Res,
-        $Val extends NutritionFactsViewUiState>
-    implements $NutritionFactsViewUiStateCopyWith<$Res> {
-  _$NutritionFactsViewUiStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NutritionFactsViewUiState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $NutritionFactsViewUiStateCopyWith<NutritionFactsViewUiState> get copyWith =>
+      _$NutritionFactsViewUiStateCopyWithImpl<NutritionFactsViewUiState>(
+          this as NutritionFactsViewUiState, _$identity);
+
   @override
-  $Res call({
-    Object? records = null,
-    Object? selectedRecordIndex = null,
-  }) {
-    return _then(_value.copyWith(
-      records: null == records
-          ? _value.records
-          : records // ignore: cast_nullable_to_non_nullable
-              as List<NutritionFactsRecord>,
-      selectedRecordIndex: null == selectedRecordIndex
-          ? _value.selectedRecordIndex
-          : selectedRecordIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'NutritionFactsViewUiState'))
+      ..add(DiagnosticsProperty('records', records))
+      ..add(DiagnosticsProperty('selectedRecordIndex', selectedRecordIndex));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NutritionFactsViewUiState &&
+            const DeepCollectionEquality().equals(other.records, records) &&
+            (identical(other.selectedRecordIndex, selectedRecordIndex) ||
+                other.selectedRecordIndex == selectedRecordIndex));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(records), selectedRecordIndex);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'NutritionFactsViewUiState(records: $records, selectedRecordIndex: $selectedRecordIndex)';
   }
 }
 
 /// @nodoc
-abstract class _$$NutritionFactsViewUiStateImplCopyWith<$Res>
-    implements $NutritionFactsViewUiStateCopyWith<$Res> {
-  factory _$$NutritionFactsViewUiStateImplCopyWith(
-          _$NutritionFactsViewUiStateImpl value,
-          $Res Function(_$NutritionFactsViewUiStateImpl) then) =
-      __$$NutritionFactsViewUiStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $NutritionFactsViewUiStateCopyWith<$Res> {
+  factory $NutritionFactsViewUiStateCopyWith(NutritionFactsViewUiState value,
+          $Res Function(NutritionFactsViewUiState) _then) =
+      _$NutritionFactsViewUiStateCopyWithImpl;
   @useResult
   $Res call({List<NutritionFactsRecord> records, int selectedRecordIndex});
 }
 
 /// @nodoc
-class __$$NutritionFactsViewUiStateImplCopyWithImpl<$Res>
-    extends _$NutritionFactsViewUiStateCopyWithImpl<$Res,
-        _$NutritionFactsViewUiStateImpl>
-    implements _$$NutritionFactsViewUiStateImplCopyWith<$Res> {
-  __$$NutritionFactsViewUiStateImplCopyWithImpl(
-      _$NutritionFactsViewUiStateImpl _value,
-      $Res Function(_$NutritionFactsViewUiStateImpl) _then)
-      : super(_value, _then);
+class _$NutritionFactsViewUiStateCopyWithImpl<$Res>
+    implements $NutritionFactsViewUiStateCopyWith<$Res> {
+  _$NutritionFactsViewUiStateCopyWithImpl(this._self, this._then);
+
+  final NutritionFactsViewUiState _self;
+  final $Res Function(NutritionFactsViewUiState) _then;
 
   /// Create a copy of NutritionFactsViewUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -97,13 +79,13 @@ class __$$NutritionFactsViewUiStateImplCopyWithImpl<$Res>
     Object? records = null,
     Object? selectedRecordIndex = null,
   }) {
-    return _then(_$NutritionFactsViewUiStateImpl(
+    return _then(_self.copyWith(
       records: null == records
-          ? _value._records
+          ? _self.records
           : records // ignore: cast_nullable_to_non_nullable
               as List<NutritionFactsRecord>,
       selectedRecordIndex: null == selectedRecordIndex
-          ? _value.selectedRecordIndex
+          ? _self.selectedRecordIndex
           : selectedRecordIndex // ignore: cast_nullable_to_non_nullable
               as int,
     ));
@@ -112,9 +94,9 @@ class __$$NutritionFactsViewUiStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NutritionFactsViewUiStateImpl extends _NutritionFactsViewUiState
+class _NutritionFactsViewUiState extends NutritionFactsViewUiState
     with DiagnosticableTreeMixin {
-  const _$NutritionFactsViewUiStateImpl(
+  const _NutritionFactsViewUiState(
       {required final List<NutritionFactsRecord> records,
       required this.selectedRecordIndex})
       : _records = records,
@@ -131,14 +113,18 @@ class _$NutritionFactsViewUiStateImpl extends _NutritionFactsViewUiState
   @override
   final int selectedRecordIndex;
 
+  /// Create a copy of NutritionFactsViewUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'NutritionFactsViewUiState(records: $records, selectedRecordIndex: $selectedRecordIndex)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NutritionFactsViewUiStateCopyWith<_NutritionFactsViewUiState>
+      get copyWith =>
+          __$NutritionFactsViewUiStateCopyWithImpl<_NutritionFactsViewUiState>(
+              this, _$identity);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'NutritionFactsViewUiState'))
       ..add(DiagnosticsProperty('records', records))
@@ -149,7 +135,7 @@ class _$NutritionFactsViewUiStateImpl extends _NutritionFactsViewUiState
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NutritionFactsViewUiStateImpl &&
+            other is _NutritionFactsViewUiState &&
             const DeepCollectionEquality().equals(other._records, _records) &&
             (identical(other.selectedRecordIndex, selectedRecordIndex) ||
                 other.selectedRecordIndex == selectedRecordIndex));
@@ -159,32 +145,50 @@ class _$NutritionFactsViewUiStateImpl extends _NutritionFactsViewUiState
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_records), selectedRecordIndex);
 
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'NutritionFactsViewUiState(records: $records, selectedRecordIndex: $selectedRecordIndex)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$NutritionFactsViewUiStateCopyWith<$Res>
+    implements $NutritionFactsViewUiStateCopyWith<$Res> {
+  factory _$NutritionFactsViewUiStateCopyWith(_NutritionFactsViewUiState value,
+          $Res Function(_NutritionFactsViewUiState) _then) =
+      __$NutritionFactsViewUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call({List<NutritionFactsRecord> records, int selectedRecordIndex});
+}
+
+/// @nodoc
+class __$NutritionFactsViewUiStateCopyWithImpl<$Res>
+    implements _$NutritionFactsViewUiStateCopyWith<$Res> {
+  __$NutritionFactsViewUiStateCopyWithImpl(this._self, this._then);
+
+  final _NutritionFactsViewUiState _self;
+  final $Res Function(_NutritionFactsViewUiState) _then;
+
   /// Create a copy of NutritionFactsViewUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$NutritionFactsViewUiStateImplCopyWith<_$NutritionFactsViewUiStateImpl>
-      get copyWith => __$$NutritionFactsViewUiStateImplCopyWithImpl<
-          _$NutritionFactsViewUiStateImpl>(this, _$identity);
+  $Res call({
+    Object? records = null,
+    Object? selectedRecordIndex = null,
+  }) {
+    return _then(_NutritionFactsViewUiState(
+      records: null == records
+          ? _self._records
+          : records // ignore: cast_nullable_to_non_nullable
+              as List<NutritionFactsRecord>,
+      selectedRecordIndex: null == selectedRecordIndex
+          ? _self.selectedRecordIndex
+          : selectedRecordIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
 
-abstract class _NutritionFactsViewUiState extends NutritionFactsViewUiState {
-  const factory _NutritionFactsViewUiState(
-          {required final List<NutritionFactsRecord> records,
-          required final int selectedRecordIndex}) =
-      _$NutritionFactsViewUiStateImpl;
-  const _NutritionFactsViewUiState._() : super._();
-
-  @override
-  List<NutritionFactsRecord> get records;
-  @override
-  int get selectedRecordIndex;
-
-  /// Create a copy of NutritionFactsViewUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutritionFactsViewUiStateImplCopyWith<_$NutritionFactsViewUiStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

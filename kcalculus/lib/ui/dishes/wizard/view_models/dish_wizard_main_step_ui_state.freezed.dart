@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,85 +10,57 @@ part of 'dish_wizard_main_step_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$DishWizardMainStepUiState {
-  String get name => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
+  String get name;
+  String get description;
 
   /// Create a copy of DishWizardMainStepUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DishWizardMainStepUiStateCopyWith<DishWizardMainStepUiState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DishWizardMainStepUiStateCopyWith<$Res> {
-  factory $DishWizardMainStepUiStateCopyWith(DishWizardMainStepUiState value,
-          $Res Function(DishWizardMainStepUiState) then) =
-      _$DishWizardMainStepUiStateCopyWithImpl<$Res, DishWizardMainStepUiState>;
-  @useResult
-  $Res call({String name, String description});
-}
-
-/// @nodoc
-class _$DishWizardMainStepUiStateCopyWithImpl<$Res,
-        $Val extends DishWizardMainStepUiState>
-    implements $DishWizardMainStepUiStateCopyWith<$Res> {
-  _$DishWizardMainStepUiStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of DishWizardMainStepUiState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $DishWizardMainStepUiStateCopyWith<DishWizardMainStepUiState> get copyWith =>
+      _$DishWizardMainStepUiStateCopyWithImpl<DishWizardMainStepUiState>(
+          this as DishWizardMainStepUiState, _$identity);
+
   @override
-  $Res call({
-    Object? name = null,
-    Object? description = null,
-  }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DishWizardMainStepUiState &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, name, description);
+
+  @override
+  String toString() {
+    return 'DishWizardMainStepUiState(name: $name, description: $description)';
   }
 }
 
 /// @nodoc
-abstract class _$$DishWizardMainStepUiStateImplCopyWith<$Res>
-    implements $DishWizardMainStepUiStateCopyWith<$Res> {
-  factory _$$DishWizardMainStepUiStateImplCopyWith(
-          _$DishWizardMainStepUiStateImpl value,
-          $Res Function(_$DishWizardMainStepUiStateImpl) then) =
-      __$$DishWizardMainStepUiStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $DishWizardMainStepUiStateCopyWith<$Res> {
+  factory $DishWizardMainStepUiStateCopyWith(DishWizardMainStepUiState value,
+          $Res Function(DishWizardMainStepUiState) _then) =
+      _$DishWizardMainStepUiStateCopyWithImpl;
   @useResult
   $Res call({String name, String description});
 }
 
 /// @nodoc
-class __$$DishWizardMainStepUiStateImplCopyWithImpl<$Res>
-    extends _$DishWizardMainStepUiStateCopyWithImpl<$Res,
-        _$DishWizardMainStepUiStateImpl>
-    implements _$$DishWizardMainStepUiStateImplCopyWith<$Res> {
-  __$$DishWizardMainStepUiStateImplCopyWithImpl(
-      _$DishWizardMainStepUiStateImpl _value,
-      $Res Function(_$DishWizardMainStepUiStateImpl) _then)
-      : super(_value, _then);
+class _$DishWizardMainStepUiStateCopyWithImpl<$Res>
+    implements $DishWizardMainStepUiStateCopyWith<$Res> {
+  _$DishWizardMainStepUiStateCopyWithImpl(this._self, this._then);
+
+  final DishWizardMainStepUiState _self;
+  final $Res Function(DishWizardMainStepUiState) _then;
 
   /// Create a copy of DishWizardMainStepUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -97,13 +70,13 @@ class __$$DishWizardMainStepUiStateImplCopyWithImpl<$Res>
     Object? name = null,
     Object? description = null,
   }) {
-    return _then(_$DishWizardMainStepUiStateImpl(
+    return _then(_self.copyWith(
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -112,8 +85,8 @@ class __$$DishWizardMainStepUiStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DishWizardMainStepUiStateImpl extends _DishWizardMainStepUiState {
-  const _$DishWizardMainStepUiStateImpl({this.name = '', this.description = ''})
+class _DishWizardMainStepUiState extends DishWizardMainStepUiState {
+  const _DishWizardMainStepUiState({this.name = '', this.description = ''})
       : super._();
 
   @override
@@ -123,16 +96,21 @@ class _$DishWizardMainStepUiStateImpl extends _DishWizardMainStepUiState {
   @JsonKey()
   final String description;
 
+  /// Create a copy of DishWizardMainStepUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'DishWizardMainStepUiState(name: $name, description: $description)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$DishWizardMainStepUiStateCopyWith<_DishWizardMainStepUiState>
+      get copyWith =>
+          __$DishWizardMainStepUiStateCopyWithImpl<_DishWizardMainStepUiState>(
+              this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DishWizardMainStepUiStateImpl &&
+            other is _DishWizardMainStepUiState &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description));
@@ -141,31 +119,50 @@ class _$DishWizardMainStepUiStateImpl extends _DishWizardMainStepUiState {
   @override
   int get hashCode => Object.hash(runtimeType, name, description);
 
+  @override
+  String toString() {
+    return 'DishWizardMainStepUiState(name: $name, description: $description)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$DishWizardMainStepUiStateCopyWith<$Res>
+    implements $DishWizardMainStepUiStateCopyWith<$Res> {
+  factory _$DishWizardMainStepUiStateCopyWith(_DishWizardMainStepUiState value,
+          $Res Function(_DishWizardMainStepUiState) _then) =
+      __$DishWizardMainStepUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String name, String description});
+}
+
+/// @nodoc
+class __$DishWizardMainStepUiStateCopyWithImpl<$Res>
+    implements _$DishWizardMainStepUiStateCopyWith<$Res> {
+  __$DishWizardMainStepUiStateCopyWithImpl(this._self, this._then);
+
+  final _DishWizardMainStepUiState _self;
+  final $Res Function(_DishWizardMainStepUiState) _then;
+
   /// Create a copy of DishWizardMainStepUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$DishWizardMainStepUiStateImplCopyWith<_$DishWizardMainStepUiStateImpl>
-      get copyWith => __$$DishWizardMainStepUiStateImplCopyWithImpl<
-          _$DishWizardMainStepUiStateImpl>(this, _$identity);
+  $Res call({
+    Object? name = null,
+    Object? description = null,
+  }) {
+    return _then(_DishWizardMainStepUiState(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
-abstract class _DishWizardMainStepUiState extends DishWizardMainStepUiState {
-  const factory _DishWizardMainStepUiState(
-      {final String name,
-      final String description}) = _$DishWizardMainStepUiStateImpl;
-  const _DishWizardMainStepUiState._() : super._();
-
-  @override
-  String get name;
-  @override
-  String get description;
-
-  /// Create a copy of DishWizardMainStepUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DishWizardMainStepUiStateImplCopyWith<_$DishWizardMainStepUiStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

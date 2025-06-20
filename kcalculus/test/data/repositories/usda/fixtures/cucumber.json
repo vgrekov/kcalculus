@@ -1,0 +1,96 @@
+{
+    "fdcId": 2346406,
+    "description": "Cucumber, with peel, raw",
+    "dataType": "Foundation",
+    "priority": 0,
+    "portions":
+    [],
+    "nutrients":
+    [
+        {
+            "number": "303",
+            "amount": 0.000,
+            "unitName": "mg"
+        },
+        {
+            "number": "304",
+            "amount": 10.1,
+            "unitName": "mg"
+        },
+        {
+            "number": "305",
+            "amount": 23.2,
+            "unitName": "mg"
+        },
+        {
+            "number": "306",
+            "amount": 170,
+            "unitName": "mg"
+        },
+        {
+            "number": "307",
+            "amount": 1.52,
+            "unitName": "mg"
+        },
+        {
+            "number": "309",
+            "amount": 0.204,
+            "unitName": "mg"
+        },
+        {
+            "number": "312",
+            "amount": 0.063,
+            "unitName": "mg"
+        },
+        {
+            "number": "204",
+            "amount": 0.178,
+            "unitName": "g"
+        },
+        {
+            "number": "315",
+            "amount": 0.085,
+            "unitName": "mg"
+        },
+        {
+            "number": "316",
+            "amount": 3.72,
+            "unitName": "µg"
+        },
+        {
+            "number": "416",
+            "amount": 0.962,
+            "unitName": "µg"
+        },
+        {
+            "number": "301",
+            "amount": 16.3,
+            "unitName": "mg"
+        },
+        {
+            "number": "957",
+            "amount": 15.9,
+            "unitName": "kcal"
+        },
+        {
+            "number": "203",
+            "amount": 0.625,
+            "unitName": "g"
+        },
+        {
+            "number": "205",
+            "amount": 2.95,
+            "unitName": "g"
+        },
+        {
+            "number": "958",
+            "amount": 13.9,
+            "unitName": "kcal"
+        },
+        {
+            "number": "430",
+            "amount": 24.0,
+            "unitName": "µg"
+        }
+    ]
+}

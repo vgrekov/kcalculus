@@ -15,7 +15,7 @@ const _kCarbsCaloriesPerGram = 4;
 const _kProteinCaloriesPerGram = 4;
 
 @freezed
-class NutrientData with _$NutrientData {
+sealed class NutrientData with _$NutrientData {
   const NutrientData._();
 
   const factory NutrientData._default({

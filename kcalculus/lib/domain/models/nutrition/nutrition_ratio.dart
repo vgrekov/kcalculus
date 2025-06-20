@@ -5,7 +5,7 @@ part 'nutrition_ratio.freezed.dart';
 part 'nutrition_ratio.g.dart';
 
 @freezed
-class NutritionRatio with _$NutritionRatio {
+sealed class NutritionRatio with _$NutritionRatio {
   const factory NutritionRatio._default({
     required Amount perAmount,
     required Amount totalAmount,

@@ -40,7 +40,7 @@ Color? colorOf(
       });
   return nutrient.displayPriority <= 1
       ? color
-      : color?.withOpacity(1 - 0.1 * nutrient.displayPriority);
+      : color?.withValues(alpha: 1 - 0.1 * nutrient.displayPriority);
 }
 
 Nutrient _rootOf(Nutrient nutrient) {

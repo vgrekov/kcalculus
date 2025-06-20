@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,182 +10,31 @@ part of 'app_settings_shared_pref_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AppSettingsSharedPrefModel {
-  String? get themeName => throw _privateConstructorUsedError;
-  bool? get crashlyticsEnabled => throw _privateConstructorUsedError;
-  bool? get analyticsEnabled => throw _privateConstructorUsedError;
-  int? get signedAgreementVersion => throw _privateConstructorUsedError;
-  bool? get scannerDisclaimerEnabled => throw _privateConstructorUsedError;
+  String? get themeName;
+  bool? get crashlyticsEnabled;
+  bool? get analyticsEnabled;
+  int? get signedAgreementVersion;
+  bool? get scannerDisclaimerEnabled;
 
   /// Create a copy of AppSettingsSharedPrefModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $AppSettingsSharedPrefModelCopyWith<AppSettingsSharedPrefModel>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AppSettingsSharedPrefModelCopyWith<$Res> {
-  factory $AppSettingsSharedPrefModelCopyWith(AppSettingsSharedPrefModel value,
-          $Res Function(AppSettingsSharedPrefModel) then) =
-      _$AppSettingsSharedPrefModelCopyWithImpl<$Res,
-          AppSettingsSharedPrefModel>;
-  @useResult
-  $Res call(
-      {String? themeName,
-      bool? crashlyticsEnabled,
-      bool? analyticsEnabled,
-      int? signedAgreementVersion,
-      bool? scannerDisclaimerEnabled});
-}
-
-/// @nodoc
-class _$AppSettingsSharedPrefModelCopyWithImpl<$Res,
-        $Val extends AppSettingsSharedPrefModel>
-    implements $AppSettingsSharedPrefModelCopyWith<$Res> {
-  _$AppSettingsSharedPrefModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AppSettingsSharedPrefModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? themeName = freezed,
-    Object? crashlyticsEnabled = freezed,
-    Object? analyticsEnabled = freezed,
-    Object? signedAgreementVersion = freezed,
-    Object? scannerDisclaimerEnabled = freezed,
-  }) {
-    return _then(_value.copyWith(
-      themeName: freezed == themeName
-          ? _value.themeName
-          : themeName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      crashlyticsEnabled: freezed == crashlyticsEnabled
-          ? _value.crashlyticsEnabled
-          : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      analyticsEnabled: freezed == analyticsEnabled
-          ? _value.analyticsEnabled
-          : analyticsEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      signedAgreementVersion: freezed == signedAgreementVersion
-          ? _value.signedAgreementVersion
-          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
-              as int?,
-      scannerDisclaimerEnabled: freezed == scannerDisclaimerEnabled
-          ? _value.scannerDisclaimerEnabled
-          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$AppSettingsSharedPrefModelImplCopyWith<$Res>
-    implements $AppSettingsSharedPrefModelCopyWith<$Res> {
-  factory _$$AppSettingsSharedPrefModelImplCopyWith(
-          _$AppSettingsSharedPrefModelImpl value,
-          $Res Function(_$AppSettingsSharedPrefModelImpl) then) =
-      __$$AppSettingsSharedPrefModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String? themeName,
-      bool? crashlyticsEnabled,
-      bool? analyticsEnabled,
-      int? signedAgreementVersion,
-      bool? scannerDisclaimerEnabled});
-}
-
-/// @nodoc
-class __$$AppSettingsSharedPrefModelImplCopyWithImpl<$Res>
-    extends _$AppSettingsSharedPrefModelCopyWithImpl<$Res,
-        _$AppSettingsSharedPrefModelImpl>
-    implements _$$AppSettingsSharedPrefModelImplCopyWith<$Res> {
-  __$$AppSettingsSharedPrefModelImplCopyWithImpl(
-      _$AppSettingsSharedPrefModelImpl _value,
-      $Res Function(_$AppSettingsSharedPrefModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AppSettingsSharedPrefModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? themeName = freezed,
-    Object? crashlyticsEnabled = freezed,
-    Object? analyticsEnabled = freezed,
-    Object? signedAgreementVersion = freezed,
-    Object? scannerDisclaimerEnabled = freezed,
-  }) {
-    return _then(_$AppSettingsSharedPrefModelImpl(
-      themeName: freezed == themeName
-          ? _value.themeName
-          : themeName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      crashlyticsEnabled: freezed == crashlyticsEnabled
-          ? _value.crashlyticsEnabled
-          : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      analyticsEnabled: freezed == analyticsEnabled
-          ? _value.analyticsEnabled
-          : analyticsEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      signedAgreementVersion: freezed == signedAgreementVersion
-          ? _value.signedAgreementVersion
-          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
-              as int?,
-      scannerDisclaimerEnabled: freezed == scannerDisclaimerEnabled
-          ? _value.scannerDisclaimerEnabled
-          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$AppSettingsSharedPrefModelImpl implements _AppSettingsSharedPrefModel {
-  const _$AppSettingsSharedPrefModelImpl(
-      {this.themeName,
-      this.crashlyticsEnabled,
-      this.analyticsEnabled,
-      this.signedAgreementVersion,
-      this.scannerDisclaimerEnabled});
-
-  @override
-  final String? themeName;
-  @override
-  final bool? crashlyticsEnabled;
-  @override
-  final bool? analyticsEnabled;
-  @override
-  final int? signedAgreementVersion;
-  @override
-  final bool? scannerDisclaimerEnabled;
-
-  @override
-  String toString() {
-    return 'AppSettingsSharedPrefModel(themeName: $themeName, crashlyticsEnabled: $crashlyticsEnabled, analyticsEnabled: $analyticsEnabled, signedAgreementVersion: $signedAgreementVersion, scannerDisclaimerEnabled: $scannerDisclaimerEnabled)';
-  }
+      get copyWith =>
+          _$AppSettingsSharedPrefModelCopyWithImpl<AppSettingsSharedPrefModel>(
+              this as AppSettingsSharedPrefModel, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AppSettingsSharedPrefModelImpl &&
+            other is AppSettingsSharedPrefModel &&
             (identical(other.themeName, themeName) ||
                 other.themeName == themeName) &&
             (identical(other.crashlyticsEnabled, crashlyticsEnabled) ||
@@ -202,40 +52,187 @@ class _$AppSettingsSharedPrefModelImpl implements _AppSettingsSharedPrefModel {
   int get hashCode => Object.hash(runtimeType, themeName, crashlyticsEnabled,
       analyticsEnabled, signedAgreementVersion, scannerDisclaimerEnabled);
 
+  @override
+  String toString() {
+    return 'AppSettingsSharedPrefModel(themeName: $themeName, crashlyticsEnabled: $crashlyticsEnabled, analyticsEnabled: $analyticsEnabled, signedAgreementVersion: $signedAgreementVersion, scannerDisclaimerEnabled: $scannerDisclaimerEnabled)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $AppSettingsSharedPrefModelCopyWith<$Res> {
+  factory $AppSettingsSharedPrefModelCopyWith(AppSettingsSharedPrefModel value,
+          $Res Function(AppSettingsSharedPrefModel) _then) =
+      _$AppSettingsSharedPrefModelCopyWithImpl;
+  @useResult
+  $Res call(
+      {String? themeName,
+      bool? crashlyticsEnabled,
+      bool? analyticsEnabled,
+      int? signedAgreementVersion,
+      bool? scannerDisclaimerEnabled});
+}
+
+/// @nodoc
+class _$AppSettingsSharedPrefModelCopyWithImpl<$Res>
+    implements $AppSettingsSharedPrefModelCopyWith<$Res> {
+  _$AppSettingsSharedPrefModelCopyWithImpl(this._self, this._then);
+
+  final AppSettingsSharedPrefModel _self;
+  final $Res Function(AppSettingsSharedPrefModel) _then;
+
   /// Create a copy of AppSettingsSharedPrefModel
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? themeName = freezed,
+    Object? crashlyticsEnabled = freezed,
+    Object? analyticsEnabled = freezed,
+    Object? signedAgreementVersion = freezed,
+    Object? scannerDisclaimerEnabled = freezed,
+  }) {
+    return _then(_self.copyWith(
+      themeName: freezed == themeName
+          ? _self.themeName
+          : themeName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      crashlyticsEnabled: freezed == crashlyticsEnabled
+          ? _self.crashlyticsEnabled
+          : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      analyticsEnabled: freezed == analyticsEnabled
+          ? _self.analyticsEnabled
+          : analyticsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      signedAgreementVersion: freezed == signedAgreementVersion
+          ? _self.signedAgreementVersion
+          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannerDisclaimerEnabled: freezed == scannerDisclaimerEnabled
+          ? _self.scannerDisclaimerEnabled
+          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _AppSettingsSharedPrefModel implements AppSettingsSharedPrefModel {
+  const _AppSettingsSharedPrefModel(
+      {this.themeName,
+      this.crashlyticsEnabled,
+      this.analyticsEnabled,
+      this.signedAgreementVersion,
+      this.scannerDisclaimerEnabled});
+
+  @override
+  final String? themeName;
+  @override
+  final bool? crashlyticsEnabled;
+  @override
+  final bool? analyticsEnabled;
+  @override
+  final int? signedAgreementVersion;
+  @override
+  final bool? scannerDisclaimerEnabled;
+
+  /// Create a copy of AppSettingsSharedPrefModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AppSettingsSharedPrefModelCopyWith<_AppSettingsSharedPrefModel>
+      get copyWith => __$AppSettingsSharedPrefModelCopyWithImpl<
+          _AppSettingsSharedPrefModel>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _AppSettingsSharedPrefModel &&
+            (identical(other.themeName, themeName) ||
+                other.themeName == themeName) &&
+            (identical(other.crashlyticsEnabled, crashlyticsEnabled) ||
+                other.crashlyticsEnabled == crashlyticsEnabled) &&
+            (identical(other.analyticsEnabled, analyticsEnabled) ||
+                other.analyticsEnabled == analyticsEnabled) &&
+            (identical(other.signedAgreementVersion, signedAgreementVersion) ||
+                other.signedAgreementVersion == signedAgreementVersion) &&
+            (identical(
+                    other.scannerDisclaimerEnabled, scannerDisclaimerEnabled) ||
+                other.scannerDisclaimerEnabled == scannerDisclaimerEnabled));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, themeName, crashlyticsEnabled,
+      analyticsEnabled, signedAgreementVersion, scannerDisclaimerEnabled);
+
+  @override
+  String toString() {
+    return 'AppSettingsSharedPrefModel(themeName: $themeName, crashlyticsEnabled: $crashlyticsEnabled, analyticsEnabled: $analyticsEnabled, signedAgreementVersion: $signedAgreementVersion, scannerDisclaimerEnabled: $scannerDisclaimerEnabled)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$AppSettingsSharedPrefModelCopyWith<$Res>
+    implements $AppSettingsSharedPrefModelCopyWith<$Res> {
+  factory _$AppSettingsSharedPrefModelCopyWith(
+          _AppSettingsSharedPrefModel value,
+          $Res Function(_AppSettingsSharedPrefModel) _then) =
+      __$AppSettingsSharedPrefModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String? themeName,
+      bool? crashlyticsEnabled,
+      bool? analyticsEnabled,
+      int? signedAgreementVersion,
+      bool? scannerDisclaimerEnabled});
+}
+
+/// @nodoc
+class __$AppSettingsSharedPrefModelCopyWithImpl<$Res>
+    implements _$AppSettingsSharedPrefModelCopyWith<$Res> {
+  __$AppSettingsSharedPrefModelCopyWithImpl(this._self, this._then);
+
+  final _AppSettingsSharedPrefModel _self;
+  final $Res Function(_AppSettingsSharedPrefModel) _then;
+
+  /// Create a copy of AppSettingsSharedPrefModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  _$$AppSettingsSharedPrefModelImplCopyWith<_$AppSettingsSharedPrefModelImpl>
-      get copyWith => __$$AppSettingsSharedPrefModelImplCopyWithImpl<
-          _$AppSettingsSharedPrefModelImpl>(this, _$identity);
+  $Res call({
+    Object? themeName = freezed,
+    Object? crashlyticsEnabled = freezed,
+    Object? analyticsEnabled = freezed,
+    Object? signedAgreementVersion = freezed,
+    Object? scannerDisclaimerEnabled = freezed,
+  }) {
+    return _then(_AppSettingsSharedPrefModel(
+      themeName: freezed == themeName
+          ? _self.themeName
+          : themeName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      crashlyticsEnabled: freezed == crashlyticsEnabled
+          ? _self.crashlyticsEnabled
+          : crashlyticsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      analyticsEnabled: freezed == analyticsEnabled
+          ? _self.analyticsEnabled
+          : analyticsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      signedAgreementVersion: freezed == signedAgreementVersion
+          ? _self.signedAgreementVersion
+          : signedAgreementVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannerDisclaimerEnabled: freezed == scannerDisclaimerEnabled
+          ? _self.scannerDisclaimerEnabled
+          : scannerDisclaimerEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
 }
 
-abstract class _AppSettingsSharedPrefModel
-    implements AppSettingsSharedPrefModel {
-  const factory _AppSettingsSharedPrefModel(
-      {final String? themeName,
-      final bool? crashlyticsEnabled,
-      final bool? analyticsEnabled,
-      final int? signedAgreementVersion,
-      final bool? scannerDisclaimerEnabled}) = _$AppSettingsSharedPrefModelImpl;
-
-  @override
-  String? get themeName;
-  @override
-  bool? get crashlyticsEnabled;
-  @override
-  bool? get analyticsEnabled;
-  @override
-  int? get signedAgreementVersion;
-  @override
-  bool? get scannerDisclaimerEnabled;
-
-  /// Create a copy of AppSettingsSharedPrefModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AppSettingsSharedPrefModelImplCopyWith<_$AppSettingsSharedPrefModelImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on
