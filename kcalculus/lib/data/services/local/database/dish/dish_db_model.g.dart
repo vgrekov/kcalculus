@@ -6,8 +6,7 @@ part of 'dish_db_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DishDbModelImpl _$$DishDbModelImplFromJson(Map<String, dynamic> json) =>
-    _$DishDbModelImpl(
+_DishDbModel _$DishDbModelFromJson(Map<String, dynamic> json) => _DishDbModel(
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
@@ -34,7 +33,7 @@ _$DishDbModelImpl _$$DishDbModelImplFromJson(Map<String, dynamic> json) =>
       deleted_at: json['deleted_at'] as String?,
     );
 
-Map<String, dynamic> _$$DishDbModelImplToJson(_$DishDbModelImpl instance) =>
+Map<String, dynamic> _$DishDbModelToJson(_DishDbModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'mass_per_amount_unit': instance.mass_per_amount_unit,

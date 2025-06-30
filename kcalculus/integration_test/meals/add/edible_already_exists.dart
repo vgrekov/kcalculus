@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils.dart';
@@ -60,42 +61,42 @@ Future<void> testEdibleAlreadyExists(
   await tester.pumpAndSettle();
 
   await tester.enterText(
-    find.widgetWithText(TextFormField, l10n.labelPer),
+    find.widgetWithText(TextFormField, '${l10n.labelPer} *'),
     '100',
   );
 
   await tester.pumpAndSettle();
 
   await tester.enterText(
-    find.widgetWithText(TextFormField, l10n.labelCalories),
+    findNutrientAmountInput(Nutrient.energy, l10n),
     '100',
   );
 
   await tester.pumpAndSettle();
 
   await tester.enterText(
-    find.widgetWithText(TextFormField, l10n.labelFat),
+    findNutrientAmountInput(Nutrient.fat, l10n),
     '4',
   );
 
   await tester.pumpAndSettle();
 
   await tester.enterText(
-    find.widgetWithText(TextFormField, l10n.labelCarbs),
+    findNutrientAmountInput(Nutrient.totalCarbs, l10n),
     '10',
   );
 
   await tester.pumpAndSettle();
 
   await tester.enterText(
-    find.widgetWithText(TextFormField, l10n.labelFiber),
+    findNutrientAmountInput(Nutrient.fiber, l10n),
     '1',
   );
 
   await tester.pumpAndSettle();
 
   await tester.enterText(
-    find.widgetWithText(TextFormField, l10n.labelProtein),
+    findNutrientAmountInput(Nutrient.protein, l10n),
     '9',
   );
 

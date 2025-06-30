@@ -9,6 +9,7 @@ import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/providers.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils.dart';
@@ -29,7 +30,7 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
           unit: Unit.gram,
           value: 100,
         ),
-        nutrientData: NutrientData(
+        nutrientData: NutrientData.legacy(
           calories: 100,
           fatInGrams: 4,
           carbsInGrams: 10,
@@ -40,10 +41,10 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
     ],
   );
 
-  final edibleRepository = MockEdibleRepository();
+  final edibleSearchUseCase = MockEdibleSearchUseCase();
 
   when(
-    () => edibleRepository.search(
+    () => edibleSearchUseCase.search(
       any(),
       type: any(named: 'type'),
       limit: any(named: 'limit'),
@@ -65,6 +66,8 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
           .toList();
     },
   );
+
+  final edibleRepository = MockEdibleRepository();
 
   when(
     () => edibleRepository.exists(
@@ -127,6 +130,9 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
       mealRepositoryProvider.overrideWith(
         (ref) => mealRepository,
       ),
+      edibleSearchUseCaseProvider.overrideWith(
+        (ref) => edibleSearchUseCase,
+      ),
     ],
   );
 
@@ -150,7 +156,7 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
 
   await tester.pumpAndSettle();
 
-  await enterAmount(context, tester, l10n.labelPer, amount);
+  await enterAmount(context, tester, '${l10n.labelPer} *', amount);
 
   await tester.pumpAndSettle();
 

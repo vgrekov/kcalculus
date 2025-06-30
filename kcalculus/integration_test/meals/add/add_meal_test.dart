@@ -8,6 +8,7 @@ import 'package:kcalculus/data/repositories/maintenance/maintenance_status_repos
 import 'package:kcalculus/data/repositories/maintenance/maintenance_task_repository.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/domain/models/maintenance_status.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/agreement/view_models/agreement_view_model.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -33,6 +34,8 @@ void main() {
       late MockAppSettingsRepository appSettingsRepository;
       late MockAdRepository adRepository;
       late MockMealRepository mealRepository;
+      late MockNutrientRepository nutrientRepository;
+      late MockNutrientGoalRepository nutrientGoalRepository;
 
       late List<Override> commonOverrides;
 
@@ -46,6 +49,7 @@ void main() {
               analyticsEnabled: false,
               crashlyticsEnabled: false,
               signedAgreementVersion: kAgreementVersion,
+              scannerDisclaimerEnabled: false,
             );
           },
         );
@@ -58,6 +62,24 @@ void main() {
           (_) async {
             return [];
           },
+        );
+
+        nutrientRepository = MockNutrientRepository();
+
+        when(() => nutrientRepository.getDefaults()).thenAnswer(
+          (_) async => [
+            Nutrient.energy,
+            Nutrient.fat,
+            Nutrient.totalCarbs,
+            Nutrient.fiber,
+            Nutrient.protein,
+          ],
+        );
+
+        nutrientGoalRepository = MockNutrientGoalRepository();
+
+        when(() => nutrientGoalRepository.getActiveGoals(any())).thenAnswer(
+          (_) async => [],
         );
 
         commonOverrides = [
@@ -75,6 +97,12 @@ void main() {
           ),
           mealRepositoryProvider.overrideWith(
             (ref) => mealRepository,
+          ),
+          nutrientRepositoryProvider.overrideWith(
+            (ref) => nutrientRepository,
+          ),
+          nutrientGoalRepositoryProvider.overrideWith(
+            (ref) => nutrientGoalRepository,
           ),
         ];
       });

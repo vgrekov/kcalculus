@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,211 +10,37 @@ part of 'edible_db_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-EdibleDbModel _$EdibleDbModelFromJson(Map<String, dynamic> json) {
-  return _EdibleDbModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$EdibleDbModel {
-  String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
+  String get id;
+  String get name;
+  String? get description;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get created_at => throw _privateConstructorUsedError;
+  String? get created_at;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get updated_at => throw _privateConstructorUsedError;
+  String? get updated_at;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get deleted_at => throw _privateConstructorUsedError;
-
-  /// Serializes this EdibleDbModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String? get deleted_at;
 
   /// Create a copy of EdibleDbModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $EdibleDbModelCopyWith<EdibleDbModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$EdibleDbModelCopyWithImpl<EdibleDbModel>(
+          this as EdibleDbModel, _$identity);
 
-/// @nodoc
-abstract class $EdibleDbModelCopyWith<$Res> {
-  factory $EdibleDbModelCopyWith(
-          EdibleDbModel value, $Res Function(EdibleDbModel) then) =
-      _$EdibleDbModelCopyWithImpl<$Res, EdibleDbModel>;
-  @useResult
-  $Res call(
-      {String id,
-      String name,
-      String? description,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      String? deleted_at});
-}
-
-/// @nodoc
-class _$EdibleDbModelCopyWithImpl<$Res, $Val extends EdibleDbModel>
-    implements $EdibleDbModelCopyWith<$Res> {
-  _$EdibleDbModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of EdibleDbModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? description = freezed,
-    Object? created_at = freezed,
-    Object? updated_at = freezed,
-    Object? deleted_at = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updated_at: freezed == updated_at
-          ? _value.updated_at
-          : updated_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-      deleted_at: freezed == deleted_at
-          ? _value.deleted_at
-          : deleted_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$EdibleDbModelImplCopyWith<$Res>
-    implements $EdibleDbModelCopyWith<$Res> {
-  factory _$$EdibleDbModelImplCopyWith(
-          _$EdibleDbModelImpl value, $Res Function(_$EdibleDbModelImpl) then) =
-      __$$EdibleDbModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String id,
-      String name,
-      String? description,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      String? deleted_at});
-}
-
-/// @nodoc
-class __$$EdibleDbModelImplCopyWithImpl<$Res>
-    extends _$EdibleDbModelCopyWithImpl<$Res, _$EdibleDbModelImpl>
-    implements _$$EdibleDbModelImplCopyWith<$Res> {
-  __$$EdibleDbModelImplCopyWithImpl(
-      _$EdibleDbModelImpl _value, $Res Function(_$EdibleDbModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of EdibleDbModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? description = freezed,
-    Object? created_at = freezed,
-    Object? updated_at = freezed,
-    Object? deleted_at = freezed,
-  }) {
-    return _then(_$EdibleDbModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updated_at: freezed == updated_at
-          ? _value.updated_at
-          : updated_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-      deleted_at: freezed == deleted_at
-          ? _value.deleted_at
-          : deleted_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$EdibleDbModelImpl implements _EdibleDbModel {
-  const _$EdibleDbModelImpl(
-      {required this.id,
-      required this.name,
-      this.description,
-      @JsonKey(includeToJson: false, includeFromJson: true) this.created_at,
-      @JsonKey(includeToJson: false, includeFromJson: true) this.updated_at,
-      @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at});
-
-  factory _$EdibleDbModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$EdibleDbModelImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final String name;
-  @override
-  final String? description;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  final String? created_at;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  final String? updated_at;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  final String? deleted_at;
-
-  @override
-  String toString() {
-    return 'EdibleDbModel(id: $id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
-  }
+  /// Serializes this EdibleDbModel to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EdibleDbModelImpl &&
+            other is EdibleDbModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
@@ -231,57 +58,214 @@ class _$EdibleDbModelImpl implements _EdibleDbModel {
   int get hashCode => Object.hash(
       runtimeType, id, name, description, created_at, updated_at, deleted_at);
 
-  /// Create a copy of EdibleDbModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$EdibleDbModelImplCopyWith<_$EdibleDbModelImpl> get copyWith =>
-      __$$EdibleDbModelImplCopyWithImpl<_$EdibleDbModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$EdibleDbModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'EdibleDbModel(id: $id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 }
 
-abstract class _EdibleDbModel implements EdibleDbModel {
-  const factory _EdibleDbModel(
-      {required final String id,
-      required final String name,
-      final String? description,
+/// @nodoc
+abstract mixin class $EdibleDbModelCopyWith<$Res> {
+  factory $EdibleDbModelCopyWith(
+          EdibleDbModel value, $Res Function(EdibleDbModel) _then) =
+      _$EdibleDbModelCopyWithImpl;
+  @useResult
+  $Res call(
+      {String id,
+      String name,
+      String? description,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true)
-      final String? created_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      final String? updated_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      final String? deleted_at}) = _$EdibleDbModelImpl;
+      String? deleted_at});
+}
 
-  factory _EdibleDbModel.fromJson(Map<String, dynamic> json) =
-      _$EdibleDbModelImpl.fromJson;
+/// @nodoc
+class _$EdibleDbModelCopyWithImpl<$Res>
+    implements $EdibleDbModelCopyWith<$Res> {
+  _$EdibleDbModelCopyWithImpl(this._self, this._then);
+
+  final EdibleDbModel _self;
+  final $Res Function(EdibleDbModel) _then;
+
+  /// Create a copy of EdibleDbModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? description = freezed,
+    Object? created_at = freezed,
+    Object? updated_at = freezed,
+    Object? deleted_at = freezed,
+  }) {
+    return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      created_at: freezed == created_at
+          ? _self.created_at
+          : created_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updated_at: freezed == updated_at
+          ? _self.updated_at
+          : updated_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deleted_at: freezed == deleted_at
+          ? _self.deleted_at
+          : deleted_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _EdibleDbModel implements EdibleDbModel {
+  const _EdibleDbModel(
+      {required this.id,
+      required this.name,
+      this.description,
+      @JsonKey(includeToJson: false, includeFromJson: true) this.created_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) this.updated_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at});
+  factory _EdibleDbModel.fromJson(Map<String, dynamic> json) =>
+      _$EdibleDbModelFromJson(json);
 
   @override
-  String get id;
+  final String id;
   @override
-  String get name;
+  final String name;
   @override
-  String? get description;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get created_at;
+  final String? description;
   @override
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get updated_at;
+  final String? created_at;
   @override
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get deleted_at;
+  final String? updated_at;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
+  final String? deleted_at;
 
   /// Create a copy of EdibleDbModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EdibleDbModelImplCopyWith<_$EdibleDbModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$EdibleDbModelCopyWith<_EdibleDbModel> get copyWith =>
+      __$EdibleDbModelCopyWithImpl<_EdibleDbModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$EdibleDbModelToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _EdibleDbModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.created_at, created_at) ||
+                other.created_at == created_at) &&
+            (identical(other.updated_at, updated_at) ||
+                other.updated_at == updated_at) &&
+            (identical(other.deleted_at, deleted_at) ||
+                other.deleted_at == deleted_at));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, id, name, description, created_at, updated_at, deleted_at);
+
+  @override
+  String toString() {
+    return 'EdibleDbModel(id: $id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$EdibleDbModelCopyWith<$Res>
+    implements $EdibleDbModelCopyWith<$Res> {
+  factory _$EdibleDbModelCopyWith(
+          _EdibleDbModel value, $Res Function(_EdibleDbModel) _then) =
+      __$EdibleDbModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String name,
+      String? description,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
+      @JsonKey(includeToJson: false, includeFromJson: true)
+      String? deleted_at});
+}
+
+/// @nodoc
+class __$EdibleDbModelCopyWithImpl<$Res>
+    implements _$EdibleDbModelCopyWith<$Res> {
+  __$EdibleDbModelCopyWithImpl(this._self, this._then);
+
+  final _EdibleDbModel _self;
+  final $Res Function(_EdibleDbModel) _then;
+
+  /// Create a copy of EdibleDbModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? description = freezed,
+    Object? created_at = freezed,
+    Object? updated_at = freezed,
+    Object? deleted_at = freezed,
+  }) {
+    return _then(_EdibleDbModel(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      created_at: freezed == created_at
+          ? _self.created_at
+          : created_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updated_at: freezed == updated_at
+          ? _self.updated_at
+          : updated_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deleted_at: freezed == deleted_at
+          ? _self.deleted_at
+          : deleted_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+// dart format on

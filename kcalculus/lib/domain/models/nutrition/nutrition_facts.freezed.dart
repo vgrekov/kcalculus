@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,70 +10,99 @@ part of 'nutrition_facts.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-NutritionFacts _$NutritionFactsFromJson(Map<String, dynamic> json) {
-  return _NutritionFacts.fromJson(json);
-}
-
 /// @nodoc
-mixin _$NutritionFacts {
-  Amount get amount => throw _privateConstructorUsedError;
-  NutrientData get nutrientData => throw _privateConstructorUsedError;
-
-  /// Serializes this NutritionFacts to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+mixin _$NutritionFacts implements DiagnosticableTreeMixin {
+  String? get id;
+  Amount get amount;
+  NutrientData get nutrientData;
 
   /// Create a copy of NutritionFacts
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NutritionFactsCopyWith<NutritionFacts> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$NutritionFactsCopyWithImpl<NutritionFacts>(
+          this as NutritionFacts, _$identity);
+
+  /// Serializes this NutritionFacts to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'NutritionFacts'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('nutrientData', nutrientData));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NutritionFacts &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.nutrientData, nutrientData) ||
+                other.nutrientData == nutrientData));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, amount, nutrientData);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'NutritionFacts(id: $id, amount: $amount, nutrientData: $nutrientData)';
+  }
 }
 
 /// @nodoc
-abstract class $NutritionFactsCopyWith<$Res> {
+abstract mixin class $NutritionFactsCopyWith<$Res> {
   factory $NutritionFactsCopyWith(
-          NutritionFacts value, $Res Function(NutritionFacts) then) =
-      _$NutritionFactsCopyWithImpl<$Res, NutritionFacts>;
+          NutritionFacts value, $Res Function(NutritionFacts) _then) =
+      _$NutritionFactsCopyWithImpl;
   @useResult
-  $Res call({Amount amount, NutrientData nutrientData});
+  $Res call({String? id, Amount amount, NutrientData nutrientData});
 
   $AmountCopyWith<$Res> get amount;
   $NutrientDataCopyWith<$Res> get nutrientData;
 }
 
 /// @nodoc
-class _$NutritionFactsCopyWithImpl<$Res, $Val extends NutritionFacts>
+class _$NutritionFactsCopyWithImpl<$Res>
     implements $NutritionFactsCopyWith<$Res> {
-  _$NutritionFactsCopyWithImpl(this._value, this._then);
+  _$NutritionFactsCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final NutritionFacts _self;
+  final $Res Function(NutritionFacts) _then;
 
   /// Create a copy of NutritionFacts
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? amount = null,
     Object? nutrientData = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       amount: null == amount
-          ? _value.amount
+          ? _self.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as Amount,
       nutrientData: null == nutrientData
-          ? _value.nutrientData
+          ? _self.nutrientData
           : nutrientData // ignore: cast_nullable_to_non_nullable
               as NutrientData,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of NutritionFacts
@@ -80,8 +110,8 @@ class _$NutritionFactsCopyWithImpl<$Res, $Val extends NutritionFacts>
   @override
   @pragma('vm:prefer-inline')
   $AmountCopyWith<$Res> get amount {
-    return $AmountCopyWith<$Res>(_value.amount, (value) {
-      return _then(_value.copyWith(amount: value) as $Val);
+    return $AmountCopyWith<$Res>(_self.amount, (value) {
+      return _then(_self.copyWith(amount: value));
     });
   }
 
@@ -90,21 +120,82 @@ class _$NutritionFactsCopyWithImpl<$Res, $Val extends NutritionFacts>
   @override
   @pragma('vm:prefer-inline')
   $NutrientDataCopyWith<$Res> get nutrientData {
-    return $NutrientDataCopyWith<$Res>(_value.nutrientData, (value) {
-      return _then(_value.copyWith(nutrientData: value) as $Val);
+    return $NutrientDataCopyWith<$Res>(_self.nutrientData, (value) {
+      return _then(_self.copyWith(nutrientData: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$NutritionFactsImplCopyWith<$Res>
+@JsonSerializable()
+class _NutritionFacts extends NutritionFacts with DiagnosticableTreeMixin {
+  const _NutritionFacts(
+      {this.id, required this.amount, required this.nutrientData})
+      : super._();
+  factory _NutritionFacts.fromJson(Map<String, dynamic> json) =>
+      _$NutritionFactsFromJson(json);
+
+  @override
+  final String? id;
+  @override
+  final Amount amount;
+  @override
+  final NutrientData nutrientData;
+
+  /// Create a copy of NutritionFacts
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NutritionFactsCopyWith<_NutritionFacts> get copyWith =>
+      __$NutritionFactsCopyWithImpl<_NutritionFacts>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NutritionFactsToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'NutritionFacts'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('nutrientData', nutrientData));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _NutritionFacts &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.nutrientData, nutrientData) ||
+                other.nutrientData == nutrientData));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, amount, nutrientData);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'NutritionFacts(id: $id, amount: $amount, nutrientData: $nutrientData)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$NutritionFactsCopyWith<$Res>
     implements $NutritionFactsCopyWith<$Res> {
-  factory _$$NutritionFactsImplCopyWith(_$NutritionFactsImpl value,
-          $Res Function(_$NutritionFactsImpl) then) =
-      __$$NutritionFactsImplCopyWithImpl<$Res>;
+  factory _$NutritionFactsCopyWith(
+          _NutritionFacts value, $Res Function(_NutritionFacts) _then) =
+      __$NutritionFactsCopyWithImpl;
   @override
   @useResult
-  $Res call({Amount amount, NutrientData nutrientData});
+  $Res call({String? id, Amount amount, NutrientData nutrientData});
 
   @override
   $AmountCopyWith<$Res> get amount;
@@ -113,102 +204,57 @@ abstract class _$$NutritionFactsImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$NutritionFactsImplCopyWithImpl<$Res>
-    extends _$NutritionFactsCopyWithImpl<$Res, _$NutritionFactsImpl>
-    implements _$$NutritionFactsImplCopyWith<$Res> {
-  __$$NutritionFactsImplCopyWithImpl(
-      _$NutritionFactsImpl _value, $Res Function(_$NutritionFactsImpl) _then)
-      : super(_value, _then);
+class __$NutritionFactsCopyWithImpl<$Res>
+    implements _$NutritionFactsCopyWith<$Res> {
+  __$NutritionFactsCopyWithImpl(this._self, this._then);
+
+  final _NutritionFacts _self;
+  final $Res Function(_NutritionFacts) _then;
 
   /// Create a copy of NutritionFacts
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
+    Object? id = freezed,
     Object? amount = null,
     Object? nutrientData = null,
   }) {
-    return _then(_$NutritionFactsImpl(
+    return _then(_NutritionFacts(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       amount: null == amount
-          ? _value.amount
+          ? _self.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as Amount,
       nutrientData: null == nutrientData
-          ? _value.nutrientData
+          ? _self.nutrientData
           : nutrientData // ignore: cast_nullable_to_non_nullable
               as NutrientData,
     ));
   }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$NutritionFactsImpl extends _NutritionFacts {
-  const _$NutritionFactsImpl({required this.amount, required this.nutrientData})
-      : super._();
-
-  factory _$NutritionFactsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$NutritionFactsImplFromJson(json);
-
-  @override
-  final Amount amount;
-  @override
-  final NutrientData nutrientData;
-
-  @override
-  String toString() {
-    return 'NutritionFacts(amount: $amount, nutrientData: $nutrientData)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NutritionFactsImpl &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.nutrientData, nutrientData) ||
-                other.nutrientData == nutrientData));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, amount, nutrientData);
 
   /// Create a copy of NutritionFacts
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$NutritionFactsImplCopyWith<_$NutritionFactsImpl> get copyWith =>
-      __$$NutritionFactsImplCopyWithImpl<_$NutritionFactsImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NutritionFactsImplToJson(
-      this,
-    );
+  $AmountCopyWith<$Res> get amount {
+    return $AmountCopyWith<$Res>(_self.amount, (value) {
+      return _then(_self.copyWith(amount: value));
+    });
   }
-}
-
-abstract class _NutritionFacts extends NutritionFacts {
-  const factory _NutritionFacts(
-      {required final Amount amount,
-      required final NutrientData nutrientData}) = _$NutritionFactsImpl;
-  const _NutritionFacts._() : super._();
-
-  factory _NutritionFacts.fromJson(Map<String, dynamic> json) =
-      _$NutritionFactsImpl.fromJson;
-
-  @override
-  Amount get amount;
-  @override
-  NutrientData get nutrientData;
 
   /// Create a copy of NutritionFacts
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutritionFactsImplCopyWith<_$NutritionFactsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $NutrientDataCopyWith<$Res> get nutrientData {
+    return $NutrientDataCopyWith<$Res>(_self.nutrientData, (value) {
+      return _then(_self.copyWith(nutrientData: value));
+    });
+  }
 }
+
+// dart format on

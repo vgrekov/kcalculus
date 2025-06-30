@@ -6,10 +6,11 @@ part 'edible_search_result.g.dart';
 enum EdibleSearchResultType {
   food,
   dish,
+  usda,
 }
 
 @freezed
-class EdibleSearchResult with _$EdibleSearchResult {
+sealed class EdibleSearchResult with _$EdibleSearchResult {
   const factory EdibleSearchResult({
     required String id,
     required String name,

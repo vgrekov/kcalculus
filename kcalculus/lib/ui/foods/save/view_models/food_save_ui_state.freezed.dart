@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,87 +10,52 @@ part of 'food_save_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$FoodSaveUiState {
-  String? get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  List<NutritionFacts>? get nutritionFacts =>
-      throw _privateConstructorUsedError;
+  String? get id;
+  String get name;
+  String get description;
+  List<NutritionFacts>? get nutritionFacts;
 
   /// Create a copy of FoodSaveUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $FoodSaveUiStateCopyWith<FoodSaveUiState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FoodSaveUiStateCopyWith<$Res> {
-  factory $FoodSaveUiStateCopyWith(
-          FoodSaveUiState value, $Res Function(FoodSaveUiState) then) =
-      _$FoodSaveUiStateCopyWithImpl<$Res, FoodSaveUiState>;
-  @useResult
-  $Res call(
-      {String? id,
-      String name,
-      String description,
-      List<NutritionFacts>? nutritionFacts});
-}
-
-/// @nodoc
-class _$FoodSaveUiStateCopyWithImpl<$Res, $Val extends FoodSaveUiState>
-    implements $FoodSaveUiStateCopyWith<$Res> {
-  _$FoodSaveUiStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of FoodSaveUiState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $FoodSaveUiStateCopyWith<FoodSaveUiState> get copyWith =>
+      _$FoodSaveUiStateCopyWithImpl<FoodSaveUiState>(
+          this as FoodSaveUiState, _$identity);
+
   @override
-  $Res call({
-    Object? id = freezed,
-    Object? name = null,
-    Object? description = null,
-    Object? nutritionFacts = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      nutritionFacts: freezed == nutritionFacts
-          ? _value.nutritionFacts
-          : nutritionFacts // ignore: cast_nullable_to_non_nullable
-              as List<NutritionFacts>?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FoodSaveUiState &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality()
+                .equals(other.nutritionFacts, nutritionFacts));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, description,
+      const DeepCollectionEquality().hash(nutritionFacts));
+
+  @override
+  String toString() {
+    return 'FoodSaveUiState(id: $id, name: $name, description: $description, nutritionFacts: $nutritionFacts)';
   }
 }
 
 /// @nodoc
-abstract class _$$FoodSaveUiStateImplCopyWith<$Res>
-    implements $FoodSaveUiStateCopyWith<$Res> {
-  factory _$$FoodSaveUiStateImplCopyWith(_$FoodSaveUiStateImpl value,
-          $Res Function(_$FoodSaveUiStateImpl) then) =
-      __$$FoodSaveUiStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $FoodSaveUiStateCopyWith<$Res> {
+  factory $FoodSaveUiStateCopyWith(
+          FoodSaveUiState value, $Res Function(FoodSaveUiState) _then) =
+      _$FoodSaveUiStateCopyWithImpl;
   @useResult
   $Res call(
       {String? id,
@@ -99,12 +65,12 @@ abstract class _$$FoodSaveUiStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$FoodSaveUiStateImplCopyWithImpl<$Res>
-    extends _$FoodSaveUiStateCopyWithImpl<$Res, _$FoodSaveUiStateImpl>
-    implements _$$FoodSaveUiStateImplCopyWith<$Res> {
-  __$$FoodSaveUiStateImplCopyWithImpl(
-      _$FoodSaveUiStateImpl _value, $Res Function(_$FoodSaveUiStateImpl) _then)
-      : super(_value, _then);
+class _$FoodSaveUiStateCopyWithImpl<$Res>
+    implements $FoodSaveUiStateCopyWith<$Res> {
+  _$FoodSaveUiStateCopyWithImpl(this._self, this._then);
+
+  final FoodSaveUiState _self;
+  final $Res Function(FoodSaveUiState) _then;
 
   /// Create a copy of FoodSaveUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -116,21 +82,21 @@ class __$$FoodSaveUiStateImplCopyWithImpl<$Res>
     Object? description = null,
     Object? nutritionFacts = freezed,
   }) {
-    return _then(_$FoodSaveUiStateImpl(
+    return _then(_self.copyWith(
       id: freezed == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
       nutritionFacts: freezed == nutritionFacts
-          ? _value._nutritionFacts
+          ? _self.nutritionFacts
           : nutritionFacts // ignore: cast_nullable_to_non_nullable
               as List<NutritionFacts>?,
     ));
@@ -139,8 +105,8 @@ class __$$FoodSaveUiStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FoodSaveUiStateImpl extends _FoodSaveUiState {
-  const _$FoodSaveUiStateImpl(
+class _FoodSaveUiState extends FoodSaveUiState {
+  const _FoodSaveUiState(
       {this.id,
       this.name = '',
       this.description = '',
@@ -166,16 +132,19 @@ class _$FoodSaveUiStateImpl extends _FoodSaveUiState {
     return EqualUnmodifiableListView(value);
   }
 
+  /// Create a copy of FoodSaveUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FoodSaveUiState(id: $id, name: $name, description: $description, nutritionFacts: $nutritionFacts)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FoodSaveUiStateCopyWith<_FoodSaveUiState> get copyWith =>
+      __$FoodSaveUiStateCopyWithImpl<_FoodSaveUiState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FoodSaveUiStateImpl &&
+            other is _FoodSaveUiState &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
@@ -188,37 +157,64 @@ class _$FoodSaveUiStateImpl extends _FoodSaveUiState {
   int get hashCode => Object.hash(runtimeType, id, name, description,
       const DeepCollectionEquality().hash(_nutritionFacts));
 
+  @override
+  String toString() {
+    return 'FoodSaveUiState(id: $id, name: $name, description: $description, nutritionFacts: $nutritionFacts)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$FoodSaveUiStateCopyWith<$Res>
+    implements $FoodSaveUiStateCopyWith<$Res> {
+  factory _$FoodSaveUiStateCopyWith(
+          _FoodSaveUiState value, $Res Function(_FoodSaveUiState) _then) =
+      __$FoodSaveUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String? id,
+      String name,
+      String description,
+      List<NutritionFacts>? nutritionFacts});
+}
+
+/// @nodoc
+class __$FoodSaveUiStateCopyWithImpl<$Res>
+    implements _$FoodSaveUiStateCopyWith<$Res> {
+  __$FoodSaveUiStateCopyWithImpl(this._self, this._then);
+
+  final _FoodSaveUiState _self;
+  final $Res Function(_FoodSaveUiState) _then;
+
   /// Create a copy of FoodSaveUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$FoodSaveUiStateImplCopyWith<_$FoodSaveUiStateImpl> get copyWith =>
-      __$$FoodSaveUiStateImplCopyWithImpl<_$FoodSaveUiStateImpl>(
-          this, _$identity);
+  $Res call({
+    Object? id = freezed,
+    Object? name = null,
+    Object? description = null,
+    Object? nutritionFacts = freezed,
+  }) {
+    return _then(_FoodSaveUiState(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      nutritionFacts: freezed == nutritionFacts
+          ? _self._nutritionFacts
+          : nutritionFacts // ignore: cast_nullable_to_non_nullable
+              as List<NutritionFacts>?,
+    ));
+  }
 }
 
-abstract class _FoodSaveUiState extends FoodSaveUiState {
-  const factory _FoodSaveUiState(
-      {final String? id,
-      final String name,
-      final String description,
-      final List<NutritionFacts>? nutritionFacts}) = _$FoodSaveUiStateImpl;
-  const _FoodSaveUiState._() : super._();
-
-  @override
-  String? get id;
-  @override
-  String get name;
-  @override
-  String get description;
-  @override
-  List<NutritionFacts>? get nutritionFacts;
-
-  /// Create a copy of FoodSaveUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FoodSaveUiStateImplCopyWith<_$FoodSaveUiStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

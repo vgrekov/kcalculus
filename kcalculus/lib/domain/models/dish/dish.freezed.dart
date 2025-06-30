@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,108 +10,70 @@ part of 'dish.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$Dish {
-  String? get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  List<Ingredient> get ingredients => throw _privateConstructorUsedError;
-  Map<Measure, NutritionRatio> get nutritionRatios =>
-      throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// Serializes this Dish to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String? get id;
+  String get name;
+  String get description;
+  List<Ingredient> get ingredients;
+  Map<Measure, NutritionRatio> get nutritionRatios;
+  DateTime? get createdAt;
+  DateTime? get updatedAt;
 
   /// Create a copy of Dish
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DishCopyWith<Dish> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DishCopyWith<$Res> {
-  factory $DishCopyWith(Dish value, $Res Function(Dish) then) =
-      _$DishCopyWithImpl<$Res, Dish>;
-  @useResult
-  $Res call(
-      {String? id,
-      String name,
-      String description,
-      List<Ingredient> ingredients,
-      Map<Measure, NutritionRatio> nutritionRatios,
-      DateTime? createdAt,
-      DateTime? updatedAt});
-}
-
-/// @nodoc
-class _$DishCopyWithImpl<$Res, $Val extends Dish>
-    implements $DishCopyWith<$Res> {
-  _$DishCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Dish
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $DishCopyWith<Dish> get copyWith =>
+      _$DishCopyWithImpl<Dish>(this as Dish, _$identity);
+
+  /// Serializes this Dish to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = freezed,
-    Object? name = null,
-    Object? description = null,
-    Object? ingredients = null,
-    Object? nutritionRatios = null,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      ingredients: null == ingredients
-          ? _value.ingredients
-          : ingredients // ignore: cast_nullable_to_non_nullable
-              as List<Ingredient>,
-      nutritionRatios: null == nutritionRatios
-          ? _value.nutritionRatios
-          : nutritionRatios // ignore: cast_nullable_to_non_nullable
-              as Map<Measure, NutritionRatio>,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Dish &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality()
+                .equals(other.ingredients, ingredients) &&
+            const DeepCollectionEquality()
+                .equals(other.nutritionRatios, nutritionRatios) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      description,
+      const DeepCollectionEquality().hash(ingredients),
+      const DeepCollectionEquality().hash(nutritionRatios),
+      createdAt,
+      updatedAt);
+
+  @override
+  String toString() {
+    return 'Dish(id: $id, name: $name, description: $description, ingredients: $ingredients, nutritionRatios: $nutritionRatios, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
 /// @nodoc
-abstract class _$$DishImplCopyWith<$Res> implements $DishCopyWith<$Res> {
-  factory _$$DishImplCopyWith(
-          _$DishImpl value, $Res Function(_$DishImpl) then) =
-      __$$DishImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $DishCopyWith<$Res> {
+  factory $DishCopyWith(Dish value, $Res Function(Dish) _then) =
+      _$DishCopyWithImpl;
   @useResult
   $Res call(
       {String? id,
@@ -123,11 +86,11 @@ abstract class _$$DishImplCopyWith<$Res> implements $DishCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$DishImplCopyWithImpl<$Res>
-    extends _$DishCopyWithImpl<$Res, _$DishImpl>
-    implements _$$DishImplCopyWith<$Res> {
-  __$$DishImplCopyWithImpl(_$DishImpl _value, $Res Function(_$DishImpl) _then)
-      : super(_value, _then);
+class _$DishCopyWithImpl<$Res> implements $DishCopyWith<$Res> {
+  _$DishCopyWithImpl(this._self, this._then);
+
+  final Dish _self;
+  final $Res Function(Dish) _then;
 
   /// Create a copy of Dish
   /// with the given fields replaced by the non-null parameter values.
@@ -142,33 +105,33 @@ class __$$DishImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_$DishImpl(
+    return _then(_self.copyWith(
       id: freezed == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
       ingredients: null == ingredients
-          ? _value._ingredients
+          ? _self.ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
               as List<Ingredient>,
       nutritionRatios: null == nutritionRatios
-          ? _value._nutritionRatios
+          ? _self.nutritionRatios
           : nutritionRatios // ignore: cast_nullable_to_non_nullable
               as Map<Measure, NutritionRatio>,
       createdAt: freezed == createdAt
-          ? _value.createdAt
+          ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       updatedAt: freezed == updatedAt
-          ? _value.updatedAt
+          ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
@@ -177,8 +140,8 @@ class __$$DishImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable(createFactory: false)
-class _$DishImpl extends _Dish {
-  const _$DishImpl(
+class _Dish extends Dish {
+  const _Dish(
       {this.id,
       required this.name,
       required this.description,
@@ -217,16 +180,26 @@ class _$DishImpl extends _Dish {
   @override
   final DateTime? updatedAt;
 
+  /// Create a copy of Dish
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Dish(id: $id, name: $name, description: $description, ingredients: $ingredients, nutritionRatios: $nutritionRatios, createdAt: $createdAt, updatedAt: $updatedAt)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$DishCopyWith<_Dish> get copyWith =>
+      __$DishCopyWithImpl<_Dish>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DishToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DishImpl &&
+            other is _Dish &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
@@ -253,52 +226,79 @@ class _$DishImpl extends _Dish {
       createdAt,
       updatedAt);
 
-  /// Create a copy of Dish
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$DishImplCopyWith<_$DishImpl> get copyWith =>
-      __$$DishImplCopyWithImpl<_$DishImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DishImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Dish(id: $id, name: $name, description: $description, ingredients: $ingredients, nutritionRatios: $nutritionRatios, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
-abstract class _Dish extends Dish {
-  const factory _Dish(
-      {final String? id,
-      required final String name,
-      required final String description,
-      required final List<Ingredient> ingredients,
-      required final Map<Measure, NutritionRatio> nutritionRatios,
-      final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$DishImpl;
-  const _Dish._() : super._();
+/// @nodoc
+abstract mixin class _$DishCopyWith<$Res> implements $DishCopyWith<$Res> {
+  factory _$DishCopyWith(_Dish value, $Res Function(_Dish) _then) =
+      __$DishCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String? id,
+      String name,
+      String description,
+      List<Ingredient> ingredients,
+      Map<Measure, NutritionRatio> nutritionRatios,
+      DateTime? createdAt,
+      DateTime? updatedAt});
+}
 
-  @override
-  String? get id;
-  @override
-  String get name;
-  @override
-  String get description;
-  @override
-  List<Ingredient> get ingredients;
-  @override
-  Map<Measure, NutritionRatio> get nutritionRatios;
-  @override
-  DateTime? get createdAt;
-  @override
-  DateTime? get updatedAt;
+/// @nodoc
+class __$DishCopyWithImpl<$Res> implements _$DishCopyWith<$Res> {
+  __$DishCopyWithImpl(this._self, this._then);
+
+  final _Dish _self;
+  final $Res Function(_Dish) _then;
 
   /// Create a copy of Dish
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DishImplCopyWith<_$DishImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = freezed,
+    Object? name = null,
+    Object? description = null,
+    Object? ingredients = null,
+    Object? nutritionRatios = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+  }) {
+    return _then(_Dish(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      ingredients: null == ingredients
+          ? _self._ingredients
+          : ingredients // ignore: cast_nullable_to_non_nullable
+              as List<Ingredient>,
+      nutritionRatios: null == nutritionRatios
+          ? _self._nutritionRatios
+          : nutritionRatios // ignore: cast_nullable_to_non_nullable
+              as Map<Measure, NutritionRatio>,
+      createdAt: freezed == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
 }
+
+// dart format on

@@ -29,7 +29,7 @@ class MealService {
         meals.deleted_at IS NULL
         AND STRFTIME('%d-%m-%Y', meals.eaten_at) = ?
       ORDER BY
-        meals.eaten_at
+        meals.eaten_at DESC
       ''',
       [dt.formatDate(date)],
     ).then((data) => data.map(MealDbModel.fromJson).toList());

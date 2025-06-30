@@ -79,7 +79,7 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
 
   await tester.pumpAndSettle();
 
-  await enterAmount(context, tester, l10n.labelPer, amount);
+  await enterAmount(context, tester, '${l10n.labelPer} *', amount);
 
   await tester.pumpAndSettle();
 

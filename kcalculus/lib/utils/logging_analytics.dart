@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:logging/logging.dart';
 
 extension Analytics on Logger {
@@ -63,15 +64,13 @@ extension Analytics on Logger {
     );
   }
 
-  void eventFoodScanVersionMismatch(
-    int expectedVersion,
-    int? foundVersion,
+  void eventFoodScanUnsupportedVersion(
+    int? version,
   ) {
     FirebaseAnalytics.instance.logEvent(
-      name: 'food_scan_version_mismatch',
+      name: 'food_scan_unsupported_version',
       parameters: {
-        'expected_version': expectedVersion,
-        if (foundVersion != null) 'found_version': foundVersion,
+        if (version != null) 'version': version,
       },
     );
   }
@@ -139,6 +138,78 @@ extension Analytics on Logger {
   void eventDbRestore() {
     FirebaseAnalytics.instance.logEvent(
       name: 'db_restore',
+    );
+  }
+
+  void eventFoodContainerSave() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_container_save',
+    );
+  }
+
+  void eventFoodContainerDelete() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_container_delete',
+    );
+  }
+
+  void eventFoodContainerRestore() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'food_container_restore',
+    );
+  }
+
+  void eventDefaultNutrientAdd(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'default_nutrient_add',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
+    );
+  }
+
+  void eventDefaultNutrientDelete(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'default_nutrient_delete',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
+    );
+  }
+
+  void eventDefaultNutrientRestore(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'default_nutrient_restore',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
+    );
+  }
+
+  void eventNutrientGoalAdd(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'nutrient_goal_add',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
+    );
+  }
+
+  void eventNutrientGoalDelete(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'nutrient_goal_delete',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
+    );
+  }
+
+  void eventNutrientGoalRestore(Nutrient nutrient) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'nutrient_goal_restore',
+      parameters: {
+        'nutrient': nutrient.name,
+      },
     );
   }
 }

@@ -53,25 +53,16 @@ class EdibleService {
             edibles.updated_at AS updated_at,
             foods.id AS food_id,
             dishes.id AS dish_id,
-            CASE
-              WHEN direct_meals.eaten_at IS NULL THEN ingredient_meals.eaten_at
-              WHEN ingredient_meals.eaten_at IS NULL THEN direct_meals.eaten_at
-              ELSE MAX(direct_meals.eaten_at, ingredient_meals.eaten_at)
-            END AS eaten_at
+            meals.eaten_at AS eaten_at
           FROM
             edibles
           LEFT JOIN foods ON
             foods.id = edibles.id
           LEFT JOIN dishes ON
             dishes.id = edibles.id
-          LEFT JOIN meals AS direct_meals ON
-            direct_meals.edible_id = edibles.id
-            AND direct_meals.deleted_at IS NULL
-          LEFT JOIN ingredients ON
-            ingredients.edible_id = edibles.id
-          LEFT JOIN meals AS ingredient_meals ON
-            ingredient_meals.edible_id = ingredients.dish_id
-            AND ingredient_meals.deleted_at IS NULL
+          LEFT JOIN meals ON
+            meals.edible_id = edibles.id
+            AND meals.deleted_at IS NULL
           WHERE
             edibles.deleted_at IS NULL
             AND (
@@ -82,7 +73,7 @@ class EdibleService {
               ? = 0
               OR dishes.id IS NOT NULL
             )
-            AND UPPER(edibles.name) LIKE '%' || UPPER(?) || '%'
+            AND UPPER(edibles.name || ', ' || edibles.description) LIKE '%' || UPPER(?) || '%'
         ) results
         GROUP BY
           results.id,
@@ -118,6 +109,47 @@ class EdibleService {
     return executor
         .rawQuery(sql, arguments)
         .then((data) => data.map(EdibleSearchResultDbModel.fromJson).toList());
+  }
+
+  Future<int> count(
+    String? query, {
+    bool onlyFoods = false,
+    bool onlyDishes = false,
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await database;
+
+    var sql = '''
+      SELECT
+        COUNT(edibles.id) AS edible_count
+      FROM
+        edibles
+      LEFT JOIN foods ON
+        foods.id = edibles.id
+      LEFT JOIN dishes ON
+        dishes.id = edibles.id
+      WHERE
+        edibles.deleted_at IS NULL
+        AND (
+          ? = 0
+          OR foods.id IS NOT NULL
+        )
+        AND (
+          ? = 0
+          OR dishes.id IS NOT NULL
+        )
+        AND UPPER(edibles.name || ', ' || edibles.description) LIKE '%' || UPPER(?) || '%'
+      ''';
+
+    var arguments = [
+      onlyFoods ? 1 : 0,
+      onlyDishes ? 1 : 0,
+      query ?? '',
+    ];
+
+    return executor
+        .rawQuery(sql, arguments)
+        .then((data) => (data[0]['edible_count'] as int?) ?? 0);
   }
 
   Future<bool> exists(

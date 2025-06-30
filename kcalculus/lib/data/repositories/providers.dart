@@ -138,3 +138,77 @@ final accessLevelRepositoryProvider =
     AsyncNotifierProvider<AccessLevelRepository, AccessLevel>(
   AccessLevelRepository.new,
 );
+
+final _foodContainerChangesStreamControllerProvider =
+    Provider<StreamController<void>>(
+  (ref) {
+    final controller = StreamController<void>.broadcast();
+    ref.onDispose(controller.close);
+    return controller;
+  },
+);
+
+final foodContainerChangesProvider = StreamProvider<void>(
+  (ref) {
+    final controller = ref.watch(_foodContainerChangesStreamControllerProvider);
+    return controller.stream;
+  },
+);
+
+final foodContainerRepositoryProvider = Provider<FoodContainerRepository>(
+  (ref) {
+    final containerDao = ref.watch(_localFoodContainerDaoProvider);
+    final changeController =
+        ref.watch(_foodContainerChangesStreamControllerProvider);
+    return LocalContainerRepository(
+      containerDao: containerDao,
+      changeController: changeController,
+    );
+  },
+);
+
+final nutrientRepositoryProvider = Provider<NutrientRepository>(
+  (ref) {
+    final defaultNutrientDao = ref.watch(_localDefaultNutrientDaoProvider);
+    return LocalNutrientRepository(
+      defaultNutrientDao: defaultNutrientDao,
+    );
+  },
+);
+
+final _goalChangesStreamControllerProvider = Provider<StreamController<void>>(
+  (ref) {
+    final controller = StreamController<void>.broadcast();
+    ref.onDispose(controller.close);
+    return controller;
+  },
+);
+
+final goalChangesProvider = StreamProvider<void>(
+  (ref) {
+    final controller = ref.watch(_goalChangesStreamControllerProvider);
+    return controller.stream;
+  },
+);
+
+final nutrientGoalRepositoryProvider = Provider<NutrientGoalRepository>(
+  (ref) {
+    final nutrientGoalDao = ref.watch(_localNutrientGoalDaoProvider);
+    final changeController = ref.watch(_goalChangesStreamControllerProvider);
+    return LocalNutrientGoalRepository(
+      nutrientGoalDao: nutrientGoalDao,
+      changeController: changeController,
+    );
+  },
+);
+
+final usdaFoodRepositoryProvider = Provider<UsdaFoodRepository>(
+  (ref) {
+    final usdaService = ref.watch(_usdaServiceProvider);
+    final usdaFoodConverter = UsdaFoodConverter();
+    return UsdaFoodRepository(
+      usdaService: usdaService,
+      usdaFoodConverter: usdaFoodConverter,
+    );
+  },
+);

@@ -8,6 +8,11 @@ abstract class EdibleRepository {
     int? offset,
   });
 
+  Future<int> count(
+    String? query, {
+    EdibleSearchResultType? type,
+  });
+
   Future<bool> exists(
     String name,
     String description, {

@@ -6,8 +6,7 @@ part of 'meal.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Map<String, dynamic> _$$MealImplToJson(_$MealImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$MealToJson(_Meal instance) => <String, dynamic>{
       'id': instance.id,
       'edible': instance.edible,
       'amount': instance.amount,

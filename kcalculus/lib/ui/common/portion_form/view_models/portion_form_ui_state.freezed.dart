@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,101 +10,65 @@ part of 'portion_form_ui_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PortionFormUiState {
-  Edible? get selectedEdible => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  Unit? get amountUnit => throw _privateConstructorUsedError;
-  double? get amountValue => throw _privateConstructorUsedError;
-  List<NutritionFacts>? get nutritionFacts =>
-      throw _privateConstructorUsedError;
+  Edible? get selectedEdible;
+  String get name;
+  String get description;
+  Unit? get amountUnit;
+  double? get amountValue;
+  List<NutritionFacts>? get nutritionFacts;
 
   /// Create a copy of PortionFormUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PortionFormUiStateCopyWith<PortionFormUiState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $PortionFormUiStateCopyWith<$Res> {
-  factory $PortionFormUiStateCopyWith(
-          PortionFormUiState value, $Res Function(PortionFormUiState) then) =
-      _$PortionFormUiStateCopyWithImpl<$Res, PortionFormUiState>;
-  @useResult
-  $Res call(
-      {Edible? selectedEdible,
-      String name,
-      String description,
-      Unit? amountUnit,
-      double? amountValue,
-      List<NutritionFacts>? nutritionFacts});
-}
-
-/// @nodoc
-class _$PortionFormUiStateCopyWithImpl<$Res, $Val extends PortionFormUiState>
-    implements $PortionFormUiStateCopyWith<$Res> {
-  _$PortionFormUiStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of PortionFormUiState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $PortionFormUiStateCopyWith<PortionFormUiState> get copyWith =>
+      _$PortionFormUiStateCopyWithImpl<PortionFormUiState>(
+          this as PortionFormUiState, _$identity);
+
   @override
-  $Res call({
-    Object? selectedEdible = freezed,
-    Object? name = null,
-    Object? description = null,
-    Object? amountUnit = freezed,
-    Object? amountValue = freezed,
-    Object? nutritionFacts = freezed,
-  }) {
-    return _then(_value.copyWith(
-      selectedEdible: freezed == selectedEdible
-          ? _value.selectedEdible
-          : selectedEdible // ignore: cast_nullable_to_non_nullable
-              as Edible?,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      amountUnit: freezed == amountUnit
-          ? _value.amountUnit
-          : amountUnit // ignore: cast_nullable_to_non_nullable
-              as Unit?,
-      amountValue: freezed == amountValue
-          ? _value.amountValue
-          : amountValue // ignore: cast_nullable_to_non_nullable
-              as double?,
-      nutritionFacts: freezed == nutritionFacts
-          ? _value.nutritionFacts
-          : nutritionFacts // ignore: cast_nullable_to_non_nullable
-              as List<NutritionFacts>?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PortionFormUiState &&
+            (identical(other.selectedEdible, selectedEdible) ||
+                other.selectedEdible == selectedEdible) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.amountUnit, amountUnit) ||
+                other.amountUnit == amountUnit) &&
+            (identical(other.amountValue, amountValue) ||
+                other.amountValue == amountValue) &&
+            const DeepCollectionEquality()
+                .equals(other.nutritionFacts, nutritionFacts));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      selectedEdible,
+      name,
+      description,
+      amountUnit,
+      amountValue,
+      const DeepCollectionEquality().hash(nutritionFacts));
+
+  @override
+  String toString() {
+    return 'PortionFormUiState(selectedEdible: $selectedEdible, name: $name, description: $description, amountUnit: $amountUnit, amountValue: $amountValue, nutritionFacts: $nutritionFacts)';
   }
 }
 
 /// @nodoc
-abstract class _$$PortionFormUiStateImplCopyWith<$Res>
-    implements $PortionFormUiStateCopyWith<$Res> {
-  factory _$$PortionFormUiStateImplCopyWith(_$PortionFormUiStateImpl value,
-          $Res Function(_$PortionFormUiStateImpl) then) =
-      __$$PortionFormUiStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $PortionFormUiStateCopyWith<$Res> {
+  factory $PortionFormUiStateCopyWith(
+          PortionFormUiState value, $Res Function(PortionFormUiState) _then) =
+      _$PortionFormUiStateCopyWithImpl;
   @useResult
   $Res call(
       {Edible? selectedEdible,
@@ -115,12 +80,12 @@ abstract class _$$PortionFormUiStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$PortionFormUiStateImplCopyWithImpl<$Res>
-    extends _$PortionFormUiStateCopyWithImpl<$Res, _$PortionFormUiStateImpl>
-    implements _$$PortionFormUiStateImplCopyWith<$Res> {
-  __$$PortionFormUiStateImplCopyWithImpl(_$PortionFormUiStateImpl _value,
-      $Res Function(_$PortionFormUiStateImpl) _then)
-      : super(_value, _then);
+class _$PortionFormUiStateCopyWithImpl<$Res>
+    implements $PortionFormUiStateCopyWith<$Res> {
+  _$PortionFormUiStateCopyWithImpl(this._self, this._then);
+
+  final PortionFormUiState _self;
+  final $Res Function(PortionFormUiState) _then;
 
   /// Create a copy of PortionFormUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -134,29 +99,29 @@ class __$$PortionFormUiStateImplCopyWithImpl<$Res>
     Object? amountValue = freezed,
     Object? nutritionFacts = freezed,
   }) {
-    return _then(_$PortionFormUiStateImpl(
+    return _then(_self.copyWith(
       selectedEdible: freezed == selectedEdible
-          ? _value.selectedEdible
+          ? _self.selectedEdible
           : selectedEdible // ignore: cast_nullable_to_non_nullable
               as Edible?,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
       amountUnit: freezed == amountUnit
-          ? _value.amountUnit
+          ? _self.amountUnit
           : amountUnit // ignore: cast_nullable_to_non_nullable
               as Unit?,
       amountValue: freezed == amountValue
-          ? _value.amountValue
+          ? _self.amountValue
           : amountValue // ignore: cast_nullable_to_non_nullable
               as double?,
       nutritionFacts: freezed == nutritionFacts
-          ? _value._nutritionFacts
+          ? _self.nutritionFacts
           : nutritionFacts // ignore: cast_nullable_to_non_nullable
               as List<NutritionFacts>?,
     ));
@@ -165,8 +130,8 @@ class __$$PortionFormUiStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PortionFormUiStateImpl extends _PortionFormUiState {
-  const _$PortionFormUiStateImpl(
+class _PortionFormUiState extends PortionFormUiState {
+  const _PortionFormUiState(
       {this.selectedEdible,
       this.name = '',
       this.description = '',
@@ -199,16 +164,19 @@ class _$PortionFormUiStateImpl extends _PortionFormUiState {
     return EqualUnmodifiableListView(value);
   }
 
+  /// Create a copy of PortionFormUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'PortionFormUiState(selectedEdible: $selectedEdible, name: $name, description: $description, amountUnit: $amountUnit, amountValue: $amountValue, nutritionFacts: $nutritionFacts)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$PortionFormUiStateCopyWith<_PortionFormUiState> get copyWith =>
+      __$PortionFormUiStateCopyWithImpl<_PortionFormUiState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PortionFormUiStateImpl &&
+            other is _PortionFormUiState &&
             (identical(other.selectedEdible, selectedEdible) ||
                 other.selectedEdible == selectedEdible) &&
             (identical(other.name, name) || other.name == name) &&
@@ -232,43 +200,76 @@ class _$PortionFormUiStateImpl extends _PortionFormUiState {
       amountValue,
       const DeepCollectionEquality().hash(_nutritionFacts));
 
+  @override
+  String toString() {
+    return 'PortionFormUiState(selectedEdible: $selectedEdible, name: $name, description: $description, amountUnit: $amountUnit, amountValue: $amountValue, nutritionFacts: $nutritionFacts)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$PortionFormUiStateCopyWith<$Res>
+    implements $PortionFormUiStateCopyWith<$Res> {
+  factory _$PortionFormUiStateCopyWith(
+          _PortionFormUiState value, $Res Function(_PortionFormUiState) _then) =
+      __$PortionFormUiStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {Edible? selectedEdible,
+      String name,
+      String description,
+      Unit? amountUnit,
+      double? amountValue,
+      List<NutritionFacts>? nutritionFacts});
+}
+
+/// @nodoc
+class __$PortionFormUiStateCopyWithImpl<$Res>
+    implements _$PortionFormUiStateCopyWith<$Res> {
+  __$PortionFormUiStateCopyWithImpl(this._self, this._then);
+
+  final _PortionFormUiState _self;
+  final $Res Function(_PortionFormUiState) _then;
+
   /// Create a copy of PortionFormUiState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$PortionFormUiStateImplCopyWith<_$PortionFormUiStateImpl> get copyWith =>
-      __$$PortionFormUiStateImplCopyWithImpl<_$PortionFormUiStateImpl>(
-          this, _$identity);
+  $Res call({
+    Object? selectedEdible = freezed,
+    Object? name = null,
+    Object? description = null,
+    Object? amountUnit = freezed,
+    Object? amountValue = freezed,
+    Object? nutritionFacts = freezed,
+  }) {
+    return _then(_PortionFormUiState(
+      selectedEdible: freezed == selectedEdible
+          ? _self.selectedEdible
+          : selectedEdible // ignore: cast_nullable_to_non_nullable
+              as Edible?,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      amountUnit: freezed == amountUnit
+          ? _self.amountUnit
+          : amountUnit // ignore: cast_nullable_to_non_nullable
+              as Unit?,
+      amountValue: freezed == amountValue
+          ? _self.amountValue
+          : amountValue // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nutritionFacts: freezed == nutritionFacts
+          ? _self._nutritionFacts
+          : nutritionFacts // ignore: cast_nullable_to_non_nullable
+              as List<NutritionFacts>?,
+    ));
+  }
 }
 
-abstract class _PortionFormUiState extends PortionFormUiState {
-  const factory _PortionFormUiState(
-      {final Edible? selectedEdible,
-      final String name,
-      final String description,
-      final Unit? amountUnit,
-      final double? amountValue,
-      final List<NutritionFacts>? nutritionFacts}) = _$PortionFormUiStateImpl;
-  const _PortionFormUiState._() : super._();
-
-  @override
-  Edible? get selectedEdible;
-  @override
-  String get name;
-  @override
-  String get description;
-  @override
-  Unit? get amountUnit;
-  @override
-  double? get amountValue;
-  @override
-  List<NutritionFacts>? get nutritionFacts;
-
-  /// Create a copy of PortionFormUiState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PortionFormUiStateImplCopyWith<_$PortionFormUiStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

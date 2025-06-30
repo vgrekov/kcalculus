@@ -3,14 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/ui/dishes/list/widgets/dish_list_screen.dart';
 import 'package:kcalculus/ui/foods/list/widgets/food_list_screen.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
+import 'package:kcalculus/ui/more/widgets/more_screen.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 enum ScreenTab {
-  meals,
   foods,
   dishes,
+  meals,
   settings,
+  more,
 }
 
 class ScreenTabBar extends ConsumerWidget {
@@ -25,10 +27,6 @@ class ScreenTabBar extends ConsumerWidget {
     final Widget icon;
     final String label;
     switch (tab) {
-      case ScreenTab.meals:
-        icon = const Icon(Icons.schedule);
-        label = l10n(context).screenMeals;
-        break;
       case ScreenTab.foods:
         icon = const Icon(Icons.fastfood);
         label = l10n(context).screenFoods;
@@ -37,9 +35,17 @@ class ScreenTabBar extends ConsumerWidget {
         icon = const Icon(Icons.set_meal);
         label = l10n(context).screenDishes;
         break;
+      case ScreenTab.meals:
+        icon = const Icon(Icons.schedule);
+        label = l10n(context).screenMeals;
+        break;
       case ScreenTab.settings:
         icon = const Icon(Icons.settings);
         label = l10n(context).screenSettings;
+        break;
+      case ScreenTab.more:
+        icon = const Icon(Icons.grid_view);
+        label = l10n(context).screenMore;
         break;
     }
 
@@ -53,10 +59,11 @@ class ScreenTabBar extends ConsumerWidget {
     Navigator.of(context).pushReplacement(PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
         return switch (tab) {
-          ScreenTab.meals => const MealListScreen(),
           ScreenTab.foods => const FoodListScreen(),
           ScreenTab.dishes => const DishListScreen(),
+          ScreenTab.meals => const MealListScreen(),
           ScreenTab.settings => const SettingsScreen(),
+          ScreenTab.more => const MoreScreen(),
         };
       },
       transitionDuration: Duration.zero,

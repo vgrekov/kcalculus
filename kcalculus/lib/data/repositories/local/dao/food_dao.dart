@@ -1,7 +1,7 @@
 import 'package:kcalculus/data/exceptions/duplication_exception.dart';
 import 'package:kcalculus/data/repositories/local/converters/food_converter.dart';
-import 'package:kcalculus/data/repositories/local/converters/nutrition_facts_converter.dart';
 import 'package:kcalculus/data/repositories/local/dao/edible_dao.dart';
+import 'package:kcalculus/data/repositories/local/dao/nutrition_facts_dao.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
@@ -12,20 +12,20 @@ class LocalFoodDao {
   LocalFoodDao({
     required DatabaseService dbService,
     required LocalEdibleDao edibleDao,
+    required LocalNutritionFactsDao nutritionFactsDao,
     required LocalFoodConverter foodConverter,
-    required LocalNutritionFactsConverter nutritionFactsConverter,
   })  : _dbService = dbService,
         _edibleDao = edibleDao,
-        _foodConverter = foodConverter,
-        _nutritionFactsConverter = nutritionFactsConverter;
+        _nutritionFactsDao = nutritionFactsDao,
+        _foodConverter = foodConverter;
 
   final DatabaseService _dbService;
 
   final LocalEdibleDao _edibleDao;
 
-  final LocalFoodConverter _foodConverter;
+  final LocalNutritionFactsDao _nutritionFactsDao;
 
-  final LocalNutritionFactsConverter _nutritionFactsConverter;
+  final LocalFoodConverter _foodConverter;
 
   Future<Food?> getById(
     String id, {
@@ -33,12 +33,11 @@ class LocalFoodDao {
   }) async {
     final foodDbModel = await _dbService.food.getById(id, txn: txn);
     if (foodDbModel != null) {
-      final nutritionFactsDbModels =
-          await _dbService.nutritionFacts.getByEdible(id, txn: txn);
+      final nutritionFacts = await _nutritionFactsDao.getByEdible(id, txn: txn);
 
       return _foodConverter.toModel(
         foodDbModel,
-        nutritionFactsDbModels,
+        nutritionFacts,
       );
     }
 
@@ -77,10 +76,8 @@ class LocalFoodDao {
       await _dbService.edible.update(foodDbModel.toEdibleDbModel(), txn: txn);
     }
 
-    await _dbService.nutritionFacts.saveForEdible(
-      food.nutritionFacts
-          .map((model) => _nutritionFactsConverter.toDbModel(model, foodId))
-          .toList(),
+    await _nutritionFactsDao.saveForEdible(
+      food.nutritionFacts,
       foodId,
       txn: txn,
     );

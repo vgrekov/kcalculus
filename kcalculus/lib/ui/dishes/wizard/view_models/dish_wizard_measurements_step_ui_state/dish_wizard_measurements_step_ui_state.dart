@@ -1,13 +1,16 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/models/food_container.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrition_ratio.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_ui_state/nutrition_ratio_ui_state.dart';
 
 part 'dish_wizard_measurements_step_ui_state.freezed.dart';
 
 @freezed
-class MeasurementsStepValidationResult with _$MeasurementsStepValidationResult {
+sealed class MeasurementsStepValidationResult
+    with _$MeasurementsStepValidationResult {
   const factory MeasurementsStepValidationResult({
     required bool measurementsMissing,
     required Map<Measure, NutritionRatioValidationResult?>
@@ -16,18 +19,21 @@ class MeasurementsStepValidationResult with _$MeasurementsStepValidationResult {
 }
 
 @freezed
-class DishWizardMeasurementsStepUiState
+sealed class DishWizardMeasurementsStepUiState
     with _$DishWizardMeasurementsStepUiState {
   const DishWizardMeasurementsStepUiState._();
 
   const factory DishWizardMeasurementsStepUiState._default({
+    FoodContainer? container,
     required List<NutritionRatioUiState> nutritionRatioStates,
   }) = _DishWizardMeasurementsStepUiState;
 
   factory DishWizardMeasurementsStepUiState({
+    FoodContainer? container,
     List<NutritionRatioUiState>? nutritionRatioStates,
   }) =>
       DishWizardMeasurementsStepUiState._default(
+        container: container,
         nutritionRatioStates: nutritionRatioStates ??
             Measure.pickableValues
                 .map((m) => NutritionRatioUiState(measure: m))
@@ -83,6 +89,11 @@ class DishWizardMeasurementsStepUiState
       } else if (totalAmount.unit.measure != ratioState.measure) {
         validationResult =
             NutritionRatioValidationResult.totalAmountHasWrongMeasure;
+      } else if (ratioState.measure == Measure.mass &&
+          container != null &&
+          container!.weight >= totalAmount) {
+        validationResult =
+            NutritionRatioValidationResult.totalNotHeavierThanContainer;
       }
 
       return (ratioState.measure, validationResult);
@@ -99,5 +110,12 @@ class DishWizardMeasurementsStepUiState
     }
 
     return null;
+  }
+
+  Map<Measure, NutritionRatio> toNutritionRatios() {
+    return {
+      for (final rs in nutritionRatioStates.where((rs) => rs.enabled))
+        rs.measure: rs.toModel(container)
+    };
   }
 }

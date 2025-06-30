@@ -6,9 +6,8 @@ part of 'ingredient_db_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$IngredientDbModelImpl _$$IngredientDbModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$IngredientDbModelImpl(
+_IngredientDbModel _$IngredientDbModelFromJson(Map<String, dynamic> json) =>
+    _IngredientDbModel(
       dish_id: json['dish_id'] as String,
       edible_id: json['edible_id'] as String,
       edible_food_id: json['edible_food_id'] as String?,
@@ -17,8 +16,7 @@ _$IngredientDbModelImpl _$$IngredientDbModelImplFromJson(
       amount_value: (json['amount_value'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$IngredientDbModelImplToJson(
-        _$IngredientDbModelImpl instance) =>
+Map<String, dynamic> _$IngredientDbModelToJson(_IngredientDbModel instance) =>
     <String, dynamic>{
       'dish_id': instance.dish_id,
       'edible_id': instance.edible_id,

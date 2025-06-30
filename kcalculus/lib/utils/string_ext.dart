@@ -13,3 +13,8 @@ extension Versioning on String {
     return replaceAll(versionRegEx, ' $newVersion');
   }
 }
+
+extension Capitalization on String {
+  String capitalize() =>
+      isNotEmpty ? this[0].toUpperCase() + substring(1) : this;
+}

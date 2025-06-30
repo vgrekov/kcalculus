@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_helper.dart';
-import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_ui_state.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/ui/common/view_models/edible_search_helper.dart';
+import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
@@ -16,8 +17,8 @@ enum FoodListCommand {
   showDeletionFailureNotification,
 }
 
-class FoodListViewModel extends Notifier<EdibleSearchUiState> {
-  static const _kPageSize = 10;
+class FoodListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
+  static const _kPageSize = 25;
 
   UiCommander<FoodListCommand>? _commander;
 
@@ -30,7 +31,7 @@ class FoodListViewModel extends Notifier<EdibleSearchUiState> {
   );
 
   @override
-  EdibleSearchUiState build() {
+  SearchUiState<EdibleSearchResult> build() {
     ref.watch(foodRepositoryProvider);
 
     ref.watch(foodChangesProvider);
@@ -95,9 +96,28 @@ class FoodListViewModel extends Notifier<EdibleSearchUiState> {
 
     _log.finer('restoreFood() END');
   }
+
+  Future<List<Nutrient>> getNutrientDefaults() {
+    return ref.read(nutrientRepositoryProvider).getDefaults();
+  }
+
+  Future<bool> isScannerDisclaimerEnabled() async {
+    final settings = await ref.read(appSettingsRepositoryProvider.future);
+    return settings.scannerDisclaimerEnabled;
+  }
+
+  Future<void> disableScannerDisclaimer() async {
+    final settingsRepository = ref.read(appSettingsRepositoryProvider.notifier);
+    final settings = await ref.read(appSettingsRepositoryProvider.future);
+    await settingsRepository.setSettings(
+      settings.copyWith(
+        scannerDisclaimerEnabled: false,
+      ),
+    );
+  }
 }
 
 final foodListViewModel =
-    NotifierProvider<FoodListViewModel, EdibleSearchUiState>(
+    NotifierProvider<FoodListViewModel, SearchUiState<EdibleSearchResult>>(
   () => FoodListViewModel(),
 );

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/food_container.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_ratio.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
@@ -9,13 +10,14 @@ enum NutritionRatioValidationResult {
   bothAmountsMissing,
   perAmountMissing,
   totalAmountMissing,
+  totalNotHeavierThanContainer,
   bothAmountsHaveWrongMeasure,
   perAmountHasWrongMeasure,
   totalAmountHasWrongMeasure,
 }
 
 @freezed
-class NutritionRatioUiState with _$NutritionRatioUiState {
+sealed class NutritionRatioUiState with _$NutritionRatioUiState {
   const NutritionRatioUiState._();
 
   const factory NutritionRatioUiState._default({
@@ -55,16 +57,22 @@ class NutritionRatioUiState with _$NutritionRatioUiState {
     );
   }
 
-  NutritionRatio toModel() {
+  NutritionRatio toModel([FoodContainer? container]) {
+    var totalAmount = Amount(
+      unit: totalAmountUnit,
+      value: totalAmountValue!,
+    );
+
+    if (totalAmountUnit.measure == Measure.mass && container != null) {
+      totalAmount -= container.weight;
+    }
+
     return NutritionRatio(
       perAmount: Amount(
         unit: perAmountUnit,
         value: perAmountValue!,
       ),
-      totalAmount: Amount(
-        unit: totalAmountUnit,
-        value: totalAmountValue!,
-      ),
+      totalAmount: totalAmount,
     );
   }
 }

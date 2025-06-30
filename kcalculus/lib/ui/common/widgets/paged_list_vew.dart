@@ -3,6 +3,9 @@ import 'package:flutter/rendering.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:logging/logging.dart';
+
+final _log = Logger('PagedListView');
 
 class PagedListView<Model> extends StatefulWidget {
   const PagedListView({
@@ -191,17 +194,21 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
               ),
             ),
           ),
-          error: (context, _, __) => SliverFillRemaining(
-            hasScrollBody: false,
-            child: Center(
-              child: Text(
-                l10n(context).messageUnknownError,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
+          error: (context, error, stackTrace) {
+            _log.severe('Failed to load data', error, stackTrace);
+
+            return SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: Text(
+                  l10n(context).messageUnknownError,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                ),
               ),
-            ),
-          ),
+            );
+          },
           data: (context, _) {
             if (widget.items.isEmpty) {
               _isEndReached = true;

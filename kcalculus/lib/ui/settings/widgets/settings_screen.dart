@@ -12,6 +12,8 @@ import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
+import 'package:kcalculus/ui/nutrients/defaults/widgets/nutrient_defaults_screen.dart';
+import 'package:kcalculus/ui/nutrients/goals/list/widgets/nutrient_goal_list_screen.dart';
 import 'package:kcalculus/ui/settings/view_models/settings_view_model.dart';
 import 'package:kcalculus/ui/settings/widgets/action_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/app_theme_setting_tile.dart';
@@ -76,6 +78,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     viewModel.setAnalyticsEnabled(enabled);
   }
 
+  void _configureDefaultNutrients() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => NutrientDefaultsScreen(),
+      ),
+    );
+  }
+
+  void _configureNutrientGoals() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => NutrientGoalListScreen(),
+      ),
+    );
+  }
+
   void _backup() async {
     premiumFeature(ref, _accessGuardKey, () {
       ProgressOverlay.wrap(
@@ -118,13 +136,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     UiCommand command, {
     required BuildContext context,
     required WidgetRef ref,
-  }) {
+  }) async {
     final file = command.payload as File;
-    FilePicker.platform.saveFile(
+
+    command.complete();
+
+    final backupPath = await FilePicker.platform.saveFile(
       fileName: path.basename(file.path),
       bytes: file.readAsBytesSync(),
     );
-    command.complete();
+
+    if (backupPath != null) {
+      _showBackupSuccessNotification(backupPath);
+    }
+  }
+
+  void _showBackupSuccessNotification(String backupPath) {
+    showMessage(
+      l10n(context).messageBackupSuccess(backupPath),
+      MessageType.info,
+    );
   }
 
   void _showBackupFailureNotification(
@@ -162,12 +193,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final settings = ref.watch(appSettingsViewModel);
+    final uiState = ref.watch(appSettingsViewModel);
 
     final Widget body;
-    switch (settings) {
+
+    String? version;
+
+    switch (uiState) {
       case AsyncError(:final error, :final stackTrace):
         _log.severe('Failed to load settings', error, stackTrace);
+
         body = Center(
           child: Text(
             l10n(context).messageUnknownError,
@@ -176,7 +211,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ),
           ),
         );
+
         break;
+
       default:
         body = Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -188,30 +225,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ],
               ),
               SettingsGroup(
-                title: l10n(context).settingsGroupCommon,
+                // title: l10n(context).settingsGroupCommon,
                 children: [
                   AppThemeSettingTile(
-                    theme: settings.valueOrNull?.theme,
-                    onTap: settings.isLoading
+                    theme: uiState.valueOrNull?.settings.theme,
+                    onTap: uiState.isLoading
                         ? null
                         : () {
-                            _selectTheme(settings.value!);
+                            _selectTheme(uiState.value!.settings);
                           },
                   ),
-                  SwitchSettingTile(
-                    value: settings.valueOrNull?.crashlyticsEnabled ?? false,
-                    onChanged:
-                        settings.isLoading ? null : _setCrashlyticsEnabled,
-                    title: l10n(context).settingCrashReportingTitle,
-                    subtitle: l10n(context).settingCrashReportingSubtitle,
-                    icon: Icons.bug_report,
+                  ActionSettingTile(
+                    onTap:
+                        uiState.isLoading ? null : _configureDefaultNutrients,
+                    title: l10n(context).settingDefaultNutrientsTitle,
+                    subtitle: l10n(context).settingDefaultNutrientsSubtitle,
+                    icon: Icons.list_alt,
+                    premiumFeature: false,
                   ),
-                  SwitchSettingTile(
-                    value: settings.valueOrNull?.analyticsEnabled ?? false,
-                    onChanged: settings.isLoading ? null : _setAnalyticsEnabled,
-                    title: l10n(context).settingAnalyticsTitle,
-                    subtitle: l10n(context).settingAnalyticsSubtitle,
-                    icon: Icons.analytics,
+                  ActionSettingTile(
+                    onTap: uiState.isLoading ? null : _configureNutrientGoals,
+                    title: l10n(context).settingNutrientGoalsTitle,
+                    subtitle: l10n(context).settingNutrientGoalsSubtitle,
+                    icon: Icons.track_changes,
+                    premiumFeature: false,
                   ),
                 ],
               ),
@@ -219,14 +256,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 title: l10n(context).settingsGroupBackup,
                 children: [
                   ActionSettingTile(
-                    onTap: settings.isLoading ? null : _backup,
+                    onTap: uiState.isLoading ? null : _backup,
                     title: l10n(context).settingBackupTitle,
                     subtitle: l10n(context).settingBackupSubtitle,
                     icon: Icons.download,
                     premiumFeature: true,
                   ),
                   ActionSettingTile(
-                    onTap: settings.isLoading ? null : _restore,
+                    onTap: uiState.isLoading ? null : _restore,
                     title: l10n(context).settingRestoreTitle,
                     subtitle: l10n(context).settingRestoreSubtitle,
                     icon: Icons.upload,
@@ -234,9 +271,41 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   ),
                 ],
               ),
+              SettingsGroup(
+                title: l10n(context).settingsGroupDataSharing,
+                children: [
+                  SwitchSettingTile(
+                    value: uiState.valueOrNull?.settings.crashlyticsEnabled ??
+                        false,
+                    onChanged:
+                        uiState.isLoading ? null : _setCrashlyticsEnabled,
+                    title: l10n(context).settingCrashReportingTitle,
+                    subtitle: l10n(context).settingCrashReportingSubtitle,
+                    icon: Icons.bug_report,
+                  ),
+                  SwitchSettingTile(
+                    value:
+                        uiState.valueOrNull?.settings.analyticsEnabled ?? false,
+                    onChanged: uiState.isLoading ? null : _setAnalyticsEnabled,
+                    title: l10n(context).settingAnalyticsTitle,
+                    subtitle: l10n(context).settingAnalyticsSubtitle,
+                    icon: Icons.analytics,
+                  ),
+                ],
+              ),
             ],
           ),
         );
+
+        final info = uiState.valueOrNull?.packageInfo;
+        version = info == null
+            ? null
+            : l10n(context).appVersion(
+                info.appName,
+                info.version,
+                info.buildNumber,
+              );
+
         break;
     }
 
@@ -250,17 +319,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text(
-              l10n(context).screenSettings,
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+            title: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  l10n(context).screenSettings,
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                ),
+                Text(
+                  version ?? '',
+                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                ),
+              ],
             ),
           ),
           body: body,
           bottomNavigationBar: Container(
             color: Theme.of(context).colorScheme.surfaceContainer,
-            padding: EdgeInsets.only(top: 32),
+            padding: EdgeInsets.only(top: 8),
             child: const ScreenTabBar(
               selectedTab: ScreenTab.settings,
             ),

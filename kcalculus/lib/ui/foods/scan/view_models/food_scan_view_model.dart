@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/domain/exceptions/unsupported_version_exception.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
@@ -13,7 +14,7 @@ final _log = Logger('FoodScanCommand');
 
 enum FoodScanCommand {
   showCantReadNotification,
-  showVersionMismatchNotification,
+  showUnsupportedVersionNotification,
   provideFood,
 }
 
@@ -37,6 +38,13 @@ class FoodScanViewModel extends AutoDisposeNotifier<void> {
 
       try {
         food = _parseSharedFoodBarcode(barcode);
+      } on UnsupportedVersionException catch (e) {
+        _log.info(
+          'Unsupported food version while scanning QR code: ${e.version}',
+        );
+        _log.eventFoodScanUnsupportedVersion(e.version);
+
+        _commander?.send(FoodScanCommand.showUnsupportedVersionNotification);
       } catch (error) {
         food = await _searchOpenFoodFacts(barcode);
 
@@ -66,22 +74,8 @@ class FoodScanViewModel extends AutoDisposeNotifier<void> {
     final jsonString = utf8.decode(bytes);
 
     final Map<String, dynamic> json = jsonDecode(jsonString);
-    final jsonVersion = json['version'] as int?;
-    if (jsonVersion != Food.kVersion) {
-      _log.info(
-        '''
-          Version msimatch while reading food from barcode:
-          Expected ${Food.kVersion}, but found $jsonVersion
-          ''',
-      );
-      _log.eventFoodScanVersionMismatch(Food.kVersion, jsonVersion);
 
-      _commander?.send(FoodScanCommand.showVersionMismatchNotification);
-
-      return null;
-    }
-
-    final food = Food.fromJson(json);
+    final food = Food.fromJsonCompat(json);
 
     _log.info('Food read from barcode');
     _log.eventFoodScanFromBarcode();
@@ -93,7 +87,13 @@ class FoodScanViewModel extends AutoDisposeNotifier<void> {
     final openFoodFactsRepository =
         await ref.read(openFoodFactsRepositoryProvider.future);
 
-    final food = await openFoodFactsRepository.getFoodByBarcode(barcode);
+    final nutrientDefaults =
+        await ref.read(nutrientRepositoryProvider).getDefaults();
+
+    final food = await openFoodFactsRepository.getFoodByBarcode(
+      barcode,
+      nutrientDefaults,
+    );
 
     if (food != null) {
       _log.info('Food found in OpenFoodFacts');

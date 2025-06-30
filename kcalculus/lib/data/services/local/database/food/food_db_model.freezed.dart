@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,113 +10,66 @@ part of 'food_db_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-FoodDbModel _$FoodDbModelFromJson(Map<String, dynamic> json) {
-  return _FoodDbModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$FoodDbModel {
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get description => throw _privateConstructorUsedError;
+  String? get description;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get created_at => throw _privateConstructorUsedError;
+  String? get created_at;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get updated_at => throw _privateConstructorUsedError;
+  String? get updated_at;
   @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get deleted_at => throw _privateConstructorUsedError;
-
-  /// Serializes this FoodDbModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String? get deleted_at;
 
   /// Create a copy of FoodDbModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $FoodDbModelCopyWith<FoodDbModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FoodDbModelCopyWith<$Res> {
-  factory $FoodDbModelCopyWith(
-          FoodDbModel value, $Res Function(FoodDbModel) then) =
-      _$FoodDbModelCopyWithImpl<$Res, FoodDbModel>;
-  @useResult
-  $Res call(
-      {String id,
-      @JsonKey(includeToJson: false, includeFromJson: true) String name,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? description,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
-      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      String? deleted_at});
-}
-
-/// @nodoc
-class _$FoodDbModelCopyWithImpl<$Res, $Val extends FoodDbModel>
-    implements $FoodDbModelCopyWith<$Res> {
-  _$FoodDbModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of FoodDbModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $FoodDbModelCopyWith<FoodDbModel> get copyWith =>
+      _$FoodDbModelCopyWithImpl<FoodDbModel>(this as FoodDbModel, _$identity);
+
+  /// Serializes this FoodDbModel to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? description = freezed,
-    Object? created_at = freezed,
-    Object? updated_at = freezed,
-    Object? deleted_at = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updated_at: freezed == updated_at
-          ? _value.updated_at
-          : updated_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-      deleted_at: freezed == deleted_at
-          ? _value.deleted_at
-          : deleted_at // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FoodDbModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.created_at, created_at) ||
+                other.created_at == created_at) &&
+            (identical(other.updated_at, updated_at) ||
+                other.updated_at == updated_at) &&
+            (identical(other.deleted_at, deleted_at) ||
+                other.deleted_at == deleted_at));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, id, name, description, created_at, updated_at, deleted_at);
+
+  @override
+  String toString() {
+    return 'FoodDbModel(id: $id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 }
 
 /// @nodoc
-abstract class _$$FoodDbModelImplCopyWith<$Res>
-    implements $FoodDbModelCopyWith<$Res> {
-  factory _$$FoodDbModelImplCopyWith(
-          _$FoodDbModelImpl value, $Res Function(_$FoodDbModelImpl) then) =
-      __$$FoodDbModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $FoodDbModelCopyWith<$Res> {
+  factory $FoodDbModelCopyWith(
+          FoodDbModel value, $Res Function(FoodDbModel) _then) =
+      _$FoodDbModelCopyWithImpl;
   @useResult
   $Res call(
       {String id,
@@ -128,12 +82,11 @@ abstract class _$$FoodDbModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$FoodDbModelImplCopyWithImpl<$Res>
-    extends _$FoodDbModelCopyWithImpl<$Res, _$FoodDbModelImpl>
-    implements _$$FoodDbModelImplCopyWith<$Res> {
-  __$$FoodDbModelImplCopyWithImpl(
-      _$FoodDbModelImpl _value, $Res Function(_$FoodDbModelImpl) _then)
-      : super(_value, _then);
+class _$FoodDbModelCopyWithImpl<$Res> implements $FoodDbModelCopyWith<$Res> {
+  _$FoodDbModelCopyWithImpl(this._self, this._then);
+
+  final FoodDbModel _self;
+  final $Res Function(FoodDbModel) _then;
 
   /// Create a copy of FoodDbModel
   /// with the given fields replaced by the non-null parameter values.
@@ -147,29 +100,29 @@ class __$$FoodDbModelImplCopyWithImpl<$Res>
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
   }) {
-    return _then(_$FoodDbModelImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       description: freezed == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
       created_at: freezed == created_at
-          ? _value.created_at
+          ? _self.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
               as String?,
       updated_at: freezed == updated_at
-          ? _value.updated_at
+          ? _self.updated_at
           : updated_at // ignore: cast_nullable_to_non_nullable
               as String?,
       deleted_at: freezed == deleted_at
-          ? _value.deleted_at
+          ? _self.deleted_at
           : deleted_at // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
@@ -178,8 +131,8 @@ class __$$FoodDbModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FoodDbModelImpl extends _FoodDbModel {
-  const _$FoodDbModelImpl(
+class _FoodDbModel extends FoodDbModel {
+  const _FoodDbModel(
       {required this.id,
       @JsonKey(includeToJson: false, includeFromJson: true) required this.name,
       @JsonKey(includeToJson: false, includeFromJson: true) this.description,
@@ -187,9 +140,8 @@ class _$FoodDbModelImpl extends _FoodDbModel {
       @JsonKey(includeToJson: false, includeFromJson: true) this.updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at})
       : super._();
-
-  factory _$FoodDbModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FoodDbModelImplFromJson(json);
+  factory _FoodDbModel.fromJson(Map<String, dynamic> json) =>
+      _$FoodDbModelFromJson(json);
 
   @override
   final String id;
@@ -209,16 +161,26 @@ class _$FoodDbModelImpl extends _FoodDbModel {
   @JsonKey(includeToJson: false, includeFromJson: true)
   final String? deleted_at;
 
+  /// Create a copy of FoodDbModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FoodDbModel(id: $id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FoodDbModelCopyWith<_FoodDbModel> get copyWith =>
+      __$FoodDbModelCopyWithImpl<_FoodDbModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FoodDbModelToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FoodDbModelImpl &&
+            other is _FoodDbModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
@@ -236,62 +198,76 @@ class _$FoodDbModelImpl extends _FoodDbModel {
   int get hashCode => Object.hash(
       runtimeType, id, name, description, created_at, updated_at, deleted_at);
 
-  /// Create a copy of FoodDbModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$FoodDbModelImplCopyWith<_$FoodDbModelImpl> get copyWith =>
-      __$$FoodDbModelImplCopyWithImpl<_$FoodDbModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FoodDbModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'FoodDbModel(id: $id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 }
 
-abstract class _FoodDbModel extends FoodDbModel {
-  const factory _FoodDbModel(
-      {required final String id,
+/// @nodoc
+abstract mixin class _$FoodDbModelCopyWith<$Res>
+    implements $FoodDbModelCopyWith<$Res> {
+  factory _$FoodDbModelCopyWith(
+          _FoodDbModel value, $Res Function(_FoodDbModel) _then) =
+      __$FoodDbModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      @JsonKey(includeToJson: false, includeFromJson: true) String name,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? description,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
+      @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true)
-      required final String name,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      final String? description,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      final String? created_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      final String? updated_at,
-      @JsonKey(includeToJson: false, includeFromJson: true)
-      final String? deleted_at}) = _$FoodDbModelImpl;
-  const _FoodDbModel._() : super._();
+      String? deleted_at});
+}
 
-  factory _FoodDbModel.fromJson(Map<String, dynamic> json) =
-      _$FoodDbModelImpl.fromJson;
+/// @nodoc
+class __$FoodDbModelCopyWithImpl<$Res> implements _$FoodDbModelCopyWith<$Res> {
+  __$FoodDbModelCopyWithImpl(this._self, this._then);
 
-  @override
-  String get id;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  String get name;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get description;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get created_at;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get updated_at;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: true)
-  String? get deleted_at;
+  final _FoodDbModel _self;
+  final $Res Function(_FoodDbModel) _then;
 
   /// Create a copy of FoodDbModel
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FoodDbModelImplCopyWith<_$FoodDbModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? description = freezed,
+    Object? created_at = freezed,
+    Object? updated_at = freezed,
+    Object? deleted_at = freezed,
+  }) {
+    return _then(_FoodDbModel(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      created_at: freezed == created_at
+          ? _self.created_at
+          : created_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updated_at: freezed == updated_at
+          ? _self.updated_at
+          : updated_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deleted_at: freezed == deleted_at
+          ? _self.deleted_at
+          : deleted_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
+
+// dart format on

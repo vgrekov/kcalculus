@@ -1,0 +1,157 @@
+{
+    "fdcId": 748967,
+    "description": "Eggs, Grade A, Large, egg whole",
+    "dataType": "Foundation",
+    "priority": 0,
+    "portions":
+    [
+        {
+            "measureUnitId": 1099,
+            "amount": 1.0,
+            "gramWeight": 50.3
+        }
+    ],
+    "nutrients":
+    [
+        {
+            "number": "208",
+            "amount": 148,
+            "unitName": "kcal"
+        },
+        {
+            "number": "404",
+            "amount": 0.077,
+            "unitName": "mg"
+        },
+        {
+            "number": "405",
+            "amount": 0.419,
+            "unitName": "mg"
+        },
+        {
+            "number": "418",
+            "amount": 1.02,
+            "unitName": "µg"
+        },
+        {
+            "number": "601",
+            "amount": 411,
+            "unitName": "mg"
+        },
+        {
+            "number": "606",
+            "amount": 3.20,
+            "unitName": "g"
+        },
+        {
+            "number": "203",
+            "amount": 12.4,
+            "unitName": "g"
+        },
+        {
+            "number": "303",
+            "amount": 1.67,
+            "unitName": "mg"
+        },
+        {
+            "number": "304",
+            "amount": 11.4,
+            "unitName": "mg"
+        },
+        {
+            "number": "305",
+            "amount": 184,
+            "unitName": "mg"
+        },
+        {
+            "number": "307",
+            "amount": 129,
+            "unitName": "mg"
+        },
+        {
+            "number": "312",
+            "amount": 0.000,
+            "unitName": "mg"
+        },
+        {
+            "number": "315",
+            "amount": 0.000,
+            "unitName": "mg"
+        },
+        {
+            "number": "321",
+            "amount": 0.000,
+            "unitName": "µg"
+        },
+        {
+            "number": "317",
+            "amount": 31.1,
+            "unitName": "µg"
+        },
+        {
+            "number": "301",
+            "amount": 48.0,
+            "unitName": "mg"
+        },
+        {
+            "number": "306",
+            "amount": 132,
+            "unitName": "mg"
+        },
+        {
+            "number": "309",
+            "amount": 1.24,
+            "unitName": "mg"
+        },
+        {
+            "number": "204",
+            "amount": 9.96,
+            "unitName": "g"
+        },
+        {
+            "number": "645",
+            "amount": 3.63,
+            "unitName": "g"
+        },
+        {
+            "number": "646",
+            "amount": 1.82,
+            "unitName": "g"
+        },
+        {
+            "number": "406",
+            "amount": 0.000,
+            "unitName": "mg"
+        },
+        {
+            "number": "415",
+            "amount": 0.063,
+            "unitName": "mg"
+        },
+        {
+            "number": "205",
+            "amount": 0.960,
+            "unitName": "g"
+        },
+        {
+            "number": "326",
+            "amount": 2.46,
+            "unitName": "µg"
+        },
+        {
+            "number": "269.3",
+            "amount": 0.200,
+            "unitName": "g"
+        },
+        {
+            "number": "314",
+            "amount": 49.1,
+            "unitName": "µg"
+        },
+        {
+            "number": "291",
+            "amount": 0.000,
+            "unitName": "g"
+        }
+    ]
+}

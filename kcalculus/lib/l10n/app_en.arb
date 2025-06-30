@@ -16,6 +16,7 @@
     "unitGram": "g",
     "unitKilogram": "kg",
     "unitMilligram": "mg",
+    "unitMicrogram": "µg",
     "unitLitre": "l",
     "unitMillilitre": "ml",
     "unitPound": "lb",
@@ -35,6 +36,59 @@
     "unitGallonUS": "gal (US)",
     "unitCupUSLegal": "cup (US legal)",
     "unitCupUSCustomary": "cup (US customary)",
+    "nutrientEnergy": "Calories",
+    "nutrientFat": "Fat",
+    "nutrientSaturatedFat": "Saturated fat",
+    "nutrientTransFat": "Trans fat",
+    "nutrientUnsaturatedFat": "Unsaturated fat",
+    "nutrientOmega3Fat": "Omega 3 fat",
+    "nutrientOmega6Fat": "Omega 6 fat",
+    "nutrientOmega9Fat": "Omega 9 fat",
+    "nutrientMonounsaturatedFat": "Monounsaturated fat",
+    "nutrientPolyunsaturatedFat": "Polyunsaturated fat",
+    "nutrientTotalCarbs": "Carbohydrates",
+    "nutrientFiber": "Fiber",
+    "nutrientSugar": "Sugar",
+    "nutrientPolyols": "Polyols (sugar alcohols)",
+    "nutrientErythritol": "Erythritol",
+    "nutrientProtein": "Protein",
+    "nutrientCholesterol": "Cholesterol",
+    "nutrientSodium": "Sodium",
+    "nutrientPotassium": "Potassium",
+    "nutrientCalcium": "Calcium",
+    "nutrientIron": "Iron",
+    "nutrientBetaCarotene": "Beta carotene",
+    "nutrientBiotin": "Biotin",
+    "nutrientVitaminA": "Vitamin A",
+    "nutrientVitaminB1": "Vitamin B1 (Thiamin)",
+    "nutrientVitaminB2": "Vitamin B2 (Riboflavin)",
+    "nutrientVitaminB3": "Vitamin B3/PP (Niacin)",
+    "nutrientVitaminB5": "Vitamin B5 (Pantothenic acid)",
+    "nutrientVitaminB6": "Vitamin B6 (Pyridoxin)",
+    "nutrientVitaminB9": "Vitamin B9 (Folic acid)",
+    "nutrientVitaminB12": "Vitamin B12 (Cobalamin)",
+    "nutrientVitaminC": "Vitamin C (Ascorbic acid)",
+    "nutrientVitaminD": "Vitamin D (D3)",
+    "nutrientVitaminE": "Vitamin E",
+    "nutrientVitaminK": "Vitamin K",
+    "nutrientSilica": "Silica",
+    "nutrientBicarbonate": "Bicarbonate",
+    "nutrientChloride": "Chloride",
+    "nutrientPhosphorus": "Phosphorus",
+    "nutrientMagnesium": "Magnesium",
+    "nutrientZinc": "Zinc",
+    "nutrientCopper": "Copper",
+    "nutrientManganese": "Manganese",
+    "nutrientFluoride": "Fluoride",
+    "nutrientSelenium": "Selenium",
+    "nutrientChromium": "Chromium",
+    "nutrientMolybdenum": "Molybdenum",
+    "nutrientIodine": "Iodine",
+    "nutrientCaffeine": "Caffeine",
+    "nutrientTaurine": "Taurine",
+    "nutrientChlorophyl": "Chlorophyl",
+    "nutrientSulfate": "Sulfate",
+    "nutrientNitrate": "Nitrate",
     "formatDate": "EEE, MMM d, yyyy",
     "formatTime": "HH:mm",
     "formatDateTime": "EEE, MMM d, yyyy HH:mm",
@@ -181,22 +235,18 @@
             }
         }
     },
+    "validationErrorTotalMustBeHeavierThanContainer": "Must be heavier than container",
     "messageDishSelectMeasurementOptionError": "Please select at least one measurement option",
     "dishWizardPageSummary": "Nutrition Facts",
-    "messageNewDishCancellationConfirmation": "Cancel dish creation?",
-    "messageEditDishCancellationConfirmation": "Cancel dish editing?",
     "validationErrorIngredientsCycleDetected": "Sorry, this would create a dish-ingredient cycle.",
     "titleIngredients": "Ingredients",
     "messageConfirmEatenEdibleEdit": "This was already eaten, so editing it may affect meals history.\nDo you want to make a copy instead?",
     "actionEdit": "Edit",
     "actionCopy": "Copy",
     "actionUndo": "Undo",
-    "messageNewFoodCancellationConfirmation": "Cancel food creation?",
-    "messageEditFoodCancellationConfirmation": "Cancel food editing?",
     "maintenanceTaskDbMigrationTitle": "Migrating the database...",
     "maintenanceTaskDbMigrationFailedMessage": "Database migration failed. Not able to proceed.",
     "screenSettings": "Settings",
-    "settingsGroupCommon": "Common",
     "settingAppTheme": "Theme",
     "settingAppThemeSystem": "System",
     "settingAppThemeLight": "Light",
@@ -221,13 +271,21 @@
     "actionClose": "Close",
     "actionTryAgain": "Try again",
     "messageCantReadFoodFromBarcode": "Unable to read food information.",
-    "messageFoodFromBarcodeVersionMismatch": "This food was created with an incompatible version of the app and cannot be imported correctly.",
+    "messageFoodFromBarcodeUnsupportedVersion": "This food was created with an incompatible version of the app and cannot be imported correctly.",
     "messageNoCameraPermission": "Camera is not accessible.\nPlease check permissions.",
     "settingsGroupBackup": "Backup",
     "settingBackupTitle": "Backup",
     "settingBackupSubtitle": "Select a directory to store the backup",
     "settingRestoreTitle": "Restore",
     "settingRestoreSubtitle": "Select a backup file",
+    "messageBackupSuccess": "Data saved to {path}",
+    "@messageBackupSuccess": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
     "messageBackupFailure": "Failed to backup data",
     "messageRestoreConfirmation": "PROCEEDING WILL DELETE ALL YOUR CURRENT DATA!\n\nLoad data from {path}?",
     "@messageRestoreConfirmation": {
@@ -285,5 +343,169 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "settingDefaultNutrientsTitle": "Default nutrients",
+    "settingDefaultNutrientsSubtitle": "Select default set of nutrients for edibles",
+    "screenMore": "More",
+    "moreItemContainersTitle": "Containers",
+    "moreItemContainersSubtitle": "For cooking or storing food",
+    "screenFoodContainers": "Containers",
+    "messageFoodContainerDeletionSuccess": "Container deleted",
+    "messageFoodContainerDeletionFailure": "Failed to delete the container",
+    "hintFoodContainerSearchBox": "Search by name...",
+    "messageFoodContainerSearchNothingFound": "Nothing found...",
+    "messageFoodContainerDeletionConfirmation": "Delete this container?",
+    "screenAddFoodContainer": "New Container",
+    "screenEditFoodContainer": "Edit Container",
+    "labelFoodContainerName": "Name",
+    "validationErrorFoodContainerNameMissing": "Name is required",
+    "labelFoodContainerDescription": "Description",
+    "labelFoodContainerWeight": "Weight",
+    "messageFoodContainerAlreadyExists": "A container with this name and description already exists.\nPlease make sure these are unique before saving.",
+    "labelFoodContainerSelect": "Weighing in a container?",
+    "labelFoodContainerSelected": "{name} ({weight} {unit})",
+    "@labelFoodContainerSelected": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "weight": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "hintNutrientSearchBox": "Search by name...",
+    "messageNutrientSearchNothingFound": "Nothing found...",
+    "screenDefaultNutrients": "Default Nutrients",
+    "messageDefaultNutrientDeletionSuccess": "Nutrient deleted",
+    "messageDefaultNutrientDeletionFailure": "Failed to delete the nutrient",
+    "labelDefaultNutrientRequired": "Required",
+    "messageDefaultNutrientDeletionConfirmation": "Delete this nutrient?",
+    "labelAddNutrient": "Add nutrient",
+    "messageRequiredNutrientsMissing": "Required nutrients missing:\n\n{nutrients}",
+    "@messageRequiredNutrientsMissing": {
+        "placeholders": {
+            "nutrients": {
+                "type": "String"
+            }
+        }
+    },
+    "messageInconsistentNutrients": "The following nutrients must be provided for all nutrition facts records or omitted entirely:\n\n{nutrients}",
+    "@messageInconsistentNutrients": {
+        "placeholders": {
+            "nutrients": {
+                "type": "String"
+            }
+        }
+    },
+    "messageSubNutrientsExceedTotal": "Sub-nutrients exceed total:\n\n{details}",
+    "@messageSubNutrientsExceedTotal": {
+        "placeholders": {
+            "details": {
+                "type": "String"
+            }
+        }
+    },
+    "partExceedsWhole": " - {part} ({partValue} {partUnit}) > {whole} ({wholeValue} {wholeUnit})",
+    "@partExceedsWhole": {
+        "placeholders": {
+            "part": {
+                "type": "String"
+            },
+            "partUnit": {
+                "type": "String"
+            },
+            "partValue": {
+                "type": "String"
+            },
+            "whole": {
+                "type": "String"
+            },
+            "wholeUnit": {
+                "type": "String"
+            },
+            "wholeValue": {
+                "type": "String"
+            }
+        }
+    },
+    "appVersion": "{appName} {version} ({buildNumber})",
+    "@appVersion": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            },
+            "version": {
+                "type": "String"
+            },
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "screenDailyStats": "Daily Stats",
+    "settingsGroupDataSharing": "Data sharing",
+    "settingNutrientGoalsTitle": "Daily goals",
+    "settingNutrientGoalsSubtitle": "Set daily goals for any nutrient",
+    "screenNutrientGoals": "Daily Goals",
+    "messageNutrientGoalshNoData": "No goals so far...",
+    "messageNutrientGoalDeletionConfirmation": "Delete this goal?",
+    "messageNutrientGoalDeletionSuccess": "Goal deleted",
+    "messageNutrientGoalDeletionFailure": "Failed to delete the goal",
+    "screenAddNutrientGoal": "New Goal",
+    "screenEditNutrientGoal": "Edit Goal",
+    "ofStatWithUnit": " / {value} {unit}",
+    "@ofStatWithUnit": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "statWithUnitLeft": "{value} {unit} left",
+    "@statWithUnitLeft": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "statWithUnitOver": "{value} {unit} over",
+    "@statWithUnitOver": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "percentage": "{value} %",
+    "@percentage": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "actionAdjust": "Adjust",
+    "messageExceededEnergyGoalConfirmation": "This meal exceeds your calories goal.\nWhat would you like to do?",
+    "messageExceededEnergyGoalAdjustableConfirmation": "This meal exceeds your calories goal, but we can adjust the amount to keep you on track.\nWhat would you like to do?",
+    "messageDiscardChangesConfirmation": "Discard changes?",
+    "messageScannerDisclaimer": "The scanner is primarily intended for QR codes generated by this app.\nWhile it may recognize some barcodes using third-party sources, we cannot guarantee the accuracy of the results.\n\nWe recommend verifying nutrition facts manually.",
+    "actionDontShowAgain": "Don''t show again",
+    "maintenanceTaskUsdaFoodDataLoadingTitle": "Loading common foods...",
+    "maintenanceTaskUsdaFoodDataLoadingFailedMessage": "Loading common foods failed. Not able to proceed.",
+    "maintenanceTaskUsdaDbMigrationTitle": "Migrating the common foods database...",
+    "maintenanceTaskUsdaDbMigrationFailedMessage": "Common foods database migration failed. Not able to proceed."
 }

@@ -38,28 +38,35 @@ class EdibleSearchResultsItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-      trailing: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            searchResult.lastEatenAt == null
-                ? l10n(context).labelNotEatenYet
-                : l10n(context).labelLastEatenAt,
-            style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+      trailing: switch (searchResult.type) {
+        EdibleSearchResultType.usda => Icon(
+            Icons.add,
+            color: Theme.of(context).colorScheme.onSurface,
+            size: 24,
           ),
-          if (searchResult.lastEatenAt != null)
-            Text(
-              dt.formatDateLocal(context, searchResult.lastEatenAt!),
-              style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-            ),
-        ],
-      ),
+        _ => Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                searchResult.lastEatenAt == null
+                    ? l10n(context).labelNotEatenYet
+                    : l10n(context).labelLastEatenAt,
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+              ),
+              if (searchResult.lastEatenAt != null)
+                Text(
+                  dt.formatDateLocal(context, searchResult.lastEatenAt!),
+                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                ),
+            ],
+          ),
+      },
     );
   }
 }

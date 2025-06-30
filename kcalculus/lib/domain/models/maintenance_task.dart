@@ -7,7 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'maintenance_task.freezed.dart';
 
 @freezed
-class MaintenanceTask with _$MaintenanceTask {
+sealed class MaintenanceTask with _$MaintenanceTask {
   const factory MaintenanceTask({
     required String Function(BuildContext) title,
     required FutureOr<bool> Function(Ref) shouldRun,

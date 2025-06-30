@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
@@ -6,16 +7,32 @@ part 'nutrition_facts.freezed.dart';
 part 'nutrition_facts.g.dart';
 
 @freezed
-class NutritionFacts with _$NutritionFacts {
+sealed class NutritionFacts with _$NutritionFacts {
+  static bool areSame(List<NutritionFacts> a, List<NutritionFacts> b) {
+    return a.length == b.length &&
+        a.indexed.every(
+          (pair) => pair.$2.isSameAs(b[pair.$1]),
+        );
+  }
+
   const NutritionFacts._();
 
   const factory NutritionFacts({
+    String? id,
     required Amount amount,
     required NutrientData nutrientData,
   }) = _NutritionFacts;
 
   factory NutritionFacts.fromJson(Map<String, dynamic> json) =>
       _$NutritionFactsFromJson(json);
+
+  bool isSameAs(NutritionFacts other) {
+    return amount == other.amount &&
+        mapEquals(
+          nutrientData.nutrientAmountsMap,
+          other.nutrientData.nutrientAmountsMap,
+        );
+  }
 
   NutritionFacts convertTo(Amount otherAmount) {
     if (amount.unit.measure != otherAmount.unit.measure) {

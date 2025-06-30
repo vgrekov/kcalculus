@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/ui/common/nutrient_stats/widgets/nutrient_stats.dart';
+import 'package:kcalculus/ui/common/nutrient_stats/widgets/nutrient_stats_with_goal.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
-import 'package:kcalculus/ui/common/widgets/nutrient_stats.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_view_model.dart';
@@ -41,27 +42,39 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   }
 
   void _addMeal() async {
-    final meal = await Navigator.of(context).push<Meal>(
-      MaterialPageRoute(
-        builder: (context) => MealSaveScreen(
-          date: ref.read(mealListViewModel).date,
-        ),
-      ),
-    );
+    final nutrientDefaults =
+        await ref.read(mealListViewModel.notifier).getNutrientDefaults();
 
-    _checkIfMealSavedOnAnotherDay(meal);
+    if (mounted) {
+      final meal = await Navigator.of(context).push<Meal>(
+        MaterialPageRoute(
+          builder: (context) => MealSaveScreen(
+            date: ref.read(mealListViewModel).date,
+            nutrientDefaults: nutrientDefaults,
+          ),
+        ),
+      );
+
+      _checkIfMealSavedOnAnotherDay(meal);
+    }
   }
 
   void _selectMeal(Meal meal) async {
-    final savedMeal = await Navigator.of(context).push<Meal>(
-      MaterialPageRoute(
-        builder: (context) => MealSaveScreen(
-          meal: meal,
-        ),
-      ),
-    );
+    final nutrientDefaults =
+        await ref.read(mealListViewModel.notifier).getNutrientDefaults();
 
-    _checkIfMealSavedOnAnotherDay(savedMeal);
+    if (mounted) {
+      final savedMeal = await Navigator.of(context).push<Meal>(
+        MaterialPageRoute(
+          builder: (context) => MealSaveScreen(
+            meal: meal,
+            nutrientDefaults: nutrientDefaults,
+          ),
+        ),
+      );
+
+      _checkIfMealSavedOnAnotherDay(savedMeal);
+    }
   }
 
   void _deleteMeal(Meal meal) {
@@ -200,27 +213,40 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Awaited(
+        bottomNavigationBar: Container(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Awaited(
                 future: uiState.dataLoader,
                 data: (_, __) {
-                  final totalNutrientData = uiState.data
+                  final nutrientData = uiState.data
                       .map((m) => m.getNutrientData() ?? NutrientData.empty())
                       .fold(
                         NutrientData.empty(),
                         (nd1, nd2) => nd1 + nd2,
                       );
 
+                  if (uiState.energyGoalAmount != null) {
+                    return NutrientStatsWithGoal(
+                      date: uiState.date,
+                      nutrientData: nutrientData,
+                      energyGoalAmount: uiState.energyGoalAmount!,
+                    );
+                  }
+
                   return NutrientStats(
-                    nutrientData: totalNutrientData,
+                    date: uiState.date,
+                    nutrientData: nutrientData,
                   );
-                }),
-            const ScreenTabBar(
-              selectedTab: ScreenTab.meals,
-            ),
-          ],
+                },
+              ),
+              const ScreenTabBar(
+                selectedTab: ScreenTab.meals,
+              ),
+            ],
+          ),
         ),
       ),
     );

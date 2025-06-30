@@ -57,10 +57,14 @@ final appConfigProvider = FutureProvider<AppConfig>(
 final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
   (ref) async {
     final appConfig = await ref.watch(appConfigProvider.future);
-
+    final packageInfo = await PackageInfo.fromPlatform();
     return OpenFoodFactsService(
       openFoodFactsBaseUrl: appConfig.openFoodFactsBaseUrl,
       contactEmail: appConfig.contactEmail,
+      appName: packageInfo.appName,
+      version: packageInfo.version,
+      httpClient: http.Client(),
+      timeoutMillis: appConfig.openFoodFactsTimeoutMillis,
     );
   },
 );
@@ -72,8 +76,10 @@ final _adServiceProvider = FutureProvider<AdService>(
     return AdService(
       androidInterstitialAdUnitId: appConfig.androidInterstitialAdUnitId,
       iOsInterstitialAdUnitId: appConfig.iOsInterstitialAdUnitId,
+      interstitialAdTimeoutMillis: appConfig.interstitialAdTimeoutMillis,
       androidUnlockAdUnitId: appConfig.androidUnlockAdUnitId,
       iOsUnlockAdUnitId: appConfig.iOsUnlockAdUnitId,
+      unlockAdTimeoutMillis: appConfig.unlockAdTimeoutMillis,
       interstitialAdCooldownDurationMins:
           appConfig.interstitialAdCooldownDurationMins,
     );
@@ -86,4 +92,16 @@ final purchaseServiceProvider = Provider<PurchaseService>(
 
 final rewardServiceProvider = Provider<RewardService>(
   (ref) => const RewardService(),
+);
+
+final _usdaServiceProvider = Provider<UsdaService>(
+  (ref) {
+    final service = UsdaService();
+
+    ref.onDispose(() {
+      service.dispose();
+    });
+
+    return service;
+  },
 );

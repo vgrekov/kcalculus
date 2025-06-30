@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/meals/list/view_models/meal_list_ui_state.dart';
@@ -30,6 +31,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
     ref.watch(foodChangesProvider);
     ref.watch(dishChangesProvider);
     ref.watch(mealChangesProvider);
+    ref.watch(goalChangesProvider);
 
     _scheduleNextDaySwitch();
 
@@ -106,6 +108,10 @@ class MealListViewModel extends Notifier<MealListUiState> {
     _log.finer('restoreMeal() END');
   }
 
+  Future<List<Nutrient>> getNutrientDefaults() {
+    return ref.read(nutrientRepositoryProvider).getDefaults();
+  }
+
   MealListUiState _loadFor(DateTime date) {
     return MealListUiState(
       date: date,
@@ -117,7 +123,15 @@ class MealListViewModel extends Notifier<MealListUiState> {
   Future<List<Meal>> _doLoadFor(DateTime date) async {
     final data = await ref.read(mealRepositoryProvider).getByDate(date);
 
-    state = state.copyWith(data: data);
+    final goals =
+        await ref.read(nutrientGoalRepositoryProvider).getActiveGoals(date);
+    final energyGoal =
+        goals.where((goal) => goal.nutrient == Nutrient.energy).firstOrNull;
+
+    state = state.copyWith(
+      data: data,
+      energyGoalAmount: energyGoal?.amount,
+    );
 
     return data;
   }

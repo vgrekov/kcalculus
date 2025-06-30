@@ -6,8 +6,10 @@ import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
+import 'package:kcalculus/ui/settings/view_models/settings_ui_state.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 final _log = Logger('AppSettingsViewModel');
 
@@ -18,18 +20,25 @@ enum AppSettingsCommand {
   showRestoreFailureNotification,
 }
 
-class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
+class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
+  final _packageInfo = PackageInfo.fromPlatform();
+
   UiCommander<AppSettingsCommand>? _commander;
 
   @override
-  FutureOr<AppSettings> build() {
+  FutureOr<SettingsUiState> build() async {
     _commander = UiCommander<AppSettingsCommand>(_commander);
 
     ref.onDispose(() {
       _commander?.dispose();
     });
 
-    return ref.watch(appSettingsRepositoryProvider.future);
+    final settings = await ref.watch(appSettingsRepositoryProvider.future);
+
+    return SettingsUiState(
+      settings: settings,
+      packageInfo: await _packageInfo,
+    );
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
@@ -37,7 +46,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
   Future<void> setTheme(AppTheme theme) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
     await repository.setSettings(
-      state.value!.copyWith(
+      state.value!.settings.copyWith(
         theme: theme,
       ),
     );
@@ -46,7 +55,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
   Future<void> setCrashlyticsEnabled(bool enabled) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
     await repository.setSettings(
-      state.value!.copyWith(
+      state.value!.settings.copyWith(
         crashlyticsEnabled: enabled,
       ),
     );
@@ -55,7 +64,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
   Future<void> setAnalyticsEnabled(bool enabled) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
     await repository.setSettings(
-      state.value!.copyWith(
+      state.value!.settings.copyWith(
         analyticsEnabled: enabled,
       ),
     );
@@ -119,6 +128,6 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<AppSettings> {
 }
 
 final appSettingsViewModel =
-    AsyncNotifierProvider.autoDispose<AppSettingsViewModel, AppSettings>(
+    AsyncNotifierProvider.autoDispose<AppSettingsViewModel, SettingsUiState>(
   () => AppSettingsViewModel(),
 );

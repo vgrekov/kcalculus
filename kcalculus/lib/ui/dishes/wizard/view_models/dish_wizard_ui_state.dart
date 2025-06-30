@@ -16,7 +16,7 @@ enum DishWizardStep {
 }
 
 @freezed
-class DishWizardUiState with _$DishWizardUiState {
+sealed class DishWizardUiState with _$DishWizardUiState {
   const DishWizardUiState._();
 
   const factory DishWizardUiState._default({
@@ -46,11 +46,7 @@ class DishWizardUiState with _$DishWizardUiState {
       name: mainStepState.name,
       description: mainStepState.description,
       ingredients: ingredientsStepState.ingredients,
-      nutritionRatios: {
-        for (final rs in measurementsStepState.nutritionRatioStates
-            .where((rs) => rs.enabled))
-          rs.measure: rs.toModel()
-      },
+      nutritionRatios: measurementsStepState.toNutritionRatios(),
     );
   }
 
@@ -73,9 +69,19 @@ class DishWizardUiState with _$DishWizardUiState {
         final convertedAmount = ingredientNF.convertAmount(ingredient.amount,
             targetNutritionFacts: targetNF);
         if (convertedAmount != null) {
-          totalAmount += convertedAmount;
+          if (measure != Measure.quantity) {
+            // Sum up if not quantity
+            totalAmount += convertedAmount;
+          } else if (totalAmount.isEmpty() || totalAmount > convertedAmount) {
+            // Take min if quantity
+            totalAmount = convertedAmount;
+          }
         }
       }
+    }
+
+    if (measure == Measure.mass && measurementsStepState.container != null) {
+      totalAmount += measurementsStepState.container!.weight;
     }
 
     return totalAmount.value > 0 ? totalAmount : null;

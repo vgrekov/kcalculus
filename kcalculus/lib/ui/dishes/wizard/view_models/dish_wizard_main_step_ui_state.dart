@@ -8,7 +8,7 @@ enum MainStepValidationResult {
 }
 
 @freezed
-class DishWizardMainStepUiState with _$DishWizardMainStepUiState {
+sealed class DishWizardMainStepUiState with _$DishWizardMainStepUiState {
   const DishWizardMainStepUiState._();
 
   const factory DishWizardMainStepUiState({

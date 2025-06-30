@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_helper.dart';
-import 'package:kcalculus/ui/common/view_models/edible_search/edible_search_ui_state.dart';
+import 'package:kcalculus/ui/common/view_models/edible_search_helper.dart';
+import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:logging/logging.dart';
@@ -15,9 +15,9 @@ enum EdibleSearchCommand {
   exit,
 }
 
-class EdibleSearchViewModel
-    extends AutoDisposeFamilyNotifier<EdibleSearchUiState, String> {
-  static const _kPageSize = 10;
+class EdibleSearchViewModel extends AutoDisposeFamilyNotifier<
+    SearchUiState<EdibleSearchResult>, String> {
+  static const _kPageSize = 25;
 
   UiCommander<EdibleSearchCommand>? _commander;
 
@@ -29,7 +29,7 @@ class EdibleSearchViewModel
   );
 
   @override
-  EdibleSearchUiState build(String arg) {
+  SearchUiState<EdibleSearchResult> build(String arg) {
     _commander = UiCommander<EdibleSearchCommand>(_commander);
 
     ref.onDispose(() {
@@ -57,11 +57,18 @@ class EdibleSearchViewModel
           final dishRepository = ref.read(dishRepositoryProvider);
           edible = await dishRepository.getById(searchResult.id);
           break;
-        default:
+        case EdibleSearchResultType.food:
           _log.finer('selectEdible() Loading food');
 
           final foodRepository = ref.read(foodRepositoryProvider);
           edible = await foodRepository.getById(searchResult.id);
+          break;
+        case EdibleSearchResultType.usda:
+          _log.finer('selectEdible() Loading USDA food');
+
+          final usdaFoodRepository = ref.read(usdaFoodRepositoryProvider);
+          edible = await usdaFoodRepository.getById(searchResult.id);
+          break;
       }
 
       if (edible != null) {
@@ -91,6 +98,6 @@ class EdibleSearchViewModel
 }
 
 final edibleSearchViewModel = NotifierProvider.autoDispose
-    .family<EdibleSearchViewModel, EdibleSearchUiState, String>(
+    .family<EdibleSearchViewModel, SearchUiState<EdibleSearchResult>, String>(
   () => EdibleSearchViewModel(),
 );

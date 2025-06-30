@@ -4,6 +4,7 @@ import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
+import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -56,6 +57,31 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
   }
 
   void _scanFood() async {
+    final scannerDisclaimerEnabled =
+        await ref.read(foodListViewModel.notifier).isScannerDisclaimerEnabled();
+
+    if (scannerDisclaimerEnabled) {
+      _showScannerDisclaimer();
+    } else {
+      _doScanFood();
+    }
+  }
+
+  void _showScannerDisclaimer() {
+    showMessageDialog(
+      message: l10n(context).messageScannerDisclaimer,
+      actions: {
+        l10n(context).actionOk: () => _doScanFood(),
+        l10n(context).actionDontShowAgain: () {
+          ref.read(foodListViewModel.notifier).disableScannerDisclaimer();
+          _doScanFood();
+        }
+      },
+      messageType: MessageType.warning,
+    );
+  }
+
+  void _doScanFood() async {
     premiumFeature(ref, _accessGuardKey, () async {
       _log.eventFoodScan();
 
@@ -83,14 +109,20 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     ref.read(foodListViewModel.notifier).searchHelper.searchController.reset();
   }
 
-  void _addFood([Food? food]) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => FoodSaveScreen(
-          food: food,
+  void _addFood([Food? food]) async {
+    final nutrientDefaults =
+        await ref.read(foodListViewModel.notifier).getNutrientDefaults();
+
+    if (mounted) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => FoodSaveScreen(
+            food: food,
+            nutrientDefaults: nutrientDefaults,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   void _viewFood(EdibleSearchResult searchResult) {

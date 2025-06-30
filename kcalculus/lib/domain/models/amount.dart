@@ -1,11 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/utils/double_ext.dart';
 
 part 'amount.freezed.dart';
 part 'amount.g.dart';
 
 @freezed
-class Amount with _$Amount {
+sealed class Amount with _$Amount {
   const Amount._();
 
   const factory Amount._default({
@@ -29,6 +30,42 @@ class Amount with _$Amount {
 
   factory Amount.fromJson(Map<String, dynamic> json) => _$AmountFromJson(json);
 
+  Amount? tryConvert(Unit toUnit) {
+    if (unit == toUnit) {
+      return this;
+    }
+
+    if (unit.measure != toUnit.measure) {
+      return null;
+    }
+
+    return Amount(
+      unit: toUnit,
+      value: value * unit.factor / toUnit.factor,
+    );
+  }
+
+  Amount convert(Unit toUnit) {
+    final result = tryConvert(toUnit);
+
+    if (result == null) {
+      throw 'Target unit must be of the same measure.';
+    }
+
+    return result;
+  }
+
+  Amount withPrecision(int fractionDigits, [bool round = true]) {
+    return Amount(
+      unit: unit,
+      value: value.withPrecision(fractionDigits, round),
+    );
+  }
+
+  bool isEmpty() => value == 0;
+
+  bool isNotEmpty() => value > 0;
+
   Amount operator +(Amount other) {
     if (unit.measure != other.unit.measure) {
       throw 'Addends must be of the same measure.';
@@ -40,6 +77,29 @@ class Amount with _$Amount {
       unit: targetUnit,
       value: value * unit.factor / targetUnit.factor +
           other.value * other.unit.factor / targetUnit.factor,
+    );
+  }
+
+  Amount operator -(Amount other) {
+    if (unit.measure != other.unit.measure) {
+      throw 'Operands must be of the same measure.';
+    }
+
+    final targetUnit = Unit.defaultFor(unit.measure);
+
+    return Amount(
+      unit: targetUnit,
+      value: value * unit.factor / targetUnit.factor -
+          other.value * other.unit.factor / targetUnit.factor,
+    );
+  }
+
+  Amount operator *(double factor) {
+    if (factor == 1) return this;
+
+    return Amount(
+      unit: unit,
+      value: value * factor,
     );
   }
 

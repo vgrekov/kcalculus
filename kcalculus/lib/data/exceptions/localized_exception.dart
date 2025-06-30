@@ -1,4 +1,4 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kcalculus/l10n/app_localizations.dart';
 
 class LocalizedException implements Exception {
   final String Function(AppLocalizations) localizedMessage;

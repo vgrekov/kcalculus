@@ -11,7 +11,7 @@ enum AppStage {
 }
 
 @freezed
-class AppUiState with _$AppUiState {
+sealed class AppUiState with _$AppUiState {
   const factory AppUiState({
     required AppTheme theme,
     required AppStage stage,

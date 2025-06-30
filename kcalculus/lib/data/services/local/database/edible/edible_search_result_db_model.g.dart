@@ -6,9 +6,9 @@ part of 'edible_search_result_db_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EdibleSearchResultDbModelImpl _$$EdibleSearchResultDbModelImplFromJson(
+_EdibleSearchResultDbModel _$EdibleSearchResultDbModelFromJson(
         Map<String, dynamic> json) =>
-    _$EdibleSearchResultDbModelImpl(
+    _EdibleSearchResultDbModel(
       id: json['id'] as String,
       food_id: json['food_id'] as String?,
       dish_id: json['dish_id'] as String?,
@@ -19,8 +19,8 @@ _$EdibleSearchResultDbModelImpl _$$EdibleSearchResultDbModelImplFromJson(
       last_eaten_at: json['last_eaten_at'] as String?,
     );
 
-Map<String, dynamic> _$$EdibleSearchResultDbModelImplToJson(
-        _$EdibleSearchResultDbModelImpl instance) =>
+Map<String, dynamic> _$EdibleSearchResultDbModelToJson(
+        _EdibleSearchResultDbModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'food_id': instance.food_id,

@@ -25,6 +25,17 @@ class LocalEdibleRepository implements EdibleRepository {
   }
 
   @override
+  Future<int> count(
+    String? query, {
+    EdibleSearchResultType? type,
+  }) {
+    return _edibleDao.count(
+      query,
+      type: type,
+    );
+  }
+
+  @override
   Future<bool> exists(
     String name,
     String description, {
