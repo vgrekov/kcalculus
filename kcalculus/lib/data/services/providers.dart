@@ -48,7 +48,8 @@ final _envProvider = Provider<String>(
 final appConfigProvider = FutureProvider<AppConfig>(
   (ref) {
     final env = ref.watch(_envProvider);
-    final service = LocalAppConfigService(env: env);
+    // final service = LocalAppConfigService(env: env);
+    final service = FirebaseAppConfigService(env: env);
 
     return service.getAppConfig();
   },
