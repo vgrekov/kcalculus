@@ -28,6 +28,18 @@ class _PremiumSettingTileState extends ConsumerState<PremiumSettingTile> {
     final accessLevelValue =
         accessLevel is AsyncData ? accessLevel.value : null;
 
+    final Color bgColor;
+    final Color fgColor;
+    switch (accessLevelValue) {
+      case AccessLevelFreeNoAds():
+        bgColor = Theme.of(context).colorScheme.errorContainer;
+        fgColor = Theme.of(context).colorScheme.onErrorContainer;
+        break;
+      default:
+        bgColor = Theme.of(context).colorScheme.tertiaryContainer;
+        fgColor = Theme.of(context).colorScheme.onTertiaryContainer;
+    }
+
     return AccessGuard(
       key: _accessGuardKey,
       child: ListTile(
@@ -38,16 +50,18 @@ class _PremiumSettingTileState extends ConsumerState<PremiumSettingTile> {
               },
         leading: Icon(
           Icons.diamond,
-          color: Theme.of(context).colorScheme.onTertiaryContainer,
+          color: fgColor,
         ),
         title: Text(
           l10n(context).settingPremiumTitle,
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onTertiaryContainer),
+          style:
+              Theme.of(context).textTheme.titleMedium!.copyWith(color: fgColor),
         ),
         subtitle: Text(
           switch (accessLevelValue) {
             AccessLevelFree() => l10n(context).settingPremiumSubtitleLocked,
+            AccessLevelFreeNoAds() =>
+              l10n(context).settingPremiumSubtitleUnavailable,
             AccessLevelPremium() =>
               l10n(context).settingPremiumSubtitleUnlocked,
             AccessLevelAdSupportedPremium(:final expirationDate) =>
@@ -57,10 +71,10 @@ class _PremiumSettingTileState extends ConsumerState<PremiumSettingTile> {
             _ => '',
           },
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Theme.of(context).colorScheme.onTertiaryContainer,
+                color: fgColor,
               ),
         ),
-        tileColor: Theme.of(context).colorScheme.tertiaryContainer,
+        tileColor: bgColor,
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:kcalculus/data/services/app_config/app_config.dart';
 import 'package:kcalculus/data/services/open_food_facts/product_api_model.dart';
 import 'package:logging/logging.dart';
 
@@ -8,22 +9,14 @@ final _log = Logger('OpenFoodFactsService');
 
 class OpenFoodFactsService {
   OpenFoodFactsService({
-    required String openFoodFactsBaseUrl,
-    required String contactEmail,
     required String appName,
     required String version,
     required http.Client httpClient,
-    required int timeoutMillis,
-  })  : _openFoodFactsBaseUrl = openFoodFactsBaseUrl,
-        _contactEmail = contactEmail,
-        _appName = appName,
+    AppConfig? appConfig,
+  })  : _appName = appName,
         _version = version,
         _httpClient = httpClient,
-        _timeoutMillis = timeoutMillis;
-
-  final String _openFoodFactsBaseUrl;
-
-  final String _contactEmail;
+        _appConfig = appConfig;
 
   final String _appName;
 
@@ -31,10 +24,10 @@ class OpenFoodFactsService {
 
   final http.Client _httpClient;
 
-  final int _timeoutMillis;
+  final AppConfig? _appConfig;
 
   Uri _getProductByBarcodeUrl(String barcode) => Uri.parse(
-        '$_openFoodFactsBaseUrl/api/v2/product/$barcode',
+        '${_appConfig!.openFoodFactsBaseUrl}/api/v2/product/$barcode',
       ).replace(
         queryParameters: {
           'product_type': 'food',
@@ -51,12 +44,17 @@ class OpenFoodFactsService {
 
   Future<Map<String, String>> _getUserAgent() async {
     return {
-      'User-Agent': '$_appName/$_version ($_contactEmail)',
+      'User-Agent': '$_appName/$_version (${_appConfig!.contactEmail})',
     };
   }
 
   Future<ProductApiModel?> getProductByBarcode(String barcode) async {
     _log.finer('getProductByBarcode() START');
+
+    if (_appConfig == null) {
+      _log.info('Unable to make OFF call due to no app config');
+      return null;
+    }
 
     _log.finest('getProductByBarcode() Getting product by barcode: $barcode');
 
@@ -65,7 +63,7 @@ class OpenFoodFactsService {
           _getProductByBarcodeUrl(barcode),
           headers: await _getUserAgent(),
         )
-        .timeout(Duration(milliseconds: _timeoutMillis));
+        .timeout(Duration(milliseconds: _appConfig.openFoodFactsTimeoutMillis));
 
     _log.finer(
         'getProductByBarcode() Response status code: ${response.statusCode}');

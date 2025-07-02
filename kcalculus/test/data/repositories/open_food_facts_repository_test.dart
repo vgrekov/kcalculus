@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:kcalculus/data/repositories/open_food_facts_repository.dart';
+import 'package:kcalculus/data/services/app_config/app_config.dart';
 import 'package:kcalculus/data/services/open_food_facts/open_food_facts_service.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
@@ -32,12 +33,23 @@ void main() {
       setUp(() {
         httpClient = MockHttpClient();
         service = OpenFoodFactsService(
-          openFoodFactsBaseUrl: '',
-          contactEmail: '',
           appName: '',
           version: '',
           httpClient: httpClient,
-          timeoutMillis: 5000,
+          appConfig: AppConfig(
+            openFoodFactsBaseUrl: '',
+            openFoodFactsTimeoutMillis: 5000,
+            contactEmail: '',
+            androidInterstitialAdUnitId: '',
+            iOsInterstitialAdUnitId: '',
+            interstitialAdTimeoutMillis: 5000,
+            androidUnlockAdUnitId: '',
+            iOsUnlockAdUnitId: '',
+            unlockAdTimeoutMillis: 5000,
+            unlockWithAdDurationMins: 1,
+            interstitialAdCooldownDurationMins: 1,
+            adsEnabled: false,
+          ),
         );
         repository = OpenFoodFactsRepository(service: service);
       });
