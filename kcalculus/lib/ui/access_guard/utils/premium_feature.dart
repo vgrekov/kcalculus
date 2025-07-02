@@ -8,9 +8,8 @@ void premiumFeature(
   Key? accessGuardKey,
   void Function() feature,
 ) async {
-  final premiumStatus = await ref
-      .watch(accessGuardViewModel(accessGuardKey).notifier)
-      .checkPremiumStatus();
+  final viewModel = ref.watch(accessGuardViewModel(accessGuardKey).notifier);
+  final premiumStatus = await viewModel.checkPremiumStatus();
 
   switch (premiumStatus) {
     case PremiumGranted():

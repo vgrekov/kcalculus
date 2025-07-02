@@ -45,12 +45,17 @@ final _envProvider = Provider<String>(
   (_) => const String.fromEnvironment('ENV', defaultValue: 'dev'),
 );
 
-final appConfigProvider = FutureProvider<AppConfig>(
+final _appConfigService =
+    AsyncNotifierProvider.family<AppConfigService, AppConfig?, String>(
+  AppConfigService.new,
+);
+
+final appConfigProvider = FutureProvider<AppConfig?>(
   (ref) {
     final env = ref.watch(_envProvider);
-    final service = LocalAppConfigService(env: env);
+    final config = ref.watch(_appConfigService(env).future);
 
-    return service.getAppConfig();
+    return config;
   },
 );
 
@@ -58,13 +63,12 @@ final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
   (ref) async {
     final appConfig = await ref.watch(appConfigProvider.future);
     final packageInfo = await PackageInfo.fromPlatform();
+
     return OpenFoodFactsService(
-      openFoodFactsBaseUrl: appConfig.openFoodFactsBaseUrl,
-      contactEmail: appConfig.contactEmail,
       appName: packageInfo.appName,
       version: packageInfo.version,
       httpClient: http.Client(),
-      timeoutMillis: appConfig.openFoodFactsTimeoutMillis,
+      appConfig: appConfig,
     );
   },
 );
@@ -74,14 +78,7 @@ final _adServiceProvider = FutureProvider<AdService>(
     final appConfig = await ref.watch(appConfigProvider.future);
 
     return AdService(
-      androidInterstitialAdUnitId: appConfig.androidInterstitialAdUnitId,
-      iOsInterstitialAdUnitId: appConfig.iOsInterstitialAdUnitId,
-      interstitialAdTimeoutMillis: appConfig.interstitialAdTimeoutMillis,
-      androidUnlockAdUnitId: appConfig.androidUnlockAdUnitId,
-      iOsUnlockAdUnitId: appConfig.iOsUnlockAdUnitId,
-      unlockAdTimeoutMillis: appConfig.unlockAdTimeoutMillis,
-      interstitialAdCooldownDurationMins:
-          appConfig.interstitialAdCooldownDurationMins,
+      appConfig: appConfig,
     );
   },
 );

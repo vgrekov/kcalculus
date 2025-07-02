@@ -14,7 +14,7 @@ part of 'app_config.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$LocalAppConfig {
+mixin _$AppConfig {
   String get openFoodFactsBaseUrl;
   int get openFoodFactsTimeoutMillis;
   String get contactEmail;
@@ -26,23 +26,23 @@ mixin _$LocalAppConfig {
   int get unlockAdTimeoutMillis;
   int get unlockWithAdDurationMins;
   int get interstitialAdCooldownDurationMins;
+  bool get adsEnabled;
 
-  /// Create a copy of LocalAppConfig
+  /// Create a copy of AppConfig
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $LocalAppConfigCopyWith<LocalAppConfig> get copyWith =>
-      _$LocalAppConfigCopyWithImpl<LocalAppConfig>(
-          this as LocalAppConfig, _$identity);
+  $AppConfigCopyWith<AppConfig> get copyWith =>
+      _$AppConfigCopyWithImpl<AppConfig>(this as AppConfig, _$identity);
 
-  /// Serializes this LocalAppConfig to a JSON map.
+  /// Serializes this AppConfig to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is LocalAppConfig &&
+            other is AppConfig &&
             (identical(other.openFoodFactsBaseUrl, openFoodFactsBaseUrl) ||
                 other.openFoodFactsBaseUrl == openFoodFactsBaseUrl) &&
             (identical(other.openFoodFactsTimeoutMillis, openFoodFactsTimeoutMillis) ||
@@ -66,13 +66,14 @@ mixin _$LocalAppConfig {
                 other.iOsUnlockAdUnitId == iOsUnlockAdUnitId) &&
             (identical(other.unlockAdTimeoutMillis, unlockAdTimeoutMillis) ||
                 other.unlockAdTimeoutMillis == unlockAdTimeoutMillis) &&
-            (identical(
-                    other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
+            (identical(other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
                 other.unlockWithAdDurationMins == unlockWithAdDurationMins) &&
             (identical(other.interstitialAdCooldownDurationMins,
                     interstitialAdCooldownDurationMins) ||
                 other.interstitialAdCooldownDurationMins ==
-                    interstitialAdCooldownDurationMins));
+                    interstitialAdCooldownDurationMins) &&
+            (identical(other.adsEnabled, adsEnabled) ||
+                other.adsEnabled == adsEnabled));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -89,19 +90,19 @@ mixin _$LocalAppConfig {
       iOsUnlockAdUnitId,
       unlockAdTimeoutMillis,
       unlockWithAdDurationMins,
-      interstitialAdCooldownDurationMins);
+      interstitialAdCooldownDurationMins,
+      adsEnabled);
 
   @override
   String toString() {
-    return 'LocalAppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, androidInterstitialAdUnitId: $androidInterstitialAdUnitId, iOsInterstitialAdUnitId: $iOsInterstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, androidUnlockAdUnitId: $androidUnlockAdUnitId, iOsUnlockAdUnitId: $iOsUnlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins)';
+    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, androidInterstitialAdUnitId: $androidInterstitialAdUnitId, iOsInterstitialAdUnitId: $iOsInterstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, androidUnlockAdUnitId: $androidUnlockAdUnitId, iOsUnlockAdUnitId: $iOsUnlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, adsEnabled: $adsEnabled)';
   }
 }
 
 /// @nodoc
-abstract mixin class $LocalAppConfigCopyWith<$Res> {
-  factory $LocalAppConfigCopyWith(
-          LocalAppConfig value, $Res Function(LocalAppConfig) _then) =
-      _$LocalAppConfigCopyWithImpl;
+abstract mixin class $AppConfigCopyWith<$Res> {
+  factory $AppConfigCopyWith(AppConfig value, $Res Function(AppConfig) _then) =
+      _$AppConfigCopyWithImpl;
   @useResult
   $Res call(
       {String openFoodFactsBaseUrl,
@@ -114,18 +115,18 @@ abstract mixin class $LocalAppConfigCopyWith<$Res> {
       String iOsUnlockAdUnitId,
       int unlockAdTimeoutMillis,
       int unlockWithAdDurationMins,
-      int interstitialAdCooldownDurationMins});
+      int interstitialAdCooldownDurationMins,
+      bool adsEnabled});
 }
 
 /// @nodoc
-class _$LocalAppConfigCopyWithImpl<$Res>
-    implements $LocalAppConfigCopyWith<$Res> {
-  _$LocalAppConfigCopyWithImpl(this._self, this._then);
+class _$AppConfigCopyWithImpl<$Res> implements $AppConfigCopyWith<$Res> {
+  _$AppConfigCopyWithImpl(this._self, this._then);
 
-  final LocalAppConfig _self;
-  final $Res Function(LocalAppConfig) _then;
+  final AppConfig _self;
+  final $Res Function(AppConfig) _then;
 
-  /// Create a copy of LocalAppConfig
+  /// Create a copy of AppConfig
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -141,6 +142,7 @@ class _$LocalAppConfigCopyWithImpl<$Res>
     Object? unlockAdTimeoutMillis = null,
     Object? unlockWithAdDurationMins = null,
     Object? interstitialAdCooldownDurationMins = null,
+    Object? adsEnabled = null,
   }) {
     return _then(_self.copyWith(
       openFoodFactsBaseUrl: null == openFoodFactsBaseUrl
@@ -188,14 +190,18 @@ class _$LocalAppConfigCopyWithImpl<$Res>
           ? _self.interstitialAdCooldownDurationMins
           : interstitialAdCooldownDurationMins // ignore: cast_nullable_to_non_nullable
               as int,
+      adsEnabled: null == adsEnabled
+          ? _self.adsEnabled
+          : adsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _LocalAppConfig implements LocalAppConfig {
-  const _LocalAppConfig(
+class _AppConfig implements AppConfig {
+  const _AppConfig(
       {required this.openFoodFactsBaseUrl,
       required this.openFoodFactsTimeoutMillis,
       required this.contactEmail,
@@ -206,9 +212,10 @@ class _LocalAppConfig implements LocalAppConfig {
       required this.iOsUnlockAdUnitId,
       required this.unlockAdTimeoutMillis,
       required this.unlockWithAdDurationMins,
-      required this.interstitialAdCooldownDurationMins});
-  factory _LocalAppConfig.fromJson(Map<String, dynamic> json) =>
-      _$LocalAppConfigFromJson(json);
+      required this.interstitialAdCooldownDurationMins,
+      required this.adsEnabled});
+  factory _AppConfig.fromJson(Map<String, dynamic> json) =>
+      _$AppConfigFromJson(json);
 
   @override
   final String openFoodFactsBaseUrl;
@@ -232,18 +239,20 @@ class _LocalAppConfig implements LocalAppConfig {
   final int unlockWithAdDurationMins;
   @override
   final int interstitialAdCooldownDurationMins;
+  @override
+  final bool adsEnabled;
 
-  /// Create a copy of LocalAppConfig
+  /// Create a copy of AppConfig
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$LocalAppConfigCopyWith<_LocalAppConfig> get copyWith =>
-      __$LocalAppConfigCopyWithImpl<_LocalAppConfig>(this, _$identity);
+  _$AppConfigCopyWith<_AppConfig> get copyWith =>
+      __$AppConfigCopyWithImpl<_AppConfig>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$LocalAppConfigToJson(
+    return _$AppConfigToJson(
       this,
     );
   }
@@ -252,7 +261,7 @@ class _LocalAppConfig implements LocalAppConfig {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _LocalAppConfig &&
+            other is _AppConfig &&
             (identical(other.openFoodFactsBaseUrl, openFoodFactsBaseUrl) ||
                 other.openFoodFactsBaseUrl == openFoodFactsBaseUrl) &&
             (identical(other.openFoodFactsTimeoutMillis, openFoodFactsTimeoutMillis) ||
@@ -276,13 +285,14 @@ class _LocalAppConfig implements LocalAppConfig {
                 other.iOsUnlockAdUnitId == iOsUnlockAdUnitId) &&
             (identical(other.unlockAdTimeoutMillis, unlockAdTimeoutMillis) ||
                 other.unlockAdTimeoutMillis == unlockAdTimeoutMillis) &&
-            (identical(
-                    other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
+            (identical(other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
                 other.unlockWithAdDurationMins == unlockWithAdDurationMins) &&
             (identical(other.interstitialAdCooldownDurationMins,
                     interstitialAdCooldownDurationMins) ||
                 other.interstitialAdCooldownDurationMins ==
-                    interstitialAdCooldownDurationMins));
+                    interstitialAdCooldownDurationMins) &&
+            (identical(other.adsEnabled, adsEnabled) ||
+                other.adsEnabled == adsEnabled));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -299,20 +309,21 @@ class _LocalAppConfig implements LocalAppConfig {
       iOsUnlockAdUnitId,
       unlockAdTimeoutMillis,
       unlockWithAdDurationMins,
-      interstitialAdCooldownDurationMins);
+      interstitialAdCooldownDurationMins,
+      adsEnabled);
 
   @override
   String toString() {
-    return 'LocalAppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, androidInterstitialAdUnitId: $androidInterstitialAdUnitId, iOsInterstitialAdUnitId: $iOsInterstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, androidUnlockAdUnitId: $androidUnlockAdUnitId, iOsUnlockAdUnitId: $iOsUnlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins)';
+    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, androidInterstitialAdUnitId: $androidInterstitialAdUnitId, iOsInterstitialAdUnitId: $iOsInterstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, androidUnlockAdUnitId: $androidUnlockAdUnitId, iOsUnlockAdUnitId: $iOsUnlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, adsEnabled: $adsEnabled)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$LocalAppConfigCopyWith<$Res>
-    implements $LocalAppConfigCopyWith<$Res> {
-  factory _$LocalAppConfigCopyWith(
-          _LocalAppConfig value, $Res Function(_LocalAppConfig) _then) =
-      __$LocalAppConfigCopyWithImpl;
+abstract mixin class _$AppConfigCopyWith<$Res>
+    implements $AppConfigCopyWith<$Res> {
+  factory _$AppConfigCopyWith(
+          _AppConfig value, $Res Function(_AppConfig) _then) =
+      __$AppConfigCopyWithImpl;
   @override
   @useResult
   $Res call(
@@ -326,18 +337,18 @@ abstract mixin class _$LocalAppConfigCopyWith<$Res>
       String iOsUnlockAdUnitId,
       int unlockAdTimeoutMillis,
       int unlockWithAdDurationMins,
-      int interstitialAdCooldownDurationMins});
+      int interstitialAdCooldownDurationMins,
+      bool adsEnabled});
 }
 
 /// @nodoc
-class __$LocalAppConfigCopyWithImpl<$Res>
-    implements _$LocalAppConfigCopyWith<$Res> {
-  __$LocalAppConfigCopyWithImpl(this._self, this._then);
+class __$AppConfigCopyWithImpl<$Res> implements _$AppConfigCopyWith<$Res> {
+  __$AppConfigCopyWithImpl(this._self, this._then);
 
-  final _LocalAppConfig _self;
-  final $Res Function(_LocalAppConfig) _then;
+  final _AppConfig _self;
+  final $Res Function(_AppConfig) _then;
 
-  /// Create a copy of LocalAppConfig
+  /// Create a copy of AppConfig
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -353,8 +364,9 @@ class __$LocalAppConfigCopyWithImpl<$Res>
     Object? unlockAdTimeoutMillis = null,
     Object? unlockWithAdDurationMins = null,
     Object? interstitialAdCooldownDurationMins = null,
+    Object? adsEnabled = null,
   }) {
-    return _then(_LocalAppConfig(
+    return _then(_AppConfig(
       openFoodFactsBaseUrl: null == openFoodFactsBaseUrl
           ? _self.openFoodFactsBaseUrl
           : openFoodFactsBaseUrl // ignore: cast_nullable_to_non_nullable
@@ -400,6 +412,10 @@ class __$LocalAppConfigCopyWithImpl<$Res>
           ? _self.interstitialAdCooldownDurationMins
           : interstitialAdCooldownDurationMins // ignore: cast_nullable_to_non_nullable
               as int,
+      adsEnabled: null == adsEnabled
+          ? _self.adsEnabled
+          : adsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:kcalculus/data/services/app_config/app_config.dart';
 import 'package:kcalculus/utils/datetime.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,21 +12,8 @@ final _log = Logger('AdService');
 
 class AdService {
   const AdService({
-    required String androidInterstitialAdUnitId,
-    required String iOsInterstitialAdUnitId,
-    required int interstitialAdTimeoutMillis,
-    required String androidUnlockAdUnitId,
-    required String iOsUnlockAdUnitId,
-    required int unlockAdTimeoutMillis,
-    required int interstitialAdCooldownDurationMins,
-  })  : _androidInterstitialAdUnitId = androidInterstitialAdUnitId,
-        _iOsInterstitialAdUnitId = iOsInterstitialAdUnitId,
-        _interstitialAdTimeoutMillis = interstitialAdTimeoutMillis,
-        _androidUnlockAdUnitId = androidUnlockAdUnitId,
-        _iOsUnlockAdUnitId = iOsUnlockAdUnitId,
-        _unlockAdTimeoutMillis = unlockAdTimeoutMillis,
-        _interstitialAdCooldownDurationMins =
-            interstitialAdCooldownDurationMins;
+    AppConfig? appConfig,
+  }) : _appConfig = appConfig;
 
   /// For Android: ERROR_CODE_NO_FILL (3)
   /// For iOS: GADErrorNoFill (1)
@@ -37,22 +25,21 @@ class AdService {
 
   static final _randomizer = Random();
 
-  final String _androidInterstitialAdUnitId;
-
-  final String _iOsInterstitialAdUnitId;
-
-  final int _interstitialAdTimeoutMillis;
-
-  final String _androidUnlockAdUnitId;
-
-  final String _iOsUnlockAdUnitId;
-
-  final int _unlockAdTimeoutMillis;
-
-  final int _interstitialAdCooldownDurationMins;
+  final AppConfig? _appConfig;
 
   Future<InterstitialAd?> loadInterstitialAd() async {
-    final cooldownOver = await _isCooldownOver();
+    if (_appConfig == null) {
+      _log.info('Unable to load ads due to no app config');
+      return null;
+    }
+
+    if (!_appConfig.adsEnabled) {
+      _log.finer('Ads disabled');
+      return null;
+    }
+
+    final cooldownOver =
+        await _isCooldownOver(_appConfig.interstitialAdCooldownDurationMins);
     if (!cooldownOver) {
       _log.finer('Still cooling down interstitial ads');
       return null;
@@ -66,10 +53,10 @@ class AdService {
     final completer = Completer<InterstitialAd?>();
 
     final adUnitId = Platform.isAndroid
-        ? _androidInterstitialAdUnitId
-        : _iOsInterstitialAdUnitId;
+        ? _appConfig.androidInterstitialAdUnitId
+        : _appConfig.iOsInterstitialAdUnitId;
 
-    _startTimeout(completer, _interstitialAdTimeoutMillis);
+    _startTimeout(completer, _appConfig.interstitialAdTimeoutMillis);
 
     InterstitialAd.load(
       adUnitId: adUnitId,
@@ -111,7 +98,7 @@ class AdService {
     await prefs.setString(_kInterstitialAdLoadedAt, formatISO8601(now));
   }
 
-  Future<bool> _isCooldownOver() async {
+  Future<bool> _isCooldownOver(int cooldownDurationMins) async {
     final prefs = await SharedPreferences.getInstance();
 
     final loadedAtStr = prefs.getString(_kInterstitialAdLoadedAt);
@@ -119,7 +106,7 @@ class AdService {
     if (loadedAtStr != null) {
       final loadedAt = parseISO8601(loadedAtStr);
       final durationMins = DateTime.now().difference(loadedAt).inMinutes;
-      if (durationMins < _interstitialAdCooldownDurationMins) {
+      if (durationMins < cooldownDurationMins) {
         return false;
       }
     }
@@ -128,12 +115,23 @@ class AdService {
   }
 
   Future<RewardedAd?> loadUnlockAd() async {
+    if (_appConfig == null) {
+      _log.info('Unable to load ads due to no app config');
+      return null;
+    }
+
+    if (!_appConfig.adsEnabled) {
+      _log.finer('Ads disabled');
+      return null;
+    }
+
     final completer = Completer<RewardedAd?>();
 
-    final adUnitId =
-        Platform.isAndroid ? _androidUnlockAdUnitId : _iOsUnlockAdUnitId;
+    final adUnitId = Platform.isAndroid
+        ? _appConfig.androidUnlockAdUnitId
+        : _appConfig.iOsUnlockAdUnitId;
 
-    _startTimeout(completer, _unlockAdTimeoutMillis);
+    _startTimeout(completer, _appConfig.unlockAdTimeoutMillis);
 
     RewardedAd.load(
       adUnitId: adUnitId,

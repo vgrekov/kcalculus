@@ -8,7 +8,7 @@ class AccessLevelRepository extends AsyncNotifier<AccessLevel> {
   Timer? _rewardExpirer;
 
   @override
-  FutureOr<AccessLevel> build() {
+  FutureOr<AccessLevel> build() async {
     ref.watch(appConfigProvider);
     ref.watch(purchaseServiceProvider);
     ref.watch(rewardServiceProvider);
@@ -17,27 +17,37 @@ class AccessLevelRepository extends AsyncNotifier<AccessLevel> {
       _rewardExpirer?.cancel();
     });
 
-    return _getAccessLevel().then((accessLevel) {
-      if (accessLevel is AccessLevelAdSupportedPremium) {
-        final rewardDuration =
-            accessLevel.expirationDate.difference(DateTime.now());
-        _scheduleRewardExpiration(rewardDuration);
-      }
+    final accessLevel = await _getAccessLevel();
 
-      return accessLevel;
-    });
+    if (accessLevel is AccessLevelAdSupportedPremium) {
+      final rewardDuration =
+          accessLevel.expirationDate.difference(DateTime.now());
+      _scheduleRewardExpiration(rewardDuration);
+    }
+
+    return accessLevel;
   }
 
   Future<AccessLevel> _getAccessLevel() async {
-    final appConfig = await ref.watch(appConfigProvider.future);
-    final purchaseService = ref.watch(purchaseServiceProvider);
-    final rewardService = ref.watch(rewardServiceProvider);
+    final purchaseService = ref.read(purchaseServiceProvider);
 
     final isPurchased = await purchaseService.isPurchased();
 
     if (isPurchased) {
       return const AccessLevelPremium();
     }
+
+    final appConfig = await ref.read(appConfigProvider.future);
+
+    if (appConfig == null) {
+      return const AccessLevelFreeNoAds();
+    }
+
+    if (!appConfig.adsEnabled) {
+      return const AccessLevelPremium();
+    }
+
+    final rewardService = ref.read(rewardServiceProvider);
 
     final rewardDate = await rewardService.getRewardDate();
     if (rewardDate != null) {
@@ -55,8 +65,13 @@ class AccessLevelRepository extends AsyncNotifier<AccessLevel> {
   }
 
   Future<DateTime> rewardUnlock() async {
-    final appConfig = await ref.watch(appConfigProvider.future);
-    final rewardService = ref.watch(rewardServiceProvider);
+    final appConfig = await ref.read(appConfigProvider.future);
+
+    if (appConfig == null) {
+      throw StateError('Unable to reward unlock due to no app config');
+    }
+
+    final rewardService = ref.read(rewardServiceProvider);
 
     final unlockStart = await rewardService.reward();
 
