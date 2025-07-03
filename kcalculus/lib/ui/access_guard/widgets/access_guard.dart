@@ -24,6 +24,8 @@ class AccessGuard extends ConsumerWidget with WidgetMessenger {
     AccessGuardCommand.showUnlockedMessage: _showUnlockedMessage,
     AccessGuardCommand.showUnknownErrorNotification:
         _showUnknownErrorNotification,
+    AccessGuardCommand.showPremiumUnavailableMessage:
+        _showPremiumUnavailableMessage,
     AccessGuardCommand.showProgress: _showProgress,
     AccessGuardCommand.hideProgress: _hideProgress,
   };
@@ -61,6 +63,19 @@ class AccessGuard extends ConsumerWidget with WidgetMessenger {
     required WidgetRef ref,
   }) {
     showNotification(context, l10n(context).messageUnknownError);
+    command.complete();
+  }
+
+  void _showPremiumUnavailableMessage(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    showMessage(
+      context,
+      l10n(context).messagePremiumUnavailable,
+      MessageType.info,
+    );
     command.complete();
   }
 

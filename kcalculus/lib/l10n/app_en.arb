@@ -323,6 +323,7 @@
             }
         }
     },
+    "messagePremiumUnavailable": "Premium features are unavailable at the moment",
     "settingAnalyticsTitle": "Allow usage data collection",
     "settingAnalyticsSubtitle": "Help improve the app by sharing anonymous usage data",
     "messageSwitchToLogDateConfirmation": "Meal saved for {date}.\nSwitch to that day?",
@@ -335,6 +336,7 @@
     },
     "settingPremiumTitle": "Premium status",
     "settingPremiumSubtitleLocked": "Unlock premium features",
+    "settingPremiumSubtitleUnavailable": "Premium features unavailable",
     "settingPremiumSubtitleUnlocked": "Premium features unlocked",
     "settingPremiumSubtitleUnlockedUntil": "Premium features unlocked until {until}",
     "@settingPremiumSubtitleUnlockedUntil": {

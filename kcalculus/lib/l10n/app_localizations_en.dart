@@ -700,6 +700,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get messagePremiumUnavailable =>
+      'Premium features are unavailable at the moment';
+
+  @override
   String get settingAnalyticsTitle => 'Allow usage data collection';
 
   @override
@@ -716,6 +720,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingPremiumSubtitleLocked => 'Unlock premium features';
+
+  @override
+  String get settingPremiumSubtitleUnavailable =>
+      'Premium features unavailable';
 
   @override
   String get settingPremiumSubtitleUnlocked => 'Premium features unlocked';

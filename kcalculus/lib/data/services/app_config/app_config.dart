@@ -1,23 +1,25 @@
-abstract interface class AppConfig {
-  String get openFoodFactsBaseUrl;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  int get openFoodFactsTimeoutMillis;
+part 'app_config.freezed.dart';
+part 'app_config.g.dart';
 
-  String get contactEmail;
+@freezed
+sealed class AppConfig with _$AppConfig {
+  const factory AppConfig({
+    required String openFoodFactsBaseUrl,
+    required int openFoodFactsTimeoutMillis,
+    required String contactEmail,
+    required String androidInterstitialAdUnitId,
+    required String iOsInterstitialAdUnitId,
+    required int interstitialAdTimeoutMillis,
+    required String androidUnlockAdUnitId,
+    required String iOsUnlockAdUnitId,
+    required int unlockAdTimeoutMillis,
+    required int unlockWithAdDurationMins,
+    required int interstitialAdCooldownDurationMins,
+    required bool adsEnabled,
+  }) = _AppConfig;
 
-  String get androidInterstitialAdUnitId;
-
-  String get iOsInterstitialAdUnitId;
-
-  int get interstitialAdTimeoutMillis;
-
-  String get androidUnlockAdUnitId;
-
-  String get iOsUnlockAdUnitId;
-
-  int get unlockAdTimeoutMillis;
-
-  int get unlockWithAdDurationMins;
-
-  int get interstitialAdCooldownDurationMins;
+  factory AppConfig.fromJson(Map<String, dynamic> json) =>
+      _$AppConfigFromJson(json);
 }

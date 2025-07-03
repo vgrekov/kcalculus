@@ -1384,6 +1384,12 @@ abstract class AppLocalizations {
   /// **'Premium features unlocked until\n{until}'**
   String messageUnlockedWithAd(String until);
 
+  /// No description provided for @messagePremiumUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium features are unavailable at the moment'**
+  String get messagePremiumUnavailable;
+
   /// No description provided for @settingAnalyticsTitle.
   ///
   /// In en, this message translates to:
@@ -1413,6 +1419,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unlock premium features'**
   String get settingPremiumSubtitleLocked;
+
+  /// No description provided for @settingPremiumSubtitleUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium features unavailable'**
+  String get settingPremiumSubtitleUnavailable;
 
   /// No description provided for @settingPremiumSubtitleUnlocked.
   ///
