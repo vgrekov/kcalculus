@@ -41,22 +41,12 @@ final _databaseServiceProvider =
   _DatabaseServiceNotifier.new,
 );
 
-final _envProvider = Provider<String>(
-  (_) => const String.fromEnvironment('ENV', defaultValue: 'dev'),
+final envProvider = AsyncNotifierProvider<EnvService, String?>(
+  EnvService.new,
 );
 
-final _appConfigService =
-    AsyncNotifierProvider.family<AppConfigService, AppConfig?, String>(
+final appConfigProvider = AsyncNotifierProvider<AppConfigService, AppConfig?>(
   AppConfigService.new,
-);
-
-final appConfigProvider = FutureProvider<AppConfig?>(
-  (ref) {
-    final env = ref.watch(_envProvider);
-    final config = ref.watch(_appConfigService(env).future);
-
-    return config;
-  },
 );
 
 final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(

@@ -46,6 +46,7 @@ import 'package:kcalculus/data/repositories/usda/usda_food_repository.dart';
 import 'package:kcalculus/data/services/ad/ad_service.dart';
 import 'package:kcalculus/data/services/app_config/app_config.dart';
 import 'package:kcalculus/data/services/app_config/app_config_service.dart';
+import 'package:kcalculus/data/services/env/env_service.dart';
 import 'package:kcalculus/data/services/local/app_settings/app_settings_shared_pref_service.dart';
 import 'package:kcalculus/data/services/local/database/database_manager.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
