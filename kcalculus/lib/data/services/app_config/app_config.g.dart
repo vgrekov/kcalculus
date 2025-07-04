@@ -11,18 +11,15 @@ _AppConfig _$AppConfigFromJson(Map<String, dynamic> json) => _AppConfig(
       openFoodFactsTimeoutMillis:
           (json['openFoodFactsTimeoutMillis'] as num).toInt(),
       contactEmail: json['contactEmail'] as String,
-      androidInterstitialAdUnitId:
-          json['androidInterstitialAdUnitId'] as String,
-      iOsInterstitialAdUnitId: json['iOsInterstitialAdUnitId'] as String,
+      interstitialAdUnitId: json['interstitialAdUnitId'] as String,
       interstitialAdTimeoutMillis:
           (json['interstitialAdTimeoutMillis'] as num).toInt(),
-      androidUnlockAdUnitId: json['androidUnlockAdUnitId'] as String,
-      iOsUnlockAdUnitId: json['iOsUnlockAdUnitId'] as String,
+      interstitialAdCooldownDurationMins:
+          (json['interstitialAdCooldownDurationMins'] as num).toInt(),
+      unlockAdUnitId: json['unlockAdUnitId'] as String,
       unlockAdTimeoutMillis: (json['unlockAdTimeoutMillis'] as num).toInt(),
       unlockWithAdDurationMins:
           (json['unlockWithAdDurationMins'] as num).toInt(),
-      interstitialAdCooldownDurationMins:
-          (json['interstitialAdCooldownDurationMins'] as num).toInt(),
       adsEnabled: json['adsEnabled'] as bool,
     );
 
@@ -31,14 +28,12 @@ Map<String, dynamic> _$AppConfigToJson(_AppConfig instance) =>
       'openFoodFactsBaseUrl': instance.openFoodFactsBaseUrl,
       'openFoodFactsTimeoutMillis': instance.openFoodFactsTimeoutMillis,
       'contactEmail': instance.contactEmail,
-      'androidInterstitialAdUnitId': instance.androidInterstitialAdUnitId,
-      'iOsInterstitialAdUnitId': instance.iOsInterstitialAdUnitId,
+      'interstitialAdUnitId': instance.interstitialAdUnitId,
       'interstitialAdTimeoutMillis': instance.interstitialAdTimeoutMillis,
-      'androidUnlockAdUnitId': instance.androidUnlockAdUnitId,
-      'iOsUnlockAdUnitId': instance.iOsUnlockAdUnitId,
-      'unlockAdTimeoutMillis': instance.unlockAdTimeoutMillis,
-      'unlockWithAdDurationMins': instance.unlockWithAdDurationMins,
       'interstitialAdCooldownDurationMins':
           instance.interstitialAdCooldownDurationMins,
+      'unlockAdUnitId': instance.unlockAdUnitId,
+      'unlockAdTimeoutMillis': instance.unlockAdTimeoutMillis,
+      'unlockWithAdDurationMins': instance.unlockWithAdDurationMins,
       'adsEnabled': instance.adsEnabled,
     };
