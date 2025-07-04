@@ -15,6 +15,7 @@ enum AccessGuardCommand {
   showUnknownErrorNotification,
   confirmUnlockWithAd,
   showUnlockedMessage,
+  showPremiumUnavailableMessage,
   showProgress,
   hideProgress,
 }
@@ -42,6 +43,12 @@ class AccessGuardViewModel extends AutoDisposeFamilyNotifier<void, Key?> {
         case AccessLevelAdSupportedPremium():
           _log.finer('Premium granted');
           return const PremiumGranted();
+        case AccessLevelFreeNoAds():
+          _log.finer('Premium unavailable');
+
+          _commander!.send(AccessGuardCommand.showPremiumUnavailableMessage);
+
+          return const PremiumUnavailable();
         default:
       }
 

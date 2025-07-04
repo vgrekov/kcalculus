@@ -17,3 +17,7 @@ class PremiumGrantedWithAd extends PremiumStatus {
 
   final RewardedAd ad;
 }
+
+class PremiumUnavailable extends PremiumStatus {
+  const PremiumUnavailable();
+}
