@@ -18,14 +18,12 @@ mixin _$AppConfig {
   String get openFoodFactsBaseUrl;
   int get openFoodFactsTimeoutMillis;
   String get contactEmail;
-  String get androidInterstitialAdUnitId;
-  String get iOsInterstitialAdUnitId;
+  String get interstitialAdUnitId;
   int get interstitialAdTimeoutMillis;
-  String get androidUnlockAdUnitId;
-  String get iOsUnlockAdUnitId;
+  int get interstitialAdCooldownDurationMins;
+  String get unlockAdUnitId;
   int get unlockAdTimeoutMillis;
   int get unlockWithAdDurationMins;
-  int get interstitialAdCooldownDurationMins;
   bool get adsEnabled;
 
   /// Create a copy of AppConfig
@@ -45,33 +43,29 @@ mixin _$AppConfig {
             other is AppConfig &&
             (identical(other.openFoodFactsBaseUrl, openFoodFactsBaseUrl) ||
                 other.openFoodFactsBaseUrl == openFoodFactsBaseUrl) &&
-            (identical(other.openFoodFactsTimeoutMillis, openFoodFactsTimeoutMillis) ||
+            (identical(other.openFoodFactsTimeoutMillis,
+                    openFoodFactsTimeoutMillis) ||
                 other.openFoodFactsTimeoutMillis ==
                     openFoodFactsTimeoutMillis) &&
             (identical(other.contactEmail, contactEmail) ||
                 other.contactEmail == contactEmail) &&
-            (identical(other.androidInterstitialAdUnitId,
-                    androidInterstitialAdUnitId) ||
-                other.androidInterstitialAdUnitId ==
-                    androidInterstitialAdUnitId) &&
-            (identical(other.iOsInterstitialAdUnitId, iOsInterstitialAdUnitId) ||
-                other.iOsInterstitialAdUnitId == iOsInterstitialAdUnitId) &&
+            (identical(other.interstitialAdUnitId, interstitialAdUnitId) ||
+                other.interstitialAdUnitId == interstitialAdUnitId) &&
             (identical(other.interstitialAdTimeoutMillis,
                     interstitialAdTimeoutMillis) ||
                 other.interstitialAdTimeoutMillis ==
                     interstitialAdTimeoutMillis) &&
-            (identical(other.androidUnlockAdUnitId, androidUnlockAdUnitId) ||
-                other.androidUnlockAdUnitId == androidUnlockAdUnitId) &&
-            (identical(other.iOsUnlockAdUnitId, iOsUnlockAdUnitId) ||
-                other.iOsUnlockAdUnitId == iOsUnlockAdUnitId) &&
-            (identical(other.unlockAdTimeoutMillis, unlockAdTimeoutMillis) ||
-                other.unlockAdTimeoutMillis == unlockAdTimeoutMillis) &&
-            (identical(other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
-                other.unlockWithAdDurationMins == unlockWithAdDurationMins) &&
             (identical(other.interstitialAdCooldownDurationMins,
                     interstitialAdCooldownDurationMins) ||
                 other.interstitialAdCooldownDurationMins ==
                     interstitialAdCooldownDurationMins) &&
+            (identical(other.unlockAdUnitId, unlockAdUnitId) ||
+                other.unlockAdUnitId == unlockAdUnitId) &&
+            (identical(other.unlockAdTimeoutMillis, unlockAdTimeoutMillis) ||
+                other.unlockAdTimeoutMillis == unlockAdTimeoutMillis) &&
+            (identical(
+                    other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
+                other.unlockWithAdDurationMins == unlockWithAdDurationMins) &&
             (identical(other.adsEnabled, adsEnabled) ||
                 other.adsEnabled == adsEnabled));
   }
@@ -83,19 +77,17 @@ mixin _$AppConfig {
       openFoodFactsBaseUrl,
       openFoodFactsTimeoutMillis,
       contactEmail,
-      androidInterstitialAdUnitId,
-      iOsInterstitialAdUnitId,
+      interstitialAdUnitId,
       interstitialAdTimeoutMillis,
-      androidUnlockAdUnitId,
-      iOsUnlockAdUnitId,
+      interstitialAdCooldownDurationMins,
+      unlockAdUnitId,
       unlockAdTimeoutMillis,
       unlockWithAdDurationMins,
-      interstitialAdCooldownDurationMins,
       adsEnabled);
 
   @override
   String toString() {
-    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, androidInterstitialAdUnitId: $androidInterstitialAdUnitId, iOsInterstitialAdUnitId: $iOsInterstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, androidUnlockAdUnitId: $androidUnlockAdUnitId, iOsUnlockAdUnitId: $iOsUnlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, adsEnabled: $adsEnabled)';
+    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, interstitialAdUnitId: $interstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, unlockAdUnitId: $unlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, adsEnabled: $adsEnabled)';
   }
 }
 
@@ -108,14 +100,12 @@ abstract mixin class $AppConfigCopyWith<$Res> {
       {String openFoodFactsBaseUrl,
       int openFoodFactsTimeoutMillis,
       String contactEmail,
-      String androidInterstitialAdUnitId,
-      String iOsInterstitialAdUnitId,
+      String interstitialAdUnitId,
       int interstitialAdTimeoutMillis,
-      String androidUnlockAdUnitId,
-      String iOsUnlockAdUnitId,
+      int interstitialAdCooldownDurationMins,
+      String unlockAdUnitId,
       int unlockAdTimeoutMillis,
       int unlockWithAdDurationMins,
-      int interstitialAdCooldownDurationMins,
       bool adsEnabled});
 }
 
@@ -134,14 +124,12 @@ class _$AppConfigCopyWithImpl<$Res> implements $AppConfigCopyWith<$Res> {
     Object? openFoodFactsBaseUrl = null,
     Object? openFoodFactsTimeoutMillis = null,
     Object? contactEmail = null,
-    Object? androidInterstitialAdUnitId = null,
-    Object? iOsInterstitialAdUnitId = null,
+    Object? interstitialAdUnitId = null,
     Object? interstitialAdTimeoutMillis = null,
-    Object? androidUnlockAdUnitId = null,
-    Object? iOsUnlockAdUnitId = null,
+    Object? interstitialAdCooldownDurationMins = null,
+    Object? unlockAdUnitId = null,
     Object? unlockAdTimeoutMillis = null,
     Object? unlockWithAdDurationMins = null,
-    Object? interstitialAdCooldownDurationMins = null,
     Object? adsEnabled = null,
   }) {
     return _then(_self.copyWith(
@@ -157,25 +145,22 @@ class _$AppConfigCopyWithImpl<$Res> implements $AppConfigCopyWith<$Res> {
           ? _self.contactEmail
           : contactEmail // ignore: cast_nullable_to_non_nullable
               as String,
-      androidInterstitialAdUnitId: null == androidInterstitialAdUnitId
-          ? _self.androidInterstitialAdUnitId
-          : androidInterstitialAdUnitId // ignore: cast_nullable_to_non_nullable
-              as String,
-      iOsInterstitialAdUnitId: null == iOsInterstitialAdUnitId
-          ? _self.iOsInterstitialAdUnitId
-          : iOsInterstitialAdUnitId // ignore: cast_nullable_to_non_nullable
+      interstitialAdUnitId: null == interstitialAdUnitId
+          ? _self.interstitialAdUnitId
+          : interstitialAdUnitId // ignore: cast_nullable_to_non_nullable
               as String,
       interstitialAdTimeoutMillis: null == interstitialAdTimeoutMillis
           ? _self.interstitialAdTimeoutMillis
           : interstitialAdTimeoutMillis // ignore: cast_nullable_to_non_nullable
               as int,
-      androidUnlockAdUnitId: null == androidUnlockAdUnitId
-          ? _self.androidUnlockAdUnitId
-          : androidUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
-              as String,
-      iOsUnlockAdUnitId: null == iOsUnlockAdUnitId
-          ? _self.iOsUnlockAdUnitId
-          : iOsUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
+      interstitialAdCooldownDurationMins: null ==
+              interstitialAdCooldownDurationMins
+          ? _self.interstitialAdCooldownDurationMins
+          : interstitialAdCooldownDurationMins // ignore: cast_nullable_to_non_nullable
+              as int,
+      unlockAdUnitId: null == unlockAdUnitId
+          ? _self.unlockAdUnitId
+          : unlockAdUnitId // ignore: cast_nullable_to_non_nullable
               as String,
       unlockAdTimeoutMillis: null == unlockAdTimeoutMillis
           ? _self.unlockAdTimeoutMillis
@@ -184,11 +169,6 @@ class _$AppConfigCopyWithImpl<$Res> implements $AppConfigCopyWith<$Res> {
       unlockWithAdDurationMins: null == unlockWithAdDurationMins
           ? _self.unlockWithAdDurationMins
           : unlockWithAdDurationMins // ignore: cast_nullable_to_non_nullable
-              as int,
-      interstitialAdCooldownDurationMins: null ==
-              interstitialAdCooldownDurationMins
-          ? _self.interstitialAdCooldownDurationMins
-          : interstitialAdCooldownDurationMins // ignore: cast_nullable_to_non_nullable
               as int,
       adsEnabled: null == adsEnabled
           ? _self.adsEnabled
@@ -205,14 +185,12 @@ class _AppConfig implements AppConfig {
       {required this.openFoodFactsBaseUrl,
       required this.openFoodFactsTimeoutMillis,
       required this.contactEmail,
-      required this.androidInterstitialAdUnitId,
-      required this.iOsInterstitialAdUnitId,
+      required this.interstitialAdUnitId,
       required this.interstitialAdTimeoutMillis,
-      required this.androidUnlockAdUnitId,
-      required this.iOsUnlockAdUnitId,
+      required this.interstitialAdCooldownDurationMins,
+      required this.unlockAdUnitId,
       required this.unlockAdTimeoutMillis,
       required this.unlockWithAdDurationMins,
-      required this.interstitialAdCooldownDurationMins,
       required this.adsEnabled});
   factory _AppConfig.fromJson(Map<String, dynamic> json) =>
       _$AppConfigFromJson(json);
@@ -224,21 +202,17 @@ class _AppConfig implements AppConfig {
   @override
   final String contactEmail;
   @override
-  final String androidInterstitialAdUnitId;
-  @override
-  final String iOsInterstitialAdUnitId;
+  final String interstitialAdUnitId;
   @override
   final int interstitialAdTimeoutMillis;
   @override
-  final String androidUnlockAdUnitId;
+  final int interstitialAdCooldownDurationMins;
   @override
-  final String iOsUnlockAdUnitId;
+  final String unlockAdUnitId;
   @override
   final int unlockAdTimeoutMillis;
   @override
   final int unlockWithAdDurationMins;
-  @override
-  final int interstitialAdCooldownDurationMins;
   @override
   final bool adsEnabled;
 
@@ -264,33 +238,29 @@ class _AppConfig implements AppConfig {
             other is _AppConfig &&
             (identical(other.openFoodFactsBaseUrl, openFoodFactsBaseUrl) ||
                 other.openFoodFactsBaseUrl == openFoodFactsBaseUrl) &&
-            (identical(other.openFoodFactsTimeoutMillis, openFoodFactsTimeoutMillis) ||
+            (identical(other.openFoodFactsTimeoutMillis,
+                    openFoodFactsTimeoutMillis) ||
                 other.openFoodFactsTimeoutMillis ==
                     openFoodFactsTimeoutMillis) &&
             (identical(other.contactEmail, contactEmail) ||
                 other.contactEmail == contactEmail) &&
-            (identical(other.androidInterstitialAdUnitId,
-                    androidInterstitialAdUnitId) ||
-                other.androidInterstitialAdUnitId ==
-                    androidInterstitialAdUnitId) &&
-            (identical(other.iOsInterstitialAdUnitId, iOsInterstitialAdUnitId) ||
-                other.iOsInterstitialAdUnitId == iOsInterstitialAdUnitId) &&
+            (identical(other.interstitialAdUnitId, interstitialAdUnitId) ||
+                other.interstitialAdUnitId == interstitialAdUnitId) &&
             (identical(other.interstitialAdTimeoutMillis,
                     interstitialAdTimeoutMillis) ||
                 other.interstitialAdTimeoutMillis ==
                     interstitialAdTimeoutMillis) &&
-            (identical(other.androidUnlockAdUnitId, androidUnlockAdUnitId) ||
-                other.androidUnlockAdUnitId == androidUnlockAdUnitId) &&
-            (identical(other.iOsUnlockAdUnitId, iOsUnlockAdUnitId) ||
-                other.iOsUnlockAdUnitId == iOsUnlockAdUnitId) &&
-            (identical(other.unlockAdTimeoutMillis, unlockAdTimeoutMillis) ||
-                other.unlockAdTimeoutMillis == unlockAdTimeoutMillis) &&
-            (identical(other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
-                other.unlockWithAdDurationMins == unlockWithAdDurationMins) &&
             (identical(other.interstitialAdCooldownDurationMins,
                     interstitialAdCooldownDurationMins) ||
                 other.interstitialAdCooldownDurationMins ==
                     interstitialAdCooldownDurationMins) &&
+            (identical(other.unlockAdUnitId, unlockAdUnitId) ||
+                other.unlockAdUnitId == unlockAdUnitId) &&
+            (identical(other.unlockAdTimeoutMillis, unlockAdTimeoutMillis) ||
+                other.unlockAdTimeoutMillis == unlockAdTimeoutMillis) &&
+            (identical(
+                    other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
+                other.unlockWithAdDurationMins == unlockWithAdDurationMins) &&
             (identical(other.adsEnabled, adsEnabled) ||
                 other.adsEnabled == adsEnabled));
   }
@@ -302,19 +272,17 @@ class _AppConfig implements AppConfig {
       openFoodFactsBaseUrl,
       openFoodFactsTimeoutMillis,
       contactEmail,
-      androidInterstitialAdUnitId,
-      iOsInterstitialAdUnitId,
+      interstitialAdUnitId,
       interstitialAdTimeoutMillis,
-      androidUnlockAdUnitId,
-      iOsUnlockAdUnitId,
+      interstitialAdCooldownDurationMins,
+      unlockAdUnitId,
       unlockAdTimeoutMillis,
       unlockWithAdDurationMins,
-      interstitialAdCooldownDurationMins,
       adsEnabled);
 
   @override
   String toString() {
-    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, androidInterstitialAdUnitId: $androidInterstitialAdUnitId, iOsInterstitialAdUnitId: $iOsInterstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, androidUnlockAdUnitId: $androidUnlockAdUnitId, iOsUnlockAdUnitId: $iOsUnlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, adsEnabled: $adsEnabled)';
+    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, interstitialAdUnitId: $interstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, unlockAdUnitId: $unlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, adsEnabled: $adsEnabled)';
   }
 }
 
@@ -330,14 +298,12 @@ abstract mixin class _$AppConfigCopyWith<$Res>
       {String openFoodFactsBaseUrl,
       int openFoodFactsTimeoutMillis,
       String contactEmail,
-      String androidInterstitialAdUnitId,
-      String iOsInterstitialAdUnitId,
+      String interstitialAdUnitId,
       int interstitialAdTimeoutMillis,
-      String androidUnlockAdUnitId,
-      String iOsUnlockAdUnitId,
+      int interstitialAdCooldownDurationMins,
+      String unlockAdUnitId,
       int unlockAdTimeoutMillis,
       int unlockWithAdDurationMins,
-      int interstitialAdCooldownDurationMins,
       bool adsEnabled});
 }
 
@@ -356,14 +322,12 @@ class __$AppConfigCopyWithImpl<$Res> implements _$AppConfigCopyWith<$Res> {
     Object? openFoodFactsBaseUrl = null,
     Object? openFoodFactsTimeoutMillis = null,
     Object? contactEmail = null,
-    Object? androidInterstitialAdUnitId = null,
-    Object? iOsInterstitialAdUnitId = null,
+    Object? interstitialAdUnitId = null,
     Object? interstitialAdTimeoutMillis = null,
-    Object? androidUnlockAdUnitId = null,
-    Object? iOsUnlockAdUnitId = null,
+    Object? interstitialAdCooldownDurationMins = null,
+    Object? unlockAdUnitId = null,
     Object? unlockAdTimeoutMillis = null,
     Object? unlockWithAdDurationMins = null,
-    Object? interstitialAdCooldownDurationMins = null,
     Object? adsEnabled = null,
   }) {
     return _then(_AppConfig(
@@ -379,25 +343,22 @@ class __$AppConfigCopyWithImpl<$Res> implements _$AppConfigCopyWith<$Res> {
           ? _self.contactEmail
           : contactEmail // ignore: cast_nullable_to_non_nullable
               as String,
-      androidInterstitialAdUnitId: null == androidInterstitialAdUnitId
-          ? _self.androidInterstitialAdUnitId
-          : androidInterstitialAdUnitId // ignore: cast_nullable_to_non_nullable
-              as String,
-      iOsInterstitialAdUnitId: null == iOsInterstitialAdUnitId
-          ? _self.iOsInterstitialAdUnitId
-          : iOsInterstitialAdUnitId // ignore: cast_nullable_to_non_nullable
+      interstitialAdUnitId: null == interstitialAdUnitId
+          ? _self.interstitialAdUnitId
+          : interstitialAdUnitId // ignore: cast_nullable_to_non_nullable
               as String,
       interstitialAdTimeoutMillis: null == interstitialAdTimeoutMillis
           ? _self.interstitialAdTimeoutMillis
           : interstitialAdTimeoutMillis // ignore: cast_nullable_to_non_nullable
               as int,
-      androidUnlockAdUnitId: null == androidUnlockAdUnitId
-          ? _self.androidUnlockAdUnitId
-          : androidUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
-              as String,
-      iOsUnlockAdUnitId: null == iOsUnlockAdUnitId
-          ? _self.iOsUnlockAdUnitId
-          : iOsUnlockAdUnitId // ignore: cast_nullable_to_non_nullable
+      interstitialAdCooldownDurationMins: null ==
+              interstitialAdCooldownDurationMins
+          ? _self.interstitialAdCooldownDurationMins
+          : interstitialAdCooldownDurationMins // ignore: cast_nullable_to_non_nullable
+              as int,
+      unlockAdUnitId: null == unlockAdUnitId
+          ? _self.unlockAdUnitId
+          : unlockAdUnitId // ignore: cast_nullable_to_non_nullable
               as String,
       unlockAdTimeoutMillis: null == unlockAdTimeoutMillis
           ? _self.unlockAdTimeoutMillis
@@ -406,11 +367,6 @@ class __$AppConfigCopyWithImpl<$Res> implements _$AppConfigCopyWith<$Res> {
       unlockWithAdDurationMins: null == unlockWithAdDurationMins
           ? _self.unlockWithAdDurationMins
           : unlockWithAdDurationMins // ignore: cast_nullable_to_non_nullable
-              as int,
-      interstitialAdCooldownDurationMins: null ==
-              interstitialAdCooldownDurationMins
-          ? _self.interstitialAdCooldownDurationMins
-          : interstitialAdCooldownDurationMins // ignore: cast_nullable_to_non_nullable
               as int,
       adsEnabled: null == adsEnabled
           ? _self.adsEnabled

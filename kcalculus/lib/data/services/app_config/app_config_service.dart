@@ -1,78 +1,97 @@
 import 'dart:async';
+import 'dart:io';
 
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/data/services/app_config/app_config.dart';
 import 'package:logging/logging.dart';
 
 final _log = Logger('AppConfigService');
 
-class AppConfigService extends FamilyAsyncNotifier<AppConfig?, String> {
+class AppConfigService extends AsyncNotifier<AppConfig?> {
+  static final _kPlatform = Platform.isAndroid ? 'android' : 'ios';
+
   @override
-  FutureOr<AppConfig?> build(String arg) async {
+  FutureOr<AppConfig?> build() async {
+    final env = await ref.watch(envProvider.future);
+    if (env == null) {
+      return null;
+    }
+
+    AppConfig? value;
+
     try {
-      // Make sure App Check is passed
-      await FirebaseAppCheck.instance.getToken(false);
+      final valueRef = FirebaseDatabase.instance.ref('config/$env/$_kPlatform');
 
-      final completer = Completer<AppConfig?>();
+      final snapshot = await valueRef.get();
+      value = _parseValue(snapshot, env);
 
-      final subscription =
-          FirebaseDatabase.instance.ref('config/$arg').onValue.listen(
-        (event) {
-          AppConfig? config;
-          if (event.snapshot.exists) {
-            final data = Map<String, dynamic>.from(event.snapshot.value as Map);
-
-            try {
-              config = AppConfig.fromJson(data);
-
-              _log.finest('App Config [$arg]: $config');
-            } catch (error, stackTrace) {
-              _log.severe(
-                'Failed to parse [$arg] config from Firebase RTDB',
-                error,
-                stackTrace,
-              );
-            }
-          } else {
-            _log.severe('No [$arg] config found in Firebase RTDB');
-          }
-
-          if (!completer.isCompleted) {
-            completer.complete(config);
-          } else {
-            state = AsyncData(config);
-          }
-        },
-        onError: (error, stackTrace) {
-          _log.severe(
-            'Failed to load [$arg] config from Firebase RTDB',
-            error,
-            stackTrace,
-          );
-
-          if (!completer.isCompleted) {
-            completer.complete(null);
-          } else {
-            state = AsyncData(null);
-          }
-        },
-      );
-
+      final subscription = _subscribeToValue(valueRef, env);
       ref.onDispose(() {
         subscription.cancel();
       });
-
-      return completer.future;
     } catch (error, stackTrace) {
       _log.severe(
-        'Failed to load [$arg] config from Firebase RTDB',
+        'Failed to load [$env/$_kPlatform] config from Firebase RTDB',
         error,
         stackTrace,
       );
+    }
 
-      return null;
+    _log.finest('App Config [$env/$_kPlatform]: $value');
+
+    return value;
+  }
+
+  StreamSubscription<DatabaseEvent> _subscribeToValue(
+    DatabaseReference envRef,
+    String env,
+  ) {
+    return envRef.onValue.listen(
+      (event) {
+        AppConfig? value = _parseValue(event.snapshot, env);
+
+        _updateState(value, env);
+      },
+      onError: (error, stackTrace) {
+        _log.severe(
+          'Failed to load [$env/$_kPlatform] config from Firebase RTDB',
+          error,
+          stackTrace,
+        );
+
+        _updateState(null, env);
+      },
+    );
+  }
+
+  AppConfig? _parseValue(DataSnapshot snapshot, String env) {
+    AppConfig? value;
+
+    if (snapshot.exists) {
+      try {
+        final data = Map<String, dynamic>.from(snapshot.value as Map);
+        value = AppConfig.fromJson(data);
+      } catch (error, stackTrace) {
+        _log.severe(
+          'Failed to parse [$env/$_kPlatform] config from Firebase RTDB',
+          error,
+          stackTrace,
+        );
+      }
+    } else {
+      _log.severe('No [$env/$_kPlatform] config found in Firebase RTDB');
+    }
+
+    return value;
+  }
+
+  void _updateState(AppConfig? value, String env) {
+    if (state.valueOrNull != value) {
+      state = AsyncData(value);
+
+      _log.finest('App Config [$env/$_kPlatform]: $value');
     }
   }
 }

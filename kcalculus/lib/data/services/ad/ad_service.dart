@@ -52,9 +52,7 @@ class AdService {
 
     final completer = Completer<InterstitialAd?>();
 
-    final adUnitId = Platform.isAndroid
-        ? _appConfig.androidInterstitialAdUnitId
-        : _appConfig.iOsInterstitialAdUnitId;
+    final adUnitId = _appConfig.interstitialAdUnitId;
 
     _startTimeout(completer, _appConfig.interstitialAdTimeoutMillis);
 
@@ -127,9 +125,7 @@ class AdService {
 
     final completer = Completer<RewardedAd?>();
 
-    final adUnitId = Platform.isAndroid
-        ? _appConfig.androidUnlockAdUnitId
-        : _appConfig.iOsUnlockAdUnitId;
+    final adUnitId = _appConfig.unlockAdUnitId;
 
     _startTimeout(completer, _appConfig.unlockAdTimeoutMillis);
 
