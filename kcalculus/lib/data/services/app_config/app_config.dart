@@ -9,14 +9,12 @@ sealed class AppConfig with _$AppConfig {
     required String openFoodFactsBaseUrl,
     required int openFoodFactsTimeoutMillis,
     required String contactEmail,
-    required String androidInterstitialAdUnitId,
-    required String iOsInterstitialAdUnitId,
+    required String interstitialAdUnitId,
     required int interstitialAdTimeoutMillis,
-    required String androidUnlockAdUnitId,
-    required String iOsUnlockAdUnitId,
+    required int interstitialAdCooldownDurationMins,
+    required String unlockAdUnitId,
     required int unlockAdTimeoutMillis,
     required int unlockWithAdDurationMins,
-    required int interstitialAdCooldownDurationMins,
     required bool adsEnabled,
   }) = _AppConfig;
 
