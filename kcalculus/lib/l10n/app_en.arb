@@ -509,5 +509,65 @@
     "maintenanceTaskUsdaFoodDataLoadingTitle": "Loading common foods...",
     "maintenanceTaskUsdaFoodDataLoadingFailedMessage": "Loading common foods failed. Not able to proceed.",
     "maintenanceTaskUsdaDbMigrationTitle": "Migrating the common foods database...",
-    "maintenanceTaskUsdaDbMigrationFailedMessage": "Common foods database migration failed. Not able to proceed."
+    "maintenanceTaskUsdaDbMigrationFailedMessage": "Common foods database migration failed. Not able to proceed.",
+    "screenLogin": "Login",
+    "labelEmail": "Email",
+    "validationErrorEmailRequired": "Email required",
+    "validationErrorEmailInvalid": "Invalid email address",
+    "labelPassword": "Password",
+    "hintPassword": "{min}–{max}{upper, select, true{ Ⓐ} other{}}{lower, select, true{ ⓐ} other{}}{digits, select, true{ 0–9} other{}}{special, select, true{ !@#$%^&*} other{}}",
+    "@hintPassword": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            },
+            "upper": {
+                "type": "String"
+            },
+            "lower": {
+                "type": "String"
+            },
+            "digits": {
+                "type": "String"
+            },
+            "special": {
+                "type": "String"
+            }
+        }
+    },
+    "validationErrorPasswordRequired": "Password required",
+    "validationErrorPasswordInvalid": "Must have {min}–{max} characters including:{upper, select, true{\n– uppercase letters} other{}}{lower, select, true{\n– lowercase letters} other{}}{digits, select, true{\n– digits} other{}}{special, select, true{\n– special characters: !@#$%^&*} other{}}",
+    "@validationErrorPasswordInvalid": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            },
+            "upper": {
+                "type": "String"
+            },
+            "lower": {
+                "type": "String"
+            },
+            "digits": {
+                "type": "String"
+            },
+            "special": {
+                "type": "String"
+            }
+        }
+    },
+    "actionLogin": "Log in",
+    "actionCreateNewAccount": "Create new account",
+    "actionContinueWithoutAccount": "Continue without account",
+    "actionForgotPassword": "Forgot password?",
+    "screenNewAccount": "New Account",
+    "labelPasswordConfirmation": "Password confirmation",
+    "screenPasswordReset": "Password Reset",
+    "actionResetPassword": "Reset password"
 }

@@ -940,4 +940,114 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get maintenanceTaskUsdaDbMigrationFailedMessage =>
       'Common foods database migration failed. Not able to proceed.';
+
+  @override
+  String get screenLogin => 'Login';
+
+  @override
+  String get labelEmail => 'Email';
+
+  @override
+  String get validationErrorEmailRequired => 'Email required';
+
+  @override
+  String get validationErrorEmailInvalid => 'Invalid email address';
+
+  @override
+  String get labelPassword => 'Password';
+
+  @override
+  String hintPassword(int min, int max, String upper, String lower,
+      String digits, String special) {
+    String _temp0 = intl.Intl.selectLogic(
+      upper,
+      {
+        'true': ' Ⓐ',
+        'other': '',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      lower,
+      {
+        'true': ' ⓐ',
+        'other': '',
+      },
+    );
+    String _temp2 = intl.Intl.selectLogic(
+      digits,
+      {
+        'true': ' 0–9',
+        'other': '',
+      },
+    );
+    String _temp3 = intl.Intl.selectLogic(
+      special,
+      {
+        'true': ' !@#\$%^&*',
+        'other': '',
+      },
+    );
+    return '$min–$max$_temp0$_temp1$_temp2$_temp3';
+  }
+
+  @override
+  String get validationErrorPasswordRequired => 'Password required';
+
+  @override
+  String validationErrorPasswordInvalid(int min, int max, String upper,
+      String lower, String digits, String special) {
+    String _temp0 = intl.Intl.selectLogic(
+      upper,
+      {
+        'true': '\n– uppercase letters',
+        'other': '',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      lower,
+      {
+        'true': '\n– lowercase letters',
+        'other': '',
+      },
+    );
+    String _temp2 = intl.Intl.selectLogic(
+      digits,
+      {
+        'true': '\n– digits',
+        'other': '',
+      },
+    );
+    String _temp3 = intl.Intl.selectLogic(
+      special,
+      {
+        'true': '\n– special characters: !@#\$%^&*',
+        'other': '',
+      },
+    );
+    return 'Must have $min–$max characters including:$_temp0$_temp1$_temp2$_temp3';
+  }
+
+  @override
+  String get actionLogin => 'Log in';
+
+  @override
+  String get actionCreateNewAccount => 'Create new account';
+
+  @override
+  String get actionContinueWithoutAccount => 'Continue without account';
+
+  @override
+  String get actionForgotPassword => 'Forgot password?';
+
+  @override
+  String get screenNewAccount => 'New Account';
+
+  @override
+  String get labelPasswordConfirmation => 'Password confirmation';
+
+  @override
+  String get screenPasswordReset => 'Password Reset';
+
+  @override
+  String get actionResetPassword => 'Reset password';
 }
