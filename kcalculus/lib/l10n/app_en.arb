@@ -514,6 +514,7 @@
     "labelEmail": "Email",
     "validationErrorEmailRequired": "Email required",
     "validationErrorEmailInvalid": "Invalid email address",
+    "validationErrorEmailAlreadyInUse": "Email already in use",
     "labelPassword": "Password",
     "hintPassword": "{min}–{max}{upper, select, true{ Ⓐ} other{}}{lower, select, true{ ⓐ} other{}}{digits, select, true{ 0–9} other{}}{special, select, true{ !@#$%^&*} other{}}",
     "@hintPassword": {
@@ -539,7 +540,7 @@
         }
     },
     "validationErrorPasswordRequired": "Password required",
-    "validationErrorPasswordInvalid": "Must have {min}–{max} characters including:{upper, select, true{\n– uppercase letters} other{}}{lower, select, true{\n– lowercase letters} other{}}{digits, select, true{\n– digits} other{}}{special, select, true{\n– special characters: !@#$%^&*} other{}}",
+    "validationErrorPasswordInvalid": "Password must:\n• Be {min}–{max} characters long\n• Use only letters, digits, and !@#$%^&*{upper, select, true{\n• Include at least one uppercase letter} other{}}{lower, select, true{\n• Include at least one lowercase letter} other{}}{digits, select, true{\n• Include at least one digit} other{}}{special, select, true{\n• Include at least one special character} other{}}",
     "@validationErrorPasswordInvalid": {
         "placeholders": {
             "min": {
@@ -567,7 +568,20 @@
     "actionContinueWithoutAccount": "Continue without account",
     "actionForgotPassword": "Forgot password?",
     "screenNewAccount": "New Account",
+    "labelDisplayName": "User name",
+    "validationErrorDisplayNameRequired": "User name required",
     "labelPasswordConfirmation": "Password confirmation",
+    "validationErrorPasswordMismatch": "Passwords don''t match",
+    "validationErrorPasswordTooWeak": "Password provided is too weak",
+    "messageInvalidEmail": "Invalid email address",
+    "emailVerificationSentMessage": "Email verification instructions were sent to {email}.",
+    "@emailVerificationSentMessage": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
     "screenPasswordReset": "Password Reset",
     "actionResetPassword": "Reset password"
 }

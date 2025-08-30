@@ -954,6 +954,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get validationErrorEmailInvalid => 'Invalid email address';
 
   @override
+  String get validationErrorEmailAlreadyInUse => 'Email already in use';
+
+  @override
   String get labelPassword => 'Password';
 
   @override
@@ -999,32 +1002,32 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.selectLogic(
       upper,
       {
-        'true': '\n– uppercase letters',
+        'true': '\n• Include at least one uppercase letter',
         'other': '',
       },
     );
     String _temp1 = intl.Intl.selectLogic(
       lower,
       {
-        'true': '\n– lowercase letters',
+        'true': '\n• Include at least one lowercase letter',
         'other': '',
       },
     );
     String _temp2 = intl.Intl.selectLogic(
       digits,
       {
-        'true': '\n– digits',
+        'true': '\n• Include at least one digit',
         'other': '',
       },
     );
     String _temp3 = intl.Intl.selectLogic(
       special,
       {
-        'true': '\n– special characters: !@#\$%^&*',
+        'true': '\n• Include at least one special character',
         'other': '',
       },
     );
-    return 'Must have $min–$max characters including:$_temp0$_temp1$_temp2$_temp3';
+    return 'Password must:\n• Be $min–$max characters long\n• Use only letters, digits, and !@#\$%^&*$_temp0$_temp1$_temp2$_temp3';
   }
 
   @override
@@ -1043,7 +1046,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get screenNewAccount => 'New Account';
 
   @override
+  String get labelDisplayName => 'User name';
+
+  @override
+  String get validationErrorDisplayNameRequired => 'User name required';
+
+  @override
   String get labelPasswordConfirmation => 'Password confirmation';
+
+  @override
+  String get validationErrorPasswordMismatch => 'Passwords don\'t match';
+
+  @override
+  String get validationErrorPasswordTooWeak => 'Password provided is too weak';
+
+  @override
+  String get messageInvalidEmail => 'Invalid email address';
+
+  @override
+  String emailVerificationSentMessage(String email) {
+    return 'Email verification instructions were sent to $email.';
+  }
 
   @override
   String get screenPasswordReset => 'Password Reset';

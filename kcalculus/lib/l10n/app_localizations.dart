@@ -1811,6 +1811,12 @@ abstract class AppLocalizations {
   /// **'Invalid email address'**
   String get validationErrorEmailInvalid;
 
+  /// No description provided for @validationErrorEmailAlreadyInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Email already in use'**
+  String get validationErrorEmailAlreadyInUse;
+
   /// No description provided for @labelPassword.
   ///
   /// In en, this message translates to:
@@ -1833,7 +1839,7 @@ abstract class AppLocalizations {
   /// No description provided for @validationErrorPasswordInvalid.
   ///
   /// In en, this message translates to:
-  /// **'Must have {min}–{max} characters including:{upper, select, true{\n– uppercase letters} other{}}{lower, select, true{\n– lowercase letters} other{}}{digits, select, true{\n– digits} other{}}{special, select, true{\n– special characters: !@#\$%^&*} other{}}'**
+  /// **'Password must:\n• Be {min}–{max} characters long\n• Use only letters, digits, and !@#\$%^&*{upper, select, true{\n• Include at least one uppercase letter} other{}}{lower, select, true{\n• Include at least one lowercase letter} other{}}{digits, select, true{\n• Include at least one digit} other{}}{special, select, true{\n• Include at least one special character} other{}}'**
   String validationErrorPasswordInvalid(int min, int max, String upper,
       String lower, String digits, String special);
 
@@ -1867,11 +1873,47 @@ abstract class AppLocalizations {
   /// **'New Account'**
   String get screenNewAccount;
 
+  /// No description provided for @labelDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'User name'**
+  String get labelDisplayName;
+
+  /// No description provided for @validationErrorDisplayNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'User name required'**
+  String get validationErrorDisplayNameRequired;
+
   /// No description provided for @labelPasswordConfirmation.
   ///
   /// In en, this message translates to:
   /// **'Password confirmation'**
   String get labelPasswordConfirmation;
+
+  /// No description provided for @validationErrorPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords don\'\'t match'**
+  String get validationErrorPasswordMismatch;
+
+  /// No description provided for @validationErrorPasswordTooWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Password provided is too weak'**
+  String get validationErrorPasswordTooWeak;
+
+  /// No description provided for @messageInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email address'**
+  String get messageInvalidEmail;
+
+  /// No description provided for @emailVerificationSentMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Email verification instructions were sent to {email}.'**
+  String emailVerificationSentMessage(String email);
 
   /// No description provided for @screenPasswordReset.
   ///

@@ -212,4 +212,10 @@ extension Analytics on Logger {
       },
     );
   }
+
+  void eventNewAccount() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'new_account',
+    );
+  }
 }
