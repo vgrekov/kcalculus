@@ -23,6 +23,8 @@ class PasswordInput extends StatefulWidget {
     this.autofocus = false,
     this.enabled = true,
     this.required = true,
+    this.usePasswordValidator = true,
+    this.showCounter = true,
   }) : _passwordValidator = PasswordValidator(
           minLength: minLength,
           maxLength: maxLength,
@@ -70,6 +72,10 @@ class PasswordInput extends StatefulWidget {
 
   final PasswordValidator _passwordValidator;
 
+  final bool usePasswordValidator;
+
+  final bool showCounter;
+
   @override
   State<StatefulWidget> createState() {
     return _PasswordInputState();
@@ -92,7 +98,8 @@ class _PasswordInputState extends State<PasswordInput> {
           : null;
     }
 
-    if (!widget._passwordValidator.isValidPassword(value)) {
+    if (widget.usePasswordValidator &&
+        !widget._passwordValidator.isValidPassword(value)) {
       return l10n(context).validationErrorPasswordInvalid(
         widget.minLength,
         widget.maxLength,
@@ -109,6 +116,14 @@ class _PasswordInputState extends State<PasswordInput> {
 
     return null;
   }
+
+  Widget? _noCounter(
+    BuildContext context, {
+    required int currentLength,
+    required bool isFocused,
+    required int? maxLength,
+  }) =>
+      null;
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +169,7 @@ class _PasswordInputState extends State<PasswordInput> {
       style: TextStyle(
         color: Theme.of(context).colorScheme.onSurface,
       ),
+      buildCounter: widget.showCounter ? null : _noCounter,
       obscureText: _obscureText,
       keyboardType: TextInputType.text,
       maxLength: widget.maxLength,

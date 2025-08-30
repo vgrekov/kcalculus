@@ -100,13 +100,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             EmailInput(
                               labelText: l10n(context).labelEmail,
                               textInputAction: TextInputAction.next,
+                              showCounter: false,
                             ),
                             const SizedBox(height: 16),
                             PasswordInput(
                               labelText: l10n(context).labelPassword,
-                              minLength: 8,
-                              maxLength: 14,
+                              hintText: '',
+                              minLength: 1,
+                              maxLength: 20,
                               textInputAction: TextInputAction.done,
+                              usePasswordValidator: false,
+                              showCounter: false,
                             ),
                             const SizedBox(height: 12),
                             SizedBox(

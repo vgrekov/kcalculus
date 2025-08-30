@@ -17,6 +17,7 @@ class EmailInput extends StatelessWidget {
     this.autofocus = false,
     this.enabled = true,
     this.required = true,
+    this.showCounter = true,
   }) : _emailValidator = EmailValidator();
 
   final TextEditingController? controller;
@@ -45,6 +46,8 @@ class EmailInput extends StatelessWidget {
 
   final EmailValidator _emailValidator;
 
+  final bool showCounter;
+
   String? _validate(BuildContext context, String? value) {
     if (value == null || value.isEmpty) {
       return required ? l10n(context).validationErrorEmailRequired : null;
@@ -60,6 +63,14 @@ class EmailInput extends StatelessWidget {
 
     return null;
   }
+
+  Widget? _noCounter(
+    BuildContext context, {
+    required int currentLength,
+    required bool isFocused,
+    required int? maxLength,
+  }) =>
+      null;
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +100,7 @@ class EmailInput extends StatelessWidget {
       style: TextStyle(
         color: Theme.of(context).colorScheme.onSurface,
       ),
+      buildCounter: showCounter ? null : _noCounter,
       keyboardType: TextInputType.emailAddress,
       maxLines: 1,
       maxLength: 254,
