@@ -15,21 +15,6 @@ class PasswordValidator {
       throw ArgumentError('"minLength" must not be bigger than "maxLength".');
     }
 
-    if (!uppercaseLetters &&
-        !lowercaseLetters &&
-        !digits &&
-        !specialCharacters) {
-      final flags = [
-        'uppercaseLetters',
-        'lowercaseLetters',
-        'digits',
-        'specialCharacters',
-      ].map(
-        (e) => '"$e"',
-      );
-      throw ArgumentError('At least one of the $flags flags must be true.');
-    }
-
     _regex = _buildPasswordRegEx();
   }
 
