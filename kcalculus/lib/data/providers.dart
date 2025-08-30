@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:kcalculus/data/repositories/access_level_repository.dart';
@@ -43,9 +44,11 @@ import 'package:kcalculus/data/repositories/nutrient_repository.dart';
 import 'package:kcalculus/data/repositories/open_food_facts_repository.dart';
 import 'package:kcalculus/data/repositories/usda/usda_food_converter.dart';
 import 'package:kcalculus/data/repositories/usda/usda_food_repository.dart';
+import 'package:kcalculus/data/repositories/user_repository.dart';
 import 'package:kcalculus/data/services/ad/ad_service.dart';
 import 'package:kcalculus/data/services/app_config/app_config.dart';
 import 'package:kcalculus/data/services/app_config/app_config_service.dart';
+import 'package:kcalculus/data/services/auth/auth_service.dart';
 import 'package:kcalculus/data/services/env/env_service.dart';
 import 'package:kcalculus/data/services/local/app_settings/app_settings_shared_pref_service.dart';
 import 'package:kcalculus/data/services/local/database/database_manager.dart';
@@ -56,6 +59,7 @@ import 'package:kcalculus/data/services/reward/reward_service.dart';
 import 'package:kcalculus/data/services/usda/usda_service.dart';
 import 'package:kcalculus/domain/models/access_level.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/domain/models/user.dart' as domain_user;
 import 'package:package_info_plus/package_info_plus.dart';
 
 part 'repositories/local/converters/providers.dart';

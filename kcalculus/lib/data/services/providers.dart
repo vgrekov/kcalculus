@@ -92,3 +92,7 @@ final _usdaServiceProvider = Provider<UsdaService>(
     return service;
   },
 );
+
+final authServiceProvider = AsyncNotifierProvider<AuthService, User?>(
+  AuthService.new,
+);

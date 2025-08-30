@@ -212,3 +212,8 @@ final usdaFoodRepositoryProvider = Provider<UsdaFoodRepository>(
     );
   },
 );
+
+final userRepositoryProvider =
+    AsyncNotifierProvider<UserRepository, domain_user.User?>(
+  UserRepository.new,
+);
