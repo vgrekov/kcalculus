@@ -91,6 +91,7 @@ class EmailInput extends StatelessWidget {
       ),
       keyboardType: TextInputType.emailAddress,
       maxLines: 1,
+      maxLength: 254,
       textCapitalization: TextCapitalization.none,
       textInputAction: textInputAction,
       onFieldSubmitted: onFieldSubmitted,
