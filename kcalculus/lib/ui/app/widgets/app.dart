@@ -5,6 +5,7 @@ import 'package:kcalculus/l10n/app_localizations.dart';
 import 'package:kcalculus/ui/agreement/widgets/agreement_screen.dart';
 import 'package:kcalculus/ui/app/view_models/app_ui_state.dart';
 import 'package:kcalculus/ui/app/view_models/app_view_model.dart';
+import 'package:kcalculus/ui/auth/login/widgets/login_screen.dart';
 import 'package:kcalculus/ui/common/themes/themes.dart';
 import 'package:kcalculus/ui/consent/widgets/consent_screen.dart';
 import 'package:kcalculus/ui/maintenance/widgets/maintenance_screen.dart';
@@ -44,6 +45,15 @@ class App extends ConsumerWidget {
             AppStage.agreement => const AgreementScreen(),
             AppStage.dataSharingConsent => const ConsentScreen(),
             AppStage.maintenance => const MaintenanceScreen(),
+            AppStage.authentication => LoginScreen(
+                onExit: (context) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const MealListScreen(),
+                    ),
+                  );
+                },
+              ),
             _ => const MealListScreen(),
           },
         );

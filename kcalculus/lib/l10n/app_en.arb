@@ -509,5 +509,94 @@
     "maintenanceTaskUsdaFoodDataLoadingTitle": "Loading common foods...",
     "maintenanceTaskUsdaFoodDataLoadingFailedMessage": "Loading common foods failed. Not able to proceed.",
     "maintenanceTaskUsdaDbMigrationTitle": "Migrating the common foods database...",
-    "maintenanceTaskUsdaDbMigrationFailedMessage": "Common foods database migration failed. Not able to proceed."
+    "maintenanceTaskUsdaDbMigrationFailedMessage": "Common foods database migration failed. Not able to proceed.",
+    "screenLogin": "Login",
+    "labelEmail": "Email",
+    "validationErrorEmailRequired": "Email required",
+    "validationErrorEmailInvalid": "Invalid email address",
+    "validationErrorEmailAlreadyInUse": "Email already in use",
+    "labelPassword": "Password",
+    "hintPassword": "{min}–{max}{upper, select, true{ Ⓐ} other{}}{lower, select, true{ ⓐ} other{}}{digits, select, true{ 0–9} other{}}{special, select, true{ !@#$%^&*} other{}}",
+    "@hintPassword": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            },
+            "upper": {
+                "type": "String"
+            },
+            "lower": {
+                "type": "String"
+            },
+            "digits": {
+                "type": "String"
+            },
+            "special": {
+                "type": "String"
+            }
+        }
+    },
+    "validationErrorPasswordRequired": "Password required",
+    "validationErrorPasswordInvalid": "Password must:\n• Be {min}–{max} characters long\n• Use only letters, digits, and !@#$%^&*{upper, select, true{\n• Include at least one uppercase letter} other{}}{lower, select, true{\n• Include at least one lowercase letter} other{}}{digits, select, true{\n• Include at least one digit} other{}}{special, select, true{\n• Include at least one special character} other{}}",
+    "@validationErrorPasswordInvalid": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            },
+            "upper": {
+                "type": "String"
+            },
+            "lower": {
+                "type": "String"
+            },
+            "digits": {
+                "type": "String"
+            },
+            "special": {
+                "type": "String"
+            }
+        }
+    },
+    "actionLogin": "Log in",
+    "actionCreateNewAccount": "Create new account",
+    "actionContinueWithoutAccount": "Continue without account",
+    "actionForgotPassword": "Forgot password?",
+    "screenNewAccount": "New Account",
+    "labelDisplayName": "Name",
+    "validationErrorDisplayNameRequired": "User name required",
+    "labelPasswordConfirmation": "Password confirmation",
+    "validationErrorPasswordMismatch": "Passwords don''t match",
+    "validationErrorPasswordTooWeak": "Password provided is too weak",
+    "validationErrorEmailUnverified": "Email needs verification",
+    "messageEmailVerificationSent": "Email verification instructions were sent to {email}",
+    "@messageEmailVerificationSent": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+    "validationErrorCredentialsInvalid": "Invalid credentials",
+    "validationErrorUserNotFound": "Account not found",
+    "validationErrorUserDisabled": "Account disabled",
+    "messageTooManyRequestsError": "Too many requests. Please try again later.",
+    "messageCheckInboxForInstructions": "Check your inbox for instructions",
+    "actionSendAgain": "SEND AGAIN",
+    "screenPasswordReset": "Password Reset",
+    "actionResetPassword": "Reset password",
+    "messagePasswordResetEmailSent": "Reset password instructions were sent to {email}",
+    "@messagePasswordResetEmailSent": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+    "messageLogoutConfirmation": "Are you sure you want to log out?"
 }

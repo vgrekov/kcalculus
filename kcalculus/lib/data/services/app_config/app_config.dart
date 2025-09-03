@@ -16,6 +16,7 @@ sealed class AppConfig with _$AppConfig {
     required int unlockAdTimeoutMillis,
     required int unlockWithAdDurationMins,
     required bool adsEnabled,
+    @Default(60) int emailVerificationCooldownDurationSecs,
   }) = _AppConfig;
 
   factory AppConfig.fromJson(Map<String, dynamic> json) =>

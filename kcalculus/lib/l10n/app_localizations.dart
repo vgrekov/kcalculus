@@ -1786,6 +1786,194 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Common foods database migration failed. Not able to proceed.'**
   String get maintenanceTaskUsdaDbMigrationFailedMessage;
+
+  /// No description provided for @screenLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get screenLogin;
+
+  /// No description provided for @labelEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get labelEmail;
+
+  /// No description provided for @validationErrorEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email required'**
+  String get validationErrorEmailRequired;
+
+  /// No description provided for @validationErrorEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email address'**
+  String get validationErrorEmailInvalid;
+
+  /// No description provided for @validationErrorEmailAlreadyInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Email already in use'**
+  String get validationErrorEmailAlreadyInUse;
+
+  /// No description provided for @labelPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get labelPassword;
+
+  /// No description provided for @hintPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'{min}–{max}{upper, select, true{ Ⓐ} other{}}{lower, select, true{ ⓐ} other{}}{digits, select, true{ 0–9} other{}}{special, select, true{ !@#\$%^&*} other{}}'**
+  String hintPassword(int min, int max, String upper, String lower,
+      String digits, String special);
+
+  /// No description provided for @validationErrorPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password required'**
+  String get validationErrorPasswordRequired;
+
+  /// No description provided for @validationErrorPasswordInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must:\n• Be {min}–{max} characters long\n• Use only letters, digits, and !@#\$%^&*{upper, select, true{\n• Include at least one uppercase letter} other{}}{lower, select, true{\n• Include at least one lowercase letter} other{}}{digits, select, true{\n• Include at least one digit} other{}}{special, select, true{\n• Include at least one special character} other{}}'**
+  String validationErrorPasswordInvalid(int min, int max, String upper,
+      String lower, String digits, String special);
+
+  /// No description provided for @actionLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get actionLogin;
+
+  /// No description provided for @actionCreateNewAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create new account'**
+  String get actionCreateNewAccount;
+
+  /// No description provided for @actionContinueWithoutAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue without account'**
+  String get actionContinueWithoutAccount;
+
+  /// No description provided for @actionForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get actionForgotPassword;
+
+  /// No description provided for @screenNewAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'New Account'**
+  String get screenNewAccount;
+
+  /// No description provided for @labelDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get labelDisplayName;
+
+  /// No description provided for @validationErrorDisplayNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'User name required'**
+  String get validationErrorDisplayNameRequired;
+
+  /// No description provided for @labelPasswordConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Password confirmation'**
+  String get labelPasswordConfirmation;
+
+  /// No description provided for @validationErrorPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords don\'\'t match'**
+  String get validationErrorPasswordMismatch;
+
+  /// No description provided for @validationErrorPasswordTooWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Password provided is too weak'**
+  String get validationErrorPasswordTooWeak;
+
+  /// No description provided for @validationErrorEmailUnverified.
+  ///
+  /// In en, this message translates to:
+  /// **'Email needs verification'**
+  String get validationErrorEmailUnverified;
+
+  /// No description provided for @messageEmailVerificationSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Email verification instructions were sent to {email}'**
+  String messageEmailVerificationSent(String email);
+
+  /// No description provided for @validationErrorCredentialsInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid credentials'**
+  String get validationErrorCredentialsInvalid;
+
+  /// No description provided for @validationErrorUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Account not found'**
+  String get validationErrorUserNotFound;
+
+  /// No description provided for @validationErrorUserDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Account disabled'**
+  String get validationErrorUserDisabled;
+
+  /// No description provided for @messageTooManyRequestsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many requests. Please try again later.'**
+  String get messageTooManyRequestsError;
+
+  /// No description provided for @messageCheckInboxForInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox for instructions'**
+  String get messageCheckInboxForInstructions;
+
+  /// No description provided for @actionSendAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'SEND AGAIN'**
+  String get actionSendAgain;
+
+  /// No description provided for @screenPasswordReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Password Reset'**
+  String get screenPasswordReset;
+
+  /// No description provided for @actionResetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get actionResetPassword;
+
+  /// No description provided for @messagePasswordResetEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password instructions were sent to {email}'**
+  String messagePasswordResetEmailSent(String email);
+
+  /// No description provided for @messageLogoutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get messageLogoutConfirmation;
 }
 
 class _AppLocalizationsDelegate

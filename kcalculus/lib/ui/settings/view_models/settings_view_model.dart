@@ -35,13 +35,21 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
 
     final settings = await ref.watch(appSettingsRepositoryProvider.future);
 
+    final user = await ref.watch(userRepositoryProvider.future);
+
     return SettingsUiState(
       settings: settings,
+      user: user,
       packageInfo: await _packageInfo,
     );
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
+
+  Future<void> logout() async {
+    final userRepository = ref.read(userRepositoryProvider.notifier);
+    await userRepository.logout();
+  }
 
   Future<void> setTheme(AppTheme theme) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
