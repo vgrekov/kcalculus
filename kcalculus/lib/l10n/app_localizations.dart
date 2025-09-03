@@ -1876,7 +1876,7 @@ abstract class AppLocalizations {
   /// No description provided for @labelDisplayName.
   ///
   /// In en, this message translates to:
-  /// **'User name'**
+  /// **'Name'**
   String get labelDisplayName;
 
   /// No description provided for @validationErrorDisplayNameRequired.
@@ -1903,17 +1903,53 @@ abstract class AppLocalizations {
   /// **'Password provided is too weak'**
   String get validationErrorPasswordTooWeak;
 
-  /// No description provided for @messageInvalidEmail.
+  /// No description provided for @validationErrorEmailUnverified.
   ///
   /// In en, this message translates to:
-  /// **'Invalid email address'**
-  String get messageInvalidEmail;
+  /// **'Email needs verification'**
+  String get validationErrorEmailUnverified;
 
-  /// No description provided for @emailVerificationSentMessage.
+  /// No description provided for @messageEmailVerificationSent.
   ///
   /// In en, this message translates to:
-  /// **'Email verification instructions were sent to {email}.'**
-  String emailVerificationSentMessage(String email);
+  /// **'Email verification instructions were sent to {email}'**
+  String messageEmailVerificationSent(String email);
+
+  /// No description provided for @validationErrorCredentialsInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid credentials'**
+  String get validationErrorCredentialsInvalid;
+
+  /// No description provided for @validationErrorUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Account not found'**
+  String get validationErrorUserNotFound;
+
+  /// No description provided for @validationErrorUserDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Account disabled'**
+  String get validationErrorUserDisabled;
+
+  /// No description provided for @messageTooManyRequestsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many requests. Please try again later.'**
+  String get messageTooManyRequestsError;
+
+  /// No description provided for @messageCheckInboxForInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox for instructions'**
+  String get messageCheckInboxForInstructions;
+
+  /// No description provided for @actionSendAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'SEND AGAIN'**
+  String get actionSendAgain;
 
   /// No description provided for @screenPasswordReset.
   ///
@@ -1926,6 +1962,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reset password'**
   String get actionResetPassword;
+
+  /// No description provided for @messagePasswordResetEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password instructions were sent to {email}'**
+  String messagePasswordResetEmailSent(String email);
 }
 
 class _AppLocalizationsDelegate

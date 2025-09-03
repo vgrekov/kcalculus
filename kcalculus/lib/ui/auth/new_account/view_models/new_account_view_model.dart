@@ -72,7 +72,10 @@ class NewAccountViewModel extends AutoDisposeNotifier<NewAccountUiState> {
         payload: state.email,
       );
 
-      _commander!.send(NewAccountCommand.exit);
+      _commander!.send<String?, void>(
+        NewAccountCommand.exit,
+        payload: state.email,
+      );
     } on WeakPasswordException {
       _log.finer('createAccount() Password provided is too weak.');
 

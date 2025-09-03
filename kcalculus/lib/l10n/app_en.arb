@@ -568,20 +568,34 @@
     "actionContinueWithoutAccount": "Continue without account",
     "actionForgotPassword": "Forgot password?",
     "screenNewAccount": "New Account",
-    "labelDisplayName": "User name",
+    "labelDisplayName": "Name",
     "validationErrorDisplayNameRequired": "User name required",
     "labelPasswordConfirmation": "Password confirmation",
     "validationErrorPasswordMismatch": "Passwords don''t match",
     "validationErrorPasswordTooWeak": "Password provided is too weak",
-    "messageInvalidEmail": "Invalid email address",
-    "emailVerificationSentMessage": "Email verification instructions were sent to {email}.",
-    "@emailVerificationSentMessage": {
+    "validationErrorEmailUnverified": "Email needs verification",
+    "messageEmailVerificationSent": "Email verification instructions were sent to {email}",
+    "@messageEmailVerificationSent": {
         "placeholders": {
             "email": {
                 "type": "String"
             }
         }
     },
+    "validationErrorCredentialsInvalid": "Invalid credentials",
+    "validationErrorUserNotFound": "Account not found",
+    "validationErrorUserDisabled": "Account disabled",
+    "messageTooManyRequestsError": "Too many requests. Please try again later.",
+    "messageCheckInboxForInstructions": "Check your inbox for instructions",
+    "actionSendAgain": "SEND AGAIN",
     "screenPasswordReset": "Password Reset",
-    "actionResetPassword": "Reset password"
+    "actionResetPassword": "Reset password",
+    "messagePasswordResetEmailSent": "Reset password instructions were sent to {email}",
+    "@messagePasswordResetEmailSent": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    }
 }

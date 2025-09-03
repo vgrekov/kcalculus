@@ -117,7 +117,7 @@ class _NewAccountScreenState extends ConsumerState<NewAccountScreen>
   }
 
   void _continueWithoutAccount() {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const MealListScreen(),
       ),
@@ -164,8 +164,8 @@ class _NewAccountScreenState extends ConsumerState<NewAccountScreen>
     return null;
   }
 
-  void _exit() {
-    Navigator.of(context).pop();
+  void _exit([String? email]) {
+    Navigator.of(context).pop(email);
   }
 
   void _showUnknownErrorNotification(
@@ -183,7 +183,7 @@ class _NewAccountScreenState extends ConsumerState<NewAccountScreen>
     required WidgetRef ref,
   }) {
     showNotification(
-      l10n(context).emailVerificationSentMessage(
+      l10n(context).messageEmailVerificationSent(
         command.payload as String,
       ),
       duration: Duration(seconds: 4),
@@ -192,13 +192,13 @@ class _NewAccountScreenState extends ConsumerState<NewAccountScreen>
   }
 
   void _exitOnCommand(
-    UiCommand? command, {
+    UiCommand command, {
     required BuildContext context,
     required WidgetRef ref,
   }) async {
-    _exit();
+    _exit(command.payload as String?);
 
-    command?.complete();
+    command.complete();
   }
 
   @override

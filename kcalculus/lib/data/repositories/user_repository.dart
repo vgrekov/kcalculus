@@ -27,4 +27,33 @@ class UserRepository extends AsyncNotifier<User?> {
           password,
         );
   }
+
+  Future<User> login(
+    String email,
+    String password,
+  ) async {
+    final firebaseUser = await ref.read(authServiceProvider.notifier).login(
+          email,
+          password,
+        );
+
+    return User(
+      displayName: firebaseUser.displayName,
+      email: firebaseUser.email!,
+    );
+  }
+
+  Future<bool> sendEmailVerification(
+    String email,
+    String password,
+  ) {
+    return ref.read(authServiceProvider.notifier).sendEmailVerification(
+          email,
+          password,
+        );
+  }
+
+  Future<void> sendPasswordResetEmail(String email) {
+    return ref.read(authServiceProvider.notifier).sendPasswordResetEmail(email);
+  }
 }

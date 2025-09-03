@@ -1046,7 +1046,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get screenNewAccount => 'New Account';
 
   @override
-  String get labelDisplayName => 'User name';
+  String get labelDisplayName => 'Name';
 
   @override
   String get validationErrorDisplayNameRequired => 'User name required';
@@ -1061,16 +1061,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get validationErrorPasswordTooWeak => 'Password provided is too weak';
 
   @override
-  String get messageInvalidEmail => 'Invalid email address';
+  String get validationErrorEmailUnverified => 'Email needs verification';
 
   @override
-  String emailVerificationSentMessage(String email) {
-    return 'Email verification instructions were sent to $email.';
+  String messageEmailVerificationSent(String email) {
+    return 'Email verification instructions were sent to $email';
   }
+
+  @override
+  String get validationErrorCredentialsInvalid => 'Invalid credentials';
+
+  @override
+  String get validationErrorUserNotFound => 'Account not found';
+
+  @override
+  String get validationErrorUserDisabled => 'Account disabled';
+
+  @override
+  String get messageTooManyRequestsError =>
+      'Too many requests. Please try again later.';
+
+  @override
+  String get messageCheckInboxForInstructions =>
+      'Check your inbox for instructions';
+
+  @override
+  String get actionSendAgain => 'SEND AGAIN';
 
   @override
   String get screenPasswordReset => 'Password Reset';
 
   @override
   String get actionResetPassword => 'Reset password';
+
+  @override
+  String messagePasswordResetEmailSent(String email) {
+    return 'Reset password instructions were sent to $email';
+  }
 }
