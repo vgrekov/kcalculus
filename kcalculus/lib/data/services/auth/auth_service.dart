@@ -20,6 +20,8 @@ final _log = Logger('AuthService');
 class AuthService extends AsyncNotifier<User?> {
   static const _kVerificationSentAtPrefix = 'VerificationSentAt_';
 
+  static const _kAnonymousModeSelectedKey = 'AnonymousModeSelected';
+
   StreamSubscription<User?>? _userSubscription;
 
   @override
@@ -173,6 +175,30 @@ class AuthService extends AsyncNotifier<User?> {
           rethrow;
       }
     }
+  }
+
+  Future<void> selectAnonymousMode() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setBool(_kAnonymousModeSelectedKey, true);
+  }
+
+  Future<bool> isAnonymousModeSelected() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    return prefs.getBool(_kAnonymousModeSelectedKey) ?? false;
+  }
+
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+
+    await _unselectAnonymousMode();
+  }
+
+  Future<void> _unselectAnonymousMode() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove(_kAnonymousModeSelectedKey);
   }
 
   Future<void> _sendEmailVerification(User user) async {

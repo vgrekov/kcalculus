@@ -1098,4 +1098,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String messagePasswordResetEmailSent(String email) {
     return 'Reset password instructions were sent to $email';
   }
+
+  @override
+  String get messageLogoutConfirmation => 'Are you sure you want to log out?';
 }

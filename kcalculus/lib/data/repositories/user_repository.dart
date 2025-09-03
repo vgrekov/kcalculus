@@ -56,4 +56,16 @@ class UserRepository extends AsyncNotifier<User?> {
   Future<void> sendPasswordResetEmail(String email) {
     return ref.read(authServiceProvider.notifier).sendPasswordResetEmail(email);
   }
+
+  Future<void> selectAnonymousMode() {
+    return ref.read(authServiceProvider.notifier).selectAnonymousMode();
+  }
+
+  Future<bool> isAnonymousModeSelected() {
+    return ref.read(authServiceProvider.notifier).isAnonymousModeSelected();
+  }
+
+  Future<void> logout() {
+    return ref.read(authServiceProvider.notifier).logout();
+  }
 }

@@ -165,6 +165,10 @@ class LoginViewModel extends AutoDisposeNotifier<LoginUiState> {
 
     _log.finer('resendVerificationEmail() END');
   }
+
+  Future<void> selectAnonymousMode() async {
+    await ref.read(userRepositoryProvider.notifier).selectAnonymousMode();
+  }
 }
 
 final loginViewModel =

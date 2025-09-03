@@ -10,7 +10,6 @@ import 'package:kcalculus/ui/common/widgets/inattentive.dart';
 import 'package:kcalculus/ui/common/widgets/password_input.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
-import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class NewAccountScreen extends ConsumerStatefulWidget {
@@ -113,14 +112,6 @@ class _NewAccountScreenState extends ConsumerState<NewAccountScreen>
     ProgressOverlay.wrap(
       context,
       viewModel.createAccount(),
-    );
-  }
-
-  void _continueWithoutAccount() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const MealListScreen(),
-      ),
     );
   }
 
@@ -324,33 +315,10 @@ class _NewAccountScreenState extends ConsumerState<NewAccountScreen>
                             ],
                           ),
                         ),
-                        const SizedBox(height: 32),
                         Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton(
-                                  onPressed: _continueWithoutAccount,
-                                  child: Text(
-                                    l10n(context).actionContinueWithoutAccount,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                        ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          child: const SizedBox.expand(),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 32),
                       ],
                     ),
                   ),

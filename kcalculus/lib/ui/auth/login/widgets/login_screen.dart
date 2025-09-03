@@ -11,11 +11,15 @@ import 'package:kcalculus/ui/common/widgets/email_input.dart';
 import 'package:kcalculus/ui/common/widgets/inattentive.dart';
 import 'package:kcalculus/ui/common/widgets/password_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
-import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({
+    super.key,
+    this.onExit,
+  });
+
+  final void Function(BuildContext)? onExit;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -124,17 +128,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
     );
   }
 
-  void _continueWithoutAccount() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const MealListScreen(),
-      ),
-    );
+  void _continueWithoutAccount() async {
+    await ref.read(loginViewModel.notifier).selectAnonymousMode();
+
+    _exit();
   }
 
   void _exit() {
-    // Navigator.of(context).pop();
-    _continueWithoutAccount();
+    if (widget.onExit != null) {
+      widget.onExit!(context);
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 
   String? _validateEmail(String? value) {

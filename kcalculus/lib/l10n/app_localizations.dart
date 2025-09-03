@@ -1968,6 +1968,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reset password instructions were sent to {email}'**
   String messagePasswordResetEmailSent(String email);
+
+  /// No description provided for @messageLogoutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get messageLogoutConfirmation;
 }
 
 class _AppLocalizationsDelegate

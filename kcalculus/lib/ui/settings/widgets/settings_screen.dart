@@ -6,12 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
+import 'package:kcalculus/ui/auth/login/widgets/login_screen.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
+import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/ui/nutrients/defaults/widgets/nutrient_defaults_screen.dart';
 import 'package:kcalculus/ui/nutrients/goals/list/widgets/nutrient_goal_list_screen.dart';
 import 'package:kcalculus/ui/settings/view_models/settings_view_model.dart';
@@ -21,6 +23,7 @@ import 'package:kcalculus/ui/settings/widgets/option_setting_screen.dart';
 import 'package:kcalculus/ui/settings/widgets/premium_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
 import 'package:kcalculus/ui/settings/widgets/switch_setting_tile.dart';
+import 'package:kcalculus/ui/settings/widgets/user_setting_tile.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
@@ -49,6 +52,40 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   };
 
   final _accessGuardKey = UniqueKey();
+
+  void _login() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
+  }
+
+  void _logout() async {
+    final confirmed = await showConfirmation(
+      l10n(context).messageLogoutConfirmation,
+    );
+
+    if (confirmed == true) {
+      await ref.read(appSettingsViewModel.notifier).logout();
+
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => LoginScreen(
+              onExit: (context) {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const MealListScreen(),
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      }
+    }
+  }
 
   void _selectTheme(AppSettings settings) async {
     final theme = await Navigator.of(context).push<AppTheme>(
@@ -225,7 +262,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ],
               ),
               SettingsGroup(
-                // title: l10n(context).settingsGroupCommon,
+                children: [
+                  UserSettingTile(
+                    user: uiState.valueOrNull?.user,
+                    onLogin: uiState.isLoading ? null : _login,
+                    onLogout: uiState.isLoading ? null : _logout,
+                  ),
+                ],
+              ),
+              SettingsGroup(
                 children: [
                   AppThemeSettingTile(
                     theme: uiState.valueOrNull?.settings.theme,

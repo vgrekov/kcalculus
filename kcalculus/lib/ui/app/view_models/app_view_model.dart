@@ -20,6 +20,8 @@ final _appUiStateProvider = FutureProvider<AppUiState>(
 
     final maintenanceStatus = ref.watch(maintenanceStatusRepository);
 
+    final user = await ref.watch(userRepositoryProvider.future);
+
     AppStage? stage;
     if (settings.signedAgreementVersion == null ||
         settings.signedAgreementVersion! < kAgreementVersion) {
@@ -30,11 +32,11 @@ final _appUiStateProvider = FutureProvider<AppUiState>(
     } else if (maintenanceStatus == MaintenanceStatus.inProgress ||
         maintenanceStatus == MaintenanceStatus.error) {
       stage = AppStage.maintenance;
-    } else if (maintenanceStatus == MaintenanceStatus.notStarted) {
-      final maintenanceTasks = await ref.read(maintenanceTaskRepository.future);
-      if (maintenanceTasks.isNotEmpty) {
-        stage = AppStage.maintenance;
-      }
+    } else if (maintenanceStatus == MaintenanceStatus.notStarted &&
+        (await _areMaintenanceTasksAvailable(ref))) {
+      stage = AppStage.maintenance;
+    } else if (user == null && !(await _isAnonymousModeSelected(ref))) {
+      stage = AppStage.authentication;
     }
 
     return AppUiState(
@@ -43,6 +45,17 @@ final _appUiStateProvider = FutureProvider<AppUiState>(
     );
   },
 );
+
+Future<bool> _areMaintenanceTasksAvailable(Ref ref) async {
+  final maintenanceTasks = await ref.read(maintenanceTaskRepository.future);
+  return maintenanceTasks.isNotEmpty;
+}
+
+Future<bool> _isAnonymousModeSelected(Ref ref) async {
+  final userRepository = ref.read(userRepositoryProvider.notifier);
+  final selected = await userRepository.isAnonymousModeSelected();
+  return selected;
+}
 
 class AppViewModel extends AsyncNotifier<AppUiState> {
   @override
