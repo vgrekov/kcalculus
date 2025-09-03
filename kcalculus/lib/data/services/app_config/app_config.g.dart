@@ -21,6 +21,9 @@ _AppConfig _$AppConfigFromJson(Map<String, dynamic> json) => _AppConfig(
       unlockWithAdDurationMins:
           (json['unlockWithAdDurationMins'] as num).toInt(),
       adsEnabled: json['adsEnabled'] as bool,
+      emailVerificationCooldownDurationSecs:
+          (json['emailVerificationCooldownDurationSecs'] as num?)?.toInt() ??
+              60,
     );
 
 Map<String, dynamic> _$AppConfigToJson(_AppConfig instance) =>
@@ -36,4 +39,6 @@ Map<String, dynamic> _$AppConfigToJson(_AppConfig instance) =>
       'unlockAdTimeoutMillis': instance.unlockAdTimeoutMillis,
       'unlockWithAdDurationMins': instance.unlockWithAdDurationMins,
       'adsEnabled': instance.adsEnabled,
+      'emailVerificationCooldownDurationSecs':
+          instance.emailVerificationCooldownDurationSecs,
     };

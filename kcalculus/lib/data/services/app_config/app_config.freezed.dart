@@ -25,6 +25,7 @@ mixin _$AppConfig {
   int get unlockAdTimeoutMillis;
   int get unlockWithAdDurationMins;
   bool get adsEnabled;
+  int get emailVerificationCooldownDurationSecs;
 
   /// Create a copy of AppConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -63,11 +64,14 @@ mixin _$AppConfig {
                 other.unlockAdUnitId == unlockAdUnitId) &&
             (identical(other.unlockAdTimeoutMillis, unlockAdTimeoutMillis) ||
                 other.unlockAdTimeoutMillis == unlockAdTimeoutMillis) &&
-            (identical(
-                    other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
+            (identical(other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
                 other.unlockWithAdDurationMins == unlockWithAdDurationMins) &&
             (identical(other.adsEnabled, adsEnabled) ||
-                other.adsEnabled == adsEnabled));
+                other.adsEnabled == adsEnabled) &&
+            (identical(other.emailVerificationCooldownDurationSecs,
+                    emailVerificationCooldownDurationSecs) ||
+                other.emailVerificationCooldownDurationSecs ==
+                    emailVerificationCooldownDurationSecs));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -83,11 +87,12 @@ mixin _$AppConfig {
       unlockAdUnitId,
       unlockAdTimeoutMillis,
       unlockWithAdDurationMins,
-      adsEnabled);
+      adsEnabled,
+      emailVerificationCooldownDurationSecs);
 
   @override
   String toString() {
-    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, interstitialAdUnitId: $interstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, unlockAdUnitId: $unlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, adsEnabled: $adsEnabled)';
+    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, interstitialAdUnitId: $interstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, unlockAdUnitId: $unlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, adsEnabled: $adsEnabled, emailVerificationCooldownDurationSecs: $emailVerificationCooldownDurationSecs)';
   }
 }
 
@@ -106,7 +111,8 @@ abstract mixin class $AppConfigCopyWith<$Res> {
       String unlockAdUnitId,
       int unlockAdTimeoutMillis,
       int unlockWithAdDurationMins,
-      bool adsEnabled});
+      bool adsEnabled,
+      int emailVerificationCooldownDurationSecs});
 }
 
 /// @nodoc
@@ -131,6 +137,7 @@ class _$AppConfigCopyWithImpl<$Res> implements $AppConfigCopyWith<$Res> {
     Object? unlockAdTimeoutMillis = null,
     Object? unlockWithAdDurationMins = null,
     Object? adsEnabled = null,
+    Object? emailVerificationCooldownDurationSecs = null,
   }) {
     return _then(_self.copyWith(
       openFoodFactsBaseUrl: null == openFoodFactsBaseUrl
@@ -174,6 +181,11 @@ class _$AppConfigCopyWithImpl<$Res> implements $AppConfigCopyWith<$Res> {
           ? _self.adsEnabled
           : adsEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      emailVerificationCooldownDurationSecs: null ==
+              emailVerificationCooldownDurationSecs
+          ? _self.emailVerificationCooldownDurationSecs
+          : emailVerificationCooldownDurationSecs // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -191,7 +203,8 @@ class _AppConfig implements AppConfig {
       required this.unlockAdUnitId,
       required this.unlockAdTimeoutMillis,
       required this.unlockWithAdDurationMins,
-      required this.adsEnabled});
+      required this.adsEnabled,
+      this.emailVerificationCooldownDurationSecs = 60});
   factory _AppConfig.fromJson(Map<String, dynamic> json) =>
       _$AppConfigFromJson(json);
 
@@ -215,6 +228,9 @@ class _AppConfig implements AppConfig {
   final int unlockWithAdDurationMins;
   @override
   final bool adsEnabled;
+  @override
+  @JsonKey()
+  final int emailVerificationCooldownDurationSecs;
 
   /// Create a copy of AppConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -258,11 +274,14 @@ class _AppConfig implements AppConfig {
                 other.unlockAdUnitId == unlockAdUnitId) &&
             (identical(other.unlockAdTimeoutMillis, unlockAdTimeoutMillis) ||
                 other.unlockAdTimeoutMillis == unlockAdTimeoutMillis) &&
-            (identical(
-                    other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
+            (identical(other.unlockWithAdDurationMins, unlockWithAdDurationMins) ||
                 other.unlockWithAdDurationMins == unlockWithAdDurationMins) &&
             (identical(other.adsEnabled, adsEnabled) ||
-                other.adsEnabled == adsEnabled));
+                other.adsEnabled == adsEnabled) &&
+            (identical(other.emailVerificationCooldownDurationSecs,
+                    emailVerificationCooldownDurationSecs) ||
+                other.emailVerificationCooldownDurationSecs ==
+                    emailVerificationCooldownDurationSecs));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -278,11 +297,12 @@ class _AppConfig implements AppConfig {
       unlockAdUnitId,
       unlockAdTimeoutMillis,
       unlockWithAdDurationMins,
-      adsEnabled);
+      adsEnabled,
+      emailVerificationCooldownDurationSecs);
 
   @override
   String toString() {
-    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, interstitialAdUnitId: $interstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, unlockAdUnitId: $unlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, adsEnabled: $adsEnabled)';
+    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, interstitialAdUnitId: $interstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, unlockAdUnitId: $unlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, adsEnabled: $adsEnabled, emailVerificationCooldownDurationSecs: $emailVerificationCooldownDurationSecs)';
   }
 }
 
@@ -304,7 +324,8 @@ abstract mixin class _$AppConfigCopyWith<$Res>
       String unlockAdUnitId,
       int unlockAdTimeoutMillis,
       int unlockWithAdDurationMins,
-      bool adsEnabled});
+      bool adsEnabled,
+      int emailVerificationCooldownDurationSecs});
 }
 
 /// @nodoc
@@ -329,6 +350,7 @@ class __$AppConfigCopyWithImpl<$Res> implements _$AppConfigCopyWith<$Res> {
     Object? unlockAdTimeoutMillis = null,
     Object? unlockWithAdDurationMins = null,
     Object? adsEnabled = null,
+    Object? emailVerificationCooldownDurationSecs = null,
   }) {
     return _then(_AppConfig(
       openFoodFactsBaseUrl: null == openFoodFactsBaseUrl
@@ -372,6 +394,11 @@ class __$AppConfigCopyWithImpl<$Res> implements _$AppConfigCopyWith<$Res> {
           ? _self.adsEnabled
           : adsEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      emailVerificationCooldownDurationSecs: null ==
+              emailVerificationCooldownDurationSecs
+          ? _self.emailVerificationCooldownDurationSecs
+          : emailVerificationCooldownDurationSecs // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }

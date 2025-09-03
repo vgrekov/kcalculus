@@ -10,6 +10,7 @@ import 'package:kcalculus/data/exceptions/unverified_email_exception.dart';
 import 'package:kcalculus/data/exceptions/user_disabled_exception.dart';
 import 'package:kcalculus/data/exceptions/user_not_found_exception.dart';
 import 'package:kcalculus/data/exceptions/weak_password_exception.dart';
+import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/utils/datetime.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -192,8 +193,7 @@ class AuthService extends AsyncNotifier<User?> {
   }
 
   Future<DateTime?> _getEmailVerificationCooldownEnd(String email) async {
-    // TODO: add config param
-    final emailVerificationCooldownDurationSecs = 60;
+    final appConfig = await ref.read(appConfigProvider.future);
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -203,7 +203,9 @@ class AuthService extends AsyncNotifier<User?> {
       final sentAt = parseISO8601(sentAtStr);
 
       return sentAt.add(
-        Duration(seconds: emailVerificationCooldownDurationSecs),
+        Duration(
+          seconds: appConfig?.emailVerificationCooldownDurationSecs ?? 60,
+        ),
       );
     }
 
