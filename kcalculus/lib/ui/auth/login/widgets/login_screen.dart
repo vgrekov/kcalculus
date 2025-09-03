@@ -105,6 +105,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
     );
 
     if (email != null) {
+      _form.currentState!.reset();
+
       ref.read(loginViewModel.notifier).updateState(
             email: email,
             password: '',
