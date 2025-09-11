@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/ui/common/macro_split_view/widgets/macro_split_view.dart';
 import 'package:kcalculus/ui/common/nutrient_stats/widgets/nutrient_stats_daily_trigger.dart';
-import 'package:kcalculus/ui/common/widgets/macro_split_view.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
