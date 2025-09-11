@@ -26,8 +26,14 @@ class LocalDishRepository implements DishRepository {
   }
 
   @override
-  Future<Dish> save(Dish dish) async {
-    final id = await _dishDao.save(dish);
+  Future<Dish> save(
+    Dish dish, {
+    bool skipAudit = false,
+  }) async {
+    final id = await _dishDao.save(
+      dish,
+      skipAudit: skipAudit,
+    );
     _changeController.add(null);
     return (await getById(id))!;
   }

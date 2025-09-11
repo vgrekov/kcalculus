@@ -26,8 +26,14 @@ class LocalFoodRepository implements FoodRepository {
   }
 
   @override
-  Future<Food> save(Food food) async {
-    final id = await _foodDao.save(food);
+  Future<Food> save(
+    Food food, {
+    bool skipAudit = false,
+  }) async {
+    final id = await _foodDao.save(
+      food,
+      skipAudit: skipAudit,
+    );
     _changeController.add(null);
     return (await getById(id))!;
   }

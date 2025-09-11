@@ -231,6 +231,7 @@ class EdibleService {
   Future<void> update(
     EdibleDbModel model, {
     Transaction? txn,
+    bool skipAudit = false,
   }) async {
     final executor = txn ?? await database;
 
@@ -238,7 +239,7 @@ class EdibleService {
       'edibles',
       {
         ...model.toJson(),
-        'updated_at': dt.formatISO8601(DateTime.now()),
+        if (!skipAudit) 'updated_at': dt.formatISO8601(DateTime.now()),
       },
       where: 'id = ?',
       whereArgs: [model.id],
