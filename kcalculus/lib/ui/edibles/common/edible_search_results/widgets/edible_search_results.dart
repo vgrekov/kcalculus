@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/paginator.dart';
-import 'package:kcalculus/ui/common/widgets/edible_search_results_item.dart';
+import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results_item.dart';
 import 'package:kcalculus/ui/common/widgets/paged_list_vew.dart';
 
 class EdibleSearchResults extends StatelessWidget {
@@ -24,7 +24,7 @@ class EdibleSearchResults extends StatelessWidget {
 
   final String? noItemsMessage;
 
-  final String? confirmDeleteMessage;
+  final String? Function(EdibleSearchResult)? confirmDeleteMessage;
 
   final void Function(EdibleSearchResult)? onDeleteItem;
 
@@ -37,6 +37,7 @@ class EdibleSearchResults extends StatelessWidget {
       itemsLoader: itemsLoader,
       noItemsMessage: noItemsMessage,
       onDeleteItem: onDeleteItem,
+      deletableTest: (item) => item.type != EdibleSearchResultType.usda,
       confirmDeleteMessage: confirmDeleteMessage,
       onRefresh: paginator?.refresh,
       onLoadNextPage: paginator?.loadNextPage,
@@ -44,6 +45,7 @@ class EdibleSearchResults extends StatelessWidget {
         searchResult: item,
         onSelectSearchResult: onSelectItem,
       ),
+      verticalGap: 4,
     );
   }
 }
