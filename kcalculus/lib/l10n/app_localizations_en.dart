@@ -1101,4 +1101,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get messageLogoutConfirmation => 'Are you sure you want to log out?';
+
+  @override
+  String get edibleTypeFood => 'Food';
+
+  @override
+  String get edibleTypeDish => 'Dish';
+
+  @override
+  String get edibleTypeUsda => 'USDA';
+
+  @override
+  String edibleLastEaten(String date, String time, String daysAgo) {
+    String _temp0 = intl.Intl.selectLogic(
+      daysAgo,
+      {
+        'null': 'not eaten yet',
+        '0': 'last eaten today at $time',
+        '1': 'last eaten yesterday',
+        '2': 'last eaten 2 days ago',
+        'other': 'last eaten on $date',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String perAmount(String value, String unit) {
+    return 'per $value $unit';
+  }
+
+  @override
+  String get maintenanceTaskNutritionFactsPreviewsCreationTitle =>
+      'Creating nutrition facts previews...';
+
+  @override
+  String get maintenanceTaskNutritionFactsPreviewsCreationFailedMessage =>
+      'Creating nutrition facts previews failed. Not able to proceed.';
 }

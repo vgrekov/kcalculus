@@ -23,6 +23,18 @@ mixin _$EdibleSearchResultDbModel {
   String get created_at;
   String? get updated_at;
   String? get last_eaten_at;
+  String? get nf_preview_per_unit;
+  double? get nf_preview_per_value;
+  String? get nf_preview_calories_unit;
+  double? get nf_preview_calories_value;
+  String? get nf_preview_fat_unit;
+  double? get nf_preview_fat_value;
+  String? get nf_preview_carbs_unit;
+  double? get nf_preview_carbs_value;
+  String? get nf_preview_protein_unit;
+  double? get nf_preview_protein_value;
+  String? get nf_preview_fiber_unit;
+  double? get nf_preview_fiber_value;
 
   /// Create a copy of EdibleSearchResultDbModel
   /// with the given fields replaced by the non-null parameter values.
@@ -51,17 +63,66 @@ mixin _$EdibleSearchResultDbModel {
             (identical(other.updated_at, updated_at) ||
                 other.updated_at == updated_at) &&
             (identical(other.last_eaten_at, last_eaten_at) ||
-                other.last_eaten_at == last_eaten_at));
+                other.last_eaten_at == last_eaten_at) &&
+            (identical(other.nf_preview_per_unit, nf_preview_per_unit) ||
+                other.nf_preview_per_unit == nf_preview_per_unit) &&
+            (identical(other.nf_preview_per_value, nf_preview_per_value) ||
+                other.nf_preview_per_value == nf_preview_per_value) &&
+            (identical(
+                    other.nf_preview_calories_unit, nf_preview_calories_unit) ||
+                other.nf_preview_calories_unit == nf_preview_calories_unit) &&
+            (identical(other.nf_preview_calories_value,
+                    nf_preview_calories_value) ||
+                other.nf_preview_calories_value == nf_preview_calories_value) &&
+            (identical(other.nf_preview_fat_unit, nf_preview_fat_unit) ||
+                other.nf_preview_fat_unit == nf_preview_fat_unit) &&
+            (identical(other.nf_preview_fat_value, nf_preview_fat_value) ||
+                other.nf_preview_fat_value == nf_preview_fat_value) &&
+            (identical(other.nf_preview_carbs_unit, nf_preview_carbs_unit) ||
+                other.nf_preview_carbs_unit == nf_preview_carbs_unit) &&
+            (identical(other.nf_preview_carbs_value, nf_preview_carbs_value) ||
+                other.nf_preview_carbs_value == nf_preview_carbs_value) &&
+            (identical(
+                    other.nf_preview_protein_unit, nf_preview_protein_unit) ||
+                other.nf_preview_protein_unit == nf_preview_protein_unit) &&
+            (identical(
+                    other.nf_preview_protein_value, nf_preview_protein_value) ||
+                other.nf_preview_protein_value == nf_preview_protein_value) &&
+            (identical(other.nf_preview_fiber_unit, nf_preview_fiber_unit) ||
+                other.nf_preview_fiber_unit == nf_preview_fiber_unit) &&
+            (identical(other.nf_preview_fiber_value, nf_preview_fiber_value) ||
+                other.nf_preview_fiber_value == nf_preview_fiber_value));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, food_id, dish_id, name,
-      description, created_at, updated_at, last_eaten_at);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        food_id,
+        dish_id,
+        name,
+        description,
+        created_at,
+        updated_at,
+        last_eaten_at,
+        nf_preview_per_unit,
+        nf_preview_per_value,
+        nf_preview_calories_unit,
+        nf_preview_calories_value,
+        nf_preview_fat_unit,
+        nf_preview_fat_value,
+        nf_preview_carbs_unit,
+        nf_preview_carbs_value,
+        nf_preview_protein_unit,
+        nf_preview_protein_value,
+        nf_preview_fiber_unit,
+        nf_preview_fiber_value
+      ]);
 
   @override
   String toString() {
-    return 'EdibleSearchResultDbModel(id: $id, food_id: $food_id, dish_id: $dish_id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, last_eaten_at: $last_eaten_at)';
+    return 'EdibleSearchResultDbModel(id: $id, food_id: $food_id, dish_id: $dish_id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, last_eaten_at: $last_eaten_at, nf_preview_per_unit: $nf_preview_per_unit, nf_preview_per_value: $nf_preview_per_value, nf_preview_calories_unit: $nf_preview_calories_unit, nf_preview_calories_value: $nf_preview_calories_value, nf_preview_fat_unit: $nf_preview_fat_unit, nf_preview_fat_value: $nf_preview_fat_value, nf_preview_carbs_unit: $nf_preview_carbs_unit, nf_preview_carbs_value: $nf_preview_carbs_value, nf_preview_protein_unit: $nf_preview_protein_unit, nf_preview_protein_value: $nf_preview_protein_value, nf_preview_fiber_unit: $nf_preview_fiber_unit, nf_preview_fiber_value: $nf_preview_fiber_value)';
   }
 }
 
@@ -79,7 +140,19 @@ abstract mixin class $EdibleSearchResultDbModelCopyWith<$Res> {
       String? description,
       String created_at,
       String? updated_at,
-      String? last_eaten_at});
+      String? last_eaten_at,
+      String? nf_preview_per_unit,
+      double? nf_preview_per_value,
+      String? nf_preview_calories_unit,
+      double? nf_preview_calories_value,
+      String? nf_preview_fat_unit,
+      double? nf_preview_fat_value,
+      String? nf_preview_carbs_unit,
+      double? nf_preview_carbs_value,
+      String? nf_preview_protein_unit,
+      double? nf_preview_protein_value,
+      String? nf_preview_fiber_unit,
+      double? nf_preview_fiber_value});
 }
 
 /// @nodoc
@@ -103,6 +176,18 @@ class _$EdibleSearchResultDbModelCopyWithImpl<$Res>
     Object? created_at = null,
     Object? updated_at = freezed,
     Object? last_eaten_at = freezed,
+    Object? nf_preview_per_unit = freezed,
+    Object? nf_preview_per_value = freezed,
+    Object? nf_preview_calories_unit = freezed,
+    Object? nf_preview_calories_value = freezed,
+    Object? nf_preview_fat_unit = freezed,
+    Object? nf_preview_fat_value = freezed,
+    Object? nf_preview_carbs_unit = freezed,
+    Object? nf_preview_carbs_value = freezed,
+    Object? nf_preview_protein_unit = freezed,
+    Object? nf_preview_protein_value = freezed,
+    Object? nf_preview_fiber_unit = freezed,
+    Object? nf_preview_fiber_value = freezed,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -137,6 +222,54 @@ class _$EdibleSearchResultDbModelCopyWithImpl<$Res>
           ? _self.last_eaten_at
           : last_eaten_at // ignore: cast_nullable_to_non_nullable
               as String?,
+      nf_preview_per_unit: freezed == nf_preview_per_unit
+          ? _self.nf_preview_per_unit
+          : nf_preview_per_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_per_value: freezed == nf_preview_per_value
+          ? _self.nf_preview_per_value
+          : nf_preview_per_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_calories_unit: freezed == nf_preview_calories_unit
+          ? _self.nf_preview_calories_unit
+          : nf_preview_calories_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_calories_value: freezed == nf_preview_calories_value
+          ? _self.nf_preview_calories_value
+          : nf_preview_calories_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_fat_unit: freezed == nf_preview_fat_unit
+          ? _self.nf_preview_fat_unit
+          : nf_preview_fat_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_fat_value: freezed == nf_preview_fat_value
+          ? _self.nf_preview_fat_value
+          : nf_preview_fat_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_carbs_unit: freezed == nf_preview_carbs_unit
+          ? _self.nf_preview_carbs_unit
+          : nf_preview_carbs_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_carbs_value: freezed == nf_preview_carbs_value
+          ? _self.nf_preview_carbs_value
+          : nf_preview_carbs_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_protein_unit: freezed == nf_preview_protein_unit
+          ? _self.nf_preview_protein_unit
+          : nf_preview_protein_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_protein_value: freezed == nf_preview_protein_value
+          ? _self.nf_preview_protein_value
+          : nf_preview_protein_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_fiber_unit: freezed == nf_preview_fiber_unit
+          ? _self.nf_preview_fiber_unit
+          : nf_preview_fiber_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_fiber_value: freezed == nf_preview_fiber_value
+          ? _self.nf_preview_fiber_value
+          : nf_preview_fiber_value // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -152,7 +285,19 @@ class _EdibleSearchResultDbModel implements EdibleSearchResultDbModel {
       this.description,
       required this.created_at,
       this.updated_at,
-      this.last_eaten_at});
+      this.last_eaten_at,
+      this.nf_preview_per_unit,
+      this.nf_preview_per_value,
+      this.nf_preview_calories_unit,
+      this.nf_preview_calories_value,
+      this.nf_preview_fat_unit,
+      this.nf_preview_fat_value,
+      this.nf_preview_carbs_unit,
+      this.nf_preview_carbs_value,
+      this.nf_preview_protein_unit,
+      this.nf_preview_protein_value,
+      this.nf_preview_fiber_unit,
+      this.nf_preview_fiber_value});
   factory _EdibleSearchResultDbModel.fromJson(Map<String, dynamic> json) =>
       _$EdibleSearchResultDbModelFromJson(json);
 
@@ -172,6 +317,30 @@ class _EdibleSearchResultDbModel implements EdibleSearchResultDbModel {
   final String? updated_at;
   @override
   final String? last_eaten_at;
+  @override
+  final String? nf_preview_per_unit;
+  @override
+  final double? nf_preview_per_value;
+  @override
+  final String? nf_preview_calories_unit;
+  @override
+  final double? nf_preview_calories_value;
+  @override
+  final String? nf_preview_fat_unit;
+  @override
+  final double? nf_preview_fat_value;
+  @override
+  final String? nf_preview_carbs_unit;
+  @override
+  final double? nf_preview_carbs_value;
+  @override
+  final String? nf_preview_protein_unit;
+  @override
+  final double? nf_preview_protein_value;
+  @override
+  final String? nf_preview_fiber_unit;
+  @override
+  final double? nf_preview_fiber_value;
 
   /// Create a copy of EdibleSearchResultDbModel
   /// with the given fields replaced by the non-null parameter values.
@@ -206,17 +375,66 @@ class _EdibleSearchResultDbModel implements EdibleSearchResultDbModel {
             (identical(other.updated_at, updated_at) ||
                 other.updated_at == updated_at) &&
             (identical(other.last_eaten_at, last_eaten_at) ||
-                other.last_eaten_at == last_eaten_at));
+                other.last_eaten_at == last_eaten_at) &&
+            (identical(other.nf_preview_per_unit, nf_preview_per_unit) ||
+                other.nf_preview_per_unit == nf_preview_per_unit) &&
+            (identical(other.nf_preview_per_value, nf_preview_per_value) ||
+                other.nf_preview_per_value == nf_preview_per_value) &&
+            (identical(
+                    other.nf_preview_calories_unit, nf_preview_calories_unit) ||
+                other.nf_preview_calories_unit == nf_preview_calories_unit) &&
+            (identical(other.nf_preview_calories_value,
+                    nf_preview_calories_value) ||
+                other.nf_preview_calories_value == nf_preview_calories_value) &&
+            (identical(other.nf_preview_fat_unit, nf_preview_fat_unit) ||
+                other.nf_preview_fat_unit == nf_preview_fat_unit) &&
+            (identical(other.nf_preview_fat_value, nf_preview_fat_value) ||
+                other.nf_preview_fat_value == nf_preview_fat_value) &&
+            (identical(other.nf_preview_carbs_unit, nf_preview_carbs_unit) ||
+                other.nf_preview_carbs_unit == nf_preview_carbs_unit) &&
+            (identical(other.nf_preview_carbs_value, nf_preview_carbs_value) ||
+                other.nf_preview_carbs_value == nf_preview_carbs_value) &&
+            (identical(
+                    other.nf_preview_protein_unit, nf_preview_protein_unit) ||
+                other.nf_preview_protein_unit == nf_preview_protein_unit) &&
+            (identical(
+                    other.nf_preview_protein_value, nf_preview_protein_value) ||
+                other.nf_preview_protein_value == nf_preview_protein_value) &&
+            (identical(other.nf_preview_fiber_unit, nf_preview_fiber_unit) ||
+                other.nf_preview_fiber_unit == nf_preview_fiber_unit) &&
+            (identical(other.nf_preview_fiber_value, nf_preview_fiber_value) ||
+                other.nf_preview_fiber_value == nf_preview_fiber_value));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, food_id, dish_id, name,
-      description, created_at, updated_at, last_eaten_at);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        food_id,
+        dish_id,
+        name,
+        description,
+        created_at,
+        updated_at,
+        last_eaten_at,
+        nf_preview_per_unit,
+        nf_preview_per_value,
+        nf_preview_calories_unit,
+        nf_preview_calories_value,
+        nf_preview_fat_unit,
+        nf_preview_fat_value,
+        nf_preview_carbs_unit,
+        nf_preview_carbs_value,
+        nf_preview_protein_unit,
+        nf_preview_protein_value,
+        nf_preview_fiber_unit,
+        nf_preview_fiber_value
+      ]);
 
   @override
   String toString() {
-    return 'EdibleSearchResultDbModel(id: $id, food_id: $food_id, dish_id: $dish_id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, last_eaten_at: $last_eaten_at)';
+    return 'EdibleSearchResultDbModel(id: $id, food_id: $food_id, dish_id: $dish_id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, last_eaten_at: $last_eaten_at, nf_preview_per_unit: $nf_preview_per_unit, nf_preview_per_value: $nf_preview_per_value, nf_preview_calories_unit: $nf_preview_calories_unit, nf_preview_calories_value: $nf_preview_calories_value, nf_preview_fat_unit: $nf_preview_fat_unit, nf_preview_fat_value: $nf_preview_fat_value, nf_preview_carbs_unit: $nf_preview_carbs_unit, nf_preview_carbs_value: $nf_preview_carbs_value, nf_preview_protein_unit: $nf_preview_protein_unit, nf_preview_protein_value: $nf_preview_protein_value, nf_preview_fiber_unit: $nf_preview_fiber_unit, nf_preview_fiber_value: $nf_preview_fiber_value)';
   }
 }
 
@@ -236,7 +454,19 @@ abstract mixin class _$EdibleSearchResultDbModelCopyWith<$Res>
       String? description,
       String created_at,
       String? updated_at,
-      String? last_eaten_at});
+      String? last_eaten_at,
+      String? nf_preview_per_unit,
+      double? nf_preview_per_value,
+      String? nf_preview_calories_unit,
+      double? nf_preview_calories_value,
+      String? nf_preview_fat_unit,
+      double? nf_preview_fat_value,
+      String? nf_preview_carbs_unit,
+      double? nf_preview_carbs_value,
+      String? nf_preview_protein_unit,
+      double? nf_preview_protein_value,
+      String? nf_preview_fiber_unit,
+      double? nf_preview_fiber_value});
 }
 
 /// @nodoc
@@ -260,6 +490,18 @@ class __$EdibleSearchResultDbModelCopyWithImpl<$Res>
     Object? created_at = null,
     Object? updated_at = freezed,
     Object? last_eaten_at = freezed,
+    Object? nf_preview_per_unit = freezed,
+    Object? nf_preview_per_value = freezed,
+    Object? nf_preview_calories_unit = freezed,
+    Object? nf_preview_calories_value = freezed,
+    Object? nf_preview_fat_unit = freezed,
+    Object? nf_preview_fat_value = freezed,
+    Object? nf_preview_carbs_unit = freezed,
+    Object? nf_preview_carbs_value = freezed,
+    Object? nf_preview_protein_unit = freezed,
+    Object? nf_preview_protein_value = freezed,
+    Object? nf_preview_fiber_unit = freezed,
+    Object? nf_preview_fiber_value = freezed,
   }) {
     return _then(_EdibleSearchResultDbModel(
       id: null == id
@@ -294,6 +536,54 @@ class __$EdibleSearchResultDbModelCopyWithImpl<$Res>
           ? _self.last_eaten_at
           : last_eaten_at // ignore: cast_nullable_to_non_nullable
               as String?,
+      nf_preview_per_unit: freezed == nf_preview_per_unit
+          ? _self.nf_preview_per_unit
+          : nf_preview_per_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_per_value: freezed == nf_preview_per_value
+          ? _self.nf_preview_per_value
+          : nf_preview_per_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_calories_unit: freezed == nf_preview_calories_unit
+          ? _self.nf_preview_calories_unit
+          : nf_preview_calories_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_calories_value: freezed == nf_preview_calories_value
+          ? _self.nf_preview_calories_value
+          : nf_preview_calories_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_fat_unit: freezed == nf_preview_fat_unit
+          ? _self.nf_preview_fat_unit
+          : nf_preview_fat_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_fat_value: freezed == nf_preview_fat_value
+          ? _self.nf_preview_fat_value
+          : nf_preview_fat_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_carbs_unit: freezed == nf_preview_carbs_unit
+          ? _self.nf_preview_carbs_unit
+          : nf_preview_carbs_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_carbs_value: freezed == nf_preview_carbs_value
+          ? _self.nf_preview_carbs_value
+          : nf_preview_carbs_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_protein_unit: freezed == nf_preview_protein_unit
+          ? _self.nf_preview_protein_unit
+          : nf_preview_protein_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_protein_value: freezed == nf_preview_protein_value
+          ? _self.nf_preview_protein_value
+          : nf_preview_protein_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_fiber_unit: freezed == nf_preview_fiber_unit
+          ? _self.nf_preview_fiber_unit
+          : nf_preview_fiber_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_fiber_value: freezed == nf_preview_fiber_value
+          ? _self.nf_preview_fiber_value
+          : nf_preview_fiber_value // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }

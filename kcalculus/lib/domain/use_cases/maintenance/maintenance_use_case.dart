@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/maintenance_state.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/tasks/db_migration_task.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/tasks/maintenance_task.dart';
+import 'package:kcalculus/domain/use_cases/maintenance/tasks/nutrition_facts_previews_creation_task.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/tasks/usda_db_migration_task.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/tasks/usda_food_data_loading_task.dart';
 import 'package:logging/logging.dart';
@@ -12,6 +13,7 @@ const _kTasks = <MaintenanceTask>[
   DbMigrationTask(),
   UsdaDbMigrationTask(),
   UsdaFoodDataLoadingTask(),
+  NutritionFactsPreviewsCreationTask(),
 ];
 
 class MaintenanceUseCase extends Notifier<MaintenanceState> {

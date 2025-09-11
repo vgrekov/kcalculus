@@ -41,6 +41,18 @@ class EdibleService {
           results.description,
           results.created_at,
           results.updated_at,
+          results.nf_preview_per_unit,
+          results.nf_preview_per_value,
+          results.nf_preview_calories_unit,
+          results.nf_preview_calories_value,
+          results.nf_preview_fat_unit,
+          results.nf_preview_fat_value,
+          results.nf_preview_carbs_unit,
+          results.nf_preview_carbs_value,
+          results.nf_preview_protein_unit,
+          results.nf_preview_protein_value,
+          results.nf_preview_fiber_unit,
+          results.nf_preview_fiber_value,
           results.food_id,
           results.dish_id,
           MAX(results.eaten_at) AS last_eaten_at
@@ -51,6 +63,18 @@ class EdibleService {
             edibles.description AS description,
             edibles.created_at AS created_at,
             edibles.updated_at AS updated_at,
+            edibles.nf_preview_per_unit,
+            edibles.nf_preview_per_value,
+            edibles.nf_preview_calories_unit,
+            edibles.nf_preview_calories_value,
+            edibles.nf_preview_fat_unit,
+            edibles.nf_preview_fat_value,
+            edibles.nf_preview_carbs_unit,
+            edibles.nf_preview_carbs_value,
+            edibles.nf_preview_protein_unit,
+            edibles.nf_preview_protein_value,
+            edibles.nf_preview_fiber_unit,
+            edibles.nf_preview_fiber_value,
             foods.id AS food_id,
             dishes.id AS dish_id,
             meals.eaten_at AS eaten_at
@@ -81,6 +105,18 @@ class EdibleService {
           results.description,
           results.created_at,
           results.updated_at,
+          results.nf_preview_per_unit,
+          results.nf_preview_per_value,
+          results.nf_preview_calories_unit,
+          results.nf_preview_calories_value,
+          results.nf_preview_fat_unit,
+          results.nf_preview_fat_value,
+          results.nf_preview_carbs_unit,
+          results.nf_preview_carbs_value,
+          results.nf_preview_protein_unit,
+          results.nf_preview_protein_value,
+          results.nf_preview_fiber_unit,
+          results.nf_preview_fiber_value,
           results.food_id,
           results.dish_id
       )
@@ -280,5 +316,77 @@ class EdibleService {
     );
 
     return count > 0;
+  }
+
+  Future<bool> isMissingNutritionFactsPreviews({
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await database;
+
+    return executor.rawQuery(
+      '''
+      SELECT
+        COUNT(edibles.id) AS edibles_count
+      FROM
+        edibles
+      WHERE
+        edibles.deleted_at IS NULL
+        AND (
+          edibles.nf_preview_per_unit IS NULL
+          OR edibles.nf_preview_per_value IS NULL
+          OR edibles.nf_preview_calories_unit IS NULL
+          OR edibles.nf_preview_calories_value IS NULL
+          OR edibles.nf_preview_fat_unit IS NULL
+          OR edibles.nf_preview_fat_value IS NULL
+          OR edibles.nf_preview_carbs_unit IS NULL
+          OR edibles.nf_preview_carbs_value IS NULL
+          OR edibles.nf_preview_protein_unit IS NULL
+          OR edibles.nf_preview_protein_value IS NULL
+        )
+      ''',
+    ).then((data) => (data.first['edibles_count'] as int) > 0);
+  }
+
+  Future<List<EdibleSearchResultDbModel>>
+      findEdiblesWithoutNutritionFactsPreviews({
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await database;
+
+    return executor.rawQuery(
+      '''
+      SELECT
+        edibles.id AS id,
+        edibles.name AS name,
+        edibles.created_at AS created_at,
+        foods.id AS food_id,
+        dishes.id AS dish_id
+      FROM
+        edibles
+      LEFT JOIN foods ON
+        foods.id = edibles.id
+      LEFT JOIN dishes ON
+        dishes.id = edibles.id
+      WHERE
+        edibles.deleted_at IS NULL
+        AND (
+          edibles.nf_preview_per_unit IS NULL
+          OR edibles.nf_preview_per_value IS NULL
+          OR edibles.nf_preview_calories_unit IS NULL
+          OR edibles.nf_preview_calories_value IS NULL
+          OR edibles.nf_preview_fat_unit IS NULL
+          OR edibles.nf_preview_fat_value IS NULL
+          OR edibles.nf_preview_carbs_unit IS NULL
+          OR edibles.nf_preview_carbs_value IS NULL
+          OR edibles.nf_preview_protein_unit IS NULL
+          OR edibles.nf_preview_protein_value IS NULL
+        )
+      ORDER BY
+        CASE
+          WHEN updated_at IS NOT NULL THEN updated_at
+          ELSE created_at
+        END ASC
+      ''',
+    ).then((data) => data.map(EdibleSearchResultDbModel.fromJson).toList());
   }
 }

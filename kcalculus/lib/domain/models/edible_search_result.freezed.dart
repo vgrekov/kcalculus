@@ -19,6 +19,7 @@ mixin _$EdibleSearchResult {
   String get name;
   String get description;
   EdibleSearchResultType get type;
+  NutritionFactsPreview? get nutritionFactsPreview;
   DateTime? get lastEatenAt;
 
   /// Create a copy of EdibleSearchResult
@@ -42,18 +43,20 @@ mixin _$EdibleSearchResult {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.nutritionFactsPreview, nutritionFactsPreview) ||
+                other.nutritionFactsPreview == nutritionFactsPreview) &&
             (identical(other.lastEatenAt, lastEatenAt) ||
                 other.lastEatenAt == lastEatenAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, description, type, lastEatenAt);
+  int get hashCode => Object.hash(runtimeType, id, name, description, type,
+      nutritionFactsPreview, lastEatenAt);
 
   @override
   String toString() {
-    return 'EdibleSearchResult(id: $id, name: $name, description: $description, type: $type, lastEatenAt: $lastEatenAt)';
+    return 'EdibleSearchResult(id: $id, name: $name, description: $description, type: $type, nutritionFactsPreview: $nutritionFactsPreview, lastEatenAt: $lastEatenAt)';
   }
 }
 
@@ -68,7 +71,10 @@ abstract mixin class $EdibleSearchResultCopyWith<$Res> {
       String name,
       String description,
       EdibleSearchResultType type,
+      NutritionFactsPreview? nutritionFactsPreview,
       DateTime? lastEatenAt});
+
+  $NutritionFactsPreviewCopyWith<$Res>? get nutritionFactsPreview;
 }
 
 /// @nodoc
@@ -88,6 +94,7 @@ class _$EdibleSearchResultCopyWithImpl<$Res>
     Object? name = null,
     Object? description = null,
     Object? type = null,
+    Object? nutritionFactsPreview = freezed,
     Object? lastEatenAt = freezed,
   }) {
     return _then(_self.copyWith(
@@ -107,11 +114,30 @@ class _$EdibleSearchResultCopyWithImpl<$Res>
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as EdibleSearchResultType,
+      nutritionFactsPreview: freezed == nutritionFactsPreview
+          ? _self.nutritionFactsPreview
+          : nutritionFactsPreview // ignore: cast_nullable_to_non_nullable
+              as NutritionFactsPreview?,
       lastEatenAt: freezed == lastEatenAt
           ? _self.lastEatenAt
           : lastEatenAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
+  }
+
+  /// Create a copy of EdibleSearchResult
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NutritionFactsPreviewCopyWith<$Res>? get nutritionFactsPreview {
+    if (_self.nutritionFactsPreview == null) {
+      return null;
+    }
+
+    return $NutritionFactsPreviewCopyWith<$Res>(_self.nutritionFactsPreview!,
+        (value) {
+      return _then(_self.copyWith(nutritionFactsPreview: value));
+    });
   }
 }
 
@@ -123,6 +149,7 @@ class _EdibleSearchResult implements EdibleSearchResult {
       required this.name,
       required this.description,
       required this.type,
+      this.nutritionFactsPreview,
       this.lastEatenAt});
   factory _EdibleSearchResult.fromJson(Map<String, dynamic> json) =>
       _$EdibleSearchResultFromJson(json);
@@ -135,6 +162,8 @@ class _EdibleSearchResult implements EdibleSearchResult {
   final String description;
   @override
   final EdibleSearchResultType type;
+  @override
+  final NutritionFactsPreview? nutritionFactsPreview;
   @override
   final DateTime? lastEatenAt;
 
@@ -163,18 +192,20 @@ class _EdibleSearchResult implements EdibleSearchResult {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.nutritionFactsPreview, nutritionFactsPreview) ||
+                other.nutritionFactsPreview == nutritionFactsPreview) &&
             (identical(other.lastEatenAt, lastEatenAt) ||
                 other.lastEatenAt == lastEatenAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, description, type, lastEatenAt);
+  int get hashCode => Object.hash(runtimeType, id, name, description, type,
+      nutritionFactsPreview, lastEatenAt);
 
   @override
   String toString() {
-    return 'EdibleSearchResult(id: $id, name: $name, description: $description, type: $type, lastEatenAt: $lastEatenAt)';
+    return 'EdibleSearchResult(id: $id, name: $name, description: $description, type: $type, nutritionFactsPreview: $nutritionFactsPreview, lastEatenAt: $lastEatenAt)';
   }
 }
 
@@ -191,7 +222,11 @@ abstract mixin class _$EdibleSearchResultCopyWith<$Res>
       String name,
       String description,
       EdibleSearchResultType type,
+      NutritionFactsPreview? nutritionFactsPreview,
       DateTime? lastEatenAt});
+
+  @override
+  $NutritionFactsPreviewCopyWith<$Res>? get nutritionFactsPreview;
 }
 
 /// @nodoc
@@ -211,6 +246,7 @@ class __$EdibleSearchResultCopyWithImpl<$Res>
     Object? name = null,
     Object? description = null,
     Object? type = null,
+    Object? nutritionFactsPreview = freezed,
     Object? lastEatenAt = freezed,
   }) {
     return _then(_EdibleSearchResult(
@@ -230,11 +266,30 @@ class __$EdibleSearchResultCopyWithImpl<$Res>
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as EdibleSearchResultType,
+      nutritionFactsPreview: freezed == nutritionFactsPreview
+          ? _self.nutritionFactsPreview
+          : nutritionFactsPreview // ignore: cast_nullable_to_non_nullable
+              as NutritionFactsPreview?,
       lastEatenAt: freezed == lastEatenAt
           ? _self.lastEatenAt
           : lastEatenAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
+  }
+
+  /// Create a copy of EdibleSearchResult
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NutritionFactsPreviewCopyWith<$Res>? get nutritionFactsPreview {
+    if (_self.nutritionFactsPreview == null) {
+      return null;
+    }
+
+    return $NutritionFactsPreviewCopyWith<$Res>(_self.nutritionFactsPreview!,
+        (value) {
+      return _then(_self.copyWith(nutritionFactsPreview: value));
+    });
   }
 }
 

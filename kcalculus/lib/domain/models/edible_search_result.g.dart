@@ -12,6 +12,10 @@ _EdibleSearchResult _$EdibleSearchResultFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       description: json['description'] as String,
       type: $enumDecode(_$EdibleSearchResultTypeEnumMap, json['type']),
+      nutritionFactsPreview: json['nutritionFactsPreview'] == null
+          ? null
+          : NutritionFactsPreview.fromJson(
+              json['nutritionFactsPreview'] as Map<String, dynamic>),
       lastEatenAt: json['lastEatenAt'] == null
           ? null
           : DateTime.parse(json['lastEatenAt'] as String),
@@ -23,6 +27,7 @@ Map<String, dynamic> _$EdibleSearchResultToJson(_EdibleSearchResult instance) =>
       'name': instance.name,
       'description': instance.description,
       'type': _$EdibleSearchResultTypeEnumMap[instance.type]!,
+      'nutritionFactsPreview': instance.nutritionFactsPreview,
       'lastEatenAt': instance.lastEatenAt?.toIso8601String(),
     };
 

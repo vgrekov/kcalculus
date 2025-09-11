@@ -12,6 +12,8 @@ class LocalDishConverter {
     final volumeRatio = model.nutritionRatios[Measure.volume];
     final quantityRatio = model.nutritionRatios[Measure.quantity];
 
+    final nf = model.getNutritionFacts().firstOrNull;
+
     return DishDbModel(
       id: (dishId ?? model.id)!,
       name: model.name,
@@ -28,6 +30,18 @@ class LocalDishConverter {
       quantity_per_amount_value: quantityRatio?.perAmount.value,
       quantity_total_amount_unit: quantityRatio?.totalAmount.unit.name,
       quantity_total_amount_value: quantityRatio?.totalAmount.value,
+      nf_preview_per_unit: nf?.amount.unit.name,
+      nf_preview_per_value: nf?.amount.value,
+      nf_preview_calories_unit: Unit.calorie.name,
+      nf_preview_calories_value: nf?.nutrientData.calories,
+      nf_preview_fat_unit: Unit.gram.name,
+      nf_preview_fat_value: nf?.nutrientData.fatInGrams,
+      nf_preview_carbs_unit: Unit.gram.name,
+      nf_preview_carbs_value: nf?.nutrientData.carbsInGrams,
+      nf_preview_protein_unit: Unit.gram.name,
+      nf_preview_protein_value: nf?.nutrientData.proteinInGrams,
+      nf_preview_fiber_unit: Unit.gram.name,
+      nf_preview_fiber_value: nf?.nutrientData.fiberInGrams,
     );
   }
 

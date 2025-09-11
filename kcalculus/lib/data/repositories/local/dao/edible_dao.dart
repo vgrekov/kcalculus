@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:kcalculus/data/repositories/local/converters/edible_search_result_converter.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
@@ -81,5 +83,19 @@ class LocalEdibleDao {
     Transaction? txn,
   }) {
     return _dbService.edible.restore(id, txn: txn);
+  }
+
+  FutureOr<bool> isMissingNutritionFactsPreviews({
+    Transaction? txn,
+  }) {
+    return _dbService.edible.isMissingNutritionFactsPreviews(txn: txn);
+  }
+
+  Future<List<EdibleSearchResult>> findEdiblesWithoutNutritionFactsPreviews({
+    Transaction? txn,
+  }) {
+    return _dbService.edible.findEdiblesWithoutNutritionFactsPreviews().then(
+          (data) => data.map(_edibleSearchResultConverter.toModel).toList(),
+        );
   }
 }

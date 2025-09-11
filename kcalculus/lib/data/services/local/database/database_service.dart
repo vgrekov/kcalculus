@@ -18,7 +18,7 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseService {
   static const _kDbName = 'kcalculus.db';
 
-  static const _kDbVersion = 21;
+  static const _kDbVersion = 22;
 
   static const _kDbMigrationsDir = 'assets/db/migrations';
 
