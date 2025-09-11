@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/ui/dishes/list/widgets/dish_list_screen.dart';
-import 'package:kcalculus/ui/foods/list/widgets/food_list_screen.dart';
+import 'package:kcalculus/ui/edibles/list/widgets/edible_list_screen.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/ui/more/widgets/more_screen.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 enum ScreenTab {
-  foods,
-  dishes,
   meals,
+  edibles,
   settings,
   more,
 }
@@ -27,13 +25,9 @@ class ScreenTabBar extends ConsumerWidget {
     final Widget icon;
     final String label;
     switch (tab) {
-      case ScreenTab.foods:
+      case ScreenTab.edibles:
         icon = const Icon(Icons.fastfood);
         label = l10n(context).screenFoods;
-        break;
-      case ScreenTab.dishes:
-        icon = const Icon(Icons.set_meal);
-        label = l10n(context).screenDishes;
         break;
       case ScreenTab.meals:
         icon = const Icon(Icons.schedule);
@@ -59,8 +53,7 @@ class ScreenTabBar extends ConsumerWidget {
     Navigator.of(context).pushReplacement(PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
         return switch (tab) {
-          ScreenTab.foods => const FoodListScreen(),
-          ScreenTab.dishes => const DishListScreen(),
+          ScreenTab.edibles => const EdibleListScreen(),
           ScreenTab.meals => const MealListScreen(),
           ScreenTab.settings => const SettingsScreen(),
           ScreenTab.more => const MoreScreen(),
