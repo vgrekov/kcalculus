@@ -10,10 +10,6 @@ import 'package:kcalculus/domain/models/units.dart';
 part 'nutrient_data.freezed.dart';
 part 'nutrient_data.g.dart';
 
-const _kFatCaloriesPerGram = 9;
-const _kCarbsCaloriesPerGram = 4;
-const _kProteinCaloriesPerGram = 4;
-
 @freezed
 sealed class NutrientData with _$NutrientData {
   const NutrientData._();
@@ -237,23 +233,12 @@ sealed class NutrientData with _$NutrientData {
     );
   }
 
-  MacroSplit? getMacroSplit() {
-    final fatCalories = fatInGrams * _kFatCaloriesPerGram;
-    // Fiber has no caloric value!
-    final carbsCalories =
-        (carbsInGrams - fiberInGrams) * _kCarbsCaloriesPerGram;
-    final proteinCalories = proteinInGrams * _kProteinCaloriesPerGram;
-    final estimatedCalories = fatCalories + carbsCalories + proteinCalories;
-    if (estimatedCalories > 0) {
-      return MacroSplit(
-        fat: fatCalories / estimatedCalories,
-        carbs: carbsCalories / estimatedCalories,
-        protein: proteinCalories / estimatedCalories,
+  MacroSplit? getMacroSplit() => MacroSplit.fromAmounts(
+        fat: nutrientAmountsMap[Nutrient.fat],
+        carbs: nutrientAmountsMap[Nutrient.totalCarbs],
+        protein: nutrientAmountsMap[Nutrient.protein],
+        fiber: nutrientAmountsMap[Nutrient.fiber],
       );
-    }
-
-    return null;
-  }
 
   NutrientData withPrecision(int fractionDigits, [bool round = true]) {
     return NutrientData(

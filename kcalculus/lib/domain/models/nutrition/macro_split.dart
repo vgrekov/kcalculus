@@ -1,10 +1,41 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/models/units.dart';
 
 part 'macro_split.freezed.dart';
 part 'macro_split.g.dart';
 
 @freezed
 sealed class MacroSplit with _$MacroSplit {
+  static MacroSplit? fromAmounts({
+    required Amount? fat,
+    required Amount? carbs,
+    required Amount? protein,
+    required Amount? fiber,
+  }) {
+    final fatInGrams = fat?.tryConvert(Unit.gram)?.value ?? 0;
+    final carbsInGrams = carbs?.tryConvert(Unit.gram)?.value ?? 0;
+    final fiberInGrams = fiber?.tryConvert(Unit.gram)?.value ?? 0;
+    final proteinInGrams = protein?.tryConvert(Unit.gram)?.value ?? 0;
+
+    final fatCalories = fatInGrams * kCaloriesPerGramOfFat;
+    // Fiber has no caloric value!
+    final carbsCalories =
+        (carbsInGrams - fiberInGrams) * kCaloriesPerGramOfCarbs;
+    final proteinCalories = proteinInGrams * kCaloriesPerGramOfProtein;
+    final estimatedCalories = fatCalories + carbsCalories + proteinCalories;
+    if (estimatedCalories > 0) {
+      return MacroSplit(
+        fat: fatCalories / estimatedCalories,
+        carbs: carbsCalories / estimatedCalories,
+        protein: proteinCalories / estimatedCalories,
+      );
+    }
+
+    return null;
+  }
+
   const factory MacroSplit._default({
     required double fatPercentage,
     required double carbsPercentage,
