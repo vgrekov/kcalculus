@@ -4,11 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/data/repositories/maintenance/maintenance_status_repository.dart';
-import 'package:kcalculus/data/repositories/maintenance/maintenance_task_repository.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
-import 'package:kcalculus/domain/models/maintenance_status.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/providers.dart';
 import 'package:kcalculus/ui/agreement/view_models/agreement_view_model.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -89,11 +87,8 @@ void main() {
           adRepositoryProvider.overrideWith(
             (ref) => adRepository,
           ),
-          maintenanceStatusRepository.overrideWith(
-            (ref) => MaintenanceStatus.complete,
-          ),
-          maintenanceTaskRepository.overrideWith(
-            (ref) => [],
+          maintenanceUseCaseProvider.overrideWith(
+            MockMaintenanceUseCase.new,
           ),
           mealRepositoryProvider.overrideWith(
             (ref) => mealRepository,

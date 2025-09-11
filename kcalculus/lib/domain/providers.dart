@@ -1,6 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/use_cases/edible_search_use_case.dart';
+import 'package:kcalculus/domain/use_cases/maintenance/maintenance_state.dart';
+import 'package:kcalculus/domain/use_cases/maintenance/maintenance_use_case.dart';
+
+final maintenanceUseCaseProvider =
+    NotifierProvider<MaintenanceUseCase, MaintenanceState>(
+  MaintenanceUseCase.new,
+);
 
 final edibleSearchUseCaseProvider = Provider<EdibleSearchUseCase>(
   (ref) {
