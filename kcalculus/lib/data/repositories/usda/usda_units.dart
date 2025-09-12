@@ -1,9 +1,10 @@
+import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_db_model.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
-const kUsdaUnits = <String, Unit>{
-  "kcal": Unit.calorie,
-  "g": Unit.gram,
-  "mg": Unit.milligram,
-  "ug": Unit.microgram,
-  "µg": Unit.microgram,
+final kUsdaUnits = <String, Unit>{
+  UsdaNutrientDbModel.kCalorieUnitName: Unit.calorie,
+  UsdaNutrientDbModel.kGramUnitName: Unit.gram,
+  UsdaNutrientDbModel.kMilligramUnitName: Unit.milligram,
+  for (final unitName in UsdaNutrientDbModel.kMicrogramUnitNames)
+    unitName: Unit.microgram,
 };

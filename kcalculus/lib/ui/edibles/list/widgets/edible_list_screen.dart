@@ -151,14 +151,13 @@ class _EdibleListScreenState extends ConsumerState<EdibleListScreen>
   void _viewEdible(EdibleSearchResult searchResult) {
     switch (searchResult.type) {
       case EdibleSearchResultType.food:
+      case EdibleSearchResultType.usda:
         _viewFood(searchResult);
 
         break;
       case EdibleSearchResultType.dish:
         _viewDish(searchResult);
 
-        break;
-      default:
         break;
     }
   }
@@ -168,6 +167,7 @@ class _EdibleListScreenState extends ConsumerState<EdibleListScreen>
       MaterialPageRoute(
         builder: (context) => FoodViewScreen(
           foodId: searchResult.id,
+          isUsdaFood: searchResult.type == EdibleSearchResultType.usda,
           onDeleteFood: (_) {
             _deleteEdible(searchResult);
           },

@@ -27,4 +27,18 @@ sealed class NutritionFactsPreview with _$NutritionFactsPreview {
         protein: protein,
         fiber: fiber,
       );
+
+  NutritionFactsPreview withPrecision(
+    int fractionDigits, [
+    bool round = true,
+  ]) {
+    return NutritionFactsPreview(
+      per: per.withPrecision(fractionDigits, round = round),
+      calories: calories.withPrecision(fractionDigits, round = round),
+      fat: fat?.withPrecision(fractionDigits, round = round),
+      carbs: carbs?.withPrecision(fractionDigits, round = round),
+      protein: protein?.withPrecision(fractionDigits, round = round),
+      fiber: fiber?.withPrecision(fractionDigits, round = round),
+    );
+  }
 }

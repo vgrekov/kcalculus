@@ -22,7 +22,7 @@ final _log = Logger('UsdaService');
 class UsdaService {
   static const _kDbName = 'usda.db';
 
-  static const _kDbVersion = 1;
+  static const _kDbVersion = 2;
 
   static const _kDbMigrationsDir = 'assets/usda/db/migrations';
 

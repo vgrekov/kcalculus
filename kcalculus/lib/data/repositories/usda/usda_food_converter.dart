@@ -11,6 +11,7 @@ import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
+import 'package:kcalculus/domain/models/nutrition/nutrition_facts_preview.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
 class UsdaFoodConverter {
@@ -20,6 +21,8 @@ class UsdaFoodConverter {
       name: dbModel.name,
       description: dbModel.description,
       type: EdibleSearchResultType.usda,
+      nutritionFactsPreview:
+          _getNutritionFactsPreview(dbModel)?.withPrecision(2),
     );
   }
 
@@ -47,6 +50,55 @@ class UsdaFoodConverter {
             )
             .nonNulls
       ],
+    );
+  }
+
+  NutritionFactsPreview? _getNutritionFactsPreview(
+    UsdaFoodDbModel dbModel,
+  ) {
+    final requirdFields = [
+      dbModel.nf_preview_calories_unit,
+      dbModel.nf_preview_calories_value,
+      dbModel.nf_preview_fat_unit,
+      dbModel.nf_preview_fat_value,
+      dbModel.nf_preview_carbs_unit,
+      dbModel.nf_preview_carbs_value,
+      dbModel.nf_preview_protein_unit,
+      dbModel.nf_preview_protein_value,
+    ];
+
+    if (requirdFields.any((f) => f == null)) {
+      return null;
+    }
+
+    return NutritionFactsPreview(
+      per: Amount(
+        unit: Unit.gram,
+        value: 100,
+      ),
+      calories: Amount(
+        unit: kUsdaUnits[dbModel.nf_preview_calories_unit!]!,
+        value: dbModel.nf_preview_calories_value!,
+      ),
+      fat: Amount(
+        unit: kUsdaUnits[dbModel.nf_preview_fat_unit!]!,
+        value: dbModel.nf_preview_fat_value!,
+      ),
+      carbs: Amount(
+        unit: kUsdaUnits[dbModel.nf_preview_carbs_unit!]!,
+        value: dbModel.nf_preview_carbs_value!,
+      ),
+      protein: Amount(
+        unit: kUsdaUnits[dbModel.nf_preview_protein_unit!]!,
+        value: dbModel.nf_preview_protein_value!,
+      ),
+      fiber: (dbModel.nf_preview_fiber_unit == null ||
+              dbModel.nf_preview_fiber_value == null)
+          ? null
+          : Amount(
+              unit: kUsdaUnits[dbModel.nf_preview_fiber_unit!]!,
+              value: dbModel.nf_preview_fiber_value!,
+            ),
     );
   }
 

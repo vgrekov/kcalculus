@@ -1,20 +1,22 @@
+import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_db_model.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 
-const kUsdaNutrientsPrioritized = <String, (Nutrient, int)>{
-  "208": (Nutrient.energy, 0),
-  "958": (Nutrient.energy, 1),
-  "957": (Nutrient.energy, 2),
-  "204": (Nutrient.fat, 0),
+final kUsdaNutrientsPrioritized = <String, (Nutrient, int)>{
+  ...{
+    for (final pair in UsdaNutrientDbModel.kEnergyNutrientNumbers.indexed)
+      pair.$2: (Nutrient.energy, pair.$1)
+  },
+  UsdaNutrientDbModel.kFatNutrientNumber: (Nutrient.fat, 0),
+  UsdaNutrientDbModel.kCarbsNutrientNumber: (Nutrient.totalCarbs, 0),
+  UsdaNutrientDbModel.kFiberNutrientNumber: (Nutrient.fiber, 0),
+  UsdaNutrientDbModel.kProteinNutrientNumber: (Nutrient.protein, 0),
   "606": (Nutrient.saturatedFat, 0),
   "645": (Nutrient.monounsaturatedFat, 0),
   "646": (Nutrient.polyunsaturatedFat, 0),
   "605": (Nutrient.transFat, 0),
   "601": (Nutrient.cholesterol, 0),
   "307": (Nutrient.sodium, 0),
-  "205": (Nutrient.totalCarbs, 0),
-  "291": (Nutrient.fiber, 0),
   "269.3": (Nutrient.sugar, 0),
-  "203": (Nutrient.protein, 0),
   "960": (Nutrient.vitaminA, 0),
   "321": (Nutrient.betaCarotene, 0),
   "326": (Nutrient.vitaminD, 0),
