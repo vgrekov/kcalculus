@@ -36,6 +36,7 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
 
     ref.watch(foodChangesProvider);
     ref.watch(dishChangesProvider);
+    ref.watch(mealChangesProvider);
 
     _commander = UiCommander<EdibleListCommand>(_commander);
 
