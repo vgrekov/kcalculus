@@ -85,7 +85,7 @@ class _EdibleAddFabState extends State<EdibleAddFab> {
                               ),
                               onPressed: _addFood,
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 16),
+                                padding: const EdgeInsets.only(right: 24),
                                 child: Text(
                                   l10n(context).actionAddFood,
                                   style: Theme.of(context)
@@ -134,7 +134,7 @@ class _EdibleAddFabState extends State<EdibleAddFab> {
                               ),
                               onPressed: _addDish,
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 16),
+                                padding: const EdgeInsets.only(left: 24),
                                 child: Text(
                                   l10n(context).actionAddDish,
                                   style: Theme.of(context)
