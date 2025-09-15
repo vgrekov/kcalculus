@@ -52,7 +52,7 @@ class NutrientStats extends StatelessWidget {
                   l10n(context).statFiber(
                       nb.formatDouble(context, nutrientData.fiberInGrams)),
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        color: Theme.of(context).colorScheme.tertiary,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                   textAlign: TextAlign.center,
                 ),

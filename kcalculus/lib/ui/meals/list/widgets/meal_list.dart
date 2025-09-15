@@ -42,6 +42,7 @@ class MealList extends StatelessWidget with WidgetMessenger {
         meal: item,
         onSelectMeal: onSelectMeal,
       ),
+      verticalGap: 4,
     );
   }
 }

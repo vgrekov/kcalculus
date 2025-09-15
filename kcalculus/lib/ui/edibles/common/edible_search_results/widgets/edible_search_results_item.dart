@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results_item_calorie_content.dart';
 import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results_item_header.dart';
-import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results_item_stats.dart';
+import 'package:kcalculus/ui/edibles/common/edible_stats.dart';
 
 class EdibleSearchResultsItem extends StatelessWidget {
   const EdibleSearchResultsItem({
@@ -72,7 +72,7 @@ class EdibleSearchResultsItem extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             if (searchResult.nutritionFactsPreview != null)
-              EdibleSearchResultsItemStats(
+              EdibleStats(
                 nutritionFactsPreview: searchResult.nutritionFactsPreview!,
               ),
           ],

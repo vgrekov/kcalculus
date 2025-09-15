@@ -1144,4 +1144,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionAddDish => 'Complex Dish';
+
+  @override
+  String mealEatenAt(String time) {
+    return 'Last eaten at $time';
+  }
 }

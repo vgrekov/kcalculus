@@ -2028,6 +2028,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Complex Dish'**
   String get actionAddDish;
+
+  /// No description provided for @mealEatenAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Last eaten at {time}'**
+  String mealEatenAt(String time);
 }
 
 class _AppLocalizationsDelegate

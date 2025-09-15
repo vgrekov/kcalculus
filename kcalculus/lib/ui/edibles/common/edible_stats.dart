@@ -5,8 +5,8 @@ import 'package:kcalculus/ui/common/macro_split_view/widgets/macro_split_percent
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
-class EdibleSearchResultsItemStats extends StatelessWidget {
-  const EdibleSearchResultsItemStats({
+class EdibleStats extends StatelessWidget {
+  const EdibleStats({
     super.key,
     required this.nutritionFactsPreview,
   });
@@ -42,7 +42,9 @@ class EdibleSearchResultsItemStats extends StatelessWidget {
                           ),
                         ),
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              color: Theme.of(context).colorScheme.tertiary,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
                             ),
                         textAlign: TextAlign.center,
                       ),
