@@ -2016,6 +2016,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Creating nutrition facts previews failed. Not able to proceed.'**
   String get maintenanceTaskNutritionFactsPreviewsCreationFailedMessage;
+
+  /// No description provided for @actionAddFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple Food'**
+  String get actionAddFood;
+
+  /// No description provided for @actionAddDish.
+  ///
+  /// In en, this message translates to:
+  /// **'Complex Dish'**
+  String get actionAddDish;
 }
 
 class _AppLocalizationsDelegate

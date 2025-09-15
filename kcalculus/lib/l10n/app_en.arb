@@ -628,5 +628,7 @@
         }
     },
     "maintenanceTaskNutritionFactsPreviewsCreationTitle": "Creating nutrition facts previews...",
-    "maintenanceTaskNutritionFactsPreviewsCreationFailedMessage": "Creating nutrition facts previews failed. Not able to proceed."
+    "maintenanceTaskNutritionFactsPreviewsCreationFailedMessage": "Creating nutrition facts previews failed. Not able to proceed.",
+    "actionAddFood": "Simple Food",
+    "actionAddDish": "Complex Dish"
 }

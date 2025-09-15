@@ -1138,4 +1138,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get maintenanceTaskNutritionFactsPreviewsCreationFailedMessage =>
       'Creating nutrition facts previews failed. Not able to proceed.';
+
+  @override
+  String get actionAddFood => 'Simple Food';
+
+  @override
+  String get actionAddDish => 'Complex Dish';
 }

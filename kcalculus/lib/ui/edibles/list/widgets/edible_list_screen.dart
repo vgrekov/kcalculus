@@ -17,6 +17,7 @@ import 'package:kcalculus/ui/dishes/view/widgets/dish_view_screen.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results.dart';
 import 'package:kcalculus/ui/edibles/list/view_models/edible_list_view_model.dart';
+import 'package:kcalculus/ui/edibles/list/widgets/edible_add_fab.dart';
 import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/scan/widgets/food_scan_screen.dart';
 import 'package:kcalculus/ui/foods/view/widgets/food_view_screen.dart';
@@ -315,10 +316,9 @@ class _EdibleListScreenState extends ConsumerState<EdibleListScreen>
           ),
           floatingActionButton: Awaited(
             future: uiState.dataLoader,
-            data: (_, __) => FloatingActionButton(
-              onPressed: _addFood,
-              shape: const CircleBorder(),
-              child: const Icon(Icons.add),
+            data: (_, __) => EdibleAddFab(
+              onAddFood: _addFood,
+              onAddDish: _addDish,
             ),
           ),
           floatingActionButtonLocation:
