@@ -16,8 +16,12 @@ class PagedListView<Model> extends StatefulWidget {
     this.noItemsMessage,
     this.confirmDeleteMessage,
     this.onDeleteItem,
+    this.deletableTest,
     this.onRefresh,
     this.onLoadNextPage,
+    this.itemBorderRadius,
+    this.horizontalGap = 0,
+    this.verticalGap = 0,
   });
 
   final List<Model> items;
@@ -28,13 +32,21 @@ class PagedListView<Model> extends StatefulWidget {
 
   final String? noItemsMessage;
 
-  final String? confirmDeleteMessage;
+  final String? Function(Model)? confirmDeleteMessage;
 
   final void Function(Model)? onDeleteItem;
+
+  final bool Function(Model)? deletableTest;
 
   final Future<dynamic> Function()? onRefresh;
 
   final Future<bool> Function()? onLoadNextPage;
+
+  final BorderRadiusGeometry? itemBorderRadius;
+
+  final double horizontalGap;
+
+  final double verticalGap;
 
   @override
   State<StatefulWidget> createState() {
@@ -106,36 +118,48 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
 
   Widget _buildListItem(BuildContext context, Model item) {
     final itemWidget = widget.itemBuilder(context, item);
-    return widget.onDeleteItem == null
-        ? itemWidget
-        : Dismissible(
-            key: UniqueKey(),
-            direction: DismissDirection.endToStart,
-            confirmDismiss: (direction) async {
-              return await showConfirmation(
-                    widget.confirmDeleteMessage ??
-                        l10n(context).messageDeletionConfirmation,
-                  ) ??
-                  false;
-            },
-            onDismissed: (direction) {
-              widget.onDeleteItem!(item);
-            },
-            background: Container(
-              color: Theme.of(context).colorScheme.tertiaryContainer,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Icon(
-                    Icons.delete,
-                    color: Theme.of(context).colorScheme.onTertiaryContainer,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: widget.itemBorderRadius,
+      ),
+      clipBehavior: Clip.antiAlias,
+      margin: widget.horizontalGap > 0
+          ? EdgeInsets.symmetric(
+              horizontal: widget.horizontalGap,
+            )
+          : null,
+      child: widget.onDeleteItem == null ||
+              !(widget.deletableTest?.call(item) ?? true)
+          ? itemWidget
+          : Dismissible(
+              key: UniqueKey(),
+              direction: DismissDirection.endToStart,
+              confirmDismiss: (direction) async {
+                return await showConfirmation(
+                      widget.confirmDeleteMessage?.call(item) ??
+                          l10n(context).messageDeletionConfirmation,
+                    ) ??
+                    false;
+              },
+              onDismissed: (direction) {
+                widget.onDeleteItem!(item);
+              },
+              background: Container(
+                color: Theme.of(context).colorScheme.tertiaryContainer,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Icon(
+                      Icons.delete,
+                      color: Theme.of(context).colorScheme.onTertiaryContainer,
+                    ),
                   ),
                 ),
               ),
+              child: itemWidget,
             ),
-            child: itemWidget,
-          );
+    );
   }
 
   Widget _buildPageLoaderItem(Future<dynamic>? pageLoader) {
@@ -168,11 +192,13 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
   }
 
   Widget _buildListView(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => _buildListItem(context, widget.items[index]),
-        childCount: widget.items.length,
-      ),
+    return SliverList.separated(
+      itemBuilder: (context, index) =>
+          _buildListItem(context, widget.items[index]),
+      separatorBuilder: (_, __) => widget.verticalGap > 0
+          ? SizedBox(height: widget.verticalGap)
+          : const SizedBox.shrink(),
+      itemCount: widget.items.length,
     );
   }
 

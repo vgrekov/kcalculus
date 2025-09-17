@@ -25,50 +25,42 @@ class App extends ConsumerWidget {
 
     final navigatorKey = ref.watch(navigatorKeyProvider);
 
+    AppTheme? theme;
+    final Widget home;
     switch (uiState) {
       case AsyncData(:final value):
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          theme: switch (value.theme) {
-            AppTheme.system => switch (
-                  MediaQuery.of(context).platformBrightness) {
-                Brightness.light => kLightTheme,
-                Brightness.dark => kDarkTheme,
+        theme = value.theme;
+        home = switch (value.stage) {
+          AppStage.agreement => const AgreementScreen(),
+          AppStage.dataSharingConsent => const ConsentScreen(),
+          AppStage.maintenance => const MaintenanceScreen(),
+          AppStage.authentication => LoginScreen(
+              onExit: (context) {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const MealListScreen(),
+                  ),
+                );
               },
-            AppTheme.light => kLightTheme,
-            AppTheme.dark => kDarkTheme,
-          },
-          navigatorKey: navigatorKey,
-          home: switch (value.stage) {
-            AppStage.agreement => const AgreementScreen(),
-            AppStage.dataSharingConsent => const ConsentScreen(),
-            AppStage.maintenance => const MaintenanceScreen(),
-            AppStage.authentication => LoginScreen(
-                onExit: (context) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => const MealListScreen(),
-                    ),
-                  );
-                },
-              ),
-            _ => const MealListScreen(),
-          },
-        );
+            ),
+          _ => const MealListScreen(),
+        };
+        break;
       case AsyncError(:final error, :final stackTrace):
         _log.severe('Failed to load app UI state', error, stackTrace);
-        return Center(
-          child: Text(
-            l10n(context).messageUnknownError,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                ),
+        home = Center(
+          child: Builder(
+            builder: (context) => Text(
+              l10n(context).messageUnknownError,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+            ),
           ),
         );
+        break;
       default:
-        return const Center(
+        home = const Center(
           child: SizedBox(
             width: 40,
             height: 40,
@@ -76,5 +68,21 @@ class App extends ConsumerWidget {
           ),
         );
     }
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      theme: switch (theme) {
+        AppTheme.light => kLightTheme,
+        AppTheme.dark => kDarkTheme,
+        _ => switch (MediaQuery.of(context).platformBrightness) {
+            Brightness.light => kLightTheme,
+            Brightness.dark => kDarkTheme,
+          },
+      },
+      navigatorKey: navigatorKey,
+      home: home,
+    );
   }
 }

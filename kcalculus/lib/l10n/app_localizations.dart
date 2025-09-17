@@ -1974,6 +1974,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to log out?'**
   String get messageLogoutConfirmation;
+
+  /// No description provided for @edibleTypeFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get edibleTypeFood;
+
+  /// No description provided for @edibleTypeDish.
+  ///
+  /// In en, this message translates to:
+  /// **'Dish'**
+  String get edibleTypeDish;
+
+  /// No description provided for @edibleTypeUsda.
+  ///
+  /// In en, this message translates to:
+  /// **'USDA'**
+  String get edibleTypeUsda;
+
+  /// No description provided for @edibleLastEaten.
+  ///
+  /// In en, this message translates to:
+  /// **'{daysAgo, select, null{not eaten yet} 0{last eaten today at {time}} 1{last eaten yesterday} 2{last eaten 2 days ago} other{last eaten on {date}}}'**
+  String edibleLastEaten(String date, String time, String daysAgo);
+
+  /// No description provided for @perAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'per {value} {unit}'**
+  String perAmount(String value, String unit);
+
+  /// No description provided for @maintenanceTaskNutritionFactsPreviewsCreationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating nutrition facts previews...'**
+  String get maintenanceTaskNutritionFactsPreviewsCreationTitle;
+
+  /// No description provided for @maintenanceTaskNutritionFactsPreviewsCreationFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating nutrition facts previews failed. Not able to proceed.'**
+  String get maintenanceTaskNutritionFactsPreviewsCreationFailedMessage;
+
+  /// No description provided for @actionAddFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple Food'**
+  String get actionAddFood;
+
+  /// No description provided for @actionAddDish.
+  ///
+  /// In en, this message translates to:
+  /// **'Complex Dish'**
+  String get actionAddDish;
+
+  /// No description provided for @mealEatenAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Last eaten at {time}'**
+  String mealEatenAt(String time);
 }
 
 class _AppLocalizationsDelegate

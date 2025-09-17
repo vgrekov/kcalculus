@@ -48,12 +48,23 @@ class LocalFoodDao {
     Food food, {
     String? id,
     Transaction? txn,
+    bool skipAudit = false,
   }) {
     if (txn != null) {
-      return _save(food, id: id, txn: txn);
+      return _save(
+        food,
+        id: id,
+        txn: txn,
+        skipAudit: skipAudit,
+      );
     } else {
       return _dbService.transaction(
-        (txn) => _save(food, id: id, txn: txn),
+        (txn) => _save(
+          food,
+          id: id,
+          txn: txn,
+          skipAudit: skipAudit,
+        ),
       );
     }
   }
@@ -62,6 +73,7 @@ class LocalFoodDao {
     Food food, {
     String? id,
     required Transaction txn,
+    bool skipAudit = false,
   }) async {
     await _checkForDuplication(food, txn: txn);
 
@@ -73,7 +85,11 @@ class LocalFoodDao {
       await _dbService.edible.add(foodDbModel.toEdibleDbModel(), txn: txn);
       await _dbService.food.add(foodDbModel, txn: txn);
     } else {
-      await _dbService.edible.update(foodDbModel.toEdibleDbModel(), txn: txn);
+      await _dbService.edible.update(
+        foodDbModel.toEdibleDbModel(),
+        txn: txn,
+        skipAudit: skipAudit,
+      );
     }
 
     await _nutritionFactsDao.saveForEdible(

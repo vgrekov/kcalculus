@@ -24,6 +24,66 @@ sealed class FoodDbModel with _$FoodDbModel {
     String? description,
     @JsonKey(
       includeToJson: false,
+      includeFromJson: false,
+    )
+    String? nf_preview_per_unit,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    double? nf_preview_per_value,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    String? nf_preview_calories_unit,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    double? nf_preview_calories_value,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    String? nf_preview_fat_unit,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    double? nf_preview_fat_value,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    String? nf_preview_carbs_unit,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    double? nf_preview_carbs_value,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    String? nf_preview_protein_unit,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    double? nf_preview_protein_value,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    String? nf_preview_fiber_unit,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: false,
+    )
+    double? nf_preview_fiber_value,
+    @JsonKey(
+      includeToJson: false,
       includeFromJson: true,
     )
     String? created_at,
@@ -47,6 +107,18 @@ sealed class FoodDbModel with _$FoodDbModel {
       id: id,
       name: name,
       description: description,
+      nf_preview_per_unit: nf_preview_per_unit,
+      nf_preview_per_value: nf_preview_per_value,
+      nf_preview_calories_unit: nf_preview_calories_unit,
+      nf_preview_calories_value: nf_preview_calories_value,
+      nf_preview_fat_unit: nf_preview_fat_unit,
+      nf_preview_fat_value: nf_preview_fat_value,
+      nf_preview_carbs_unit: nf_preview_carbs_unit,
+      nf_preview_carbs_value: nf_preview_carbs_value,
+      nf_preview_protein_unit: nf_preview_protein_unit,
+      nf_preview_protein_value: nf_preview_protein_value,
+      nf_preview_fiber_unit: nf_preview_fiber_unit,
+      nf_preview_fiber_value: nf_preview_fiber_value,
       created_at: created_at,
       updated_at: updated_at,
       deleted_at: deleted_at,

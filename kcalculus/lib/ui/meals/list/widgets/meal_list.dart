@@ -35,12 +35,14 @@ class MealList extends StatelessWidget with WidgetMessenger {
       itemsLoader: itemsLoader,
       noItemsMessage: l10n(context).messageNoMeals,
       onDeleteItem: onDeleteMeal,
-      confirmDeleteMessage: l10n(context).messageMealDeletionConfirmation,
+      confirmDeleteMessage: (_) =>
+          l10n(context).messageMealDeletionConfirmation,
       onRefresh: onRefresh,
       itemBuilder: (context, item) => MealListItem(
         meal: item,
         onSelectMeal: onSelectMeal,
       ),
+      verticalGap: 4,
     );
   }
 }

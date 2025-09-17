@@ -1,6 +1,8 @@
+import 'dart:async';
+
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 
-abstract class EdibleRepository {
+abstract interface class EdibleRepository {
   Future<List<EdibleSearchResult>> search(
     String? query, {
     EdibleSearchResultType? type,
@@ -20,4 +22,8 @@ abstract class EdibleRepository {
   });
 
   Future<bool> wasEaten(String id);
+
+  FutureOr<bool> isMissingNutritionFactsPreviews();
+
+  Future<List<EdibleSearchResult>> findEdiblesWithoutNutritionFactsPreviews();
 }

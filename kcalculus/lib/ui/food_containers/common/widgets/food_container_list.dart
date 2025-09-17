@@ -32,7 +32,7 @@ class FoodContainerList extends StatelessWidget {
       itemsLoader: itemsLoader,
       noItemsMessage: l10n(context).messageFoodContainerSearchNothingFound,
       onDeleteItem: onDeleteItem,
-      confirmDeleteMessage:
+      confirmDeleteMessage: (_) =>
           l10n(context).messageFoodContainerDeletionConfirmation,
       onRefresh: paginator?.refresh,
       onLoadNextPage: paginator?.loadNextPage,

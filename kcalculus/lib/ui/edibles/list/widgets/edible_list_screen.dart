@@ -9,12 +9,15 @@ import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
-import 'package:kcalculus/ui/common/widgets/edible_search_results.dart';
 import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
-import 'package:kcalculus/ui/foods/list/view_models/food_list_view_model.dart';
+import 'package:kcalculus/ui/dishes/view/widgets/dish_view_screen.dart';
+import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
+import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results.dart';
+import 'package:kcalculus/ui/edibles/list/view_models/edible_list_view_model.dart';
+import 'package:kcalculus/ui/edibles/list/widgets/edible_add_fab.dart';
 import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/scan/widgets/food_scan_screen.dart';
 import 'package:kcalculus/ui/foods/view/widgets/food_view_screen.dart';
@@ -22,34 +25,35 @@ import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
-final _log = Logger('FoodListScreen');
+final _log = Logger('EdibleListScreen');
 
-class FoodListScreen extends ConsumerStatefulWidget {
-  const FoodListScreen({super.key});
+class EdibleListScreen extends ConsumerStatefulWidget {
+  const EdibleListScreen({super.key});
 
   @override
-  ConsumerState<FoodListScreen> createState() {
-    return _FoodListScreenState();
+  ConsumerState<EdibleListScreen> createState() {
+    return _EdibleListScreenState();
   }
 }
 
-class _FoodListScreenState extends ConsumerState<FoodListScreen>
+class _EdibleListScreenState extends ConsumerState<EdibleListScreen>
     with StateMessenger {
   final _searchController = TextEditingController();
 
-  late final _assignments = <FoodListCommand, UiAssignment>{
-    FoodListCommand.showDeletionSuccessNotification:
+  late final _assignments = <EdibleListCommand, UiAssignment>{
+    EdibleListCommand.showDeletionSuccessNotification:
         _showDeletionSuccessNotification,
-    FoodListCommand.showDeletionFailureNotification:
+    EdibleListCommand.showDeletionFailureNotification:
         _showDeletionFailureNotification,
-    FoodListCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
+    EdibleListCommand.showUnknownErrorNotification:
+        _showUnknownErrorNotification,
   };
 
   final _accessGuardKey = UniqueKey();
 
   @override
   void initState() {
-    var uiState = ref.read(foodListViewModel);
+    var uiState = ref.read(edibleListViewModel);
 
     _searchController.text = uiState.searchQuery;
 
@@ -57,8 +61,9 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
   }
 
   void _scanFood() async {
-    final scannerDisclaimerEnabled =
-        await ref.read(foodListViewModel.notifier).isScannerDisclaimerEnabled();
+    final scannerDisclaimerEnabled = await ref
+        .read(edibleListViewModel.notifier)
+        .isScannerDisclaimerEnabled();
 
     if (scannerDisclaimerEnabled) {
       _showScannerDisclaimer();
@@ -73,7 +78,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
       actions: {
         l10n(context).actionOk: () => _doScanFood(),
         l10n(context).actionDontShowAgain: () {
-          ref.read(foodListViewModel.notifier).disableScannerDisclaimer();
+          ref.read(edibleListViewModel.notifier).disableScannerDisclaimer();
           _doScanFood();
         }
       },
@@ -99,19 +104,23 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
 
   void _updateSearchQuery(String query) {
     ref
-        .read(foodListViewModel.notifier)
+        .read(edibleListViewModel.notifier)
         .searchHelper
         .searchController
         .updateQuery(query);
   }
 
   void _resetSearchQuery() {
-    ref.read(foodListViewModel.notifier).searchHelper.searchController.reset();
+    ref
+        .read(edibleListViewModel.notifier)
+        .searchHelper
+        .searchController
+        .reset();
   }
 
   void _addFood([Food? food]) async {
     final nutrientDefaults =
-        await ref.read(foodListViewModel.notifier).getNutrientDefaults();
+        await ref.read(edibleListViewModel.notifier).getNutrientDefaults();
 
     if (mounted) {
       Navigator.of(context).push(
@@ -125,30 +134,73 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     }
   }
 
+  void _addDish() async {
+    final nutrientDefaults =
+        await ref.read(edibleListViewModel.notifier).getNutrientDefaults();
+
+    if (mounted) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => DishWizardScreen(
+            nutrientDefaults: nutrientDefaults,
+          ),
+        ),
+      );
+    }
+  }
+
+  void _viewEdible(EdibleSearchResult searchResult) {
+    switch (searchResult.type) {
+      case EdibleSearchResultType.food:
+      case EdibleSearchResultType.usda:
+        _viewFood(searchResult);
+
+        break;
+      case EdibleSearchResultType.dish:
+        _viewDish(searchResult);
+
+        break;
+    }
+  }
+
   void _viewFood(EdibleSearchResult searchResult) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => FoodViewScreen(
           foodId: searchResult.id,
-          onDeleteFood: (id) {
-            _deleteFood(id);
+          isUsdaFood: searchResult.type == EdibleSearchResultType.usda,
+          onDeleteFood: (_) {
+            _deleteEdible(searchResult);
           },
         ),
       ),
     );
   }
 
-  void _deleteFood(String id) {
-    ProgressOverlay.wrap(
-      context,
-      ref.read(foodListViewModel.notifier).deleteFood(id),
+  void _viewDish(EdibleSearchResult searchResult) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => DishViewScreen(
+          dishId: searchResult.id,
+          onDeleteDish: (_) {
+            _deleteEdible(searchResult);
+          },
+        ),
+      ),
     );
   }
 
-  void _restoreFood(String id) {
+  void _deleteEdible(EdibleSearchResult searchResult) {
     ProgressOverlay.wrap(
       context,
-      ref.read(foodListViewModel.notifier).restoreFood(id),
+      ref.read(edibleListViewModel.notifier).deleteEdible(searchResult),
+    );
+  }
+
+  void _restoreEdible(EdibleSearchResult searchResult) {
+    ProgressOverlay.wrap(
+      context,
+      ref.read(edibleListViewModel.notifier).restoreEdible(searchResult),
     );
   }
 
@@ -166,7 +218,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
     showNotificationWithUndo(
       l10n(context).messageFoodDeletionSuccess,
       undoAction: () {
-        _restoreFood(command.payload as String);
+        _restoreEdible(command.payload as EdibleSearchResult);
       },
     );
     command.complete();
@@ -192,17 +244,17 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
 
   @override
   Widget build(BuildContext context) {
-    final uiState = ref.watch(foodListViewModel);
+    final uiState = ref.watch(edibleListViewModel);
 
-    ref.listen(foodListViewModel, (prev, next) {
+    ref.listen(edibleListViewModel, (prev, next) {
       _searchController.text = next.searchQuery;
     });
 
-    final viewModel = ref.read(foodListViewModel.notifier);
+    final viewModel = ref.read(edibleListViewModel.notifier);
 
     return AccessGuard(
       key: _accessGuardKey,
-      child: UiSubordinate<FoodListCommand>(
+      child: UiSubordinate<EdibleListCommand>(
         commandProvider: viewModel.commandProvider,
         assignments: _assignments,
         child: Scaffold(
@@ -251,19 +303,22 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
             items: uiState.data,
             itemsLoader: uiState.dataLoader,
             paginator: viewModel.searchHelper.paginator,
-            onSelectItem: _viewFood,
-            onDeleteItem: (searchResult) {
-              _deleteFood(searchResult.id);
-            },
+            onSelectItem: _viewEdible,
+            onDeleteItem: _deleteEdible,
             noItemsMessage: l10n(context).messageFoodSearchNothingFound,
-            confirmDeleteMessage: l10n(context).messageFoodDeletionConfirmation,
+            confirmDeleteMessage: (searchResult) => switch (searchResult.type) {
+              EdibleSearchResultType.food =>
+                l10n(context).messageFoodDeletionConfirmation,
+              EdibleSearchResultType.dish =>
+                l10n(context).messageDishDeletionConfirmation,
+              _ => null,
+            },
           ),
           floatingActionButton: Awaited(
             future: uiState.dataLoader,
-            data: (_, __) => FloatingActionButton(
-              onPressed: _addFood,
-              shape: const CircleBorder(),
-              child: const Icon(Icons.add),
+            data: (_, __) => EdibleAddFab(
+              onAddFood: _addFood,
+              onAddDish: _addDish,
             ),
           ),
           floatingActionButtonLocation:
@@ -272,7 +327,7 @@ class _FoodListScreenState extends ConsumerState<FoodListScreen>
             color: Theme.of(context).colorScheme.surfaceContainer,
             padding: EdgeInsets.only(top: 32),
             child: const ScreenTabBar(
-              selectedTab: ScreenTab.foods,
+              selectedTab: ScreenTab.edibles,
             ),
           ),
         ),

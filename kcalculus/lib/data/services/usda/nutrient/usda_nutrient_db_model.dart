@@ -6,6 +6,39 @@ part 'usda_nutrient_db_model.g.dart';
 
 @freezed
 sealed class UsdaNutrientDbModel with _$UsdaNutrientDbModel {
+  // Energy nutrient numbers in order of priority
+  static const kEnergyNutrientNumbers = [
+    "208",
+    "958",
+    "957",
+  ];
+
+  static const kFatNutrientNumber = '204';
+
+  static const kCarbsNutrientNumber = '205';
+
+  static const kProteinNutrientNumber = '203';
+
+  static const kFiberNutrientNumber = '291';
+
+  static const kCalorieUnitName = 'kcal';
+
+  static const kGramUnitName = 'g';
+
+  static const kMilligramUnitName = 'mg';
+
+  static const kMicrogramUnitNames = [
+    'ug',
+    'µg',
+  ];
+
+  static const kUnitNames = [
+    kCalorieUnitName,
+    kGramUnitName,
+    kMilligramUnitName,
+    ...kMicrogramUnitNames,
+  ];
+
   const factory UsdaNutrientDbModel({
     required int fdc_id,
     required String number,

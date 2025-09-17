@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:kcalculus/data/repositories/edible_repository.dart';
 import 'package:kcalculus/data/repositories/local/dao/edible_dao.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
@@ -51,5 +53,15 @@ class LocalEdibleRepository implements EdibleRepository {
   @override
   Future<bool> wasEaten(String id) {
     return _edibleDao.wasEaten(id);
+  }
+
+  @override
+  FutureOr<bool> isMissingNutritionFactsPreviews() {
+    return _edibleDao.isMissingNutritionFactsPreviews();
+  }
+
+  @override
+  Future<List<EdibleSearchResult>> findEdiblesWithoutNutritionFactsPreviews() {
+    return _edibleDao.findEdiblesWithoutNutritionFactsPreviews();
   }
 }

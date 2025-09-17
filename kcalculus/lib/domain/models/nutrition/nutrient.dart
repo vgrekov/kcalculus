@@ -1,6 +1,12 @@
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
 
+const kCaloriesPerGramOfFat = 9;
+
+const kCaloriesPerGramOfCarbs = 4;
+
+const kCaloriesPerGramOfProtein = 4;
+
 enum Nutrient {
   energy(
     defaultUnit: Unit.calorie,

@@ -4,38 +4,56 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/data/repositories/maintenance/maintenance_status_repository.dart';
-import 'package:kcalculus/data/repositories/maintenance/maintenance_task_repository.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
-import 'package:kcalculus/domain/models/maintenance_status.dart';
+import 'package:kcalculus/domain/providers.dart';
+import 'package:kcalculus/domain/use_cases/maintenance/maintenance_state.dart';
 import 'package:kcalculus/ui/agreement/view_models/agreement_view_model.dart';
 import 'package:kcalculus/ui/app/view_models/app_ui_state.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('AppViewModel');
 
+Future<bool> _isInAgreementStage(Ref ref) async {
+  final settings = await ref.read(appSettingsRepositoryProvider.future);
+
+  return settings.signedAgreementVersion == null ||
+      settings.signedAgreementVersion! < kAgreementVersion;
+}
+
+Future<bool> _isInDataSharingConsentStage(Ref ref) async {
+  final settings = await ref.read(appSettingsRepositoryProvider.future);
+
+  return settings.crashlyticsEnabled == null ||
+      settings.analyticsEnabled == null;
+}
+
+Future<bool> _isInMaintenanceStage(Ref ref) async {
+  final maintenanceState = ref.read(maintenanceUseCaseProvider);
+  return maintenanceState is! MaintenanceComplete;
+}
+
+Future<bool> _isInAuthenticationStage(Ref ref) async {
+  final user = await ref.read(userRepositoryProvider.future);
+  final userRepository = ref.read(userRepositoryProvider.notifier);
+
+  return user == null && !(await userRepository.isAnonymousModeSelected());
+}
+
 final _appUiStateProvider = FutureProvider<AppUiState>(
   (ref) async {
+    ref.watch(maintenanceUseCaseProvider);
+    ref.watch(userRepositoryProvider);
+
     final settings = await ref.watch(appSettingsRepositoryProvider.future);
 
-    final maintenanceStatus = ref.watch(maintenanceStatusRepository);
-
-    final user = await ref.watch(userRepositoryProvider.future);
-
     AppStage? stage;
-    if (settings.signedAgreementVersion == null ||
-        settings.signedAgreementVersion! < kAgreementVersion) {
+    if (await _isInAgreementStage(ref)) {
       stage = AppStage.agreement;
-    } else if (settings.crashlyticsEnabled == null ||
-        settings.analyticsEnabled == null) {
+    } else if (await _isInDataSharingConsentStage(ref)) {
       stage = AppStage.dataSharingConsent;
-    } else if (maintenanceStatus == MaintenanceStatus.inProgress ||
-        maintenanceStatus == MaintenanceStatus.error) {
+    } else if (await _isInMaintenanceStage(ref)) {
       stage = AppStage.maintenance;
-    } else if (maintenanceStatus == MaintenanceStatus.notStarted &&
-        (await _areMaintenanceTasksAvailable(ref))) {
-      stage = AppStage.maintenance;
-    } else if (user == null && !(await _isAnonymousModeSelected(ref))) {
+    } else if (await _isInAuthenticationStage(ref)) {
       stage = AppStage.authentication;
     }
 
@@ -45,17 +63,6 @@ final _appUiStateProvider = FutureProvider<AppUiState>(
     );
   },
 );
-
-Future<bool> _areMaintenanceTasksAvailable(Ref ref) async {
-  final maintenanceTasks = await ref.read(maintenanceTaskRepository.future);
-  return maintenanceTasks.isNotEmpty;
-}
-
-Future<bool> _isAnonymousModeSelected(Ref ref) async {
-  final userRepository = ref.read(userRepositoryProvider.notifier);
-  final selected = await userRepository.isAnonymousModeSelected();
-  return selected;
-}
 
 class AppViewModel extends AsyncNotifier<AppUiState> {
   @override

@@ -136,12 +136,23 @@ class LocalDishDao {
     Dish dish, {
     String? id,
     Transaction? txn,
+    bool skipAudit = false,
   }) {
     if (txn != null) {
-      return _save(dish, id: id, txn: txn);
+      return _save(
+        dish,
+        id: id,
+        txn: txn,
+        skipAudit: skipAudit,
+      );
     } else {
       return _dbService.transaction(
-        (txn) => _save(dish, id: id, txn: txn),
+        (txn) => _save(
+          dish,
+          id: id,
+          txn: txn,
+          skipAudit: skipAudit,
+        ),
       );
     }
   }
@@ -150,6 +161,7 @@ class LocalDishDao {
     Dish dish, {
     String? id,
     required Transaction txn,
+    bool skipAudit = false,
   }) async {
     await _checkForDuplication(dish, txn: txn);
 
@@ -169,9 +181,19 @@ class LocalDishDao {
       final edibleId = item.$2;
 
       if (edible is Food) {
-        await _foodDao.save(edible, id: edibleId, txn: txn);
+        await _foodDao.save(
+          edible,
+          id: edibleId,
+          txn: txn,
+          skipAudit: skipAudit,
+        );
       } else if (edible is Dish) {
-        await _saveDish(edible, edibleId, txn);
+        await _saveDish(
+          edible,
+          edibleId,
+          txn: txn,
+          skipAudit: skipAudit,
+        );
 
         for (final item in edible.ingredients.indexed) {
           final ingredient = item.$2;
@@ -242,14 +264,23 @@ class LocalDishDao {
     }
   }
 
-  Future<void> _saveDish(Dish dish, String dishId, Transaction txn) async {
+  Future<void> _saveDish(
+    Dish dish,
+    String dishId, {
+    required Transaction txn,
+    bool skipAudit = false,
+  }) async {
     final dishDbModel = _dishConverter.toDbModel(dish, dishId);
 
     if (dish.id == null) {
       await _dbService.edible.add(dishDbModel.toEdibleDbModel(), txn: txn);
       await _dbService.dish.add(dishDbModel, txn: txn);
     } else {
-      await _dbService.edible.update(dishDbModel.toEdibleDbModel(), txn: txn);
+      await _dbService.edible.update(
+        dishDbModel.toEdibleDbModel(),
+        txn: txn,
+        skipAudit: skipAudit,
+      );
       await _dbService.dish.update(dishDbModel, txn: txn);
     }
   }

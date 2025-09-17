@@ -598,5 +598,45 @@
             }
         }
     },
-    "messageLogoutConfirmation": "Are you sure you want to log out?"
+    "messageLogoutConfirmation": "Are you sure you want to log out?",
+    "edibleTypeFood": "Food",
+    "edibleTypeDish": "Dish",
+    "edibleTypeUsda": "USDA",
+    "edibleLastEaten": "{daysAgo, select, null{not eaten yet} 0{last eaten today at {time}} 1{last eaten yesterday} 2{last eaten 2 days ago} other{last eaten on {date}}}",
+    "@edibleLastEaten": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            },
+            "daysAgo": {
+                "type": "String"
+            }
+        }
+    },
+    "perAmount": "per {value} {unit}",
+    "@perAmount": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "maintenanceTaskNutritionFactsPreviewsCreationTitle": "Creating nutrition facts previews...",
+    "maintenanceTaskNutritionFactsPreviewsCreationFailedMessage": "Creating nutrition facts previews failed. Not able to proceed.",
+    "actionAddFood": "Simple Food",
+    "actionAddDish": "Complex Dish",
+    "mealEatenAt": "Last eaten at {time}",
+    "@mealEatenAt": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    }   
 }

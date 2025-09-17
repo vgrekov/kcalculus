@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/ui/common/widgets/macro_split_view.dart';
+import 'package:kcalculus/ui/common/macro_split_view/widgets/macro_split_view.dart';
 import 'package:kcalculus/ui/nutrients/stats/view_models/nutrient_stats_view_model.dart';
 import 'package:kcalculus/ui/nutrients/stats/view_models/nutrient_stats_view_model_arg.dart';
 import 'package:kcalculus/ui/nutrients/stats/widgets/nutrient_stats_table.dart';

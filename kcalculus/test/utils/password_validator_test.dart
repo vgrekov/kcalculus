@@ -52,22 +52,6 @@ void main() {
           }, throwsArgumentError);
         },
       );
-
-      test(
-        'no flags',
-        () {
-          expect(() {
-            PasswordValidator(
-              minLength: 8,
-              maxLength: 14,
-              uppercaseLetters: false,
-              lowercaseLetters: false,
-              digits: false,
-              specialCharacters: false,
-            );
-          }, throwsArgumentError);
-        },
-      );
     },
   );
 

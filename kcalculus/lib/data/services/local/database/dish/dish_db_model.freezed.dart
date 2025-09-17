@@ -32,6 +32,30 @@ mixin _$DishDbModel {
   double? get quantity_per_amount_value;
   String? get quantity_total_amount_unit;
   double? get quantity_total_amount_value;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? get nf_preview_per_unit;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  double? get nf_preview_per_value;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? get nf_preview_calories_unit;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  double? get nf_preview_calories_value;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? get nf_preview_fat_unit;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  double? get nf_preview_fat_value;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? get nf_preview_carbs_unit;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  double? get nf_preview_carbs_value;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? get nf_preview_protein_unit;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  double? get nf_preview_protein_value;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? get nf_preview_fiber_unit;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  double? get nf_preview_fiber_value;
   @JsonKey(includeToJson: false, includeFromJson: true)
   String? get created_at;
   @JsonKey(includeToJson: false, includeFromJson: true)
@@ -78,48 +102,76 @@ mixin _$DishDbModel {
                 other.quantity_per_amount_unit == quantity_per_amount_unit) &&
             (identical(other.quantity_per_amount_value, quantity_per_amount_value) ||
                 other.quantity_per_amount_value == quantity_per_amount_value) &&
-            (identical(other.quantity_total_amount_unit,
-                    quantity_total_amount_unit) ||
+            (identical(other.quantity_total_amount_unit, quantity_total_amount_unit) ||
                 other.quantity_total_amount_unit ==
                     quantity_total_amount_unit) &&
-            (identical(other.quantity_total_amount_value,
-                    quantity_total_amount_value) ||
+            (identical(other.quantity_total_amount_value, quantity_total_amount_value) ||
                 other.quantity_total_amount_value ==
                     quantity_total_amount_value) &&
-            (identical(other.created_at, created_at) ||
-                other.created_at == created_at) &&
-            (identical(other.updated_at, updated_at) ||
-                other.updated_at == updated_at) &&
-            (identical(other.deleted_at, deleted_at) ||
-                other.deleted_at == deleted_at));
+            (identical(other.nf_preview_per_unit, nf_preview_per_unit) ||
+                other.nf_preview_per_unit == nf_preview_per_unit) &&
+            (identical(other.nf_preview_per_value, nf_preview_per_value) ||
+                other.nf_preview_per_value == nf_preview_per_value) &&
+            (identical(other.nf_preview_calories_unit, nf_preview_calories_unit) ||
+                other.nf_preview_calories_unit == nf_preview_calories_unit) &&
+            (identical(other.nf_preview_calories_value, nf_preview_calories_value) ||
+                other.nf_preview_calories_value == nf_preview_calories_value) &&
+            (identical(other.nf_preview_fat_unit, nf_preview_fat_unit) ||
+                other.nf_preview_fat_unit == nf_preview_fat_unit) &&
+            (identical(other.nf_preview_fat_value, nf_preview_fat_value) ||
+                other.nf_preview_fat_value == nf_preview_fat_value) &&
+            (identical(other.nf_preview_carbs_unit, nf_preview_carbs_unit) ||
+                other.nf_preview_carbs_unit == nf_preview_carbs_unit) &&
+            (identical(other.nf_preview_carbs_value, nf_preview_carbs_value) ||
+                other.nf_preview_carbs_value == nf_preview_carbs_value) &&
+            (identical(other.nf_preview_protein_unit, nf_preview_protein_unit) || other.nf_preview_protein_unit == nf_preview_protein_unit) &&
+            (identical(other.nf_preview_protein_value, nf_preview_protein_value) || other.nf_preview_protein_value == nf_preview_protein_value) &&
+            (identical(other.nf_preview_fiber_unit, nf_preview_fiber_unit) || other.nf_preview_fiber_unit == nf_preview_fiber_unit) &&
+            (identical(other.nf_preview_fiber_value, nf_preview_fiber_value) || other.nf_preview_fiber_value == nf_preview_fiber_value) &&
+            (identical(other.created_at, created_at) || other.created_at == created_at) &&
+            (identical(other.updated_at, updated_at) || other.updated_at == updated_at) &&
+            (identical(other.deleted_at, deleted_at) || other.deleted_at == deleted_at));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      description,
-      mass_per_amount_unit,
-      mass_per_amount_value,
-      mass_total_amount_unit,
-      mass_total_amount_value,
-      volume_per_amount_unit,
-      volume_per_amount_value,
-      volume_total_amount_unit,
-      volume_total_amount_value,
-      quantity_per_amount_unit,
-      quantity_per_amount_value,
-      quantity_total_amount_unit,
-      quantity_total_amount_value,
-      created_at,
-      updated_at,
-      deleted_at);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        name,
+        description,
+        mass_per_amount_unit,
+        mass_per_amount_value,
+        mass_total_amount_unit,
+        mass_total_amount_value,
+        volume_per_amount_unit,
+        volume_per_amount_value,
+        volume_total_amount_unit,
+        volume_total_amount_value,
+        quantity_per_amount_unit,
+        quantity_per_amount_value,
+        quantity_total_amount_unit,
+        quantity_total_amount_value,
+        nf_preview_per_unit,
+        nf_preview_per_value,
+        nf_preview_calories_unit,
+        nf_preview_calories_value,
+        nf_preview_fat_unit,
+        nf_preview_fat_value,
+        nf_preview_carbs_unit,
+        nf_preview_carbs_value,
+        nf_preview_protein_unit,
+        nf_preview_protein_value,
+        nf_preview_fiber_unit,
+        nf_preview_fiber_value,
+        created_at,
+        updated_at,
+        deleted_at
+      ]);
 
   @override
   String toString() {
-    return 'DishDbModel(id: $id, name: $name, description: $description, mass_per_amount_unit: $mass_per_amount_unit, mass_per_amount_value: $mass_per_amount_value, mass_total_amount_unit: $mass_total_amount_unit, mass_total_amount_value: $mass_total_amount_value, volume_per_amount_unit: $volume_per_amount_unit, volume_per_amount_value: $volume_per_amount_value, volume_total_amount_unit: $volume_total_amount_unit, volume_total_amount_value: $volume_total_amount_value, quantity_per_amount_unit: $quantity_per_amount_unit, quantity_per_amount_value: $quantity_per_amount_value, quantity_total_amount_unit: $quantity_total_amount_unit, quantity_total_amount_value: $quantity_total_amount_value, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+    return 'DishDbModel(id: $id, name: $name, description: $description, mass_per_amount_unit: $mass_per_amount_unit, mass_per_amount_value: $mass_per_amount_value, mass_total_amount_unit: $mass_total_amount_unit, mass_total_amount_value: $mass_total_amount_value, volume_per_amount_unit: $volume_per_amount_unit, volume_per_amount_value: $volume_per_amount_value, volume_total_amount_unit: $volume_total_amount_unit, volume_total_amount_value: $volume_total_amount_value, quantity_per_amount_unit: $quantity_per_amount_unit, quantity_per_amount_value: $quantity_per_amount_value, quantity_total_amount_unit: $quantity_total_amount_unit, quantity_total_amount_value: $quantity_total_amount_value, nf_preview_per_unit: $nf_preview_per_unit, nf_preview_per_value: $nf_preview_per_value, nf_preview_calories_unit: $nf_preview_calories_unit, nf_preview_calories_value: $nf_preview_calories_value, nf_preview_fat_unit: $nf_preview_fat_unit, nf_preview_fat_value: $nf_preview_fat_value, nf_preview_carbs_unit: $nf_preview_carbs_unit, nf_preview_carbs_value: $nf_preview_carbs_value, nf_preview_protein_unit: $nf_preview_protein_unit, nf_preview_protein_value: $nf_preview_protein_value, nf_preview_fiber_unit: $nf_preview_fiber_unit, nf_preview_fiber_value: $nf_preview_fiber_value, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 }
 
@@ -145,6 +197,30 @@ abstract mixin class $DishDbModelCopyWith<$Res> {
       double? quantity_per_amount_value,
       String? quantity_total_amount_unit,
       double? quantity_total_amount_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_per_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_per_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_calories_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_calories_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_fat_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_fat_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_carbs_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_carbs_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_protein_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_protein_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_fiber_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_fiber_value,
       @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
       @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true)
@@ -178,6 +254,18 @@ class _$DishDbModelCopyWithImpl<$Res> implements $DishDbModelCopyWith<$Res> {
     Object? quantity_per_amount_value = freezed,
     Object? quantity_total_amount_unit = freezed,
     Object? quantity_total_amount_value = freezed,
+    Object? nf_preview_per_unit = freezed,
+    Object? nf_preview_per_value = freezed,
+    Object? nf_preview_calories_unit = freezed,
+    Object? nf_preview_calories_value = freezed,
+    Object? nf_preview_fat_unit = freezed,
+    Object? nf_preview_fat_value = freezed,
+    Object? nf_preview_carbs_unit = freezed,
+    Object? nf_preview_carbs_value = freezed,
+    Object? nf_preview_protein_unit = freezed,
+    Object? nf_preview_protein_value = freezed,
+    Object? nf_preview_fiber_unit = freezed,
+    Object? nf_preview_fiber_value = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
@@ -243,6 +331,54 @@ class _$DishDbModelCopyWithImpl<$Res> implements $DishDbModelCopyWith<$Res> {
           ? _self.quantity_total_amount_value
           : quantity_total_amount_value // ignore: cast_nullable_to_non_nullable
               as double?,
+      nf_preview_per_unit: freezed == nf_preview_per_unit
+          ? _self.nf_preview_per_unit
+          : nf_preview_per_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_per_value: freezed == nf_preview_per_value
+          ? _self.nf_preview_per_value
+          : nf_preview_per_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_calories_unit: freezed == nf_preview_calories_unit
+          ? _self.nf_preview_calories_unit
+          : nf_preview_calories_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_calories_value: freezed == nf_preview_calories_value
+          ? _self.nf_preview_calories_value
+          : nf_preview_calories_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_fat_unit: freezed == nf_preview_fat_unit
+          ? _self.nf_preview_fat_unit
+          : nf_preview_fat_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_fat_value: freezed == nf_preview_fat_value
+          ? _self.nf_preview_fat_value
+          : nf_preview_fat_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_carbs_unit: freezed == nf_preview_carbs_unit
+          ? _self.nf_preview_carbs_unit
+          : nf_preview_carbs_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_carbs_value: freezed == nf_preview_carbs_value
+          ? _self.nf_preview_carbs_value
+          : nf_preview_carbs_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_protein_unit: freezed == nf_preview_protein_unit
+          ? _self.nf_preview_protein_unit
+          : nf_preview_protein_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_protein_value: freezed == nf_preview_protein_value
+          ? _self.nf_preview_protein_value
+          : nf_preview_protein_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_fiber_unit: freezed == nf_preview_fiber_unit
+          ? _self.nf_preview_fiber_unit
+          : nf_preview_fiber_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_fiber_value: freezed == nf_preview_fiber_value
+          ? _self.nf_preview_fiber_value
+          : nf_preview_fiber_value // ignore: cast_nullable_to_non_nullable
+              as double?,
       created_at: freezed == created_at
           ? _self.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -278,6 +414,30 @@ class _DishDbModel extends DishDbModel {
       this.quantity_per_amount_value,
       this.quantity_total_amount_unit,
       this.quantity_total_amount_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_per_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_per_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_calories_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_calories_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_fat_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_fat_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_carbs_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_carbs_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_protein_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_protein_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_fiber_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.nf_preview_fiber_value,
       @JsonKey(includeToJson: false, includeFromJson: true) this.created_at,
       @JsonKey(includeToJson: false, includeFromJson: true) this.updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at})
@@ -317,6 +477,42 @@ class _DishDbModel extends DishDbModel {
   final String? quantity_total_amount_unit;
   @override
   final double? quantity_total_amount_value;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final String? nf_preview_per_unit;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final double? nf_preview_per_value;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final String? nf_preview_calories_unit;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final double? nf_preview_calories_value;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final String? nf_preview_fat_unit;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final double? nf_preview_fat_value;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final String? nf_preview_carbs_unit;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final double? nf_preview_carbs_value;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final String? nf_preview_protein_unit;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final double? nf_preview_protein_value;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final String? nf_preview_fiber_unit;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final double? nf_preview_fiber_value;
   @override
   @JsonKey(includeToJson: false, includeFromJson: true)
   final String? created_at;
@@ -371,48 +567,76 @@ class _DishDbModel extends DishDbModel {
                 other.quantity_per_amount_unit == quantity_per_amount_unit) &&
             (identical(other.quantity_per_amount_value, quantity_per_amount_value) ||
                 other.quantity_per_amount_value == quantity_per_amount_value) &&
-            (identical(other.quantity_total_amount_unit,
-                    quantity_total_amount_unit) ||
+            (identical(other.quantity_total_amount_unit, quantity_total_amount_unit) ||
                 other.quantity_total_amount_unit ==
                     quantity_total_amount_unit) &&
-            (identical(other.quantity_total_amount_value,
-                    quantity_total_amount_value) ||
+            (identical(other.quantity_total_amount_value, quantity_total_amount_value) ||
                 other.quantity_total_amount_value ==
                     quantity_total_amount_value) &&
-            (identical(other.created_at, created_at) ||
-                other.created_at == created_at) &&
-            (identical(other.updated_at, updated_at) ||
-                other.updated_at == updated_at) &&
-            (identical(other.deleted_at, deleted_at) ||
-                other.deleted_at == deleted_at));
+            (identical(other.nf_preview_per_unit, nf_preview_per_unit) ||
+                other.nf_preview_per_unit == nf_preview_per_unit) &&
+            (identical(other.nf_preview_per_value, nf_preview_per_value) ||
+                other.nf_preview_per_value == nf_preview_per_value) &&
+            (identical(other.nf_preview_calories_unit, nf_preview_calories_unit) ||
+                other.nf_preview_calories_unit == nf_preview_calories_unit) &&
+            (identical(other.nf_preview_calories_value, nf_preview_calories_value) ||
+                other.nf_preview_calories_value == nf_preview_calories_value) &&
+            (identical(other.nf_preview_fat_unit, nf_preview_fat_unit) ||
+                other.nf_preview_fat_unit == nf_preview_fat_unit) &&
+            (identical(other.nf_preview_fat_value, nf_preview_fat_value) ||
+                other.nf_preview_fat_value == nf_preview_fat_value) &&
+            (identical(other.nf_preview_carbs_unit, nf_preview_carbs_unit) ||
+                other.nf_preview_carbs_unit == nf_preview_carbs_unit) &&
+            (identical(other.nf_preview_carbs_value, nf_preview_carbs_value) ||
+                other.nf_preview_carbs_value == nf_preview_carbs_value) &&
+            (identical(other.nf_preview_protein_unit, nf_preview_protein_unit) || other.nf_preview_protein_unit == nf_preview_protein_unit) &&
+            (identical(other.nf_preview_protein_value, nf_preview_protein_value) || other.nf_preview_protein_value == nf_preview_protein_value) &&
+            (identical(other.nf_preview_fiber_unit, nf_preview_fiber_unit) || other.nf_preview_fiber_unit == nf_preview_fiber_unit) &&
+            (identical(other.nf_preview_fiber_value, nf_preview_fiber_value) || other.nf_preview_fiber_value == nf_preview_fiber_value) &&
+            (identical(other.created_at, created_at) || other.created_at == created_at) &&
+            (identical(other.updated_at, updated_at) || other.updated_at == updated_at) &&
+            (identical(other.deleted_at, deleted_at) || other.deleted_at == deleted_at));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      description,
-      mass_per_amount_unit,
-      mass_per_amount_value,
-      mass_total_amount_unit,
-      mass_total_amount_value,
-      volume_per_amount_unit,
-      volume_per_amount_value,
-      volume_total_amount_unit,
-      volume_total_amount_value,
-      quantity_per_amount_unit,
-      quantity_per_amount_value,
-      quantity_total_amount_unit,
-      quantity_total_amount_value,
-      created_at,
-      updated_at,
-      deleted_at);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        name,
+        description,
+        mass_per_amount_unit,
+        mass_per_amount_value,
+        mass_total_amount_unit,
+        mass_total_amount_value,
+        volume_per_amount_unit,
+        volume_per_amount_value,
+        volume_total_amount_unit,
+        volume_total_amount_value,
+        quantity_per_amount_unit,
+        quantity_per_amount_value,
+        quantity_total_amount_unit,
+        quantity_total_amount_value,
+        nf_preview_per_unit,
+        nf_preview_per_value,
+        nf_preview_calories_unit,
+        nf_preview_calories_value,
+        nf_preview_fat_unit,
+        nf_preview_fat_value,
+        nf_preview_carbs_unit,
+        nf_preview_carbs_value,
+        nf_preview_protein_unit,
+        nf_preview_protein_value,
+        nf_preview_fiber_unit,
+        nf_preview_fiber_value,
+        created_at,
+        updated_at,
+        deleted_at
+      ]);
 
   @override
   String toString() {
-    return 'DishDbModel(id: $id, name: $name, description: $description, mass_per_amount_unit: $mass_per_amount_unit, mass_per_amount_value: $mass_per_amount_value, mass_total_amount_unit: $mass_total_amount_unit, mass_total_amount_value: $mass_total_amount_value, volume_per_amount_unit: $volume_per_amount_unit, volume_per_amount_value: $volume_per_amount_value, volume_total_amount_unit: $volume_total_amount_unit, volume_total_amount_value: $volume_total_amount_value, quantity_per_amount_unit: $quantity_per_amount_unit, quantity_per_amount_value: $quantity_per_amount_value, quantity_total_amount_unit: $quantity_total_amount_unit, quantity_total_amount_value: $quantity_total_amount_value, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+    return 'DishDbModel(id: $id, name: $name, description: $description, mass_per_amount_unit: $mass_per_amount_unit, mass_per_amount_value: $mass_per_amount_value, mass_total_amount_unit: $mass_total_amount_unit, mass_total_amount_value: $mass_total_amount_value, volume_per_amount_unit: $volume_per_amount_unit, volume_per_amount_value: $volume_per_amount_value, volume_total_amount_unit: $volume_total_amount_unit, volume_total_amount_value: $volume_total_amount_value, quantity_per_amount_unit: $quantity_per_amount_unit, quantity_per_amount_value: $quantity_per_amount_value, quantity_total_amount_unit: $quantity_total_amount_unit, quantity_total_amount_value: $quantity_total_amount_value, nf_preview_per_unit: $nf_preview_per_unit, nf_preview_per_value: $nf_preview_per_value, nf_preview_calories_unit: $nf_preview_calories_unit, nf_preview_calories_value: $nf_preview_calories_value, nf_preview_fat_unit: $nf_preview_fat_unit, nf_preview_fat_value: $nf_preview_fat_value, nf_preview_carbs_unit: $nf_preview_carbs_unit, nf_preview_carbs_value: $nf_preview_carbs_value, nf_preview_protein_unit: $nf_preview_protein_unit, nf_preview_protein_value: $nf_preview_protein_value, nf_preview_fiber_unit: $nf_preview_fiber_unit, nf_preview_fiber_value: $nf_preview_fiber_value, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 }
 
@@ -440,6 +664,30 @@ abstract mixin class _$DishDbModelCopyWith<$Res>
       double? quantity_per_amount_value,
       String? quantity_total_amount_unit,
       double? quantity_total_amount_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_per_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_per_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_calories_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_calories_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_fat_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_fat_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_carbs_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_carbs_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_protein_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_protein_value,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? nf_preview_fiber_unit,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      double? nf_preview_fiber_value,
       @JsonKey(includeToJson: false, includeFromJson: true) String? created_at,
       @JsonKey(includeToJson: false, includeFromJson: true) String? updated_at,
       @JsonKey(includeToJson: false, includeFromJson: true)
@@ -473,6 +721,18 @@ class __$DishDbModelCopyWithImpl<$Res> implements _$DishDbModelCopyWith<$Res> {
     Object? quantity_per_amount_value = freezed,
     Object? quantity_total_amount_unit = freezed,
     Object? quantity_total_amount_value = freezed,
+    Object? nf_preview_per_unit = freezed,
+    Object? nf_preview_per_value = freezed,
+    Object? nf_preview_calories_unit = freezed,
+    Object? nf_preview_calories_value = freezed,
+    Object? nf_preview_fat_unit = freezed,
+    Object? nf_preview_fat_value = freezed,
+    Object? nf_preview_carbs_unit = freezed,
+    Object? nf_preview_carbs_value = freezed,
+    Object? nf_preview_protein_unit = freezed,
+    Object? nf_preview_protein_value = freezed,
+    Object? nf_preview_fiber_unit = freezed,
+    Object? nf_preview_fiber_value = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
@@ -537,6 +797,54 @@ class __$DishDbModelCopyWithImpl<$Res> implements _$DishDbModelCopyWith<$Res> {
       quantity_total_amount_value: freezed == quantity_total_amount_value
           ? _self.quantity_total_amount_value
           : quantity_total_amount_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_per_unit: freezed == nf_preview_per_unit
+          ? _self.nf_preview_per_unit
+          : nf_preview_per_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_per_value: freezed == nf_preview_per_value
+          ? _self.nf_preview_per_value
+          : nf_preview_per_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_calories_unit: freezed == nf_preview_calories_unit
+          ? _self.nf_preview_calories_unit
+          : nf_preview_calories_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_calories_value: freezed == nf_preview_calories_value
+          ? _self.nf_preview_calories_value
+          : nf_preview_calories_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_fat_unit: freezed == nf_preview_fat_unit
+          ? _self.nf_preview_fat_unit
+          : nf_preview_fat_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_fat_value: freezed == nf_preview_fat_value
+          ? _self.nf_preview_fat_value
+          : nf_preview_fat_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_carbs_unit: freezed == nf_preview_carbs_unit
+          ? _self.nf_preview_carbs_unit
+          : nf_preview_carbs_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_carbs_value: freezed == nf_preview_carbs_value
+          ? _self.nf_preview_carbs_value
+          : nf_preview_carbs_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_protein_unit: freezed == nf_preview_protein_unit
+          ? _self.nf_preview_protein_unit
+          : nf_preview_protein_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_protein_value: freezed == nf_preview_protein_value
+          ? _self.nf_preview_protein_value
+          : nf_preview_protein_value // ignore: cast_nullable_to_non_nullable
+              as double?,
+      nf_preview_fiber_unit: freezed == nf_preview_fiber_unit
+          ? _self.nf_preview_fiber_unit
+          : nf_preview_fiber_unit // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nf_preview_fiber_value: freezed == nf_preview_fiber_value
+          ? _self.nf_preview_fiber_value
+          : nf_preview_fiber_value // ignore: cast_nullable_to_non_nullable
               as double?,
       created_at: freezed == created_at
           ? _self.created_at

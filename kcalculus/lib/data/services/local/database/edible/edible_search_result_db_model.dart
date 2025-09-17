@@ -15,6 +15,18 @@ sealed class EdibleSearchResultDbModel with _$EdibleSearchResultDbModel {
     required String created_at,
     String? updated_at,
     String? last_eaten_at,
+    String? nf_preview_per_unit,
+    double? nf_preview_per_value,
+    String? nf_preview_calories_unit,
+    double? nf_preview_calories_value,
+    String? nf_preview_fat_unit,
+    double? nf_preview_fat_value,
+    String? nf_preview_carbs_unit,
+    double? nf_preview_carbs_value,
+    String? nf_preview_protein_unit,
+    double? nf_preview_protein_value,
+    String? nf_preview_fiber_unit,
+    double? nf_preview_fiber_value,
   }) = _EdibleSearchResultDbModel;
 
   factory EdibleSearchResultDbModel.fromJson(Map<String, dynamic> json) =>
