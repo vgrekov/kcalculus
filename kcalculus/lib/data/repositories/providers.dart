@@ -155,15 +155,26 @@ final foodContainerChangesProvider = StreamProvider<void>(
   },
 );
 
-final foodContainerRepositoryProvider = Provider<FoodContainerRepository>(
-  (ref) {
+final foodContainerRepositoryProvider = FutureProvider<FoodContainerRepository>(
+  (ref) async {
+    final firebaseUser = await ref.watch(authServiceProvider.future);
+    final authService = ref.watch(authServiceProvider.notifier);
+
     final containerDao = ref.watch(_localFoodContainerDaoProvider);
+
     final changeController =
         ref.watch(_foodContainerChangesStreamControllerProvider);
-    return LocalContainerRepository(
-      containerDao: containerDao,
-      changeController: changeController,
-    );
+
+    if (firebaseUser == null && await authService.isAnonymousModeSelected()) {
+      return LocalContainerRepository(
+        containerDao: containerDao,
+        changeController: changeController,
+      );
+    } else {
+      return FirestoreFoodContainerRepository(
+        changeController: changeController,
+      );
+    }
   },
 );
 

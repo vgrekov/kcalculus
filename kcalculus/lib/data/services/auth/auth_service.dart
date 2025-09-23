@@ -181,6 +181,8 @@ class AuthService extends AsyncNotifier<User?> {
     final prefs = await SharedPreferences.getInstance();
 
     await prefs.setBool(_kAnonymousModeSelectedKey, true);
+
+    state = AsyncValue.data(null);
   }
 
   Future<bool> isAnonymousModeSelected() async {

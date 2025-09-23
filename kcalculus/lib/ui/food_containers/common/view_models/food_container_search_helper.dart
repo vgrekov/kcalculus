@@ -15,11 +15,12 @@ class FoodContainerSearchHelper extends SearchHelper<FoodContainer> {
     String query, {
     required int limit,
     required int offset,
-  }) {
-    return getRef().read(foodContainerRepositoryProvider).search(
-          query,
-          limit: limit,
-          offset: offset,
-        );
+  }) async {
+    final repo = await getRef().read(foodContainerRepositoryProvider.future);
+    return repo.search(
+      query,
+      limit: limit,
+      offset: offset,
+    );
   }
 }

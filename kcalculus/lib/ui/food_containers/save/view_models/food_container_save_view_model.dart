@@ -72,8 +72,9 @@ class FoodContainerSaveViewModel extends AutoDisposeFamilyNotifier<
       _log.finest(
           'saveFoodContainer() Saving food container: ${container.toJson()}');
 
-      container =
-          await ref.read(foodContainerRepositoryProvider).save(container);
+      final repo = await ref.read(foodContainerRepositoryProvider.future);
+
+      container = await repo.save(container);
 
       _log.info('Food container saved');
       _log.finest(

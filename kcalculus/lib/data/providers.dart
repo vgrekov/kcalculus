@@ -9,6 +9,7 @@ import 'package:kcalculus/data/repositories/ad_repository.dart';
 import 'package:kcalculus/data/repositories/app_settings_repository.dart';
 import 'package:kcalculus/data/repositories/dish_repository.dart';
 import 'package:kcalculus/data/repositories/edible_repository.dart';
+import 'package:kcalculus/data/repositories/firestore/food_container_repository.dart';
 import 'package:kcalculus/data/repositories/food_container_repository.dart';
 import 'package:kcalculus/data/repositories/food_repository.dart';
 import 'package:kcalculus/data/repositories/local/app_settings_repository.dart';

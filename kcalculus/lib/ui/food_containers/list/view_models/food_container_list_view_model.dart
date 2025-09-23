@@ -56,8 +56,9 @@ class FoodContainerListViewModel
     try {
       _log.finest('deleteFoodContainer() Deleting food container with ID: $id');
 
-      final deleted =
-          await ref.read(foodContainerRepositoryProvider).delete(id);
+      final repo = await ref.read(foodContainerRepositoryProvider.future);
+
+      final deleted = await repo.delete(id);
 
       _log.info('Food container deleted: $deleted');
       _log.eventFoodContainerDelete();
@@ -86,8 +87,9 @@ class FoodContainerListViewModel
     try {
       _log.finest('restoreFoodContainer() Restoring food with ID: $id');
 
-      final restored =
-          await ref.read(foodContainerRepositoryProvider).restore(id);
+      final repo = await ref.read(foodContainerRepositoryProvider.future);
+
+      final restored = await repo.restore(id);
 
       _log.info('Food container restored: $restored');
       _log.eventFoodContainerRestore();
