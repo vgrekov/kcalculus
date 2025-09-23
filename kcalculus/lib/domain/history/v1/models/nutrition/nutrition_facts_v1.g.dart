@@ -15,6 +15,6 @@ _NutritionFactsV1 _$NutritionFactsV1FromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$NutritionFactsV1ToJson(_NutritionFactsV1 instance) =>
     <String, dynamic>{
-      'amount': instance.amount,
-      'nutrientData': instance.nutrientData,
+      'amount': instance.amount.toJson(),
+      'nutrientData': instance.nutrientData.toJson(),
     };

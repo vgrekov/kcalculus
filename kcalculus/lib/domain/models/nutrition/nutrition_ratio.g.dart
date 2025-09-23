@@ -14,6 +14,6 @@ _NutritionRatio _$NutritionRatioFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$NutritionRatioToJson(_NutritionRatio instance) =>
     <String, dynamic>{
-      'perAmount': instance.perAmount,
-      'totalAmount': instance.totalAmount,
+      'perAmount': instance.perAmount.toJson(),
+      'totalAmount': instance.totalAmount.toJson(),
     };

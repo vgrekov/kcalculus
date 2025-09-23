@@ -17,7 +17,7 @@ Map<String, dynamic> _$NutrientGoalToJson(_NutrientGoal instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nutrient': _$NutrientEnumMap[instance.nutrient]!,
-      'amount': instance.amount,
+      'amount': instance.amount.toJson(),
     };
 
 const _$NutrientEnumMap = {

@@ -26,6 +26,6 @@ Map<String, dynamic> _$UsdaFoodDtoModelToJson(_UsdaFoodDtoModel instance) =>
       'description': instance.description,
       'dataType': instance.dataType,
       'priority': instance.priority,
-      'portions': instance.portions,
-      'nutrients': instance.nutrients,
+      'portions': instance.portions?.map((e) => e.toJson()).toList(),
+      'nutrients': instance.nutrients.map((e) => e.toJson()).toList(),
     };

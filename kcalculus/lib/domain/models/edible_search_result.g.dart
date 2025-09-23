@@ -27,7 +27,7 @@ Map<String, dynamic> _$EdibleSearchResultToJson(_EdibleSearchResult instance) =>
       'name': instance.name,
       'description': instance.description,
       'type': _$EdibleSearchResultTypeEnumMap[instance.type]!,
-      'nutritionFactsPreview': instance.nutritionFactsPreview,
+      'nutritionFactsPreview': instance.nutritionFactsPreview?.toJson(),
       'lastEatenAt': instance.lastEatenAt?.toIso8601String(),
     };
 

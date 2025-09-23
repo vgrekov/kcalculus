@@ -28,10 +28,10 @@ _NutritionFactsPreview _$NutritionFactsPreviewFromJson(
 Map<String, dynamic> _$NutritionFactsPreviewToJson(
         _NutritionFactsPreview instance) =>
     <String, dynamic>{
-      'per': instance.per,
-      'calories': instance.calories,
-      'fat': instance.fat,
-      'carbs': instance.carbs,
-      'protein': instance.protein,
-      'fiber': instance.fiber,
+      'per': instance.per.toJson(),
+      'calories': instance.calories.toJson(),
+      'fat': instance.fat?.toJson(),
+      'carbs': instance.carbs?.toJson(),
+      'protein': instance.protein?.toJson(),
+      'fiber': instance.fiber?.toJson(),
     };

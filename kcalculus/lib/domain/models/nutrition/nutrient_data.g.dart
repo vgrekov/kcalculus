@@ -20,9 +20,10 @@ _NutrientData _$NutrientDataFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$NutrientDataToJson(_NutrientData instance) =>
     <String, dynamic>{
-      'nutrientAmounts': instance.nutrientAmounts,
+      'nutrientAmounts':
+          instance.nutrientAmounts.map((e) => e.toJson()).toList(),
       'nutrientAmountsMap': instance.nutrientAmountsMap
-          .map((k, e) => MapEntry(_$NutrientEnumMap[k]!, e)),
+          .map((k, e) => MapEntry(_$NutrientEnumMap[k]!, e.toJson())),
     };
 
 const _$NutrientEnumMap = {

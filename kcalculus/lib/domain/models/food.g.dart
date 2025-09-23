@@ -26,7 +26,7 @@ Map<String, dynamic> _$FoodToJson(_Food instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
-      'nutritionFacts': instance.nutritionFacts,
+      'nutritionFacts': instance.nutritionFacts.map((e) => e.toJson()).toList(),
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };

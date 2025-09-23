@@ -8,6 +8,6 @@ part of 'ingredient.dart';
 
 Map<String, dynamic> _$IngredientToJson(_Ingredient instance) =>
     <String, dynamic>{
-      'edible': instance.edible,
-      'amount': instance.amount,
+      'edible': instance.edible.toJson(),
+      'amount': instance.amount.toJson(),
     };

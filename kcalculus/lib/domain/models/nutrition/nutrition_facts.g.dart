@@ -17,6 +17,6 @@ _NutritionFacts _$NutritionFactsFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$NutritionFactsToJson(_NutritionFacts instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'amount': instance.amount,
-      'nutrientData': instance.nutrientData,
+      'amount': instance.amount.toJson(),
+      'nutrientData': instance.nutrientData.toJson(),
     };

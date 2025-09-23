@@ -15,7 +15,7 @@ _NutrientAmount _$NutrientAmountFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$NutrientAmountToJson(_NutrientAmount instance) =>
     <String, dynamic>{
       'nutrient': _$NutrientEnumMap[instance.nutrient]!,
-      'amount': instance.amount,
+      'amount': instance.amount.toJson(),
     };
 
 const _$NutrientEnumMap = {
