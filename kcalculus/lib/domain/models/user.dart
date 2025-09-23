@@ -6,6 +6,7 @@ part 'user.g.dart';
 @freezed
 sealed class User with _$User {
   const factory User({
+    required String id,
     required String? displayName,
     required String email,
   }) = _User;

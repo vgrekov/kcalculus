@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$User {
+  String get id;
   String? get displayName;
   String get email;
 
@@ -33,6 +34,7 @@ mixin _$User {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is User &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.displayName, displayName) ||
                 other.displayName == displayName) &&
             (identical(other.email, email) || other.email == email));
@@ -40,11 +42,11 @@ mixin _$User {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, displayName, email);
+  int get hashCode => Object.hash(runtimeType, id, displayName, email);
 
   @override
   String toString() {
-    return 'User(displayName: $displayName, email: $email)';
+    return 'User(id: $id, displayName: $displayName, email: $email)';
   }
 }
 
@@ -53,7 +55,7 @@ abstract mixin class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) _then) =
       _$UserCopyWithImpl;
   @useResult
-  $Res call({String? displayName, String email});
+  $Res call({String id, String? displayName, String email});
 }
 
 /// @nodoc
@@ -68,10 +70,15 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? displayName = freezed,
     Object? email = null,
   }) {
     return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       displayName: freezed == displayName
           ? _self.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
@@ -87,9 +94,12 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
 /// @nodoc
 @JsonSerializable()
 class _User implements User {
-  const _User({required this.displayName, required this.email});
+  const _User(
+      {required this.id, required this.displayName, required this.email});
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
+  @override
+  final String id;
   @override
   final String? displayName;
   @override
@@ -115,6 +125,7 @@ class _User implements User {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _User &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.displayName, displayName) ||
                 other.displayName == displayName) &&
             (identical(other.email, email) || other.email == email));
@@ -122,11 +133,11 @@ class _User implements User {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, displayName, email);
+  int get hashCode => Object.hash(runtimeType, id, displayName, email);
 
   @override
   String toString() {
-    return 'User(displayName: $displayName, email: $email)';
+    return 'User(id: $id, displayName: $displayName, email: $email)';
   }
 }
 
@@ -136,7 +147,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$UserCopyWithImpl;
   @override
   @useResult
-  $Res call({String? displayName, String email});
+  $Res call({String id, String? displayName, String email});
 }
 
 /// @nodoc
@@ -151,10 +162,15 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
   @override
   @pragma('vm:prefer-inline')
   $Res call({
+    Object? id = null,
     Object? displayName = freezed,
     Object? email = null,
   }) {
     return _then(_User(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       displayName: freezed == displayName
           ? _self.displayName
           : displayName // ignore: cast_nullable_to_non_nullable

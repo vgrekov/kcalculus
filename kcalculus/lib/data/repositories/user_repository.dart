@@ -11,6 +11,7 @@ class UserRepository extends AsyncNotifier<User?> {
     return firebaseUser == null
         ? null
         : User(
+            id: firebaseUser.uid,
             displayName: firebaseUser.displayName,
             email: firebaseUser.email!,
           );
@@ -38,6 +39,7 @@ class UserRepository extends AsyncNotifier<User?> {
         );
 
     return User(
+      id: firebaseUser.uid,
       displayName: firebaseUser.displayName,
       email: firebaseUser.email!,
     );
