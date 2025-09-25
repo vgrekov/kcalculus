@@ -97,3 +97,7 @@ class EnvService extends AsyncNotifier<String?> {
     }
   }
 }
+
+final envProvider = AsyncNotifierProvider<EnvService, String?>(
+  EnvService.new,
+);

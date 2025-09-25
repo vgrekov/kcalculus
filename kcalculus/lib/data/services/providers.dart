@@ -56,17 +56,9 @@ final _databaseServiceProvider =
   _DatabaseServiceNotifier.new,
 );
 
-final envProvider = AsyncNotifierProvider<EnvService, String?>(
-  EnvService.new,
-);
-
-final appConfigProvider = AsyncNotifierProvider<AppConfigService, AppConfig?>(
-  AppConfigService.new,
-);
-
 final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
   (ref) async {
-    final appConfig = await ref.watch(appConfigProvider.future);
+    final appConfig = await ref.watch(appConfigServiceProvider.future);
     final packageInfo = await PackageInfo.fromPlatform();
 
     return OpenFoodFactsService(
@@ -76,24 +68,6 @@ final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
       appConfig: appConfig,
     );
   },
-);
-
-final _adServiceProvider = FutureProvider<AdService>(
-  (ref) async {
-    final appConfig = await ref.watch(appConfigProvider.future);
-
-    return AdService(
-      appConfig: appConfig,
-    );
-  },
-);
-
-final purchaseServiceProvider = Provider<PurchaseService>(
-  (ref) => const PurchaseService(),
-);
-
-final rewardServiceProvider = Provider<RewardService>(
-  (ref) => const RewardService(),
 );
 
 final _usdaServiceProvider = Provider<UsdaService>(

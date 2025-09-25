@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:kcalculus/data/services/app_config/app_config.dart';
+import 'package:kcalculus/_data/app_config/models/app_config.dart';
 import 'package:kcalculus/data/services/open_food_facts/product_api_model.dart';
 import 'package:logging/logging.dart';
 

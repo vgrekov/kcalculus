@@ -118,13 +118,14 @@ class _$AppSettingsSharedPrefModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _AppSettingsSharedPrefModel implements AppSettingsSharedPrefModel {
+class _AppSettingsSharedPrefModel extends AppSettingsSharedPrefModel {
   const _AppSettingsSharedPrefModel(
       {this.themeName,
       this.crashlyticsEnabled,
       this.analyticsEnabled,
       this.signedAgreementVersion,
-      this.scannerDisclaimerEnabled});
+      this.scannerDisclaimerEnabled})
+      : super._();
 
   @override
   final String? themeName;

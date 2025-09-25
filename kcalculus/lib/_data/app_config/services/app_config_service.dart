@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/data/services/app_config/app_config.dart';
+import 'package:kcalculus/_data/app_config/models/app_config.dart';
+import 'package:kcalculus/_data/env/services/env_service.dart';
 import 'package:logging/logging.dart';
 
 final _log = Logger('AppConfigService');
@@ -95,3 +95,8 @@ class AppConfigService extends AsyncNotifier<AppConfig?> {
     }
   }
 }
+
+final appConfigServiceProvider =
+    AsyncNotifierProvider<AppConfigService, AppConfig?>(
+  AppConfigService.new,
+);

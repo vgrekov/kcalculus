@@ -1,7 +1,11 @@
-import 'package:kcalculus/data/services/local/app_settings/app_settings_shared_pref_model.dart';
+import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/app_settings/models/app_settings_shared_pref_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppSettingsSharedPrefService {
+class AppSettingsSharedPrefService
+    extends AsyncNotifier<AppSettingsSharedPrefModel> {
   static const _kAppTheme = 'appTheme';
 
   static const _kCrashlyticsEnabled = 'crashlyticsEnabled';
@@ -12,7 +16,12 @@ class AppSettingsSharedPrefService {
 
   static const _kScannerDisclaimerEnabled = 'scannerDisclaimerEnabled';
 
-  Future<AppSettingsSharedPrefModel> getSettings() async {
+  @override
+  FutureOr<AppSettingsSharedPrefModel> build() {
+    return _loadSettings();
+  }
+
+  Future<AppSettingsSharedPrefModel> _loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
 
     return AppSettingsSharedPrefModel(
@@ -24,7 +33,7 @@ class AppSettingsSharedPrefService {
     );
   }
 
-  Future<void> setSettings(AppSettingsSharedPrefModel model) async {
+  Future<void> saveSettings(AppSettingsSharedPrefModel model) async {
     final prefs = await SharedPreferences.getInstance();
 
     if (model.themeName != null) {
@@ -58,5 +67,12 @@ class AppSettingsSharedPrefService {
     } else {
       await prefs.remove(_kScannerDisclaimerEnabled);
     }
+
+    state = AsyncData(model);
   }
 }
+
+final appSettingsSharedPrefService = AsyncNotifierProvider<
+    AppSettingsSharedPrefService, AppSettingsSharedPrefModel>(
+  AppSettingsSharedPrefService.new,
+);

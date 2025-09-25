@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/auth/repositories/user_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -54,7 +55,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
 
   Future<void> setTheme(AppTheme theme) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
-    await repository.setSettings(
+    await repository.saveSettings(
       state.value!.settings.copyWith(
         theme: theme,
       ),
@@ -63,7 +64,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
 
   Future<void> setCrashlyticsEnabled(bool enabled) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
-    await repository.setSettings(
+    await repository.saveSettings(
       state.value!.settings.copyWith(
         crashlyticsEnabled: enabled,
       ),
@@ -72,7 +73,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
 
   Future<void> setAnalyticsEnabled(bool enabled) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
-    await repository.setSettings(
+    await repository.saveSettings(
       state.value!.settings.copyWith(
         analyticsEnabled: enabled,
       ),

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/repositories/ad_repository.dart';
-import 'package:kcalculus/data/repositories/app_settings_repository.dart';
+import 'package:kcalculus/_data/ad/repositories/ad_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
 import 'package:kcalculus/data/repositories/edible_repository.dart';
 import 'package:kcalculus/data/repositories/food_repository.dart';
 import 'package:kcalculus/data/repositories/meal_repository.dart';
@@ -16,7 +16,9 @@ class MockAppSettingsRepository extends AsyncNotifier<AppSettings>
     with Mock
     implements AppSettingsRepository {}
 
-class MockAdRepository with Mock implements AdRepository {}
+class MockAdRepository extends Notifier<void>
+    with Mock
+    implements AdRepository {}
 
 class MockMealRepository with Mock implements MealRepository {}
 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/_common/exceptions/too_many_requests_exception.dart';
+import 'package:kcalculus/_data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/_data/auth/exceptions/email_already_in_use_exception.dart';
 import 'package:kcalculus/_data/auth/exceptions/invalid_credentials_exception.dart';
 import 'package:kcalculus/_data/auth/exceptions/invalid_email_exception.dart';
@@ -10,7 +11,6 @@ import 'package:kcalculus/_data/auth/exceptions/unverified_email_exception.dart'
 import 'package:kcalculus/_data/auth/exceptions/user_disabled_exception.dart';
 import 'package:kcalculus/_data/auth/exceptions/user_not_found_exception.dart';
 import 'package:kcalculus/_data/auth/exceptions/weak_password_exception.dart';
-import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/utils/datetime.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -221,7 +221,7 @@ class AuthService extends AsyncNotifier<User?> {
   }
 
   Future<DateTime?> _getEmailVerificationCooldownEnd(String email) async {
-    final appConfig = await ref.read(appConfigProvider.future);
+    final appConfig = await ref.read(appConfigServiceProvider.future);
 
     final prefs = await SharedPreferences.getInstance();
 

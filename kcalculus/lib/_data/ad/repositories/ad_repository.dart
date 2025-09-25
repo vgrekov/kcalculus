@@ -2,44 +2,44 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:kcalculus/data/services/app_config/app_config.dart';
+import 'package:kcalculus/_data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/utils/datetime.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final _log = Logger('AdService');
+final _log = Logger('AdRepository');
 
-class AdService {
-  const AdService({
-    AppConfig? appConfig,
-  }) : _appConfig = appConfig;
-
+class AdRepository extends Notifier<void> {
   /// For Android: ERROR_CODE_NO_FILL (3)
   /// For iOS: GADErrorNoFill (1)
   static final _kErrorCodeNoFill = Platform.isAndroid ? 3 : 1;
 
-  static const _kInterstitialAdLoadedAt = 'kInterstitialAdLoadedAt';
+  static const _kInterstitialAdLoadedAt = 'interstitialAdLoadedAt';
 
   static const _kInterstitialAdProbability = 0.5;
 
   static final _randomizer = Random();
 
-  final AppConfig? _appConfig;
+  @override
+  void build() {}
 
   Future<InterstitialAd?> loadInterstitialAd() async {
-    if (_appConfig == null) {
+    final appConfig = await ref.read(appConfigServiceProvider.future);
+
+    if (appConfig == null) {
       _log.info('Unable to load ads due to no app config');
       return null;
     }
 
-    if (!_appConfig.adsEnabled) {
+    if (!appConfig.adsEnabled) {
       _log.finer('Ads disabled');
       return null;
     }
 
     final cooldownOver =
-        await _isCooldownOver(_appConfig.interstitialAdCooldownDurationMins);
+        await _isCooldownOver(appConfig.interstitialAdCooldownDurationMins);
     if (!cooldownOver) {
       _log.finer('Still cooling down interstitial ads');
       return null;
@@ -52,9 +52,9 @@ class AdService {
 
     final completer = Completer<InterstitialAd?>();
 
-    final adUnitId = _appConfig.interstitialAdUnitId;
+    final adUnitId = appConfig.interstitialAdUnitId;
 
-    _startTimeout(completer, _appConfig.interstitialAdTimeoutMillis);
+    _startTimeout(completer, appConfig.interstitialAdTimeoutMillis);
 
     InterstitialAd.load(
       adUnitId: adUnitId,
@@ -113,21 +113,23 @@ class AdService {
   }
 
   Future<RewardedAd?> loadUnlockAd() async {
-    if (_appConfig == null) {
+    final appConfig = await ref.read(appConfigServiceProvider.future);
+
+    if (appConfig == null) {
       _log.info('Unable to load ads due to no app config');
       return null;
     }
 
-    if (!_appConfig.adsEnabled) {
+    if (!appConfig.adsEnabled) {
       _log.finer('Ads disabled');
       return null;
     }
 
     final completer = Completer<RewardedAd?>();
 
-    final adUnitId = _appConfig.unlockAdUnitId;
+    final adUnitId = appConfig.unlockAdUnitId;
 
-    _startTimeout(completer, _appConfig.unlockAdTimeoutMillis);
+    _startTimeout(completer, appConfig.unlockAdTimeoutMillis);
 
     RewardedAd.load(
       adUnitId: adUnitId,
@@ -165,3 +167,7 @@ class AdService {
     );
   }
 }
+
+final adRepositoryProvider = NotifierProvider<AdRepository, void>(
+  AdRepository.new,
+);

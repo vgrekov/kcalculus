@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
 import 'package:kcalculus/ui/agreement/view_models/agreement_colors.dart';
 
 const kAgreementVersion = 1;
@@ -39,7 +39,7 @@ class AgreementViewModel
 
   void sign() async {
     final settings = await ref.read(appSettingsRepositoryProvider.future);
-    ref.read(appSettingsRepositoryProvider.notifier).setSettings(
+    ref.read(appSettingsRepositoryProvider.notifier).saveSettings(
           settings.copyWith(signedAgreementVersion: kAgreementVersion),
         );
   }

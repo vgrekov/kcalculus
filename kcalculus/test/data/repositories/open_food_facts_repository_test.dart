@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:kcalculus/_data/app_config/models/app_config.dart';
 import 'package:kcalculus/data/repositories/open_food_facts_repository.dart';
-import 'package:kcalculus/data/services/app_config/app_config.dart';
 import 'package:kcalculus/data/services/open_food_facts/open_food_facts_service.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';

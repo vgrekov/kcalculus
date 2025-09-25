@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
@@ -168,7 +169,7 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
   Future<void> disableScannerDisclaimer() async {
     final settingsRepository = ref.read(appSettingsRepositoryProvider.notifier);
     final settings = await ref.read(appSettingsRepositoryProvider.future);
-    await settingsRepository.setSettings(
+    await settingsRepository.saveSettings(
       settings.copyWith(
         scannerDisclaimerEnabled: false,
       ),

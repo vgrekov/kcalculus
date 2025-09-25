@@ -2,15 +2,6 @@ part of '../providers.dart';
 
 // Repositories
 
-final appSettingsRepositoryProvider =
-    AsyncNotifierProvider<AppSettingsRepository, AppSettings>(
-  () {
-    return LocalAppSettingsRepository(
-      service: AppSettingsSharedPrefService(),
-    );
-  },
-);
-
 final edibleRepositoryProvider = Provider<EdibleRepository>(
   (ref) {
     final edibleDao = ref.watch(_localEdibleDaoProvider);
@@ -122,21 +113,6 @@ final openFoodFactsRepositoryProvider = FutureProvider<OpenFoodFactsRepository>(
       service: service,
     );
   },
-);
-
-final adRepositoryProvider = FutureProvider<AdRepository>(
-  (ref) async {
-    final service = await ref.watch(_adServiceProvider.future);
-
-    return AdRepository(
-      service: service,
-    );
-  },
-);
-
-final accessLevelRepositoryProvider =
-    AsyncNotifierProvider<AccessLevelRepository, AccessLevel>(
-  AccessLevelRepository.new,
 );
 
 final nutrientRepositoryProvider = Provider<NutrientRepository>(
