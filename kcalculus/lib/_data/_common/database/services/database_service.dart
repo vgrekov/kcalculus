@@ -64,9 +64,9 @@ class DatabaseService extends FamilyAsyncNotifier<Database, DatabaseConfig> {
   FutureOr<void> migrateDatabase() async {
     _ensureDatabaseIsReady();
 
-    state = const AsyncLoading();
-
     var db = state.asData!.value;
+
+    state = const AsyncLoading();
 
     try {
       db = await _migrateDatabase(db);
@@ -82,9 +82,9 @@ class DatabaseService extends FamilyAsyncNotifier<Database, DatabaseConfig> {
   Future<File> exportDatabase() async {
     _ensureDatabaseIsReady();
 
-    state = const AsyncLoading();
-
     final db = state.asData!.value;
+
+    state = const AsyncLoading();
 
     try {
       final dbFile = File(db.path);
@@ -111,9 +111,9 @@ class DatabaseService extends FamilyAsyncNotifier<Database, DatabaseConfig> {
 
     _ensureDatabaseIsReady();
 
-    state = const AsyncLoading();
-
     var db = state.asData!.value;
+
+    state = const AsyncLoading();
 
     final dbPath = db.path;
 
