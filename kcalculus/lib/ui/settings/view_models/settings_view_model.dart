@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/auth/repositories/user_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';

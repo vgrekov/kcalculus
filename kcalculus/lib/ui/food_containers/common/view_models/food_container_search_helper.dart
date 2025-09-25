@@ -1,5 +1,6 @@
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/food_container_repository.dart';
 import 'package:kcalculus/domain/models/food_container.dart';
+import 'package:kcalculus/domain/utils/page_config.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_helper.dart';
 
 class FoodContainerSearchHelper extends SearchHelper<FoodContainer> {
@@ -13,14 +14,12 @@ class FoodContainerSearchHelper extends SearchHelper<FoodContainer> {
   @override
   Future<List<FoodContainer>> loadData(
     String query, {
-    required int limit,
-    required int offset,
+    PageConfig<FoodContainer>? pageConfig,
   }) async {
     final repo = await getRef().read(foodContainerRepositoryProvider.future);
     return repo.search(
       query,
-      limit: limit,
-      offset: offset,
+      pageConfig: pageConfig,
     );
   }
 }

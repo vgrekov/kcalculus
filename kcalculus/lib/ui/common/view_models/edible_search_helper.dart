@@ -1,5 +1,6 @@
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/providers.dart';
+import 'package:kcalculus/domain/utils/page_config.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_helper.dart';
 
 class EdibleSearchHelper extends SearchHelper<EdibleSearchResult> {
@@ -16,14 +17,13 @@ class EdibleSearchHelper extends SearchHelper<EdibleSearchResult> {
   @override
   Future<List<EdibleSearchResult>> loadData(
     String query, {
-    required int limit,
-    required int offset,
+    PageConfig<EdibleSearchResult>? pageConfig,
   }) {
     return getRef().read(edibleSearchUseCaseProvider).search(
           query,
           type: _searchResultType,
-          limit: limit,
-          offset: offset,
+          limit: pageConfig?.size,
+          offset: pageConfig?.offset,
         );
   }
 }

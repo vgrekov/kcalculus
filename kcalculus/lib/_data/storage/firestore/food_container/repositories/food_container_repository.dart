@@ -1,45 +1,25 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:kcalculus/data/repositories/firestore/models/food_container_firestore_model.dart';
-import 'package:kcalculus/data/repositories/food_container_repository.dart';
-import 'package:kcalculus/data/utils/auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/auth/utils/auth.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/food_container_repository.dart';
+import 'package:kcalculus/_data/storage/firestore/_common/utils/timestamp_utils.dart';
+import 'package:kcalculus/_data/storage/firestore/food_container/models/food_container_firestore_model.dart';
 import 'package:kcalculus/domain/models/food_container.dart';
+import 'package:kcalculus/domain/utils/change_signal.dart';
+import 'package:kcalculus/domain/utils/page_config.dart';
 
-class FirestoreFoodContainerRepository implements FoodContainerRepository {
-  FirestoreFoodContainerRepository({
-    required StreamController<void> changeController,
-  }) : _changeController = changeController;
-
-  final StreamController<void> _changeController;
-
+class FirestoreFoodContainerRepository extends FoodContainerRepository {
   FirebaseFirestore get _db => FirebaseFirestore.instance;
 
   @override
   Future<List<FoodContainer>> search(
     String? query, {
-    int? limit,
-    int? offset,
+    PageConfig<FoodContainer>? pageConfig,
   }) {
-    if (offset != null && limit == null) {
-      throw ArgumentError('Argument "limit" is missing');
-    }
-
-    if (limit != null && limit <= 0) {
-      throw ArgumentError(
-          'If present, "limit" argument must be a positive integer');
-    }
-
-    if (offset != null && offset < 0) {
-      throw ArgumentError(
-          'If present, "offset" argument must be a non-negative integer');
-    }
-
     return Auth.guard((user) async {
-      // TODO: Remove this after pagination is in place
-      if ((offset ?? 0) > 0) return [];
-
-      final query = _db
+      var query = _db
           .collection(FoodContainerFirestoreModel.kCollection)
           .where('ownerId', isEqualTo: user.uid)
           .where('deletedAt', isNull: true)
@@ -56,10 +36,14 @@ class FirestoreFoodContainerRepository implements FoodContainerRepository {
             toFirestore: (model, _) => model.toJson(),
           );
 
-      if (limit != null) {
-        // TODO: Implement pagination
-        //query = query.limit(limit).offset(offset ?? 0);
-        // query.startAfter(values)
+      if (pageConfig != null) {
+        query = query.limit(pageConfig.size);
+        if (pageConfig.startAfter != null) {
+          query = query.startAfter([
+            dateToTimestamp(pageConfig.startAfter!.updatedAt),
+            pageConfig.startAfter!.id,
+          ]);
+        }
       }
 
       final snapshot = await query.get();
@@ -119,7 +103,7 @@ class FirestoreFoodContainerRepository implements FoodContainerRepository {
         );
       }
 
-      _changeController.add(null);
+      emitChangeSignal();
 
       final snapshot = await docRef.get();
 
@@ -144,7 +128,7 @@ class FirestoreFoodContainerRepository implements FoodContainerRepository {
         },
       );
 
-      _changeController.add(null);
+      emitChangeSignal();
 
       return true;
     });
@@ -162,9 +146,14 @@ class FirestoreFoodContainerRepository implements FoodContainerRepository {
         },
       );
 
-      _changeController.add(null);
+      emitChangeSignal();
 
       return true;
     });
   }
 }
+
+final firestoreFoodContainerRepositoryProvider =
+    NotifierProvider<FoodContainerRepository, ChangeSignal?>(
+  FirestoreFoodContainerRepository.new,
+);

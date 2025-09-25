@@ -281,3 +281,7 @@ class AuthService extends AsyncNotifier<User?> {
     }
   }
 }
+
+final authServiceProvider = AsyncNotifierProvider<AuthService, User?>(
+  AuthService.new,
+);

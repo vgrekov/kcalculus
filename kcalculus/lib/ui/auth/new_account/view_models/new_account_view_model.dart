@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/exceptions/email_already_in_use_exception.dart';
-import 'package:kcalculus/data/exceptions/invalid_email_exception.dart';
-import 'package:kcalculus/data/exceptions/weak_password_exception.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/auth/exceptions/email_already_in_use_exception.dart';
+import 'package:kcalculus/_data/auth/exceptions/invalid_email_exception.dart';
+import 'package:kcalculus/_data/auth/exceptions/weak_password_exception.dart';
+import 'package:kcalculus/_data/auth/repositories/user_repository.dart';
 import 'package:kcalculus/ui/auth/new_account/view_models/new_account_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/auth/services/auth_service.dart';
 import 'package:kcalculus/domain/models/user.dart';
 
 class UserRepository extends AsyncNotifier<User?> {
@@ -71,3 +71,7 @@ class UserRepository extends AsyncNotifier<User?> {
     return ref.read(authServiceProvider.notifier).logout();
   }
 }
+
+final userRepositoryProvider = AsyncNotifierProvider<UserRepository, User?>(
+  UserRepository.new,
+);

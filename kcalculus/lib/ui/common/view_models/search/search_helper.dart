@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/domain/utils/page_config.dart';
 import 'package:kcalculus/ui/common/view_models/paginator.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/search_controller.dart';
@@ -25,8 +26,13 @@ abstract class SearchHelper<Model> {
     currentData: () => _getState().data,
     loadPage: (offset) => loadData(
       _getState().searchQuery,
-      limit: _pageSize,
-      offset: offset,
+      pageConfig: PageConfig<Model>(
+        size: _pageSize,
+        offset: offset,
+        startAfter: (offset > 0 && offset <= _getState().data.length)
+            ? _getState().data[offset - 1]
+            : null,
+      ),
     ),
     updateState: (data) {
       _setState(
@@ -60,8 +66,10 @@ abstract class SearchHelper<Model> {
   Future<List<Model>> _doSearch(String query) async {
     final data = await loadData(
       query,
-      limit: _pageSize,
-      offset: 0,
+      pageConfig: PageConfig<Model>(
+        size: _pageSize,
+        offset: 0,
+      ),
     );
 
     _setState(
@@ -73,7 +81,6 @@ abstract class SearchHelper<Model> {
 
   Future<List<Model>> loadData(
     String query, {
-    required int limit,
-    required int offset,
+    PageConfig<Model>? pageConfig,
   });
 }

@@ -2,9 +2,9 @@
 // ignore_for_file: invalid_annotation_target
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/data/repositories/firestore/models/amount_firestore_model.dart';
+import 'package:kcalculus/_data/storage/firestore/_common/models/amount_firestore_model.dart';
+import 'package:kcalculus/_data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/domain/models/food_container.dart';
-import 'package:kcalculus/data/utils/timestamp_utils.dart';
 
 part 'food_container_firestore_model.freezed.dart';
 part 'food_container_firestore_model.g.dart';

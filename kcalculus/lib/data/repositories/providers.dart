@@ -139,45 +139,6 @@ final accessLevelRepositoryProvider =
   AccessLevelRepository.new,
 );
 
-final _foodContainerChangesStreamControllerProvider =
-    Provider<StreamController<void>>(
-  (ref) {
-    final controller = StreamController<void>.broadcast();
-    ref.onDispose(controller.close);
-    return controller;
-  },
-);
-
-final foodContainerChangesProvider = StreamProvider<void>(
-  (ref) {
-    final controller = ref.watch(_foodContainerChangesStreamControllerProvider);
-    return controller.stream;
-  },
-);
-
-final foodContainerRepositoryProvider = FutureProvider<FoodContainerRepository>(
-  (ref) async {
-    final firebaseUser = await ref.watch(authServiceProvider.future);
-    final authService = ref.watch(authServiceProvider.notifier);
-
-    final containerDao = ref.watch(_localFoodContainerDaoProvider);
-
-    final changeController =
-        ref.watch(_foodContainerChangesStreamControllerProvider);
-
-    if (firebaseUser == null && await authService.isAnonymousModeSelected()) {
-      return LocalContainerRepository(
-        containerDao: containerDao,
-        changeController: changeController,
-      );
-    } else {
-      return FirestoreFoodContainerRepository(
-        changeController: changeController,
-      );
-    }
-  },
-);
-
 final nutrientRepositoryProvider = Provider<NutrientRepository>(
   (ref) {
     final defaultNutrientDao = ref.watch(_localDefaultNutrientDaoProvider);
@@ -222,9 +183,4 @@ final usdaFoodRepositoryProvider = Provider<UsdaFoodRepository>(
       usdaFoodConverter: usdaFoodConverter,
     );
   },
-);
-
-final userRepositoryProvider =
-    AsyncNotifierProvider<UserRepository, domain_user.User?>(
-  UserRepository.new,
 );

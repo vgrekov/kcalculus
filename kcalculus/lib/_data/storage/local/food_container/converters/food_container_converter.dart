@@ -1,10 +1,14 @@
-import 'package:kcalculus/data/services/local/database/food_container/food_container_db_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/food_container/models/food_container_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/food_container.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 
-class LocalFoodContainerConverter {
+class LocalFoodContainerConverter extends Notifier<void> {
+  @override
+  void build() {}
+
   FoodContainerDbModel toDbModel(FoodContainer model, [String? containerId]) {
     return FoodContainerDbModel(
       id: (containerId ?? model.id)!,
@@ -33,3 +37,8 @@ class LocalFoodContainerConverter {
     );
   }
 }
+
+final localFoodContainerConverterProvider =
+    NotifierProvider<LocalFoodContainerConverter, void>(
+  LocalFoodContainerConverter.new,
+);

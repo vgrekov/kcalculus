@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/food_container_repository.dart';
 import 'package:kcalculus/domain/models/food_container.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_helper.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
@@ -18,7 +18,7 @@ enum FoodContainerListCommand {
 }
 
 class FoodContainerListViewModel
-    extends Notifier<SearchUiState<FoodContainer>> {
+    extends AutoDisposeNotifier<SearchUiState<FoodContainer>> {
   static const _kPageSize = 25;
 
   UiCommander<FoodContainerListCommand>? _commander;
@@ -33,8 +33,6 @@ class FoodContainerListViewModel
 
   @override
   SearchUiState<FoodContainer> build() {
-    ref.watch(foodContainerRepositoryProvider);
-
     ref.watch(foodContainerChangesProvider);
 
     _commander = UiCommander<FoodContainerListCommand>(_commander);
@@ -103,7 +101,7 @@ class FoodContainerListViewModel
   }
 }
 
-final foodContainerListViewModel =
-    NotifierProvider<FoodContainerListViewModel, SearchUiState<FoodContainer>>(
+final foodContainerListViewModel = NotifierProvider.autoDispose<
+    FoodContainerListViewModel, SearchUiState<FoodContainer>>(
   () => FoodContainerListViewModel(),
 );

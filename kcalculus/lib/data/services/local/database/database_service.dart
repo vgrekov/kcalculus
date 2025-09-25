@@ -56,8 +56,10 @@ class DatabaseService {
     return importDb(fromFile, _kDbName, _kDbVersion, _kDbMigrationsDir);
   }
 
-  DatabaseService() {
-    _database = openDb(_kDbName);
+  DatabaseService({
+    required Future<Database> database,
+  }) {
+    _database = database;
     nutritionFacts = NutritionFactsService(_database);
     edible = EdibleService(_database);
     food = FoodService(_database);
