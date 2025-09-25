@@ -10,7 +10,6 @@ import 'package:kcalculus/_data/storage/local/_common/database.dart';
 import 'package:kcalculus/data/repositories/dish_repository.dart';
 import 'package:kcalculus/data/repositories/edible_repository.dart';
 import 'package:kcalculus/data/repositories/food_repository.dart';
-import 'package:kcalculus/data/repositories/local/backup_repository.dart';
 import 'package:kcalculus/data/repositories/local/converters/default_nutrient_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/dish_converter.dart';
 import 'package:kcalculus/data/repositories/local/converters/edible_search_result_converter.dart';

@@ -93,18 +93,6 @@ final mealRepositoryProvider = Provider<MealRepository>(
   },
 );
 
-final backupRepositoryProvider = Provider<BackupRepository>(
-  (ref) {
-    ref.watch(_databaseServiceProvider);
-
-    final dbManager = ref.read(_databaseServiceProvider.notifier);
-
-    return BackupRepository(
-      dbManager: dbManager,
-    );
-  },
-);
-
 final openFoodFactsRepositoryProvider = FutureProvider<OpenFoodFactsRepository>(
   (ref) async {
     final service = await ref.watch(_openFoodFactsServiceProvider.future);
