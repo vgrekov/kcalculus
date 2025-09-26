@@ -6,11 +6,7 @@ import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dar
 import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/meal_repository.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/nutrient_repository.dart';
 import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
-import 'package:kcalculus/_data/storage/local/default_nutrient/converters/default_nutrient_converter.dart';
-import 'package:kcalculus/_data/storage/local/default_nutrient/dao/default_nutrient_dao.dart';
-import 'package:kcalculus/_data/storage/local/default_nutrient/repositories/nutrient_repository.dart';
 import 'package:kcalculus/_data/storage/local/dish/converters/dish_converter.dart';
 import 'package:kcalculus/_data/storage/local/dish/converters/ingredient_converter.dart';
 import 'package:kcalculus/_data/storage/local/dish/dao/dish_dao.dart';

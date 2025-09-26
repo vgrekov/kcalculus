@@ -1,7 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/default_nutrient_repository.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
@@ -22,7 +23,10 @@ class NutrientDefaultsViewModel
 
   @override
   FutureOr<List<Nutrient>> build() {
-    final nutrientRepository = ref.watch(nutrientRepositoryProvider);
+    ref.listen(
+      defaultNutrientRepositoryProvider,
+      _repoListener,
+    );
 
     _commander = UiCommander<NutrientDefaultsCommand>(_commander);
 
@@ -30,7 +34,7 @@ class NutrientDefaultsViewModel
       _commander?.dispose();
     });
 
-    return nutrientRepository.getDefaults();
+    return ref.read(defaultNutrientRepositoryProvider.future);
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
@@ -49,12 +53,12 @@ class NutrientDefaultsViewModel
           nutrient,
         ];
 
-        await ref.read(nutrientRepositoryProvider).saveDefaults(defaults);
+        await ref
+            .read(defaultNutrientRepositoryProvider.notifier)
+            .saveAll(defaults);
 
         _log.info('Default nutrient added: $nutrient');
         _log.eventDefaultNutrientAdd(nutrient);
-
-        state = AsyncValue.data(defaults);
       } catch (error, stackTrace) {
         _log.severe('Failed to add default nutrient', error, stackTrace);
 
@@ -80,12 +84,12 @@ class NutrientDefaultsViewModel
 
         final result = defaults.remove(nutrient);
 
-        await ref.read(nutrientRepositoryProvider).saveDefaults(defaults);
+        await ref
+            .read(defaultNutrientRepositoryProvider.notifier)
+            .saveAll(defaults);
 
         _log.info('Default nutrient deleted: $nutrient');
         _log.eventDefaultNutrientDelete(nutrient);
-
-        state = AsyncValue.data(defaults);
 
         if (result) {
           _commander!.send<(Nutrient, int), void>(
@@ -120,12 +124,12 @@ class NutrientDefaultsViewModel
 
         defaults.insert(index, nutrient);
 
-        await ref.read(nutrientRepositoryProvider).saveDefaults(defaults);
+        await ref
+            .read(defaultNutrientRepositoryProvider.notifier)
+            .saveAll(defaults);
 
         _log.info('Default nutrient restored: $nutrient at position: $index');
         _log.eventDefaultNutrientRestore(nutrient);
-
-        state = AsyncValue.data(defaults);
       } catch (error, stackTrace) {
         _log.severe('Failed to restore default nutrient', error, stackTrace);
 
@@ -159,7 +163,9 @@ class NutrientDefaultsViewModel
 
         state = AsyncValue.data(defaults);
 
-        await ref.read(nutrientRepositoryProvider).saveDefaults(defaults);
+        await ref
+            .read(defaultNutrientRepositoryProvider.notifier)
+            .saveAll(defaults);
 
         _log.info('Default nutrients reordered');
       } catch (error, stackTrace) {
@@ -167,12 +173,21 @@ class NutrientDefaultsViewModel
 
         _commander!.send(NutrientDefaultsCommand.showUnknownErrorNotification);
 
-        state = await AsyncValue.guard(
-          ref.read(nutrientRepositoryProvider).getDefaults,
-        );
+        state = ref.read(defaultNutrientRepositoryProvider);
       }
 
       _log.finer('reorderNutrients() END');
+    }
+  }
+
+  void _repoListener(
+    AsyncValue<List<Nutrient>>? prev,
+    AsyncValue<List<Nutrient>> next,
+  ) {
+    if (next is AsyncData) {
+      if (!listEquals(state.value, next.value)) {
+        state = next;
+      }
     }
   }
 }

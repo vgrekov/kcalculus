@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/default_nutrient_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
@@ -158,7 +159,7 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
   }
 
   Future<List<Nutrient>> getNutrientDefaults() {
-    return ref.read(nutrientRepositoryProvider).getDefaults();
+    return ref.read(defaultNutrientRepositoryProvider.future);
   }
 
   Future<bool> isScannerDisclaimerEnabled() async {

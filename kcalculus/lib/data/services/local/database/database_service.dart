@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:kcalculus/_data/storage/local/default_nutrient/services/default_nutrient_service.dart';
 import 'package:kcalculus/_data/storage/local/dish/services/dish_service.dart';
 import 'package:kcalculus/_data/storage/local/dish/services/ingredient_service.dart';
 import 'package:kcalculus/_data/storage/local/edible/services/edible_service.dart';
@@ -64,7 +63,6 @@ class DatabaseService {
     ingredient = IngredientService(_database);
     dish = DishService(_database);
     meal = MealService(_database);
-    defaultNutrient = DefaultNutrientService(_database);
     nutrientAmount = NutrientAmountService(_database);
   }
 
@@ -81,8 +79,6 @@ class DatabaseService {
   late final DishService dish;
 
   late final MealService meal;
-
-  late final DefaultNutrientService defaultNutrient;
 
   late final NutrientAmountService nutrientAmount;
 

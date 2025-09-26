@@ -1,7 +1,11 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/local/default_nutrient/models/default_nutrient_db_model.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 
-class LocalDefaultNutrientConverter {
+class LocalDefaultNutrientConverter extends Notifier<void> {
+  @override
+  void build() {}
+
   List<DefaultNutrientDbModel> toDbModels(List<Nutrient> models) {
     return models.indexed
         .map(
@@ -22,3 +26,8 @@ class LocalDefaultNutrientConverter {
         .toList();
   }
 }
+
+final localDefaultNutrientConverterProvider =
+    NotifierProvider<LocalDefaultNutrientConverter, void>(
+  LocalDefaultNutrientConverter.new,
+);

@@ -9,14 +9,15 @@ class LocalFoodContainerService extends Notifier<void> {
   @override
   void build() {}
 
-  Future<Database> get _db => ref.read(localStorageServiceProvider.future);
+  Future<Database> get _database =>
+      ref.read(localStorageServiceProvider.future);
 
   Future<List<FoodContainerDbModel>> search(
     String? query, {
     PageConfig<FoodContainerDbModel>? pageConfig,
     Transaction? txn,
   }) async {
-    final executor = txn ?? await _db;
+    final executor = txn ?? await _database;
 
     var sql = '''
       SELECT
@@ -62,7 +63,7 @@ class LocalFoodContainerService extends Notifier<void> {
     String? exceptWithId,
     Transaction? txn,
   }) async {
-    final executor = txn ?? await _db;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -88,7 +89,7 @@ class LocalFoodContainerService extends Notifier<void> {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await _db;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -113,7 +114,7 @@ class LocalFoodContainerService extends Notifier<void> {
     FoodContainerDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await _db;
+    final executor = txn ?? await _database;
 
     await executor.insert(
       'food_containers',
@@ -128,7 +129,7 @@ class LocalFoodContainerService extends Notifier<void> {
     FoodContainerDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await _db;
+    final executor = txn ?? await _database;
 
     await executor.update(
       'food_containers',
@@ -145,7 +146,7 @@ class LocalFoodContainerService extends Notifier<void> {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await _db;
+    final executor = txn ?? await _database;
 
     final count = await executor.update(
       'food_containers',
@@ -163,7 +164,7 @@ class LocalFoodContainerService extends Notifier<void> {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await _db;
+    final executor = txn ?? await _database;
 
     final count = await executor.update(
       'food_containers',

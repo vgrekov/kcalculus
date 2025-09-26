@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/default_nutrient_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/meal.dart';
@@ -110,7 +111,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
   }
 
   Future<List<Nutrient>> getNutrientDefaults() {
-    return ref.read(nutrientRepositoryProvider).getDefaults();
+    return ref.read(defaultNutrientRepositoryProvider.future);
   }
 
   MealListUiState _loadFor(DateTime date) {

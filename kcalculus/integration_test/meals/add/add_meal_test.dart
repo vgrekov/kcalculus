@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:kcalculus/_data/ad/repositories/ad_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/default_nutrient_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
@@ -35,7 +36,7 @@ void main() {
       late MockAppSettingsRepository appSettingsRepository;
       late MockAdRepository adRepository;
       late MockMealRepository mealRepository;
-      late MockNutrientRepository nutrientRepository;
+      late MockDefaultNutrientRepository defaultNutrientRepository;
       late MockNutrientGoalRepository nutrientGoalRepository;
 
       late List<Override> commonOverrides;
@@ -65,9 +66,9 @@ void main() {
           },
         );
 
-        nutrientRepository = MockNutrientRepository();
+        defaultNutrientRepository = MockDefaultNutrientRepository();
 
-        when(() => nutrientRepository.getDefaults()).thenAnswer(
+        when(() => defaultNutrientRepository.build()).thenAnswer(
           (_) async => [
             Nutrient.energy,
             Nutrient.fat,
@@ -96,8 +97,8 @@ void main() {
           mealRepositoryProvider.overrideWith(
             (ref) => mealRepository,
           ),
-          nutrientRepositoryProvider.overrideWith(
-            (ref) => nutrientRepository,
+          defaultNutrientRepositoryProvider.overrideWith(
+            () => defaultNutrientRepository,
           ),
           nutrientGoalRepositoryProvider.overrideWith(
             () => nutrientGoalRepository,

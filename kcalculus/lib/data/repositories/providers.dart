@@ -92,12 +92,3 @@ final mealRepositoryProvider = Provider<MealRepository>(
     );
   },
 );
-
-final nutrientRepositoryProvider = Provider<NutrientRepository>(
-  (ref) {
-    final defaultNutrientDao = ref.watch(_localDefaultNutrientDaoProvider);
-    return LocalNutrientRepository(
-      defaultNutrientDao: defaultNutrientDao,
-    );
-  },
-);

@@ -75,15 +75,3 @@ final _localMealDaoProvider = Provider(
     );
   },
 );
-
-final _localDefaultNutrientDaoProvider = Provider(
-  (ref) {
-    final dbService = ref.watch(_databaseServiceProvider);
-    final defaultNutrientConverter =
-        ref.watch(_localDefaultNutrientConverterProvider);
-    return LocalDefaultNutrientDao(
-      dbService: dbService,
-      defaultNutrientConverter: defaultNutrientConverter,
-    );
-  },
-);
