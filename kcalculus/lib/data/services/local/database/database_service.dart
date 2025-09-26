@@ -9,7 +9,6 @@ import 'package:kcalculus/_data/storage/local/edible/services/nutrient_amount_se
 import 'package:kcalculus/_data/storage/local/edible/services/nutrition_facts_service.dart';
 import 'package:kcalculus/_data/storage/local/food/services/food_service.dart';
 import 'package:kcalculus/_data/storage/local/meal/services/meal_service.dart';
-import 'package:kcalculus/_data/storage/local/nutrient_goal/services/nutrient_goal_service.dart';
 import 'package:kcalculus/data/exceptions/localized_exception.dart';
 import 'package:kcalculus/data/utils/db_utils.dart';
 import 'package:sqflite/sqflite.dart';
@@ -67,7 +66,6 @@ class DatabaseService {
     meal = MealService(_database);
     defaultNutrient = DefaultNutrientService(_database);
     nutrientAmount = NutrientAmountService(_database);
-    nutrientGoal = NutrientGoalService(_database);
   }
 
   late final Future<Database> _database;
@@ -87,8 +85,6 @@ class DatabaseService {
   late final DefaultNutrientService defaultNutrient;
 
   late final NutrientAmountService nutrientAmount;
-
-  late final NutrientGoalService nutrientGoal;
 
   Future<T> transaction<T>(Future<T> Function(Transaction) action) async {
     final db = await _database;

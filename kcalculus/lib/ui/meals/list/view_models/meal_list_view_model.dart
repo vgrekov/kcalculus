@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
@@ -31,7 +32,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
     ref.watch(foodChangesProvider);
     ref.watch(dishChangesProvider);
     ref.watch(mealChangesProvider);
-    ref.watch(goalChangesProvider);
+    ref.watch(nutrientGoalRepositoryProvider);
 
     _scheduleNextDaySwitch();
 
@@ -123,8 +124,9 @@ class MealListViewModel extends Notifier<MealListUiState> {
   Future<List<Meal>> _doLoadFor(DateTime date) async {
     final data = await ref.read(mealRepositoryProvider).getByDate(date);
 
-    final goals =
-        await ref.read(nutrientGoalRepositoryProvider).getActiveGoals(date);
+    final goals = await ref
+        .read(nutrientGoalRepositoryProvider.notifier)
+        .getActiveGoals(date);
     final energyGoal =
         goals.where((goal) => goal.nutrient == Nutrient.energy).firstOrNull;
 

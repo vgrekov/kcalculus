@@ -1,11 +1,15 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/nutrient_goal/models/nutrient_goal_db_model.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:sqflite/sqflite.dart';
 
-class NutrientGoalService {
-  NutrientGoalService(this.database);
+class LocalNutrientGoalService extends Notifier<void> {
+  @override
+  void build() {}
 
-  final Future<Database> database;
+  Future<Database> get _database =>
+      ref.read(localStorageServiceProvider.future);
 
   Future<List<NutrientGoalDbModel>> getActive(
     DateTime date, {
@@ -19,7 +23,7 @@ class NutrientGoalService {
       ).add(Duration(days: 1)),
     );
 
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -71,7 +75,7 @@ class NutrientGoalService {
     NutrientGoalDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     await executor.insert(
       'nutrient_goals',
@@ -86,7 +90,7 @@ class NutrientGoalService {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     final count = await executor.update(
       'nutrient_goals',
@@ -104,7 +108,7 @@ class NutrientGoalService {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     final count = await executor.update(
       'nutrient_goals',
@@ -118,3 +122,8 @@ class NutrientGoalService {
     return count > 0;
   }
 }
+
+final localNutrientGoalServiceProvider =
+    NotifierProvider<LocalNutrientGoalService, void>(
+  LocalNutrientGoalService.new,
+);

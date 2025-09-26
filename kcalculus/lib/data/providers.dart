@@ -6,7 +6,6 @@ import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dar
 import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/meal_repository.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/nutrient_repository.dart';
 import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/default_nutrient/converters/default_nutrient_converter.dart';
@@ -28,9 +27,6 @@ import 'package:kcalculus/_data/storage/local/food/repositories/food_repository.
 import 'package:kcalculus/_data/storage/local/meal/converters/meal_coverter.dart';
 import 'package:kcalculus/_data/storage/local/meal/dao/meal_dao.dart';
 import 'package:kcalculus/_data/storage/local/meal/repositories/meal_repository.dart';
-import 'package:kcalculus/_data/storage/local/nutrient_goal/converters/nutrient_goal_converter.dart';
-import 'package:kcalculus/_data/storage/local/nutrient_goal/dao/nutrient_goal_dao.dart';
-import 'package:kcalculus/_data/storage/local/nutrient_goal/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/data/services/local/database/database_manager.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
 

@@ -72,7 +72,7 @@ class AppSettingsSharedPrefService
   }
 }
 
-final appSettingsSharedPrefService = AsyncNotifierProvider<
+final appSettingsSharedPrefServiceProvider = AsyncNotifierProvider<
     AppSettingsSharedPrefService, AppSettingsSharedPrefModel>(
   AppSettingsSharedPrefService.new,
 );

@@ -1,10 +1,14 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/local/nutrient_goal/models/nutrient_goal_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_goal.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
-class LocalNutrientGoalConverter {
+class LocalNutrientGoalConverter extends Notifier<void> {
+  @override
+  void build() {}
+
   NutrientGoalDbModel toDbModel(NutrientGoal model, [String? id]) {
     return NutrientGoalDbModel(
       id: (id ?? model.id)!,
@@ -25,3 +29,8 @@ class LocalNutrientGoalConverter {
     );
   }
 }
+
+final localNutrientGoalConverterProvider =
+    NotifierProvider<LocalNutrientGoalConverter, void>(
+  LocalNutrientGoalConverter.new,
+);

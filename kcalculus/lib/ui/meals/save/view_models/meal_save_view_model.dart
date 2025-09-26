@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
@@ -94,7 +95,7 @@ class MealSaveViewModel
 
   Future<bool> _checkForEnergyGoalExceeding(Meal meal) async {
     final goals = await ref
-        .read(nutrientGoalRepositoryProvider)
+        .read(nutrientGoalRepositoryProvider.notifier)
         .getActiveGoals(state.eatenAt);
     final goalEnergyAmount = goals
         .where(

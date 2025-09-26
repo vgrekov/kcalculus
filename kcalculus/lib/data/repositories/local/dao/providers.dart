@@ -87,15 +87,3 @@ final _localDefaultNutrientDaoProvider = Provider(
     );
   },
 );
-
-final _localNutrientGoalDaoProvider = Provider(
-  (ref) {
-    final dbService = ref.watch(_databaseServiceProvider);
-    final nutrientGoalConverter =
-        ref.watch(_localNutrientGoalConverterProvider);
-    return LocalNutrientGoalDao(
-      dbService: dbService,
-      nutrientGoalConverter: nutrientGoalConverter,
-    );
-  },
-);

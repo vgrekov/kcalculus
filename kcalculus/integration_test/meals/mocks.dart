@@ -10,6 +10,7 @@ import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/domain/use_cases/edible_search_use_case.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/maintenance_state.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/maintenance_use_case.dart';
+import 'package:kcalculus/domain/utils/change_signal.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAppSettingsRepository extends AsyncNotifier<AppSettings>
@@ -30,7 +31,9 @@ class MockFoodRepository with Mock implements FoodRepository {}
 
 class MockNutrientRepository with Mock implements NutrientRepository {}
 
-class MockNutrientGoalRepository with Mock implements NutrientGoalRepository {}
+class MockNutrientGoalRepository extends Notifier<ChangeSignal?>
+    with Mock
+    implements NutrientGoalRepository {}
 
 class MockMaintenanceUseCase extends MaintenanceUseCase {
   @override

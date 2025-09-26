@@ -14,27 +14,29 @@ class _AppSettingsRepository extends AppSettingsRepository {
   @override
   FutureOr<AppSettings> build() async {
     ref.watch(storageTypeProvider);
-    ref.watch(localAppSettingsRepository);
+    ref.watch(localAppSettingsRepositoryProvider);
+    // TODO: Firestore
 
-    final provider = await _provider();
+    final provider = await _providerImpl;
 
     return ref.read(provider.future);
   }
 
   @override
   Future<void> saveSettings(AppSettings settings) async {
-    final provider = await _provider();
+    final provider = await _providerImpl;
 
     return ref.read(provider.notifier).saveSettings(settings);
   }
 
   Future<AsyncNotifierProvider<AppSettingsRepository, AppSettings>>
-      _provider() async {
+      get _providerImpl async {
     final storageType = await ref.read(storageTypeProvider.future);
 
     return switch (storageType) {
-      StorageType.local => localAppSettingsRepository,
-      StorageType.firestore => localAppSettingsRepository,
+      StorageType.local => localAppSettingsRepositoryProvider,
+      // TODO: Firestore
+      StorageType.firestore => localAppSettingsRepositoryProvider,
     };
   }
 }
