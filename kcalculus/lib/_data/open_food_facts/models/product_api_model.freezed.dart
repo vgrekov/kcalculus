@@ -133,7 +133,7 @@ class _$ProductApiModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _ProductApiModel implements ProductApiModel {
+class _ProductApiModel extends ProductApiModel {
   const _ProductApiModel(
       {required this.product_name,
       this.brands,
@@ -141,7 +141,8 @@ class _ProductApiModel implements ProductApiModel {
       this.serving_quantity,
       this.nutrition_data_per,
       final Map<String, dynamic>? nutriments})
-      : _nutriments = nutriments;
+      : _nutriments = nutriments,
+        super._();
   factory _ProductApiModel.fromJson(Map<String, dynamic> json) =>
       _$ProductApiModelFromJson(json);
 

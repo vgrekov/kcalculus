@@ -93,16 +93,6 @@ final mealRepositoryProvider = Provider<MealRepository>(
   },
 );
 
-final openFoodFactsRepositoryProvider = FutureProvider<OpenFoodFactsRepository>(
-  (ref) async {
-    final service = await ref.watch(_openFoodFactsServiceProvider.future);
-
-    return OpenFoodFactsRepository(
-      service: service,
-    );
-  },
-);
-
 final nutrientRepositoryProvider = Provider<NutrientRepository>(
   (ref) {
     final defaultNutrientDao = ref.watch(_localDefaultNutrientDaoProvider);

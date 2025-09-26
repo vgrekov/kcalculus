@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/open_food_facts/repositories/open_food_facts_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/exceptions/unsupported_version_exception.dart';
 import 'package:kcalculus/domain/models/food.dart';
@@ -85,7 +86,7 @@ class FoodScanViewModel extends AutoDisposeNotifier<void> {
 
   Future<Food?> _searchOpenFoodFacts(String barcode) async {
     final openFoodFactsRepository =
-        await ref.read(openFoodFactsRepositoryProvider.future);
+        ref.read(openFoodFactsRepositoryProvider.notifier);
 
     final nutrientDefaults =
         await ref.read(nutrientRepositoryProvider).getDefaults();

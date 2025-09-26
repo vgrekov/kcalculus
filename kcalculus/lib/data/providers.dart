@@ -2,10 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 import 'package:kcalculus/_data/_common/database/services/database_service.dart'
     as _db;
-import 'package:kcalculus/_data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/_data/storage/local/_common/database.dart';
 import 'package:kcalculus/data/repositories/dish_repository.dart';
 import 'package:kcalculus/data/repositories/edible_repository.dart';
@@ -35,14 +33,11 @@ import 'package:kcalculus/data/repositories/local/nutrient_repository.dart';
 import 'package:kcalculus/data/repositories/meal_repository.dart';
 import 'package:kcalculus/data/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/data/repositories/nutrient_repository.dart';
-import 'package:kcalculus/data/repositories/open_food_facts_repository.dart';
 import 'package:kcalculus/data/repositories/usda/usda_food_converter.dart';
 import 'package:kcalculus/data/repositories/usda/usda_food_repository.dart';
 import 'package:kcalculus/data/services/local/database/database_manager.dart';
 import 'package:kcalculus/data/services/local/database/database_service.dart';
-import 'package:kcalculus/data/services/open_food_facts/open_food_facts_service.dart';
 import 'package:kcalculus/data/services/usda/usda_service.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 part 'repositories/local/converters/providers.dart';
 part 'repositories/local/dao/providers.dart';

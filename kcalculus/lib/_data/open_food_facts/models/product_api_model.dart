@@ -1,5 +1,6 @@
-import 'package:kcalculus/data/services/open_food_facts/open_food_facts_service.dart';
-import 'package:kcalculus/data/services/open_food_facts/product_api_model.dart';
+// ignore_for_file: non_constant_identifier_names
+
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
@@ -8,7 +9,11 @@ import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
-class OpenFoodFactsRepository {
+part 'product_api_model.freezed.dart';
+part 'product_api_model.g.dart';
+
+@freezed
+sealed class ProductApiModel with _$ProductApiModel {
   static const _kNutritionDataPerServing = 'serving';
 
   static const _kNutritionDataPer100g = '100g';
@@ -94,40 +99,34 @@ class OpenFoodFactsRepository {
     'µg': Unit.microgram,
   };
 
-  OpenFoodFactsRepository({
-    required OpenFoodFactsService service,
-  }) : _service = service;
+  const ProductApiModel._();
 
-  final OpenFoodFactsService _service;
+  const factory ProductApiModel({
+    required String product_name,
+    String? brands,
+    String? serving_quantity_unit,
+    Object? serving_quantity,
+    String? nutrition_data_per,
+    Map<String, dynamic>? nutriments,
+  }) = _ProductApiModel;
 
-  Future<Food?> getFoodByBarcode(
-    String barcode,
-    List<Nutrient> nutrientDefaults,
-  ) async {
-    final product = await _service.getProductByBarcode(barcode);
+  factory ProductApiModel.fromJson(Map<String, dynamic> json) =>
+      _$ProductApiModelFromJson(json);
 
-    return _productToFood(product, nutrientDefaults);
-  }
-
-  Food? _productToFood(
-    ProductApiModel? product,
-    List<Nutrient> nutrientDefaults,
-  ) {
-    if (product == null) {
-      return null;
-    }
-
+  Food toDomain({
+    required List<Nutrient> nutrientDefaults,
+  }) {
     List<NutritionFacts> nutritionFacts = [];
-    if (product.nutrition_data_per != null && product.nutriments != null) {
-      final perAmount = _kPerAmounts[product.nutrition_data_per];
+    if (nutrition_data_per != null && nutriments != null) {
+      final perAmount = _kPerAmounts[nutrition_data_per];
 
       if (perAmount != null) {
         final nutritionAmounts = <NutrientAmount>[];
 
         // Collect whatever nutrient info came from OFF
         for (final nutrient in Nutrient.values) {
-          final amount = _getNutrientAmount(product, nutrient)
-              ?.tryConvert(nutrient.defaultUnit);
+          final amount =
+              _getNutrientAmount(nutrient)?.tryConvert(nutrient.defaultUnit);
           if (amount != null) {
             nutritionAmounts.add(
               NutrientAmount(
@@ -144,8 +143,7 @@ class OpenFoodFactsRepository {
         };
 
         // Sometimes net carbs are provided instead of total carbs
-        final netCarbsAmount =
-            _getNutrimentAmount(product, _kNetCarbsNutrimentId);
+        final netCarbsAmount = _getNutrimentAmount(_kNetCarbsNutrimentId);
         if (!nutritionAmountsMap.containsKey(Nutrient.totalCarbs) &&
             netCarbsAmount != null) {
           Amount totalCarbsAmount = netCarbsAmount;
@@ -185,12 +183,10 @@ class OpenFoodFactsRepository {
 
         nutritionFacts.add(nf);
 
-        if (product.nutrition_data_per == _kNutritionDataPerServing &&
-            product.serving_quantity != null) {
-          final servingUnit =
-              _kServingToNutrientUnits[product.serving_quantity_unit];
-          final servingValue =
-              double.tryParse(product.serving_quantity!.toString());
+        if (nutrition_data_per == _kNutritionDataPerServing &&
+            serving_quantity != null) {
+          final servingUnit = _kServingToNutrientUnits[serving_quantity_unit];
+          final servingValue = double.tryParse(serving_quantity!.toString());
           if (servingUnit != null && servingValue != null) {
             nutritionFacts.add(
               nf.copyWith(
@@ -206,27 +202,26 @@ class OpenFoodFactsRepository {
     }
 
     return Food(
-      name: product.product_name,
-      description: product.brands ?? '',
+      name: product_name,
+      description: brands ?? '',
       nutritionFacts: nutritionFacts,
     );
   }
 
-  Amount? _getNutrientAmount(ProductApiModel product, Nutrient nutrient) {
-    return _getNutrimentAmount(product, _kNutrientToNutrimentIds[nutrient]);
+  Amount? _getNutrientAmount(Nutrient nutrient) {
+    return _getNutrimentAmount(_kNutrientToNutrimentIds[nutrient]);
   }
 
-  Amount? _getNutrimentAmount(ProductApiModel product, String? nutrimentId) {
-    if (product.nutriments?.isEmpty ?? true) {
+  Amount? _getNutrimentAmount(String? nutrimentId) {
+    if (nutriments?.isEmpty ?? true) {
       return null;
     }
 
     if (nutrimentId != null) {
-      final nutrimentUnit =
-          product.nutriments?['${nutrimentId}_unit'] as String?;
+      final nutrimentUnit = nutriments?['${nutrimentId}_unit'] as String?;
       final nutrientUnit = _kNutrimentToNutrientUnits[nutrimentUnit];
       final nutrimentValue =
-          (product.nutriments?['${nutrimentId}_value'] as num?)?.toDouble();
+          (nutriments?['${nutrimentId}_value'] as num?)?.toDouble();
 
       if (nutrientUnit != null && nutrimentValue != null) {
         return Amount(

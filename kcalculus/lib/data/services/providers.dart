@@ -56,20 +56,6 @@ final _databaseServiceProvider =
   _DatabaseServiceNotifier.new,
 );
 
-final _openFoodFactsServiceProvider = FutureProvider<OpenFoodFactsService>(
-  (ref) async {
-    final appConfig = await ref.watch(appConfigServiceProvider.future);
-    final packageInfo = await PackageInfo.fromPlatform();
-
-    return OpenFoodFactsService(
-      appName: packageInfo.appName,
-      version: packageInfo.version,
-      httpClient: http.Client(),
-      appConfig: appConfig,
-    );
-  },
-);
-
 final _usdaServiceProvider = Provider<UsdaService>(
   (ref) {
     final service = UsdaService();
