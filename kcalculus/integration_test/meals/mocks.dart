@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/ad/repositories/ad_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
-import 'package:kcalculus/data/repositories/edible_repository.dart';
-import 'package:kcalculus/data/repositories/food_repository.dart';
-import 'package:kcalculus/data/repositories/meal_repository.dart';
-import 'package:kcalculus/data/repositories/nutrient_goal_repository.dart';
-import 'package:kcalculus/data/repositories/nutrient_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/meal_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/nutrient_repository.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/domain/use_cases/edible_search_use_case.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/maintenance_state.dart';

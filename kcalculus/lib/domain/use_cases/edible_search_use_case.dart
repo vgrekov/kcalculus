@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
 import 'package:kcalculus/_data/usda/_common/repositories/usda_food_repository.dart';
-import 'package:kcalculus/data/repositories/edible_repository.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 
 class EdibleSearchUseCase {
