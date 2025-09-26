@@ -1,18 +1,17 @@
 import 'dart:async';
 
-import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_db_model.dart';
-import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_dto_converter.dart';
-import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_dto_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/usda/_common/services/usda_service.dart';
+import 'package:kcalculus/_data/usda/nutrient/converters/usda_nutrient_dto_converter.dart';
+import 'package:kcalculus/_data/usda/nutrient/models/usda_nutrient_db_model.dart';
+import 'package:kcalculus/_data/usda/nutrient/models/usda_nutrient_dto_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class UsdaNutrientService {
-  const UsdaNutrientService(
-    FutureOr<Database> database,
-  ) : _database = database;
+class UsdaNutrientService extends Notifier<void> {
+  @override
+  void build() {}
 
-  final FutureOr<Database> _database;
-
-  final _converter = const UsdaNutrientDtoConverter();
+  Future<Database> get _database => ref.read(usdaServiceProvider.future);
 
   Future<List<UsdaNutrientDbModel>> getByFdcId(
     int fdcId, {
@@ -32,9 +31,11 @@ class UsdaNutrientService {
     int fdcId, {
     required Batch batch,
   }) async {
+    final converter = ref.read(usdaNutrientDtoConverterProvider.notifier);
+
     dtoModels
         .map(
-          (dtoModel) => _converter.toDbModel(dtoModel, fdcId),
+          (dtoModel) => converter.toDbModel(dtoModel, fdcId),
         )
         .forEach(
           (dbModel) => batch.insert(
@@ -52,3 +53,7 @@ class UsdaNutrientService {
     await executor.delete('nutrients');
   }
 }
+
+final usdaNutrientServiceProvider = NotifierProvider<UsdaNutrientService, void>(
+  UsdaNutrientService.new,
+);

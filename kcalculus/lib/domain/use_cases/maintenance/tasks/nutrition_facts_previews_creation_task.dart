@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/exceptions/localized_exception.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/use_cases/maintenance/tasks/maintenance_task.dart';
+import 'package:kcalculus/domain/use_cases/maintenance/maintenance_task.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
 
 class NutritionFactsPreviewsCreationTask implements MaintenanceTask {

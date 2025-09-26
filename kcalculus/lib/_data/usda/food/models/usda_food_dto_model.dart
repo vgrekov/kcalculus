@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_dto_model.dart';
-import 'package:kcalculus/data/services/usda/portion/usda_portion_dto_model.dart';
+import 'package:kcalculus/_data/usda/nutrient/models/usda_nutrient_dto_model.dart';
+import 'package:kcalculus/_data/usda/portion/models/usda_portion_dto_model.dart';
 
 part 'usda_food_dto_model.freezed.dart';
 part 'usda_food_dto_model.g.dart';

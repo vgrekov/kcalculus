@@ -1,9 +1,10 @@
-import 'package:kcalculus/data/repositories/usda/usda_nutrients.dart';
-import 'package:kcalculus/data/repositories/usda/usda_portion_units.dart';
-import 'package:kcalculus/data/repositories/usda/usda_units.dart';
-import 'package:kcalculus/data/services/usda/food/usda_food_db_model.dart';
-import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_db_model.dart';
-import 'package:kcalculus/data/services/usda/portion/usda_portion_db_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/usda/_common/models/usda_nutrients.dart';
+import 'package:kcalculus/_data/usda/_common/models/usda_portion_units.dart';
+import 'package:kcalculus/_data/usda/_common/models/usda_units.dart';
+import 'package:kcalculus/_data/usda/food/models/usda_food_db_model.dart';
+import 'package:kcalculus/_data/usda/nutrient/models/usda_nutrient_db_model.dart';
+import 'package:kcalculus/_data/usda/portion/models/usda_portion_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
@@ -14,7 +15,10 @@ import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts_preview.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
-class UsdaFoodConverter {
+class UsdaFoodConverter extends Notifier<void> {
+  @override
+  void build() {}
+
   EdibleSearchResult toSearchResult(UsdaFoodDbModel dbModel) {
     return EdibleSearchResult(
       id: dbModel.fdc_id.toString(),
@@ -173,3 +177,7 @@ class UsdaFoodConverter {
     );
   }
 }
+
+final usdaFoodConverterProvider = NotifierProvider<UsdaFoodConverter, void>(
+  UsdaFoodConverter.new,
+);

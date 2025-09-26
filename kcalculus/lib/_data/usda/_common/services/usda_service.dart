@@ -4,12 +4,13 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
-import 'package:kcalculus/data/exceptions/localized_exception.dart';
-import 'package:kcalculus/data/services/usda/food/usda_food_dto_model.dart';
-import 'package:kcalculus/data/services/usda/food/usda_food_service.dart';
-import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_service.dart';
-import 'package:kcalculus/data/services/usda/portion/usda_portion_service.dart';
-import 'package:kcalculus/data/utils/db_utils.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/_common/database/models/database_config.dart';
+import 'package:kcalculus/_data/_common/database/services/database_service.dart';
+import 'package:kcalculus/_data/usda/food/models/usda_food_dto_model.dart';
+import 'package:kcalculus/_data/usda/food/services/usda_food_service.dart';
+import 'package:kcalculus/_data/usda/nutrient/services/usda_nutrient_service.dart';
+import 'package:kcalculus/_data/usda/portion/services/usda_portion_service.dart';
 import 'package:kcalculus/utils/assets.dart';
 import 'package:kcalculus/utils/batcher.dart';
 import 'package:kcalculus/utils/crypto.dart';
@@ -19,46 +20,29 @@ import 'package:sqflite/sqflite.dart';
 
 final _log = Logger('UsdaService');
 
-class UsdaService {
-  static const _kDbName = 'usda.db';
+const _kUsdaDbConfig = DatabaseConfig(
+  name: 'usda.db',
+  version: 2,
+  initScript: 'assets/db/enable_fk.sql',
+  migrationsDir: 'assets/usda/db/migrations',
+);
 
-  static const _kDbVersion = 2;
-
-  static const _kDbMigrationsDir = 'assets/usda/db/migrations';
-
+class UsdaService extends DatabaseService {
   static const _kDumpAssetFilename = 'usda_foods.ndjson.gz';
 
   static const _kDumpAssetPath = 'assets/usda/dumps/$_kDumpAssetFilename';
 
   static const _kDumpChecksumKey = 'USDA-Foods-Dump-Checksum';
 
-  static FutureOr<bool> isMigrationRequired() async {
-    try {
-      return await isDbMigrationRequired(_kDbName, _kDbVersion);
-    } catch (error) {
-      throw LocalizedException(
-        (loc) => loc.maintenanceTaskUsdaDbMigrationFailedMessage,
-        cause: error,
-      );
-    }
+  static Future<String> _generateDumpChecksum() async {
+    final byteData = await rootBundle.load(_kDumpAssetPath);
+    final bytes = byteData.buffer.asUint8List();
+    final digest = md5.convert(bytes);
+
+    return digest.toString();
   }
 
-  static FutureOr<void> migrateDatabase() async {
-    try {
-      await migrateDb(
-        _kDbName,
-        _kDbVersion,
-        _kDbMigrationsDir,
-      );
-    } catch (error) {
-      throw LocalizedException(
-        (loc) => loc.maintenanceTaskUsdaDbMigrationFailedMessage,
-        cause: error,
-      );
-    }
-  }
-
-  static FutureOr<bool> isDumpLoadRequired() async {
+  FutureOr<bool> isDumpLoadRequired() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final dumpChecksumOld = prefs.getString(_kDumpChecksumKey);
@@ -80,15 +64,14 @@ class UsdaService {
       _log.severe('Failed to check if USDA FoodData dump loading required',
           error, stackTrace);
 
-      throw LocalizedException(
-        (loc) => loc.maintenanceTaskUsdaFoodDataLoadingFailedMessage,
-        cause: error,
-      );
+      rethrow;
     }
   }
 
-  static FutureOr<void> loadDump() async {
-    Database? db;
+  FutureOr<void> loadDump() async {
+    ensureDatabaseIsReady();
+
+    final db = state.asData!.value;
 
     try {
       final md5Tap = HashTap(hash: md5);
@@ -100,11 +83,9 @@ class UsdaService {
           .transform(const LineSplitter())
           .transform(Batcher(200));
 
-      db = await openDb(_kDbName);
-
-      final foodService = UsdaFoodService(db);
-      final portionService = UsdaPortionService(db);
-      final nutrientService = UsdaNutrientService(db);
+      final foodService = ref.read(usdaFoodServiceProvider.notifier);
+      final portionService = ref.read(usdaPortionServiceProvider.notifier);
+      final nutrientService = ref.read(usdaNutrientServiceProvider.notifier);
 
       await db.transaction((txn) async {
         await nutrientService.deleteAll(txn: txn);
@@ -149,46 +130,16 @@ class UsdaService {
       _log.info('Loaded $size records from dump $dumpChecksum');
 
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString(_kDumpChecksumKey, dumpChecksum);
+      await prefs.setString(_kDumpChecksumKey, dumpChecksum);
     } catch (error, stackTrace) {
       _log.severe('Failed to load USDA FoodData dump', error, stackTrace);
 
-      throw LocalizedException(
-        (loc) => loc.maintenanceTaskUsdaFoodDataLoadingFailedMessage,
-        cause: error,
-      );
-    } finally {
-      db?.close();
-    }
-  }
-
-  static Future<String> _generateDumpChecksum() async {
-    final byteData = await rootBundle.load(_kDumpAssetPath);
-    final bytes = byteData.buffer.asUint8List();
-    final digest = md5.convert(bytes);
-
-    return digest.toString();
-  }
-
-  UsdaService() {
-    _database = openDb(_kDbName);
-    foods = UsdaFoodService(_database);
-    portions = UsdaPortionService(_database);
-    nutrients = UsdaNutrientService(_database);
-  }
-
-  late final Future<Database> _database;
-
-  late final UsdaFoodService foods;
-
-  late final UsdaPortionService portions;
-
-  late final UsdaNutrientService nutrients;
-
-  void dispose() async {
-    final db = await _database;
-    if (db.isOpen) {
-      db.close();
+      rethrow;
     }
   }
 }
+
+final usdaServiceProvider =
+    AsyncNotifierProvider.family<UsdaService, Database, DatabaseConfig>(
+  UsdaService.new,
+)(_kUsdaDbConfig);

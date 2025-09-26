@@ -1,4 +1,4 @@
-import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_db_model.dart';
+import 'package:kcalculus/_data/usda/nutrient/models/usda_nutrient_db_model.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
 final kUsdaUnits = <String, Unit>{

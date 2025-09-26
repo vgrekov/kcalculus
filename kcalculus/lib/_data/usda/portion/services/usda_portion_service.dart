@@ -1,18 +1,17 @@
 import 'dart:async';
 
-import 'package:kcalculus/data/services/usda/portion/usda_portion_db_model.dart';
-import 'package:kcalculus/data/services/usda/portion/usda_portion_dto_converter.dart';
-import 'package:kcalculus/data/services/usda/portion/usda_portion_dto_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/usda/_common/services/usda_service.dart';
+import 'package:kcalculus/_data/usda/portion/converters/usda_portion_dto_converter.dart';
+import 'package:kcalculus/_data/usda/portion/models/usda_portion_db_model.dart';
+import 'package:kcalculus/_data/usda/portion/models/usda_portion_dto_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class UsdaPortionService {
-  const UsdaPortionService(
-    FutureOr<Database> database,
-  ) : _database = database;
+class UsdaPortionService extends Notifier<void> {
+  @override
+  void build() {}
 
-  final FutureOr<Database> _database;
-
-  final _converter = const UsdaPortionDtoConverter();
+  Future<Database> get _database => ref.read(usdaServiceProvider.future);
 
   Future<List<UsdaPortionDbModel>> getByFdcId(
     int fdcId, {
@@ -32,9 +31,11 @@ class UsdaPortionService {
     int fdcId, {
     required Batch batch,
   }) async {
+    final converter = ref.read(usdaPortionDtoConverterProvider.notifier);
+
     dtoModels
         .map(
-          (dtoModel) => _converter.toDbModel(dtoModel, fdcId),
+          (dtoModel) => converter.toDbModel(dtoModel, fdcId),
         )
         .forEach(
           (dbModel) => batch.insert(
@@ -52,3 +53,7 @@ class UsdaPortionService {
     await executor.delete('portions');
   }
 }
+
+final usdaPortionServiceProvider = NotifierProvider<UsdaPortionService, void>(
+  UsdaPortionService.new,
+);

@@ -127,14 +127,3 @@ final nutrientGoalRepositoryProvider = Provider<NutrientGoalRepository>(
     );
   },
 );
-
-final usdaFoodRepositoryProvider = Provider<UsdaFoodRepository>(
-  (ref) {
-    final usdaService = ref.watch(_usdaServiceProvider);
-    final usdaFoodConverter = UsdaFoodConverter();
-    return UsdaFoodRepository(
-      usdaService: usdaService,
-      usdaFoodConverter: usdaFoodConverter,
-    );
-  },
-);

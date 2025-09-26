@@ -30,7 +30,7 @@ class DatabaseService extends FamilyAsyncNotifier<Database, DatabaseConfig> {
   }
 
   FutureOr<bool> isDatabaseMigrationRequired() async {
-    _ensureDatabaseIsReady();
+    ensureDatabaseIsReady();
 
     final db = state.asData!.value;
 
@@ -62,7 +62,7 @@ class DatabaseService extends FamilyAsyncNotifier<Database, DatabaseConfig> {
   }
 
   FutureOr<void> migrateDatabase() async {
-    _ensureDatabaseIsReady();
+    ensureDatabaseIsReady();
 
     var db = state.asData!.value;
 
@@ -80,7 +80,7 @@ class DatabaseService extends FamilyAsyncNotifier<Database, DatabaseConfig> {
   }
 
   Future<File> exportDatabase() async {
-    _ensureDatabaseIsReady();
+    ensureDatabaseIsReady();
 
     final db = state.asData!.value;
 
@@ -109,7 +109,7 @@ class DatabaseService extends FamilyAsyncNotifier<Database, DatabaseConfig> {
       throw ArgumentError('Source file does not exist.');
     }
 
-    _ensureDatabaseIsReady();
+    ensureDatabaseIsReady();
 
     var db = state.asData!.value;
 
@@ -165,7 +165,7 @@ class DatabaseService extends FamilyAsyncNotifier<Database, DatabaseConfig> {
     }
   }
 
-  void _ensureDatabaseIsReady() {
+  void ensureDatabaseIsReady() {
     if (state is! AsyncData) {
       throw StateError('[${_config.name}] - Database is not ready yet');
     }

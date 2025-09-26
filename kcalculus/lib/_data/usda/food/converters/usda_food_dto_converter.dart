@@ -1,13 +1,15 @@
-import 'package:kcalculus/data/services/usda/food/usda_food_db_model.dart';
-import 'package:kcalculus/data/services/usda/food/usda_food_dto_model.dart';
-import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_db_model.dart';
-import 'package:kcalculus/data/services/usda/nutrient/usda_nutrient_dto_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/usda/food/models/usda_food_db_model.dart';
+import 'package:kcalculus/_data/usda/food/models/usda_food_dto_model.dart';
+import 'package:kcalculus/_data/usda/nutrient/models/usda_nutrient_db_model.dart';
+import 'package:kcalculus/_data/usda/nutrient/models/usda_nutrient_dto_model.dart';
 import 'package:kcalculus/utils/string_ext.dart';
 
-class UsdaFoodDtoConverter {
+class UsdaFoodDtoConverter extends Notifier<void> {
   static final _kDescriptionDelim = RegExp(r'\s*,\s*');
 
-  const UsdaFoodDtoConverter();
+  @override
+  void build() {}
 
   UsdaFoodDbModel toDbModel(UsdaFoodDtoModel dtoModel) {
     final (name, description) = _splitDescription(dtoModel.description);
@@ -83,3 +85,8 @@ class UsdaFoodDtoConverter {
         .firstOrNull;
   }
 }
+
+final usdaFoodDtoConverterProvider =
+    NotifierProvider<UsdaFoodDtoConverter, void>(
+  UsdaFoodDtoConverter.new,
+);

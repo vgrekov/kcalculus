@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/usda/_common/repositories/usda_food_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -29,7 +30,7 @@ class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<FoodViewUiState,
     final Food? food;
 
     if (arg.isUsdaFood) {
-      final usdaFoodRepository = ref.read(usdaFoodRepositoryProvider);
+      final usdaFoodRepository = ref.read(usdaFoodRepositoryProvider.notifier);
       food = await usdaFoodRepository.getById(arg.foodId);
     } else {
       final foodRepository = ref.read(foodRepositoryProvider);

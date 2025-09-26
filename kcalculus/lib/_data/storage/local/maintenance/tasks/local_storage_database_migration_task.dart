@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/_data/storage/local/_common/database.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/data/exceptions/localized_exception.dart';
-import 'package:kcalculus/domain/use_cases/maintenance/tasks/maintenance_task.dart';
+import 'package:kcalculus/domain/use_cases/maintenance/maintenance_task.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
 
 class LocalStorageDatabaseMigrationTask implements MaintenanceTask {
@@ -20,9 +20,9 @@ class LocalStorageDatabaseMigrationTask implements MaintenanceTask {
   FutureOr<bool> shouldRun(Ref ref) async {
     try {
       // Waiting for DB to open to avoid StateError
-      await database(ref);
+      await ref.read(localStorageServiceProvider.future);
 
-      final dbService = databaseService(ref);
+      final dbService = ref.read(localStorageServiceProvider.notifier);
 
       return dbService.isDatabaseMigrationRequired();
     } catch (error) {
@@ -37,9 +37,9 @@ class LocalStorageDatabaseMigrationTask implements MaintenanceTask {
   FutureOr<void> run(Ref ref) async {
     try {
       // Waiting for DB to open to avoid StateError
-      await database(ref);
+      await ref.read(localStorageServiceProvider.future);
 
-      final dbService = databaseService(ref);
+      final dbService = ref.read(localStorageServiceProvider.notifier);
 
       return dbService.migrateDatabase();
     } catch (error) {

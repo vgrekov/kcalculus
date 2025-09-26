@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/usda/_common/repositories/usda_food_repository.dart';
 import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
@@ -66,7 +67,8 @@ class EdibleSearchViewModel extends AutoDisposeFamilyNotifier<
         case EdibleSearchResultType.usda:
           _log.finer('selectEdible() Loading USDA food');
 
-          final usdaFoodRepository = ref.read(usdaFoodRepositoryProvider);
+          final usdaFoodRepository =
+              ref.read(usdaFoodRepositoryProvider.notifier);
           edible = await usdaFoodRepository.getById(searchResult.id);
           break;
       }

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/_common/exceptions/duplication_exception.dart';
-import 'package:kcalculus/_data/storage/local/_common/database.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/food_container/converters/food_container_converter.dart';
 import 'package:kcalculus/_data/storage/local/food_container/models/food_container_db_model.dart';
 import 'package:kcalculus/_data/storage/local/food_container/services/food_container_service.dart';
@@ -65,7 +65,7 @@ class LocalFoodContainerDao extends Notifier<void> {
     if (txn != null) {
       return _save(container, id: id, txn: txn);
     } else {
-      final db = await database(ref);
+      final db = await ref.read(localStorageServiceProvider.future);
 
       return db.transaction(
         (txn) => _save(container, id: id, txn: txn),

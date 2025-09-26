@@ -6,8 +6,7 @@ class _DatabaseServiceNotifier extends AutoDisposeNotifier<DatabaseService>
     implements DatabaseManager {
   @override
   DatabaseService build() {
-    final db =
-        ref.watch(_db.databaseServiceProvider(kLocalStorageDbConfig).future);
+    final db = ref.watch(localStorageServiceProvider.future);
 
     final dbService = DatabaseService(
       database: db,
@@ -28,9 +27,7 @@ class _DatabaseServiceNotifier extends AutoDisposeNotifier<DatabaseService>
       return DatabaseService.exportDatabase();
     } finally {
       state = DatabaseService(
-        database: ref.read(
-          _db.databaseServiceProvider(kLocalStorageDbConfig).future,
-        ),
+        database: ref.read(localStorageServiceProvider.future),
       );
     }
   }
@@ -43,9 +40,7 @@ class _DatabaseServiceNotifier extends AutoDisposeNotifier<DatabaseService>
       await DatabaseService.importDatabase(fromFile);
     } finally {
       state = DatabaseService(
-        database: ref.read(
-          _db.databaseServiceProvider(kLocalStorageDbConfig).future,
-        ),
+        database: ref.read(localStorageServiceProvider.future),
       );
     }
   }
@@ -54,16 +49,4 @@ class _DatabaseServiceNotifier extends AutoDisposeNotifier<DatabaseService>
 final _databaseServiceProvider =
     NotifierProvider.autoDispose<_DatabaseServiceNotifier, DatabaseService>(
   _DatabaseServiceNotifier.new,
-);
-
-final _usdaServiceProvider = Provider<UsdaService>(
-  (ref) {
-    final service = UsdaService();
-
-    ref.onDispose(() {
-      service.dispose();
-    });
-
-    return service;
-  },
 );

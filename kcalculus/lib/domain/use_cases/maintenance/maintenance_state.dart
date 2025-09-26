@@ -1,4 +1,4 @@
-import 'package:kcalculus/domain/use_cases/maintenance/tasks/maintenance_task.dart';
+import 'package:kcalculus/domain/use_cases/maintenance/maintenance_task.dart';
 
 sealed class MaintenanceState {
   const MaintenanceState();

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/_data/storage/local/_common/database.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/food_container/models/food_container_db_model.dart';
 import 'package:kcalculus/domain/utils/page_config.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
@@ -9,12 +9,14 @@ class LocalFoodContainerService extends Notifier<void> {
   @override
   void build() {}
 
+  Future<Database> get _db => ref.read(localStorageServiceProvider.future);
+
   Future<List<FoodContainerDbModel>> search(
     String? query, {
     PageConfig<FoodContainerDbModel>? pageConfig,
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database(ref);
+    final executor = txn ?? await _db;
 
     var sql = '''
       SELECT
@@ -60,7 +62,7 @@ class LocalFoodContainerService extends Notifier<void> {
     String? exceptWithId,
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database(ref);
+    final executor = txn ?? await _db;
 
     return executor.rawQuery(
       '''
@@ -86,7 +88,7 @@ class LocalFoodContainerService extends Notifier<void> {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database(ref);
+    final executor = txn ?? await _db;
 
     return executor.rawQuery(
       '''
@@ -111,7 +113,7 @@ class LocalFoodContainerService extends Notifier<void> {
     FoodContainerDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database(ref);
+    final executor = txn ?? await _db;
 
     await executor.insert(
       'food_containers',
@@ -126,7 +128,7 @@ class LocalFoodContainerService extends Notifier<void> {
     FoodContainerDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database(ref);
+    final executor = txn ?? await _db;
 
     await executor.update(
       'food_containers',
@@ -143,7 +145,7 @@ class LocalFoodContainerService extends Notifier<void> {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database(ref);
+    final executor = txn ?? await _db;
 
     final count = await executor.update(
       'food_containers',
@@ -161,7 +163,7 @@ class LocalFoodContainerService extends Notifier<void> {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database(ref);
+    final executor = txn ?? await _db;
 
     final count = await executor.update(
       'food_containers',

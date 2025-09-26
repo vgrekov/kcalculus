@@ -1,18 +1,17 @@
 import 'dart:async';
 
-import 'package:kcalculus/data/services/usda/food/usda_food_db_model.dart';
-import 'package:kcalculus/data/services/usda/food/usda_food_dto_converter.dart';
-import 'package:kcalculus/data/services/usda/food/usda_food_dto_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/usda/_common/services/usda_service.dart';
+import 'package:kcalculus/_data/usda/food/converters/usda_food_dto_converter.dart';
+import 'package:kcalculus/_data/usda/food/models/usda_food_db_model.dart';
+import 'package:kcalculus/_data/usda/food/models/usda_food_dto_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class UsdaFoodService {
-  const UsdaFoodService(
-    FutureOr<Database> database,
-  ) : _database = database;
+class UsdaFoodService extends Notifier<void> {
+  @override
+  void build() {}
 
-  final FutureOr<Database> _database;
-
-  final _converter = const UsdaFoodDtoConverter();
+  Future<Database> get _database => ref.read(usdaServiceProvider.future);
 
   Future<List<UsdaFoodDbModel>> search(
     String? query, {
@@ -133,7 +132,9 @@ class UsdaFoodService {
     Iterable<UsdaFoodDtoModel> dtoModels, {
     required Batch batch,
   }) async {
-    dtoModels.map(_converter.toDbModel).forEach(
+    final converter = ref.read(usdaFoodDtoConverterProvider.notifier);
+
+    dtoModels.map(converter.toDbModel).forEach(
           (dbModel) => batch.insert(
             'foods',
             dbModel.toJson(),
@@ -149,3 +150,7 @@ class UsdaFoodService {
     await executor.delete('foods');
   }
 }
+
+final usdaFoodServiceProvider = NotifierProvider<UsdaFoodService, void>(
+  UsdaFoodService.new,
+);
