@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/local/food_container/models/food_container_db_model.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 
 class LocalFoodContainerConverter extends Notifier<void> {

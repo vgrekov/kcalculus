@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/edible_repository.dart';
 import 'package:kcalculus/data/storage/local/edible/dao/edible_dao.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 
 class LocalEdibleRepository extends EdibleRepository {
   LocalEdibleDao get _edibleDao => ref.read(localEdibleDaoProvider.notifier);

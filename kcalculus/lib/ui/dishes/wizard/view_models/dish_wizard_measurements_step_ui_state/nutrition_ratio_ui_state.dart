@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_ratio.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_ratio.dart';
 
 part 'nutrition_ratio_ui_state.freezed.dart';
 

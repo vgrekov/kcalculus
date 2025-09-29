@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/dish_repository.dart';
-import 'package:kcalculus/domain/exceptions/duplication_exception.dart';
-import 'package:kcalculus/domain/exceptions/ingredients_cycle_exception.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
+import 'package:kcalculus/domain/dish/exceptions/ingredients_cycle_exception.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_step_view_model.dart';

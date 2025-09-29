@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts_preview.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts_preview.dart';
 import 'package:kcalculus/ui/edibles/common/edible_stats.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_item_calorie_content.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;

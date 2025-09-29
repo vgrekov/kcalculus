@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/string_ext.dart';

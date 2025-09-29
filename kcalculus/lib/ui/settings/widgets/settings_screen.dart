@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/auth/login/widgets/login_screen.dart';

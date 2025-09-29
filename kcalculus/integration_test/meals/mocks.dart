@@ -7,11 +7,11 @@ import 'package:kcalculus/data/storage/_common/repositories/edible_repository.da
 import 'package:kcalculus/data/storage/_common/repositories/food_repository.dart';
 import 'package:kcalculus/data/storage/_common/repositories/meal_repository.dart';
 import 'package:kcalculus/data/storage/_common/repositories/nutrient_goal_repository.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
-import 'package:kcalculus/domain/use_cases/edible_search_use_case.dart';
-import 'package:kcalculus/domain/use_cases/maintenance/maintenance_state.dart';
-import 'package:kcalculus/domain/use_cases/maintenance/maintenance_use_case.dart';
-import 'package:kcalculus/domain/utils/change_signal.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/edible/use_cases/edible_search_use_case.dart';
+import 'package:kcalculus/domain/maintenance/models/maintenance_state.dart';
+import 'package:kcalculus/domain/maintenance/use_cases/maintenance_use_case.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAppSettingsRepository extends AsyncNotifier<AppSettings>
@@ -30,7 +30,9 @@ class MockEdibleRepository extends Notifier<void>
     with Mock
     implements EdibleRepository {}
 
-class MockEdibleSearchUseCase with Mock implements EdibleSearchUseCase {}
+class MockEdibleSearchUseCase extends Notifier<void>
+    with Mock
+    implements EdibleSearchUseCase {}
 
 class MockFoodRepository extends ChangeSignalNotifier
     with Mock

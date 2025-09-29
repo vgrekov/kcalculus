@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kcalculus/data/storage/_common/repositories/edible_repository.dart';
-import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils.dart';

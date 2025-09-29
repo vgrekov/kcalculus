@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/auth/services/auth_service.dart';
-import 'package:kcalculus/domain/models/user.dart';
+import 'package:kcalculus/domain/auth/models/user.dart';
 
 class UserRepository extends AsyncNotifier<User?> {
   @override

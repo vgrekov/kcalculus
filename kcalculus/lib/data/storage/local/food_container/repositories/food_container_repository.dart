@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/food_container_repository.dart';
 import 'package:kcalculus/data/storage/local/food_container/dao/food_container_dao.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
-import 'package:kcalculus/domain/utils/change_signal.dart';
-import 'package:kcalculus/domain/utils/page_config.dart';
+import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 
 class LocalFoodContainerRepository extends FoodContainerRepository {
   LocalFoodContainerDao get _dao =>

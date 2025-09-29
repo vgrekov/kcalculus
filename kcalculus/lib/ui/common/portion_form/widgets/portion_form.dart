@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/edible.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/portion.dart';
+import 'package:kcalculus/domain/edible/models/edible.dart';
+import 'package:kcalculus/domain/edible/models/portion.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/modified_edible_option.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/portion_form_ui_state.dart';

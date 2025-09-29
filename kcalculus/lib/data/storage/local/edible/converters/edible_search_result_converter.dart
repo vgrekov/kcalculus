@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/local/edible/models/edible_search_result_db_model.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts_preview.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts_preview.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 
 class LocalEdibleSearchResultConverter extends Notifier<void> {

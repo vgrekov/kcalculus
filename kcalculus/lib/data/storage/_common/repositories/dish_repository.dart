@@ -3,8 +3,8 @@ import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/providers.dart';
 import 'package:kcalculus/data/storage/_common/repositories/change_signal_notifier.dart';
 import 'package:kcalculus/data/storage/local/dish/repositories/dish_repository.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/domain/utils/change_signal.dart';
+import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
 
 abstract class DishRepository extends ChangeSignalNotifier {
   Future<Dish?> getById(String id);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';

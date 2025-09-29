@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
 
 const _defaultMeasure = Measure.mass;
 const _defaultSystem = MeasureSystem.metric;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';

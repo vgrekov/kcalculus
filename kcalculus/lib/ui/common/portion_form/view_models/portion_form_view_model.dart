@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/edible_repository.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/edible.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
-import 'package:kcalculus/domain/models/nutrition/portion.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/edible/models/edible.dart';
+import 'package:kcalculus/domain/edible/models/portion.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/edible_already_exists_exception.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/modified_edible_option.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/no_common_measure_exception.dart';

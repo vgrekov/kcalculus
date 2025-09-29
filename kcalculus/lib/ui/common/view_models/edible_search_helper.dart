@@ -1,6 +1,6 @@
-import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/providers.dart';
-import 'package:kcalculus/domain/utils/page_config.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/use_cases/edible_search_use_case.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_helper.dart';
 
 class EdibleSearchHelper extends SearchHelper<EdibleSearchResult> {
@@ -19,7 +19,7 @@ class EdibleSearchHelper extends SearchHelper<EdibleSearchResult> {
     String query, {
     PageConfig<EdibleSearchResult>? pageConfig,
   }) {
-    return getRef().read(edibleSearchUseCaseProvider).search(
+    return getRef().read(edibleSearchUseCaseProvider.notifier).search(
           query,
           type: _searchResultType,
           limit: pageConfig?.size,

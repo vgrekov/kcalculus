@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/common/nutrient_stats/widgets/nutrient_stats.dart';

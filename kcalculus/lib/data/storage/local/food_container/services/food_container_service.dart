@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/data/storage/local/food_container/models/food_container_db_model.dart';
-import 'package:kcalculus/domain/utils/page_config.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:sqflite/sqflite.dart';
 

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/dish_repository.dart';
 import 'package:kcalculus/data/storage/local/dish/dao/dish_dao.dart';
 import 'package:kcalculus/data/storage/local/edible/dao/edible_dao.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/domain/utils/change_signal.dart';
+import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
 
 class LocalDishRepository extends DishRepository {
   LocalDishDao get _dishDao => ref.read(localDishDaoProvider.notifier);

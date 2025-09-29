@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/paginator.dart';
-import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results_item.dart';
 import 'package:kcalculus/ui/common/widgets/paged_list_vew.dart';
+import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results_item.dart';
 
 class EdibleSearchResults extends StatelessWidget {
   const EdibleSearchResults({

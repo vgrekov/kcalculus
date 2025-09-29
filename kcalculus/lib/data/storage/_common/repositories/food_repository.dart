@@ -3,8 +3,8 @@ import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/providers.dart';
 import 'package:kcalculus/data/storage/_common/repositories/change_signal_notifier.dart';
 import 'package:kcalculus/data/storage/local/food/repositories/food_repository.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/utils/change_signal.dart';
+import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 
 abstract class FoodRepository extends ChangeSignalNotifier {
   Future<Food?> getById(String id);

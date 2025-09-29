@@ -3,8 +3,8 @@ import 'package:kcalculus/data/usda/_common/converters/usda_food_converter.dart'
 import 'package:kcalculus/data/usda/food/services/usda_food_service.dart';
 import 'package:kcalculus/data/usda/nutrient/services/usda_nutrient_service.dart';
 import 'package:kcalculus/data/usda/portion/services/usda_portion_service.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 
 class UsdaFoodRepository extends Notifier<void> {
   @override

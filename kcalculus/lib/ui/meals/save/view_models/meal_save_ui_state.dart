@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/domain/models/nutrition/portion.dart';
+import 'package:kcalculus/domain/edible/models/portion.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
 
 part 'meal_save_ui_state.freezed.dart';
 

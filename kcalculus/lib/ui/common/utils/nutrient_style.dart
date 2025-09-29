@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/themes/macro_nutrients.dart';
 
 TextStyle textStyleOf(

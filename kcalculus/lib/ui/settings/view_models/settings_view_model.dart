@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/auth/repositories/user_repository.dart';
 import 'package:kcalculus/data/storage/_common/repositories/app_settings_repository.dart';
 import 'package:kcalculus/data/storage/local/backup/repositories/backup_repository.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/settings/view_models/settings_ui_state.dart';

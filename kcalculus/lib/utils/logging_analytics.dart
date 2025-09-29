@@ -1,6 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:logging/logging.dart';
 
 extension Analytics on Logger {

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/utils/page_config.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/ui/common/view_models/paginator.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/search_controller.dart';

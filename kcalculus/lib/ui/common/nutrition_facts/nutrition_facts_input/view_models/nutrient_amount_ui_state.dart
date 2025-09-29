@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_amount.dart';
 
 part 'nutrient_amount_ui_state.freezed.dart';
 

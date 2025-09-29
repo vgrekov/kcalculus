@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_goal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
 import 'package:kcalculus/ui/nutrients/stats/view_models/nutrient_stats_row.dart';
 
 part 'nutrient_stats_ui_state.freezed.dart';

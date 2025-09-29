@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/utils/nutrient_style.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;

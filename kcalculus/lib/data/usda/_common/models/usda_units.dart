@@ -1,5 +1,5 @@
 import 'package:kcalculus/data/usda/nutrient/models/usda_nutrient_db_model.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
 
 final kUsdaUnits = <String, Unit>{
   UsdaNutrientDbModel.kCalorieUnitName: Unit.calorie,

@@ -10,11 +10,11 @@ import 'package:kcalculus/data/storage/local/dish/services/ingredient_service.da
 import 'package:kcalculus/data/storage/local/edible/dao/edible_dao.dart';
 import 'package:kcalculus/data/storage/local/edible/services/edible_service.dart';
 import 'package:kcalculus/data/storage/local/food/dao/food_dao.dart';
-import 'package:kcalculus/domain/exceptions/duplication_exception.dart';
-import 'package:kcalculus/domain/exceptions/ingredients_cycle_exception.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/domain/models/edible.dart';
-import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
+import 'package:kcalculus/domain/dish/exceptions/ingredients_cycle_exception.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
+import 'package:kcalculus/domain/edible/models/edible.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
 

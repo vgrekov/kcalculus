@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/providers.dart';
 import 'package:kcalculus/data/storage/local/edible/repositories/edible_repository.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 
 abstract class EdibleRepository extends Notifier<void> {
   @override

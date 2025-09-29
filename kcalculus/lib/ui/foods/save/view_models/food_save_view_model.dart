@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/food_repository.dart';
-import 'package:kcalculus/domain/exceptions/duplication_exception.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
+import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/foods/save/view_models/food_save_ui_state.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/dish/ingredient.dart';
+import 'package:kcalculus/domain/dish/models/ingredient.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/ingredient_list_item.dart';
 import 'package:kcalculus/utils/l10n.dart';

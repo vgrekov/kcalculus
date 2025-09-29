@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
 
 part 'app_settings_shared_pref_model.freezed.dart';
 

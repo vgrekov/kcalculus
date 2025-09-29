@@ -1,4 +1,4 @@
-import 'package:kcalculus/domain/models/dish/ingredient.dart';
+import 'package:kcalculus/domain/dish/models/ingredient.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ui_state.dart';
 
 mixin DishWizardIngredientsStepViewModel {

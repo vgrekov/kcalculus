@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
 import 'package:kcalculus/ui/nutrients/stats/widgets/nutrient_stats_screen.dart';
 
 class NutrientStatsDailyTrigger extends StatelessWidget {

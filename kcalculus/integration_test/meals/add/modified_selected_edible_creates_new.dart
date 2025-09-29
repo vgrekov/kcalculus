@@ -4,14 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kcalculus/data/storage/_common/repositories/edible_repository.dart';
 import 'package:kcalculus/data/storage/_common/repositories/food_repository.dart';
 import 'package:kcalculus/data/storage/_common/repositories/meal_repository.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
-import 'package:kcalculus/domain/models/units.dart';
-import 'package:kcalculus/domain/providers.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/use_cases/edible_search_use_case.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils.dart';
@@ -133,7 +133,7 @@ Future<void> testModifiedSelectedEdibleCreatesNew(
         () => mealRepository,
       ),
       edibleSearchUseCaseProvider.overrideWith(
-        (ref) => edibleSearchUseCase,
+        () => edibleSearchUseCase,
       ),
     ],
   );

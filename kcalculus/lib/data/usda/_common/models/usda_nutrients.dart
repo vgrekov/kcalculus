@@ -1,5 +1,5 @@
 import 'package:kcalculus/data/usda/nutrient/models/usda_nutrient_db_model.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 
 final kUsdaNutrientsPrioritized = <String, (Nutrient, int)>{
   ...{

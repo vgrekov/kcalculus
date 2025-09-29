@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/local/default_nutrient/converters/default_nutrient_converter.dart';
 import 'package:kcalculus/data/storage/local/default_nutrient/services/default_nutrient_service.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalDefaultNutrientDao extends AsyncNotifier<List<Nutrient>> {

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/open_food_facts/services/open_food_facts_service.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 
 class OpenFoodFactsRepository extends Notifier<void> {
   @override

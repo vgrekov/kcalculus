@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/data/storage/local/nutrient_goal/converters/nutrient_goal_converter.dart';
 import 'package:kcalculus/data/storage/local/nutrient_goal/services/nutrient_goal_service.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_goal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
 

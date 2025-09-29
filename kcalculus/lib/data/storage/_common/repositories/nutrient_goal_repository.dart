@@ -5,8 +5,8 @@ import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/providers.dart';
 import 'package:kcalculus/data/storage/_common/repositories/change_signal_notifier.dart';
 import 'package:kcalculus/data/storage/local/nutrient_goal/repositories/nutrient_goal_repository.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_goal.dart';
-import 'package:kcalculus/domain/utils/change_signal.dart';
+import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
 
 abstract class NutrientGoalRepository extends ChangeSignalNotifier {
   Future<List<NutrientGoal>> getActiveGoals(DateTime date);

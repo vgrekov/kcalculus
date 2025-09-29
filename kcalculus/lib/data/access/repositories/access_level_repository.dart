@@ -5,7 +5,7 @@ import 'package:kcalculus/data/access/models/purchase_status.dart';
 import 'package:kcalculus/data/access/services/purchase_service.dart';
 import 'package:kcalculus/data/access/services/reward_service.dart';
 import 'package:kcalculus/data/app_config/services/app_config_service.dart';
-import 'package:kcalculus/domain/models/access_level.dart';
+import 'package:kcalculus/domain/_common/models/access_level.dart';
 
 class AccessLevelRepository extends AsyncNotifier<AccessLevel> {
   @override

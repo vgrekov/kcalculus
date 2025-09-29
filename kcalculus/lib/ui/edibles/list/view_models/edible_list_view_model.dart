@@ -4,8 +4,8 @@ import 'package:kcalculus/data/storage/_common/repositories/default_nutrient_rep
 import 'package:kcalculus/data/storage/_common/repositories/dish_repository.dart';
 import 'package:kcalculus/data/storage/_common/repositories/food_repository.dart';
 import 'package:kcalculus/data/storage/_common/repositories/meal_repository.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/edible_search_helper.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';

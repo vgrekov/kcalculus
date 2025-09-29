@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_step_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_main_step_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_ui_state/dish_wizard_measurements_step_ui_state.dart';

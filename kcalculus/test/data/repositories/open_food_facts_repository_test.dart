@@ -8,11 +8,11 @@ import 'package:kcalculus/data/app_config/models/app_config.dart';
 import 'package:kcalculus/data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/data/open_food_facts/repositories/open_food_facts_repository.dart';
 import 'package:kcalculus/data/open_food_facts/services/open_food_facts_service.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/app_info.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/app_info.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_amount.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../mocks.dart';

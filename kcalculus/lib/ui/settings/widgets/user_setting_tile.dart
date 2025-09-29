@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/user.dart';
+import 'package:kcalculus/domain/auth/models/user.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class UserSettingTile extends StatelessWidget {

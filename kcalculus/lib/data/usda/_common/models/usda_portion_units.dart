@@ -1,4 +1,4 @@
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
 
 const kUsdaPortionUnits = <int, Unit>{
   1000: Unit.cup,

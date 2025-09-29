@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/local/edible/converters/edible_search_result_converter.dart';
 import 'package:kcalculus/data/storage/local/edible/services/edible_service.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalEdibleDao extends Notifier<void> {

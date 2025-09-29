@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts_preview.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts_preview.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/food_repository.dart';
 import 'package:kcalculus/data/storage/local/edible/dao/edible_dao.dart';
 import 'package:kcalculus/data/storage/local/food/dao/food_dao.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/utils/change_signal.dart';
+import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 
 class LocalFoodRepository extends FoodRepository {
   LocalFoodDao get _foodDao => ref.read(localFoodDaoProvider.notifier);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/exceptions/localized_exception.dart';
-import 'package:kcalculus/domain/use_cases/maintenance/maintenance_state.dart';
+import 'package:kcalculus/domain/_common/exceptions/localized_exception.dart';
+import 'package:kcalculus/domain/maintenance/models/maintenance_state.dart';
 import 'package:kcalculus/ui/maintenance/view_models/maintenance_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 

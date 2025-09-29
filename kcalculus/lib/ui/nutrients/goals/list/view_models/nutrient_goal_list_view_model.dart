@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/nutrient_goal_repository.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_goal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';

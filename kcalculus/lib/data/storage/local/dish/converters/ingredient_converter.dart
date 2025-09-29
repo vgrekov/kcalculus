@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/local/dish/models/ingredient_db_model.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/dish/ingredient.dart';
-import 'package:kcalculus/domain/models/edible.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/dish/models/ingredient.dart';
+import 'package:kcalculus/domain/edible/models/edible.dart';
 
 class LocalIngredientConverter extends Notifier<void> {
   @override

@@ -1,5 +1,5 @@
-import 'package:kcalculus/domain/models/food_container.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_measurements_step_ui_state/nutrition_ratio_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ui_state.dart';
 

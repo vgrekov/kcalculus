@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/access/repositories/access_level_repository.dart';
-import 'package:kcalculus/domain/models/access_level.dart';
+import 'package:kcalculus/domain/_common/models/access_level.dart';
 
 class PremiumBadge extends ConsumerWidget {
   const PremiumBadge({

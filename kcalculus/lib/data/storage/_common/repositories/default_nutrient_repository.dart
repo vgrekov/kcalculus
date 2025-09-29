@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/providers.dart';
 import 'package:kcalculus/data/storage/local/default_nutrient/repositories/default_nutrient_repository.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 
 abstract class DefaultNutrientRepository extends AsyncNotifier<List<Nutrient>> {
   Future<void> saveAll(List<Nutrient> nutrients);

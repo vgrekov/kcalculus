@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/local/dish/models/dish_db_model.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/domain/models/dish/ingredient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_ratio.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
+import 'package:kcalculus/domain/dish/models/ingredient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_ratio.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 
 class LocalDishConverter extends Notifier<void> {

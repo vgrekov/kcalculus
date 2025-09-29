@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/_common/exceptions/too_many_requests_exception.dart';
-import 'package:kcalculus/data/auth/exceptions/invalid_credentials_exception.dart';
-import 'package:kcalculus/data/auth/exceptions/invalid_email_exception.dart';
-import 'package:kcalculus/data/auth/exceptions/unverified_email_exception.dart';
-import 'package:kcalculus/data/auth/exceptions/user_disabled_exception.dart';
-import 'package:kcalculus/data/auth/exceptions/user_not_found_exception.dart';
 import 'package:kcalculus/data/auth/repositories/user_repository.dart';
+import 'package:kcalculus/domain/_common/exceptions/too_many_requests_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/invalid_credentials_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/invalid_email_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/unverified_email_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/user_disabled_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/user_not_found_exception.dart';
 import 'package:kcalculus/ui/auth/login/view_models/login_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';

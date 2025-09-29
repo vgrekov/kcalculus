@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/edible.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
-import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
+import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results.dart';
 import 'package:kcalculus/ui/edibles/search/view_models/edible_search_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';
 

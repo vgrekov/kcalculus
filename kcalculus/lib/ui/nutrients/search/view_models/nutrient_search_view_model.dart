@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/search_controller.dart';
 import 'package:kcalculus/ui/nutrients/search/view_models/nutrient_search_view_model_arg.dart';

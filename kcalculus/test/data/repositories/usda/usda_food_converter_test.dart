@@ -6,10 +6,10 @@ import 'package:kcalculus/data/usda/food/converters/usda_food_dto_converter.dart
 import 'package:kcalculus/data/usda/food/models/usda_food_dto_model.dart';
 import 'package:kcalculus/data/usda/nutrient/converters/usda_nutrient_dto_converter.dart';
 import 'package:kcalculus/data/usda/portion/converters/usda_portion_dto_converter.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_amount.dart';
 
 import '../../../utils.dart';
 

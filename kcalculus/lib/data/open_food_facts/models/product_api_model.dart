@@ -1,13 +1,13 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_amount.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 
 part 'product_api_model.freezed.dart';
 part 'product_api_model.g.dart';

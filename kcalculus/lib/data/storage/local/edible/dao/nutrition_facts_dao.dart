@@ -3,7 +3,7 @@ import 'package:kcalculus/data/storage/local/edible/converters/nutrient_amount_c
 import 'package:kcalculus/data/storage/local/edible/converters/nutrition_facts_converter.dart';
 import 'package:kcalculus/data/storage/local/edible/services/nutrient_amount_service.dart';
 import 'package:kcalculus/data/storage/local/edible/services/nutrition_facts_service.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
 

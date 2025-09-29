@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
 import 'package:kcalculus/ui/agreement/widgets/agreement_screen.dart';
 import 'package:kcalculus/ui/app/view_models/app_ui_state.dart';

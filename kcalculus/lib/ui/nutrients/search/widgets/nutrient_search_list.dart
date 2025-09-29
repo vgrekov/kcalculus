@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/nutrients/search/widgets/nutrient_search_list_item.dart';
 import 'package:kcalculus/utils/l10n.dart';
 

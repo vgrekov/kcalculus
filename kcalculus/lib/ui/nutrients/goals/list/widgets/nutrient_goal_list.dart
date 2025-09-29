@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_goal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
 import 'package:kcalculus/ui/nutrients/goals/list/widgets/nutrient_goal_list_item.dart';
 
 class NutrientGoalList extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/providers.dart';
 import 'package:kcalculus/data/storage/local/app_settings/repositories/app_settings_repository.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
 
 abstract class AppSettingsRepository extends AsyncNotifier<AppSettings> {
   Future<void> saveSettings(AppSettings settings);

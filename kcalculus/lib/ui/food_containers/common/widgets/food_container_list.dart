@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/ui/common/view_models/paginator.dart';
 import 'package:kcalculus/ui/common/widgets/paged_list_vew.dart';
 import 'package:kcalculus/ui/food_containers/common/widgets/food_container_list_item.dart';

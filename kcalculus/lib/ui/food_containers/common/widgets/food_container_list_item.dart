@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 

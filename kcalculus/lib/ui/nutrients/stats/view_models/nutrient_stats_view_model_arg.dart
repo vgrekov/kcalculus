@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
 
 part 'nutrient_stats_view_model_arg.freezed.dart';
 

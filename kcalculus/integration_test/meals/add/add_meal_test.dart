@@ -8,9 +8,9 @@ import 'package:kcalculus/data/storage/_common/repositories/app_settings_reposit
 import 'package:kcalculus/data/storage/_common/repositories/default_nutrient_repository.dart';
 import 'package:kcalculus/data/storage/_common/repositories/meal_repository.dart';
 import 'package:kcalculus/data/storage/_common/repositories/nutrient_goal_repository.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/providers.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
+import 'package:kcalculus/domain/maintenance/use_cases/maintenance_use_case.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/agreement/view_models/agreement_view_model.dart';
 import 'package:mocktail/mocktail.dart';
 

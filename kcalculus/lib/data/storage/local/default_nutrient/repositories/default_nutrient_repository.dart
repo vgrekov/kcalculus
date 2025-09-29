@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/default_nutrient_repository.dart';
 import 'package:kcalculus/data/storage/local/default_nutrient/dao/default_nutrient_dao.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 
 class LocalDefaultNutrientRepository extends DefaultNutrientRepository {
   @override

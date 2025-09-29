@@ -5,15 +5,15 @@ import 'package:kcalculus/data/usda/_common/models/usda_units.dart';
 import 'package:kcalculus/data/usda/food/models/usda_food_db_model.dart';
 import 'package:kcalculus/data/usda/nutrient/models/usda_nutrient_db_model.dart';
 import 'package:kcalculus/data/usda/portion/models/usda_portion_db_model.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts_preview.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_amount.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts_preview.dart';
 
 class UsdaFoodConverter extends Notifier<void> {
   @override
