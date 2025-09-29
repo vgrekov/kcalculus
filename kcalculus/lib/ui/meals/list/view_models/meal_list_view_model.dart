@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/default_nutrient_repository.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/meal_repository.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/default_nutrient_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/dish_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/food_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/meal_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';

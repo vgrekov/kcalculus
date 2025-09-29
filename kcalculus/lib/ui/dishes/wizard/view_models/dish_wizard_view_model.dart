@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/dish_repository.dart';
 import 'package:kcalculus/domain/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/exceptions/ingredients_cycle_exception.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';

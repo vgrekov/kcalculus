@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/app_settings_repository.dart';
 import 'package:kcalculus/ui/agreement/view_models/agreement_colors.dart';
 
 const kAgreementVersion = 1;

@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/dish_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/edible_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/food_repository.dart';
 import 'package:kcalculus/domain/exceptions/localized_exception.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/maintenance_task.dart';

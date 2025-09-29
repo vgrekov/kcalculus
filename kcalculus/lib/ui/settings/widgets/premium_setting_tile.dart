@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/_data/access/repositories/access_level_repository.dart';
+import 'package:kcalculus/data/access/repositories/access_level_repository.dart';
 import 'package:kcalculus/domain/models/access_level.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';

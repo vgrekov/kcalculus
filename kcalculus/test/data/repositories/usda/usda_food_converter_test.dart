@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kcalculus/_data/usda/_common/converters/usda_food_converter.dart';
-import 'package:kcalculus/_data/usda/food/converters/usda_food_dto_converter.dart';
-import 'package:kcalculus/_data/usda/food/models/usda_food_dto_model.dart';
-import 'package:kcalculus/_data/usda/nutrient/converters/usda_nutrient_dto_converter.dart';
-import 'package:kcalculus/_data/usda/portion/converters/usda_portion_dto_converter.dart';
+import 'package:kcalculus/data/usda/_common/converters/usda_food_converter.dart';
+import 'package:kcalculus/data/usda/food/converters/usda_food_dto_converter.dart';
+import 'package:kcalculus/data/usda/food/models/usda_food_dto_model.dart';
+import 'package:kcalculus/data/usda/nutrient/converters/usda_nutrient_dto_converter.dart';
+import 'package:kcalculus/data/usda/portion/converters/usda_portion_dto_converter.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';

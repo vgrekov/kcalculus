@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/meal_repository.dart';
-import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/meal_repository.dart';
+import 'package:kcalculus/data/storage/_common/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
