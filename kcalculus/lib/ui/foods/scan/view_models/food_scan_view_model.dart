@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/open_food_facts/repositories/open_food_facts_repository.dart';
-import 'package:kcalculus/data/storage/_common/repositories/default_nutrient_repository.dart';
+import 'package:kcalculus/data/open_food_facts/open_food_facts.dart';
+import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/food/exceptions/unsupported_version_exception.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';

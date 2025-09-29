@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/auth/repositories/user_repository.dart';
+import 'package:kcalculus/data/auth/auth.dart';
 import 'package:kcalculus/domain/_common/exceptions/too_many_requests_exception.dart';
 import 'package:kcalculus/domain/auth/exceptions/invalid_credentials_exception.dart';
 import 'package:kcalculus/domain/auth/exceptions/invalid_email_exception.dart';

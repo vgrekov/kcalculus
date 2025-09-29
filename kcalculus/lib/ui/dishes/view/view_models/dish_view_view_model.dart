@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/storage/_common/repositories/default_nutrient_repository.dart';
-import 'package:kcalculus/data/storage/_common/repositories/dish_repository.dart';
-import 'package:kcalculus/data/storage/_common/repositories/edible_repository.dart';
+import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/dishes/view/view_models/dish_view_ui_state.dart';

@@ -1,4 +1,4 @@
-import 'package:kcalculus/data/storage/_common/repositories/food_container_repository.dart';
+import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/ui/common/view_models/search/search_helper.dart';

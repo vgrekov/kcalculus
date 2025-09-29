@@ -1,9 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/storage/_common/repositories/app_settings_repository.dart';
-import 'package:kcalculus/data/storage/_common/repositories/default_nutrient_repository.dart';
-import 'package:kcalculus/data/storage/_common/repositories/dish_repository.dart';
-import 'package:kcalculus/data/storage/_common/repositories/food_repository.dart';
-import 'package:kcalculus/data/storage/_common/repositories/meal_repository.dart';
+import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/edible_search_helper.dart';

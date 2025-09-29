@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/auth/repositories/user_repository.dart';
+import 'package:kcalculus/data/auth/auth.dart';
 import 'package:kcalculus/domain/auth/exceptions/email_already_in_use_exception.dart';
 import 'package:kcalculus/domain/auth/exceptions/invalid_email_exception.dart';
 import 'package:kcalculus/domain/auth/exceptions/weak_password_exception.dart';

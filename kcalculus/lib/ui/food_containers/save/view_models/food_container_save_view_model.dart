@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/storage/_common/repositories/food_container_repository.dart';
+import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/_common/models/units.dart';
 import 'package:kcalculus/domain/dish/models/food_container.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/storage/_common/repositories/app_settings_repository.dart';
+import 'package:kcalculus/data/storage/storage.dart';
 
 class ConsentViewModel extends AutoDisposeNotifier<void> {
   @override
