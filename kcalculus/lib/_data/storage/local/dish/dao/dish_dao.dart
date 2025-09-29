@@ -1,41 +1,45 @@
 import 'dart:collection';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/dish/converters/dish_converter.dart';
 import 'package:kcalculus/_data/storage/local/dish/converters/ingredient_converter.dart';
 import 'package:kcalculus/_data/storage/local/dish/models/ingredient_db_model.dart';
+import 'package:kcalculus/_data/storage/local/dish/services/dish_service.dart';
+import 'package:kcalculus/_data/storage/local/dish/services/ingredient_service.dart';
 import 'package:kcalculus/_data/storage/local/edible/dao/edible_dao.dart';
+import 'package:kcalculus/_data/storage/local/edible/services/edible_service.dart';
 import 'package:kcalculus/_data/storage/local/food/dao/food_dao.dart';
-import 'package:kcalculus/data/exceptions/duplication_exception.dart';
-import 'package:kcalculus/data/exceptions/ingredients_cycle_exception.dart';
-import 'package:kcalculus/data/services/local/database/database_service.dart';
+import 'package:kcalculus/domain/exceptions/duplication_exception.dart';
+import 'package:kcalculus/domain/exceptions/ingredients_cycle_exception.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
 
-class LocalDishDao {
-  LocalDishDao({
-    required DatabaseService dbService,
-    required LocalEdibleDao edibleDao,
-    required LocalFoodDao foodDao,
-    required LocalDishConverter dishConverter,
-    required LocalIngredientConverter ingredientConverter,
-  })  : _dbService = dbService,
-        _edibleDao = edibleDao,
-        _foodDao = foodDao,
-        _dishConverter = dishConverter,
-        _ingredientConverter = ingredientConverter;
+class LocalDishDao extends Notifier<void> {
+  @override
+  void build() {}
 
-  final DatabaseService _dbService;
+  LocalEdibleService get _edibleService =>
+      ref.read(localEdibleServiceProvider.notifier);
 
-  final LocalEdibleDao _edibleDao;
+  LocalIngredientService get _ingredientService =>
+      ref.read(localIngredientServiceProvider.notifier);
 
-  final LocalFoodDao _foodDao;
+  LocalDishService get _dishService =>
+      ref.read(localDishServiceProvider.notifier);
 
-  final LocalDishConverter _dishConverter;
+  LocalEdibleDao get _edibleDao => ref.read(localEdibleDaoProvider.notifier);
 
-  final LocalIngredientConverter _ingredientConverter;
+  LocalFoodDao get _foodDao => ref.read(localFoodDaoProvider.notifier);
+
+  LocalDishConverter get _dishConverter =>
+      ref.read(localDishConverterProvider.notifier);
+
+  LocalIngredientConverter get _ingredientConverter =>
+      ref.read(localIngredientConverterProvider.notifier);
 
   Future<Dish?> getById(
     String id, {
@@ -57,7 +61,7 @@ class LocalDishDao {
       if (isDish) {
         var ingredients = ingredientsByDish[id];
         if (ingredients == null) {
-          ingredients = await _dbService.ingredient.getByDish(id, txn: txn);
+          ingredients = await _ingredientService.getByDish(id, txn: txn);
 
           ingredientsByDish[id] = ingredients;
 
@@ -111,7 +115,7 @@ class LocalDishDao {
     Transaction? txn,
   }) async {
     if (!resolvedEdibles.containsKey(id)) {
-      final dishDbModel = await _dbService.dish.getById(id, txn: txn);
+      final dishDbModel = await _dishService.getById(id, txn: txn);
       if (dishDbModel != null) {
         final ingredients = ingredientsByDish[id]!;
 
@@ -137,7 +141,7 @@ class LocalDishDao {
     String? id,
     Transaction? txn,
     bool skipAudit = false,
-  }) {
+  }) async {
     if (txn != null) {
       return _save(
         dish,
@@ -146,7 +150,9 @@ class LocalDishDao {
         skipAudit: skipAudit,
       );
     } else {
-      return _dbService.transaction(
+      final db = await ref.read(localStorageServiceProvider.future);
+
+      return db.transaction(
         (txn) => _save(
           dish,
           id: id,
@@ -217,7 +223,7 @@ class LocalDishDao {
     }
 
     for (final dishId in ingredientsByDish.keys) {
-      await _dbService.ingredient.saveForDish(
+      await _ingredientService.saveForDish(
         ingredientsByDish[dishId]!,
         dishId,
         txn: txn,
@@ -240,7 +246,7 @@ class LocalDishDao {
     if (ingredientDishes.isEmpty) return;
 
     final hierarchies = await Future.wait(ingredientDishes
-        .map((e) => _dbService.ingredient.getHierarchyByDish(e.id!, txn: txn)));
+        .map((e) => _ingredientService.getHierarchyByDish(e.id!, txn: txn)));
     final fullHierarchy = hierarchies.reduce((h1, h2) => h1.union(h2));
 
     if (fullHierarchy.contains(model.id!)) {
@@ -273,15 +279,19 @@ class LocalDishDao {
     final dishDbModel = _dishConverter.toDbModel(dish, dishId);
 
     if (dish.id == null) {
-      await _dbService.edible.add(dishDbModel.toEdibleDbModel(), txn: txn);
-      await _dbService.dish.add(dishDbModel, txn: txn);
+      await _edibleService.add(dishDbModel.toEdibleDbModel(), txn: txn);
+      await _dishService.add(dishDbModel, txn: txn);
     } else {
-      await _dbService.edible.update(
+      await _edibleService.update(
         dishDbModel.toEdibleDbModel(),
         txn: txn,
         skipAudit: skipAudit,
       );
-      await _dbService.dish.update(dishDbModel, txn: txn);
+      await _dishService.update(dishDbModel, txn: txn);
     }
   }
 }
+
+final localDishDaoProvider = NotifierProvider<LocalDishDao, void>(
+  LocalDishDao.new,
+);

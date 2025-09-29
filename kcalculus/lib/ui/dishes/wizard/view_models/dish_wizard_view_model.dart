@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/exceptions/duplication_exception.dart';
-import 'package:kcalculus/data/exceptions/ingredients_cycle_exception.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dart';
+import 'package:kcalculus/domain/exceptions/duplication_exception.dart';
+import 'package:kcalculus/domain/exceptions/ingredients_cycle_exception.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
@@ -76,7 +76,7 @@ class DishWizardViewModel
 
       _log.finest('saveDish() Saving dish: ${dish.toJson()}');
 
-      dish = await ref.read(dishRepositoryProvider).save(dish);
+      dish = await ref.read(dishRepositoryProvider.notifier).save(dish);
 
       _log.info('Dish saved');
       _log.finest('saveDish() Saved dish ID: ${dish.id}');

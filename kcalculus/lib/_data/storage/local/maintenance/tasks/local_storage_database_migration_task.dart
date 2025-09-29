@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
-import 'package:kcalculus/data/exceptions/localized_exception.dart';
+import 'package:kcalculus/domain/exceptions/localized_exception.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/maintenance_task.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
 

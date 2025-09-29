@@ -1,12 +1,16 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/edible/models/edible_db_model.dart';
 import 'package:kcalculus/_data/storage/local/edible/models/edible_search_result_db_model.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:sqflite/sqflite.dart';
 
-class EdibleService {
-  EdibleService(this.database);
+class LocalEdibleService extends Notifier<void> {
+  @override
+  void build() {}
 
-  final Future<Database> database;
+  Future<Database> get _database =>
+      ref.read(localStorageServiceProvider.future);
 
   Future<List<EdibleSearchResultDbModel>> search(
     String? query, {
@@ -30,7 +34,7 @@ class EdibleService {
           'If present, "offset" argument must be a non-negative integer');
     }
 
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     var sql = '''
       SELECT *
@@ -153,7 +157,7 @@ class EdibleService {
     bool onlyDishes = false,
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     var sql = '''
       SELECT
@@ -194,7 +198,7 @@ class EdibleService {
     String? exceptWithId,
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -220,7 +224,7 @@ class EdibleService {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -253,7 +257,7 @@ class EdibleService {
     EdibleDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     await executor.insert(
       'edibles',
@@ -269,7 +273,7 @@ class EdibleService {
     Transaction? txn,
     bool skipAudit = false,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     await executor.update(
       'edibles',
@@ -286,7 +290,7 @@ class EdibleService {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     final count = await executor.update(
       'edibles',
@@ -304,7 +308,7 @@ class EdibleService {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     final count = await executor.update(
       'edibles',
@@ -321,7 +325,7 @@ class EdibleService {
   Future<bool> isMissingNutritionFactsPreviews({
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -351,7 +355,7 @@ class EdibleService {
       findEdiblesWithoutNutritionFactsPreviews({
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -390,3 +394,7 @@ class EdibleService {
     ).then((data) => data.map(EdibleSearchResultDbModel.fromJson).toList());
   }
 }
+
+final localEdibleServiceProvider = NotifierProvider<LocalEdibleService, void>(
+  LocalEdibleService.new,
+);

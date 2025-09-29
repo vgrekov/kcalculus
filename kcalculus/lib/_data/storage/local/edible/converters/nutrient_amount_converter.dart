@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/local/edible/models/nutrient_amount_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
@@ -5,7 +6,10 @@ import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
-class LocalNutrientAmountConverter {
+class LocalNutrientAmountConverter extends Notifier<void> {
+  @override
+  void build() {}
+
   List<NutrientAmountDbModel> toDbModels(
       NutrientData model, String nutritionFactsId) {
     return model.nutrientAmounts.indexed
@@ -40,3 +44,8 @@ class LocalNutrientAmountConverter {
     );
   }
 }
+
+final localNutrientAmountConverterProvider =
+    NotifierProvider<LocalNutrientAmountConverter, void>(
+  LocalNutrientAmountConverter.new,
+);

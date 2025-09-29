@@ -1,35 +1,38 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/local/edible/converters/nutrient_amount_converter.dart';
 import 'package:kcalculus/_data/storage/local/edible/converters/nutrition_facts_converter.dart';
-import 'package:kcalculus/data/services/local/database/database_service.dart';
+import 'package:kcalculus/_data/storage/local/edible/services/nutrient_amount_service.dart';
+import 'package:kcalculus/_data/storage/local/edible/services/nutrition_facts_service.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
 
-class LocalNutritionFactsDao {
-  LocalNutritionFactsDao({
-    required DatabaseService dbService,
-    required LocalNutritionFactsConverter nutritionFactsConverter,
-    required LocalNutrientAmountConverter nutrientAmountConverter,
-  })  : _dbService = dbService,
-        _nutritionFactsConverter = nutritionFactsConverter,
-        _nutrientAmountConverter = nutrientAmountConverter;
+class LocalNutritionFactsDao extends Notifier<void> {
+  @override
+  void build() {}
 
-  final DatabaseService _dbService;
+  LocalNutritionFactsService get _nutritionFactsService =>
+      ref.read(localNutritionFactsServiceProvider.notifier);
 
-  final LocalNutritionFactsConverter _nutritionFactsConverter;
+  LocalNutritionFactsConverter get _nutritionFactsConverter =>
+      ref.read(localNutritionFactsConverterProvider.notifier);
 
-  final LocalNutrientAmountConverter _nutrientAmountConverter;
+  LocalNutrientAmountService get _nutrientAmountService =>
+      ref.read(localNutrientAmountServiceProvider.notifier);
+
+  LocalNutrientAmountConverter get _nutrientAmountConverter =>
+      ref.read(localNutrientAmountConverterProvider.notifier);
 
   Future<List<NutritionFacts>> getByEdible(
     String edibleId, {
     Transaction? txn,
   }) async {
-    return _dbService.nutritionFacts.getByEdible(edibleId, txn: txn).then(
+    return _nutritionFactsService.getByEdible(edibleId, txn: txn).then(
           (data) => Future.wait(
             data.map(
               (dbModel) async {
                 final nutritionAmountDbModels =
-                    await _dbService.nutrientAmount.getByNutritionFacts(
+                    await _nutrientAmountService.getByNutritionFacts(
                   dbModel.id,
                   txn: txn,
                 );
@@ -51,7 +54,7 @@ class LocalNutritionFactsDao {
   }) async {
     await Future.wait(
       nutritionFacts.where((model) => model.id != null).map(
-            (nf) => _dbService.nutrientAmount.deleteByNutritionFacts(
+            (nf) => _nutrientAmountService.deleteByNutritionFacts(
               nf.id!,
               txn: txn,
             ),
@@ -69,7 +72,7 @@ class LocalNutritionFactsDao {
         )
         .toList();
 
-    await _dbService.nutritionFacts.saveForEdible(
+    await _nutritionFactsService.saveForEdible(
       dbModels,
       edibleId,
       txn: txn,
@@ -80,7 +83,7 @@ class LocalNutritionFactsDao {
         (model) async {
           final nutritionFactsId = modelIds[model]!;
 
-          await _dbService.nutrientAmount.addForNutritionFacts(
+          await _nutrientAmountService.addForNutritionFacts(
             _nutrientAmountConverter.toDbModels(
               model.nutrientData,
               nutritionFactsId,
@@ -93,3 +96,8 @@ class LocalNutritionFactsDao {
     );
   }
 }
+
+final localNutritionFactsDaoProvider =
+    NotifierProvider<LocalNutritionFactsDao, void>(
+  LocalNutritionFactsDao.new,
+);

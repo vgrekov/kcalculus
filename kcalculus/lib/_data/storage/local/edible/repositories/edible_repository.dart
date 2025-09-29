@@ -1,15 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
 import 'package:kcalculus/_data/storage/local/edible/dao/edible_dao.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 
-class LocalEdibleRepository implements EdibleRepository {
-  LocalEdibleRepository({
-    required LocalEdibleDao edibleDao,
-  }) : _edibleDao = edibleDao;
-
-  final LocalEdibleDao _edibleDao;
+class LocalEdibleRepository extends EdibleRepository {
+  LocalEdibleDao get _edibleDao => ref.read(localEdibleDaoProvider.notifier);
 
   @override
   Future<List<EdibleSearchResult>> search(
@@ -65,3 +62,7 @@ class LocalEdibleRepository implements EdibleRepository {
     return _edibleDao.findEdiblesWithoutNutritionFactsPreviews();
   }
 }
+
+final localEdibleRepositoryProvider = NotifierProvider<EdibleRepository, void>(
+  LocalEdibleRepository.new,
+);

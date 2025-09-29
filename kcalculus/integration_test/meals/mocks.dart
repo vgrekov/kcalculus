@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/ad/repositories/ad_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/change_signal_notifier.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/default_nutrient_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
@@ -21,13 +22,19 @@ class MockAdRepository extends Notifier<void>
     with Mock
     implements AdRepository {}
 
-class MockMealRepository with Mock implements MealRepository {}
+class MockMealRepository extends ChangeSignalNotifier
+    with Mock
+    implements MealRepository {}
 
-class MockEdibleRepository with Mock implements EdibleRepository {}
+class MockEdibleRepository extends Notifier<void>
+    with Mock
+    implements EdibleRepository {}
 
 class MockEdibleSearchUseCase with Mock implements EdibleSearchUseCase {}
 
-class MockFoodRepository with Mock implements FoodRepository {}
+class MockFoodRepository extends ChangeSignalNotifier
+    with Mock
+    implements FoodRepository {}
 
 class MockDefaultNutrientRepository
     with Mock

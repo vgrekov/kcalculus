@@ -1,16 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/edible/models/nutrition_facts_db_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class NutritionFactsService {
-  NutritionFactsService(this.database);
+class LocalNutritionFactsService extends Notifier<void> {
+  @override
+  void build() {}
 
-  final Future<Database> database;
+  Future<Database> get _database =>
+      ref.read(localStorageServiceProvider.future);
 
   Future<List<NutritionFactsDbModel>> getByEdible(
     String edibleId, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.query(
       'nutrition_facts',
@@ -23,7 +27,7 @@ class NutritionFactsService {
     NutritionFactsDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     await executor.insert(
       'nutrition_facts',
@@ -46,7 +50,7 @@ class NutritionFactsService {
     String edibleId, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     final count = await executor.delete(
       'nutrition_facts',
@@ -57,3 +61,8 @@ class NutritionFactsService {
     return count > 0;
   }
 }
+
+final localNutritionFactsServiceProvider =
+    NotifierProvider<LocalNutritionFactsService, void>(
+  LocalNutritionFactsService.new,
+);

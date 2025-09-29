@@ -1,10 +1,14 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/local/food/models/food_db_model.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 
-class LocalFoodConverter {
+class LocalFoodConverter extends Notifier<void> {
+  @override
+  void build() {}
+
   FoodDbModel toDbModel(Food model, [String? foodId]) {
     final nf = model.getNutritionFacts().firstOrNull;
 
@@ -45,3 +49,7 @@ class LocalFoodConverter {
     );
   }
 }
+
+final localFoodConverterProvider = NotifierProvider<LocalFoodConverter, void>(
+  LocalFoodConverter.new,
+);

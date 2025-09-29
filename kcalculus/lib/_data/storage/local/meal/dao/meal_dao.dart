@@ -1,7 +1,9 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/dish/dao/dish_dao.dart';
 import 'package:kcalculus/_data/storage/local/food/dao/food_dao.dart';
 import 'package:kcalculus/_data/storage/local/meal/converters/meal_coverter.dart';
-import 'package:kcalculus/data/services/local/database/database_service.dart';
+import 'package:kcalculus/_data/storage/local/meal/services/meal_service.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
@@ -9,30 +11,25 @@ import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
 
-class LocalMealDao {
-  LocalMealDao({
-    required DatabaseService dbService,
-    required LocalFoodDao foodDao,
-    required LocalDishDao dishDao,
-    required LocalMealConverter mealConverter,
-  })  : _dbService = dbService,
-        _foodDao = foodDao,
-        _dishDao = dishDao,
-        _mealConverter = mealConverter;
+class LocalMealDao extends Notifier<void> {
+  @override
+  void build() {}
 
-  final DatabaseService _dbService;
+  LocalMealService get _mealService =>
+      ref.read(localMealServiceProvider.notifier);
 
-  final LocalFoodDao _foodDao;
+  LocalFoodDao get _foodDao => ref.read(localFoodDaoProvider.notifier);
 
-  final LocalDishDao _dishDao;
+  LocalDishDao get _dishDao => ref.read(localDishDaoProvider.notifier);
 
-  final LocalMealConverter _mealConverter;
+  LocalMealConverter get _mealConverter =>
+      ref.read(localMealConverterProvider.notifier);
 
   Future<List<Meal>> getByDate(
     DateTime date, {
     Transaction? txn,
   }) {
-    return _dbService.meal.getByDate(date, txn: txn).then(
+    return _mealService.getByDate(date, txn: txn).then(
           (data) => Future.wait(
             data.map(
               (dbModel) async {
@@ -59,11 +56,13 @@ class LocalMealDao {
   Future<Meal> save(
     Meal meal, {
     Transaction? txn,
-  }) {
+  }) async {
     if (txn != null) {
       return _save(meal, txn: txn);
     } else {
-      return _dbService.transaction(
+      final db = await ref.read(localStorageServiceProvider.future);
+
+      return db.transaction(
         (txn) => _save(meal, txn: txn),
       );
     }
@@ -89,14 +88,14 @@ class LocalMealDao {
     if (meal.id == null) {
       final id = generateId();
 
-      await _dbService.meal.add(
+      await _mealService.add(
         _mealConverter.toDbModel(meal, mealId: id),
         txn: txn,
       );
 
       meal = meal.copyWith(id: id);
     } else {
-      await _dbService.meal.update(
+      await _mealService.update(
         _mealConverter.toDbModel(meal),
         txn: txn,
       );
@@ -109,13 +108,17 @@ class LocalMealDao {
     String id, {
     Transaction? txn,
   }) {
-    return _dbService.meal.delete(id, txn: txn);
+    return _mealService.delete(id, txn: txn);
   }
 
   Future<bool> restore(
     String id, {
     Transaction? txn,
   }) {
-    return _dbService.meal.restore(id, txn: txn);
+    return _mealService.restore(id, txn: txn);
   }
 }
+
+final localMealDaoProvider = NotifierProvider<LocalMealDao, void>(
+  LocalMealDao.new,
+);

@@ -1,24 +1,16 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dart';
 import 'package:kcalculus/_data/storage/local/dish/dao/dish_dao.dart';
 import 'package:kcalculus/_data/storage/local/edible/dao/edible_dao.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/utils/change_signal.dart';
 
-class LocalDishRepository implements DishRepository {
-  LocalDishRepository({
-    required LocalDishDao dishDao,
-    required LocalEdibleDao edibleDao,
-    required StreamController<void> changeController,
-  })  : _dishDao = dishDao,
-        _edibleDao = edibleDao,
-        _changeController = changeController;
+class LocalDishRepository extends DishRepository {
+  LocalDishDao get _dishDao => ref.read(localDishDaoProvider.notifier);
 
-  final LocalDishDao _dishDao;
-
-  final LocalEdibleDao _edibleDao;
-
-  final StreamController<void> _changeController;
+  LocalEdibleDao get _edibleDao => ref.read(localEdibleDaoProvider.notifier);
 
   @override
   Future<Dish?> getById(String id) async {
@@ -34,21 +26,32 @@ class LocalDishRepository implements DishRepository {
       dish,
       skipAudit: skipAudit,
     );
-    _changeController.add(null);
+
+    emitChangeSignal();
+
     return (await getById(id))!;
   }
 
   @override
   Future<bool> delete(String id) async {
     final result = await _edibleDao.delete(id);
-    _changeController.add(null);
+
+    emitChangeSignal();
+
     return result;
   }
 
   @override
   Future<bool> restore(String id) async {
     final result = await _edibleDao.restore(id);
-    _changeController.add(null);
+
+    emitChangeSignal();
+
     return result;
   }
 }
+
+final localDishRepositoryProvider =
+    NotifierProvider<LocalDishRepository, ChangeSignal?>(
+  LocalDishRepository.new,
+);

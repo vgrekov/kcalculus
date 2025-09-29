@@ -6,8 +6,8 @@ import 'package:integration_test/integration_test.dart';
 import 'package:kcalculus/_data/ad/repositories/ad_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/default_nutrient_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/meal_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
-import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/app_settings.dart';
 import 'package:kcalculus/domain/models/food.dart';
@@ -131,7 +131,7 @@ void main() {
             MockMaintenanceUseCase.new,
           ),
           mealRepositoryProvider.overrideWith(
-            (ref) => mealRepository,
+            () => mealRepository,
           ),
           defaultNutrientRepositoryProvider.overrideWith(
             () => defaultNutrientRepository,

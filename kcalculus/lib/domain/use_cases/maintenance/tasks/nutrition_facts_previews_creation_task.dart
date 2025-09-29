@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/exceptions/localized_exception.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
+import 'package:kcalculus/domain/exceptions/localized_exception.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/use_cases/maintenance/maintenance_task.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
@@ -18,14 +20,15 @@ class NutritionFactsPreviewsCreationTask implements MaintenanceTask {
       l10n.maintenanceTaskNutritionFactsPreviewsCreationTitle;
 
   @override
-  FutureOr<bool> shouldRun(Ref ref) =>
-      ref.read(edibleRepositoryProvider).isMissingNutritionFactsPreviews();
+  FutureOr<bool> shouldRun(Ref ref) => ref
+      .read(edibleRepositoryProvider.notifier)
+      .isMissingNutritionFactsPreviews();
 
   @override
   FutureOr<void> run(Ref ref) async {
-    final edibleRepo = ref.read(edibleRepositoryProvider);
-    final foodRepo = ref.read(foodRepositoryProvider);
-    final dishRepo = ref.read(dishRepositoryProvider);
+    final edibleRepo = ref.read(edibleRepositoryProvider.notifier);
+    final foodRepo = ref.read(foodRepositoryProvider.notifier);
+    final dishRepo = ref.read(dishRepositoryProvider.notifier);
 
     try {
       final results =

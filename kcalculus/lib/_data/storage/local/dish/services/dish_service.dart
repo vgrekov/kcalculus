@@ -1,16 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/dish/models/dish_db_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DishService {
-  DishService(this.database);
+class LocalDishService extends Notifier<void> {
+  @override
+  void build() {}
 
-  final Future<Database> database;
+  Future<Database> get _database =>
+      ref.read(localStorageServiceProvider.future);
 
   Future<DishDbModel?> getById(
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -47,7 +51,7 @@ class DishService {
     DishDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     await executor.insert(
       'dishes',
@@ -59,7 +63,7 @@ class DishService {
     DishDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     await executor.update(
       'dishes',
@@ -69,3 +73,7 @@ class DishService {
     );
   }
 }
+
+final localDishServiceProvider = NotifierProvider<LocalDishService, void>(
+  LocalDishService.new,
+);

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
 import 'package:kcalculus/_data/usda/_common/repositories/usda_food_repository.dart';
-import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/ui/common/view_models/edible_search_helper.dart';
@@ -55,13 +56,13 @@ class EdibleSearchViewModel extends AutoDisposeFamilyNotifier<
         case EdibleSearchResultType.dish:
           _log.finer('selectEdible() Loading dish');
 
-          final dishRepository = ref.read(dishRepositoryProvider);
+          final dishRepository = ref.read(dishRepositoryProvider.notifier);
           edible = await dishRepository.getById(searchResult.id);
           break;
         case EdibleSearchResultType.food:
           _log.finer('selectEdible() Loading food');
 
-          final foodRepository = ref.read(foodRepositoryProvider);
+          final foodRepository = ref.read(foodRepositoryProvider.notifier);
           edible = await foodRepository.getById(searchResult.id);
           break;
         case EdibleSearchResultType.usda:

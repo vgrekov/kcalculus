@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/food.dart';
@@ -110,10 +111,10 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
     overrides: [
       ...overrides,
       edibleRepositoryProvider.overrideWith(
-        (ref) => edibleRepository,
+        () => edibleRepository,
       ),
       foodRepositoryProvider.overrideWith(
-        (ref) => foodRepository,
+        () => foodRepository,
       ),
       edibleSearchUseCaseProvider.overrideWith(
         (ref) => edibleSearchUseCase,

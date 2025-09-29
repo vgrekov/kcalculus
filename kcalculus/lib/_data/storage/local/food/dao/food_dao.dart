@@ -1,37 +1,39 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/edible/dao/edible_dao.dart';
 import 'package:kcalculus/_data/storage/local/edible/dao/nutrition_facts_dao.dart';
+import 'package:kcalculus/_data/storage/local/edible/services/edible_service.dart';
 import 'package:kcalculus/_data/storage/local/food/converters/food_converter.dart';
-import 'package:kcalculus/data/exceptions/duplication_exception.dart';
-import 'package:kcalculus/data/services/local/database/database_service.dart';
+import 'package:kcalculus/_data/storage/local/food/services/food_service.dart';
+import 'package:kcalculus/domain/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
 
-class LocalFoodDao {
-  LocalFoodDao({
-    required DatabaseService dbService,
-    required LocalEdibleDao edibleDao,
-    required LocalNutritionFactsDao nutritionFactsDao,
-    required LocalFoodConverter foodConverter,
-  })  : _dbService = dbService,
-        _edibleDao = edibleDao,
-        _nutritionFactsDao = nutritionFactsDao,
-        _foodConverter = foodConverter;
+class LocalFoodDao extends Notifier<void> {
+  @override
+  void build() {}
 
-  final DatabaseService _dbService;
+  LocalEdibleService get _edibleService =>
+      ref.read(localEdibleServiceProvider.notifier);
 
-  final LocalEdibleDao _edibleDao;
+  LocalFoodService get _foodService =>
+      ref.read(localFoodServiceProvider.notifier);
 
-  final LocalNutritionFactsDao _nutritionFactsDao;
+  LocalEdibleDao get _edibleDao => ref.read(localEdibleDaoProvider.notifier);
 
-  final LocalFoodConverter _foodConverter;
+  LocalNutritionFactsDao get _nutritionFactsDao =>
+      ref.read(localNutritionFactsDaoProvider.notifier);
+
+  LocalFoodConverter get _foodConverter =>
+      ref.read(localFoodConverterProvider.notifier);
 
   Future<Food?> getById(
     String id, {
     Transaction? txn,
   }) async {
-    final foodDbModel = await _dbService.food.getById(id, txn: txn);
+    final foodDbModel = await _foodService.getById(id, txn: txn);
     if (foodDbModel != null) {
       final nutritionFacts = await _nutritionFactsDao.getByEdible(id, txn: txn);
 
@@ -49,7 +51,7 @@ class LocalFoodDao {
     String? id,
     Transaction? txn,
     bool skipAudit = false,
-  }) {
+  }) async {
     if (txn != null) {
       return _save(
         food,
@@ -58,7 +60,9 @@ class LocalFoodDao {
         skipAudit: skipAudit,
       );
     } else {
-      return _dbService.transaction(
+      final db = await ref.read(localStorageServiceProvider.future);
+
+      return db.transaction(
         (txn) => _save(
           food,
           id: id,
@@ -82,10 +86,10 @@ class LocalFoodDao {
     final foodDbModel = _foodConverter.toDbModel(food, foodId);
 
     if (food.id == null) {
-      await _dbService.edible.add(foodDbModel.toEdibleDbModel(), txn: txn);
-      await _dbService.food.add(foodDbModel, txn: txn);
+      await _edibleService.add(foodDbModel.toEdibleDbModel(), txn: txn);
+      await _foodService.add(foodDbModel, txn: txn);
     } else {
-      await _dbService.edible.update(
+      await _edibleService.update(
         foodDbModel.toEdibleDbModel(),
         txn: txn,
         skipAudit: skipAudit,
@@ -117,3 +121,7 @@ class LocalFoodDao {
     }
   }
 }
+
+final localFoodDaoProvider = NotifierProvider<LocalFoodDao, void>(
+  LocalFoodDao.new,
+);

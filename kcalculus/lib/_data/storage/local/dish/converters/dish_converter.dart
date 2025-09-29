@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/local/dish/models/dish_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/dish/dish.dart';
@@ -6,7 +7,10 @@ import 'package:kcalculus/domain/models/nutrition/nutrition_ratio.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 
-class LocalDishConverter {
+class LocalDishConverter extends Notifier<void> {
+  @override
+  void build() {}
+
   DishDbModel toDbModel(Dish model, [dishId]) {
     final massRatio = model.nutritionRatios[Measure.mass];
     final volumeRatio = model.nutritionRatios[Measure.volume];
@@ -112,3 +116,7 @@ class LocalDishConverter {
     return null;
   }
 }
+
+final localDishConverterProvider = NotifierProvider<LocalDishConverter, void>(
+  LocalDishConverter.new,
+);

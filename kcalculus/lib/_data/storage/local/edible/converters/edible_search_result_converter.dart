@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/local/edible/models/edible_search_result_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
@@ -5,7 +6,10 @@ import 'package:kcalculus/domain/models/nutrition/nutrition_facts_preview.dart';
 import 'package:kcalculus/domain/models/units.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 
-class LocalEdibleSearchResultConverter {
+class LocalEdibleSearchResultConverter extends Notifier<void> {
+  @override
+  void build() {}
+
   EdibleSearchResult toModel(EdibleSearchResultDbModel dbModel) {
     return EdibleSearchResult(
         id: dbModel.id,
@@ -71,3 +75,8 @@ class LocalEdibleSearchResultConverter {
     );
   }
 }
+
+final localEdibleSearchResultConverterProvider =
+    NotifierProvider<LocalEdibleSearchResultConverter, void>(
+  LocalEdibleSearchResultConverter.new,
+);

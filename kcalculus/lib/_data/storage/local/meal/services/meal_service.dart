@@ -1,17 +1,21 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/meal/models/meal_db_model.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:sqflite/sqflite.dart';
 
-class MealService {
-  MealService(this.database);
+class LocalMealService extends Notifier<void> {
+  @override
+  void build() {}
 
-  final Future<Database> database;
+  Future<Database> get _database =>
+      ref.read(localStorageServiceProvider.future);
 
   Future<List<MealDbModel>> getByDate(
     DateTime date, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -39,7 +43,7 @@ class MealService {
     MealDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     await executor.insert(
       'meals',
@@ -51,7 +55,7 @@ class MealService {
     MealDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     await executor.update(
       'meals',
@@ -65,7 +69,7 @@ class MealService {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     final count = await executor.update(
       'meals',
@@ -83,7 +87,7 @@ class MealService {
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     final count = await executor.update(
       'meals',
@@ -97,3 +101,7 @@ class MealService {
     return count > 0;
   }
 }
+
+final localMealServiceProvider = NotifierProvider<LocalMealService, void>(
+  LocalMealService.new,
+);

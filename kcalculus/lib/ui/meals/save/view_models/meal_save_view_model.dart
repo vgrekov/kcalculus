@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/meal_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
-import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
@@ -69,7 +69,7 @@ class MealSaveViewModel
       if (force || await _checkForEnergyGoalExceeding(meal)) {
         _log.finest('saveMeal() Saving meal: ${meal.toJson()}');
 
-        meal = await ref.read(mealRepositoryProvider).save(meal);
+        meal = await ref.read(mealRepositoryProvider.notifier).save(meal);
 
         result = true;
 
@@ -105,8 +105,9 @@ class MealSaveViewModel
         ?.amount;
 
     if (goalEnergyAmount != null) {
-      final meals =
-          await ref.read(mealRepositoryProvider).getByDate(state.eatenAt);
+      final meals = await ref
+          .read(mealRepositoryProvider.notifier)
+          .getByDate(state.eatenAt);
       final currentNutrientData = meals
           .where((meal) => meal.id != state.id)
           .map((m) => m.getNutrientData() ?? NutrientData.empty())

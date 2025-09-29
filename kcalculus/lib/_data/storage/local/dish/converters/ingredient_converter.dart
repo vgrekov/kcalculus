@@ -1,10 +1,14 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/local/dish/models/ingredient_db_model.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/dish/ingredient.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/units.dart';
 
-class LocalIngredientConverter {
+class LocalIngredientConverter extends Notifier<void> {
+  @override
+  void build() {}
+
   IngredientDbModel toDbModel(
     Ingredient model,
     String dishId, [
@@ -30,3 +34,8 @@ class LocalIngredientConverter {
     );
   }
 }
+
+final localIngredientConverterProvider =
+    NotifierProvider<LocalIngredientConverter, void>(
+  LocalIngredientConverter.new,
+);

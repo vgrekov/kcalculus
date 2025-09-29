@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/_common/database/models/database_config.dart';
-import 'package:kcalculus/data/exceptions/localized_exception.dart';
+import 'package:kcalculus/domain/exceptions/localized_exception.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;

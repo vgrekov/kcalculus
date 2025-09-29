@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/edible.dart';
 import 'package:kcalculus/domain/models/food.dart';
@@ -145,7 +145,7 @@ class PortionFormViewModel
       return state.selectedEdible;
     }
 
-    final edibleRepository = ref.read(edibleRepositoryProvider);
+    final edibleRepository = ref.read(edibleRepositoryProvider.notifier);
     final alreadyExists = await edibleRepository.exists(
       state.name,
       state.description,

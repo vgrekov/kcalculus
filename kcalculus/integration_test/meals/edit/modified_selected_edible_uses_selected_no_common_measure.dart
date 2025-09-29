@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/edible_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/meal_repository.dart';
 import 'package:kcalculus/domain/models/amount.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/units.dart';
@@ -55,10 +56,10 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
     overrides: [
       ...overrides,
       edibleRepositoryProvider.overrideWith(
-        (ref) => edibleRepository,
+        () => edibleRepository,
       ),
       mealRepositoryProvider.overrideWith(
-        (ref) => mealRepository,
+        () => mealRepository,
       ),
     ],
   );

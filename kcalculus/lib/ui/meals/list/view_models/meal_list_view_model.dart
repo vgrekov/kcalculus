@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/default_nutrient_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/meal_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/nutrient_goal_repository.dart';
-import 'package:kcalculus/data/providers.dart';
 import 'package:kcalculus/domain/models/meal.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -29,10 +31,8 @@ class MealListViewModel extends Notifier<MealListUiState> {
   @override
   MealListUiState build() {
     ref.watch(mealRepositoryProvider);
-
-    ref.watch(foodChangesProvider);
-    ref.watch(dishChangesProvider);
-    ref.watch(mealChangesProvider);
+    ref.watch(foodRepositoryProvider);
+    ref.watch(dishRepositoryProvider);
     ref.watch(nutrientGoalRepositoryProvider);
 
     _scheduleNextDaySwitch();
@@ -69,7 +69,8 @@ class MealListViewModel extends Notifier<MealListUiState> {
     try {
       _log.finest('deleteMeal() Deleting meal with ID: $id');
 
-      final deleted = await ref.read(mealRepositoryProvider).delete(id);
+      final deleted =
+          await ref.read(mealRepositoryProvider.notifier).delete(id);
 
       _log.info('Meal deleted: $deleted');
       _log.eventMealDelete();
@@ -97,7 +98,8 @@ class MealListViewModel extends Notifier<MealListUiState> {
     try {
       _log.finest('restoreMeal() Restoring meal with ID: $id');
 
-      final restored = await ref.read(mealRepositoryProvider).restore(id);
+      final restored =
+          await ref.read(mealRepositoryProvider.notifier).restore(id);
 
       _log.info('Meal restored: $restored');
       _log.eventMealRestore();
@@ -123,7 +125,8 @@ class MealListViewModel extends Notifier<MealListUiState> {
   }
 
   Future<List<Meal>> _doLoadFor(DateTime date) async {
-    final data = await ref.read(mealRepositoryProvider).getByDate(date);
+    final data =
+        await ref.read(mealRepositoryProvider.notifier).getByDate(date);
 
     final goals = await ref
         .read(nutrientGoalRepositoryProvider.notifier)

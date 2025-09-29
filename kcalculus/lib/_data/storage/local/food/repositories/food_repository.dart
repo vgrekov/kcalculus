@@ -1,24 +1,16 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
 import 'package:kcalculus/_data/storage/local/edible/dao/edible_dao.dart';
 import 'package:kcalculus/_data/storage/local/food/dao/food_dao.dart';
 import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/utils/change_signal.dart';
 
-class LocalFoodRepository implements FoodRepository {
-  LocalFoodRepository({
-    required LocalFoodDao foodDao,
-    required LocalEdibleDao edibleDao,
-    required StreamController<void> changeController,
-  })  : _foodDao = foodDao,
-        _edibleDao = edibleDao,
-        _changeController = changeController;
+class LocalFoodRepository extends FoodRepository {
+  LocalFoodDao get _foodDao => ref.read(localFoodDaoProvider.notifier);
 
-  final LocalFoodDao _foodDao;
-
-  final LocalEdibleDao _edibleDao;
-
-  final StreamController<void> _changeController;
+  LocalEdibleDao get _edibleDao => ref.read(localEdibleDaoProvider.notifier);
 
   @override
   Future<Food?> getById(String id) {
@@ -34,21 +26,32 @@ class LocalFoodRepository implements FoodRepository {
       food,
       skipAudit: skipAudit,
     );
-    _changeController.add(null);
+
+    emitChangeSignal();
+
     return (await getById(id))!;
   }
 
   @override
   Future<bool> delete(String id) async {
     final result = await _edibleDao.delete(id);
-    _changeController.add(null);
+
+    emitChangeSignal();
+
     return result;
   }
 
   @override
   Future<bool> restore(String id) async {
     final result = await _edibleDao.restore(id);
-    _changeController.add(null);
+
+    emitChangeSignal();
+
     return result;
   }
 }
+
+final localFoodRepositoryProvider =
+    NotifierProvider<FoodRepository, ChangeSignal?>(
+  LocalFoodRepository.new,
+);

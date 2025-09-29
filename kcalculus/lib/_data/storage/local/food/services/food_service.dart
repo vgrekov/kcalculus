@@ -1,16 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/food/models/food_db_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class FoodService {
-  FoodService(this.database);
+class LocalFoodService extends Notifier<void> {
+  @override
+  void build() {}
 
-  final Future<Database> database;
+  Future<Database> get _database =>
+      ref.read(localStorageServiceProvider.future);
 
   Future<FoodDbModel?> getById(
     String id, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -35,7 +39,7 @@ class FoodService {
     FoodDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     await executor.insert(
       'foods',
@@ -43,3 +47,7 @@ class FoodService {
     );
   }
 }
+
+final localFoodServiceProvider = NotifierProvider<LocalFoodService, void>(
+  LocalFoodService.new,
+);

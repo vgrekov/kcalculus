@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/app_settings_repository.dart';
 import 'package:kcalculus/_data/storage/_common/repositories/default_nutrient_repository.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/dish_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/food_repository.dart';
+import 'package:kcalculus/_data/storage/_common/repositories/meal_repository.dart';
 import 'package:kcalculus/domain/models/edible_search_result.dart';
 import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
 import 'package:kcalculus/ui/common/view_models/edible_search_helper.dart';
@@ -35,10 +37,7 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
   SearchUiState<EdibleSearchResult> build() {
     ref.watch(foodRepositoryProvider);
     ref.watch(dishRepositoryProvider);
-
-    ref.watch(foodChangesProvider);
-    ref.watch(dishChangesProvider);
-    ref.watch(mealChangesProvider);
+    ref.watch(mealRepositoryProvider);
 
     _commander = UiCommander<EdibleListCommand>(_commander);
 
@@ -65,15 +64,17 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
 
       switch (searchResult.type) {
         case EdibleSearchResultType.food:
-          deleted =
-              await ref.read(foodRepositoryProvider).delete(searchResult.id);
+          deleted = await ref
+              .read(foodRepositoryProvider.notifier)
+              .delete(searchResult.id);
 
           _log.eventFoodDelete();
 
           break;
         case EdibleSearchResultType.dish:
-          deleted =
-              await ref.read(dishRepositoryProvider).delete(searchResult.id);
+          deleted = await ref
+              .read(dishRepositoryProvider.notifier)
+              .delete(searchResult.id);
 
           _log.eventDishDelete();
 
@@ -121,15 +122,17 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
 
       switch (searchResult.type) {
         case EdibleSearchResultType.food:
-          restored =
-              await ref.read(foodRepositoryProvider).restore(searchResult.id);
+          restored = await ref
+              .read(foodRepositoryProvider.notifier)
+              .restore(searchResult.id);
 
           _log.eventFoodRestore();
 
           break;
         case EdibleSearchResultType.dish:
-          restored =
-              await ref.read(dishRepositoryProvider).restore(searchResult.id);
+          restored = await ref
+              .read(dishRepositoryProvider.notifier)
+              .restore(searchResult.id);
 
           _log.eventDishRestore();
 

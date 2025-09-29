@@ -1,16 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/_data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/_data/storage/local/dish/models/ingredient_db_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class IngredientService {
-  IngredientService(this.database);
+class LocalIngredientService extends Notifier<void> {
+  @override
+  void build() {}
 
-  final Future<Database> database;
+  Future<Database> get _database =>
+      ref.read(localStorageServiceProvider.future);
 
   Future<List<IngredientDbModel>> getByDish(
     String dishId, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -40,7 +44,7 @@ class IngredientService {
     String dishId, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     return executor.rawQuery(
       '''
@@ -68,7 +72,7 @@ class IngredientService {
     IngredientDbModel model, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     await executor.insert(
       'ingredients',
@@ -91,7 +95,7 @@ class IngredientService {
     String dishId, {
     Transaction? txn,
   }) async {
-    final executor = txn ?? await database;
+    final executor = txn ?? await _database;
 
     final count = await executor.delete(
       'ingredients',
@@ -102,3 +106,8 @@ class IngredientService {
     return count > 0;
   }
 }
+
+final localIngredientServiceProvider =
+    NotifierProvider<LocalIngredientService, void>(
+  LocalIngredientService.new,
+);
