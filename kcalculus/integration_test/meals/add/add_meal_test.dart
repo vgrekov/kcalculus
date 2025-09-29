@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:kcalculus/data/ad/ad.dart';
+import 'package:kcalculus/data/auth/auth.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/models/app_settings.dart';
 import 'package:kcalculus/domain/maintenance/use_cases/maintenance_use_case.dart';
@@ -35,6 +36,7 @@ void main() {
       late MockMealRepository mealRepository;
       late MockDefaultNutrientRepository defaultNutrientRepository;
       late MockNutrientGoalRepository nutrientGoalRepository;
+      late MockUserRepository userRepository;
 
       late List<Override> commonOverrides;
 
@@ -81,6 +83,16 @@ void main() {
           (_) async => [],
         );
 
+        userRepository = MockUserRepository();
+
+        when(() => userRepository.build()).thenAnswer(
+          (_) async => null,
+        );
+
+        when(() => userRepository.isAnonymousModeSelected()).thenAnswer(
+          (_) async => true,
+        );
+
         commonOverrides = [
           appSettingsRepositoryProvider.overrideWith(
             () => appSettingsRepository,
@@ -99,6 +111,9 @@ void main() {
           ),
           nutrientGoalRepositoryProvider.overrideWith(
             () => nutrientGoalRepository,
+          ),
+          userRepositoryProvider.overrideWith(
+            () => userRepository,
           ),
         ];
       });

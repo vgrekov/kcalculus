@@ -12,6 +12,8 @@ import 'package:kcalculus/l10n/app_localizations.dart';
 import 'package:kcalculus/ui/app/widgets/app.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/unit_picker.dart';
+import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results_item.dart';
+import 'package:kcalculus/ui/meals/list/widgets/meal_list_item.dart';
 import 'package:kcalculus/ui/providers.dart';
 
 Future<void> setUpApp() async {
@@ -134,7 +136,7 @@ Future<void> selectEdible(
   await tester.pumpAndSettle();
 
   final itemFinder = find.widgetWithText(
-    ListTile,
+    EdibleSearchResultsItem,
     edibleName,
   );
 
@@ -148,7 +150,7 @@ Future<void> selectMeal(
   String edibleName,
 ) async {
   final itemFinder = find.widgetWithText(
-    ListTile,
+    MealListItem,
     edibleName,
   );
 
