@@ -44,8 +44,9 @@ final _appUiStateProvider = FutureProvider<AppUiState>(
   (ref) async {
     ref.watch(maintenanceUseCaseProvider);
     ref.watch(userRepositoryProvider);
+    ref.watch(appSettingsRepositoryProvider);
 
-    final settings = await ref.watch(appSettingsRepositoryProvider.future);
+    final settings = await ref.read(appSettingsRepositoryProvider.future);
 
     AppStage? stage;
     if (await _isInAgreementStage(ref)) {
@@ -70,20 +71,7 @@ class AppViewModel extends AsyncNotifier<AppUiState> {
   FutureOr<AppUiState> build() async {
     ref.listen(appSettingsRepositoryProvider, _onAppSettingsChanged);
 
-    ref.listen(_appUiStateProvider, _onAppUiStateChanged);
-
-    return ref.read(_appUiStateProvider.future);
-  }
-
-  void _onAppUiStateChanged(
-    AsyncValue<AppUiState>? prev,
-    AsyncValue<AppUiState> next,
-  ) {
-    next.whenData((nextValue) {
-      if (nextValue != prev?.valueOrNull) {
-        state = next;
-      }
-    });
+    return ref.watch(_appUiStateProvider.selectAsync((uiState) => uiState));
   }
 
   void _onAppSettingsChanged(
@@ -91,27 +79,34 @@ class AppViewModel extends AsyncNotifier<AppUiState> {
     AsyncValue<AppSettings> next,
   ) {
     next.whenData(
-      (settings) {
-        _toggleCrashlyticsIfNeeded(settings);
-        _toggleAnalytics(settings);
+      (nextValue) {
+        final prevValue = prev?.valueOrNull;
+
+        if (nextValue.crashlyticsEnabled != prevValue?.crashlyticsEnabled) {
+          _toggleCrashlyticsIfNeeded(nextValue.crashlyticsEnabled);
+        }
+
+        if (nextValue.analyticsEnabled != prevValue?.analyticsEnabled) {
+          _toggleAnalytics(nextValue.analyticsEnabled);
+        }
       },
     );
   }
 
-  void _toggleCrashlyticsIfNeeded(AppSettings settings) {
-    final settingEnabled = settings.crashlyticsEnabled ?? false;
+  void _toggleCrashlyticsIfNeeded(bool? enabled) {
+    final settingEnabled = enabled ?? false;
 
     if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled !=
         settingEnabled) {
       FirebaseCrashlytics.instance
           .setCrashlyticsCollectionEnabled(settingEnabled);
-
-      _log.info('crashlyticsEnabled: $settingEnabled');
     }
+
+    _log.info('crashlyticsEnabled: $settingEnabled');
   }
 
-  void _toggleAnalytics(AppSettings settings) {
-    final settingEnabled = settings.analyticsEnabled ?? false;
+  void _toggleAnalytics(bool? enabled) {
+    final settingEnabled = enabled ?? false;
 
     FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(settingEnabled);
 

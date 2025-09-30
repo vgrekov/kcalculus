@@ -10,7 +10,6 @@ import 'package:kcalculus/ui/common/themes/themes.dart';
 import 'package:kcalculus/ui/consent/widgets/consent_screen.dart';
 import 'package:kcalculus/ui/maintenance/widgets/maintenance_screen.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
-import 'package:kcalculus/ui/providers.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:logging/logging.dart';
 
@@ -23,13 +22,11 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final uiState = ref.watch(appViewModel);
 
-    final navigatorKey = ref.watch(navigatorKeyProvider);
+    final theme = uiState.valueOrNull?.theme;
 
-    AppTheme? theme;
     final Widget home;
     switch (uiState) {
       case AsyncData(:final value):
-        theme = value.theme;
         home = switch (value.stage) {
           AppStage.agreement => const AgreementScreen(),
           AppStage.dataSharingConsent => const ConsentScreen(),
@@ -70,6 +67,7 @@ class App extends ConsumerWidget {
     }
 
     return MaterialApp(
+      key: ValueKey(uiState.valueOrNull?.stage),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -81,7 +79,6 @@ class App extends ConsumerWidget {
             Brightness.dark => kDarkTheme,
           },
       },
-      navigatorKey: navigatorKey,
       home: home,
     );
   }
