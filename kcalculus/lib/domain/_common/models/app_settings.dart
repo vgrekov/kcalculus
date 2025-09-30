@@ -9,6 +9,10 @@ enum AppTheme {
   light,
   dark;
 
+  static AppTheme of(String name) {
+    return AppTheme.values.firstWhere((u) => u.name == name);
+  }
+
   String localName(AppLocalizations loc) {
     return switch (this) {
       system => loc.settingAppThemeSystem,
