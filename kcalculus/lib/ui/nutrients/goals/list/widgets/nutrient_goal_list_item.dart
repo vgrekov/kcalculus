@@ -63,7 +63,7 @@ class NutrientGoalListItem extends StatelessWidget with WidgetMessenger {
         trailing: Text(
           l10n(context).statWithUnit(
             nb.formatDouble(context, item.amount.value),
-            item.amount.unit.localName(context),
+            item.amount.unit.localName(l10n(context)),
           ),
           style: Theme.of(context).textTheme.labelLarge!.copyWith(
                 color: Theme.of(context).colorScheme.onSurface,

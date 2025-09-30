@@ -32,7 +32,7 @@ Future<void> setUpApp() async {
   FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(false);
 }
 
-Future<(AppLocalizations, BuildContext)> pumpApp(
+Future<AppLocalizations> pumpApp(
   WidgetTester tester, {
   List<Override> overrides = const [],
 }) async {
@@ -49,15 +49,13 @@ Future<(AppLocalizations, BuildContext)> pumpApp(
 
   final container = ProviderScope.containerOf(element);
 
-  final context = container.read(contextProvider);
-
   final l10n = container.read(l10nProvider);
 
-  return (l10n, context);
+  return l10n;
 }
 
 Future<void> enterAmount(
-  BuildContext context,
+  AppLocalizations l10n,
   WidgetTester tester,
   String fieldLabel,
   Amount amount,
@@ -80,7 +78,7 @@ Future<void> enterAmount(
 
   final measureCardFinder = find.widgetWithText(
     Card,
-    amount.unit.measure.localName(context),
+    amount.unit.measure.localName(l10n),
   );
 
   final measureScrollableFinder = find.ancestor(
@@ -96,7 +94,7 @@ Future<void> enterAmount(
 
   final systemCardFinder = find.widgetWithText(
     Card,
-    amount.unit.system.localName(context),
+    amount.unit.system.localName(l10n),
   );
 
   final systemScrollableFinder = find.ancestor(
@@ -117,7 +115,7 @@ Future<void> enterAmount(
       of: find.byType(UnitPicker),
       matching: find.widgetWithText(
         TextButton,
-        amount.unit.localName(context),
+        amount.unit.localName(l10n),
       ),
     ),
   );

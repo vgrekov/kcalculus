@@ -117,7 +117,7 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
     },
   );
 
-  final (l10n, context) = await pumpApp(
+  final l10n = await pumpApp(
     tester,
     overrides: [
       ...overrides,
@@ -152,11 +152,11 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
 
   final amount = Amount(unit: Unit.millilitre, value: 100);
 
-  await enterAmount(context, tester, l10n.labelPortionAmount, amount);
+  await enterAmount(l10n, tester, l10n.labelPortionAmount, amount);
 
   await tester.pumpAndSettle();
 
-  await enterAmount(context, tester, '${l10n.labelPer} *', amount);
+  await enterAmount(l10n, tester, '${l10n.labelPer} *', amount);
 
   await tester.pumpAndSettle();
 
@@ -182,8 +182,8 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
   expect(
     find.text(
       l10n.messageNoCommonMeasureError(
-        amount.unit.localName(context),
-        amount.unit.measure.localName(context),
+        amount.unit.localName(l10n),
+        amount.unit.measure.localName(l10n),
       ),
     ),
     findsOneWidget,

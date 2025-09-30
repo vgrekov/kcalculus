@@ -121,8 +121,8 @@ class _DishWizardMeasurementsPageState
         return l10n(context).validationErrorAmountValueMissing;
       case NutritionRatioValidationResult.perAmountHasWrongMeasure:
       case NutritionRatioValidationResult.bothAmountsHaveWrongMeasure:
-        return l10n(context)
-            .validationErrorAmountMustBeOfMeasure(measure.localName(context));
+        return l10n(context).validationErrorAmountMustBeOfMeasure(
+            measure.localName(l10n(context)));
       default:
         return null;
     }
@@ -137,8 +137,8 @@ class _DishWizardMeasurementsPageState
         return l10n(context).validationErrorAmountValueMissing;
       case NutritionRatioValidationResult.totalAmountHasWrongMeasure:
       case NutritionRatioValidationResult.bothAmountsHaveWrongMeasure:
-        return l10n(context)
-            .validationErrorAmountMustBeOfMeasure(measure.localName(context));
+        return l10n(context).validationErrorAmountMustBeOfMeasure(
+            measure.localName(l10n(context)));
       case NutritionRatioValidationResult.totalNotHeavierThanContainer:
         return l10n(context).validationErrorTotalMustBeHeavierThanContainer;
       default:

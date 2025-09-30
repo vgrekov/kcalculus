@@ -373,10 +373,10 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
 
             return l10n(context).partExceedsWhole(
               partNa.nutrient.localName(l10n(context)),
-              partNa.amount.unit.localName(context),
+              partNa.amount.unit.localName(l10n(context)),
               nb.formatDouble(context, partNa.amount.value),
               wholeNa.nutrient.localName(l10n(context)),
-              wholeNa.amount.unit.localName(context),
+              wholeNa.amount.unit.localName(l10n(context)),
               nb.formatDouble(context, wholeNa.amount.value),
             );
           },

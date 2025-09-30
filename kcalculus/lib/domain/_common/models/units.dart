@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:kcalculus/utils/l10n.dart';
+import 'package:kcalculus/l10n/app_localizations.dart';
 
 enum Measure {
   mass,
@@ -19,12 +18,12 @@ enum Measure {
     this.pickable = true,
   });
 
-  String localName(BuildContext context) {
+  String localName(AppLocalizations l10n) {
     return switch (this) {
-      mass => l10n(context).measureMass,
-      volume => l10n(context).measureVolume,
-      quantity => l10n(context).measureQuantity,
-      energy => l10n(context).measureEnergy,
+      mass => l10n.measureMass,
+      volume => l10n.measureVolume,
+      quantity => l10n.measureQuantity,
+      energy => l10n.measureEnergy,
     };
   }
 }
@@ -37,14 +36,14 @@ enum MeasureSystem {
   usCustomary,
   customary;
 
-  String localName(BuildContext context) {
+  String localName(AppLocalizations l10n) {
     return switch (this) {
-      metric => l10n(context).measureSystemMetric,
-      imperial => l10n(context).measureSystemImperial,
-      us => l10n(context).measureSystemUS,
-      usLegal => l10n(context).measureSystemUSLegal,
-      usCustomary => l10n(context).measureSystemUSCustomary,
-      customary => l10n(context).measureSystemCustomary,
+      metric => l10n.measureSystemMetric,
+      imperial => l10n.measureSystemImperial,
+      us => l10n.measureSystemUS,
+      usLegal => l10n.measureSystemUSLegal,
+      usCustomary => l10n.measureSystemUSCustomary,
+      customary => l10n.measureSystemCustomary,
     };
   }
 }
@@ -206,33 +205,33 @@ enum Unit {
     required this.factor,
   });
 
-  String localName(BuildContext context) {
+  String localName(AppLocalizations l10n) {
     return switch (this) {
-      calorie => l10n(context).unitCalorie,
-      piece => l10n(context).unitPiece,
-      gram => l10n(context).unitGram,
-      kilogram => l10n(context).unitKilogram,
-      milligram => l10n(context).unitMilligram,
-      microgram => l10n(context).unitMicrogram,
-      litre => l10n(context).unitLitre,
-      millilitre => l10n(context).unitMillilitre,
-      pound => l10n(context).unitPound,
-      ounce => l10n(context).unitOunce,
-      teaSpoon => l10n(context).unitTeaSpoon,
-      tableSpoon => l10n(context).unitTableSpoon,
-      fluidOunce => l10n(context).unitFluidOunce,
-      cup => l10n(context).unitCup,
-      pint => l10n(context).unitPint,
-      quart => l10n(context).unitQuart,
-      gallon => l10n(context).unitGallon,
-      teaSpoonUS => l10n(context).unitTeaSpoonUS,
-      tableSpoonUS => l10n(context).unitTableSpoonUS,
-      fluidOunceUS => l10n(context).unitFluidOunceUS,
-      pintUS => l10n(context).unitPintUS,
-      quartUS => l10n(context).unitQuartUS,
-      gallonUS => l10n(context).unitGallonUS,
-      cupUSLegal => l10n(context).unitCupUSLegal,
-      cupUSCustomary => l10n(context).unitCupUSCustomary,
+      calorie => l10n.unitCalorie,
+      piece => l10n.unitPiece,
+      gram => l10n.unitGram,
+      kilogram => l10n.unitKilogram,
+      milligram => l10n.unitMilligram,
+      microgram => l10n.unitMicrogram,
+      litre => l10n.unitLitre,
+      millilitre => l10n.unitMillilitre,
+      pound => l10n.unitPound,
+      ounce => l10n.unitOunce,
+      teaSpoon => l10n.unitTeaSpoon,
+      tableSpoon => l10n.unitTableSpoon,
+      fluidOunce => l10n.unitFluidOunce,
+      cup => l10n.unitCup,
+      pint => l10n.unitPint,
+      quart => l10n.unitQuart,
+      gallon => l10n.unitGallon,
+      teaSpoonUS => l10n.unitTeaSpoonUS,
+      tableSpoonUS => l10n.unitTableSpoonUS,
+      fluidOunceUS => l10n.unitFluidOunceUS,
+      pintUS => l10n.unitPintUS,
+      quartUS => l10n.unitQuartUS,
+      gallonUS => l10n.unitGallonUS,
+      cupUSLegal => l10n.unitCupUSLegal,
+      cupUSCustomary => l10n.unitCupUSCustomary,
     };
   }
 }

@@ -42,7 +42,7 @@ class NutritionStatRow extends StatelessWidget {
             amountUnit != null
                 ? l10n(context).statWithUnit(
                     nb.formatDouble(context, amountValue),
-                    amountUnit!.localName(context),
+                    amountUnit!.localName(l10n(context)),
                   )
                 : nb.formatDouble(context, amountValue),
             style: textStyle,

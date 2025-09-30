@@ -42,7 +42,7 @@ class FoodContainerListItem extends StatelessWidget {
       trailing: Text(
         l10n(context).statWithUnit(
           nb.formatDouble(context, container.weight.value),
-          container.weight.unit.localName(context),
+          container.weight.unit.localName(l10n(context)),
         ),
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
               color: Theme.of(context).colorScheme.onSurface,

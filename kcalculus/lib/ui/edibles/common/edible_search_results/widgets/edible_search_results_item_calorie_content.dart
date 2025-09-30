@@ -20,7 +20,7 @@ class EdibleSearchResultsItemCalorieContent extends StatelessWidget {
         Text(
           l10n(context).statWithUnit(
             nb.formatDouble(context, nutritionFactsPreview.calories.value),
-            nutritionFactsPreview.calories.unit.localName(context),
+            nutritionFactsPreview.calories.unit.localName(l10n(context)),
           ),
           style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 color: Theme.of(context).colorScheme.primary,
@@ -29,7 +29,7 @@ class EdibleSearchResultsItemCalorieContent extends StatelessWidget {
         Text(
           l10n(context).perAmount(
             nb.formatDouble(context, nutritionFactsPreview.per.value),
-            nutritionFactsPreview.per.unit.localName(context),
+            nutritionFactsPreview.per.unit.localName(l10n(context)),
           ),
           style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 color: Theme.of(context).colorScheme.secondary,

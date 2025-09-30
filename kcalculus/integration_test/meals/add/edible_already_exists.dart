@@ -26,7 +26,7 @@ Future<void> testEdibleAlreadyExists(
     },
   );
 
-  final (l10n, context) = await pumpApp(
+  final l10n = await pumpApp(
     tester,
     overrides: [
       ...overrides,

@@ -243,7 +243,7 @@ class _AmountInputState extends State<AmountInput> {
           ),
           onPressed: widget.fixedUnit ? null : _pickUnit,
           child: Text(
-            _unit.localName(context),
+            _unit.localName(l10n(context)),
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onTertiaryContainer,
                 ),

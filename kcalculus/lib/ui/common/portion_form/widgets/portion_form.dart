@@ -200,8 +200,8 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
     final amount = uiState.getAmount()!;
     showMessage(
       l10n(context).messageNoCommonMeasureError(
-        amount.unit.localName(context),
-        amount.unit.measure.localName(context),
+        amount.unit.localName(l10n(context)),
+        amount.unit.measure.localName(l10n(context)),
       ),
       MessageType.error,
     );

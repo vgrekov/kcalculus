@@ -21,7 +21,7 @@ class PerAmountChip extends StatelessWidget {
       label: Text(
         l10n(context).statWithUnit(
           nb.formatDouble(context, amount.value),
-          amount.unit.localName(context),
+          amount.unit.localName(l10n(context)),
         ),
         style: Theme.of(context).textTheme.headlineSmall!.copyWith(
               color: Theme.of(context).colorScheme.onSurface,

@@ -74,7 +74,7 @@ class NutrientDefaultsListItem extends StatelessWidget with WidgetMessenger {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              item.defaultUnit.localName(context),
+              item.defaultUnit.localName(l10n(context)),
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                   ),

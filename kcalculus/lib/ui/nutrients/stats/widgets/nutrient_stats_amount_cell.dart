@@ -32,7 +32,7 @@ class NutrientStatsAmountCell extends StatelessWidget {
       child: Text(
         l10n(context).statWithUnit(
           nb.formatDouble(context, row.amount.value),
-          row.amount.unit.localName(context),
+          row.amount.unit.localName(l10n(context)),
         ),
         style: textStyleOf(context, row.nutrient),
       ),

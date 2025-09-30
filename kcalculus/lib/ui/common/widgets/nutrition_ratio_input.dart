@@ -55,7 +55,7 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
             widget.onToggleEnabled(widget.measure);
           },
           title: Text(
-            widget.measure.localName(context),
+            widget.measure.localName(l10n(context)),
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
@@ -97,7 +97,7 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
                             nb.formatDouble(
                                 context, widget.estimatedTotalAmount!.value),
                             widget.estimatedTotalAmount!.unit
-                                .localName(context),
+                                .localName(l10n(context)),
                           ),
                           style:
                               Theme.of(context).textTheme.labelMedium!.copyWith(

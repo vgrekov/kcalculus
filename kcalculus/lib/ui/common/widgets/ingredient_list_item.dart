@@ -49,7 +49,7 @@ class IngredientListItem extends StatelessWidget {
           Text(
             l10n(context).statWithUnit(
               nb.formatDouble(context, ingredient.amount.value),
-              ingredient.amount.unit.localName(context),
+              ingredient.amount.unit.localName(l10n(context)),
             ),
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
