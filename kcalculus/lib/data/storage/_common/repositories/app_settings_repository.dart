@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/providers.dart';
+import 'package:kcalculus/data/storage/firestore/user/repositories/app_settings_repository.dart';
 import 'package:kcalculus/data/storage/local/app_settings/repositories/app_settings_repository.dart';
 import 'package:kcalculus/domain/_common/models/app_settings.dart';
 
@@ -15,18 +16,13 @@ class _AppSettingsRepository extends AppSettingsRepository {
   FutureOr<AppSettings> build() async {
     ref.watch(storageTypeProvider);
     ref.watch(localAppSettingsRepositoryProvider);
-    // TODO: Firestore
+    ref.watch(firestoreAppSettingsRepositoryProvider);
 
     final provider = await _providerImpl;
 
-    return ref.read(provider.future);
-  }
+    final settings = await ref.read(provider.future);
 
-  @override
-  Future<void> saveSettings(AppSettings settings) async {
-    final provider = await _providerImpl;
-
-    return ref.read(provider.notifier).saveSettings(settings);
+    return settings;
   }
 
   Future<AsyncNotifierProvider<AppSettingsRepository, AppSettings>>
@@ -35,9 +31,15 @@ class _AppSettingsRepository extends AppSettingsRepository {
 
     return switch (storageType) {
       StorageType.local => localAppSettingsRepositoryProvider,
-      // TODO: Firestore
-      StorageType.firestore => localAppSettingsRepositoryProvider,
+      StorageType.firestore => firestoreAppSettingsRepositoryProvider,
     };
+  }
+
+  @override
+  Future<void> saveSettings(AppSettings settings) async {
+    final provider = await _providerImpl;
+
+    return ref.read(provider.notifier).saveSettings(settings);
   }
 }
 
