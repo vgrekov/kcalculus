@@ -4,10 +4,11 @@ import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 
 final storageTypeProvider = FutureProvider<StorageType>(
   (ref) async {
-    final firebaseUser = await ref.watch(authServiceProvider.future);
-    final authService = ref.watch(authServiceProvider.notifier);
+    ref.watch(authServiceProvider);
 
-    if (firebaseUser == null && await authService.isAnonymousModeSelected()) {
+    final firebaseUser = await ref.read(authServiceProvider.future);
+
+    if (firebaseUser == null) {
       return StorageType.local;
     } else {
       return StorageType.firestore;
