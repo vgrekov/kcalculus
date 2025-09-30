@@ -16,7 +16,7 @@ class FoodContainerSearchHelper extends SearchHelper<FoodContainer> {
     String query, {
     PageConfig<FoodContainer>? pageConfig,
   }) async {
-    final repo = await getRef().read(foodContainerRepositoryProvider.future);
+    final repo = getRef().read(foodContainerRepositoryProvider.notifier);
     return repo.search(
       query,
       pageConfig: pageConfig,

@@ -25,30 +25,69 @@ abstract class FoodContainerRepository extends ChangeSignalNotifier {
   Future<bool> restore(String id);
 }
 
-final foodContainerChangesProvider = Provider<ChangeSignal>(
-  (ref) {
+class _FoodContainerRepository extends FoodContainerRepository {
+  @override
+  ChangeSignal? build() {
     ref.watch(storageTypeProvider);
-
     ref.watch(localFoodContainerRepositoryProvider);
     ref.watch(firestoreFoodContainerRepositoryProvider);
 
     return ChangeSignal();
-  },
-);
+  }
 
-final foodContainerRepositoryProvider = FutureProvider<FoodContainerRepository>(
-  (ref) async {
-    ref.watch(storageTypeProvider);
-
+  Future<NotifierProvider<FoodContainerRepository, ChangeSignal?>>
+      get _providerImpl async {
     final storageType = await ref.read(storageTypeProvider.future);
 
     return switch (storageType) {
-      StorageType.local => ref.read(
-          localFoodContainerRepositoryProvider.notifier,
-        ),
-      StorageType.firestore => ref.read(
-          firestoreFoodContainerRepositoryProvider.notifier,
-        ),
+      StorageType.local => localFoodContainerRepositoryProvider,
+      StorageType.firestore => firestoreFoodContainerRepositoryProvider,
     };
-  },
+  }
+
+  @override
+  Future<List<FoodContainer>> search(
+    String? query, {
+    PageConfig<FoodContainer>? pageConfig,
+  }) async {
+    final provider = await _providerImpl;
+
+    return ref.read(provider.notifier).search(
+          query,
+          pageConfig: pageConfig,
+        );
+  }
+
+  @override
+  Future<FoodContainer?> getById(String id) async {
+    final provider = await _providerImpl;
+
+    return ref.read(provider.notifier).getById(id);
+  }
+
+  @override
+  Future<FoodContainer> save(FoodContainer container) async {
+    final provider = await _providerImpl;
+
+    return ref.read(provider.notifier).save(container);
+  }
+
+  @override
+  Future<bool> delete(String id) async {
+    final provider = await _providerImpl;
+
+    return ref.read(provider.notifier).delete(id);
+  }
+
+  @override
+  Future<bool> restore(String id) async {
+    final provider = await _providerImpl;
+
+    return ref.read(provider.notifier).restore(id);
+  }
+}
+
+final foodContainerRepositoryProvider =
+    NotifierProvider<FoodContainerRepository, ChangeSignal?>(
+  _FoodContainerRepository.new,
 );

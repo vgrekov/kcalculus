@@ -33,7 +33,7 @@ class FoodContainerListViewModel
 
   @override
   SearchUiState<FoodContainer> build() {
-    ref.watch(foodContainerChangesProvider);
+    ref.watch(foodContainerRepositoryProvider);
 
     _commander = UiCommander<FoodContainerListCommand>(_commander);
 
@@ -54,7 +54,7 @@ class FoodContainerListViewModel
     try {
       _log.finest('deleteFoodContainer() Deleting food container with ID: $id');
 
-      final repo = await ref.read(foodContainerRepositoryProvider.future);
+      final repo = ref.read(foodContainerRepositoryProvider.notifier);
 
       final deleted = await repo.delete(id);
 
@@ -85,7 +85,7 @@ class FoodContainerListViewModel
     try {
       _log.finest('restoreFoodContainer() Restoring food with ID: $id');
 
-      final repo = await ref.read(foodContainerRepositoryProvider.future);
+      final repo = ref.read(foodContainerRepositoryProvider.notifier);
 
       final restored = await repo.restore(id);
 
