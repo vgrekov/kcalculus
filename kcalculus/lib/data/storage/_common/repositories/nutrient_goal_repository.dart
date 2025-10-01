@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/providers.dart';
 import 'package:kcalculus/data/storage/_common/repositories/change_signal_notifier.dart';
+import 'package:kcalculus/data/storage/firestore/user_data/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/data/storage/local/nutrient_goal/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
@@ -23,7 +24,7 @@ class _NutrientGoalRepository extends NutrientGoalRepository {
   ChangeSignal? build() {
     ref.watch(storageTypeProvider);
     ref.watch(localNutrientGoalRepositoryProvider);
-    // TODO: Firestore
+    ref.watch(firestoreNutrientGoalRepositoryProvider);
 
     return ChangeSignal();
   }
@@ -34,8 +35,7 @@ class _NutrientGoalRepository extends NutrientGoalRepository {
 
     return switch (storageType) {
       StorageType.local => localNutrientGoalRepositoryProvider,
-      // TODO: Firestore
-      StorageType.firestore => localNutrientGoalRepositoryProvider,
+      StorageType.firestore => firestoreNutrientGoalRepositoryProvider,
     };
   }
 
