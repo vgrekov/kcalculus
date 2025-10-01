@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/providers.dart';
+import 'package:kcalculus/data/storage/firestore/user_data/repositories/default_nutrient_repository.dart';
 import 'package:kcalculus/data/storage/local/default_nutrient/repositories/default_nutrient_repository.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 
@@ -15,7 +16,7 @@ class _DefaultNutrientRepository extends DefaultNutrientRepository {
   FutureOr<List<Nutrient>> build() async {
     ref.watch(storageTypeProvider);
     ref.watch(localDefaultNutrientRepositoryProvider);
-    // TODO: Firestore
+    ref.watch(firestoreDefaultNutrientRepositoryProvider);
 
     final provider = await _providerImpl;
 
@@ -28,8 +29,7 @@ class _DefaultNutrientRepository extends DefaultNutrientRepository {
 
     return switch (storageType) {
       StorageType.local => localDefaultNutrientRepositoryProvider,
-      // TODO: Firestore
-      StorageType.firestore => localDefaultNutrientRepositoryProvider,
+      StorageType.firestore => firestoreDefaultNutrientRepositoryProvider,
     };
   }
 

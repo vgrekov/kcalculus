@@ -3,23 +3,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
-import 'package:kcalculus/data/storage/firestore/user/models/app_settings_firestore_model.dart';
+import 'package:kcalculus/data/storage/firestore/user_data/models/app_settings_firestore_model.dart';
 
-part 'user_firestore_model.freezed.dart';
-part 'user_firestore_model.g.dart';
+part 'user_data_firestore_model.freezed.dart';
+part 'user_data_firestore_model.g.dart';
 
 @freezed
-sealed class UserFirestoreModel with _$UserFirestoreModel {
+sealed class UserDataFirestoreModel with _$UserDataFirestoreModel {
   static const kCollection = 'users';
 
-  const UserFirestoreModel._();
+  const UserDataFirestoreModel._();
 
-  const factory UserFirestoreModel({
+  const factory UserDataFirestoreModel({
     @JsonKey(
       includeToJson: false,
     )
     required String id,
     AppSettingsFirestoreModel? settings,
+    List<String>? defaultNutrients,
     @JsonKey(
       includeToJson: false,
       fromJson: timestampToDate,
@@ -35,8 +36,8 @@ sealed class UserFirestoreModel with _$UserFirestoreModel {
       fromJson: timestampToDate,
     )
     DateTime? deletedAt,
-  }) = _UserFirestoreModel;
+  }) = _UserDataFirestoreModel;
 
-  factory UserFirestoreModel.fromJson(Map<String, dynamic> json) =>
-      _$UserFirestoreModelFromJson(json);
+  factory UserDataFirestoreModel.fromJson(Map<String, dynamic> json) =>
+      _$UserDataFirestoreModelFromJson(json);
 }

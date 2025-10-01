@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/providers.dart';
-import 'package:kcalculus/data/storage/firestore/user/repositories/app_settings_repository.dart';
+import 'package:kcalculus/data/storage/firestore/user_data/repositories/app_settings_repository.dart';
 import 'package:kcalculus/data/storage/local/app_settings/repositories/app_settings_repository.dart';
 import 'package:kcalculus/domain/_common/models/app_settings.dart';
 
