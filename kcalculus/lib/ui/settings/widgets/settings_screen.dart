@@ -297,25 +297,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   ),
                 ],
               ),
-              SettingsGroup(
-                title: l10n(context).settingsGroupBackup,
-                children: [
-                  ActionSettingTile(
-                    onTap: uiState.isLoading ? null : _backup,
-                    title: l10n(context).settingBackupTitle,
-                    subtitle: l10n(context).settingBackupSubtitle,
-                    icon: Icons.download,
-                    premiumFeature: true,
-                  ),
-                  ActionSettingTile(
-                    onTap: uiState.isLoading ? null : _restore,
-                    title: l10n(context).settingRestoreTitle,
-                    subtitle: l10n(context).settingRestoreSubtitle,
-                    icon: Icons.upload,
-                    premiumFeature: true,
-                  ),
-                ],
-              ),
+              if (uiState.valueOrNull?.user == null)
+                SettingsGroup(
+                  title: l10n(context).settingsGroupBackup,
+                  children: [
+                    ActionSettingTile(
+                      onTap: uiState.isLoading ? null : _backup,
+                      title: l10n(context).settingBackupTitle,
+                      subtitle: l10n(context).settingBackupSubtitle,
+                      icon: Icons.download,
+                      premiumFeature: true,
+                    ),
+                    ActionSettingTile(
+                      onTap: uiState.isLoading ? null : _restore,
+                      title: l10n(context).settingRestoreTitle,
+                      subtitle: l10n(context).settingRestoreSubtitle,
+                      icon: Icons.upload,
+                      premiumFeature: true,
+                    ),
+                  ],
+                ),
               SettingsGroup(
                 title: l10n(context).settingsGroupDataSharing,
                 children: [
