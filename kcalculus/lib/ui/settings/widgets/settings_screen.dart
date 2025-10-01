@@ -342,7 +342,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           ),
         );
 
-        final info = uiState.valueOrNull?.packageInfo;
+        final info = uiState.valueOrNull?.appInfo;
         version = info == null
             ? null
             : l10n(context).appVersion(

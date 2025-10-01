@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$SettingsUiState {
   AppSettings get settings;
   User? get user;
-  PackageInfo? get packageInfo;
+  AppInfo? get appInfo;
 
   /// Create a copy of SettingsUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -35,16 +35,15 @@ mixin _$SettingsUiState {
             (identical(other.settings, settings) ||
                 other.settings == settings) &&
             (identical(other.user, user) || other.user == user) &&
-            (identical(other.packageInfo, packageInfo) ||
-                other.packageInfo == packageInfo));
+            (identical(other.appInfo, appInfo) || other.appInfo == appInfo));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, settings, user, packageInfo);
+  int get hashCode => Object.hash(runtimeType, settings, user, appInfo);
 
   @override
   String toString() {
-    return 'SettingsUiState(settings: $settings, user: $user, packageInfo: $packageInfo)';
+    return 'SettingsUiState(settings: $settings, user: $user, appInfo: $appInfo)';
   }
 }
 
@@ -54,7 +53,7 @@ abstract mixin class $SettingsUiStateCopyWith<$Res> {
           SettingsUiState value, $Res Function(SettingsUiState) _then) =
       _$SettingsUiStateCopyWithImpl;
   @useResult
-  $Res call({AppSettings settings, User? user, PackageInfo? packageInfo});
+  $Res call({AppSettings settings, User? user, AppInfo? appInfo});
 
   $AppSettingsCopyWith<$Res> get settings;
   $UserCopyWith<$Res>? get user;
@@ -75,7 +74,7 @@ class _$SettingsUiStateCopyWithImpl<$Res>
   $Res call({
     Object? settings = null,
     Object? user = freezed,
-    Object? packageInfo = freezed,
+    Object? appInfo = freezed,
   }) {
     return _then(_self.copyWith(
       settings: null == settings
@@ -86,10 +85,10 @@ class _$SettingsUiStateCopyWithImpl<$Res>
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      packageInfo: freezed == packageInfo
-          ? _self.packageInfo
-          : packageInfo // ignore: cast_nullable_to_non_nullable
-              as PackageInfo?,
+      appInfo: freezed == appInfo
+          ? _self.appInfo
+          : appInfo // ignore: cast_nullable_to_non_nullable
+              as AppInfo?,
     ));
   }
 
@@ -121,14 +120,14 @@ class _$SettingsUiStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _SettingsUiState implements SettingsUiState {
-  const _SettingsUiState({required this.settings, this.user, this.packageInfo});
+  const _SettingsUiState({required this.settings, this.user, this.appInfo});
 
   @override
   final AppSettings settings;
   @override
   final User? user;
   @override
-  final PackageInfo? packageInfo;
+  final AppInfo? appInfo;
 
   /// Create a copy of SettingsUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -146,16 +145,15 @@ class _SettingsUiState implements SettingsUiState {
             (identical(other.settings, settings) ||
                 other.settings == settings) &&
             (identical(other.user, user) || other.user == user) &&
-            (identical(other.packageInfo, packageInfo) ||
-                other.packageInfo == packageInfo));
+            (identical(other.appInfo, appInfo) || other.appInfo == appInfo));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, settings, user, packageInfo);
+  int get hashCode => Object.hash(runtimeType, settings, user, appInfo);
 
   @override
   String toString() {
-    return 'SettingsUiState(settings: $settings, user: $user, packageInfo: $packageInfo)';
+    return 'SettingsUiState(settings: $settings, user: $user, appInfo: $appInfo)';
   }
 }
 
@@ -167,7 +165,7 @@ abstract mixin class _$SettingsUiStateCopyWith<$Res>
       __$SettingsUiStateCopyWithImpl;
   @override
   @useResult
-  $Res call({AppSettings settings, User? user, PackageInfo? packageInfo});
+  $Res call({AppSettings settings, User? user, AppInfo? appInfo});
 
   @override
   $AppSettingsCopyWith<$Res> get settings;
@@ -190,7 +188,7 @@ class __$SettingsUiStateCopyWithImpl<$Res>
   $Res call({
     Object? settings = null,
     Object? user = freezed,
-    Object? packageInfo = freezed,
+    Object? appInfo = freezed,
   }) {
     return _then(_SettingsUiState(
       settings: null == settings
@@ -201,10 +199,10 @@ class __$SettingsUiStateCopyWithImpl<$Res>
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      packageInfo: freezed == packageInfo
-          ? _self.packageInfo
-          : packageInfo // ignore: cast_nullable_to_non_nullable
-              as PackageInfo?,
+      appInfo: freezed == appInfo
+          ? _self.appInfo
+          : appInfo // ignore: cast_nullable_to_non_nullable
+              as AppInfo?,
     ));
   }
 

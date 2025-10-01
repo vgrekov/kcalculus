@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/_common/providers.dart';
 import 'package:logging/logging.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 final _log = Logger('EnvService');
 
@@ -19,8 +19,8 @@ class EnvService extends AsyncNotifier<String?> {
 
     String? value;
 
-    final packageInfo = await PackageInfo.fromPlatform();
-    final buildNumber = packageInfo.buildNumber;
+    final appInfo = await ref.read(appInfoProvider.future);
+    final buildNumber = appInfo.buildNumber;
 
     try {
       final valueRef = FirebaseDatabase.instance.ref('releases/$buildNumber');

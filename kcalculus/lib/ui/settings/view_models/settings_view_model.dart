@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/_common/providers.dart';
 import 'package:kcalculus/data/auth/auth.dart';
 import 'package:kcalculus/data/storage/local/backup/repositories/backup_repository.dart';
 import 'package:kcalculus/data/storage/storage.dart';
@@ -11,7 +12,6 @@ import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/settings/view_models/settings_ui_state.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 final _log = Logger('AppSettingsViewModel');
 
@@ -23,8 +23,6 @@ enum AppSettingsCommand {
 }
 
 class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
-  final _packageInfo = PackageInfo.fromPlatform();
-
   UiCommander<AppSettingsCommand>? _commander;
 
   @override
@@ -39,10 +37,12 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
 
     final user = await ref.watch(userRepositoryProvider.future);
 
+    final appInfo = await ref.read(appInfoProvider.future);
+
     return SettingsUiState(
       settings: settings,
       user: user,
-      packageInfo: await _packageInfo,
+      appInfo: appInfo,
     );
   }
 
