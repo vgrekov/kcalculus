@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/edible_repository.dart';
 import 'package:kcalculus/data/storage/local/edible/dao/edible_dao.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 
 class LocalEdibleRepository extends EdibleRepository {
@@ -11,27 +12,18 @@ class LocalEdibleRepository extends EdibleRepository {
   @override
   Future<List<EdibleSearchResult>> search(
     String? query, {
-    EdibleSearchResultType? type,
-    int? limit,
-    int? offset,
+    PageConfig<EdibleSearchResult>? pageConfig,
   }) {
     return _edibleDao.search(
       query,
-      type: type,
-      limit: limit,
-      offset: offset,
+      limit: pageConfig?.size,
+      offset: pageConfig?.offset,
     );
   }
 
   @override
-  Future<int> count(
-    String? query, {
-    EdibleSearchResultType? type,
-  }) {
-    return _edibleDao.count(
-      query,
-      type: type,
-    );
+  Future<int> count(String? query) {
+    return _edibleDao.count(query);
   }
 
   @override

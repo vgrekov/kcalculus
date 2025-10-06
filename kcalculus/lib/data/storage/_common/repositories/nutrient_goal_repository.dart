@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
-import 'package:kcalculus/data/storage/_common/providers.dart';
-import 'package:kcalculus/data/storage/_common/repositories/change_signal_notifier.dart';
+import 'package:kcalculus/data/storage/_common/utils/change_signal_notifier.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_type_router.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/data/storage/local/nutrient_goal/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
@@ -19,50 +19,48 @@ abstract class NutrientGoalRepository extends ChangeSignalNotifier {
   Future<bool> restore(String id);
 }
 
-class _NutrientGoalRepository extends NutrientGoalRepository {
+class _NutrientGoalRepository extends NutrientGoalRepository
+    with StorageTypeRouter<NutrientGoalRepository, ChangeSignal?> {
   @override
   ChangeSignal? build() {
-    ref.watch(storageTypeProvider);
-    ref.watch(localNutrientGoalRepositoryProvider);
-    ref.watch(firestoreNutrientGoalRepositoryProvider);
+    buildDependencies();
 
     return ChangeSignal();
   }
 
-  Future<NotifierProvider<NutrientGoalRepository, ChangeSignal?>>
-      get _providerImpl async {
-    final storageType = await ref.read(storageTypeProvider.future);
-
-    return switch (storageType) {
-      StorageType.local => localNutrientGoalRepositoryProvider,
-      StorageType.firestore => firestoreNutrientGoalRepositoryProvider,
-    };
-  }
+  @override
+  NotifierProvider<NutrientGoalRepository, ChangeSignal?> buildDelegateProvider(
+    StorageType storageType,
+  ) =>
+      switch (storageType) {
+        StorageType.local => localNutrientGoalRepositoryProvider,
+        StorageType.firestore => firestoreNutrientGoalRepositoryProvider,
+      };
 
   @override
   Future<List<NutrientGoal>> getActiveGoals(DateTime date) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).getActiveGoals(date);
   }
 
   @override
   Future<String> save(NutrientGoal goal) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).save(goal);
   }
 
   @override
   Future<bool> delete(String id) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).delete(id);
   }
 
   @override
   Future<bool> restore(String id) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).restore(id);
   }

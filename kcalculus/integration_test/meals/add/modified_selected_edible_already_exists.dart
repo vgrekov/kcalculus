@@ -49,9 +49,7 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
   when(
     () => edibleSearchUseCase.search(
       any(),
-      type: any(named: 'type'),
-      limit: any(named: 'limit'),
-      offset: any(named: 'offset'),
+      pageConfig: any(named: 'pageConfig'),
     ),
   ).thenAnswer(
     (_) async {

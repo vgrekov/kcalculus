@@ -31,7 +31,7 @@ sealed class Dish with _$Dish implements Edible {
   @override
   List<NutritionFacts> getNutritionFacts() {
     final nutrientData = ingredients
-        .map((i) => i.getNutrientData() ?? NutrientData.empty())
+        .map((i) => i.getNutritionFacts()?.nutrientData ?? NutrientData.empty())
         .fold(
           NutrientData.empty(),
           (nd1, nd2) => nd1 + nd2,

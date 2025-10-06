@@ -21,6 +21,7 @@ mixin _$EdibleSearchResult {
   EdibleSearchResultType get type;
   NutritionFactsPreview? get nutritionFactsPreview;
   DateTime? get lastEatenAt;
+  DateTime? get touchedAt;
 
   /// Create a copy of EdibleSearchResult
   /// with the given fields replaced by the non-null parameter values.
@@ -46,17 +47,19 @@ mixin _$EdibleSearchResult {
             (identical(other.nutritionFactsPreview, nutritionFactsPreview) ||
                 other.nutritionFactsPreview == nutritionFactsPreview) &&
             (identical(other.lastEatenAt, lastEatenAt) ||
-                other.lastEatenAt == lastEatenAt));
+                other.lastEatenAt == lastEatenAt) &&
+            (identical(other.touchedAt, touchedAt) ||
+                other.touchedAt == touchedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, description, type,
-      nutritionFactsPreview, lastEatenAt);
+      nutritionFactsPreview, lastEatenAt, touchedAt);
 
   @override
   String toString() {
-    return 'EdibleSearchResult(id: $id, name: $name, description: $description, type: $type, nutritionFactsPreview: $nutritionFactsPreview, lastEatenAt: $lastEatenAt)';
+    return 'EdibleSearchResult(id: $id, name: $name, description: $description, type: $type, nutritionFactsPreview: $nutritionFactsPreview, lastEatenAt: $lastEatenAt, touchedAt: $touchedAt)';
   }
 }
 
@@ -72,7 +75,8 @@ abstract mixin class $EdibleSearchResultCopyWith<$Res> {
       String description,
       EdibleSearchResultType type,
       NutritionFactsPreview? nutritionFactsPreview,
-      DateTime? lastEatenAt});
+      DateTime? lastEatenAt,
+      DateTime? touchedAt});
 
   $NutritionFactsPreviewCopyWith<$Res>? get nutritionFactsPreview;
 }
@@ -96,6 +100,7 @@ class _$EdibleSearchResultCopyWithImpl<$Res>
     Object? type = null,
     Object? nutritionFactsPreview = freezed,
     Object? lastEatenAt = freezed,
+    Object? touchedAt = freezed,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -121,6 +126,10 @@ class _$EdibleSearchResultCopyWithImpl<$Res>
       lastEatenAt: freezed == lastEatenAt
           ? _self.lastEatenAt
           : lastEatenAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      touchedAt: freezed == touchedAt
+          ? _self.touchedAt
+          : touchedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
   }
@@ -150,7 +159,8 @@ class _EdibleSearchResult implements EdibleSearchResult {
       required this.description,
       required this.type,
       this.nutritionFactsPreview,
-      this.lastEatenAt});
+      this.lastEatenAt,
+      this.touchedAt});
   factory _EdibleSearchResult.fromJson(Map<String, dynamic> json) =>
       _$EdibleSearchResultFromJson(json);
 
@@ -166,6 +176,8 @@ class _EdibleSearchResult implements EdibleSearchResult {
   final NutritionFactsPreview? nutritionFactsPreview;
   @override
   final DateTime? lastEatenAt;
+  @override
+  final DateTime? touchedAt;
 
   /// Create a copy of EdibleSearchResult
   /// with the given fields replaced by the non-null parameter values.
@@ -195,17 +207,19 @@ class _EdibleSearchResult implements EdibleSearchResult {
             (identical(other.nutritionFactsPreview, nutritionFactsPreview) ||
                 other.nutritionFactsPreview == nutritionFactsPreview) &&
             (identical(other.lastEatenAt, lastEatenAt) ||
-                other.lastEatenAt == lastEatenAt));
+                other.lastEatenAt == lastEatenAt) &&
+            (identical(other.touchedAt, touchedAt) ||
+                other.touchedAt == touchedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, description, type,
-      nutritionFactsPreview, lastEatenAt);
+      nutritionFactsPreview, lastEatenAt, touchedAt);
 
   @override
   String toString() {
-    return 'EdibleSearchResult(id: $id, name: $name, description: $description, type: $type, nutritionFactsPreview: $nutritionFactsPreview, lastEatenAt: $lastEatenAt)';
+    return 'EdibleSearchResult(id: $id, name: $name, description: $description, type: $type, nutritionFactsPreview: $nutritionFactsPreview, lastEatenAt: $lastEatenAt, touchedAt: $touchedAt)';
   }
 }
 
@@ -223,7 +237,8 @@ abstract mixin class _$EdibleSearchResultCopyWith<$Res>
       String description,
       EdibleSearchResultType type,
       NutritionFactsPreview? nutritionFactsPreview,
-      DateTime? lastEatenAt});
+      DateTime? lastEatenAt,
+      DateTime? touchedAt});
 
   @override
   $NutritionFactsPreviewCopyWith<$Res>? get nutritionFactsPreview;
@@ -248,6 +263,7 @@ class __$EdibleSearchResultCopyWithImpl<$Res>
     Object? type = null,
     Object? nutritionFactsPreview = freezed,
     Object? lastEatenAt = freezed,
+    Object? touchedAt = freezed,
   }) {
     return _then(_EdibleSearchResult(
       id: null == id
@@ -273,6 +289,10 @@ class __$EdibleSearchResultCopyWithImpl<$Res>
       lastEatenAt: freezed == lastEatenAt
           ? _self.lastEatenAt
           : lastEatenAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      touchedAt: freezed == touchedAt
+          ? _self.touchedAt
+          : touchedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
   }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/data/usda/usda.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 
 class EdibleSearchUseCase extends Notifier<void> {
@@ -14,20 +15,9 @@ class EdibleSearchUseCase extends Notifier<void> {
 
   Future<List<EdibleSearchResult>> search(
     String? query, {
-    EdibleSearchResultType? type,
-    int? limit,
-    int? offset,
+    PageConfig<EdibleSearchResult>? pageConfig,
   }) async {
     final edibleRepo = ref.read(edibleRepositoryProvider.notifier);
-
-    if (type != null) {
-      return edibleRepo.search(
-        query,
-        type: type,
-        limit: limit,
-        offset: offset,
-      );
-    }
 
     final ediblesTotal = await edibleRepo.count(query);
 
@@ -35,24 +25,23 @@ class EdibleSearchUseCase extends Notifier<void> {
 
     final List<EdibleSearchResult> edibles;
     final List<EdibleSearchResult> usdaFoods;
-    if (limit == null) {
+    if (pageConfig == null) {
       edibles = await edibleRepo.search(query);
       usdaFoods = await usdaFoodRepo.search(query);
     } else {
-      final ediblesLeft = ediblesTotal - (offset ?? 0);
+      final ediblesLeft = ediblesTotal - (pageConfig.offset ?? 0);
 
       edibles = ediblesLeft > 0
           ? await edibleRepo.search(
               query,
-              limit: limit,
-              offset: offset,
+              pageConfig: pageConfig,
             )
           : const [];
 
-      usdaFoods = ediblesLeft < limit
+      usdaFoods = ediblesLeft < pageConfig.size
           ? await usdaFoodRepo.search(
               query,
-              limit: limit - max(ediblesLeft, 0),
+              limit: pageConfig.size - max(ediblesLeft, 0),
               offset: max(-ediblesLeft, 0),
             )
           : const [];

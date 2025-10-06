@@ -11,17 +11,30 @@ class LocalEdibleSearchResultConverter extends Notifier<void> {
   void build() {}
 
   EdibleSearchResult toModel(EdibleSearchResultDbModel dbModel) {
+    final createdAt = dt.parseISO8601(dbModel.created_at);
+    final updatedAt = dbModel.updated_at != null
+        ? dt.parseISO8601(dbModel.updated_at!)
+        : null;
+    final lastEatenAt = dbModel.last_eaten_at != null
+        ? dt.parseISO8601(dbModel.last_eaten_at!)
+        : null;
+
+    final touchedAt = [updatedAt, lastEatenAt].fold(
+      createdAt,
+      (a, b) => b?.isAfter(a) ?? false ? b! : a,
+    );
+
     return EdibleSearchResult(
-        id: dbModel.id,
-        name: dbModel.name,
-        description: dbModel.description ?? '',
-        type: dbModel.food_id != null
-            ? EdibleSearchResultType.food
-            : EdibleSearchResultType.dish,
-        nutritionFactsPreview: _getNutritionFactsPreview(dbModel),
-        lastEatenAt: dbModel.last_eaten_at != null
-            ? dt.parseISO8601(dbModel.last_eaten_at!)
-            : null);
+      id: dbModel.id,
+      name: dbModel.name,
+      description: dbModel.description ?? '',
+      type: dbModel.food_id != null
+          ? EdibleSearchResultType.food
+          : EdibleSearchResultType.dish,
+      nutritionFactsPreview: _getNutritionFactsPreview(dbModel),
+      lastEatenAt: lastEatenAt,
+      touchedAt: touchedAt,
+    );
   }
 
   NutritionFactsPreview? _getNutritionFactsPreview(

@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
-import 'package:kcalculus/data/storage/_common/providers.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_type_router.dart';
+import 'package:kcalculus/data/storage/firestore/edible/repositories/edible_repository.dart';
 import 'package:kcalculus/data/storage/local/edible/repositories/edible_repository.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 
 abstract class EdibleRepository extends Notifier<void> {
@@ -12,15 +14,10 @@ abstract class EdibleRepository extends Notifier<void> {
 
   Future<List<EdibleSearchResult>> search(
     String? query, {
-    EdibleSearchResultType? type,
-    int? limit,
-    int? offset,
+    PageConfig<EdibleSearchResult>? pageConfig,
   });
 
-  Future<int> count(
-    String? query, {
-    EdibleSearchResultType? type,
-  });
+  Future<int> count(String? query);
 
   Future<bool> exists(
     String name,
@@ -35,52 +32,40 @@ abstract class EdibleRepository extends Notifier<void> {
   Future<List<EdibleSearchResult>> findEdiblesWithoutNutritionFactsPreviews();
 }
 
-class _EdibleRepository extends EdibleRepository {
+class _EdibleRepository extends EdibleRepository
+    with StorageTypeRouter<EdibleRepository, void> {
   @override
   void build() {
-    ref.watch(storageTypeProvider);
-    ref.watch(localEdibleRepositoryProvider);
-    // TODO: Firestore
+    buildDependencies();
   }
 
-  Future<NotifierProvider<EdibleRepository, void>> get _providerImpl async {
-    final storageType = await ref.read(storageTypeProvider.future);
-
-    return switch (storageType) {
-      StorageType.local => localEdibleRepositoryProvider,
-      // TODO: Firestore
-      StorageType.firestore => localEdibleRepositoryProvider,
-    };
-  }
+  @override
+  NotifierProvider<EdibleRepository, void> buildDelegateProvider(
+    StorageType storageType,
+  ) =>
+      switch (storageType) {
+        StorageType.local => localEdibleRepositoryProvider,
+        StorageType.firestore => firestoreEdibleRepositoryProvider,
+      };
 
   @override
   Future<List<EdibleSearchResult>> search(
     String? query, {
-    EdibleSearchResultType? type,
-    int? limit,
-    int? offset,
+    PageConfig<EdibleSearchResult>? pageConfig,
   }) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).search(
           query,
-          type: type,
-          limit: limit,
-          offset: offset,
+          pageConfig: pageConfig,
         );
   }
 
   @override
-  Future<int> count(
-    String? query, {
-    EdibleSearchResultType? type,
-  }) async {
-    final provider = await _providerImpl;
+  Future<int> count(String? query) async {
+    final provider = await delegateProvider;
 
-    return ref.read(provider.notifier).count(
-          query,
-          type: type,
-        );
+    return ref.read(provider.notifier).count(query);
   }
 
   @override
@@ -89,7 +74,7 @@ class _EdibleRepository extends EdibleRepository {
     String description, {
     String? exceptWithId,
   }) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).exists(
           name,
@@ -100,14 +85,14 @@ class _EdibleRepository extends EdibleRepository {
 
   @override
   Future<bool> wasEaten(String id) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).wasEaten(id);
   }
 
   @override
   FutureOr<bool> isMissingNutritionFactsPreviews() async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).isMissingNutritionFactsPreviews();
   }
@@ -115,7 +100,7 @@ class _EdibleRepository extends EdibleRepository {
   @override
   Future<List<EdibleSearchResult>>
       findEdiblesWithoutNutritionFactsPreviews() async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref
         .read(provider.notifier)

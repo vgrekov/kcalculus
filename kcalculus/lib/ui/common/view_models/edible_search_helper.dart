@@ -9,10 +9,7 @@ class EdibleSearchHelper extends SearchHelper<EdibleSearchResult> {
     required super.getRef,
     required super.getState,
     required super.setState,
-    EdibleSearchResultType? searchResultType,
-  }) : _searchResultType = searchResultType;
-
-  final EdibleSearchResultType? _searchResultType;
+  });
 
   @override
   Future<List<EdibleSearchResult>> loadData(
@@ -21,9 +18,7 @@ class EdibleSearchHelper extends SearchHelper<EdibleSearchResult> {
   }) {
     return getRef().read(edibleSearchUseCaseProvider.notifier).search(
           query,
-          type: _searchResultType,
-          limit: pageConfig?.size,
-          offset: pageConfig?.offset,
+          pageConfig: pageConfig,
         );
   }
 }

@@ -5,6 +5,9 @@ import 'package:kcalculus/data/usda/_common/services/usda_service.dart';
 import 'package:kcalculus/domain/_common/exceptions/localized_exception.dart';
 import 'package:kcalculus/domain/maintenance/models/maintenance_task.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
+import 'package:logging/logging.dart';
+
+final _log = Logger('UsdaDatabaseMigrationTask');
 
 class UsdaDatabaseMigrationTask implements MaintenanceTask {
   const UsdaDatabaseMigrationTask();
@@ -25,7 +28,13 @@ class UsdaDatabaseMigrationTask implements MaintenanceTask {
       final usdaService = ref.read(usdaServiceProvider.notifier);
 
       return usdaService.isDatabaseMigrationRequired();
-    } catch (error) {
+    } catch (error, stackTrace) {
+      _log.severe(
+        'Maintenance task failed: $name',
+        error,
+        stackTrace,
+      );
+
       throw LocalizedException(
         (loc) => loc.maintenanceTaskUsdaDbMigrationFailedMessage,
         cause: error,
@@ -42,7 +51,13 @@ class UsdaDatabaseMigrationTask implements MaintenanceTask {
       final usdaService = ref.read(usdaServiceProvider.notifier);
 
       return usdaService.migrateDatabase();
-    } catch (error) {
+    } catch (error, stackTrace) {
+      _log.severe(
+        'Maintenance task failed: $name',
+        error,
+        stackTrace,
+      );
+
       throw LocalizedException(
         (loc) => loc.maintenanceTaskUsdaDbMigrationFailedMessage,
         cause: error,

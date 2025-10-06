@@ -1,0 +1,66 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/auth/utils/auth.dart';
+import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
+import 'package:kcalculus/data/storage/firestore/edible/services/edible_service.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+
+class FirestoreFoodRepository extends FoodRepository {
+  FirestoreEdibleService get _edibleService =>
+      ref.read(firestoreEdibleServiceProvider.notifier);
+
+  @override
+  Future<Food?> getById(String id) => Auth.guard(
+        (user) async {
+          final fsModel = await _edibleService.get(id);
+
+          return fsModel?.toFood();
+        },
+      );
+
+  @override
+  Future<Food> save(
+    Food food, {
+    bool skipAudit = false,
+  }) =>
+      Auth.guard(
+        (user) async {
+          final id = await _edibleService.save(
+            EdibleFirestoreModel.fromDomainFood(food, user.uid),
+            skipAudit: skipAudit,
+          );
+
+          emitChangeSignal();
+
+          return food.id == id ? food : food.copyWith(id: id);
+        },
+      );
+
+  @override
+  Future<bool> delete(String id) => Auth.guard(
+        (user) async {
+          final result = await _edibleService.delete(id);
+
+          emitChangeSignal();
+
+          return result;
+        },
+      );
+
+  @override
+  Future<bool> restore(String id) => Auth.guard(
+        (user) async {
+          final result = await _edibleService.restore(id);
+
+          emitChangeSignal();
+
+          return result;
+        },
+      );
+}
+
+final firestoreFoodRepositoryProvider =
+    NotifierProvider<FoodRepository, ChangeSignal?>(
+  FirestoreFoodRepository.new,
+);

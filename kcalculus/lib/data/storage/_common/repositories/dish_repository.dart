@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
-import 'package:kcalculus/data/storage/_common/providers.dart';
-import 'package:kcalculus/data/storage/_common/repositories/change_signal_notifier.dart';
+import 'package:kcalculus/data/storage/_common/utils/change_signal_notifier.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_type_router.dart';
 import 'package:kcalculus/data/storage/local/dish/repositories/dish_repository.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
 import 'package:kcalculus/domain/dish/models/dish.dart';
@@ -19,30 +19,28 @@ abstract class DishRepository extends ChangeSignalNotifier {
   Future<bool> restore(String id);
 }
 
-class _DishRepository extends DishRepository {
+class _DishRepository extends DishRepository
+    with StorageTypeRouter<DishRepository, ChangeSignal?> {
   @override
   ChangeSignal? build() {
-    ref.watch(storageTypeProvider);
-    ref.watch(localDishRepositoryProvider);
-    // TODO: Firestore
+    buildDependencies();
 
     return ChangeSignal();
   }
 
-  Future<NotifierProvider<DishRepository, ChangeSignal?>>
-      get _providerImpl async {
-    final storageType = await ref.read(storageTypeProvider.future);
-
-    return switch (storageType) {
-      StorageType.local => localDishRepositoryProvider,
-      // TODO: Firestore
-      StorageType.firestore => localDishRepositoryProvider,
-    };
-  }
+  @override
+  NotifierProvider<DishRepository, ChangeSignal?> buildDelegateProvider(
+    StorageType storageType,
+  ) =>
+      switch (storageType) {
+        StorageType.local => localDishRepositoryProvider,
+        // TODO: Firestore
+        StorageType.firestore => localDishRepositoryProvider,
+      };
 
   @override
   Future<Dish?> getById(String id) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).getById(id);
   }
@@ -52,7 +50,7 @@ class _DishRepository extends DishRepository {
     Dish dish, {
     bool skipAudit = false,
   }) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).save(
           dish,
@@ -62,14 +60,14 @@ class _DishRepository extends DishRepository {
 
   @override
   Future<bool> delete(String id) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).delete(id);
   }
 
   @override
   Future<bool> restore(String id) async {
-    final provider = await _providerImpl;
+    final provider = await delegateProvider;
 
     return ref.read(provider.notifier).restore(id);
   }

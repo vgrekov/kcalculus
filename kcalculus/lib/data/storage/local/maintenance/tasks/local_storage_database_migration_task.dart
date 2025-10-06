@@ -5,6 +5,9 @@ import 'package:kcalculus/data/storage/local/_common/services/local_storage_serv
 import 'package:kcalculus/domain/_common/exceptions/localized_exception.dart';
 import 'package:kcalculus/domain/maintenance/models/maintenance_task.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
+import 'package:logging/logging.dart';
+
+final _log = Logger('LocalStorageDatabaseMigrationTask');
 
 class LocalStorageDatabaseMigrationTask implements MaintenanceTask {
   const LocalStorageDatabaseMigrationTask();
@@ -25,7 +28,13 @@ class LocalStorageDatabaseMigrationTask implements MaintenanceTask {
       final dbService = ref.read(localStorageServiceProvider.notifier);
 
       return dbService.isDatabaseMigrationRequired();
-    } catch (error) {
+    } catch (error, stackTrace) {
+      _log.severe(
+        'Maintenance task failed: $name',
+        error,
+        stackTrace,
+      );
+
       throw LocalizedException(
         (loc) => loc.maintenanceTaskDbMigrationFailedMessage,
         cause: error,
@@ -42,7 +51,13 @@ class LocalStorageDatabaseMigrationTask implements MaintenanceTask {
       final dbService = ref.read(localStorageServiceProvider.notifier);
 
       return dbService.migrateDatabase();
-    } catch (error) {
+    } catch (error, stackTrace) {
+      _log.severe(
+        'Maintenance task failed: $name',
+        error,
+        stackTrace,
+      );
+
       throw LocalizedException(
         (loc) => loc.maintenanceTaskDbMigrationFailedMessage,
         cause: error,

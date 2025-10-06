@@ -109,7 +109,8 @@ class MealSaveViewModel
           .getByDate(state.eatenAt);
       final currentNutrientData = meals
           .where((meal) => meal.id != state.id)
-          .map((m) => m.getNutrientData() ?? NutrientData.empty())
+          .map((m) =>
+              m.getNutritionFacts()?.nutrientData ?? NutrientData.empty())
           .fold(
             NutrientData.zeros(const [Nutrient.energy]),
             (nd1, nd2) => nd1 + nd2,
@@ -117,7 +118,7 @@ class MealSaveViewModel
       final currentEnergyAmount =
           currentNutrientData.nutrientAmountsMap[Nutrient.energy];
 
-      final portionNutrientData = meal.getNutrientData();
+      final portionNutrientData = meal.getNutritionFacts()?.nutrientData;
       final portionEnergyAmount =
           portionNutrientData?.nutrientAmountsMap[Nutrient.energy];
 

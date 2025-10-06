@@ -1,6 +1,5 @@
 import 'package:kcalculus/domain/_common/models/amount.dart';
 import 'package:kcalculus/domain/edible/models/edible.dart';
-import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 
 mixin Portion {
@@ -8,7 +7,7 @@ mixin Portion {
 
   Amount get amount;
 
-  NutrientData? getNutrientData() {
+  NutritionFacts? getNutritionFacts() {
     NutritionFacts? closestNF;
 
     for (final nf in edible.getNutritionFacts()) {
@@ -29,7 +28,7 @@ mixin Portion {
     }
 
     if (closestNF != null) {
-      return closestNF.convertTo(amount).nutrientData;
+      return closestNF.convertTo(amount);
     }
 
     return null;

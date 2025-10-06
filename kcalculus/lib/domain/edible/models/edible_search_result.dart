@@ -28,6 +28,7 @@ sealed class EdibleSearchResult with _$EdibleSearchResult {
     required EdibleSearchResultType type,
     NutritionFactsPreview? nutritionFactsPreview,
     DateTime? lastEatenAt,
+    DateTime? touchedAt,
   }) = _EdibleSearchResult;
 
   factory EdibleSearchResult.fromJson(Map<String, dynamic> json) =>

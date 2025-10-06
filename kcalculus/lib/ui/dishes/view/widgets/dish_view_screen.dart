@@ -134,7 +134,8 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
       data: (uiState) {
         final nutritionFacts = uiState.dish.getNutritionFacts();
         final totalNutrientData = uiState.dish.ingredients
-            .map((m) => m.getNutrientData() ?? NutrientData.empty())
+            .map((m) =>
+                m.getNutritionFacts()?.nutrientData ?? NutrientData.empty())
             .fold(
               NutrientData.empty(),
               (nd1, nd2) => nd1 + nd2,

@@ -113,7 +113,7 @@ class DishWizardIngredientsPage extends ConsumerWidget
     final uiState = ref.watch(dishWizardViewModel(dish));
 
     final totalNutrientData = uiState.ingredientsStepState.ingredients
-        .map((m) => m.getNutrientData() ?? NutrientData.empty())
+        .map((m) => m.getNutritionFacts()?.nutrientData ?? NutrientData.empty())
         .fold(
           NutrientData.empty(),
           (nd1, nd2) => nd1 + nd2,

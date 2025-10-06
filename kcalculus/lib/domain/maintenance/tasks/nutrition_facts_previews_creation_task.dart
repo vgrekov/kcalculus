@@ -6,6 +6,9 @@ import 'package:kcalculus/domain/_common/exceptions/localized_exception.dart';
 import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
 import 'package:kcalculus/domain/maintenance/models/maintenance_task.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
+import 'package:logging/logging.dart';
+
+final _log = Logger('NutritionFactsPreviewsCreationTask');
 
 class NutritionFactsPreviewsCreationTask implements MaintenanceTask {
   const NutritionFactsPreviewsCreationTask();
@@ -18,9 +21,24 @@ class NutritionFactsPreviewsCreationTask implements MaintenanceTask {
       l10n.maintenanceTaskNutritionFactsPreviewsCreationTitle;
 
   @override
-  FutureOr<bool> shouldRun(Ref ref) => ref
-      .read(edibleRepositoryProvider.notifier)
-      .isMissingNutritionFactsPreviews();
+  FutureOr<bool> shouldRun(Ref ref) async {
+    try {
+      return await ref
+          .read(edibleRepositoryProvider.notifier)
+          .isMissingNutritionFactsPreviews();
+    } catch (error, stackTrace) {
+      _log.severe(
+        'Maintenance task failed: $name',
+        error,
+        stackTrace,
+      );
+
+      throw LocalizedException(
+        (l10n) =>
+            l10n.maintenanceTaskNutritionFactsPreviewsCreationFailedMessage,
+      );
+    }
+  }
 
   @override
   FutureOr<void> run(Ref ref) async {
@@ -48,7 +66,13 @@ class NutritionFactsPreviewsCreationTask implements MaintenanceTask {
           default:
         }
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
+      _log.severe(
+        'Maintenance task failed: $name',
+        error,
+        stackTrace,
+      );
+
       throw LocalizedException(
         (l10n) =>
             l10n.maintenanceTaskNutritionFactsPreviewsCreationFailedMessage,

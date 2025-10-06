@@ -222,7 +222,9 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
                 future: uiState.dataLoader,
                 data: (_, __) {
                   final nutrientData = uiState.data
-                      .map((m) => m.getNutrientData() ?? NutrientData.empty())
+                      .map((m) =>
+                          m.getNutritionFacts()?.nutrientData ??
+                          NutrientData.empty())
                       .fold(
                         NutrientData.empty(),
                         (nd1, nd2) => nd1 + nd2,

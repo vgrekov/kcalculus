@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts_preview.dart';
 
 part 'nutrition_facts.freezed.dart';
 part 'nutrition_facts.g.dart';
@@ -42,7 +44,7 @@ sealed class NutritionFacts with _$NutritionFacts {
     final factor = (otherAmount.unit.factor / amount.unit.factor) *
         (otherAmount.value / amount.value);
     return NutritionFacts(
-      amount: amount,
+      amount: otherAmount,
       nutrientData: nutrientData * factor,
     );
   }
@@ -74,5 +76,20 @@ sealed class NutritionFacts with _$NutritionFacts {
       unit: targetNutritionFacts.amount.unit,
       value: targetNutritionFacts.amount.value * caloriesFactor * amountFactor,
     );
+  }
+
+  NutritionFactsPreview? getPreview() {
+    if (nutrientData.nutrientAmountsMap.containsKey(Nutrient.energy)) {
+      return NutritionFactsPreview(
+        per: amount,
+        calories: nutrientData.nutrientAmountsMap[Nutrient.energy]!,
+        fat: nutrientData.nutrientAmountsMap[Nutrient.fat],
+        carbs: nutrientData.nutrientAmountsMap[Nutrient.totalCarbs],
+        fiber: nutrientData.nutrientAmountsMap[Nutrient.fiber],
+        protein: nutrientData.nutrientAmountsMap[Nutrient.protein],
+      );
+    }
+
+    return null;
   }
 }

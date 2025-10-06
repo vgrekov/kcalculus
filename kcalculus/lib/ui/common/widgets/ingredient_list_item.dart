@@ -15,7 +15,7 @@ class IngredientListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final nutrientData = ingredient.getNutrientData();
+    final nutrientData = ingredient.getNutritionFacts()?.nutrientData;
     return ListTile(
       onTap: onSelectIngredient == null
           ? null

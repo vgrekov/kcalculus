@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/_common/models/amount.dart';
-import 'package:kcalculus/domain/_common/models/units.dart';
 import 'package:kcalculus/domain/meal/models/meal.dart';
-import 'package:kcalculus/domain/nutrition/models/nutrition_facts_preview.dart';
 import 'package:kcalculus/ui/edibles/common/edible_stats.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_item_calorie_content.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
@@ -21,34 +18,7 @@ class MealListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final nutrientData = meal.getNutrientData();
-
-    NutritionFactsPreview? nutritionFactsPreview;
-    if (nutrientData != null) {
-      nutritionFactsPreview = NutritionFactsPreview(
-        per: meal.amount,
-        calories: Amount(
-          unit: Unit.calorie,
-          value: nutrientData.calories,
-        ),
-        fat: Amount(
-          unit: Unit.gram,
-          value: nutrientData.fatInGrams,
-        ),
-        carbs: Amount(
-          unit: Unit.gram,
-          value: nutrientData.carbsInGrams,
-        ),
-        protein: Amount(
-          unit: Unit.gram,
-          value: nutrientData.proteinInGrams,
-        ),
-        fiber: Amount(
-          unit: Unit.gram,
-          value: nutrientData.fiberInGrams,
-        ),
-      );
-    }
+    final nutritionFactsPreview = meal.getNutritionFacts()?.getPreview();
 
     return GestureDetector(
       onTap: () {
