@@ -191,6 +191,7 @@ class FirestoreEdibleService extends Notifier<void> {
 
   Future<bool> markEaten(
     String id, {
+    required DateTime at,
     Transaction? txn,
   }) async {
     final executor = FirestoreExecutor(txn);
@@ -200,7 +201,7 @@ class FirestoreEdibleService extends Notifier<void> {
     await executor.update(
       docRef,
       {
-        'eatenAt': FieldValue.serverTimestamp(),
+        'eatenAt': dateToTimestamp(at),
         'touchedAt': FieldValue.serverTimestamp(),
       },
     );

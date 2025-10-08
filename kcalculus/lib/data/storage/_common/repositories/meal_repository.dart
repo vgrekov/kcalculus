@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/utils/change_signal_notifier.dart';
 import 'package:kcalculus/data/storage/_common/utils/storage_type_router.dart';
+import 'package:kcalculus/data/storage/firestore/edible/repositories/meal_repository.dart';
 import 'package:kcalculus/data/storage/local/meal/repositories/meal_repository.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
 import 'package:kcalculus/domain/meal/models/meal.dart';
@@ -31,8 +32,7 @@ class _MealRepository extends MealRepository
   ) =>
       switch (storageType) {
         StorageType.local => localMealRepositoryProvider,
-        // TODO: Firestore
-        StorageType.firestore => localMealRepositoryProvider,
+        StorageType.firestore => firestoreMealRepositoryProvider,
       };
 
   @override
