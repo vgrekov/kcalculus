@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/models/storage_type.dart';
 import 'package:kcalculus/data/storage/_common/utils/change_signal_notifier.dart';
 import 'package:kcalculus/data/storage/_common/utils/storage_type_router.dart';
+import 'package:kcalculus/data/storage/firestore/edible/repositories/dish_repository.dart';
 import 'package:kcalculus/data/storage/local/dish/repositories/dish_repository.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
 import 'package:kcalculus/domain/dish/models/dish.dart';
@@ -34,8 +35,7 @@ class _DishRepository extends DishRepository
   ) =>
       switch (storageType) {
         StorageType.local => localDishRepositoryProvider,
-        // TODO: Firestore
-        StorageType.firestore => localDishRepositoryProvider,
+        StorageType.firestore => firestoreDishRepositoryProvider,
       };
 
   @override

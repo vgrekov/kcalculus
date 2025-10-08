@@ -10,6 +10,7 @@ import 'package:kcalculus/data/storage/firestore/edible/models/nutrition_facts_p
 import 'package:kcalculus/data/storage/firestore/edible/models/nutrition_ratio_firestore_model.dart';
 import 'package:kcalculus/domain/_common/models/units.dart';
 import 'package:kcalculus/domain/dish/models/dish.dart';
+import 'package:kcalculus/domain/dish/models/ingredient.dart';
 import 'package:kcalculus/domain/edible/models/edible.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
 
@@ -200,6 +201,31 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
             (nf) => nf.toDomain(),
           )
           .toList(),
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
+  }
+
+  Dish? toDish(Map<String, Edible> edibles) {
+    if (type != EdibleType.dish) {
+      return null;
+    }
+
+    return Dish(
+      id: id,
+      name: name,
+      description: description,
+      ingredients: ingredients!
+          .map(
+            (i) => Ingredient(
+              edible: edibles[i.edibleId]!,
+              amount: i.amount.toDomain(),
+            ),
+          )
+          .toList(),
+      nutritionRatios: {
+        for (final e in nutritionRatios!.entries) e.key: e.value.toDomain(),
+      },
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
