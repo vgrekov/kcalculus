@@ -15,9 +15,9 @@ _FoodContainerFirestoreModel _$FoodContainerFirestoreModelFromJson(
       weight:
           AmountFirestoreModel.fromJson(json['weight'] as Map<String, dynamic>),
       ownerId: json['ownerId'] as String,
-      createdAt: timestampToDate(json['createdAt'] as Timestamp?),
-      updatedAt: timestampToDate(json['updatedAt'] as Timestamp?),
-      deletedAt: timestampToDate(json['deletedAt'] as Timestamp?),
+      createdAt: timestampToDate(json['createdAt']),
+      updatedAt: timestampToDate(json['updatedAt']),
+      deletedAt: timestampToDate(json['deletedAt']),
     );
 
 Map<String, dynamic> _$FoodContainerFirestoreModelToJson(

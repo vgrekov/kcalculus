@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-DateTime? timestampToDate(Timestamp? ts) => ts?.toDate();
+DateTime? timestampToDate(dynamic ts) => switch (ts) {
+      Timestamp ts => ts.toDate(),
+      int ts => DateTime.fromMillisecondsSinceEpoch(ts),
+      _ => null,
+    };
 
 DateTime timestampToDateNotNull(Timestamp ts) => ts.toDate();
 

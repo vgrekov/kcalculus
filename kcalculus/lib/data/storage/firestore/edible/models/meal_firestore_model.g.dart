@@ -13,9 +13,9 @@ _MealFirestoreModel _$MealFirestoreModelFromJson(Map<String, dynamic> json) =>
       amount:
           AmountFirestoreModel.fromJson(json['amount'] as Map<String, dynamic>),
       eatenAt: timestampToDateNotNull(json['eatenAt'] as Timestamp),
-      createdAt: timestampToDate(json['createdAt'] as Timestamp?),
-      updatedAt: timestampToDate(json['updatedAt'] as Timestamp?),
-      deletedAt: timestampToDate(json['deletedAt'] as Timestamp?),
+      createdAt: timestampToDate(json['createdAt']),
+      updatedAt: timestampToDate(json['updatedAt']),
+      deletedAt: timestampToDate(json['deletedAt']),
     );
 
 Map<String, dynamic> _$MealFirestoreModelToJson(_MealFirestoreModel instance) =>

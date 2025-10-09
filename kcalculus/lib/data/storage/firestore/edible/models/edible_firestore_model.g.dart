@@ -32,11 +32,11 @@ _EdibleFirestoreModel _$EdibleFirestoreModelFromJson(
           ?.map((e) =>
               IngredientFirestoreModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      createdAt: timestampToDate(json['createdAt'] as Timestamp?),
-      updatedAt: timestampToDate(json['updatedAt'] as Timestamp?),
-      eatenAt: timestampToDate(json['eatenAt'] as Timestamp?),
-      touchedAt: timestampToDate(json['touchedAt'] as Timestamp?),
-      deletedAt: timestampToDate(json['deletedAt'] as Timestamp?),
+      createdAt: timestampToDate(json['createdAt']),
+      updatedAt: timestampToDate(json['updatedAt']),
+      eatenAt: timestampToDate(json['eatenAt']),
+      touchedAt: timestampToDate(json['touchedAt']),
+      deletedAt: timestampToDate(json['deletedAt']),
     );
 
 Map<String, dynamic> _$EdibleFirestoreModelToJson(

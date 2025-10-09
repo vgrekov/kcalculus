@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: invalid_annotation_target
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/domain/_common/models/amount.dart';

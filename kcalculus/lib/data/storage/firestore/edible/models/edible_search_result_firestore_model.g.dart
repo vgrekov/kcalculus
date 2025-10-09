@@ -18,8 +18,8 @@ _EdibleSearchResultFirestoreModel _$EdibleSearchResultFirestoreModelFromJson(
           ? null
           : NutritionFactsPreviewFirestoreModel.fromJson(
               json['nutritionFactsPreview'] as Map<String, dynamic>),
-      eatenAt: timestampToDate(json['eatenAt'] as Timestamp?),
-      touchedAt: timestampToDate(json['touchedAt'] as Timestamp?),
+      eatenAt: timestampToDate(json['eatenAt']),
+      touchedAt: timestampToDate(json['touchedAt']),
     );
 
 Map<String, dynamic> _$EdibleSearchResultFirestoreModelToJson(

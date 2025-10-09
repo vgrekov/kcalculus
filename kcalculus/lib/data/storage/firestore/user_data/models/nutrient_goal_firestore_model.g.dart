@@ -13,8 +13,8 @@ _NutrientGoalFirestoreModel _$NutrientGoalFirestoreModelFromJson(
       nutrient: json['nutrient'] as String,
       unit: json['unit'] as String,
       value: (json['value'] as num).toDouble(),
-      createdAt: timestampToDate(json['createdAt'] as Timestamp?),
-      deletedAt: timestampToDate(json['deletedAt'] as Timestamp?),
+      createdAt: timestampToDate(json['createdAt']),
+      deletedAt: timestampToDate(json['deletedAt']),
     );
 
 Map<String, dynamic> _$NutrientGoalFirestoreModelToJson(
