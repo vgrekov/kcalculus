@@ -69,20 +69,18 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
   }
 
   void _onScroll() {
-    if (!_scrollController.hasClients || _isNextPageLoading || _isEndReached) {
+    if (widget.onLoadNextPage == null ||
+        _isNextPageLoading ||
+        _isEndReached ||
+        !_scrollController.hasClients ||
+        _scrollController.position.userScrollDirection ==
+            ScrollDirection.forward) {
       return;
     }
 
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
-      return;
-    }
-
-    if (widget.onLoadNextPage != null) {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 100) {
-        _loadNextPage();
-      }
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 100) {
+      _loadNextPage();
     }
   }
 
