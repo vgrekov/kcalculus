@@ -55,8 +55,8 @@ class MealListViewModel extends Notifier<MealListUiState> {
     );
   }
 
-  Future<void> refresh() async {
-    await _doLoadFor(state.date);
+  Future<List<Meal>> refresh() {
+    return _doLoadFor(state.date);
   }
 
   Future<void> deleteMeal(String id) async {
@@ -115,7 +115,7 @@ class MealListViewModel extends Notifier<MealListUiState> {
   MealListUiState _loadFor(DateTime date) {
     return MealListUiState(
       date: date,
-      dataLoader: _doLoadFor(date),
+      data: _doLoadFor(date),
       showCalendar: false,
     );
   }

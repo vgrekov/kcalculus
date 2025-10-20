@@ -16,8 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MealListUiState {
   DateTime get date;
-  Future<List<Meal>> get dataLoader;
-  List<Meal> get data;
+  FutureOr<List<Meal>> get data;
   bool get showCalendar;
   Amount? get energyGoalAmount;
 
@@ -35,9 +34,7 @@ mixin _$MealListUiState {
         (other.runtimeType == runtimeType &&
             other is MealListUiState &&
             (identical(other.date, date) || other.date == date) &&
-            (identical(other.dataLoader, dataLoader) ||
-                other.dataLoader == dataLoader) &&
-            const DeepCollectionEquality().equals(other.data, data) &&
+            (identical(other.data, data) || other.data == data) &&
             (identical(other.showCalendar, showCalendar) ||
                 other.showCalendar == showCalendar) &&
             (identical(other.energyGoalAmount, energyGoalAmount) ||
@@ -45,17 +42,12 @@ mixin _$MealListUiState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      date,
-      dataLoader,
-      const DeepCollectionEquality().hash(data),
-      showCalendar,
-      energyGoalAmount);
+  int get hashCode =>
+      Object.hash(runtimeType, date, data, showCalendar, energyGoalAmount);
 
   @override
   String toString() {
-    return 'MealListUiState(date: $date, dataLoader: $dataLoader, data: $data, showCalendar: $showCalendar, energyGoalAmount: $energyGoalAmount)';
+    return 'MealListUiState(date: $date, data: $data, showCalendar: $showCalendar, energyGoalAmount: $energyGoalAmount)';
   }
 }
 
@@ -67,8 +59,7 @@ abstract mixin class $MealListUiStateCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime date,
-      Future<List<Meal>> dataLoader,
-      List<Meal> data,
+      FutureOr<List<Meal>> data,
       bool showCalendar,
       Amount? energyGoalAmount});
 
@@ -89,7 +80,6 @@ class _$MealListUiStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? date = null,
-    Object? dataLoader = null,
     Object? data = null,
     Object? showCalendar = null,
     Object? energyGoalAmount = freezed,
@@ -99,14 +89,10 @@ class _$MealListUiStateCopyWithImpl<$Res>
           ? _self.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      dataLoader: null == dataLoader
-          ? _self.dataLoader
-          : dataLoader // ignore: cast_nullable_to_non_nullable
-              as Future<List<Meal>>,
       data: null == data
           ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<Meal>,
+              as FutureOr<List<Meal>>,
       showCalendar: null == showCalendar
           ? _self.showCalendar
           : showCalendar // ignore: cast_nullable_to_non_nullable
@@ -138,25 +124,14 @@ class _$MealListUiStateCopyWithImpl<$Res>
 class _MealListUiState implements MealListUiState {
   const _MealListUiState(
       {required this.date,
-      required this.dataLoader,
-      final List<Meal> data = const [],
+      required this.data,
       required this.showCalendar,
-      this.energyGoalAmount})
-      : _data = data;
+      this.energyGoalAmount});
 
   @override
   final DateTime date;
   @override
-  final Future<List<Meal>> dataLoader;
-  final List<Meal> _data;
-  @override
-  @JsonKey()
-  List<Meal> get data {
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_data);
-  }
-
+  final FutureOr<List<Meal>> data;
   @override
   final bool showCalendar;
   @override
@@ -176,9 +151,7 @@ class _MealListUiState implements MealListUiState {
         (other.runtimeType == runtimeType &&
             other is _MealListUiState &&
             (identical(other.date, date) || other.date == date) &&
-            (identical(other.dataLoader, dataLoader) ||
-                other.dataLoader == dataLoader) &&
-            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.data, data) || other.data == data) &&
             (identical(other.showCalendar, showCalendar) ||
                 other.showCalendar == showCalendar) &&
             (identical(other.energyGoalAmount, energyGoalAmount) ||
@@ -186,17 +159,12 @@ class _MealListUiState implements MealListUiState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      date,
-      dataLoader,
-      const DeepCollectionEquality().hash(_data),
-      showCalendar,
-      energyGoalAmount);
+  int get hashCode =>
+      Object.hash(runtimeType, date, data, showCalendar, energyGoalAmount);
 
   @override
   String toString() {
-    return 'MealListUiState(date: $date, dataLoader: $dataLoader, data: $data, showCalendar: $showCalendar, energyGoalAmount: $energyGoalAmount)';
+    return 'MealListUiState(date: $date, data: $data, showCalendar: $showCalendar, energyGoalAmount: $energyGoalAmount)';
   }
 }
 
@@ -210,8 +178,7 @@ abstract mixin class _$MealListUiStateCopyWith<$Res>
   @useResult
   $Res call(
       {DateTime date,
-      Future<List<Meal>> dataLoader,
-      List<Meal> data,
+      FutureOr<List<Meal>> data,
       bool showCalendar,
       Amount? energyGoalAmount});
 
@@ -233,7 +200,6 @@ class __$MealListUiStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? date = null,
-    Object? dataLoader = null,
     Object? data = null,
     Object? showCalendar = null,
     Object? energyGoalAmount = freezed,
@@ -243,14 +209,10 @@ class __$MealListUiStateCopyWithImpl<$Res>
           ? _self.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      dataLoader: null == dataLoader
-          ? _self.dataLoader
-          : dataLoader // ignore: cast_nullable_to_non_nullable
-              as Future<List<Meal>>,
       data: null == data
-          ? _self._data
+          ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<Meal>,
+              as FutureOr<List<Meal>>,
       showCalendar: null == showCalendar
           ? _self.showCalendar
           : showCalendar // ignore: cast_nullable_to_non_nullable

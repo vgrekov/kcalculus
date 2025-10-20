@@ -37,7 +37,7 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
     MealListCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
   };
 
-  Future<void> _refresh() {
+  Future<List<Meal>> _refresh() {
     return ref.read(mealListViewModel.notifier).refresh();
   }
 
@@ -196,7 +196,6 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
             Expanded(
               child: MealList(
                 items: uiState.data,
-                itemsLoader: uiState.dataLoader,
                 onRefresh: _refresh,
                 onSelectMeal: _selectMeal,
                 onDeleteMeal: _deleteMeal,
@@ -205,7 +204,7 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
           ],
         ),
         floatingActionButton: Awaited(
-          future: uiState.dataLoader,
+          future: uiState.data,
           data: (_, __) => FloatingActionButton(
             onPressed: _addMeal,
             shape: const CircleBorder(),
@@ -219,9 +218,9 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
             mainAxisSize: MainAxisSize.min,
             children: [
               Awaited(
-                future: uiState.dataLoader,
-                data: (_, __) {
-                  final nutrientData = uiState.data
+                future: uiState.data,
+                data: (_, data) {
+                  final nutrientData = (data ?? [])
                       .map((m) =>
                           m.getNutritionFacts()?.nutrientData ??
                           NutrientData.empty())
