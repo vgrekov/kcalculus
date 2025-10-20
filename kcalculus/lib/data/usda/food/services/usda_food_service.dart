@@ -34,7 +34,7 @@ class UsdaFoodService extends Notifier<void> {
     }
 
     if (query?.isEmpty ?? true) {
-      return getAll(limit: limit, offset: offset, txn: txn);
+      return all(limit: limit, offset: offset, txn: txn);
     }
 
     final executor = txn ?? await _database;
@@ -81,7 +81,7 @@ class UsdaFoodService extends Notifier<void> {
         .then((data) => data.map(UsdaFoodDbModel.fromJson).toList());
   }
 
-  Future<List<UsdaFoodDbModel>> getAll({
+  Future<List<UsdaFoodDbModel>> all({
     int? limit,
     int? offset,
     Transaction? txn,

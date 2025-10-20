@@ -7,7 +7,7 @@ import 'package:kcalculus/data/usda/nutrient/models/usda_nutrient_db_model.dart'
 import 'package:kcalculus/data/usda/portion/models/usda_portion_db_model.dart';
 import 'package:kcalculus/domain/_common/models/amount.dart';
 import 'package:kcalculus/domain/_common/models/units.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient_amount.dart';
@@ -19,12 +19,12 @@ class UsdaFoodConverter extends Notifier<void> {
   @override
   void build() {}
 
-  EdibleSearchResult toSearchResult(UsdaFoodDbModel dbModel) {
-    return EdibleSearchResult(
+  EdiblePreview toPreview(UsdaFoodDbModel dbModel) {
+    return EdiblePreview(
       id: dbModel.fdc_id.toString(),
       name: dbModel.name,
       description: dbModel.description,
-      type: EdibleSearchResultType.usda,
+      type: EdiblePreviewType.usda,
       nutritionFactsPreview:
           _getNutritionFactsPreview(dbModel)?.withPrecision(2),
     );

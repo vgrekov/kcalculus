@@ -2,10 +2,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrition_facts_preview.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
 
-part 'edible_search_result.freezed.dart';
-part 'edible_search_result.g.dart';
+part 'edible_preview.freezed.dart';
+part 'edible_preview.g.dart';
 
-enum EdibleSearchResultType {
+enum EdiblePreviewType {
   food,
   dish,
   usda;
@@ -20,17 +20,17 @@ enum EdibleSearchResultType {
 }
 
 @freezed
-sealed class EdibleSearchResult with _$EdibleSearchResult {
-  const factory EdibleSearchResult({
+sealed class EdiblePreview with _$EdiblePreview {
+  const factory EdiblePreview({
     required String id,
     required String name,
     required String description,
-    required EdibleSearchResultType type,
+    required EdiblePreviewType type,
     NutritionFactsPreview? nutritionFactsPreview,
     DateTime? lastEatenAt,
     DateTime? touchedAt,
-  }) = _EdibleSearchResult;
+  }) = _EdiblePreview;
 
-  factory EdibleSearchResult.fromJson(Map<String, dynamic> json) =>
-      _$EdibleSearchResultFromJson(json);
+  factory EdiblePreview.fromJson(Map<String, dynamic> json) =>
+      _$EdiblePreviewFromJson(json);
 }

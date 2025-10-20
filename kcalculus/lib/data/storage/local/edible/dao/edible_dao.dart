@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/storage/local/edible/converters/edible_search_result_converter.dart';
+import 'package:kcalculus/data/storage/local/edible/converters/edible_preview_converter.dart';
 import 'package:kcalculus/data/storage/local/edible/services/edible_service.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalEdibleDao extends Notifier<void> {
@@ -13,12 +13,27 @@ class LocalEdibleDao extends Notifier<void> {
   LocalEdibleService get _edibleService =>
       ref.read(localEdibleServiceProvider.notifier);
 
-  LocalEdibleSearchResultConverter get _edibleSearchResultConverter =>
-      ref.read(localEdibleSearchResultConverterProvider.notifier);
+  LocalEdiblePreviewConverter get _ediblePreviewConverter =>
+      ref.read(localEdiblePreviewConverterProvider.notifier);
 
-  Future<List<EdibleSearchResult>> search(
+  Future<List<EdiblePreview>> getAll({
+    int? limit,
+    int? offset,
+    Transaction? txn,
+  }) {
+    return _edibleService
+        .all(
+          limit: limit,
+          offset: offset,
+          txn: txn,
+        )
+        .then(
+          (data) => data.map(_ediblePreviewConverter.toModel).toList(),
+        );
+  }
+
+  Future<List<EdiblePreview>> search(
     String? query, {
-    EdibleSearchResultType? type,
     int? limit,
     int? offset,
     Transaction? txn,
@@ -26,26 +41,24 @@ class LocalEdibleDao extends Notifier<void> {
     return _edibleService
         .search(
           query,
-          onlyFoods: type == EdibleSearchResultType.food,
-          onlyDishes: type == EdibleSearchResultType.dish,
           limit: limit,
           offset: offset,
           txn: txn,
         )
         .then(
-          (data) => data.map(_edibleSearchResultConverter.toModel).toList(),
+          (data) => data.map(_ediblePreviewConverter.toModel).toList(),
         );
   }
 
   Future<int> count(
     String? query, {
-    EdibleSearchResultType? type,
+    EdiblePreviewType? type,
     Transaction? txn,
   }) {
     return _edibleService.count(
       query,
-      onlyFoods: type == EdibleSearchResultType.food,
-      onlyDishes: type == EdibleSearchResultType.dish,
+      onlyFoods: type == EdiblePreviewType.food,
+      onlyDishes: type == EdiblePreviewType.dish,
       txn: txn,
     );
   }
@@ -91,11 +104,11 @@ class LocalEdibleDao extends Notifier<void> {
     return _edibleService.isMissingNutritionFactsPreviews(txn: txn);
   }
 
-  Future<List<EdibleSearchResult>> findEdiblesWithoutNutritionFactsPreviews({
+  Future<List<EdiblePreview>> findEdiblesWithoutNutritionFactsPreviews({
     Transaction? txn,
   }) {
     return _edibleService.findEdiblesWithoutNutritionFactsPreviews().then(
-          (data) => data.map(_edibleSearchResultConverter.toModel).toList(),
+          (data) => data.map(_ediblePreviewConverter.toModel).toList(),
         );
   }
 }

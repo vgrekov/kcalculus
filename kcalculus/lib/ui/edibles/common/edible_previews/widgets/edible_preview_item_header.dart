@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/string_ext.dart';
 
-class EdibleSearchResultsItemHeader extends StatelessWidget {
-  const EdibleSearchResultsItemHeader({
+class EdiblePreviewItemHeader extends StatelessWidget {
+  const EdiblePreviewItemHeader({
     super.key,
-    required this.searchResult,
+    required this.preview,
   });
 
-  final EdibleSearchResult searchResult;
+  final EdiblePreview preview;
 
   String _buildLastEatenLabel(
     BuildContext context, {
@@ -20,18 +20,18 @@ class EdibleSearchResultsItemHeader extends StatelessWidget {
     String? lastEatenAt;
     int? lastEatenDaysAgo;
 
-    if (searchResult.lastEatenAt != null) {
-      lastEatenOn = dt.formatDateLocal(context, searchResult.lastEatenAt!);
-      lastEatenAt = dt.formatTimeLocal(context, searchResult.lastEatenAt!);
+    if (preview.lastEatenAt != null) {
+      lastEatenOn = dt.formatDateLocal(context, preview.lastEatenAt!);
+      lastEatenAt = dt.formatTimeLocal(context, preview.lastEatenAt!);
 
       final now = DateTime.now();
-      lastEatenDaysAgo = searchResult.lastEatenAt!
+      lastEatenDaysAgo = preview.lastEatenAt!
           .copyWith(
             year: now.year,
             month: now.month,
             day: now.day,
           )
-          .difference(searchResult.lastEatenAt!)
+          .difference(preview.lastEatenAt!)
           .inDays;
     }
 
@@ -46,11 +46,11 @@ class EdibleSearchResultsItemHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final showEdibleType = searchResult.type != EdibleSearchResultType.food;
+    final showEdibleType = preview.type != EdiblePreviewType.food;
 
-    final showLastEaten = searchResult.type != EdibleSearchResultType.usda;
+    final showLastEaten = preview.type != EdiblePreviewType.usda;
 
-    final locked = searchResult.type == EdibleSearchResultType.usda;
+    final locked = preview.type == EdiblePreviewType.usda;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -66,7 +66,7 @@ class EdibleSearchResultsItemHeader extends StatelessWidget {
           ),
         if (showEdibleType)
           Text(
-            searchResult.type.localName(l10n(context)),
+            preview.type.localName(l10n(context)),
             style: Theme.of(context).textTheme.labelSmall!.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),

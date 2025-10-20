@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
-import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results_item_calorie_content.dart';
-import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results_item_header.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
+import 'package:kcalculus/ui/edibles/common/edible_previews/widgets/edible_preview_item_calorie_content.dart';
+import 'package:kcalculus/ui/edibles/common/edible_previews/widgets/edible_preview_item_header.dart';
 import 'package:kcalculus/ui/edibles/common/edible_stats.dart';
 
-class EdibleSearchResultsItem extends StatelessWidget {
-  const EdibleSearchResultsItem({
+class EdiblePreviewItem extends StatelessWidget {
+  const EdiblePreviewItem({
     super.key,
-    required this.searchResult,
-    required this.onSelectSearchResult,
+    required this.preview,
+    required this.onSelectPreview,
   });
 
-  final EdibleSearchResult searchResult;
+  final EdiblePreview preview;
 
-  final void Function(EdibleSearchResult) onSelectSearchResult;
+  final void Function(EdiblePreview) onSelectPreview;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onSelectSearchResult(searchResult);
+        onSelectPreview(preview);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -38,12 +38,12 @@ class EdibleSearchResultsItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      EdibleSearchResultsItemHeader(
-                        searchResult: searchResult,
+                      EdiblePreviewItemHeader(
+                        preview: preview,
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        searchResult.name,
+                        preview.name,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
@@ -56,24 +56,24 @@ class EdibleSearchResultsItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (searchResult.nutritionFactsPreview != null)
-                  EdibleSearchResultsItemCalorieContent(
-                    nutritionFactsPreview: searchResult.nutritionFactsPreview!,
+                if (preview.nutritionFactsPreview != null)
+                  EdiblePreviewItemCalorieContent(
+                    nutritionFactsPreview: preview.nutritionFactsPreview!,
                   ),
               ],
             ),
-            if (searchResult.description.isNotEmpty)
+            if (preview.description.isNotEmpty)
               Text(
-                searchResult.description,
+                preview.description,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-            if (searchResult.nutritionFactsPreview != null)
+            if (preview.nutritionFactsPreview != null)
               EdibleStats(
-                nutritionFactsPreview: searchResult.nutritionFactsPreview!,
+                nutritionFactsPreview: preview.nutritionFactsPreview!,
               ),
           ],
         ),

@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/models/amount.dart';
 import 'package:kcalculus/domain/_common/models/units.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
-import 'package:kcalculus/domain/edible/use_cases/edible_search_use_case.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
+import 'package:kcalculus/domain/edible/use_cases/edible_use_case.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
@@ -44,7 +44,7 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
     name: 'Food 2',
   );
 
-  final edibleSearchUseCase = MockEdibleSearchUseCase();
+  final edibleSearchUseCase = MockEdibleUseCase();
 
   when(
     () => edibleSearchUseCase.search(
@@ -58,11 +58,11 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
         existingFood2,
       ]
           .map(
-            (f) => EdibleSearchResult(
+            (f) => EdiblePreview(
               id: f.id!,
               name: f.name,
               description: f.description,
-              type: EdibleSearchResultType.food,
+              type: EdiblePreviewType.food,
             ),
           )
           .toList();
@@ -113,7 +113,7 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
       foodRepositoryProvider.overrideWith(
         () => foodRepository,
       ),
-      edibleSearchUseCaseProvider.overrideWith(
+      edibleUseCaseProvider.overrideWith(
         () => edibleSearchUseCase,
       ),
     ],

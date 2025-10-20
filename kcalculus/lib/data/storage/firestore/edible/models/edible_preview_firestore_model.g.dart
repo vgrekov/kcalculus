@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'edible_search_result_firestore_model.dart';
+part of 'edible_preview_firestore_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_EdibleSearchResultFirestoreModel _$EdibleSearchResultFirestoreModelFromJson(
+_EdiblePreviewFirestoreModel _$EdiblePreviewFirestoreModelFromJson(
         Map<String, dynamic> json) =>
-    _EdibleSearchResultFirestoreModel(
+    _EdiblePreviewFirestoreModel(
       id: json['id'] as String,
       type: $enumDecode(_$EdibleTypeEnumMap, json['type']),
       name: json['name'] as String,
@@ -22,8 +22,8 @@ _EdibleSearchResultFirestoreModel _$EdibleSearchResultFirestoreModelFromJson(
       touchedAt: timestampToDate(json['touchedAt']),
     );
 
-Map<String, dynamic> _$EdibleSearchResultFirestoreModelToJson(
-        _EdibleSearchResultFirestoreModel instance) =>
+Map<String, dynamic> _$EdiblePreviewFirestoreModelToJson(
+        _EdiblePreviewFirestoreModel instance) =>
     <String, dynamic>{
       'type': _$EdibleTypeEnumMap[instance.type]!,
       'name': instance.name,

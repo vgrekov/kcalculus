@@ -148,7 +148,7 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
     String query = _nameController.text;
     final edible = await Navigator.of(context).push<Edible>(
       MaterialPageRoute(
-        builder: (context) => EdibleSearchScreen(
+        builder: (context) => EdibleSearchScreen.full(
           initialQuery: query,
         ),
       ),

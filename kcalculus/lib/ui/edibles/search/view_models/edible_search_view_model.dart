@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/data/usda/usda.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/edible/models/edible.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
-import 'package:kcalculus/ui/common/view_models/edible_search_helper.dart';
-import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
+import 'package:kcalculus/domain/edible/use_cases/edible_use_case.dart';
+import 'package:kcalculus/ui/common/view_models/paginator_view_model.dart';
+import 'package:kcalculus/ui/common/view_models/search_view_model.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
+import 'package:kcalculus/ui/edibles/search/view_models/edible_search_ui_state.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('EdibleSearchViewModel');
@@ -16,60 +21,89 @@ enum EdibleSearchCommand {
   exit,
 }
 
-class EdibleSearchViewModel extends AutoDisposeFamilyNotifier<
-    SearchUiState<EdibleSearchResult>, String> {
-  static const _kPageSize = 25;
-
+class EdibleSearchViewModel
+    extends AutoDisposeFamilyNotifier<EdibleSearchUiState, String>
+    with PaginatorViewModel<EdiblePreview>, SearchViewModel<EdiblePreview> {
   UiCommander<EdibleSearchCommand>? _commander;
 
-  late final EdibleSearchHelper searchHelper = EdibleSearchHelper(
-    pageSize: _kPageSize,
-    getRef: () => ref,
-    getState: () => state,
-    setState: (value) => state = value,
-  );
-
   @override
-  SearchUiState<EdibleSearchResult> build(String arg) {
+  EdibleSearchUiState build(String arg) {
     _commander = UiCommander<EdibleSearchCommand>(_commander);
 
     ref.onDispose(() {
       _commander?.dispose();
+      searchController.dispose();
     });
 
-    return searchHelper.initState(arg);
+    return EdibleSearchUiState(
+      query: arg,
+      data: search(
+        arg,
+        pageConfig: firstPageConfig(),
+      ),
+    );
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
-  Future<void> selectEdible(EdibleSearchResult searchResult) async {
+  @override
+  int get pageSize => 25;
+
+  @override
+  String getQuery() => state.query;
+
+  @override
+  FutureOr<List<EdiblePreview>> getData() => state.data;
+
+  @override
+  void updateState({
+    String? query,
+    FutureOr<List<EdiblePreview>>? data,
+  }) {
+    state = state.copyWith(
+      query: query ?? state.query,
+      data: data ?? state.data,
+    );
+  }
+
+  @override
+  Future<List<EdiblePreview>> search(
+    String query, {
+    PageConfig<EdiblePreview>? pageConfig,
+  }) {
+    final edibleUseCase = ref.read(edibleUseCaseProvider.notifier);
+
+    return edibleUseCase.search(query, pageConfig: pageConfig);
+  }
+
+  Future<void> selectEdible(EdiblePreview preview) async {
     _log.finer('selectEdible() START');
 
     try {
       _log.finest(
-        'selectEdible() Loading edible from search result: ${searchResult.toJson()}',
+        'selectEdible() Loading edible from search result: ${preview.toJson()}',
       );
 
       Edible? edible;
-      switch (searchResult.type) {
-        case EdibleSearchResultType.dish:
+      switch (preview.type) {
+        case EdiblePreviewType.dish:
           _log.finer('selectEdible() Loading dish');
 
           final dishRepository = ref.read(dishRepositoryProvider.notifier);
-          edible = await dishRepository.getById(searchResult.id);
+          edible = await dishRepository.getById(preview.id);
           break;
-        case EdibleSearchResultType.food:
+        case EdiblePreviewType.food:
           _log.finer('selectEdible() Loading food');
 
           final foodRepository = ref.read(foodRepositoryProvider.notifier);
-          edible = await foodRepository.getById(searchResult.id);
+          edible = await foodRepository.getById(preview.id);
           break;
-        case EdibleSearchResultType.usda:
+        case EdiblePreviewType.usda:
           _log.finer('selectEdible() Loading USDA food');
 
           final usdaFoodRepository =
               ref.read(usdaFoodRepositoryProvider.notifier);
-          edible = await usdaFoodRepository.getById(searchResult.id);
+          edible = await usdaFoodRepository.getById(preview.id);
           break;
       }
 
@@ -100,6 +134,6 @@ class EdibleSearchViewModel extends AutoDisposeFamilyNotifier<
 }
 
 final edibleSearchViewModel = NotifierProvider.autoDispose
-    .family<EdibleSearchViewModel, SearchUiState<EdibleSearchResult>, String>(
+    .family<EdibleSearchViewModel, EdibleSearchUiState, String>(
   () => EdibleSearchViewModel(),
 );

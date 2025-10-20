@@ -1,16 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/storage/local/edible/models/edible_search_result_db_model.dart';
+import 'package:kcalculus/data/storage/local/edible/models/edible_preview_db_model.dart';
 import 'package:kcalculus/domain/_common/models/amount.dart';
 import 'package:kcalculus/domain/_common/models/units.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrition_facts_preview.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 
-class LocalEdibleSearchResultConverter extends Notifier<void> {
+class LocalEdiblePreviewConverter extends Notifier<void> {
   @override
   void build() {}
 
-  EdibleSearchResult toModel(EdibleSearchResultDbModel dbModel) {
+  EdiblePreview toModel(EdiblePreviewDbModel dbModel) {
     final createdAt = dt.parseISO8601(dbModel.created_at);
     final updatedAt = dbModel.updated_at != null
         ? dt.parseISO8601(dbModel.updated_at!)
@@ -24,13 +24,13 @@ class LocalEdibleSearchResultConverter extends Notifier<void> {
       (a, b) => b?.isAfter(a) ?? false ? b! : a,
     );
 
-    return EdibleSearchResult(
+    return EdiblePreview(
       id: dbModel.id,
       name: dbModel.name,
       description: dbModel.description ?? '',
       type: dbModel.food_id != null
-          ? EdibleSearchResultType.food
-          : EdibleSearchResultType.dish,
+          ? EdiblePreviewType.food
+          : EdiblePreviewType.dish,
       nutritionFactsPreview: _getNutritionFactsPreview(dbModel),
       lastEatenAt: lastEatenAt,
       touchedAt: touchedAt,
@@ -38,7 +38,7 @@ class LocalEdibleSearchResultConverter extends Notifier<void> {
   }
 
   NutritionFactsPreview? _getNutritionFactsPreview(
-    EdibleSearchResultDbModel dbModel,
+    EdiblePreviewDbModel dbModel,
   ) {
     final requirdFields = [
       dbModel.nf_preview_per_unit,
@@ -89,7 +89,7 @@ class LocalEdibleSearchResultConverter extends Notifier<void> {
   }
 }
 
-final localEdibleSearchResultConverterProvider =
-    NotifierProvider<LocalEdibleSearchResultConverter, void>(
-  LocalEdibleSearchResultConverter.new,
+final localEdiblePreviewConverterProvider =
+    NotifierProvider<LocalEdiblePreviewConverter, void>(
+  LocalEdiblePreviewConverter.new,
 );

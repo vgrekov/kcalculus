@@ -17,6 +17,10 @@ _UserDataFirestoreModel _$UserDataFirestoreModelFromJson(
       defaultNutrients: (json['defaultNutrients'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      searchConfig: json['searchConfig'] == null
+          ? null
+          : SearchConfigFirestoreModel.fromJson(
+              json['searchConfig'] as Map<String, dynamic>),
       createdAt: timestampToDate(json['createdAt']),
       updatedAt: timestampToDate(json['updatedAt']),
       deletedAt: timestampToDate(json['deletedAt']),
@@ -27,4 +31,5 @@ Map<String, dynamic> _$UserDataFirestoreModelToJson(
     <String, dynamic>{
       'settings': instance.settings?.toJson(),
       'defaultNutrients': instance.defaultNutrients,
+      'searchConfig': instance.searchConfig?.toJson(),
     };

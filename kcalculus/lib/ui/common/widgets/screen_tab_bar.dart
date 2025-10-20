@@ -53,7 +53,7 @@ class ScreenTabBar extends ConsumerWidget {
     Navigator.of(context).pushReplacement(PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
         return switch (tab) {
-          ScreenTab.edibles => const EdibleListScreen(),
+          ScreenTab.edibles => EdibleListScreen(),
           ScreenTab.meals => const MealListScreen(),
           ScreenTab.settings => const SettingsScreen(),
           ScreenTab.more => const MoreScreen(),

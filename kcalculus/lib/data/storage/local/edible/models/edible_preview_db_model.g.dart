@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'edible_search_result_db_model.dart';
+part of 'edible_preview_db_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_EdibleSearchResultDbModel _$EdibleSearchResultDbModelFromJson(
+_EdiblePreviewDbModel _$EdiblePreviewDbModelFromJson(
         Map<String, dynamic> json) =>
-    _EdibleSearchResultDbModel(
+    _EdiblePreviewDbModel(
       id: json['id'] as String,
       food_id: json['food_id'] as String?,
       dish_id: json['dish_id'] as String?,
@@ -35,8 +35,8 @@ _EdibleSearchResultDbModel _$EdibleSearchResultDbModelFromJson(
           (json['nf_preview_fiber_value'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$EdibleSearchResultDbModelToJson(
-        _EdibleSearchResultDbModel instance) =>
+Map<String, dynamic> _$EdiblePreviewDbModelToJson(
+        _EdiblePreviewDbModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'food_id': instance.food_id,

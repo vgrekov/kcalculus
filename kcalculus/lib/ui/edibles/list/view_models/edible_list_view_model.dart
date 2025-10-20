@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/storage.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
+import 'package:kcalculus/domain/edible/use_cases/edible_use_case.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
-import 'package:kcalculus/ui/common/view_models/edible_search_helper.dart';
-import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
+import 'package:kcalculus/ui/common/view_models/paginator_view_model.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
@@ -17,20 +20,12 @@ enum EdibleListCommand {
   showDeletionFailureNotification,
 }
 
-class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
-  static const _kPageSize = 25;
-
+class EdibleListViewModel extends Notifier<FutureOr<List<EdiblePreview>>>
+    with PaginatorViewModel<EdiblePreview> {
   UiCommander<EdibleListCommand>? _commander;
 
-  late final EdibleSearchHelper searchHelper = EdibleSearchHelper(
-    pageSize: _kPageSize,
-    getRef: () => ref,
-    getState: () => state,
-    setState: (value) => state = value,
-  );
-
   @override
-  SearchUiState<EdibleSearchResult> build() {
+  Future<List<EdiblePreview>> build() {
     ref.watch(foodRepositoryProvider);
     ref.watch(dishRepositoryProvider);
     ref.watch(mealRepositoryProvider);
@@ -41,36 +36,54 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
       _commander?.dispose();
     });
 
-    String query = stateOrNull?.searchQuery ?? '';
-
-    return searchHelper.initState(query);
+    return loadPage(firstPageConfig());
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
-  Future<bool> deleteEdible(EdibleSearchResult searchResult) async {
+  @override
+  int get pageSize => 25;
+
+  @override
+  FutureOr<List<EdiblePreview>> getData() => state;
+
+  @override
+  void setData(FutureOr<List<EdiblePreview>> data) {
+    state = data;
+  }
+
+  @override
+  Future<List<EdiblePreview>> loadPage([
+    PageConfig<EdiblePreview>? pageConfig,
+  ]) {
+    final edibleUseCase = ref.read(edibleUseCaseProvider.notifier);
+
+    return edibleUseCase.getAll(pageConfig: pageConfig);
+  }
+
+  Future<bool> deleteEdible(EdiblePreview preview) async {
     _log.finer('deleteEdible() START');
 
     bool deleted = false;
 
     try {
       _log.finest(
-        'deleteEdible() Deleting ${searchResult.type.name} with ID: ${searchResult.id}',
+        'deleteEdible() Deleting ${preview.type.name} with ID: ${preview.id}',
       );
 
-      switch (searchResult.type) {
-        case EdibleSearchResultType.food:
+      switch (preview.type) {
+        case EdiblePreviewType.food:
           deleted = await ref
               .read(foodRepositoryProvider.notifier)
-              .delete(searchResult.id);
+              .delete(preview.id);
 
           _log.eventFoodDelete();
 
           break;
-        case EdibleSearchResultType.dish:
+        case EdiblePreviewType.dish:
           deleted = await ref
               .read(dishRepositoryProvider.notifier)
-              .delete(searchResult.id);
+              .delete(preview.id);
 
           _log.eventDishDelete();
 
@@ -81,19 +94,19 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
 
       if (deleted) {
         _log.finest(
-          'deleteEdible() Deleted ${searchResult.type.name} with ID: ${searchResult.id}',
+          'deleteEdible() Deleted ${preview.type.name} with ID: ${preview.id}',
         );
 
-        _commander!.send<EdibleSearchResult, void>(
+        _commander!.send<EdiblePreview, void>(
           EdibleListCommand.showDeletionSuccessNotification,
-          payload: searchResult,
+          payload: preview,
         );
       } else {
         _commander!.send(EdibleListCommand.showDeletionFailureNotification);
       }
     } catch (error, stackTrace) {
       _log.severe(
-        'Failed to delete ${searchResult.type.name}',
+        'Failed to delete ${preview.type.name}',
         error,
         stackTrace,
       );
@@ -106,29 +119,29 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
     return deleted;
   }
 
-  Future<bool> restoreEdible(EdibleSearchResult searchResult) async {
+  Future<bool> restoreEdible(EdiblePreview preview) async {
     _log.finer('restoreEdible() START');
 
     bool restored = false;
 
     try {
       _log.finest(
-        'restoreEdible() Restoring ${searchResult.type.name} with ID: ${searchResult.id}',
+        'restoreEdible() Restoring ${preview.type.name} with ID: ${preview.id}',
       );
 
-      switch (searchResult.type) {
-        case EdibleSearchResultType.food:
+      switch (preview.type) {
+        case EdiblePreviewType.food:
           restored = await ref
               .read(foodRepositoryProvider.notifier)
-              .restore(searchResult.id);
+              .restore(preview.id);
 
           _log.eventFoodRestore();
 
           break;
-        case EdibleSearchResultType.dish:
+        case EdiblePreviewType.dish:
           restored = await ref
               .read(dishRepositoryProvider.notifier)
-              .restore(searchResult.id);
+              .restore(preview.id);
 
           _log.eventDishRestore();
 
@@ -139,12 +152,12 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
 
       if (restored) {
         _log.finest(
-          'restoreEdible() Restored ${searchResult.type.name} with ID: ${searchResult.id}',
+          'restoreEdible() Restored ${preview.type.name} with ID: ${preview.id}',
         );
       }
     } catch (error, stackTrace) {
       _log.severe(
-        'Failed to restore ${searchResult.type.name}',
+        'Failed to restore ${preview.type.name}',
         error,
         stackTrace,
       );
@@ -178,6 +191,6 @@ class EdibleListViewModel extends Notifier<SearchUiState<EdibleSearchResult>> {
 }
 
 final edibleListViewModel =
-    NotifierProvider<EdibleListViewModel, SearchUiState<EdibleSearchResult>>(
+    NotifierProvider<EdibleListViewModel, FutureOr<List<EdiblePreview>>>(
   () => EdibleListViewModel(),
 );

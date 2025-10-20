@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'edible_search_result_firestore_model.dart';
+part of 'edible_preview_firestore_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,7 +14,7 @@ part of 'edible_search_result_firestore_model.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$EdibleSearchResultFirestoreModel {
+mixin _$EdiblePreviewFirestoreModel {
   @JsonKey(includeToJson: false)
   String get id;
   EdibleType get type;
@@ -27,23 +27,23 @@ mixin _$EdibleSearchResultFirestoreModel {
   @JsonKey(includeToJson: false, fromJson: timestampToDate)
   DateTime? get touchedAt;
 
-  /// Create a copy of EdibleSearchResultFirestoreModel
+  /// Create a copy of EdiblePreviewFirestoreModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $EdibleSearchResultFirestoreModelCopyWith<EdibleSearchResultFirestoreModel>
-      get copyWith => _$EdibleSearchResultFirestoreModelCopyWithImpl<
-              EdibleSearchResultFirestoreModel>(
-          this as EdibleSearchResultFirestoreModel, _$identity);
+  $EdiblePreviewFirestoreModelCopyWith<EdiblePreviewFirestoreModel>
+      get copyWith => _$EdiblePreviewFirestoreModelCopyWithImpl<
+              EdiblePreviewFirestoreModel>(
+          this as EdiblePreviewFirestoreModel, _$identity);
 
-  /// Serializes this EdibleSearchResultFirestoreModel to a JSON map.
+  /// Serializes this EdiblePreviewFirestoreModel to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is EdibleSearchResultFirestoreModel &&
+            other is EdiblePreviewFirestoreModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.name, name) || other.name == name) &&
@@ -64,16 +64,16 @@ mixin _$EdibleSearchResultFirestoreModel {
 
   @override
   String toString() {
-    return 'EdibleSearchResultFirestoreModel(id: $id, type: $type, name: $name, description: $description, ownerId: $ownerId, nutritionFactsPreview: $nutritionFactsPreview, eatenAt: $eatenAt, touchedAt: $touchedAt)';
+    return 'EdiblePreviewFirestoreModel(id: $id, type: $type, name: $name, description: $description, ownerId: $ownerId, nutritionFactsPreview: $nutritionFactsPreview, eatenAt: $eatenAt, touchedAt: $touchedAt)';
   }
 }
 
 /// @nodoc
-abstract mixin class $EdibleSearchResultFirestoreModelCopyWith<$Res> {
-  factory $EdibleSearchResultFirestoreModelCopyWith(
-          EdibleSearchResultFirestoreModel value,
-          $Res Function(EdibleSearchResultFirestoreModel) _then) =
-      _$EdibleSearchResultFirestoreModelCopyWithImpl;
+abstract mixin class $EdiblePreviewFirestoreModelCopyWith<$Res> {
+  factory $EdiblePreviewFirestoreModelCopyWith(
+          EdiblePreviewFirestoreModel value,
+          $Res Function(EdiblePreviewFirestoreModel) _then) =
+      _$EdiblePreviewFirestoreModelCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(includeToJson: false) String id,
@@ -91,14 +91,14 @@ abstract mixin class $EdibleSearchResultFirestoreModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$EdibleSearchResultFirestoreModelCopyWithImpl<$Res>
-    implements $EdibleSearchResultFirestoreModelCopyWith<$Res> {
-  _$EdibleSearchResultFirestoreModelCopyWithImpl(this._self, this._then);
+class _$EdiblePreviewFirestoreModelCopyWithImpl<$Res>
+    implements $EdiblePreviewFirestoreModelCopyWith<$Res> {
+  _$EdiblePreviewFirestoreModelCopyWithImpl(this._self, this._then);
 
-  final EdibleSearchResultFirestoreModel _self;
-  final $Res Function(EdibleSearchResultFirestoreModel) _then;
+  final EdiblePreviewFirestoreModel _self;
+  final $Res Function(EdiblePreviewFirestoreModel) _then;
 
-  /// Create a copy of EdibleSearchResultFirestoreModel
+  /// Create a copy of EdiblePreviewFirestoreModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -148,7 +148,7 @@ class _$EdibleSearchResultFirestoreModelCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of EdibleSearchResultFirestoreModel
+  /// Create a copy of EdiblePreviewFirestoreModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -167,9 +167,8 @@ class _$EdibleSearchResultFirestoreModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _EdibleSearchResultFirestoreModel
-    extends EdibleSearchResultFirestoreModel {
-  const _EdibleSearchResultFirestoreModel(
+class _EdiblePreviewFirestoreModel extends EdiblePreviewFirestoreModel {
+  const _EdiblePreviewFirestoreModel(
       {@JsonKey(includeToJson: false) required this.id,
       required this.type,
       required this.name,
@@ -179,9 +178,8 @@ class _EdibleSearchResultFirestoreModel
       @JsonKey(includeToJson: false, fromJson: timestampToDate) this.eatenAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate) this.touchedAt})
       : super._();
-  factory _EdibleSearchResultFirestoreModel.fromJson(
-          Map<String, dynamic> json) =>
-      _$EdibleSearchResultFirestoreModelFromJson(json);
+  factory _EdiblePreviewFirestoreModel.fromJson(Map<String, dynamic> json) =>
+      _$EdiblePreviewFirestoreModelFromJson(json);
 
   @override
   @JsonKey(includeToJson: false)
@@ -203,18 +201,18 @@ class _EdibleSearchResultFirestoreModel
   @JsonKey(includeToJson: false, fromJson: timestampToDate)
   final DateTime? touchedAt;
 
-  /// Create a copy of EdibleSearchResultFirestoreModel
+  /// Create a copy of EdiblePreviewFirestoreModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$EdibleSearchResultFirestoreModelCopyWith<_EdibleSearchResultFirestoreModel>
-      get copyWith => __$EdibleSearchResultFirestoreModelCopyWithImpl<
-          _EdibleSearchResultFirestoreModel>(this, _$identity);
+  _$EdiblePreviewFirestoreModelCopyWith<_EdiblePreviewFirestoreModel>
+      get copyWith => __$EdiblePreviewFirestoreModelCopyWithImpl<
+          _EdiblePreviewFirestoreModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$EdibleSearchResultFirestoreModelToJson(
+    return _$EdiblePreviewFirestoreModelToJson(
       this,
     );
   }
@@ -223,7 +221,7 @@ class _EdibleSearchResultFirestoreModel
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _EdibleSearchResultFirestoreModel &&
+            other is _EdiblePreviewFirestoreModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.name, name) || other.name == name) &&
@@ -244,17 +242,17 @@ class _EdibleSearchResultFirestoreModel
 
   @override
   String toString() {
-    return 'EdibleSearchResultFirestoreModel(id: $id, type: $type, name: $name, description: $description, ownerId: $ownerId, nutritionFactsPreview: $nutritionFactsPreview, eatenAt: $eatenAt, touchedAt: $touchedAt)';
+    return 'EdiblePreviewFirestoreModel(id: $id, type: $type, name: $name, description: $description, ownerId: $ownerId, nutritionFactsPreview: $nutritionFactsPreview, eatenAt: $eatenAt, touchedAt: $touchedAt)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$EdibleSearchResultFirestoreModelCopyWith<$Res>
-    implements $EdibleSearchResultFirestoreModelCopyWith<$Res> {
-  factory _$EdibleSearchResultFirestoreModelCopyWith(
-          _EdibleSearchResultFirestoreModel value,
-          $Res Function(_EdibleSearchResultFirestoreModel) _then) =
-      __$EdibleSearchResultFirestoreModelCopyWithImpl;
+abstract mixin class _$EdiblePreviewFirestoreModelCopyWith<$Res>
+    implements $EdiblePreviewFirestoreModelCopyWith<$Res> {
+  factory _$EdiblePreviewFirestoreModelCopyWith(
+          _EdiblePreviewFirestoreModel value,
+          $Res Function(_EdiblePreviewFirestoreModel) _then) =
+      __$EdiblePreviewFirestoreModelCopyWithImpl;
   @override
   @useResult
   $Res call(
@@ -274,14 +272,14 @@ abstract mixin class _$EdibleSearchResultFirestoreModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$EdibleSearchResultFirestoreModelCopyWithImpl<$Res>
-    implements _$EdibleSearchResultFirestoreModelCopyWith<$Res> {
-  __$EdibleSearchResultFirestoreModelCopyWithImpl(this._self, this._then);
+class __$EdiblePreviewFirestoreModelCopyWithImpl<$Res>
+    implements _$EdiblePreviewFirestoreModelCopyWith<$Res> {
+  __$EdiblePreviewFirestoreModelCopyWithImpl(this._self, this._then);
 
-  final _EdibleSearchResultFirestoreModel _self;
-  final $Res Function(_EdibleSearchResultFirestoreModel) _then;
+  final _EdiblePreviewFirestoreModel _self;
+  final $Res Function(_EdiblePreviewFirestoreModel) _then;
 
-  /// Create a copy of EdibleSearchResultFirestoreModel
+  /// Create a copy of EdiblePreviewFirestoreModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -295,7 +293,7 @@ class __$EdibleSearchResultFirestoreModelCopyWithImpl<$Res>
     Object? eatenAt = freezed,
     Object? touchedAt = freezed,
   }) {
-    return _then(_EdibleSearchResultFirestoreModel(
+    return _then(_EdiblePreviewFirestoreModel(
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -331,7 +329,7 @@ class __$EdibleSearchResultFirestoreModelCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of EdibleSearchResultFirestoreModel
+  /// Create a copy of EdiblePreviewFirestoreModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')

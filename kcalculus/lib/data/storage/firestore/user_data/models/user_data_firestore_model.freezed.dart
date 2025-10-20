@@ -19,6 +19,7 @@ mixin _$UserDataFirestoreModel {
   String get id;
   AppSettingsFirestoreModel? get settings;
   List<String>? get defaultNutrients;
+  SearchConfigFirestoreModel? get searchConfig;
   @JsonKey(includeToJson: false, fromJson: timestampToDate)
   DateTime? get createdAt;
   @JsonKey(includeToJson: false, fromJson: timestampToDate)
@@ -47,6 +48,8 @@ mixin _$UserDataFirestoreModel {
                 other.settings == settings) &&
             const DeepCollectionEquality()
                 .equals(other.defaultNutrients, defaultNutrients) &&
+            (identical(other.searchConfig, searchConfig) ||
+                other.searchConfig == searchConfig) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -62,13 +65,14 @@ mixin _$UserDataFirestoreModel {
       id,
       settings,
       const DeepCollectionEquality().hash(defaultNutrients),
+      searchConfig,
       createdAt,
       updatedAt,
       deletedAt);
 
   @override
   String toString() {
-    return 'UserDataFirestoreModel(id: $id, settings: $settings, defaultNutrients: $defaultNutrients, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+    return 'UserDataFirestoreModel(id: $id, settings: $settings, defaultNutrients: $defaultNutrients, searchConfig: $searchConfig, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 }
 
@@ -82,6 +86,7 @@ abstract mixin class $UserDataFirestoreModelCopyWith<$Res> {
       {@JsonKey(includeToJson: false) String id,
       AppSettingsFirestoreModel? settings,
       List<String>? defaultNutrients,
+      SearchConfigFirestoreModel? searchConfig,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
       DateTime? createdAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
@@ -90,6 +95,7 @@ abstract mixin class $UserDataFirestoreModelCopyWith<$Res> {
       DateTime? deletedAt});
 
   $AppSettingsFirestoreModelCopyWith<$Res>? get settings;
+  $SearchConfigFirestoreModelCopyWith<$Res>? get searchConfig;
 }
 
 /// @nodoc
@@ -108,6 +114,7 @@ class _$UserDataFirestoreModelCopyWithImpl<$Res>
     Object? id = null,
     Object? settings = freezed,
     Object? defaultNutrients = freezed,
+    Object? searchConfig = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? deletedAt = freezed,
@@ -125,6 +132,10 @@ class _$UserDataFirestoreModelCopyWithImpl<$Res>
           ? _self.defaultNutrients
           : defaultNutrients // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      searchConfig: freezed == searchConfig
+          ? _self.searchConfig
+          : searchConfig // ignore: cast_nullable_to_non_nullable
+              as SearchConfigFirestoreModel?,
       createdAt: freezed == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -153,6 +164,21 @@ class _$UserDataFirestoreModelCopyWithImpl<$Res>
       return _then(_self.copyWith(settings: value));
     });
   }
+
+  /// Create a copy of UserDataFirestoreModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SearchConfigFirestoreModelCopyWith<$Res>? get searchConfig {
+    if (_self.searchConfig == null) {
+      return null;
+    }
+
+    return $SearchConfigFirestoreModelCopyWith<$Res>(_self.searchConfig!,
+        (value) {
+      return _then(_self.copyWith(searchConfig: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -162,6 +188,7 @@ class _UserDataFirestoreModel extends UserDataFirestoreModel {
       {@JsonKey(includeToJson: false) required this.id,
       this.settings,
       final List<String>? defaultNutrients,
+      this.searchConfig,
       @JsonKey(includeToJson: false, fromJson: timestampToDate) this.createdAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate) this.updatedAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate) this.deletedAt})
@@ -186,6 +213,8 @@ class _UserDataFirestoreModel extends UserDataFirestoreModel {
     return EqualUnmodifiableListView(value);
   }
 
+  @override
+  final SearchConfigFirestoreModel? searchConfig;
   @override
   @JsonKey(includeToJson: false, fromJson: timestampToDate)
   final DateTime? createdAt;
@@ -222,6 +251,8 @@ class _UserDataFirestoreModel extends UserDataFirestoreModel {
                 other.settings == settings) &&
             const DeepCollectionEquality()
                 .equals(other._defaultNutrients, _defaultNutrients) &&
+            (identical(other.searchConfig, searchConfig) ||
+                other.searchConfig == searchConfig) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -237,13 +268,14 @@ class _UserDataFirestoreModel extends UserDataFirestoreModel {
       id,
       settings,
       const DeepCollectionEquality().hash(_defaultNutrients),
+      searchConfig,
       createdAt,
       updatedAt,
       deletedAt);
 
   @override
   String toString() {
-    return 'UserDataFirestoreModel(id: $id, settings: $settings, defaultNutrients: $defaultNutrients, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+    return 'UserDataFirestoreModel(id: $id, settings: $settings, defaultNutrients: $defaultNutrients, searchConfig: $searchConfig, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 }
 
@@ -259,6 +291,7 @@ abstract mixin class _$UserDataFirestoreModelCopyWith<$Res>
       {@JsonKey(includeToJson: false) String id,
       AppSettingsFirestoreModel? settings,
       List<String>? defaultNutrients,
+      SearchConfigFirestoreModel? searchConfig,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
       DateTime? createdAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
@@ -268,6 +301,8 @@ abstract mixin class _$UserDataFirestoreModelCopyWith<$Res>
 
   @override
   $AppSettingsFirestoreModelCopyWith<$Res>? get settings;
+  @override
+  $SearchConfigFirestoreModelCopyWith<$Res>? get searchConfig;
 }
 
 /// @nodoc
@@ -286,6 +321,7 @@ class __$UserDataFirestoreModelCopyWithImpl<$Res>
     Object? id = null,
     Object? settings = freezed,
     Object? defaultNutrients = freezed,
+    Object? searchConfig = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? deletedAt = freezed,
@@ -303,6 +339,10 @@ class __$UserDataFirestoreModelCopyWithImpl<$Res>
           ? _self._defaultNutrients
           : defaultNutrients // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      searchConfig: freezed == searchConfig
+          ? _self.searchConfig
+          : searchConfig // ignore: cast_nullable_to_non_nullable
+              as SearchConfigFirestoreModel?,
       createdAt: freezed == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -329,6 +369,21 @@ class __$UserDataFirestoreModelCopyWithImpl<$Res>
 
     return $AppSettingsFirestoreModelCopyWith<$Res>(_self.settings!, (value) {
       return _then(_self.copyWith(settings: value));
+    });
+  }
+
+  /// Create a copy of UserDataFirestoreModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SearchConfigFirestoreModelCopyWith<$Res>? get searchConfig {
+    if (_self.searchConfig == null) {
+      return null;
+    }
+
+    return $SearchConfigFirestoreModelCopyWith<$Res>(_self.searchConfig!,
+        (value) {
+      return _then(_self.copyWith(searchConfig: value));
     });
   }
 }

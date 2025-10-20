@@ -4,15 +4,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/edible_repository.dart';
 import 'package:kcalculus/data/storage/local/edible/dao/edible_dao.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 
 class LocalEdibleRepository extends EdibleRepository {
   LocalEdibleDao get _edibleDao => ref.read(localEdibleDaoProvider.notifier);
 
   @override
-  Future<List<EdibleSearchResult>> search(
+  Future<List<EdiblePreview>> getAll({
+    PageConfig<EdiblePreview>? pageConfig,
+  }) {
+    return _edibleDao.getAll(
+      limit: pageConfig?.size,
+      offset: pageConfig?.offset,
+    );
+  }
+
+  @override
+  Future<List<EdiblePreview>> search(
     String? query, {
-    PageConfig<EdibleSearchResult>? pageConfig,
+    PageConfig<EdiblePreview>? pageConfig,
   }) {
     return _edibleDao.search(
       query,
@@ -22,7 +32,7 @@ class LocalEdibleRepository extends EdibleRepository {
   }
 
   @override
-  Future<int> count(String? query) {
+  Future<int> count([String? query]) {
     return _edibleDao.count(query);
   }
 
@@ -50,7 +60,7 @@ class LocalEdibleRepository extends EdibleRepository {
   }
 
   @override
-  Future<List<EdibleSearchResult>> findEdiblesWithoutNutritionFactsPreviews() {
+  Future<List<EdiblePreview>> findEdiblesWithoutNutritionFactsPreviews() {
     return _edibleDao.findEdiblesWithoutNutritionFactsPreviews();
   }
 }

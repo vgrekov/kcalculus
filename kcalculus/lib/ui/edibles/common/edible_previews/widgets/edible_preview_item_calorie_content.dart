@@ -3,8 +3,8 @@ import 'package:kcalculus/domain/nutrition/models/nutrition_facts_preview.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
-class EdibleSearchResultsItemCalorieContent extends StatelessWidget {
-  const EdibleSearchResultsItemCalorieContent({
+class EdiblePreviewItemCalorieContent extends StatelessWidget {
+  const EdiblePreviewItemCalorieContent({
     super.key,
     required this.nutritionFactsPreview,
   });

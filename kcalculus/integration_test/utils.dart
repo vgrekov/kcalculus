@@ -12,7 +12,7 @@ import 'package:kcalculus/l10n/app_localizations.dart';
 import 'package:kcalculus/ui/app/widgets/app.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/unit_picker.dart';
-import 'package:kcalculus/ui/edibles/common/edible_search_results/widgets/edible_search_results_item.dart';
+import 'package:kcalculus/ui/edibles/common/edible_previews/widgets/edible_preview_item.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_item.dart';
 import 'package:kcalculus/ui/providers.dart';
 
@@ -134,7 +134,7 @@ Future<void> selectEdible(
   await tester.pumpAndSettle();
 
   final itemFinder = find.widgetWithText(
-    EdibleSearchResultsItem,
+    EdiblePreviewItem,
     edibleName,
   );
 

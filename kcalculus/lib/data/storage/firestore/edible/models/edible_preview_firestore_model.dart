@@ -4,17 +4,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_type.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/nutrition_facts_preview_firestore_model.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 
-part 'edible_search_result_firestore_model.freezed.dart';
-part 'edible_search_result_firestore_model.g.dart';
+part 'edible_preview_firestore_model.freezed.dart';
+part 'edible_preview_firestore_model.g.dart';
 
 @freezed
-sealed class EdibleSearchResultFirestoreModel
-    with _$EdibleSearchResultFirestoreModel {
-  const EdibleSearchResultFirestoreModel._();
+sealed class EdiblePreviewFirestoreModel with _$EdiblePreviewFirestoreModel {
+  const EdiblePreviewFirestoreModel._();
 
-  const factory EdibleSearchResultFirestoreModel({
+  const factory EdiblePreviewFirestoreModel({
     @JsonKey(
       includeToJson: false,
     )
@@ -34,20 +33,19 @@ sealed class EdibleSearchResultFirestoreModel
       fromJson: timestampToDate,
     )
     DateTime? touchedAt,
-  }) = _EdibleSearchResultFirestoreModel;
+  }) = _EdiblePreviewFirestoreModel;
 
-  factory EdibleSearchResultFirestoreModel.fromJson(
-          Map<String, dynamic> json) =>
-      _$EdibleSearchResultFirestoreModelFromJson(json);
+  factory EdiblePreviewFirestoreModel.fromJson(Map<String, dynamic> json) =>
+      _$EdiblePreviewFirestoreModelFromJson(json);
 
-  factory EdibleSearchResultFirestoreModel.fromDomain(
-    EdibleSearchResult model,
+  factory EdiblePreviewFirestoreModel.fromDomain(
+    EdiblePreview model,
     String ownerId,
   ) =>
-      EdibleSearchResultFirestoreModel(
+      EdiblePreviewFirestoreModel(
         id: model.id,
         type: switch (model.type) {
-          EdibleSearchResultType.dish => EdibleType.dish,
+          EdiblePreviewType.dish => EdibleType.dish,
           _ => EdibleType.food,
         },
         name: model.name,
@@ -62,13 +60,13 @@ sealed class EdibleSearchResultFirestoreModel
         touchedAt: model.touchedAt,
       );
 
-  EdibleSearchResult toDomain() => EdibleSearchResult(
+  EdiblePreview toDomain() => EdiblePreview(
         id: id,
         name: name,
         description: description,
         type: switch (type) {
-          EdibleType.food => EdibleSearchResultType.food,
-          EdibleType.dish => EdibleSearchResultType.dish,
+          EdibleType.food => EdiblePreviewType.food,
+          EdibleType.dish => EdiblePreviewType.dish,
         },
         nutritionFactsPreview: nutritionFactsPreview?.toDomain(),
         lastEatenAt: eatenAt,

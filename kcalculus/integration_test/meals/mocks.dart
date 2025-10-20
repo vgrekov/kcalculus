@@ -6,7 +6,7 @@ import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/models/app_settings.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
 import 'package:kcalculus/domain/auth/models/user.dart';
-import 'package:kcalculus/domain/edible/use_cases/edible_search_use_case.dart';
+import 'package:kcalculus/domain/edible/use_cases/edible_use_case.dart';
 import 'package:kcalculus/domain/maintenance/models/maintenance_state.dart';
 import 'package:kcalculus/domain/maintenance/use_cases/maintenance_use_case.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
@@ -28,9 +28,9 @@ class MockEdibleRepository extends Notifier<void>
     with Mock
     implements EdibleRepository {}
 
-class MockEdibleSearchUseCase extends Notifier<void>
+class MockEdibleUseCase extends Notifier<void>
     with Mock
-    implements EdibleSearchUseCase {}
+    implements EdibleUseCase {}
 
 class MockFoodRepository extends ChangeSignalNotifier
     with Mock

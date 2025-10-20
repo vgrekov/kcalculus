@@ -3,14 +3,29 @@ import 'package:kcalculus/data/usda/_common/converters/usda_food_converter.dart'
 import 'package:kcalculus/data/usda/food/services/usda_food_service.dart';
 import 'package:kcalculus/data/usda/nutrient/services/usda_nutrient_service.dart';
 import 'package:kcalculus/data/usda/portion/services/usda_portion_service.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
 
 class UsdaFoodRepository extends Notifier<void> {
   @override
   void build() {}
 
-  Future<List<EdibleSearchResult>> search(
+  Future<List<EdiblePreview>> getAll({
+    int? limit,
+    int? offset,
+  }) async {
+    final usdaFoodService = ref.read(usdaFoodServiceProvider.notifier);
+    final usdaFoodConverter = ref.read(usdaFoodConverterProvider.notifier);
+
+    final foodDbModels = await usdaFoodService.all(
+      limit: limit,
+      offset: offset,
+    );
+
+    return foodDbModels.map(usdaFoodConverter.toPreview).toList();
+  }
+
+  Future<List<EdiblePreview>> search(
     String? query, {
     int? limit,
     int? offset,
@@ -24,7 +39,7 @@ class UsdaFoodRepository extends Notifier<void> {
       offset: offset,
     );
 
-    return foodDbModels.map(usdaFoodConverter.toSearchResult).toList();
+    return foodDbModels.map(usdaFoodConverter.toPreview).toList();
   }
 
   Future<Food?> getById(String id) async {

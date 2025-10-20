@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'edible_search_result_db_model.dart';
+part of 'edible_preview_db_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,7 +14,7 @@ part of 'edible_search_result_db_model.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$EdibleSearchResultDbModel {
+mixin _$EdiblePreviewDbModel {
   String get id;
   String? get food_id;
   String? get dish_id;
@@ -36,22 +36,22 @@ mixin _$EdibleSearchResultDbModel {
   String? get nf_preview_fiber_unit;
   double? get nf_preview_fiber_value;
 
-  /// Create a copy of EdibleSearchResultDbModel
+  /// Create a copy of EdiblePreviewDbModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $EdibleSearchResultDbModelCopyWith<EdibleSearchResultDbModel> get copyWith =>
-      _$EdibleSearchResultDbModelCopyWithImpl<EdibleSearchResultDbModel>(
-          this as EdibleSearchResultDbModel, _$identity);
+  $EdiblePreviewDbModelCopyWith<EdiblePreviewDbModel> get copyWith =>
+      _$EdiblePreviewDbModelCopyWithImpl<EdiblePreviewDbModel>(
+          this as EdiblePreviewDbModel, _$identity);
 
-  /// Serializes this EdibleSearchResultDbModel to a JSON map.
+  /// Serializes this EdiblePreviewDbModel to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is EdibleSearchResultDbModel &&
+            other is EdiblePreviewDbModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.food_id, food_id) || other.food_id == food_id) &&
             (identical(other.dish_id, dish_id) || other.dish_id == dish_id) &&
@@ -122,15 +122,15 @@ mixin _$EdibleSearchResultDbModel {
 
   @override
   String toString() {
-    return 'EdibleSearchResultDbModel(id: $id, food_id: $food_id, dish_id: $dish_id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, last_eaten_at: $last_eaten_at, nf_preview_per_unit: $nf_preview_per_unit, nf_preview_per_value: $nf_preview_per_value, nf_preview_calories_unit: $nf_preview_calories_unit, nf_preview_calories_value: $nf_preview_calories_value, nf_preview_fat_unit: $nf_preview_fat_unit, nf_preview_fat_value: $nf_preview_fat_value, nf_preview_carbs_unit: $nf_preview_carbs_unit, nf_preview_carbs_value: $nf_preview_carbs_value, nf_preview_protein_unit: $nf_preview_protein_unit, nf_preview_protein_value: $nf_preview_protein_value, nf_preview_fiber_unit: $nf_preview_fiber_unit, nf_preview_fiber_value: $nf_preview_fiber_value)';
+    return 'EdiblePreviewDbModel(id: $id, food_id: $food_id, dish_id: $dish_id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, last_eaten_at: $last_eaten_at, nf_preview_per_unit: $nf_preview_per_unit, nf_preview_per_value: $nf_preview_per_value, nf_preview_calories_unit: $nf_preview_calories_unit, nf_preview_calories_value: $nf_preview_calories_value, nf_preview_fat_unit: $nf_preview_fat_unit, nf_preview_fat_value: $nf_preview_fat_value, nf_preview_carbs_unit: $nf_preview_carbs_unit, nf_preview_carbs_value: $nf_preview_carbs_value, nf_preview_protein_unit: $nf_preview_protein_unit, nf_preview_protein_value: $nf_preview_protein_value, nf_preview_fiber_unit: $nf_preview_fiber_unit, nf_preview_fiber_value: $nf_preview_fiber_value)';
   }
 }
 
 /// @nodoc
-abstract mixin class $EdibleSearchResultDbModelCopyWith<$Res> {
-  factory $EdibleSearchResultDbModelCopyWith(EdibleSearchResultDbModel value,
-          $Res Function(EdibleSearchResultDbModel) _then) =
-      _$EdibleSearchResultDbModelCopyWithImpl;
+abstract mixin class $EdiblePreviewDbModelCopyWith<$Res> {
+  factory $EdiblePreviewDbModelCopyWith(EdiblePreviewDbModel value,
+          $Res Function(EdiblePreviewDbModel) _then) =
+      _$EdiblePreviewDbModelCopyWithImpl;
   @useResult
   $Res call(
       {String id,
@@ -156,14 +156,14 @@ abstract mixin class $EdibleSearchResultDbModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$EdibleSearchResultDbModelCopyWithImpl<$Res>
-    implements $EdibleSearchResultDbModelCopyWith<$Res> {
-  _$EdibleSearchResultDbModelCopyWithImpl(this._self, this._then);
+class _$EdiblePreviewDbModelCopyWithImpl<$Res>
+    implements $EdiblePreviewDbModelCopyWith<$Res> {
+  _$EdiblePreviewDbModelCopyWithImpl(this._self, this._then);
 
-  final EdibleSearchResultDbModel _self;
-  final $Res Function(EdibleSearchResultDbModel) _then;
+  final EdiblePreviewDbModel _self;
+  final $Res Function(EdiblePreviewDbModel) _then;
 
-  /// Create a copy of EdibleSearchResultDbModel
+  /// Create a copy of EdiblePreviewDbModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -276,8 +276,8 @@ class _$EdibleSearchResultDbModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _EdibleSearchResultDbModel implements EdibleSearchResultDbModel {
-  _EdibleSearchResultDbModel(
+class _EdiblePreviewDbModel implements EdiblePreviewDbModel {
+  _EdiblePreviewDbModel(
       {required this.id,
       this.food_id,
       this.dish_id,
@@ -298,8 +298,8 @@ class _EdibleSearchResultDbModel implements EdibleSearchResultDbModel {
       this.nf_preview_protein_value,
       this.nf_preview_fiber_unit,
       this.nf_preview_fiber_value});
-  factory _EdibleSearchResultDbModel.fromJson(Map<String, dynamic> json) =>
-      _$EdibleSearchResultDbModelFromJson(json);
+  factory _EdiblePreviewDbModel.fromJson(Map<String, dynamic> json) =>
+      _$EdiblePreviewDbModelFromJson(json);
 
   @override
   final String id;
@@ -342,19 +342,18 @@ class _EdibleSearchResultDbModel implements EdibleSearchResultDbModel {
   @override
   final double? nf_preview_fiber_value;
 
-  /// Create a copy of EdibleSearchResultDbModel
+  /// Create a copy of EdiblePreviewDbModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$EdibleSearchResultDbModelCopyWith<_EdibleSearchResultDbModel>
-      get copyWith =>
-          __$EdibleSearchResultDbModelCopyWithImpl<_EdibleSearchResultDbModel>(
-              this, _$identity);
+  _$EdiblePreviewDbModelCopyWith<_EdiblePreviewDbModel> get copyWith =>
+      __$EdiblePreviewDbModelCopyWithImpl<_EdiblePreviewDbModel>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$EdibleSearchResultDbModelToJson(
+    return _$EdiblePreviewDbModelToJson(
       this,
     );
   }
@@ -363,7 +362,7 @@ class _EdibleSearchResultDbModel implements EdibleSearchResultDbModel {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _EdibleSearchResultDbModel &&
+            other is _EdiblePreviewDbModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.food_id, food_id) || other.food_id == food_id) &&
             (identical(other.dish_id, dish_id) || other.dish_id == dish_id) &&
@@ -434,16 +433,16 @@ class _EdibleSearchResultDbModel implements EdibleSearchResultDbModel {
 
   @override
   String toString() {
-    return 'EdibleSearchResultDbModel(id: $id, food_id: $food_id, dish_id: $dish_id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, last_eaten_at: $last_eaten_at, nf_preview_per_unit: $nf_preview_per_unit, nf_preview_per_value: $nf_preview_per_value, nf_preview_calories_unit: $nf_preview_calories_unit, nf_preview_calories_value: $nf_preview_calories_value, nf_preview_fat_unit: $nf_preview_fat_unit, nf_preview_fat_value: $nf_preview_fat_value, nf_preview_carbs_unit: $nf_preview_carbs_unit, nf_preview_carbs_value: $nf_preview_carbs_value, nf_preview_protein_unit: $nf_preview_protein_unit, nf_preview_protein_value: $nf_preview_protein_value, nf_preview_fiber_unit: $nf_preview_fiber_unit, nf_preview_fiber_value: $nf_preview_fiber_value)';
+    return 'EdiblePreviewDbModel(id: $id, food_id: $food_id, dish_id: $dish_id, name: $name, description: $description, created_at: $created_at, updated_at: $updated_at, last_eaten_at: $last_eaten_at, nf_preview_per_unit: $nf_preview_per_unit, nf_preview_per_value: $nf_preview_per_value, nf_preview_calories_unit: $nf_preview_calories_unit, nf_preview_calories_value: $nf_preview_calories_value, nf_preview_fat_unit: $nf_preview_fat_unit, nf_preview_fat_value: $nf_preview_fat_value, nf_preview_carbs_unit: $nf_preview_carbs_unit, nf_preview_carbs_value: $nf_preview_carbs_value, nf_preview_protein_unit: $nf_preview_protein_unit, nf_preview_protein_value: $nf_preview_protein_value, nf_preview_fiber_unit: $nf_preview_fiber_unit, nf_preview_fiber_value: $nf_preview_fiber_value)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$EdibleSearchResultDbModelCopyWith<$Res>
-    implements $EdibleSearchResultDbModelCopyWith<$Res> {
-  factory _$EdibleSearchResultDbModelCopyWith(_EdibleSearchResultDbModel value,
-          $Res Function(_EdibleSearchResultDbModel) _then) =
-      __$EdibleSearchResultDbModelCopyWithImpl;
+abstract mixin class _$EdiblePreviewDbModelCopyWith<$Res>
+    implements $EdiblePreviewDbModelCopyWith<$Res> {
+  factory _$EdiblePreviewDbModelCopyWith(_EdiblePreviewDbModel value,
+          $Res Function(_EdiblePreviewDbModel) _then) =
+      __$EdiblePreviewDbModelCopyWithImpl;
   @override
   @useResult
   $Res call(
@@ -470,14 +469,14 @@ abstract mixin class _$EdibleSearchResultDbModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$EdibleSearchResultDbModelCopyWithImpl<$Res>
-    implements _$EdibleSearchResultDbModelCopyWith<$Res> {
-  __$EdibleSearchResultDbModelCopyWithImpl(this._self, this._then);
+class __$EdiblePreviewDbModelCopyWithImpl<$Res>
+    implements _$EdiblePreviewDbModelCopyWith<$Res> {
+  __$EdiblePreviewDbModelCopyWithImpl(this._self, this._then);
 
-  final _EdibleSearchResultDbModel _self;
-  final $Res Function(_EdibleSearchResultDbModel) _then;
+  final _EdiblePreviewDbModel _self;
+  final $Res Function(_EdiblePreviewDbModel) _then;
 
-  /// Create a copy of EdibleSearchResultDbModel
+  /// Create a copy of EdiblePreviewDbModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -503,7 +502,7 @@ class __$EdibleSearchResultDbModelCopyWithImpl<$Res>
     Object? nf_preview_fiber_unit = freezed,
     Object? nf_preview_fiber_value = freezed,
   }) {
-    return _then(_EdibleSearchResultDbModel(
+    return _then(_EdiblePreviewDbModel(
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable

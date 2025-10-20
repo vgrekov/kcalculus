@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/data/storage/local/edible/models/edible_db_model.dart';
-import 'package:kcalculus/data/storage/local/edible/models/edible_search_result_db_model.dart';
+import 'package:kcalculus/data/storage/local/edible/models/edible_preview_db_model.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:sqflite/sqflite.dart';
 
@@ -12,10 +12,129 @@ class LocalEdibleService extends Notifier<void> {
   Future<Database> get _database =>
       ref.read(localStorageServiceProvider.future);
 
-  Future<List<EdibleSearchResultDbModel>> search(
+  Future<List<EdiblePreviewDbModel>> all({
+    int? limit,
+    int? offset,
+    Transaction? txn,
+  }) async {
+    if (offset != null && limit == null) {
+      throw ArgumentError('Argument "limit" is missing');
+    }
+
+    if (limit != null && limit <= 0) {
+      throw ArgumentError(
+          'If present, "limit" argument must be a positive integer');
+    }
+
+    if (offset != null && offset < 0) {
+      throw ArgumentError(
+          'If present, "offset" argument must be a non-negative integer');
+    }
+
+    final executor = txn ?? await _database;
+
+    var sql = '''
+      SELECT *
+      FROM (
+        SELECT
+          results.id,
+          results.name,
+          results.description,
+          results.created_at,
+          results.updated_at,
+          results.nf_preview_per_unit,
+          results.nf_preview_per_value,
+          results.nf_preview_calories_unit,
+          results.nf_preview_calories_value,
+          results.nf_preview_fat_unit,
+          results.nf_preview_fat_value,
+          results.nf_preview_carbs_unit,
+          results.nf_preview_carbs_value,
+          results.nf_preview_protein_unit,
+          results.nf_preview_protein_value,
+          results.nf_preview_fiber_unit,
+          results.nf_preview_fiber_value,
+          results.food_id,
+          results.dish_id,
+          MAX(results.eaten_at) AS last_eaten_at
+        FROM (
+          SELECT
+            edibles.id AS id,
+            edibles.name AS name,
+            edibles.description AS description,
+            edibles.created_at AS created_at,
+            edibles.updated_at AS updated_at,
+            edibles.nf_preview_per_unit,
+            edibles.nf_preview_per_value,
+            edibles.nf_preview_calories_unit,
+            edibles.nf_preview_calories_value,
+            edibles.nf_preview_fat_unit,
+            edibles.nf_preview_fat_value,
+            edibles.nf_preview_carbs_unit,
+            edibles.nf_preview_carbs_value,
+            edibles.nf_preview_protein_unit,
+            edibles.nf_preview_protein_value,
+            edibles.nf_preview_fiber_unit,
+            edibles.nf_preview_fiber_value,
+            foods.id AS food_id,
+            dishes.id AS dish_id,
+            meals.eaten_at AS eaten_at
+          FROM
+            edibles
+          LEFT JOIN foods ON
+            foods.id = edibles.id
+          LEFT JOIN dishes ON
+            dishes.id = edibles.id
+          LEFT JOIN meals ON
+            meals.edible_id = edibles.id
+            AND meals.deleted_at IS NULL
+        ) results
+        GROUP BY
+          results.id,
+          results.name,
+          results.description,
+          results.created_at,
+          results.updated_at,
+          results.nf_preview_per_unit,
+          results.nf_preview_per_value,
+          results.nf_preview_calories_unit,
+          results.nf_preview_calories_value,
+          results.nf_preview_fat_unit,
+          results.nf_preview_fat_value,
+          results.nf_preview_carbs_unit,
+          results.nf_preview_carbs_value,
+          results.nf_preview_protein_unit,
+          results.nf_preview_protein_value,
+          results.nf_preview_fiber_unit,
+          results.nf_preview_fiber_value,
+          results.food_id,
+          results.dish_id
+      )
+      ORDER BY
+        CASE
+          WHEN last_eaten_at IS NOT NULL THEN last_eaten_at
+          WHEN updated_at IS NOT NULL THEN updated_at
+          ELSE created_at
+        END DESC
+      ''';
+
+    var arguments = [];
+
+    if (limit != null) {
+      sql += 'LIMIT ? OFFSET ?';
+      arguments.addAll([
+        limit,
+        offset ?? 0,
+      ]);
+    }
+
+    return executor
+        .rawQuery(sql, arguments)
+        .then((data) => data.map(EdiblePreviewDbModel.fromJson).toList());
+  }
+
+  Future<List<EdiblePreviewDbModel>> search(
     String? query, {
-    bool onlyFoods = false,
-    bool onlyDishes = false,
     int? limit,
     int? offset,
     Transaction? txn,
@@ -93,14 +212,6 @@ class LocalEdibleService extends Notifier<void> {
             AND meals.deleted_at IS NULL
           WHERE
             edibles.deleted_at IS NULL
-            AND (
-              ? = 0
-              OR foods.id IS NOT NULL
-            )
-            AND (
-              ? = 0
-              OR dishes.id IS NOT NULL
-            )
             AND UPPER(edibles.name || ', ' || edibles.description) LIKE '%' || UPPER(?) || '%'
         ) results
         GROUP BY
@@ -132,9 +243,7 @@ class LocalEdibleService extends Notifier<void> {
         END DESC
       ''';
 
-    var arguments = [
-      onlyFoods ? 1 : 0,
-      onlyDishes ? 1 : 0,
+    var arguments = <Object?>[
       query ?? '',
     ];
 
@@ -148,7 +257,7 @@ class LocalEdibleService extends Notifier<void> {
 
     return executor
         .rawQuery(sql, arguments)
-        .then((data) => data.map(EdibleSearchResultDbModel.fromJson).toList());
+        .then((data) => data.map(EdiblePreviewDbModel.fromJson).toList());
   }
 
   Future<int> count(
@@ -351,8 +460,7 @@ class LocalEdibleService extends Notifier<void> {
     ).then((data) => (data.first['edibles_count'] as int) > 0);
   }
 
-  Future<List<EdibleSearchResultDbModel>>
-      findEdiblesWithoutNutritionFactsPreviews({
+  Future<List<EdiblePreviewDbModel>> findEdiblesWithoutNutritionFactsPreviews({
     Transaction? txn,
   }) async {
     final executor = txn ?? await _database;
@@ -391,7 +499,7 @@ class LocalEdibleService extends Notifier<void> {
           ELSE created_at
         END ASC
       ''',
-    ).then((data) => data.map(EdibleSearchResultDbModel.fromJson).toList());
+    ).then((data) => data.map(EdiblePreviewDbModel.fromJson).toList());
   }
 }
 

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/exceptions/localized_exception.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 import 'package:kcalculus/domain/maintenance/models/maintenance_task.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
 import 'package:logging/logging.dart';
@@ -51,13 +51,13 @@ class NutritionFactsPreviewsCreationTask implements MaintenanceTask {
           await edibleRepo.findEdiblesWithoutNutritionFactsPreviews();
       for (final result in results) {
         switch (result.type) {
-          case EdibleSearchResultType.food:
+          case EdiblePreviewType.food:
             final food = await foodRepo.getById(result.id);
             if (food != null) {
               await foodRepo.save(food, skipAudit: true);
             }
             break;
-          case EdibleSearchResultType.dish:
+          case EdiblePreviewType.dish:
             final dish = await dishRepo.getById(result.id);
             if (dish != null) {
               await dishRepo.save(dish, skipAudit: true);

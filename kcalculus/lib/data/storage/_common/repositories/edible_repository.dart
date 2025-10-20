@@ -6,18 +6,22 @@ import 'package:kcalculus/data/storage/_common/utils/storage_type_router.dart';
 import 'package:kcalculus/data/storage/firestore/edible/repositories/edible_repository.dart';
 import 'package:kcalculus/data/storage/local/edible/repositories/edible_repository.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
-import 'package:kcalculus/domain/edible/models/edible_search_result.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 
 abstract class EdibleRepository extends Notifier<void> {
   @override
   void build() {}
 
-  Future<List<EdibleSearchResult>> search(
-    String? query, {
-    PageConfig<EdibleSearchResult>? pageConfig,
+  Future<List<EdiblePreview>> getAll({
+    PageConfig<EdiblePreview>? pageConfig,
   });
 
-  Future<int> count(String? query);
+  Future<List<EdiblePreview>> search(
+    String? query, {
+    PageConfig<EdiblePreview>? pageConfig,
+  });
+
+  Future<int> count([String? query]);
 
   Future<bool> exists(
     String name,
@@ -29,7 +33,7 @@ abstract class EdibleRepository extends Notifier<void> {
 
   FutureOr<bool> isMissingNutritionFactsPreviews();
 
-  Future<List<EdibleSearchResult>> findEdiblesWithoutNutritionFactsPreviews();
+  Future<List<EdiblePreview>> findEdiblesWithoutNutritionFactsPreviews();
 }
 
 class _EdibleRepository extends EdibleRepository
@@ -49,9 +53,20 @@ class _EdibleRepository extends EdibleRepository
       };
 
   @override
-  Future<List<EdibleSearchResult>> search(
+  Future<List<EdiblePreview>> getAll({
+    PageConfig<EdiblePreview>? pageConfig,
+  }) async {
+    final provider = await delegateProvider;
+
+    return ref.read(provider.notifier).getAll(
+          pageConfig: pageConfig,
+        );
+  }
+
+  @override
+  Future<List<EdiblePreview>> search(
     String? query, {
-    PageConfig<EdibleSearchResult>? pageConfig,
+    PageConfig<EdiblePreview>? pageConfig,
   }) async {
     final provider = await delegateProvider;
 
@@ -62,7 +77,7 @@ class _EdibleRepository extends EdibleRepository
   }
 
   @override
-  Future<int> count(String? query) async {
+  Future<int> count([String? query]) async {
     final provider = await delegateProvider;
 
     return ref.read(provider.notifier).count(query);
@@ -98,8 +113,7 @@ class _EdibleRepository extends EdibleRepository
   }
 
   @override
-  Future<List<EdibleSearchResult>>
-      findEdiblesWithoutNutritionFactsPreviews() async {
+  Future<List<EdiblePreview>> findEdiblesWithoutNutritionFactsPreviews() async {
     final provider = await delegateProvider;
 
     return ref

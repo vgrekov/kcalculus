@@ -1,17 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'edible_search_result.dart';
+part of 'edible_preview.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_EdibleSearchResult _$EdibleSearchResultFromJson(Map<String, dynamic> json) =>
-    _EdibleSearchResult(
+_EdiblePreview _$EdiblePreviewFromJson(Map<String, dynamic> json) =>
+    _EdiblePreview(
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String,
-      type: $enumDecode(_$EdibleSearchResultTypeEnumMap, json['type']),
+      type: $enumDecode(_$EdiblePreviewTypeEnumMap, json['type']),
       nutritionFactsPreview: json['nutritionFactsPreview'] == null
           ? null
           : NutritionFactsPreview.fromJson(
@@ -24,19 +24,19 @@ _EdibleSearchResult _$EdibleSearchResultFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['touchedAt'] as String),
     );
 
-Map<String, dynamic> _$EdibleSearchResultToJson(_EdibleSearchResult instance) =>
+Map<String, dynamic> _$EdiblePreviewToJson(_EdiblePreview instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
-      'type': _$EdibleSearchResultTypeEnumMap[instance.type]!,
+      'type': _$EdiblePreviewTypeEnumMap[instance.type]!,
       'nutritionFactsPreview': instance.nutritionFactsPreview?.toJson(),
       'lastEatenAt': instance.lastEatenAt?.toIso8601String(),
       'touchedAt': instance.touchedAt?.toIso8601String(),
     };
 
-const _$EdibleSearchResultTypeEnumMap = {
-  EdibleSearchResultType.food: 'food',
-  EdibleSearchResultType.dish: 'dish',
-  EdibleSearchResultType.usda: 'usda',
+const _$EdiblePreviewTypeEnumMap = {
+  EdiblePreviewType.food: 'food',
+  EdiblePreviewType.dish: 'dish',
+  EdiblePreviewType.usda: 'usda',
 };

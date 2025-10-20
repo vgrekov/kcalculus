@@ -1,12 +1,12 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'edible_search_result_db_model.freezed.dart';
-part 'edible_search_result_db_model.g.dart';
+part 'edible_preview_db_model.freezed.dart';
+part 'edible_preview_db_model.g.dart';
 
 @freezed
-sealed class EdibleSearchResultDbModel with _$EdibleSearchResultDbModel {
-  factory EdibleSearchResultDbModel({
+sealed class EdiblePreviewDbModel with _$EdiblePreviewDbModel {
+  factory EdiblePreviewDbModel({
     required String id,
     String? food_id,
     String? dish_id,
@@ -27,8 +27,8 @@ sealed class EdibleSearchResultDbModel with _$EdibleSearchResultDbModel {
     double? nf_preview_protein_value,
     String? nf_preview_fiber_unit,
     double? nf_preview_fiber_value,
-  }) = _EdibleSearchResultDbModel;
+  }) = _EdiblePreviewDbModel;
 
-  factory EdibleSearchResultDbModel.fromJson(Map<String, dynamic> json) =>
-      _$EdibleSearchResultDbModelFromJson(json);
+  factory EdiblePreviewDbModel.fromJson(Map<String, dynamic> json) =>
+      _$EdiblePreviewDbModelFromJson(json);
 }
