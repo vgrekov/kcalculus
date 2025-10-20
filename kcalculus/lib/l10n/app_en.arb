@@ -631,7 +631,7 @@
     "maintenanceTaskNutritionFactsPreviewsCreationFailedMessage": "Creating nutrition facts previews failed. Not able to proceed.",
     "actionAddFood": "Simple Food",
     "actionAddDish": "Complex Dish",
-    "mealEatenAt": "Last eaten at {time}",
+    "mealEatenAt": "Eaten at {time}",
     "@mealEatenAt": {
         "placeholders": {
             "time": {

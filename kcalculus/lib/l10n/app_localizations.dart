@@ -2032,7 +2032,7 @@ abstract class AppLocalizations {
   /// No description provided for @mealEatenAt.
   ///
   /// In en, this message translates to:
-  /// **'Last eaten at {time}'**
+  /// **'Eaten at {time}'**
   String mealEatenAt(String time);
 }
 

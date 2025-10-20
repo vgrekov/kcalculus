@@ -1147,6 +1147,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String mealEatenAt(String time) {
-    return 'Last eaten at $time';
+    return 'Eaten at $time';
   }
 }
