@@ -31,5 +31,4 @@ Map<String, dynamic> _$UserDataFirestoreModelToJson(
     <String, dynamic>{
       'settings': instance.settings?.toJson(),
       'defaultNutrients': instance.defaultNutrients,
-      'searchConfig': instance.searchConfig?.toJson(),
     };

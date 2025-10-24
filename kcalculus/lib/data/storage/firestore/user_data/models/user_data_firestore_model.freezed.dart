@@ -19,6 +19,7 @@ mixin _$UserDataFirestoreModel {
   String get id;
   AppSettingsFirestoreModel? get settings;
   List<String>? get defaultNutrients;
+  @JsonKey(includeToJson: false)
   SearchConfigFirestoreModel? get searchConfig;
   @JsonKey(includeToJson: false, fromJson: timestampToDate)
   DateTime? get createdAt;
@@ -86,7 +87,7 @@ abstract mixin class $UserDataFirestoreModelCopyWith<$Res> {
       {@JsonKey(includeToJson: false) String id,
       AppSettingsFirestoreModel? settings,
       List<String>? defaultNutrients,
-      SearchConfigFirestoreModel? searchConfig,
+      @JsonKey(includeToJson: false) SearchConfigFirestoreModel? searchConfig,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
       DateTime? createdAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
@@ -188,7 +189,7 @@ class _UserDataFirestoreModel extends UserDataFirestoreModel {
       {@JsonKey(includeToJson: false) required this.id,
       this.settings,
       final List<String>? defaultNutrients,
-      this.searchConfig,
+      @JsonKey(includeToJson: false) this.searchConfig,
       @JsonKey(includeToJson: false, fromJson: timestampToDate) this.createdAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate) this.updatedAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate) this.deletedAt})
@@ -214,6 +215,7 @@ class _UserDataFirestoreModel extends UserDataFirestoreModel {
   }
 
   @override
+  @JsonKey(includeToJson: false)
   final SearchConfigFirestoreModel? searchConfig;
   @override
   @JsonKey(includeToJson: false, fromJson: timestampToDate)
@@ -291,7 +293,7 @@ abstract mixin class _$UserDataFirestoreModelCopyWith<$Res>
       {@JsonKey(includeToJson: false) String id,
       AppSettingsFirestoreModel? settings,
       List<String>? defaultNutrients,
-      SearchConfigFirestoreModel? searchConfig,
+      @JsonKey(includeToJson: false) SearchConfigFirestoreModel? searchConfig,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
       DateTime? createdAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)

@@ -21,6 +21,9 @@ sealed class UserDataFirestoreModel with _$UserDataFirestoreModel {
     required String id,
     AppSettingsFirestoreModel? settings,
     List<String>? defaultNutrients,
+    @JsonKey(
+      includeToJson: false,
+    )
     SearchConfigFirestoreModel? searchConfig,
     @JsonKey(
       includeToJson: false,
