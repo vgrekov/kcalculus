@@ -22,7 +22,6 @@ class FirestoreEdibleSearchService extends Notifier<void> {
     final request = SearchForHits(
       indexName: 'edibles_index',
       query: query,
-      filters: 'ownerId:$userId AND deleted:false',
       hitsPerPage: pageConfig?.size,
       page: pageConfig == null
           ? null
@@ -55,7 +54,6 @@ class FirestoreEdibleSearchService extends Notifier<void> {
     final request = SearchForHits(
       indexName: 'edibles_index',
       query: query,
-      filters: 'ownerId:$userId AND deleted:false',
       hitsPerPage: 0,
     );
 
