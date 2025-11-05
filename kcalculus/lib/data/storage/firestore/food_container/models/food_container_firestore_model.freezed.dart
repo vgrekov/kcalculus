@@ -18,7 +18,9 @@ mixin _$FoodContainerFirestoreModel {
   @JsonKey(includeToJson: false)
   String? get id;
   String get name;
+  String get name_lower;
   String get description;
+  String get description_lower;
   AmountFirestoreModel get weight;
   String get ownerId;
   @JsonKey(includeToJson: false, fromJson: timestampToDate)
@@ -47,8 +49,12 @@ mixin _$FoodContainerFirestoreModel {
             other is FoodContainerFirestoreModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.name_lower, name_lower) ||
+                other.name_lower == name_lower) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.description_lower, description_lower) ||
+                other.description_lower == description_lower) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
             (identical(other.createdAt, createdAt) ||
@@ -61,12 +67,22 @@ mixin _$FoodContainerFirestoreModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description, weight,
-      ownerId, createdAt, updatedAt, deletedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      name_lower,
+      description,
+      description_lower,
+      weight,
+      ownerId,
+      createdAt,
+      updatedAt,
+      deletedAt);
 
   @override
   String toString() {
-    return 'FoodContainerFirestoreModel(id: $id, name: $name, description: $description, weight: $weight, ownerId: $ownerId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+    return 'FoodContainerFirestoreModel(id: $id, name: $name, name_lower: $name_lower, description: $description, description_lower: $description_lower, weight: $weight, ownerId: $ownerId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 }
 
@@ -80,7 +96,9 @@ abstract mixin class $FoodContainerFirestoreModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(includeToJson: false) String? id,
       String name,
+      String name_lower,
       String description,
+      String description_lower,
       AmountFirestoreModel weight,
       String ownerId,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
@@ -108,7 +126,9 @@ class _$FoodContainerFirestoreModelCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
+    Object? name_lower = null,
     Object? description = null,
+    Object? description_lower = null,
     Object? weight = null,
     Object? ownerId = null,
     Object? createdAt = freezed,
@@ -124,9 +144,17 @@ class _$FoodContainerFirestoreModelCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      name_lower: null == name_lower
+          ? _self.name_lower
+          : name_lower // ignore: cast_nullable_to_non_nullable
+              as String,
       description: null == description
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      description_lower: null == description_lower
+          ? _self.description_lower
+          : description_lower // ignore: cast_nullable_to_non_nullable
               as String,
       weight: null == weight
           ? _self.weight
@@ -168,7 +196,9 @@ class _FoodContainerFirestoreModel extends FoodContainerFirestoreModel {
   const _FoodContainerFirestoreModel(
       {@JsonKey(includeToJson: false) this.id,
       required this.name,
+      required this.name_lower,
       required this.description,
+      required this.description_lower,
       required this.weight,
       required this.ownerId,
       @JsonKey(includeToJson: false, fromJson: timestampToDate) this.createdAt,
@@ -184,7 +214,11 @@ class _FoodContainerFirestoreModel extends FoodContainerFirestoreModel {
   @override
   final String name;
   @override
+  final String name_lower;
+  @override
   final String description;
+  @override
+  final String description_lower;
   @override
   final AmountFirestoreModel weight;
   @override
@@ -222,8 +256,12 @@ class _FoodContainerFirestoreModel extends FoodContainerFirestoreModel {
             other is _FoodContainerFirestoreModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.name_lower, name_lower) ||
+                other.name_lower == name_lower) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.description_lower, description_lower) ||
+                other.description_lower == description_lower) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
             (identical(other.createdAt, createdAt) ||
@@ -236,12 +274,22 @@ class _FoodContainerFirestoreModel extends FoodContainerFirestoreModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description, weight,
-      ownerId, createdAt, updatedAt, deletedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      name_lower,
+      description,
+      description_lower,
+      weight,
+      ownerId,
+      createdAt,
+      updatedAt,
+      deletedAt);
 
   @override
   String toString() {
-    return 'FoodContainerFirestoreModel(id: $id, name: $name, description: $description, weight: $weight, ownerId: $ownerId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+    return 'FoodContainerFirestoreModel._default(id: $id, name: $name, name_lower: $name_lower, description: $description, description_lower: $description_lower, weight: $weight, ownerId: $ownerId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 }
 
@@ -257,7 +305,9 @@ abstract mixin class _$FoodContainerFirestoreModelCopyWith<$Res>
   $Res call(
       {@JsonKey(includeToJson: false) String? id,
       String name,
+      String name_lower,
       String description,
+      String description_lower,
       AmountFirestoreModel weight,
       String ownerId,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
@@ -286,7 +336,9 @@ class __$FoodContainerFirestoreModelCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
+    Object? name_lower = null,
     Object? description = null,
+    Object? description_lower = null,
     Object? weight = null,
     Object? ownerId = null,
     Object? createdAt = freezed,
@@ -302,9 +354,17 @@ class __$FoodContainerFirestoreModelCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      name_lower: null == name_lower
+          ? _self.name_lower
+          : name_lower // ignore: cast_nullable_to_non_nullable
+              as String,
       description: null == description
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      description_lower: null == description_lower
+          ? _self.description_lower
+          : description_lower // ignore: cast_nullable_to_non_nullable
               as String,
       weight: null == weight
           ? _self.weight

@@ -11,7 +11,9 @@ _FoodContainerFirestoreModel _$FoodContainerFirestoreModelFromJson(
     _FoodContainerFirestoreModel(
       id: json['id'] as String?,
       name: json['name'] as String,
+      name_lower: json['name_lower'] as String,
       description: json['description'] as String,
+      description_lower: json['description_lower'] as String,
       weight:
           AmountFirestoreModel.fromJson(json['weight'] as Map<String, dynamic>),
       ownerId: json['ownerId'] as String,
@@ -24,7 +26,9 @@ Map<String, dynamic> _$FoodContainerFirestoreModelToJson(
         _FoodContainerFirestoreModel instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'name_lower': instance.name_lower,
       'description': instance.description,
+      'description_lower': instance.description_lower,
       'weight': instance.weight.toJson(),
       'ownerId': instance.ownerId,
     };

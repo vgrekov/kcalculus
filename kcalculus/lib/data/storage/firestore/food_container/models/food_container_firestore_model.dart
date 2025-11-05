@@ -14,13 +14,15 @@ sealed class FoodContainerFirestoreModel with _$FoodContainerFirestoreModel {
 
   const FoodContainerFirestoreModel._();
 
-  const factory FoodContainerFirestoreModel({
+  const factory FoodContainerFirestoreModel._default({
     @JsonKey(
       includeToJson: false,
     )
     String? id,
     required String name,
+    required String name_lower,
     required String description,
+    required String description_lower,
     required AmountFirestoreModel weight,
     required String ownerId,
     @JsonKey(
@@ -39,6 +41,29 @@ sealed class FoodContainerFirestoreModel with _$FoodContainerFirestoreModel {
     )
     DateTime? deletedAt,
   }) = _FoodContainerFirestoreModel;
+
+  factory FoodContainerFirestoreModel({
+    String? id,
+    required String name,
+    required String description,
+    required AmountFirestoreModel weight,
+    required String ownerId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
+  }) =>
+      FoodContainerFirestoreModel._default(
+        id: id,
+        name: name,
+        name_lower: name.toLowerCase(),
+        description: description,
+        description_lower: description.toLowerCase(),
+        weight: weight,
+        ownerId: ownerId,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        deletedAt: deletedAt,
+      );
 
   factory FoodContainerFirestoreModel.fromJson(Map<String, dynamic> json) =>
       _$FoodContainerFirestoreModelFromJson(json);
