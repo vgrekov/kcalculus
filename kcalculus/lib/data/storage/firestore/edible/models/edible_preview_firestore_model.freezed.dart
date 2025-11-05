@@ -26,6 +26,8 @@ mixin _$EdiblePreviewFirestoreModel {
   DateTime? get eatenAt;
   @JsonKey(includeToJson: false, fromJson: timestampToDate)
   DateTime? get touchedAt;
+  @JsonKey(includeToJson: false, fromJson: timestampToDate)
+  DateTime? get deletedAt;
 
   /// Create a copy of EdiblePreviewFirestoreModel
   /// with the given fields replaced by the non-null parameter values.
@@ -54,17 +56,19 @@ mixin _$EdiblePreviewFirestoreModel {
                 other.nutritionFactsPreview == nutritionFactsPreview) &&
             (identical(other.eatenAt, eatenAt) || other.eatenAt == eatenAt) &&
             (identical(other.touchedAt, touchedAt) ||
-                other.touchedAt == touchedAt));
+                other.touchedAt == touchedAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, type, name, description,
-      ownerId, nutritionFactsPreview, eatenAt, touchedAt);
+      ownerId, nutritionFactsPreview, eatenAt, touchedAt, deletedAt);
 
   @override
   String toString() {
-    return 'EdiblePreviewFirestoreModel(id: $id, type: $type, name: $name, description: $description, ownerId: $ownerId, nutritionFactsPreview: $nutritionFactsPreview, eatenAt: $eatenAt, touchedAt: $touchedAt)';
+    return 'EdiblePreviewFirestoreModel(id: $id, type: $type, name: $name, description: $description, ownerId: $ownerId, nutritionFactsPreview: $nutritionFactsPreview, eatenAt: $eatenAt, touchedAt: $touchedAt, deletedAt: $deletedAt)';
   }
 }
 
@@ -85,7 +89,9 @@ abstract mixin class $EdiblePreviewFirestoreModelCopyWith<$Res> {
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
       DateTime? eatenAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
-      DateTime? touchedAt});
+      DateTime? touchedAt,
+      @JsonKey(includeToJson: false, fromJson: timestampToDate)
+      DateTime? deletedAt});
 
   $NutritionFactsPreviewFirestoreModelCopyWith<$Res>? get nutritionFactsPreview;
 }
@@ -111,6 +117,7 @@ class _$EdiblePreviewFirestoreModelCopyWithImpl<$Res>
     Object? nutritionFactsPreview = freezed,
     Object? eatenAt = freezed,
     Object? touchedAt = freezed,
+    Object? deletedAt = freezed,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -145,6 +152,10 @@ class _$EdiblePreviewFirestoreModelCopyWithImpl<$Res>
           ? _self.touchedAt
           : touchedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      deletedAt: freezed == deletedAt
+          ? _self.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 
@@ -176,7 +187,8 @@ class _EdiblePreviewFirestoreModel extends EdiblePreviewFirestoreModel {
       required this.ownerId,
       this.nutritionFactsPreview,
       @JsonKey(includeToJson: false, fromJson: timestampToDate) this.eatenAt,
-      @JsonKey(includeToJson: false, fromJson: timestampToDate) this.touchedAt})
+      @JsonKey(includeToJson: false, fromJson: timestampToDate) this.touchedAt,
+      @JsonKey(includeToJson: false, fromJson: timestampToDate) this.deletedAt})
       : super._();
   factory _EdiblePreviewFirestoreModel.fromJson(Map<String, dynamic> json) =>
       _$EdiblePreviewFirestoreModelFromJson(json);
@@ -200,6 +212,9 @@ class _EdiblePreviewFirestoreModel extends EdiblePreviewFirestoreModel {
   @override
   @JsonKey(includeToJson: false, fromJson: timestampToDate)
   final DateTime? touchedAt;
+  @override
+  @JsonKey(includeToJson: false, fromJson: timestampToDate)
+  final DateTime? deletedAt;
 
   /// Create a copy of EdiblePreviewFirestoreModel
   /// with the given fields replaced by the non-null parameter values.
@@ -232,17 +247,19 @@ class _EdiblePreviewFirestoreModel extends EdiblePreviewFirestoreModel {
                 other.nutritionFactsPreview == nutritionFactsPreview) &&
             (identical(other.eatenAt, eatenAt) || other.eatenAt == eatenAt) &&
             (identical(other.touchedAt, touchedAt) ||
-                other.touchedAt == touchedAt));
+                other.touchedAt == touchedAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, type, name, description,
-      ownerId, nutritionFactsPreview, eatenAt, touchedAt);
+      ownerId, nutritionFactsPreview, eatenAt, touchedAt, deletedAt);
 
   @override
   String toString() {
-    return 'EdiblePreviewFirestoreModel(id: $id, type: $type, name: $name, description: $description, ownerId: $ownerId, nutritionFactsPreview: $nutritionFactsPreview, eatenAt: $eatenAt, touchedAt: $touchedAt)';
+    return 'EdiblePreviewFirestoreModel(id: $id, type: $type, name: $name, description: $description, ownerId: $ownerId, nutritionFactsPreview: $nutritionFactsPreview, eatenAt: $eatenAt, touchedAt: $touchedAt, deletedAt: $deletedAt)';
   }
 }
 
@@ -265,7 +282,9 @@ abstract mixin class _$EdiblePreviewFirestoreModelCopyWith<$Res>
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
       DateTime? eatenAt,
       @JsonKey(includeToJson: false, fromJson: timestampToDate)
-      DateTime? touchedAt});
+      DateTime? touchedAt,
+      @JsonKey(includeToJson: false, fromJson: timestampToDate)
+      DateTime? deletedAt});
 
   @override
   $NutritionFactsPreviewFirestoreModelCopyWith<$Res>? get nutritionFactsPreview;
@@ -292,6 +311,7 @@ class __$EdiblePreviewFirestoreModelCopyWithImpl<$Res>
     Object? nutritionFactsPreview = freezed,
     Object? eatenAt = freezed,
     Object? touchedAt = freezed,
+    Object? deletedAt = freezed,
   }) {
     return _then(_EdiblePreviewFirestoreModel(
       id: null == id
@@ -325,6 +345,10 @@ class __$EdiblePreviewFirestoreModelCopyWithImpl<$Res>
       touchedAt: freezed == touchedAt
           ? _self.touchedAt
           : touchedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      deletedAt: freezed == deletedAt
+          ? _self.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
   }

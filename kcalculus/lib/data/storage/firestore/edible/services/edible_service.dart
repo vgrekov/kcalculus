@@ -46,6 +46,48 @@ class FirestoreEdibleService extends Notifier<void> {
         .toList();
   }
 
+  Future<List<EdiblePreviewFirestoreModel>> recent({
+    required String userId,
+    required Duration lookbackDuration,
+  }) async {
+    final since = dateToTimestamp(
+      DateTime.now().subtract(lookbackDuration),
+    );
+
+    final queries = [
+      // upserted
+      _db
+          .collection(EdibleFirestoreModel.kCollection)
+          .where('ownerId', isEqualTo: userId)
+          .where('deleted', isEqualTo: false)
+          .where('updatedAt', isGreaterThanOrEqualTo: since)
+          .orderBy('updatedAt', descending: true)
+          .orderBy(FieldPath.documentId, descending: true),
+      // deleted
+      _db
+          .collection(EdibleFirestoreModel.kCollection)
+          .where('ownerId', isEqualTo: userId)
+          .where('deletedAt', isGreaterThanOrEqualTo: since),
+    ];
+
+    final result = <EdiblePreviewFirestoreModel>[];
+
+    for (final query in queries) {
+      final snapshot = await query.get();
+
+      result.addAll(
+        snapshot.docs.map(
+          (s) => EdiblePreviewFirestoreModel.fromJson({
+            'id': s.id,
+            ...s.data(),
+          }),
+        ),
+      );
+    }
+
+    return result;
+  }
+
   Future<int> count({
     required String userId,
   }) async {

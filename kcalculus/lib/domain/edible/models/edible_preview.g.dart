@@ -22,6 +22,10 @@ _EdiblePreview _$EdiblePreviewFromJson(Map<String, dynamic> json) =>
       touchedAt: json['touchedAt'] == null
           ? null
           : DateTime.parse(json['touchedAt'] as String),
+      deletedAt: json['deletedAt'] == null
+          ? null
+          : DateTime.parse(json['deletedAt'] as String),
+      isRecent: json['isRecent'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$EdiblePreviewToJson(_EdiblePreview instance) =>
@@ -33,6 +37,8 @@ Map<String, dynamic> _$EdiblePreviewToJson(_EdiblePreview instance) =>
       'nutritionFactsPreview': instance.nutritionFactsPreview?.toJson(),
       'lastEatenAt': instance.lastEatenAt?.toIso8601String(),
       'touchedAt': instance.touchedAt?.toIso8601String(),
+      'deletedAt': instance.deletedAt?.toIso8601String(),
+      'isRecent': instance.isRecent,
     };
 
 const _$EdiblePreviewTypeEnumMap = {

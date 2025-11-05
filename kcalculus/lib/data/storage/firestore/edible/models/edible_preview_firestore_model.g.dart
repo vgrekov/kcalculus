@@ -20,6 +20,7 @@ _EdiblePreviewFirestoreModel _$EdiblePreviewFirestoreModelFromJson(
               json['nutritionFactsPreview'] as Map<String, dynamic>),
       eatenAt: timestampToDate(json['eatenAt']),
       touchedAt: timestampToDate(json['touchedAt']),
+      deletedAt: timestampToDate(json['deletedAt']),
     );
 
 Map<String, dynamic> _$EdiblePreviewFirestoreModelToJson(

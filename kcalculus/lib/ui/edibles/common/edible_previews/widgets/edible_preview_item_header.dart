@@ -52,6 +52,10 @@ class EdiblePreviewItemHeader extends StatelessWidget {
 
     final locked = preview.type == EdiblePreviewType.usda;
 
+    final deleted = preview.deletedAt != null;
+
+    final recent = preview.isRecent;
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -62,6 +66,26 @@ class EdiblePreviewItemHeader extends StatelessWidget {
               Icons.lock_outlined,
               color: Theme.of(context).colorScheme.tertiary,
               size: 12,
+            ),
+          ),
+        if (deleted)
+          Padding(
+            padding: const EdgeInsets.only(right: 4),
+            child: Text(
+              l10n(context).edibleDeleted,
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+            ),
+          ),
+        if (recent)
+          Padding(
+            padding: const EdgeInsets.only(right: 4),
+            child: Text(
+              l10n(context).edibleRecent,
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
             ),
           ),
         if (showEdibleType)

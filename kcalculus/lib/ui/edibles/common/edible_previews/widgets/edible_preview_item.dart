@@ -17,13 +17,22 @@ class EdiblePreviewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color bgColor;
+    if (preview.deletedAt != null) {
+      bgColor = Colors.transparent;
+    } else if (preview.isRecent) {
+      bgColor = Theme.of(context).colorScheme.surfaceContainerHigh;
+    } else {
+      bgColor = Theme.of(context).colorScheme.surfaceContainerLow;
+    }
+
     return GestureDetector(
       onTap: () {
         onSelectPreview(preview);
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerLow,
+          color: bgColor,
         ),
         padding: const EdgeInsets.all(16),
         child: Column(

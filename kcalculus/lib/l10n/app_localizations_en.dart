@@ -1103,6 +1103,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get messageLogoutConfirmation => 'Are you sure you want to log out?';
 
   @override
+  String get edibleRecent => 'RECENT';
+
+  @override
+  String get edibleDeleted => 'DELETED';
+
+  @override
   String get edibleTypeFood => 'Food';
 
   @override

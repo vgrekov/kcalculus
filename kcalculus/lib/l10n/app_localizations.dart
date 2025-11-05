@@ -1975,6 +1975,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to log out?'**
   String get messageLogoutConfirmation;
 
+  /// No description provided for @edibleRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'RECENT'**
+  String get edibleRecent;
+
+  /// No description provided for @edibleDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETED'**
+  String get edibleDeleted;
+
   /// No description provided for @edibleTypeFood.
   ///
   /// In en, this message translates to:

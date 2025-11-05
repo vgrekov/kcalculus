@@ -29,6 +29,8 @@ sealed class EdiblePreview with _$EdiblePreview {
     NutritionFactsPreview? nutritionFactsPreview,
     DateTime? lastEatenAt,
     DateTime? touchedAt,
+    DateTime? deletedAt,
+    @Default(false) bool isRecent,
   }) = _EdiblePreview;
 
   factory EdiblePreview.fromJson(Map<String, dynamic> json) =>

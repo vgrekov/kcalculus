@@ -3,6 +3,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'app_config.freezed.dart';
 part 'app_config.g.dart';
 
+const kDefaultEmailVerificationCooldownDurationSecs = 60;
+
+const kDefaultRecentLookbackDurationSecs = 30;
+
 @freezed
 sealed class AppConfig with _$AppConfig {
   const factory AppConfig({
@@ -16,7 +20,9 @@ sealed class AppConfig with _$AppConfig {
     required int unlockAdTimeoutMillis,
     required int unlockWithAdDurationMins,
     required bool adsEnabled,
-    @Default(60) int emailVerificationCooldownDurationSecs,
+    @Default(kDefaultEmailVerificationCooldownDurationSecs)
+    int emailVerificationCooldownDurationSecs,
+    @Default(kDefaultRecentLookbackDurationSecs) int recentLookbackDurationSecs,
   }) = _AppConfig;
 
   factory AppConfig.fromJson(Map<String, dynamic> json) =>

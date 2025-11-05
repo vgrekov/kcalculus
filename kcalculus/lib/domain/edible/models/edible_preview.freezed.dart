@@ -22,6 +22,8 @@ mixin _$EdiblePreview {
   NutritionFactsPreview? get nutritionFactsPreview;
   DateTime? get lastEatenAt;
   DateTime? get touchedAt;
+  DateTime? get deletedAt;
+  bool get isRecent;
 
   /// Create a copy of EdiblePreview
   /// with the given fields replaced by the non-null parameter values.
@@ -49,17 +51,21 @@ mixin _$EdiblePreview {
             (identical(other.lastEatenAt, lastEatenAt) ||
                 other.lastEatenAt == lastEatenAt) &&
             (identical(other.touchedAt, touchedAt) ||
-                other.touchedAt == touchedAt));
+                other.touchedAt == touchedAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.isRecent, isRecent) ||
+                other.isRecent == isRecent));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, description, type,
-      nutritionFactsPreview, lastEatenAt, touchedAt);
+      nutritionFactsPreview, lastEatenAt, touchedAt, deletedAt, isRecent);
 
   @override
   String toString() {
-    return 'EdiblePreview(id: $id, name: $name, description: $description, type: $type, nutritionFactsPreview: $nutritionFactsPreview, lastEatenAt: $lastEatenAt, touchedAt: $touchedAt)';
+    return 'EdiblePreview(id: $id, name: $name, description: $description, type: $type, nutritionFactsPreview: $nutritionFactsPreview, lastEatenAt: $lastEatenAt, touchedAt: $touchedAt, deletedAt: $deletedAt, isRecent: $isRecent)';
   }
 }
 
@@ -76,7 +82,9 @@ abstract mixin class $EdiblePreviewCopyWith<$Res> {
       EdiblePreviewType type,
       NutritionFactsPreview? nutritionFactsPreview,
       DateTime? lastEatenAt,
-      DateTime? touchedAt});
+      DateTime? touchedAt,
+      DateTime? deletedAt,
+      bool isRecent});
 
   $NutritionFactsPreviewCopyWith<$Res>? get nutritionFactsPreview;
 }
@@ -101,6 +109,8 @@ class _$EdiblePreviewCopyWithImpl<$Res>
     Object? nutritionFactsPreview = freezed,
     Object? lastEatenAt = freezed,
     Object? touchedAt = freezed,
+    Object? deletedAt = freezed,
+    Object? isRecent = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -131,6 +141,14 @@ class _$EdiblePreviewCopyWithImpl<$Res>
           ? _self.touchedAt
           : touchedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      deletedAt: freezed == deletedAt
+          ? _self.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isRecent: null == isRecent
+          ? _self.isRecent
+          : isRecent // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -160,7 +178,9 @@ class _EdiblePreview implements EdiblePreview {
       required this.type,
       this.nutritionFactsPreview,
       this.lastEatenAt,
-      this.touchedAt});
+      this.touchedAt,
+      this.deletedAt,
+      this.isRecent = false});
   factory _EdiblePreview.fromJson(Map<String, dynamic> json) =>
       _$EdiblePreviewFromJson(json);
 
@@ -178,6 +198,11 @@ class _EdiblePreview implements EdiblePreview {
   final DateTime? lastEatenAt;
   @override
   final DateTime? touchedAt;
+  @override
+  final DateTime? deletedAt;
+  @override
+  @JsonKey()
+  final bool isRecent;
 
   /// Create a copy of EdiblePreview
   /// with the given fields replaced by the non-null parameter values.
@@ -209,17 +234,21 @@ class _EdiblePreview implements EdiblePreview {
             (identical(other.lastEatenAt, lastEatenAt) ||
                 other.lastEatenAt == lastEatenAt) &&
             (identical(other.touchedAt, touchedAt) ||
-                other.touchedAt == touchedAt));
+                other.touchedAt == touchedAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.isRecent, isRecent) ||
+                other.isRecent == isRecent));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, description, type,
-      nutritionFactsPreview, lastEatenAt, touchedAt);
+      nutritionFactsPreview, lastEatenAt, touchedAt, deletedAt, isRecent);
 
   @override
   String toString() {
-    return 'EdiblePreview(id: $id, name: $name, description: $description, type: $type, nutritionFactsPreview: $nutritionFactsPreview, lastEatenAt: $lastEatenAt, touchedAt: $touchedAt)';
+    return 'EdiblePreview(id: $id, name: $name, description: $description, type: $type, nutritionFactsPreview: $nutritionFactsPreview, lastEatenAt: $lastEatenAt, touchedAt: $touchedAt, deletedAt: $deletedAt, isRecent: $isRecent)';
   }
 }
 
@@ -238,7 +267,9 @@ abstract mixin class _$EdiblePreviewCopyWith<$Res>
       EdiblePreviewType type,
       NutritionFactsPreview? nutritionFactsPreview,
       DateTime? lastEatenAt,
-      DateTime? touchedAt});
+      DateTime? touchedAt,
+      DateTime? deletedAt,
+      bool isRecent});
 
   @override
   $NutritionFactsPreviewCopyWith<$Res>? get nutritionFactsPreview;
@@ -264,6 +295,8 @@ class __$EdiblePreviewCopyWithImpl<$Res>
     Object? nutritionFactsPreview = freezed,
     Object? lastEatenAt = freezed,
     Object? touchedAt = freezed,
+    Object? deletedAt = freezed,
+    Object? isRecent = null,
   }) {
     return _then(_EdiblePreview(
       id: null == id
@@ -294,6 +327,14 @@ class __$EdiblePreviewCopyWithImpl<$Res>
           ? _self.touchedAt
           : touchedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      deletedAt: freezed == deletedAt
+          ? _self.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isRecent: null == isRecent
+          ? _self.isRecent
+          : isRecent // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 

@@ -33,6 +33,11 @@ sealed class EdiblePreviewFirestoreModel with _$EdiblePreviewFirestoreModel {
       fromJson: timestampToDate,
     )
     DateTime? touchedAt,
+    @JsonKey(
+      includeToJson: false,
+      fromJson: timestampToDate,
+    )
+    DateTime? deletedAt,
   }) = _EdiblePreviewFirestoreModel;
 
   factory EdiblePreviewFirestoreModel.fromJson(Map<String, dynamic> json) =>
@@ -58,9 +63,10 @@ sealed class EdiblePreviewFirestoreModel with _$EdiblePreviewFirestoreModel {
               ),
         eatenAt: model.lastEatenAt,
         touchedAt: model.touchedAt,
+        deletedAt: model.deletedAt,
       );
 
-  EdiblePreview toDomain() => EdiblePreview(
+  EdiblePreview toDomain([bool isRecent = false]) => EdiblePreview(
         id: id,
         name: name,
         description: description,
@@ -71,5 +77,7 @@ sealed class EdiblePreviewFirestoreModel with _$EdiblePreviewFirestoreModel {
         nutritionFactsPreview: nutritionFactsPreview?.toDomain(),
         lastEatenAt: eatenAt,
         touchedAt: touchedAt,
+        deletedAt: deletedAt,
+        isRecent: isRecent,
       );
 }

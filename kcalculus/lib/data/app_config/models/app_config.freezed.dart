@@ -26,6 +26,7 @@ mixin _$AppConfig {
   int get unlockWithAdDurationMins;
   bool get adsEnabled;
   int get emailVerificationCooldownDurationSecs;
+  int get recentLookbackDurationSecs;
 
   /// Create a copy of AppConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -44,8 +45,7 @@ mixin _$AppConfig {
             other is AppConfig &&
             (identical(other.openFoodFactsBaseUrl, openFoodFactsBaseUrl) ||
                 other.openFoodFactsBaseUrl == openFoodFactsBaseUrl) &&
-            (identical(other.openFoodFactsTimeoutMillis,
-                    openFoodFactsTimeoutMillis) ||
+            (identical(other.openFoodFactsTimeoutMillis, openFoodFactsTimeoutMillis) ||
                 other.openFoodFactsTimeoutMillis ==
                     openFoodFactsTimeoutMillis) &&
             (identical(other.contactEmail, contactEmail) ||
@@ -71,7 +71,10 @@ mixin _$AppConfig {
             (identical(other.emailVerificationCooldownDurationSecs,
                     emailVerificationCooldownDurationSecs) ||
                 other.emailVerificationCooldownDurationSecs ==
-                    emailVerificationCooldownDurationSecs));
+                    emailVerificationCooldownDurationSecs) &&
+            (identical(
+                    other.recentLookbackDurationSecs, recentLookbackDurationSecs) ||
+                other.recentLookbackDurationSecs == recentLookbackDurationSecs));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -88,11 +91,12 @@ mixin _$AppConfig {
       unlockAdTimeoutMillis,
       unlockWithAdDurationMins,
       adsEnabled,
-      emailVerificationCooldownDurationSecs);
+      emailVerificationCooldownDurationSecs,
+      recentLookbackDurationSecs);
 
   @override
   String toString() {
-    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, interstitialAdUnitId: $interstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, unlockAdUnitId: $unlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, adsEnabled: $adsEnabled, emailVerificationCooldownDurationSecs: $emailVerificationCooldownDurationSecs)';
+    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, interstitialAdUnitId: $interstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, unlockAdUnitId: $unlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, adsEnabled: $adsEnabled, emailVerificationCooldownDurationSecs: $emailVerificationCooldownDurationSecs, recentLookbackDurationSecs: $recentLookbackDurationSecs)';
   }
 }
 
@@ -112,7 +116,8 @@ abstract mixin class $AppConfigCopyWith<$Res> {
       int unlockAdTimeoutMillis,
       int unlockWithAdDurationMins,
       bool adsEnabled,
-      int emailVerificationCooldownDurationSecs});
+      int emailVerificationCooldownDurationSecs,
+      int recentLookbackDurationSecs});
 }
 
 /// @nodoc
@@ -138,6 +143,7 @@ class _$AppConfigCopyWithImpl<$Res> implements $AppConfigCopyWith<$Res> {
     Object? unlockWithAdDurationMins = null,
     Object? adsEnabled = null,
     Object? emailVerificationCooldownDurationSecs = null,
+    Object? recentLookbackDurationSecs = null,
   }) {
     return _then(_self.copyWith(
       openFoodFactsBaseUrl: null == openFoodFactsBaseUrl
@@ -186,6 +192,10 @@ class _$AppConfigCopyWithImpl<$Res> implements $AppConfigCopyWith<$Res> {
           ? _self.emailVerificationCooldownDurationSecs
           : emailVerificationCooldownDurationSecs // ignore: cast_nullable_to_non_nullable
               as int,
+      recentLookbackDurationSecs: null == recentLookbackDurationSecs
+          ? _self.recentLookbackDurationSecs
+          : recentLookbackDurationSecs // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -204,7 +214,9 @@ class _AppConfig implements AppConfig {
       required this.unlockAdTimeoutMillis,
       required this.unlockWithAdDurationMins,
       required this.adsEnabled,
-      this.emailVerificationCooldownDurationSecs = 60});
+      this.emailVerificationCooldownDurationSecs =
+          kDefaultEmailVerificationCooldownDurationSecs,
+      this.recentLookbackDurationSecs = kDefaultRecentLookbackDurationSecs});
   factory _AppConfig.fromJson(Map<String, dynamic> json) =>
       _$AppConfigFromJson(json);
 
@@ -231,6 +243,9 @@ class _AppConfig implements AppConfig {
   @override
   @JsonKey()
   final int emailVerificationCooldownDurationSecs;
+  @override
+  @JsonKey()
+  final int recentLookbackDurationSecs;
 
   /// Create a copy of AppConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -254,8 +269,7 @@ class _AppConfig implements AppConfig {
             other is _AppConfig &&
             (identical(other.openFoodFactsBaseUrl, openFoodFactsBaseUrl) ||
                 other.openFoodFactsBaseUrl == openFoodFactsBaseUrl) &&
-            (identical(other.openFoodFactsTimeoutMillis,
-                    openFoodFactsTimeoutMillis) ||
+            (identical(other.openFoodFactsTimeoutMillis, openFoodFactsTimeoutMillis) ||
                 other.openFoodFactsTimeoutMillis ==
                     openFoodFactsTimeoutMillis) &&
             (identical(other.contactEmail, contactEmail) ||
@@ -281,7 +295,10 @@ class _AppConfig implements AppConfig {
             (identical(other.emailVerificationCooldownDurationSecs,
                     emailVerificationCooldownDurationSecs) ||
                 other.emailVerificationCooldownDurationSecs ==
-                    emailVerificationCooldownDurationSecs));
+                    emailVerificationCooldownDurationSecs) &&
+            (identical(
+                    other.recentLookbackDurationSecs, recentLookbackDurationSecs) ||
+                other.recentLookbackDurationSecs == recentLookbackDurationSecs));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -298,11 +315,12 @@ class _AppConfig implements AppConfig {
       unlockAdTimeoutMillis,
       unlockWithAdDurationMins,
       adsEnabled,
-      emailVerificationCooldownDurationSecs);
+      emailVerificationCooldownDurationSecs,
+      recentLookbackDurationSecs);
 
   @override
   String toString() {
-    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, interstitialAdUnitId: $interstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, unlockAdUnitId: $unlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, adsEnabled: $adsEnabled, emailVerificationCooldownDurationSecs: $emailVerificationCooldownDurationSecs)';
+    return 'AppConfig(openFoodFactsBaseUrl: $openFoodFactsBaseUrl, openFoodFactsTimeoutMillis: $openFoodFactsTimeoutMillis, contactEmail: $contactEmail, interstitialAdUnitId: $interstitialAdUnitId, interstitialAdTimeoutMillis: $interstitialAdTimeoutMillis, interstitialAdCooldownDurationMins: $interstitialAdCooldownDurationMins, unlockAdUnitId: $unlockAdUnitId, unlockAdTimeoutMillis: $unlockAdTimeoutMillis, unlockWithAdDurationMins: $unlockWithAdDurationMins, adsEnabled: $adsEnabled, emailVerificationCooldownDurationSecs: $emailVerificationCooldownDurationSecs, recentLookbackDurationSecs: $recentLookbackDurationSecs)';
   }
 }
 
@@ -325,7 +343,8 @@ abstract mixin class _$AppConfigCopyWith<$Res>
       int unlockAdTimeoutMillis,
       int unlockWithAdDurationMins,
       bool adsEnabled,
-      int emailVerificationCooldownDurationSecs});
+      int emailVerificationCooldownDurationSecs,
+      int recentLookbackDurationSecs});
 }
 
 /// @nodoc
@@ -351,6 +370,7 @@ class __$AppConfigCopyWithImpl<$Res> implements _$AppConfigCopyWith<$Res> {
     Object? unlockWithAdDurationMins = null,
     Object? adsEnabled = null,
     Object? emailVerificationCooldownDurationSecs = null,
+    Object? recentLookbackDurationSecs = null,
   }) {
     return _then(_AppConfig(
       openFoodFactsBaseUrl: null == openFoodFactsBaseUrl
@@ -398,6 +418,10 @@ class __$AppConfigCopyWithImpl<$Res> implements _$AppConfigCopyWith<$Res> {
               emailVerificationCooldownDurationSecs
           ? _self.emailVerificationCooldownDurationSecs
           : emailVerificationCooldownDurationSecs // ignore: cast_nullable_to_non_nullable
+              as int,
+      recentLookbackDurationSecs: null == recentLookbackDurationSecs
+          ? _self.recentLookbackDurationSecs
+          : recentLookbackDurationSecs // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }

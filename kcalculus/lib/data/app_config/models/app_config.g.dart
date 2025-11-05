@@ -23,7 +23,10 @@ _AppConfig _$AppConfigFromJson(Map<String, dynamic> json) => _AppConfig(
       adsEnabled: json['adsEnabled'] as bool,
       emailVerificationCooldownDurationSecs:
           (json['emailVerificationCooldownDurationSecs'] as num?)?.toInt() ??
-              60,
+              kDefaultEmailVerificationCooldownDurationSecs,
+      recentLookbackDurationSecs:
+          (json['recentLookbackDurationSecs'] as num?)?.toInt() ??
+              kDefaultRecentLookbackDurationSecs,
     );
 
 Map<String, dynamic> _$AppConfigToJson(_AppConfig instance) =>
@@ -41,4 +44,5 @@ Map<String, dynamic> _$AppConfigToJson(_AppConfig instance) =>
       'adsEnabled': instance.adsEnabled,
       'emailVerificationCooldownDurationSecs':
           instance.emailVerificationCooldownDurationSecs,
+      'recentLookbackDurationSecs': instance.recentLookbackDurationSecs,
     };

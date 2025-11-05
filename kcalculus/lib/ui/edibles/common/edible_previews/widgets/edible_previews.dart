@@ -39,11 +39,12 @@ class EdiblePreviews extends StatelessWidget {
       onRefresh: onRefresh,
       noItemsMessage: noItemsMessage,
       onDeleteItem: onDeleteItem,
-      deletableTest: (item) => item.type != EdiblePreviewType.usda,
+      deletableTest: (item) =>
+          item.type != EdiblePreviewType.usda && item.deletedAt == null,
       confirmDeleteMessage: confirmDeleteMessage,
       itemBuilder: (context, item) => EdiblePreviewItem(
         preview: item,
-        onSelectPreview: onSelectItem,
+        onSelectPreview: item.deletedAt == null ? onSelectItem : (_) {},
       ),
     );
   }
