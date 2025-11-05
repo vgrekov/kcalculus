@@ -176,16 +176,6 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
     );
   }
 
-  @override
-  Map<String, dynamic> toJson() {
-    final json = _$EdibleFirestoreModelToJson(this as _EdibleFirestoreModel);
-
-    json['name_lower'] = name.toLowerCase();
-    json['description_lower'] = description.toLowerCase();
-
-    return json;
-  }
-
   Food? toFood() {
     if (type != EdibleType.food) {
       return null;
