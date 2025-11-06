@@ -22,10 +22,8 @@ class FirestoreEdibleSearchService extends Notifier<void> {
     final request = SearchForHits(
       indexName: 'edibles_index',
       query: query,
-      hitsPerPage: pageConfig?.size,
-      page: pageConfig == null
-          ? null
-          : ((pageConfig.offset ?? 0) / pageConfig.size).floor(),
+      length: pageConfig?.size,
+      offset: pageConfig?.offset,
     );
 
     final response = await client.searchIndex(request: request);
