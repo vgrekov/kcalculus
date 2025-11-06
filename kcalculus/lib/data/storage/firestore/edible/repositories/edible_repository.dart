@@ -56,6 +56,7 @@ class FirestoreEdibleRepository extends EdibleRepository {
           final searchResults = await _search(
             query,
             userId: user.uid,
+            pageConfig: pageConfig,
           );
 
           final recents = await _recents(
