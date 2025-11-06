@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/edible/models/edible_preview.dart';
+import 'package:kcalculus/ui/common/tags/deleted_tag.dart';
+import 'package:kcalculus/ui/common/tags/recent_tag.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/string_ext.dart';
@@ -69,24 +71,14 @@ class EdiblePreviewItemHeader extends StatelessWidget {
             ),
           ),
         if (deleted)
-          Padding(
-            padding: const EdgeInsets.only(right: 4),
-            child: Text(
-              l10n(context).edibleDeleted,
-              style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-            ),
+          const Padding(
+            padding: EdgeInsets.only(right: 4),
+            child: DeletedTag(),
           ),
         if (recent)
-          Padding(
-            padding: const EdgeInsets.only(right: 4),
-            child: Text(
-              l10n(context).edibleRecent,
-              style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-            ),
+          const Padding(
+            padding: EdgeInsets.only(right: 4),
+            child: RecentTag(),
           ),
         if (showEdibleType)
           Text(

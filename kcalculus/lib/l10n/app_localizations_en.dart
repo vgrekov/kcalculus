@@ -1103,12 +1103,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get messageLogoutConfirmation => 'Are you sure you want to log out?';
 
   @override
-  String get edibleRecent => 'RECENT';
-
-  @override
-  String get edibleDeleted => 'DELETED';
-
-  @override
   String get edibleTypeFood => 'Food';
 
   @override
@@ -1155,4 +1149,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String mealEatenAt(String time) {
     return 'Eaten at $time';
   }
+
+  @override
+  String get tagRecent => 'RECENT';
+
+  @override
+  String get tagDeleted => 'DELETED';
 }

@@ -1975,18 +1975,6 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to log out?'**
   String get messageLogoutConfirmation;
 
-  /// No description provided for @edibleRecent.
-  ///
-  /// In en, this message translates to:
-  /// **'RECENT'**
-  String get edibleRecent;
-
-  /// No description provided for @edibleDeleted.
-  ///
-  /// In en, this message translates to:
-  /// **'DELETED'**
-  String get edibleDeleted;
-
   /// No description provided for @edibleTypeFood.
   ///
   /// In en, this message translates to:
@@ -2046,6 +2034,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Eaten at {time}'**
   String mealEatenAt(String time);
+
+  /// No description provided for @tagRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'RECENT'**
+  String get tagRecent;
+
+  /// No description provided for @tagDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETED'**
+  String get tagDeleted;
 }
 
 class _AppLocalizationsDelegate

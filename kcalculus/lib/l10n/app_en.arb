@@ -599,8 +599,6 @@
         }
     },
     "messageLogoutConfirmation": "Are you sure you want to log out?",
-    "edibleRecent": "RECENT",
-    "edibleDeleted": "DELETED",
     "edibleTypeFood": "Food",
     "edibleTypeDish": "Dish",
     "edibleTypeUsda": "USDA",
@@ -640,5 +638,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "tagRecent": "RECENT",
+    "tagDeleted": "DELETED"
 }
