@@ -19,6 +19,28 @@ class LocalFoodContainerDao extends Notifier<void> {
   LocalFoodContainerConverter get _converter =>
       ref.read(localFoodContainerConverterProvider.notifier);
 
+  Future<List<FoodContainer>> getAll({
+    PageConfig<FoodContainer>? pageConfig,
+    Transaction? txn,
+  }) {
+    return _service
+        .all(
+          pageConfig: pageConfig == null
+              ? null
+              : PageConfig<FoodContainerDbModel>(
+                  size: pageConfig.size,
+                  offset: pageConfig.offset,
+                  startAfter: pageConfig.startAfter == null
+                      ? null
+                      : _converter.toDbModel(pageConfig.startAfter!),
+                ),
+          txn: txn,
+        )
+        .then(
+          (data) => data.map(_converter.toModel).toList(),
+        );
+  }
+
   Future<List<FoodContainer>> search(
     String? query, {
     PageConfig<FoodContainer>? pageConfig,

@@ -11,6 +11,10 @@ import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/dish/models/food_container.dart';
 
 abstract class FoodContainerRepository extends ChangeSignalNotifier {
+  Future<List<FoodContainer>> getAll({
+    PageConfig<FoodContainer>? pageConfig,
+  });
+
   Future<List<FoodContainer>> search(
     String? query, {
     PageConfig<FoodContainer>? pageConfig,
@@ -43,6 +47,17 @@ class _FoodContainerRepository extends FoodContainerRepository
             StorageType.local => localFoodContainerRepositoryProvider,
             StorageType.firestore => firestoreFoodContainerRepositoryProvider,
           };
+
+  @override
+  Future<List<FoodContainer>> getAll({
+    PageConfig<FoodContainer>? pageConfig,
+  }) async {
+    final provider = await delegateProvider;
+
+    return ref.read(provider.notifier).getAll(
+          pageConfig: pageConfig,
+        );
+  }
 
   @override
   Future<List<FoodContainer>> search(

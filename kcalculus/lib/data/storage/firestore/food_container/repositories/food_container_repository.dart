@@ -1,156 +1,186 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/app_config/models/app_config.dart';
+import 'package:kcalculus/data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/data/auth/utils/auth.dart';
 import 'package:kcalculus/data/storage/_common/repositories/food_container_repository.dart';
-import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/food_container/models/food_container_firestore_model.dart';
+import 'package:kcalculus/data/storage/firestore/food_container/services/food_container_search_service.dart';
+import 'package:kcalculus/data/storage/firestore/food_container/services/food_container_service.dart';
+import 'package:kcalculus/data/storage/firestore/user_data/services/user_data_service.dart';
+import 'package:kcalculus/domain/_common/exceptions/search_not_configured_exception.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/dish/models/food_container.dart';
 
 class FirestoreFoodContainerRepository extends FoodContainerRepository {
-  FirebaseFirestore get _db => FirebaseFirestore.instance;
+  FirestoreFoodContainerService get _foodContainerService =>
+      ref.read(firestoreFoodContainerService.notifier);
+
+  FirestoreFoodContainerSearchService get _foodContainerSearchService =>
+      ref.read(firestoreFoodContainerSearchService.notifier);
+
+  @override
+  Future<List<FoodContainer>> getAll({
+    PageConfig<FoodContainer>? pageConfig,
+  }) =>
+      Auth.guard(
+        (user) => _foodContainerService
+            .all(
+              userId: user.uid,
+              pageConfig: pageConfig == null
+                  ? null
+                  : PageConfig<FoodContainerFirestoreModel>(
+                      size: pageConfig.size,
+                      offset: pageConfig.offset,
+                      startAfter: pageConfig.startAfter == null
+                          ? null
+                          : FoodContainerFirestoreModel.fromDomain(
+                              pageConfig.startAfter!,
+                              user.uid,
+                            ),
+                    ),
+            )
+            .then(
+              (results) => results.map((r) => r.toDomain()).toList(),
+            ),
+      );
 
   @override
   Future<List<FoodContainer>> search(
     String? query, {
     PageConfig<FoodContainer>? pageConfig,
-  }) {
-    return Auth.guard((user) async {
-      var query = _db
-          .collection(FoodContainerFirestoreModel.kCollection)
-          .where('ownerId', isEqualTo: user.uid)
-          .where('deletedAt', isNull: true)
-          .orderBy('updatedAt', descending: true)
-          .orderBy(FieldPath.documentId, descending: true)
-          .withConverter<FoodContainerFirestoreModel>(
-            fromFirestore: (snapshot, _) =>
-                FoodContainerFirestoreModel.fromJson(
-              {
-                'id': snapshot.id,
-                ...snapshot.data()!,
-              },
-            ),
-            toFirestore: (model, _) => model.toJson(),
+  }) =>
+      Auth.guard(
+        (user) async {
+          final searchResults = await _search(
+            query,
+            userId: user.uid,
+            pageConfig: pageConfig,
           );
 
-      if (pageConfig != null) {
-        query = query.limit(pageConfig.size);
-        if (pageConfig.startAfter != null) {
-          query = query.startAfter([
-            dateToTimestamp(pageConfig.startAfter!.updatedAt),
-            pageConfig.startAfter!.id,
-          ]);
-        }
-      }
+          final recents = await _recents(
+            userId: user.uid,
+          );
 
-      final snapshot = await query.get();
+          final recentsById = {
+            for (final model in recents) model.id: model,
+          };
 
-      return snapshot.docs.map((s) => s.data().toDomain()).toList();
-    });
-  }
+          final syncedSearchResults = searchResults
+              .map(
+                (model) => recentsById.remove(model.id) ?? model,
+              )
+              .toList();
 
-  @override
-  Future<FoodContainer?> getById(String id) {
-    return Auth.guard((user) async {
-      final snapshot = await _db
-          .collection(FoodContainerFirestoreModel.kCollection)
-          .doc(id)
-          .get();
+          final isFirstPage =
+              (pageConfig?.offset ?? 0) == 0 && pageConfig?.startAfter == null;
 
-      final data = snapshot.data();
+          return [
+            if (isFirstPage)
+              ...recents
+                  .where(
+                    (model) =>
+                        recentsById.containsKey(model.id) &&
+                        model.deletedAt == null,
+                  )
+                  .map((r) => r.toDomain(true)),
+            ...syncedSearchResults.map((r) => r.toDomain()),
+          ];
+        },
+      );
 
-      return data == null
+  Future<List<FoodContainerFirestoreModel>> _search(
+    String? query, {
+    required String userId,
+    PageConfig<FoodContainer>? pageConfig,
+  }) async {
+    final userData = await ref
+        .read(firestoreUserDataServiceProvider.notifier)
+        .getById(userId);
+
+    if (userData?.searchConfig == null) {
+      throw SearchNotConfiguredException();
+    }
+
+    return _foodContainerSearchService.search(
+      query,
+      userId: userId,
+      searchAppId: userData!.searchConfig!.appId,
+      searchApiKey: userData.searchConfig!.apiKey,
+      pageConfig: pageConfig == null
           ? null
-          : FoodContainerFirestoreModel.fromJson(
-              {
-                'id': snapshot.id,
-                ...data,
-              },
-            ).toDomain();
-    });
+          : PageConfig<FoodContainerFirestoreModel>(
+              size: pageConfig.size,
+              offset: pageConfig.offset,
+              startAfter: pageConfig.startAfter == null
+                  ? null
+                  : FoodContainerFirestoreModel.fromDomain(
+                      pageConfig.startAfter!,
+                      userId,
+                    ),
+            ),
+    );
+  }
+
+  Future<List<FoodContainerFirestoreModel>> _recents({
+    required String userId,
+  }) async {
+    final appConfig = await ref.read(appConfigServiceProvider.future);
+
+    return _foodContainerService.recent(
+      userId: userId,
+      lookbackDuration: Duration(
+        seconds: appConfig?.recentLookbackDurationSecs ??
+            kDefaultRecentLookbackDurationSecs,
+      ),
+    );
   }
 
   @override
-  Future<FoodContainer> save(FoodContainer container) {
-    return Auth.guard((user) async {
-      final fsModel = FoodContainerFirestoreModel.fromDomain(
-        container,
-        user.uid,
-      );
+  Future<FoodContainer?> getById(String id) => Auth.guard(
+        (user) async {
+          final fsModel = await _foodContainerService.get(id);
 
-      final collectionRef =
-          _db.collection(FoodContainerFirestoreModel.kCollection);
-      DocumentReference<Map<String, dynamic>> docRef;
-      if (fsModel.id == null) {
-        docRef = await collectionRef.add(
-          {
-            ...fsModel.toJson(),
-            'createdAt': FieldValue.serverTimestamp(),
-            'updatedAt': FieldValue.serverTimestamp(),
-            'deletedAt': null,
-          },
-        );
-      } else {
-        docRef = collectionRef.doc(fsModel.id);
-        await docRef.update(
-          {
-            ...fsModel.toJson(),
-            'updatedAt': FieldValue.serverTimestamp(),
-          },
-        );
-      }
-
-      emitChangeSignal();
-
-      final snapshot = await docRef.get();
-
-      return FoodContainerFirestoreModel.fromJson(
-        {
-          'id': snapshot.id,
-          ...snapshot.data()!,
+          return fsModel?.toDomain();
         },
-      ).toDomain();
-    });
-  }
+      );
 
   @override
-  Future<bool> delete(String id) {
-    return Auth.guard((user) async {
-      await _db
-          .collection(FoodContainerFirestoreModel.kCollection)
-          .doc(id)
-          .update(
-        {
-          'deletedAt': DateTime.now().toIso8601String(),
+  Future<FoodContainer> save(FoodContainer container) => Auth.guard(
+        (user) async {
+          final id = await _foodContainerService.save(
+            FoodContainerFirestoreModel.fromDomain(container, user.uid),
+          );
+
+          emitChangeSignal();
+
+          return container.id == id ? container : container.copyWith(id: id);
         },
       );
-
-      emitChangeSignal();
-
-      return true;
-    });
-  }
 
   @override
-  Future<bool> restore(String id) {
-    return Auth.guard((user) async {
-      await _db
-          .collection(FoodContainerFirestoreModel.kCollection)
-          .doc(id)
-          .update(
-        {
-          'deletedAt': null,
+  Future<bool> delete(String id) => Auth.guard(
+        (user) async {
+          final result = await _foodContainerService.delete(id);
+
+          emitChangeSignal();
+
+          return result;
         },
       );
 
-      emitChangeSignal();
+  @override
+  Future<bool> restore(String id) => Auth.guard(
+        (user) async {
+          final result = await _foodContainerService.restore(id);
 
-      return true;
-    });
-  }
+          emitChangeSignal();
+
+          return result;
+        },
+      );
 }
 
 final firestoreFoodContainerRepositoryProvider =

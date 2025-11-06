@@ -16,5 +16,7 @@ sealed class FoodContainer with _$FoodContainer {
     required Amount weight,
     DateTime? createdAt,
     DateTime? updatedAt,
+    DateTime? deletedAt,
+    @Default(false) bool isRecent,
   }) = _FoodContainer;
 }

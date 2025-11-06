@@ -80,12 +80,14 @@ sealed class FoodContainerFirestoreModel with _$FoodContainerFirestoreModel {
         ownerId: ownerId,
       );
 
-  FoodContainer toDomain() => FoodContainer(
+  FoodContainer toDomain([bool isRecent = false]) => FoodContainer(
         id: id,
         name: name,
         description: description,
         weight: weight.toDomain(),
         createdAt: createdAt,
         updatedAt: updatedAt,
+        deletedAt: deletedAt,
+        isRecent: isRecent,
       );
 }

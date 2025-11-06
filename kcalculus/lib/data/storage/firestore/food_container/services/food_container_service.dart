@@ -85,6 +85,27 @@ class FirestoreFoodContainerService extends Notifier<void> {
     return result;
   }
 
+  Future<FoodContainerFirestoreModel?> get(
+    String id, {
+    Transaction? txn,
+  }) async {
+    final executor = FirestoreExecutor(txn);
+
+    final docRef =
+        _db.collection(FoodContainerFirestoreModel.kCollection).doc(id);
+
+    final snapshot = await executor.get(docRef);
+
+    final data = snapshot.data();
+
+    return data == null
+        ? null
+        : FoodContainerFirestoreModel.fromJson({
+            'id': snapshot.id,
+            ...data,
+          });
+  }
+
   Future<String> save(
     FoodContainerFirestoreModel model, {
     bool skipAudit = false,

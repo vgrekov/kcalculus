@@ -1,11 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/dish/models/food_container.dart';
-import 'package:kcalculus/ui/common/view_models/search/search_helper.dart';
-import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
+import 'package:kcalculus/ui/common/view_models/paginator_view_model.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
-import 'package:kcalculus/ui/food_containers/common/view_models/food_container_search_helper.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
@@ -18,21 +19,12 @@ enum FoodContainerListCommand {
 }
 
 class FoodContainerListViewModel
-    extends AutoDisposeNotifier<SearchUiState<FoodContainer>> {
-  static const _kPageSize = 25;
-
+    extends AutoDisposeNotifier<FutureOr<List<FoodContainer>>>
+    with PaginatorViewModel<FoodContainer> {
   UiCommander<FoodContainerListCommand>? _commander;
 
-  late final SearchHelper<FoodContainer> searchHelper =
-      FoodContainerSearchHelper(
-    pageSize: _kPageSize,
-    getRef: () => ref,
-    getState: () => state,
-    setState: (value) => state = value,
-  );
-
   @override
-  SearchUiState<FoodContainer> build() {
+  Future<List<FoodContainer>> build() {
     ref.watch(foodContainerRepositoryProvider);
 
     _commander = UiCommander<FoodContainerListCommand>(_commander);
@@ -41,12 +33,30 @@ class FoodContainerListViewModel
       _commander?.dispose();
     });
 
-    String query = stateOrNull?.searchQuery ?? '';
-
-    return searchHelper.initState(query);
+    return loadPage(firstPageConfig());
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
+
+  @override
+  int get pageSize => 25;
+
+  @override
+  FutureOr<List<FoodContainer>> getData() => state;
+
+  @override
+  void setData(FutureOr<List<FoodContainer>> data) {
+    state = data;
+  }
+
+  @override
+  Future<List<FoodContainer>> loadPage([
+    PageConfig<FoodContainer>? pageConfig,
+  ]) {
+    final repo = ref.read(foodContainerRepositoryProvider.notifier);
+
+    return repo.getAll(pageConfig: pageConfig);
+  }
 
   Future<void> deleteFoodContainer(String id) async {
     _log.finer('deleteFoodContainer() START');
@@ -102,6 +112,6 @@ class FoodContainerListViewModel
 }
 
 final foodContainerListViewModel = NotifierProvider.autoDispose<
-    FoodContainerListViewModel, SearchUiState<FoodContainer>>(
+    FoodContainerListViewModel, FutureOr<List<FoodContainer>>>(
   () => FoodContainerListViewModel(),
 );

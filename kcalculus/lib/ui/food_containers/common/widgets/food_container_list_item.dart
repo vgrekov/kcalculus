@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/dish/models/food_container.dart';
+import 'package:kcalculus/ui/common/tags/deleted_tag.dart';
+import 'package:kcalculus/ui/common/tags/recent_tag.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
@@ -16,19 +18,46 @@ class FoodContainerListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color bgColor;
+    Widget? tag;
+
+    if (container.deletedAt != null) {
+      bgColor = Theme.of(context).colorScheme.surface;
+      tag = const DeletedTag();
+    } else if (container.isRecent) {
+      bgColor = Theme.of(context).colorScheme.surfaceContainerHigh;
+      tag = const RecentTag();
+    } else {
+      bgColor = Theme.of(context).colorScheme.surfaceContainerLow;
+    }
+
+    final title = Text(
+      container.name,
+      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
+
     return ListTile(
       key: ValueKey(container.id),
-      onTap: () {
-        onSelectContainer(container);
-      },
-      title: Text(
-        container.name,
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
+      tileColor: bgColor,
+      onTap: container.deletedAt != null
+          ? null
+          : () {
+              onSelectContainer(container);
+            },
+      title: tag == null
+          ? title
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                tag,
+                title,
+              ],
             ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
       subtitle: container.description.isEmpty
           ? null
           : Text(

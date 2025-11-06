@@ -12,6 +12,47 @@ class LocalFoodContainerService extends Notifier<void> {
   Future<Database> get _database =>
       ref.read(localStorageServiceProvider.future);
 
+  Future<List<FoodContainerDbModel>> all({
+    PageConfig<FoodContainerDbModel>? pageConfig,
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await _database;
+
+    var sql = '''
+      SELECT
+        id,
+        name,
+        description,
+        weight_unit,
+        weight_value,
+        created_at,
+        updated_at
+      FROM
+        food_containers
+      WHERE
+        deleted_at IS NULL
+      ORDER BY
+        CASE
+          WHEN updated_at IS NOT NULL THEN updated_at
+          ELSE created_at
+        END DESC
+      ''';
+
+    var arguments = <Object?>[];
+
+    if (pageConfig != null) {
+      sql += 'LIMIT ? OFFSET ?';
+      arguments.addAll([
+        pageConfig.size,
+        pageConfig.offset ?? 0,
+      ]);
+    }
+
+    return executor
+        .rawQuery(sql, arguments)
+        .then((data) => data.map(FoodContainerDbModel.fromJson).toList());
+  }
+
   Future<List<FoodContainerDbModel>> search(
     String? query, {
     PageConfig<FoodContainerDbModel>? pageConfig,

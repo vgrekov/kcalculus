@@ -12,6 +12,13 @@ class LocalFoodContainerRepository extends FoodContainerRepository {
       ref.read(localFoodContainerDaoProvider.notifier);
 
   @override
+  Future<List<FoodContainer>> getAll({PageConfig<FoodContainer>? pageConfig}) {
+    return _dao.getAll(
+      pageConfig: pageConfig,
+    );
+  }
+
+  @override
   Future<List<FoodContainer>> search(
     String? query, {
     PageConfig<FoodContainer>? pageConfig,

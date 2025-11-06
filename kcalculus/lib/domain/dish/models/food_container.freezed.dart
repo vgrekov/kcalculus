@@ -21,6 +21,8 @@ mixin _$FoodContainer {
   Amount get weight;
   DateTime? get createdAt;
   DateTime? get updatedAt;
+  DateTime? get deletedAt;
+  bool get isRecent;
 
   /// Create a copy of FoodContainer
   /// with the given fields replaced by the non-null parameter values.
@@ -46,17 +48,21 @@ mixin _$FoodContainer {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.isRecent, isRecent) ||
+                other.isRecent == isRecent));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, description, weight, createdAt, updatedAt);
+  int get hashCode => Object.hash(runtimeType, id, name, description, weight,
+      createdAt, updatedAt, deletedAt, isRecent);
 
   @override
   String toString() {
-    return 'FoodContainer(id: $id, name: $name, description: $description, weight: $weight, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'FoodContainer(id: $id, name: $name, description: $description, weight: $weight, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, isRecent: $isRecent)';
   }
 }
 
@@ -72,7 +78,9 @@ abstract mixin class $FoodContainerCopyWith<$Res> {
       String description,
       Amount weight,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      DateTime? deletedAt,
+      bool isRecent});
 
   $AmountCopyWith<$Res> get weight;
 }
@@ -96,6 +104,8 @@ class _$FoodContainerCopyWithImpl<$Res>
     Object? weight = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? deletedAt = freezed,
+    Object? isRecent = null,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -122,6 +132,14 @@ class _$FoodContainerCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      deletedAt: freezed == deletedAt
+          ? _self.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isRecent: null == isRecent
+          ? _self.isRecent
+          : isRecent // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -145,7 +163,9 @@ class _FoodContainer implements FoodContainer {
       required this.description,
       required this.weight,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.deletedAt,
+      this.isRecent = false});
 
   @override
   final String? id;
@@ -159,6 +179,11 @@ class _FoodContainer implements FoodContainer {
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  final DateTime? deletedAt;
+  @override
+  @JsonKey()
+  final bool isRecent;
 
   /// Create a copy of FoodContainer
   /// with the given fields replaced by the non-null parameter values.
@@ -188,17 +213,21 @@ class _FoodContainer implements FoodContainer {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.isRecent, isRecent) ||
+                other.isRecent == isRecent));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, description, weight, createdAt, updatedAt);
+  int get hashCode => Object.hash(runtimeType, id, name, description, weight,
+      createdAt, updatedAt, deletedAt, isRecent);
 
   @override
   String toString() {
-    return 'FoodContainer(id: $id, name: $name, description: $description, weight: $weight, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'FoodContainer(id: $id, name: $name, description: $description, weight: $weight, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, isRecent: $isRecent)';
   }
 }
 
@@ -216,7 +245,9 @@ abstract mixin class _$FoodContainerCopyWith<$Res>
       String description,
       Amount weight,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      DateTime? deletedAt,
+      bool isRecent});
 
   @override
   $AmountCopyWith<$Res> get weight;
@@ -241,6 +272,8 @@ class __$FoodContainerCopyWithImpl<$Res>
     Object? weight = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? deletedAt = freezed,
+    Object? isRecent = null,
   }) {
     return _then(_FoodContainer(
       id: freezed == id
@@ -267,6 +300,14 @@ class __$FoodContainerCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      deletedAt: freezed == deletedAt
+          ? _self.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isRecent: null == isRecent
+          ? _self.isRecent
+          : isRecent // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
