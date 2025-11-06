@@ -19,72 +19,74 @@ class EdiblePreviewItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color bgColor;
     if (preview.deletedAt != null) {
-      bgColor = Colors.transparent;
+      bgColor = Theme.of(context).colorScheme.surface;
     } else if (preview.isRecent) {
       bgColor = Theme.of(context).colorScheme.surfaceContainerHigh;
     } else {
       bgColor = Theme.of(context).colorScheme.surfaceContainerLow;
     }
 
-    return GestureDetector(
-      onTap: () {
-        onSelectPreview(preview);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: bgColor,
-        ),
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      EdiblePreviewItemHeader(
-                        preview: preview,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        preview.name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                if (preview.nutritionFactsPreview != null)
-                  EdiblePreviewItemCalorieContent(
-                    nutritionFactsPreview: preview.nutritionFactsPreview!,
-                  ),
-              ],
-            ),
-            if (preview.description.isNotEmpty)
-              Text(
-                preview.description,
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
+    return InkWell(
+      onTap: preview.deletedAt != null
+          ? null
+          : () {
+              onSelectPreview(preview);
+            },
+      child: Ink(
+        color: bgColor,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        EdiblePreviewItemHeader(
+                          preview: preview,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          preview.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                  ),
+                  if (preview.nutritionFactsPreview != null)
+                    EdiblePreviewItemCalorieContent(
+                      nutritionFactsPreview: preview.nutritionFactsPreview!,
+                    ),
+                ],
               ),
-            if (preview.nutritionFactsPreview != null)
-              EdibleStats(
-                nutritionFactsPreview: preview.nutritionFactsPreview!,
-              ),
-          ],
+              if (preview.description.isNotEmpty)
+                Text(
+                  preview.description,
+                  style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              if (preview.nutritionFactsPreview != null)
+                EdibleStats(
+                  nutritionFactsPreview: preview.nutritionFactsPreview!,
+                ),
+            ],
+          ),
         ),
       ),
     );

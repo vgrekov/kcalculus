@@ -34,46 +34,47 @@ class PagedListItem<Model> extends StatelessWidget with WidgetMessenger {
     final itemWidget = itemBuilder(context, item);
 
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: listStyle?.itemBorderRadius,
-      ),
-      clipBehavior: Clip.antiAlias,
       margin: (listStyle?.horizontalGap ?? 0) > 0
           ? EdgeInsets.symmetric(
               horizontal: listStyle!.horizontalGap,
             )
           : null,
-      child: onDeleteItem == null || !(deletableTest?.call(item) ?? true)
-          ? itemWidget
-          : Dismissible(
-              key: UniqueKey(),
-              direction: DismissDirection.endToStart,
-              confirmDismiss: (direction) async {
-                return await showConfirmation(
-                      context,
-                      confirmDeleteMessage?.call(item) ??
-                          l10n(context).messageDeletionConfirmation,
-                    ) ??
-                    false;
-              },
-              onDismissed: (direction) {
-                onDeleteItem!(item);
-              },
-              background: Container(
-                color: Theme.of(context).colorScheme.tertiaryContainer,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).colorScheme.onTertiaryContainer,
+      child: Material(
+        borderRadius: listStyle?.itemBorderRadius,
+        clipBehavior: Clip.antiAlias,
+        child: onDeleteItem == null || !(deletableTest?.call(item) ?? true)
+            ? itemWidget
+            : Dismissible(
+                key: UniqueKey(),
+                direction: DismissDirection.endToStart,
+                confirmDismiss: (direction) async {
+                  return await showConfirmation(
+                        context,
+                        confirmDeleteMessage?.call(item) ??
+                            l10n(context).messageDeletionConfirmation,
+                      ) ??
+                      false;
+                },
+                onDismissed: (direction) {
+                  onDeleteItem!(item);
+                },
+                background: Container(
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Icon(
+                        Icons.delete,
+                        color:
+                            Theme.of(context).colorScheme.onTertiaryContainer,
+                      ),
                     ),
                   ),
                 ),
+                child: itemWidget,
               ),
-              child: itemWidget,
-            ),
+      ),
     );
   }
 }
