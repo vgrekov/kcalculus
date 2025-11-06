@@ -8,10 +8,10 @@ import 'package:kcalculus/domain/edible/models/edible.dart';
 import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 import 'package:kcalculus/domain/edible/use_cases/edible_use_case.dart';
 import 'package:kcalculus/ui/common/view_models/paginator_view_model.dart';
+import 'package:kcalculus/ui/common/view_models/search_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/search_view_model.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
-import 'package:kcalculus/ui/edibles/search/view_models/edible_search_ui_state.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('EdibleSearchViewModel');
@@ -22,12 +22,12 @@ enum EdibleSearchCommand {
 }
 
 class EdibleSearchViewModel
-    extends AutoDisposeFamilyNotifier<EdibleSearchUiState, String>
+    extends AutoDisposeFamilyNotifier<SearchUiState<EdiblePreview>, String>
     with PaginatorViewModel<EdiblePreview>, SearchViewModel<EdiblePreview> {
   UiCommander<EdibleSearchCommand>? _commander;
 
   @override
-  EdibleSearchUiState build(String arg) {
+  SearchUiState<EdiblePreview> build(String arg) {
     _commander = UiCommander<EdibleSearchCommand>(_commander);
 
     ref.onDispose(() {
@@ -35,7 +35,7 @@ class EdibleSearchViewModel
       searchController.dispose();
     });
 
-    return EdibleSearchUiState(
+    return SearchUiState<EdiblePreview>(
       query: arg,
       data: search(
         arg,
@@ -134,6 +134,6 @@ class EdibleSearchViewModel
 }
 
 final edibleSearchViewModel = NotifierProvider.autoDispose
-    .family<EdibleSearchViewModel, EdibleSearchUiState, String>(
+    .family<EdibleSearchViewModel, SearchUiState<EdiblePreview>, String>(
   () => EdibleSearchViewModel(),
 );
