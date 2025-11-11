@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:kcalculus/ui/common/paged_list_view/widgets/paged_list_data.dart';
 import 'package:kcalculus/ui/common/paged_list_view/widgets/paged_list_empty.dart';
 import 'package:kcalculus/ui/common/paged_list_view/widgets/paged_list_error.dart';
 import 'package:kcalculus/ui/common/paged_list_view/widgets/paged_list_loading.dart';
 import 'package:kcalculus/ui/common/themes/list_style.dart';
-import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
 import 'package:logging/logging.dart';
 
@@ -51,71 +49,22 @@ class PagedListView<Model> extends StatefulWidget {
   }
 }
 
-class _PagedListViewState<Model> extends State<PagedListView<Model>>
-    with StateMessenger {
-  final _scrollController = ScrollController();
-
-  Future<dynamic>? _nextPageLoader;
-
-  bool _isNextPageLoading = false;
-
-  bool _isEndReached = false;
-
-  @override
-  void initState() {
-    _scrollController.addListener(_onScroll);
-
-    super.initState();
-  }
-
-  void _onScroll() {
-    if (widget.onLoadNextPage == null ||
-        _isNextPageLoading ||
-        _isEndReached ||
-        !_scrollController.hasClients ||
-        _scrollController.position.userScrollDirection ==
-            ScrollDirection.forward) {
-      return;
-    }
-
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 100) {
-      _loadNextPage();
-    }
-  }
-
-  void _loadNextPage() {
-    _isNextPageLoading = true;
-    setState(() {
-      _nextPageLoader = widget.onLoadNextPage?.call().then(
-        (data) {
-          _isEndReached = data.isEmpty;
-        },
-      ).whenComplete(
-        () {
-          Future.delayed(
-            const Duration(milliseconds: 100),
-            () {
-              _isNextPageLoading = false;
-            },
-          );
-        },
-      );
-    });
-  }
+class _PagedListViewState<Model> extends State<PagedListView<Model>> {
+  PageStorageBucket _pageStorageBucket = PageStorageBucket();
 
   Future<void> _refresh() async {
     await widget.onRefresh?.call().then((_) {
-      _isEndReached = false;
+      _pageStorageBucket = PageStorageBucket();
     });
   }
 
   @override
-  void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
+  void didUpdateWidget(covariant PagedListView<Model> oldWidget) {
+    if (widget.items is Future) {
+      _pageStorageBucket = PageStorageBucket();
+    }
 
-    super.dispose();
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -132,11 +81,10 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
           ? PagedListData(
               items: data!,
               itemBuilder: widget.itemBuilder,
-              nextPageLoader: _nextPageLoader,
+              onLoadNextPage: widget.onLoadNextPage,
               onDeleteItem: widget.onDeleteItem,
               deletableTest: widget.deletableTest,
               confirmDeleteMessage: widget.confirmDeleteMessage,
-              scrollController: _scrollController,
               listStyle: widget.listStyle,
             )
           : PagedListEmpty(
@@ -144,14 +92,17 @@ class _PagedListViewState<Model> extends State<PagedListView<Model>>
             ),
     );
 
-    return widget.onRefresh == null
-        ? content
-        : RefreshIndicator(
-            onRefresh: _refresh,
-            backgroundColor:
-                Theme.of(context).colorScheme.surfaceContainerHighest,
-            color: Theme.of(context).colorScheme.primary,
-            child: content,
-          );
+    return PageStorage(
+      bucket: _pageStorageBucket,
+      child: widget.onRefresh == null
+          ? content
+          : RefreshIndicator(
+              onRefresh: _refresh,
+              backgroundColor:
+                  Theme.of(context).colorScheme.surfaceContainerHighest,
+              color: Theme.of(context).colorScheme.primary,
+              child: content,
+            ),
+    );
   }
 }

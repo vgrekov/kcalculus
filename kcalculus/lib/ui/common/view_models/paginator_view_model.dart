@@ -27,10 +27,12 @@ mixin PaginatorViewModel<Model> {
       ),
     );
 
-    setData([
-      ...data,
-      ...nextPage,
-    ]);
+    if (nextPage.isNotEmpty) {
+      setData([
+        ...data,
+        ...nextPage,
+      ]);
+    }
 
     return nextPage;
   }
