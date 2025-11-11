@@ -17,6 +17,7 @@ class NutrientSearchListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       key: ValueKey(item.name),
+      tileColor: Theme.of(context).colorScheme.surfaceContainerLow,
       onTap: () {
         onSelectItem?.call(item);
       },

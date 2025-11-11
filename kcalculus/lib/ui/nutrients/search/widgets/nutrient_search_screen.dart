@@ -34,7 +34,7 @@ class _NutrientSearchScreenState extends ConsumerState<NutrientSearchScreen>
   void initState() {
     var uiState = ref.read(nutrientSearchViewModel(widget.viewModelArg));
 
-    _searchController.text = uiState.searchQuery;
+    _searchController.text = uiState.query;
 
     super.initState();
   }
@@ -72,7 +72,7 @@ class _NutrientSearchScreenState extends ConsumerState<NutrientSearchScreen>
     final uiState = ref.watch(nutrientSearchViewModel(widget.viewModelArg));
 
     ref.listen(nutrientSearchViewModel(widget.viewModelArg), (prev, next) {
-      _searchController.text = next.searchQuery;
+      _searchController.text = next.query;
     });
 
     return Scaffold(
