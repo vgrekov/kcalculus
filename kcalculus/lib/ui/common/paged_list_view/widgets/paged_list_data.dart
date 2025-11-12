@@ -122,12 +122,23 @@ class _PagedListDataState<Model> extends State<PagedListData<Model>> {
     final listStyle =
         widget.listStyle ?? Theme.of(context).extension<ListStyle>();
 
+    Widget? verticalGap;
+    if ((listStyle?.verticalGap ?? 0) > 0) {
+      verticalGap = SliverToBoxAdapter(
+        child: SizedBox(
+          height: listStyle?.verticalGap,
+        ),
+      );
+    }
+
     return CustomScrollView(
       key: const PageStorageKey('paged-list-scroll'),
       controller: _scrollController,
       physics: AlwaysScrollableScrollPhysics(),
       slivers: [
+        if (verticalGap != null) verticalGap,
         SliverList.separated(
+          itemCount: widget.items.length,
           itemBuilder: (context, index) => PagedListItem(
             item: widget.items[index],
             itemBuilder: widget.itemBuilder,
@@ -139,8 +150,8 @@ class _PagedListDataState<Model> extends State<PagedListData<Model>> {
           separatorBuilder: (_, __) => (listStyle?.verticalGap ?? 0) > 0
               ? SizedBox(height: listStyle!.verticalGap)
               : const SizedBox.shrink(),
-          itemCount: widget.items.length,
         ),
+        if (verticalGap != null) verticalGap,
         PagedListLoaderItem(pageLoader: _nextPageLoader),
       ],
     );
