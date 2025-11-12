@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/dish/models/ingredient.dart';
-import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
+import 'package:kcalculus/ui/common/themes/list_style.dart';
 import 'package:kcalculus/ui/common/widgets/ingredient_list_item.dart';
-import 'package:kcalculus/utils/l10n.dart';
 
-class IngredientList extends StatelessWidget with WidgetMessenger {
+class IngredientList extends StatelessWidget {
   final List<Ingredient> ingredients;
   final void Function(Ingredient ingredient, int index)? onSelectIngredient;
   final void Function(Ingredient ingredient, int index)? onDeleteIngredient;
@@ -18,51 +17,30 @@ class IngredientList extends StatelessWidget with WidgetMessenger {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    final listStyle = Theme.of(context).extension<ListStyle>();
+
+    return ListView.separated(
       itemCount: ingredients.length,
+      padding: EdgeInsets.symmetric(vertical: listStyle?.verticalGap ?? 0),
+      separatorBuilder: (_, __) => (listStyle?.verticalGap ?? 0) > 0
+          ? SizedBox(height: listStyle!.verticalGap)
+          : const SizedBox.shrink(),
       itemBuilder: (context, index) {
         final ingredient = ingredients[index];
 
-        final ingredientListItem = IngredientListItem(
+        return IngredientListItem(
           ingredient: ingredient,
           onSelectIngredient: onSelectIngredient == null
               ? null
               : (ingredient) {
                   onSelectIngredient!(ingredient, index);
                 },
-        );
-
-        return onDeleteIngredient == null
-            ? ingredientListItem
-            : Dismissible(
-                key: UniqueKey(),
-                direction: DismissDirection.endToStart,
-                confirmDismiss: (direction) async {
-                  return await showConfirmation(
-                        context,
-                        l10n(context).messageIngredientDeletionConfirmation,
-                      ) ??
-                      false;
-                },
-                onDismissed: (direction) {
+          onDeleteIngredient: onDeleteIngredient == null
+              ? null
+              : (ingredient) {
                   onDeleteIngredient!(ingredient, index);
                 },
-                background: Container(
-                  color: Theme.of(context).colorScheme.tertiaryContainer,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Icon(
-                        Icons.delete,
-                        color:
-                            Theme.of(context).colorScheme.onTertiaryContainer,
-                      ),
-                    ),
-                  ),
-                ),
-                child: ingredientListItem,
-              );
+        );
       },
     );
   }
