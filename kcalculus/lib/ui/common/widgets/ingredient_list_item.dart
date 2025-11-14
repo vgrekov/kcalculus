@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/dish/models/ingredient.dart';
 import 'package:kcalculus/ui/common/themes/list_style.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
+import 'package:kcalculus/ui/common/widgets/deletable.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
@@ -92,33 +93,13 @@ class IngredientListItem extends StatelessWidget with WidgetMessenger {
         clipBehavior: Clip.antiAlias,
         child: onDeleteIngredient == null
             ? tile
-            : Dismissible(
+            : Deletable(
                 key: UniqueKey(),
-                direction: DismissDirection.endToStart,
-                confirmDismiss: (direction) async {
-                  return await showConfirmation(
-                        context,
-                        l10n(context).messageIngredientDeletionConfirmation,
-                      ) ??
-                      false;
-                },
-                onDismissed: (direction) {
+                confirmMessage:
+                    l10n(context).messageIngredientDeletionConfirmation,
+                onDeleted: () {
                   onDeleteIngredient!(ingredient);
                 },
-                background: Container(
-                  color: Theme.of(context).colorScheme.tertiaryContainer,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Icon(
-                        Icons.delete,
-                        color:
-                            Theme.of(context).colorScheme.onTertiaryContainer,
-                      ),
-                    ),
-                  ),
-                ),
                 child: tile,
               ),
       ),
