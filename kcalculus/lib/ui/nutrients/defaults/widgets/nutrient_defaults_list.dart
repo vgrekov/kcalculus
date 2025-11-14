@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/ui/common/themes/list_style.dart';
 import 'package:kcalculus/ui/nutrients/defaults/widgets/nutrient_defaults_list_item.dart';
 
 class NutrientDefaultsList extends StatelessWidget {
@@ -18,8 +19,17 @@ class NutrientDefaultsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final listStyle = Theme.of(context).extension<ListStyle>();
+
     return ReorderableListView.builder(
       buildDefaultDragHandles: false,
+      padding: listStyle == null
+          ? null
+          : EdgeInsets.only(
+              left: listStyle.horizontalGap,
+              right: listStyle.horizontalGap,
+              top: listStyle.verticalGap,
+            ),
       onReorder: onReorderItems,
       itemCount: items.length,
       itemBuilder: (context, index) {
@@ -29,6 +39,12 @@ class NutrientDefaultsList extends StatelessWidget {
           item: item,
           index: index,
           onDeleteItem: onDeleteItem,
+        );
+      },
+      proxyDecorator: (child, _, __) {
+        return Material(
+          color: Colors.transparent,
+          child: child,
         );
       },
     );
