@@ -82,27 +82,20 @@ class IngredientListItem extends StatelessWidget with WidgetMessenger {
 
     final tile = _buildTile(context);
 
-    return Container(
-      margin: (listStyle?.horizontalGap ?? 0) > 0
-          ? EdgeInsets.symmetric(
-              horizontal: listStyle!.horizontalGap,
-            )
-          : null,
-      child: Material(
-        borderRadius: listStyle?.itemBorderRadius,
-        clipBehavior: Clip.antiAlias,
-        child: onDeleteIngredient == null
-            ? tile
-            : Deletable(
-                key: UniqueKey(),
-                confirmMessage:
-                    l10n(context).messageIngredientDeletionConfirmation,
-                onDeleted: () {
-                  onDeleteIngredient!(ingredient);
-                },
-                child: tile,
-              ),
-      ),
+    return Material(
+      borderRadius: listStyle?.itemBorderRadius,
+      clipBehavior: Clip.antiAlias,
+      child: onDeleteIngredient == null
+          ? tile
+          : Deletable(
+              key: UniqueKey(),
+              confirmMessage:
+                  l10n(context).messageIngredientDeletionConfirmation,
+              onDeleted: () {
+                onDeleteIngredient!(ingredient);
+              },
+              child: tile,
+            ),
     );
   }
 }

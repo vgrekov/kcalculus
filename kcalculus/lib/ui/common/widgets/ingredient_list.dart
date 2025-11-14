@@ -21,7 +21,12 @@ class IngredientList extends StatelessWidget {
 
     return ListView.separated(
       itemCount: ingredients.length,
-      padding: EdgeInsets.symmetric(vertical: listStyle?.verticalGap ?? 0),
+      padding: listStyle == null
+          ? null
+          : EdgeInsets.symmetric(
+              vertical: listStyle.verticalGap,
+              horizontal: listStyle.horizontalGap,
+            ),
       separatorBuilder: (_, __) => (listStyle?.verticalGap ?? 0) > 0
           ? SizedBox(height: listStyle!.verticalGap)
           : const SizedBox.shrink(),
