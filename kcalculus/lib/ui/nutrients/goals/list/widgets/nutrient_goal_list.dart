@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
+import 'package:kcalculus/ui/common/themes/list_style.dart';
 import 'package:kcalculus/ui/nutrients/goals/list/widgets/nutrient_goal_list_item.dart';
 
 class NutrientGoalList extends StatelessWidget {
@@ -18,7 +19,18 @@ class NutrientGoalList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    final listStyle = Theme.of(context).extension<ListStyle>();
+
+    return ListView.separated(
+      padding: listStyle == null
+          ? null
+          : EdgeInsets.symmetric(
+              vertical: listStyle.verticalGap,
+              horizontal: listStyle.horizontalGap,
+            ),
+      separatorBuilder: (_, __) => (listStyle?.verticalGap ?? 0) > 0
+          ? SizedBox(height: listStyle!.verticalGap)
+          : const SizedBox.shrink(),
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];
