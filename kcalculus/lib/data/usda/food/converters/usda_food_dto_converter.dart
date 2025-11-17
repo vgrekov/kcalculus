@@ -3,6 +3,7 @@ import 'package:kcalculus/data/usda/food/models/usda_food_db_model.dart';
 import 'package:kcalculus/data/usda/food/models/usda_food_dto_model.dart';
 import 'package:kcalculus/data/usda/nutrient/models/usda_nutrient_db_model.dart';
 import 'package:kcalculus/data/usda/nutrient/models/usda_nutrient_dto_model.dart';
+import 'package:kcalculus/utils/double_ext.dart';
 import 'package:kcalculus/utils/string_ext.dart';
 
 class UsdaFoodDtoConverter extends Notifier<void> {
@@ -42,15 +43,15 @@ class UsdaFoodDtoConverter extends Notifier<void> {
       data_type: dtoModel.dataType,
       priority: dtoModel.priority,
       nf_preview_calories_unit: calories?.unitName,
-      nf_preview_calories_value: calories?.amount,
+      nf_preview_calories_value: calories?.amount.atLeast(0),
       nf_preview_fat_unit: fat?.unitName,
-      nf_preview_fat_value: fat?.amount,
+      nf_preview_fat_value: fat?.amount.atLeast(0),
       nf_preview_carbs_unit: carbs?.unitName,
-      nf_preview_carbs_value: carbs?.amount,
+      nf_preview_carbs_value: carbs?.amount.atLeast(0),
       nf_preview_protein_unit: protein?.unitName,
-      nf_preview_protein_value: protein?.amount,
+      nf_preview_protein_value: protein?.amount.atLeast(0),
       nf_preview_fiber_unit: fiber?.unitName,
-      nf_preview_fiber_value: fiber?.amount,
+      nf_preview_fiber_value: fiber?.amount.atLeast(0),
     );
   }
 
