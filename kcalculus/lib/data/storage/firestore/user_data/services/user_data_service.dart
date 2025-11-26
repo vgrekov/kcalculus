@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/models/user_data_firestore_model.dart';
 
 class FirestoreUserDataService extends Notifier<void> {
@@ -10,9 +11,15 @@ class FirestoreUserDataService extends Notifier<void> {
 
   FirebaseFirestore get _db => FirebaseFirestore.instance;
 
-  Future<UserDataFirestoreModel?> getById(String id) async {
-    final snapshot =
-        await _db.collection(UserDataFirestoreModel.kCollection).doc(id).get();
+  Future<UserDataFirestoreModel?> getById(
+    String id, {
+    Transaction? txn,
+  }) async {
+    final executor = FirestoreExecutor(txn);
+
+    final docRef = _db.collection(UserDataFirestoreModel.kCollection).doc(id);
+
+    final snapshot = await executor.get(docRef);
 
     final data = snapshot.data();
 
@@ -26,11 +33,17 @@ class FirestoreUserDataService extends Notifier<void> {
           );
   }
 
-  Future<void> add(UserDataFirestoreModel model) async {
+  Future<void> add(
+    UserDataFirestoreModel model, {
+    Transaction? txn,
+  }) async {
+    final executor = FirestoreExecutor(txn);
+
     final docRef =
         _db.collection(UserDataFirestoreModel.kCollection).doc(model.id);
 
-    await docRef.set(
+    await executor.set(
+      docRef,
       {
         ...model.toJson(),
         'createdAt': FieldValue.serverTimestamp(),
@@ -40,11 +53,17 @@ class FirestoreUserDataService extends Notifier<void> {
     );
   }
 
-  Future<void> update(UserDataFirestoreModel model) async {
+  Future<void> update(
+    UserDataFirestoreModel model, {
+    Transaction? txn,
+  }) async {
+    final executor = FirestoreExecutor(txn);
+
     final docRef =
         _db.collection(UserDataFirestoreModel.kCollection).doc(model.id);
 
-    await docRef.update(
+    await executor.update(
+      docRef,
       {
         ...model.toJson(),
         'updatedAt': FieldValue.serverTimestamp(),
