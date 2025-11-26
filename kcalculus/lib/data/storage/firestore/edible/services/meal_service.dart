@@ -9,6 +9,17 @@ class FirestoreMealService extends Notifier<void> {
 
   FirebaseFirestore get _db => FirebaseFirestore.instance;
 
+  Future<bool> isEmpty({
+    required String userId,
+  }) async {
+    final snapshot = await _db
+        .collection(MealFirestoreModel.collection(userId))
+        .count()
+        .get();
+
+    return (snapshot.count ?? 0) == 0;
+  }
+
   Future<List<MealFirestoreModel>> getByDate(
     DateTime date, {
     required String userId,

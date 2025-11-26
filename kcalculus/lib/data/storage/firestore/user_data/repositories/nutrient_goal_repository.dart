@@ -11,6 +11,11 @@ class FirestoreNutrientGoalRepository extends NutrientGoalRepository {
       ref.read(firestoreNutrientGoalServiceProvider.notifier);
 
   @override
+  Future<bool> isEmpty() => Auth.guard(
+        (user) => _nutrientGoalService.isEmpty(user.uid),
+      );
+
+  @override
   Future<List<NutrientGoal>> getActiveGoals(DateTime date) {
     return Auth.guard((user) async {
       final fsModels = await _nutrientGoalService.getActiveGoals(

@@ -25,6 +25,13 @@ class LocalMealDao extends Notifier<void> {
   LocalMealConverter get _mealConverter =>
       ref.read(localMealConverterProvider.notifier);
 
+  Future<bool> isEmpty({
+    Transaction? txn,
+  }) =>
+      _mealService.isEmpty(
+        txn: txn,
+      );
+
   Future<List<Meal>> getByDate(
     DateTime date, {
     Transaction? txn,

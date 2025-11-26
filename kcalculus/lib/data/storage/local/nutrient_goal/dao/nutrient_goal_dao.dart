@@ -16,6 +16,13 @@ class LocalNutrientGoalDao extends Notifier<void> {
   LocalNutrientGoalConverter get _nutrientGoalConverter =>
       ref.read(localNutrientGoalConverterProvider.notifier);
 
+  Future<bool> isEmpty({
+    Transaction? txn,
+  }) =>
+      _nutrientGoalService.isEmpty(
+        txn: txn,
+      );
+
   Future<List<NutrientGoal>> getActiveGoals(
     DateTime date, {
     Transaction? txn,

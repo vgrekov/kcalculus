@@ -15,6 +15,18 @@ class FirestoreEdibleService extends Notifier<void> {
 
   FirebaseFirestore get _db => FirebaseFirestore.instance;
 
+  Future<bool> isEmpty({
+    required String userId,
+  }) async {
+    var query = _db
+        .collection(EdibleFirestoreModel.kCollection)
+        .where('ownerId', isEqualTo: userId);
+
+    final snapshot = await query.count().get();
+
+    return (snapshot.count ?? 0) == 0;
+  }
+
   Future<List<EdiblePreviewFirestoreModel>> all({
     required String userId,
     PageConfig<EdiblePreviewFirestoreModel>? pageConfig,

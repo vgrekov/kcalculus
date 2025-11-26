@@ -16,6 +16,13 @@ class LocalEdibleDao extends Notifier<void> {
   LocalEdiblePreviewConverter get _ediblePreviewConverter =>
       ref.read(localEdiblePreviewConverterProvider.notifier);
 
+  Future<bool> isEmpty({
+    Transaction? txn,
+  }) =>
+      _edibleService.isEmpty(
+        txn: txn,
+      );
+
   Future<List<EdiblePreview>> getAll({
     int? limit,
     int? offset,

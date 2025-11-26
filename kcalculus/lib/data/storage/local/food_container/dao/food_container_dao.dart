@@ -19,6 +19,13 @@ class LocalFoodContainerDao extends Notifier<void> {
   LocalFoodContainerConverter get _converter =>
       ref.read(localFoodContainerConverterProvider.notifier);
 
+  Future<bool> isEmpty({
+    Transaction? txn,
+  }) =>
+      _service.isEmpty(
+        txn: txn,
+      );
+
   Future<List<FoodContainer>> getAll({
     PageConfig<FoodContainer>? pageConfig,
     Transaction? txn,

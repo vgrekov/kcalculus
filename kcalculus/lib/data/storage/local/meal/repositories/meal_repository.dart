@@ -10,6 +10,9 @@ class LocalMealRepository extends MealRepository {
   LocalMealDao get _mealDao => ref.read(localMealDaoProvider.notifier);
 
   @override
+  Future<bool> isEmpty() => _mealDao.isEmpty();
+
+  @override
   Future<List<Meal>> getByDate(DateTime date) {
     return _mealDao.getByDate(date);
   }

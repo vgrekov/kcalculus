@@ -12,6 +12,8 @@ abstract class EdibleRepository extends Notifier<void> {
   @override
   void build() {}
 
+  Future<bool> isEmpty();
+
   Future<List<EdiblePreview>> getAll({
     PageConfig<EdiblePreview>? pageConfig,
   });
@@ -41,6 +43,13 @@ class _EdibleRepository extends EdibleRepository
   @override
   void build() {
     buildDependencies();
+  }
+
+  @override
+  Future<bool> isEmpty() async {
+    final provider = await delegateProvider;
+
+    return ref.read(provider.notifier).isEmpty();
   }
 
   @override

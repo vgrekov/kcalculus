@@ -21,6 +21,13 @@ class FirestoreEdibleRepository extends EdibleRepository {
       ref.read(firestoreEdibleSearchServiceProvider.notifier);
 
   @override
+  Future<bool> isEmpty() => Auth.guard(
+        (user) => _edibleService.isEmpty(
+          userId: user.uid,
+        ),
+      );
+
+  @override
   Future<List<EdiblePreview>> getAll({
     PageConfig<EdiblePreview>? pageConfig,
   }) =>

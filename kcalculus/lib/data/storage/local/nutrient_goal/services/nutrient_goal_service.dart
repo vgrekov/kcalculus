@@ -11,6 +11,21 @@ class LocalNutrientGoalService extends Notifier<void> {
   Future<Database> get _database =>
       ref.read(localStorageServiceProvider.future);
 
+  Future<bool> isEmpty({
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await _database;
+
+    return executor.rawQuery(
+      '''
+      SELECT
+        COUNT(id) AS ng_count
+      FROM
+        nutrient_goals
+      ''',
+    ).then((data) => (data.first['ng_count'] as int) == 0);
+  }
+
   Future<List<NutrientGoalDbModel>> getActive(
     DateTime date, {
     Transaction? txn,

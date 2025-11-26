@@ -29,6 +29,13 @@ class FirestoreMealRepository extends MealRepository {
       ref.read(firestoreMealServiceProvider.notifier);
 
   @override
+  Future<bool> isEmpty() => Auth.guard(
+        (user) => _mealService.isEmpty(
+          userId: user.uid,
+        ),
+      );
+
+  @override
   Future<List<Meal>> getByDate(DateTime date) => Auth.guard(
         (user) => _mealService.getByDate(date, userId: user.uid).then(
               (meals) => Future.wait(

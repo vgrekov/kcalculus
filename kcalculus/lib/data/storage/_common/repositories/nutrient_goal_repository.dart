@@ -10,6 +10,8 @@ import 'package:kcalculus/domain/_common/models/change_signal.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
 
 abstract class NutrientGoalRepository extends ChangeSignalNotifier {
+  Future<bool> isEmpty();
+
   Future<List<NutrientGoal>> getActiveGoals(DateTime date);
 
   Future<String> save(NutrientGoal goal);
@@ -36,6 +38,13 @@ class _NutrientGoalRepository extends NutrientGoalRepository
         StorageType.local => localNutrientGoalRepositoryProvider,
         StorageType.firestore => firestoreNutrientGoalRepositoryProvider,
       };
+
+  @override
+  Future<bool> isEmpty() async {
+    final provider = await delegateProvider;
+
+    return ref.read(provider.notifier).isEmpty();
+  }
 
   @override
   Future<List<NutrientGoal>> getActiveGoals(DateTime date) async {

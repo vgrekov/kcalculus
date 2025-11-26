@@ -12,6 +12,21 @@ class LocalEdibleService extends Notifier<void> {
   Future<Database> get _database =>
       ref.read(localStorageServiceProvider.future);
 
+  Future<bool> isEmpty({
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await _database;
+
+    return executor.rawQuery(
+      '''
+      SELECT
+        COUNT(edibles.id) AS edibles_count
+      FROM
+        edibles
+      ''',
+    ).then((data) => (data.first['edibles_count'] as int) == 0);
+  }
+
   Future<List<EdiblePreviewDbModel>> all({
     int? limit,
     int? offset,

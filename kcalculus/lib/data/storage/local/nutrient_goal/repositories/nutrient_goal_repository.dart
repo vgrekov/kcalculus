@@ -11,6 +11,9 @@ class LocalNutrientGoalRepository extends NutrientGoalRepository {
       ref.read(localNutrientGoalDaoProvider.notifier);
 
   @override
+  Future<bool> isEmpty() => _nutrientGoalDao.isEmpty();
+
+  @override
   Future<List<NutrientGoal>> getActiveGoals(DateTime date) {
     return _nutrientGoalDao.getActiveGoals(date);
   }

@@ -12,6 +12,21 @@ class LocalFoodContainerService extends Notifier<void> {
   Future<Database> get _database =>
       ref.read(localStorageServiceProvider.future);
 
+  Future<bool> isEmpty({
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await _database;
+
+    return executor.rawQuery(
+      '''
+      SELECT
+        COUNT(id) AS containers_count
+      FROM
+        food_containers
+      ''',
+    ).then((data) => (data.first['containers_count'] as int) == 0);
+  }
+
   Future<List<FoodContainerDbModel>> all({
     PageConfig<FoodContainerDbModel>? pageConfig,
     Transaction? txn,

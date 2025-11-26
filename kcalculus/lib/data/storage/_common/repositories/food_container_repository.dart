@@ -11,6 +11,8 @@ import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/dish/models/food_container.dart';
 
 abstract class FoodContainerRepository extends ChangeSignalNotifier {
+  Future<bool> isEmpty();
+
   Future<List<FoodContainer>> getAll({
     PageConfig<FoodContainer>? pageConfig,
   });
@@ -47,6 +49,13 @@ class _FoodContainerRepository extends FoodContainerRepository
             StorageType.local => localFoodContainerRepositoryProvider,
             StorageType.firestore => firestoreFoodContainerRepositoryProvider,
           };
+
+  @override
+  Future<bool> isEmpty() async {
+    final provider = await delegateProvider;
+
+    return ref.read(provider.notifier).isEmpty();
+  }
 
   @override
   Future<List<FoodContainer>> getAll({

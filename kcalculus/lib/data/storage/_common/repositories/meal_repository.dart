@@ -8,6 +8,8 @@ import 'package:kcalculus/domain/_common/models/change_signal.dart';
 import 'package:kcalculus/domain/meal/models/meal.dart';
 
 abstract class MealRepository extends ChangeSignalNotifier {
+  Future<bool> isEmpty();
+
   Future<List<Meal>> getByDate(DateTime date);
 
   Future<Meal> save(Meal meal);
@@ -34,6 +36,13 @@ class _MealRepository extends MealRepository
         StorageType.local => localMealRepositoryProvider,
         StorageType.firestore => firestoreMealRepositoryProvider,
       };
+
+  @override
+  Future<bool> isEmpty() async {
+    final provider = await delegateProvider;
+
+    return ref.read(provider.notifier).isEmpty();
+  }
 
   @override
   Future<List<Meal>> getByDate(DateTime date) async {

@@ -12,6 +12,17 @@ class FirestoreNutrientGoalService extends Notifier<void> {
 
   FirebaseFirestore get _db => FirebaseFirestore.instance;
 
+  Future<bool> isEmpty(String userId) async {
+    final snapshot = await _db
+        .collection(UserDataFirestoreModel.kCollection)
+        .doc(userId)
+        .collection(NutrientGoalFirestoreModel.kCollection)
+        .count()
+        .get();
+
+    return (snapshot.count ?? 0) == 0;
+  }
+
   Future<List<NutrientGoalFirestoreModel>> getActiveGoals(
     DateTime date,
     String userId,

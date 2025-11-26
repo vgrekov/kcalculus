@@ -10,6 +10,9 @@ class LocalEdibleRepository extends EdibleRepository {
   LocalEdibleDao get _edibleDao => ref.read(localEdibleDaoProvider.notifier);
 
   @override
+  Future<bool> isEmpty() => _edibleDao.isEmpty();
+
+  @override
   Future<List<EdiblePreview>> getAll({
     PageConfig<EdiblePreview>? pageConfig,
   }) {

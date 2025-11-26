@@ -22,6 +22,13 @@ class FirestoreFoodContainerRepository extends FoodContainerRepository {
       ref.read(firestoreFoodContainerSearchService.notifier);
 
   @override
+  Future<bool> isEmpty() => Auth.guard(
+        (user) => _foodContainerService.isEmpty(
+          userId: user.uid,
+        ),
+      );
+
+  @override
   Future<List<FoodContainer>> getAll({
     PageConfig<FoodContainer>? pageConfig,
   }) =>

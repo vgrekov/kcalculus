@@ -12,6 +12,9 @@ class LocalFoodContainerRepository extends FoodContainerRepository {
       ref.read(localFoodContainerDaoProvider.notifier);
 
   @override
+  Future<bool> isEmpty() => _dao.isEmpty();
+
+  @override
   Future<List<FoodContainer>> getAll({PageConfig<FoodContainer>? pageConfig}) {
     return _dao.getAll(
       pageConfig: pageConfig,
