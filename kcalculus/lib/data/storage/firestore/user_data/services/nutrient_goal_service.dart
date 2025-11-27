@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
+import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/models/nutrient_goal_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/models/user_data_firestore_model.dart';
 
@@ -165,6 +166,16 @@ class FirestoreNutrientGoalService extends Notifier<void> {
 
     return true;
   }
+
+  Future<void> purge({
+    required String userId,
+  }) =>
+      batchDelete(
+        _db
+            .collection(UserDataFirestoreModel.kCollection)
+            .doc(userId)
+            .collection(NutrientGoalFirestoreModel.kCollection),
+      );
 }
 
 final firestoreNutrientGoalServiceProvider =

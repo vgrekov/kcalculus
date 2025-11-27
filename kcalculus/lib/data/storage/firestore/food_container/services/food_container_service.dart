@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
+import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/food_container/models/food_container_firestore_model.dart';
 import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
@@ -227,6 +228,15 @@ class FirestoreFoodContainerService extends Notifier<void> {
 
     return true;
   }
+
+  Future<void> purge({
+    required String userId,
+  }) =>
+      batchDelete(
+        _db
+            .collection(FoodContainerFirestoreModel.kCollection)
+            .where('ownerId', isEqualTo: userId),
+      );
 }
 
 final firestoreFoodContainerService =

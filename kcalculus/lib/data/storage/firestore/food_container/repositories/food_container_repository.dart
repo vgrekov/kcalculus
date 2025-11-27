@@ -188,6 +188,10 @@ class FirestoreFoodContainerRepository extends FoodContainerRepository {
           return result;
         },
       );
+
+  Future<void> purge() => Auth.guard(
+        (user) => _foodContainerService.purge(userId: user.uid),
+      );
 }
 
 final firestoreFoodContainerRepositoryProvider =

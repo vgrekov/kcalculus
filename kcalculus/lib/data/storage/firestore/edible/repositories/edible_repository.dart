@@ -202,6 +202,10 @@ class FirestoreEdibleRepository extends EdibleRepository {
               (results) => results.map((r) => r.toDomain()).toList(),
             ),
       );
+
+  Future<void> purge() => Auth.guard(
+        (user) => _edibleService.purge(userId: user.uid),
+      );
 }
 
 final firestoreEdibleRepositoryProvider =

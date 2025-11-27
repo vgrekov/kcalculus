@@ -147,6 +147,10 @@ class FirestoreMealRepository extends MealRepository {
           return result;
         },
       );
+
+  Future<void> purge() => Auth.guard(
+        (user) => _mealService.purge(userId: user.uid),
+      );
 }
 
 final firestoreMealRepositoryProvider =

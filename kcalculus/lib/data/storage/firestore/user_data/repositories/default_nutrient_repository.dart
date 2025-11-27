@@ -79,6 +79,10 @@ class FirestoreDefaultNutrientRepository extends DefaultNutrientRepository {
   List<String> _defaultNutrientsFromDomain(List<Nutrient> nutrients) {
     return nutrients.map((n) => n.name).toList();
   }
+
+  Future<void> purge() => Auth.guard(
+        (user) => _userDataService.purge(userId: user.uid),
+      );
 }
 
 final firestoreDefaultNutrientRepositoryProvider =

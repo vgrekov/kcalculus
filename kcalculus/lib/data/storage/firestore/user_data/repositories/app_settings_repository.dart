@@ -55,6 +55,10 @@ class FirestoreAppSettingsRepository extends AppSettingsRepository {
       state = AsyncData(settings);
     });
   }
+
+  Future<void> purge() => Auth.guard(
+        (user) => _userDataService.purge(userId: user.uid),
+      );
 }
 
 final firestoreAppSettingsRepositoryProvider =

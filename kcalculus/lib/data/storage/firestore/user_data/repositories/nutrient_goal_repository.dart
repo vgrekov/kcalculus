@@ -68,6 +68,10 @@ class FirestoreNutrientGoalRepository extends NutrientGoalRepository {
       return result;
     });
   }
+
+  Future<void> purge() => Auth.guard(
+        (user) => _nutrientGoalService.purge(userId: user.uid),
+      );
 }
 
 final firestoreNutrientGoalRepositoryProvider =

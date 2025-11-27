@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
+import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_preview_firestore_model.dart';
@@ -299,6 +300,15 @@ class FirestoreEdibleService extends Notifier<void> {
 
     return true;
   }
+
+  Future<void> purge({
+    required String userId,
+  }) =>
+      batchDelete(
+        _db
+            .collection(EdibleFirestoreModel.kCollection)
+            .where('ownerId', isEqualTo: userId),
+      );
 }
 
 final firestoreEdibleServiceProvider =

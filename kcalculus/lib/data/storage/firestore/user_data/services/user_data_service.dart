@@ -70,6 +70,11 @@ class FirestoreUserDataService extends Notifier<void> {
       },
     );
   }
+
+  Future<void> purge({
+    required String userId,
+  }) =>
+      _db.collection(UserDataFirestoreModel.kCollection).doc(userId).delete();
 }
 
 final firestoreUserDataServiceProvider =
