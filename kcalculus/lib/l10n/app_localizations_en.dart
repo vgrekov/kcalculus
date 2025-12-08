@@ -841,8 +841,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String partExceedsWhole(String part, String partUnit, String partValue,
-      String whole, String wholeUnit, String wholeValue) {
+  String partExceedsWhole(
+    String part,
+    String partUnit,
+    String partValue,
+    String whole,
+    String wholeUnit,
+    String wholeValue,
+  ) {
     return ' - $part ($partValue $partUnit) > $whole ($wholeValue $wholeUnit)';
   }
 
@@ -960,8 +966,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get labelPassword => 'Password';
 
   @override
-  String hintPassword(int min, int max, String upper, String lower,
-      String digits, String special) {
+  String hintPassword(
+    int min,
+    int max,
+    String upper,
+    String lower,
+    String digits,
+    String special,
+  ) {
     String _temp0 = intl.Intl.selectLogic(
       upper,
       {
@@ -997,8 +1009,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get validationErrorPasswordRequired => 'Password required';
 
   @override
-  String validationErrorPasswordInvalid(int min, int max, String upper,
-      String lower, String digits, String special) {
+  String validationErrorPasswordInvalid(
+    int min,
+    int max,
+    String upper,
+    String lower,
+    String digits,
+    String special,
+  ) {
     String _temp0 = intl.Intl.selectLogic(
       upper,
       {

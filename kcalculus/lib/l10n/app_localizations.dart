@@ -62,7 +62,7 @@ import 'app_localizations_en.dart';
 /// property.
 abstract class AppLocalizations {
   AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -85,11 +85,11 @@ abstract class AppLocalizations {
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('en')];
@@ -1628,8 +1628,14 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **' - {part} ({partValue} {partUnit}) > {whole} ({wholeValue} {wholeUnit})'**
-  String partExceedsWhole(String part, String partUnit, String partValue,
-      String whole, String wholeUnit, String wholeValue);
+  String partExceedsWhole(
+    String part,
+    String partUnit,
+    String partValue,
+    String whole,
+    String wholeUnit,
+    String wholeValue,
+  );
 
   /// No description provided for @appVersion.
   ///
@@ -1827,8 +1833,14 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{min}–{max}{upper, select, true{ Ⓐ} other{}}{lower, select, true{ ⓐ} other{}}{digits, select, true{ 0–9} other{}}{special, select, true{ !@#\$%^&*} other{}}'**
-  String hintPassword(int min, int max, String upper, String lower,
-      String digits, String special);
+  String hintPassword(
+    int min,
+    int max,
+    String upper,
+    String lower,
+    String digits,
+    String special,
+  );
 
   /// No description provided for @validationErrorPasswordRequired.
   ///
@@ -1840,8 +1852,14 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Password must:\n• Be {min}–{max} characters long\n• Use only letters, digits, and !@#\$%^&*{upper, select, true{\n• Include at least one uppercase letter} other{}}{lower, select, true{\n• Include at least one lowercase letter} other{}}{digits, select, true{\n• Include at least one digit} other{}}{special, select, true{\n• Include at least one special character} other{}}'**
-  String validationErrorPasswordInvalid(int min, int max, String upper,
-      String lower, String digits, String special);
+  String validationErrorPasswordInvalid(
+    int min,
+    int max,
+    String upper,
+    String lower,
+    String digits,
+    String special,
+  );
 
   /// No description provided for @actionLogin.
   ///
@@ -2073,8 +2091,9 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
 }
