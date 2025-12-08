@@ -7,10 +7,10 @@ part of 'macro_split.dart';
 // **************************************************************************
 
 _MacroSplit _$MacroSplitFromJson(Map<String, dynamic> json) => _MacroSplit(
-      fatPercentage: (json['fatPercentage'] as num).toDouble(),
-      carbsPercentage: (json['carbsPercentage'] as num).toDouble(),
-      proteinPercentage: (json['proteinPercentage'] as num).toDouble(),
-    );
+  fatPercentage: (json['fatPercentage'] as num).toDouble(),
+  carbsPercentage: (json['carbsPercentage'] as num).toDouble(),
+  proteinPercentage: (json['proteinPercentage'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$MacroSplitToJson(_MacroSplit instance) =>
     <String, dynamic>{

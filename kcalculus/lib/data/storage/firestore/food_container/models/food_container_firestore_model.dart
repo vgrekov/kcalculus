@@ -14,7 +14,7 @@ sealed class FoodContainerFirestoreModel with _$FoodContainerFirestoreModel {
 
   const FoodContainerFirestoreModel._();
 
-  const factory FoodContainerFirestoreModel._default({
+  const factory FoodContainerFirestoreModel.$default({
     @JsonKey(
       includeToJson: false,
     )
@@ -51,19 +51,18 @@ sealed class FoodContainerFirestoreModel with _$FoodContainerFirestoreModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? deletedAt,
-  }) =>
-      FoodContainerFirestoreModel._default(
-        id: id,
-        name: name,
-        name_lower: name.toLowerCase(),
-        description: description,
-        description_lower: description.toLowerCase(),
-        weight: weight,
-        ownerId: ownerId,
-        createdAt: createdAt,
-        updatedAt: updatedAt,
-        deletedAt: deletedAt,
-      );
+  }) => FoodContainerFirestoreModel.$default(
+    id: id,
+    name: name,
+    name_lower: name.toLowerCase(),
+    description: description,
+    description_lower: description.toLowerCase(),
+    weight: weight,
+    ownerId: ownerId,
+    createdAt: createdAt,
+    updatedAt: updatedAt,
+    deletedAt: deletedAt,
+  );
 
   factory FoodContainerFirestoreModel.fromJson(Map<String, dynamic> json) =>
       _$FoodContainerFirestoreModelFromJson(json);
@@ -71,23 +70,22 @@ sealed class FoodContainerFirestoreModel with _$FoodContainerFirestoreModel {
   factory FoodContainerFirestoreModel.fromDomain(
     FoodContainer model,
     String ownerId,
-  ) =>
-      FoodContainerFirestoreModel(
-        id: model.id,
-        name: model.name,
-        description: model.description,
-        weight: AmountFirestoreModel.fromDomain(model.weight),
-        ownerId: ownerId,
-      );
+  ) => FoodContainerFirestoreModel(
+    id: model.id,
+    name: model.name,
+    description: model.description,
+    weight: AmountFirestoreModel.fromDomain(model.weight),
+    ownerId: ownerId,
+  );
 
   FoodContainer toDomain([bool isRecent = false]) => FoodContainer(
-        id: id,
-        name: name,
-        description: description,
-        weight: weight.toDomain(),
-        createdAt: createdAt,
-        updatedAt: updatedAt,
-        deletedAt: deletedAt,
-        isRecent: isRecent,
-      );
+    id: id,
+    name: name,
+    description: description,
+    weight: weight.toDomain(),
+    createdAt: createdAt,
+    updatedAt: updatedAt,
+    deletedAt: deletedAt,
+    isRecent: isRecent,
+  );
 }

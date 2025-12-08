@@ -19,26 +19,25 @@ enum DishWizardStep {
 sealed class DishWizardUiState with _$DishWizardUiState {
   const DishWizardUiState._();
 
-  const factory DishWizardUiState._default({
+  const factory DishWizardUiState.$default({
     String? id,
     required DishWizardMainStepUiState mainStepState,
     required DishWizardIngredientsStepUiState ingredientsStepState,
     required DishWizardMeasurementsStepUiState measurementsStepState,
   }) = _DishWizardState;
 
-  factory DishWizardUiState() => DishWizardUiState._default(
-        mainStepState: DishWizardMainStepUiState(),
-        ingredientsStepState: DishWizardIngredientsStepUiState(),
-        measurementsStepState: DishWizardMeasurementsStepUiState(),
-      );
+  factory DishWizardUiState() => DishWizardUiState.$default(
+    mainStepState: DishWizardMainStepUiState(),
+    ingredientsStepState: DishWizardIngredientsStepUiState(),
+    measurementsStepState: DishWizardMeasurementsStepUiState(),
+  );
 
-  factory DishWizardUiState.fromDish(Dish model) => DishWizardUiState._default(
-        id: model.id,
-        mainStepState: DishWizardMainStepUiState.fromDish(model),
-        ingredientsStepState: DishWizardIngredientsStepUiState.fromDish(model),
-        measurementsStepState:
-            DishWizardMeasurementsStepUiState.fromDish(model),
-      );
+  factory DishWizardUiState.fromDish(Dish model) => DishWizardUiState.$default(
+    id: model.id,
+    mainStepState: DishWizardMainStepUiState.fromDish(model),
+    ingredientsStepState: DishWizardIngredientsStepUiState.fromDish(model),
+    measurementsStepState: DishWizardMeasurementsStepUiState.fromDish(model),
+  );
 
   Dish toDish() {
     return Dish(
@@ -57,7 +56,8 @@ sealed class DishWizardUiState with _$DishWizardUiState {
       final ingredientNF = ingredient.edible
           .getNutritionFacts()
           .where(
-              (nf) => nf.amount.unit.measure == ingredient.amount.unit.measure)
+            (nf) => nf.amount.unit.measure == ingredient.amount.unit.measure,
+          )
           .firstOrNull;
 
       final targetNF = ingredient.edible
@@ -66,8 +66,10 @@ sealed class DishWizardUiState with _$DishWizardUiState {
           .firstOrNull;
 
       if (ingredientNF != null && targetNF != null) {
-        final convertedAmount = ingredientNF.convertAmount(ingredient.amount,
-            targetNutritionFacts: targetNF);
+        final convertedAmount = ingredientNF.convertAmount(
+          ingredient.amount,
+          targetNutritionFacts: targetNF,
+        );
         if (convertedAmount != null) {
           if (measure != Measure.quantity) {
             // Sum up if not quantity

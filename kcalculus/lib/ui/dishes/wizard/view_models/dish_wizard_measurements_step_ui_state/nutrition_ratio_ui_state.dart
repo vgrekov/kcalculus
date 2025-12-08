@@ -20,7 +20,7 @@ enum NutritionRatioValidationResult {
 sealed class NutritionRatioUiState with _$NutritionRatioUiState {
   const NutritionRatioUiState._();
 
-  const factory NutritionRatioUiState._default({
+  const factory NutritionRatioUiState.$default({
     required Measure measure,
     required Unit perAmountUnit,
     double? perAmountValue,
@@ -36,15 +36,14 @@ sealed class NutritionRatioUiState with _$NutritionRatioUiState {
     Unit? totalAmountUnit,
     double? totalAmountValue,
     bool enabled = false,
-  }) =>
-      NutritionRatioUiState._default(
-        measure: measure,
-        perAmountUnit: perAmountUnit ?? Unit.defaultFor(measure),
-        perAmountValue: perAmountValue,
-        totalAmountUnit: totalAmountUnit ?? Unit.defaultFor(measure),
-        totalAmountValue: totalAmountValue,
-        enabled: enabled,
-      );
+  }) => NutritionRatioUiState.$default(
+    measure: measure,
+    perAmountUnit: perAmountUnit ?? Unit.defaultFor(measure),
+    perAmountValue: perAmountValue,
+    totalAmountUnit: totalAmountUnit ?? Unit.defaultFor(measure),
+    totalAmountValue: totalAmountValue,
+    enabled: enabled,
+  );
 
   factory NutritionRatioUiState.fromModel(NutritionRatio cleanCopy) {
     return NutritionRatioUiState(

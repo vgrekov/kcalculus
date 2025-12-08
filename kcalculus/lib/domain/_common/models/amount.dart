@@ -9,7 +9,7 @@ part 'amount.g.dart';
 sealed class Amount with _$Amount {
   const Amount._();
 
-  const factory Amount._default({
+  const factory Amount.$default({
     required Unit unit,
     required double value,
   }) = _Amount;
@@ -22,7 +22,7 @@ sealed class Amount with _$Amount {
       throw 'Value can not be a negative number.';
     }
 
-    return Amount._default(
+    return Amount.$default(
       unit: unit,
       value: value,
     );
@@ -75,7 +75,8 @@ sealed class Amount with _$Amount {
 
     return Amount(
       unit: targetUnit,
-      value: value * unit.factor / targetUnit.factor +
+      value:
+          value * unit.factor / targetUnit.factor +
           other.value * other.unit.factor / targetUnit.factor,
     );
   }
@@ -89,7 +90,8 @@ sealed class Amount with _$Amount {
 
     return Amount(
       unit: targetUnit,
-      value: value * unit.factor / targetUnit.factor -
+      value:
+          value * unit.factor / targetUnit.factor -
           other.value * other.unit.factor / targetUnit.factor,
     );
   }

@@ -11,20 +11,23 @@ _NutrientData _$NutrientDataFromJson(Map<String, dynamic> json) =>
       nutrientAmounts: (json['nutrientAmounts'] as List<dynamic>)
           .map((e) => NutrientAmount.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nutrientAmountsMap:
-          (json['nutrientAmountsMap'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry($enumDecode(_$NutrientEnumMap, k),
-            Amount.fromJson(e as Map<String, dynamic>)),
-      ),
+      nutrientAmountsMap: (json['nutrientAmountsMap'] as Map<String, dynamic>)
+          .map(
+            (k, e) => MapEntry(
+              $enumDecode(_$NutrientEnumMap, k),
+              Amount.fromJson(e as Map<String, dynamic>),
+            ),
+          ),
     );
 
-Map<String, dynamic> _$NutrientDataToJson(_NutrientData instance) =>
-    <String, dynamic>{
-      'nutrientAmounts':
-          instance.nutrientAmounts.map((e) => e.toJson()).toList(),
-      'nutrientAmountsMap': instance.nutrientAmountsMap
-          .map((k, e) => MapEntry(_$NutrientEnumMap[k]!, e.toJson())),
-    };
+Map<String, dynamic> _$NutrientDataToJson(
+  _NutrientData instance,
+) => <String, dynamic>{
+  'nutrientAmounts': instance.nutrientAmounts.map((e) => e.toJson()).toList(),
+  'nutrientAmountsMap': instance.nutrientAmountsMap.map(
+    (k, e) => MapEntry(_$NutrientEnumMap[k]!, e.toJson()),
+  ),
+};
 
 const _$NutrientEnumMap = {
   Nutrient.energy: 'energy',

@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -15,52 +14,47 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$NutritionFactsV1 {
-  Amount get amount;
-  NutrientDataV1 get nutrientData;
 
-  /// Create a copy of NutritionFactsV1
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $NutritionFactsV1CopyWith<NutritionFactsV1> get copyWith =>
-      _$NutritionFactsV1CopyWithImpl<NutritionFactsV1>(
-          this as NutritionFactsV1, _$identity);
+ Amount get amount; NutrientDataV1 get nutrientData;
+/// Create a copy of NutritionFactsV1
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$NutritionFactsV1CopyWith<NutritionFactsV1> get copyWith => _$NutritionFactsV1CopyWithImpl<NutritionFactsV1>(this as NutritionFactsV1, _$identity);
 
   /// Serializes this NutritionFactsV1 to a JSON map.
   Map<String, dynamic> toJson();
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is NutritionFactsV1 &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.nutrientData, nutrientData) ||
-                other.nutrientData == nutrientData));
-  }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, amount, nutrientData);
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NutritionFactsV1&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.nutrientData, nutrientData) || other.nutrientData == nutrientData));
+}
 
-  @override
-  String toString() {
-    return 'NutritionFactsV1(amount: $amount, nutrientData: $nutrientData)';
-  }
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,amount,nutrientData);
+
+@override
+String toString() {
+  return 'NutritionFactsV1(amount: $amount, nutrientData: $nutrientData)';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class $NutritionFactsV1CopyWith<$Res> {
-  factory $NutritionFactsV1CopyWith(
-          NutritionFactsV1 value, $Res Function(NutritionFactsV1) _then) =
-      _$NutritionFactsV1CopyWithImpl;
-  @useResult
-  $Res call({Amount amount, NutrientDataV1 nutrientData});
+abstract mixin class $NutritionFactsV1CopyWith<$Res>  {
+  factory $NutritionFactsV1CopyWith(NutritionFactsV1 value, $Res Function(NutritionFactsV1) _then) = _$NutritionFactsV1CopyWithImpl;
+@useResult
+$Res call({
+ Amount amount, NutrientDataV1 nutrientData
+});
 
-  $AmountCopyWith<$Res> get amount;
-  $NutrientDataV1CopyWith<$Res> get nutrientData;
+
+$AmountCopyWith<$Res> get amount;$NutrientDataV1CopyWith<$Res> get nutrientData;
+
 }
-
 /// @nodoc
 class _$NutritionFactsV1CopyWithImpl<$Res>
     implements $NutritionFactsV1CopyWith<$Res> {
@@ -69,110 +63,211 @@ class _$NutritionFactsV1CopyWithImpl<$Res>
   final NutritionFactsV1 _self;
   final $Res Function(NutritionFactsV1) _then;
 
-  /// Create a copy of NutritionFactsV1
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? amount = null,
-    Object? nutrientData = null,
-  }) {
-    return _then(_self.copyWith(
-      amount: null == amount
-          ? _self.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as Amount,
-      nutrientData: null == nutrientData
-          ? _self.nutrientData
-          : nutrientData // ignore: cast_nullable_to_non_nullable
-              as NutrientDataV1,
-    ));
-  }
+/// Create a copy of NutritionFactsV1
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? amount = null,Object? nutrientData = null,}) {
+  return _then(_self.copyWith(
+amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as Amount,nutrientData: null == nutrientData ? _self.nutrientData : nutrientData // ignore: cast_nullable_to_non_nullable
+as NutrientDataV1,
+  ));
+}
+/// Create a copy of NutritionFactsV1
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AmountCopyWith<$Res> get amount {
+  
+  return $AmountCopyWith<$Res>(_self.amount, (value) {
+    return _then(_self.copyWith(amount: value));
+  });
+}/// Create a copy of NutritionFactsV1
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$NutrientDataV1CopyWith<$Res> get nutrientData {
+  
+  return $NutrientDataV1CopyWith<$Res>(_self.nutrientData, (value) {
+    return _then(_self.copyWith(nutrientData: value));
+  });
+}
+}
 
-  /// Create a copy of NutritionFactsV1
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AmountCopyWith<$Res> get amount {
-    return $AmountCopyWith<$Res>(_self.amount, (value) {
-      return _then(_self.copyWith(amount: value));
-    });
-  }
 
-  /// Create a copy of NutritionFactsV1
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $NutrientDataV1CopyWith<$Res> get nutrientData {
-    return $NutrientDataV1CopyWith<$Res>(_self.nutrientData, (value) {
-      return _then(_self.copyWith(nutrientData: value));
-    });
-  }
+/// Adds pattern-matching-related methods to [NutritionFactsV1].
+extension NutritionFactsV1Patterns on NutritionFactsV1 {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _NutritionFactsV1 value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _NutritionFactsV1() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _NutritionFactsV1 value)  $default,){
+final _that = this;
+switch (_that) {
+case _NutritionFactsV1():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _NutritionFactsV1 value)?  $default,){
+final _that = this;
+switch (_that) {
+case _NutritionFactsV1() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Amount amount,  NutrientDataV1 nutrientData)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _NutritionFactsV1() when $default != null:
+return $default(_that.amount,_that.nutrientData);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Amount amount,  NutrientDataV1 nutrientData)  $default,) {final _that = this;
+switch (_that) {
+case _NutritionFactsV1():
+return $default(_that.amount,_that.nutrientData);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Amount amount,  NutrientDataV1 nutrientData)?  $default,) {final _that = this;
+switch (_that) {
+case _NutritionFactsV1() when $default != null:
+return $default(_that.amount,_that.nutrientData);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
+
 class _NutritionFactsV1 implements NutritionFactsV1 {
   const _NutritionFactsV1({required this.amount, required this.nutrientData});
-  factory _NutritionFactsV1.fromJson(Map<String, dynamic> json) =>
-      _$NutritionFactsV1FromJson(json);
+  factory _NutritionFactsV1.fromJson(Map<String, dynamic> json) => _$NutritionFactsV1FromJson(json);
 
-  @override
-  final Amount amount;
-  @override
-  final NutrientDataV1 nutrientData;
+@override final  Amount amount;
+@override final  NutrientDataV1 nutrientData;
 
-  /// Create a copy of NutritionFactsV1
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$NutritionFactsV1CopyWith<_NutritionFactsV1> get copyWith =>
-      __$NutritionFactsV1CopyWithImpl<_NutritionFactsV1>(this, _$identity);
+/// Create a copy of NutritionFactsV1
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$NutritionFactsV1CopyWith<_NutritionFactsV1> get copyWith => __$NutritionFactsV1CopyWithImpl<_NutritionFactsV1>(this, _$identity);
 
-  @override
-  Map<String, dynamic> toJson() {
-    return _$NutritionFactsV1ToJson(
-      this,
-    );
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$NutritionFactsV1ToJson(this, );
+}
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _NutritionFactsV1 &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.nutrientData, nutrientData) ||
-                other.nutrientData == nutrientData));
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NutritionFactsV1&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.nutrientData, nutrientData) || other.nutrientData == nutrientData));
+}
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, amount, nutrientData);
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,amount,nutrientData);
 
-  @override
-  String toString() {
-    return 'NutritionFactsV1(amount: $amount, nutrientData: $nutrientData)';
-  }
+@override
+String toString() {
+  return 'NutritionFactsV1(amount: $amount, nutrientData: $nutrientData)';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class _$NutritionFactsV1CopyWith<$Res>
-    implements $NutritionFactsV1CopyWith<$Res> {
-  factory _$NutritionFactsV1CopyWith(
-          _NutritionFactsV1 value, $Res Function(_NutritionFactsV1) _then) =
-      __$NutritionFactsV1CopyWithImpl;
-  @override
-  @useResult
-  $Res call({Amount amount, NutrientDataV1 nutrientData});
+abstract mixin class _$NutritionFactsV1CopyWith<$Res> implements $NutritionFactsV1CopyWith<$Res> {
+  factory _$NutritionFactsV1CopyWith(_NutritionFactsV1 value, $Res Function(_NutritionFactsV1) _then) = __$NutritionFactsV1CopyWithImpl;
+@override @useResult
+$Res call({
+ Amount amount, NutrientDataV1 nutrientData
+});
 
-  @override
-  $AmountCopyWith<$Res> get amount;
-  @override
-  $NutrientDataV1CopyWith<$Res> get nutrientData;
+
+@override $AmountCopyWith<$Res> get amount;@override $NutrientDataV1CopyWith<$Res> get nutrientData;
+
 }
-
 /// @nodoc
 class __$NutritionFactsV1CopyWithImpl<$Res>
     implements _$NutritionFactsV1CopyWith<$Res> {
@@ -181,45 +276,35 @@ class __$NutritionFactsV1CopyWithImpl<$Res>
   final _NutritionFactsV1 _self;
   final $Res Function(_NutritionFactsV1) _then;
 
-  /// Create a copy of NutritionFactsV1
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? amount = null,
-    Object? nutrientData = null,
-  }) {
-    return _then(_NutritionFactsV1(
-      amount: null == amount
-          ? _self.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as Amount,
-      nutrientData: null == nutrientData
-          ? _self.nutrientData
-          : nutrientData // ignore: cast_nullable_to_non_nullable
-              as NutrientDataV1,
-    ));
-  }
+/// Create a copy of NutritionFactsV1
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? amount = null,Object? nutrientData = null,}) {
+  return _then(_NutritionFactsV1(
+amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as Amount,nutrientData: null == nutrientData ? _self.nutrientData : nutrientData // ignore: cast_nullable_to_non_nullable
+as NutrientDataV1,
+  ));
+}
 
-  /// Create a copy of NutritionFactsV1
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AmountCopyWith<$Res> get amount {
-    return $AmountCopyWith<$Res>(_self.amount, (value) {
-      return _then(_self.copyWith(amount: value));
-    });
-  }
-
-  /// Create a copy of NutritionFactsV1
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $NutrientDataV1CopyWith<$Res> get nutrientData {
-    return $NutrientDataV1CopyWith<$Res>(_self.nutrientData, (value) {
-      return _then(_self.copyWith(nutrientData: value));
-    });
-  }
+/// Create a copy of NutritionFactsV1
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AmountCopyWith<$Res> get amount {
+  
+  return $AmountCopyWith<$Res>(_self.amount, (value) {
+    return _then(_self.copyWith(amount: value));
+  });
+}/// Create a copy of NutritionFactsV1
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$NutrientDataV1CopyWith<$Res> get nutrientData {
+  
+  return $NutrientDataV1CopyWith<$Res>(_self.nutrientData, (value) {
+    return _then(_self.copyWith(nutrientData: value));
+  });
+}
 }
 
 // dart format on

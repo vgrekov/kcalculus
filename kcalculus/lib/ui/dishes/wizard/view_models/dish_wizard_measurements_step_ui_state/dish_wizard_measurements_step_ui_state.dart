@@ -14,7 +14,7 @@ sealed class MeasurementsStepValidationResult
   const factory MeasurementsStepValidationResult({
     required bool measurementsMissing,
     required Map<Measure, NutritionRatioValidationResult?>
-        ratioStateValidationResults,
+    ratioStateValidationResults,
   }) = _MeasurementsStepValidationResult;
 }
 
@@ -23,7 +23,7 @@ sealed class DishWizardMeasurementsStepUiState
     with _$DishWizardMeasurementsStepUiState {
   const DishWizardMeasurementsStepUiState._();
 
-  const factory DishWizardMeasurementsStepUiState._default({
+  const factory DishWizardMeasurementsStepUiState.$default({
     FoodContainer? container,
     required List<NutritionRatioUiState> nutritionRatioStates,
   }) = _DishWizardMeasurementsStepUiState;
@@ -31,14 +31,14 @@ sealed class DishWizardMeasurementsStepUiState
   factory DishWizardMeasurementsStepUiState({
     FoodContainer? container,
     List<NutritionRatioUiState>? nutritionRatioStates,
-  }) =>
-      DishWizardMeasurementsStepUiState._default(
-        container: container,
-        nutritionRatioStates: nutritionRatioStates ??
-            Measure.pickableValues
-                .map((m) => NutritionRatioUiState(measure: m))
-                .toList(),
-      );
+  }) => DishWizardMeasurementsStepUiState.$default(
+    container: container,
+    nutritionRatioStates:
+        nutritionRatioStates ??
+        Measure.pickableValues
+            .map((m) => NutritionRatioUiState(measure: m))
+            .toList(),
+  );
 
   factory DishWizardMeasurementsStepUiState.fromDish(Dish model) {
     return DishWizardMeasurementsStepUiState(
@@ -52,8 +52,9 @@ sealed class DishWizardMeasurementsStepUiState
   }
 
   MeasurementsStepValidationResult? validate() {
-    final enabledRatioStates =
-        nutritionRatioStates.where((ratioState) => ratioState.enabled);
+    final enabledRatioStates = nutritionRatioStates.where(
+      (ratioState) => ratioState.enabled,
+    );
 
     final measurementsMissing = enabledRatioStates.isEmpty;
 
@@ -104,7 +105,7 @@ sealed class DishWizardMeasurementsStepUiState
       return MeasurementsStepValidationResult(
         measurementsMissing: measurementsMissing,
         ratioStateValidationResults: {
-          for (final p in ratioStateValidationResults) p.$1: p.$2
+          for (final p in ratioStateValidationResults) p.$1: p.$2,
         },
       );
     }
@@ -115,7 +116,7 @@ sealed class DishWizardMeasurementsStepUiState
   Map<Measure, NutritionRatio> toNutritionRatios() {
     return {
       for (final rs in nutritionRatioStates.where((rs) => rs.enabled))
-        rs.measure: rs.toModel(container)
+        rs.measure: rs.toModel(container),
     };
   }
 }

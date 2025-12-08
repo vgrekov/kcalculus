@@ -7,12 +7,12 @@ part of 'app_settings.dart';
 // **************************************************************************
 
 _AppSettings _$AppSettingsFromJson(Map<String, dynamic> json) => _AppSettings(
-      theme: $enumDecode(_$AppThemeEnumMap, json['theme']),
-      crashlyticsEnabled: json['crashlyticsEnabled'] as bool?,
-      analyticsEnabled: json['analyticsEnabled'] as bool?,
-      signedAgreementVersion: (json['signedAgreementVersion'] as num?)?.toInt(),
-      scannerDisclaimerEnabled: json['scannerDisclaimerEnabled'] as bool,
-    );
+  theme: $enumDecode(_$AppThemeEnumMap, json['theme']),
+  crashlyticsEnabled: json['crashlyticsEnabled'] as bool?,
+  analyticsEnabled: json['analyticsEnabled'] as bool?,
+  signedAgreementVersion: (json['signedAgreementVersion'] as num?)?.toInt(),
+  scannerDisclaimerEnabled: json['scannerDisclaimerEnabled'] as bool,
+);
 
 Map<String, dynamic> _$AppSettingsToJson(_AppSettings instance) =>
     <String, dynamic>{

@@ -7,22 +7,25 @@ part of 'nutrition_facts_firestore_model.dart';
 // **************************************************************************
 
 _NutritionFactsFirestoreModel _$NutritionFactsFirestoreModelFromJson(
-        Map<String, dynamic> json) =>
-    _NutritionFactsFirestoreModel(
-      per: AmountFirestoreModel.fromJson(json['per'] as Map<String, dynamic>),
-      data: (json['data'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry($enumDecode(_$NutrientEnumMap, k),
-            AmountFirestoreModel.fromJson(e as Map<String, dynamic>)),
-      ),
-    );
+  Map<String, dynamic> json,
+) => _NutritionFactsFirestoreModel(
+  per: AmountFirestoreModel.fromJson(json['per'] as Map<String, dynamic>),
+  data: (json['data'] as Map<String, dynamic>).map(
+    (k, e) => MapEntry(
+      $enumDecode(_$NutrientEnumMap, k),
+      AmountFirestoreModel.fromJson(e as Map<String, dynamic>),
+    ),
+  ),
+);
 
 Map<String, dynamic> _$NutritionFactsFirestoreModelToJson(
-        _NutritionFactsFirestoreModel instance) =>
-    <String, dynamic>{
-      'per': instance.per.toJson(),
-      'data': instance.data
-          .map((k, e) => MapEntry(_$NutrientEnumMap[k]!, e.toJson())),
-    };
+  _NutritionFactsFirestoreModel instance,
+) => <String, dynamic>{
+  'per': instance.per.toJson(),
+  'data': instance.data.map(
+    (k, e) => MapEntry(_$NutrientEnumMap[k]!, e.toJson()),
+  ),
+};
 
 const _$NutrientEnumMap = {
   Nutrient.energy: 'energy',

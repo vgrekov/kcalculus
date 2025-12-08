@@ -36,7 +36,7 @@ sealed class MacroSplit with _$MacroSplit {
     return null;
   }
 
-  const factory MacroSplit._default({
+  const factory MacroSplit.$default({
     required double fatPercentage,
     required double carbsPercentage,
     required double proteinPercentage,
@@ -78,7 +78,7 @@ sealed class MacroSplit with _$MacroSplit {
       }
     }
 
-    return MacroSplit._default(
+    return MacroSplit.$default(
       fatPercentage: fractions[0],
       carbsPercentage: fractions[1],
       proteinPercentage: fractions[2],

@@ -7,16 +7,15 @@ part of 'nutrition_ratio_firestore_model.dart';
 // **************************************************************************
 
 _NutritionRatioFirestoreModel _$NutritionRatioFirestoreModelFromJson(
-        Map<String, dynamic> json) =>
-    _NutritionRatioFirestoreModel(
-      per: AmountFirestoreModel.fromJson(json['per'] as Map<String, dynamic>),
-      total:
-          AmountFirestoreModel.fromJson(json['total'] as Map<String, dynamic>),
-    );
+  Map<String, dynamic> json,
+) => _NutritionRatioFirestoreModel(
+  per: AmountFirestoreModel.fromJson(json['per'] as Map<String, dynamic>),
+  total: AmountFirestoreModel.fromJson(json['total'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$NutritionRatioFirestoreModelToJson(
-        _NutritionRatioFirestoreModel instance) =>
-    <String, dynamic>{
-      'per': instance.per.toJson(),
-      'total': instance.total.toJson(),
-    };
+  _NutritionRatioFirestoreModel instance,
+) => <String, dynamic>{
+  'per': instance.per.toJson(),
+  'total': instance.total.toJson(),
+};

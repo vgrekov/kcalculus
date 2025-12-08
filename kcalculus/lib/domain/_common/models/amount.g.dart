@@ -7,14 +7,14 @@ part of 'amount.dart';
 // **************************************************************************
 
 _Amount _$AmountFromJson(Map<String, dynamic> json) => _Amount(
-      unit: $enumDecode(_$UnitEnumMap, json['unit']),
-      value: (json['value'] as num).toDouble(),
-    );
+  unit: $enumDecode(_$UnitEnumMap, json['unit']),
+  value: (json['value'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$AmountToJson(_Amount instance) => <String, dynamic>{
-      'unit': _$UnitEnumMap[instance.unit]!,
-      'value': instance.value,
-    };
+  'unit': _$UnitEnumMap[instance.unit]!,
+  'value': instance.value,
+};
 
 const _$UnitEnumMap = {
   Unit.calorie: 'calorie',

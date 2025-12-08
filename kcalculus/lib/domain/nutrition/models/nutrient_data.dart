@@ -14,20 +14,19 @@ part 'nutrient_data.g.dart';
 sealed class NutrientData with _$NutrientData {
   const NutrientData._();
 
-  const factory NutrientData._default({
+  const factory NutrientData.$default({
     required List<NutrientAmount> nutrientAmounts,
     required Map<Nutrient, Amount> nutrientAmountsMap,
   }) = _NutrientData;
 
   factory NutrientData({
     required List<NutrientAmount> nutrientAmounts,
-  }) =>
-      NutrientData._default(
-        nutrientAmounts: nutrientAmounts,
-        nutrientAmountsMap: {
-          for (final na in nutrientAmounts) na.nutrient: na.amount
-        },
-      );
+  }) => NutrientData.$default(
+    nutrientAmounts: nutrientAmounts,
+    nutrientAmountsMap: {
+      for (final na in nutrientAmounts) na.nutrient: na.amount,
+    },
+  );
 
   factory NutrientData.legacy({
     required double calories,
@@ -35,46 +34,45 @@ sealed class NutrientData with _$NutrientData {
     required double carbsInGrams,
     required double fiberInGrams,
     required double proteinInGrams,
-  }) =>
-      NutrientData(
-        nutrientAmounts: [
-          NutrientAmount(
-            nutrient: Nutrient.energy,
-            amount: Amount(
-              unit: Unit.calorie,
-              value: calories,
-            ),
-          ),
-          NutrientAmount(
-            nutrient: Nutrient.fat,
-            amount: Amount(
-              unit: Unit.gram,
-              value: fatInGrams,
-            ),
-          ),
-          NutrientAmount(
-            nutrient: Nutrient.totalCarbs,
-            amount: Amount(
-              unit: Unit.gram,
-              value: carbsInGrams,
-            ),
-          ),
-          NutrientAmount(
-            nutrient: Nutrient.fiber,
-            amount: Amount(
-              unit: Unit.gram,
-              value: fiberInGrams,
-            ),
-          ),
-          NutrientAmount(
-            nutrient: Nutrient.protein,
-            amount: Amount(
-              unit: Unit.gram,
-              value: proteinInGrams,
-            ),
-          ),
-        ],
-      );
+  }) => NutrientData(
+    nutrientAmounts: [
+      NutrientAmount(
+        nutrient: Nutrient.energy,
+        amount: Amount(
+          unit: Unit.calorie,
+          value: calories,
+        ),
+      ),
+      NutrientAmount(
+        nutrient: Nutrient.fat,
+        amount: Amount(
+          unit: Unit.gram,
+          value: fatInGrams,
+        ),
+      ),
+      NutrientAmount(
+        nutrient: Nutrient.totalCarbs,
+        amount: Amount(
+          unit: Unit.gram,
+          value: carbsInGrams,
+        ),
+      ),
+      NutrientAmount(
+        nutrient: Nutrient.fiber,
+        amount: Amount(
+          unit: Unit.gram,
+          value: fiberInGrams,
+        ),
+      ),
+      NutrientAmount(
+        nutrient: Nutrient.protein,
+        amount: Amount(
+          unit: Unit.gram,
+          value: proteinInGrams,
+        ),
+      ),
+    ],
+  );
 
   factory NutrientData.empty() {
     return NutrientData(nutrientAmounts: []);
@@ -126,22 +124,25 @@ sealed class NutrientData with _$NutrientData {
     };
 
     int compareNutrients(Nutrient a, Nutrient b) {
-      int result = (defaultPositions[a] ?? defaults.length) -
+      int result =
+          (defaultPositions[a] ?? defaults.length) -
           (defaultPositions[b] ?? defaults.length);
 
       if (result == 0) {
-        result = (modelPositions[a] ?? nutrientAmounts.length) -
+        result =
+            (modelPositions[a] ?? nutrientAmounts.length) -
             (modelPositions[b] ?? nutrientAmounts.length);
       }
 
       return result;
     }
 
-    final topLevelNutrientAmounts = nutrientAmounts
-        .where((na) => na.nutrient.partOf == null)
-        .map((na) => na.nutrient)
-        .toList()
-      ..sort(compareNutrients);
+    final topLevelNutrientAmounts =
+        nutrientAmounts
+            .where((na) => na.nutrient.partOf == null)
+            .map((na) => na.nutrient)
+            .toList()
+          ..sort(compareNutrients);
 
     final stack = <(Nutrient, int)>[
       ...topLevelNutrientAmounts.reversed.map(
@@ -165,8 +166,8 @@ sealed class NutrientData with _$NutrientData {
       if (parts != null) {
         stack.addAll(
           (parts..sort(compareNutrients)).reversed.map(
-                (n) => (n, level),
-              ),
+            (n) => (n, level),
+          ),
         );
       }
     }
@@ -234,11 +235,11 @@ sealed class NutrientData with _$NutrientData {
   }
 
   MacroSplit? getMacroSplit() => MacroSplit.fromAmounts(
-        fat: nutrientAmountsMap[Nutrient.fat],
-        carbs: nutrientAmountsMap[Nutrient.totalCarbs],
-        protein: nutrientAmountsMap[Nutrient.protein],
-        fiber: nutrientAmountsMap[Nutrient.fiber],
-      );
+    fat: nutrientAmountsMap[Nutrient.fat],
+    carbs: nutrientAmountsMap[Nutrient.totalCarbs],
+    protein: nutrientAmountsMap[Nutrient.protein],
+    fiber: nutrientAmountsMap[Nutrient.fiber],
+  );
 
   NutrientData withPrecision(int fractionDigits, [bool round = true]) {
     return NutrientData(
@@ -254,7 +255,8 @@ sealed class NutrientData with _$NutrientData {
   }
 
   NutritionFacts toFacts(NutritionRatio ratio) {
-    final factor = (ratio.perAmount.value * ratio.perAmount.unit.factor) /
+    final factor =
+        (ratio.perAmount.value * ratio.perAmount.unit.factor) /
         (ratio.totalAmount.value * ratio.totalAmount.unit.factor);
     return NutritionFacts(
       amount: ratio.perAmount,

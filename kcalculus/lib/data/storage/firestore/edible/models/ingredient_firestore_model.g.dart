@@ -7,16 +7,15 @@ part of 'ingredient_firestore_model.dart';
 // **************************************************************************
 
 _IngredientFirestoreModel _$IngredientFirestoreModelFromJson(
-        Map<String, dynamic> json) =>
-    _IngredientFirestoreModel(
-      edibleId: json['edibleId'] as String,
-      amount:
-          AmountFirestoreModel.fromJson(json['amount'] as Map<String, dynamic>),
-    );
+  Map<String, dynamic> json,
+) => _IngredientFirestoreModel(
+  edibleId: json['edibleId'] as String,
+  amount: AmountFirestoreModel.fromJson(json['amount'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$IngredientFirestoreModelToJson(
-        _IngredientFirestoreModel instance) =>
-    <String, dynamic>{
-      'edibleId': instance.edibleId,
-      'amount': instance.amount.toJson(),
-    };
+  _IngredientFirestoreModel instance,
+) => <String, dynamic>{
+  'edibleId': instance.edibleId,
+  'amount': instance.amount.toJson(),
+};

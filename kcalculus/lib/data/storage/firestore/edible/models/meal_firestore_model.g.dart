@@ -10,8 +10,9 @@ _MealFirestoreModel _$MealFirestoreModelFromJson(Map<String, dynamic> json) =>
     _MealFirestoreModel(
       id: json['id'] as String?,
       edibleId: json['edibleId'] as String,
-      amount:
-          AmountFirestoreModel.fromJson(json['amount'] as Map<String, dynamic>),
+      amount: AmountFirestoreModel.fromJson(
+        json['amount'] as Map<String, dynamic>,
+      ),
       eatenAt: timestampToDateNotNull(json['eatenAt'] as Timestamp),
       createdAt: timestampToDate(json['createdAt']),
       updatedAt: timestampToDate(json['updatedAt']),

@@ -6,7 +6,7 @@ part 'nutrition_ratio.g.dart';
 
 @freezed
 sealed class NutritionRatio with _$NutritionRatio {
-  const factory NutritionRatio._default({
+  const factory NutritionRatio.$default({
     required Amount perAmount,
     required Amount totalAmount,
   }) = _NutritionRatio;
@@ -19,7 +19,7 @@ sealed class NutritionRatio with _$NutritionRatio {
       throw 'Both perAmount and totalAmount must be of the same measure.';
     }
 
-    return NutritionRatio._default(
+    return NutritionRatio.$default(
       perAmount: perAmount,
       totalAmount: totalAmount,
     );

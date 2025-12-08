@@ -8,7 +8,7 @@ part 'nutrient_stats_ui_state.freezed.dart';
 
 @freezed
 sealed class NutrientStatsUiState with _$NutrientStatsUiState {
-  const factory NutrientStatsUiState._default({
+  const factory NutrientStatsUiState.$default({
     required DateTime date,
     required NutrientData data,
     required List<NutrientStatsRow> rows,
@@ -24,7 +24,7 @@ sealed class NutrientStatsUiState with _$NutrientStatsUiState {
       for (final goal in goals) goal.nutrient: goal.amount,
     };
 
-    return NutrientStatsUiState._default(
+    return NutrientStatsUiState.$default(
       date: date,
       data: data,
       rows: (data + NutrientData.zeros(defaults))

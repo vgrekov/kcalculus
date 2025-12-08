@@ -10,7 +10,7 @@ part 'nutrient_amount_ui_state.freezed.dart';
 sealed class NutrientAmountUiState with _$NutrientAmountUiState {
   const NutrientAmountUiState._();
 
-  const factory NutrientAmountUiState._default({
+  const factory NutrientAmountUiState.$default({
     required Nutrient nutrient,
     required Unit unit,
     double? value,
@@ -20,12 +20,11 @@ sealed class NutrientAmountUiState with _$NutrientAmountUiState {
     required Nutrient nutrient,
     Unit? unit,
     double? value,
-  }) =>
-      NutrientAmountUiState._default(
-        nutrient: nutrient,
-        unit: unit ?? nutrient.defaultUnit,
-        value: value,
-      );
+  }) => NutrientAmountUiState.$default(
+    nutrient: nutrient,
+    unit: unit ?? nutrient.defaultUnit,
+    value: value,
+  );
 
   factory NutrientAmountUiState.fromModel(NutrientAmount model) =>
       NutrientAmountUiState(

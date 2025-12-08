@@ -8,7 +8,7 @@ part 'meal_save_ui_state.freezed.dart';
 sealed class MealSaveUiState with _$MealSaveUiState {
   const MealSaveUiState._();
 
-  const factory MealSaveUiState._default({
+  const factory MealSaveUiState.$default({
     String? id,
     required DateTime eatenAt,
     Portion? portion,
@@ -18,15 +18,14 @@ sealed class MealSaveUiState with _$MealSaveUiState {
     String? id,
     DateTime? eatenAt,
     Portion? portion,
-  }) =>
-      MealSaveUiState._default(
-        id: id,
-        eatenAt: eatenAt ?? DateTime.now(),
-        portion: portion,
-      );
+  }) => MealSaveUiState.$default(
+    id: id,
+    eatenAt: eatenAt ?? DateTime.now(),
+    portion: portion,
+  );
 
   factory MealSaveUiState.fromMeal(Meal meal) {
-    return MealSaveUiState._default(
+    return MealSaveUiState.$default(
       id: meal.id,
       eatenAt: meal.eatenAt,
       portion: meal,

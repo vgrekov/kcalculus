@@ -22,7 +22,7 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
 
   const EdibleFirestoreModel._();
 
-  const factory EdibleFirestoreModel._default({
+  const factory EdibleFirestoreModel.$default({
     @JsonKey(
       includeToJson: false,
     )
@@ -79,25 +79,24 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
     DateTime? eatenAt,
     DateTime? touchedAt,
     DateTime? deletedAt,
-  }) =>
-      EdibleFirestoreModel._default(
-        id: id,
-        type: type,
-        name: name,
-        name_lower: name.toLowerCase(),
-        description: description,
-        description_lower: description.toLowerCase(),
-        ownerId: ownerId,
-        nutritionFactsPreview: nutritionFactsPreview,
-        nutritionFacts: nutritionFacts,
-        nutritionRatios: nutritionRatios,
-        ingredients: ingredients,
-        createdAt: createdAt,
-        updatedAt: updatedAt,
-        eatenAt: eatenAt,
-        touchedAt: touchedAt,
-        deletedAt: deletedAt,
-      );
+  }) => EdibleFirestoreModel.$default(
+    id: id,
+    type: type,
+    name: name,
+    name_lower: name.toLowerCase(),
+    description: description,
+    description_lower: description.toLowerCase(),
+    ownerId: ownerId,
+    nutritionFactsPreview: nutritionFactsPreview,
+    nutritionFacts: nutritionFacts,
+    nutritionRatios: nutritionRatios,
+    ingredients: ingredients,
+    createdAt: createdAt,
+    updatedAt: updatedAt,
+    eatenAt: eatenAt,
+    touchedAt: touchedAt,
+    deletedAt: deletedAt,
+  );
 
   factory EdibleFirestoreModel.fromJson(Map<String, dynamic> json) =>
       _$EdibleFirestoreModelFromJson(json);
@@ -105,20 +104,19 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
   factory EdibleFirestoreModel.fromDomain(
     Edible model,
     String ownerId,
-  ) =>
-      switch (model) {
-        Food food => EdibleFirestoreModel.fromDomainFood(
-            food,
-            ownerId,
-          ),
-        Dish dish => EdibleFirestoreModel.fromDomainDish(
-            dish,
-            ownerId,
-          ),
-        _ => throw ArgumentError(
-            'Unsupported edible type: ${model.runtimeType}',
-          ),
-      };
+  ) => switch (model) {
+    Food food => EdibleFirestoreModel.fromDomainFood(
+      food,
+      ownerId,
+    ),
+    Dish dish => EdibleFirestoreModel.fromDomainDish(
+      dish,
+      ownerId,
+    ),
+    _ => throw ArgumentError(
+      'Unsupported edible type: ${model.runtimeType}',
+    ),
+  };
 
   factory EdibleFirestoreModel.fromDomainFood(
     Food model,

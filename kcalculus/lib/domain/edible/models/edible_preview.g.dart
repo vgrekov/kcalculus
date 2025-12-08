@@ -15,7 +15,8 @@ _EdiblePreview _$EdiblePreviewFromJson(Map<String, dynamic> json) =>
       nutritionFactsPreview: json['nutritionFactsPreview'] == null
           ? null
           : NutritionFactsPreview.fromJson(
-              json['nutritionFactsPreview'] as Map<String, dynamic>),
+              json['nutritionFactsPreview'] as Map<String, dynamic>,
+            ),
       lastEatenAt: json['lastEatenAt'] == null
           ? null
           : DateTime.parse(json['lastEatenAt'] as String),
