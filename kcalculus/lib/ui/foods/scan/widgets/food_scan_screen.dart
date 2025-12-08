@@ -15,9 +15,7 @@ import 'package:kcalculus/utils/l10n.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class FoodScanScreen extends ConsumerStatefulWidget {
-  const FoodScanScreen({
-    super.key,
-  });
+  const FoodScanScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -34,9 +32,7 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
     FoodScanCommand.provideFood: _provideFood,
   };
 
-  final _scannerController = MobileScannerController(
-    autoStart: false,
-  );
+  final _scannerController = MobileScannerController(autoStart: false);
 
   StreamSubscription<Object?>? _scannerSubscription;
 
@@ -89,8 +85,9 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
   }
 
   void _startScanner() {
-    _scannerSubscription =
-        _scannerController.barcodes.listen(_onBarcodeDetected);
+    _scannerSubscription = _scannerController.barcodes.listen(
+      _onBarcodeDetected,
+    );
 
     _scannerController.start();
   }
@@ -154,7 +151,7 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
     final Widget content = Awaited(
       future: _scannerProcessor,
       loading: (_) => const ScannerProcessing(),
-      error: (_, __, ___) => ScannerTryAgain(
+      error: (_, _, _) => ScannerTryAgain(
         onTryAgain: () {
           _startScanner();
           setState(() {
@@ -163,11 +160,9 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
           });
         },
       ),
-      data: (_, __) {
+      data: (_, _) {
         if (_errorString == null) {
-          return Scanner(
-            controller: _scannerController,
-          );
+          return Scanner(controller: _scannerController);
         } else {
           return ScannerTryAgain(
             onTryAgain: () {
@@ -200,16 +195,13 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AspectRatio(
-                  aspectRatio: 1,
-                  child: content,
-                ),
+                AspectRatio(aspectRatio: 1, child: content),
                 const SizedBox(height: 16),
                 Text(
                   _errorString ?? '',
                   style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -229,9 +221,7 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
                 TextButton(
                   style: TextButton.styleFrom(
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8),
-                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                   ),
                   onPressed: () {
@@ -240,8 +230,8 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
                   child: Text(
                     l10n(context).actionClose,
                     style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ],

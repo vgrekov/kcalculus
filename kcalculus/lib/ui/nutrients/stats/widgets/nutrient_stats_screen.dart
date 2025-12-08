@@ -14,9 +14,9 @@ class NutrientStatsScreen extends ConsumerWidget {
     required this.date,
     required this.data,
   }) : viewModelArg = NutrientStatsViewModelArg(
-          date: date,
-          data: data,
-        );
+         date: date,
+         data: data,
+       );
 
   final DateTime date;
 
@@ -36,8 +36,8 @@ class NutrientStatsScreen extends ConsumerWidget {
             Text(
               l10n(context).screenDailyStats,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             Text(
               uiStateAsync.whenOrNull(
@@ -46,8 +46,8 @@ class NutrientStatsScreen extends ConsumerWidget {
                   ) ??
                   '',
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -60,12 +60,12 @@ class NutrientStatsScreen extends ConsumerWidget {
               child: NutrientStatsTable(rows: uiState.rows),
             ),
           ),
-          error: (_, __) => Center(
+          error: (_, _) => Center(
             child: Text(
               l10n(context).messageUnknownError,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ),
           loading: () => const Center(

@@ -25,14 +25,14 @@ class PagedListLoaderItem extends StatelessWidget {
             ),
           ),
         ),
-        error: (context, _, __) => SizedBox(
+        error: (context, _, _) => SizedBox(
           height: 40,
           child: Center(
             child: Text(
               l10n(context).messageUnknownError,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ),
         ),

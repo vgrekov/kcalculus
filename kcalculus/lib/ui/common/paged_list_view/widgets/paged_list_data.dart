@@ -147,7 +147,7 @@ class _PagedListDataState<Model> extends State<PagedListData<Model>> {
             confirmDeleteMessage: widget.confirmDeleteMessage,
             listStyle: listStyle,
           ),
-          separatorBuilder: (_, __) => (listStyle?.verticalGap ?? 0) > 0
+          separatorBuilder: (_, _) => (listStyle?.verticalGap ?? 0) > 0
               ? SizedBox(height: listStyle!.verticalGap)
               : const SizedBox.shrink(),
         ),

@@ -41,7 +41,7 @@ class NutrientDefaultsList extends StatelessWidget {
           onDeleteItem: onDeleteItem,
         );
       },
-      proxyDecorator: (child, _, __) {
+      proxyDecorator: (child, _, _) {
         return Material(
           color: Colors.transparent,
           child: child,

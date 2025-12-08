@@ -42,8 +42,9 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   }
 
   void _addMeal() async {
-    final nutrientDefaults =
-        await ref.read(mealListViewModel.notifier).getNutrientDefaults();
+    final nutrientDefaults = await ref
+        .read(mealListViewModel.notifier)
+        .getNutrientDefaults();
 
     if (mounted) {
       final meal = await Navigator.of(context).push<Meal>(
@@ -60,8 +61,9 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   }
 
   void _selectMeal(Meal meal) async {
-    final nutrientDefaults =
-        await ref.read(mealListViewModel.notifier).getNutrientDefaults();
+    final nutrientDefaults = await ref
+        .read(mealListViewModel.notifier)
+        .getNutrientDefaults();
 
     if (mounted) {
       final savedMeal = await Navigator.of(context).push<Meal>(
@@ -166,14 +168,14 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
               Text(
                 l10n(context).screenMeals,
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
               Text(
                 dt.formatDateLocal(context, uiState.date),
                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),
@@ -205,7 +207,7 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
         ),
         floatingActionButton: Awaited(
           future: uiState.data,
-          data: (_, __) => FloatingActionButton(
+          data: (_, _) => FloatingActionButton(
             onPressed: _addMeal,
             shape: const CircleBorder(),
             child: const Icon(Icons.add),
@@ -221,9 +223,11 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
                 future: uiState.data,
                 data: (_, data) {
                   final nutrientData = (data ?? [])
-                      .map((m) =>
-                          m.getNutritionFacts()?.nutrientData ??
-                          NutrientData.empty())
+                      .map(
+                        (m) =>
+                            m.getNutritionFacts()?.nutrientData ??
+                            NutrientData.empty(),
+                      )
                       .fold(
                         NutrientData.empty(),
                         (nd1, nd2) => nd1 + nd2,

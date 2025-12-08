@@ -83,14 +83,12 @@ class _AgreementScreenState extends ConsumerState<AgreementScreen> {
             child: Text(
               l10n(context).messageUnknownError,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           );
         },
-        data: (_, __) => WebViewWidget(
-          controller: _webViewController,
-        ),
+        data: (_, _) => WebViewWidget(controller: _webViewController),
       ),
       bottomNavigationBar: Awaited(
         future: _agreementLoader,

@@ -131,8 +131,8 @@ class FoodContainerListScreen extends ConsumerWidget with WidgetMessenger {
             title: Text(
               l10n(context).screenFoodContainers,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             actions: [
               IconButton(
@@ -169,7 +169,7 @@ class FoodContainerListScreen extends ConsumerWidget with WidgetMessenger {
           ),
           floatingActionButton: Awaited(
             future: uiState,
-            data: (_, __) => FloatingActionButton(
+            data: (_, _) => FloatingActionButton(
               onPressed: () {
                 _addFoodContainer(context);
               },

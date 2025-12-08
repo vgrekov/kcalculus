@@ -27,7 +27,7 @@ class IngredientList extends StatelessWidget {
               vertical: listStyle.verticalGap,
               horizontal: listStyle.horizontalGap,
             ),
-      separatorBuilder: (_, __) => (listStyle?.verticalGap ?? 0) > 0
+      separatorBuilder: (_, _) => (listStyle?.verticalGap ?? 0) > 0
           ? SizedBox(height: listStyle!.verticalGap)
           : const SizedBox.shrink(),
       itemBuilder: (context, index) {

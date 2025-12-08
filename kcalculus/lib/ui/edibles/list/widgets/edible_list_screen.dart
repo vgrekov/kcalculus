@@ -64,7 +64,7 @@ class EdibleListScreen extends ConsumerWidget with WidgetMessenger {
         l10n(context).actionDontShowAgain: () {
           ref.read(edibleListViewModel.notifier).disableScannerDisclaimer();
           _doScanFood(context, ref);
-        }
+        },
       },
       messageType: MessageType.warning,
     );
@@ -99,8 +99,9 @@ class EdibleListScreen extends ConsumerWidget with WidgetMessenger {
   }
 
   void _addFood(BuildContext context, WidgetRef ref, [Food? food]) async {
-    final nutrientDefaults =
-        await ref.read(edibleListViewModel.notifier).getNutrientDefaults();
+    final nutrientDefaults = await ref
+        .read(edibleListViewModel.notifier)
+        .getNutrientDefaults();
 
     if (context.mounted) {
       Navigator.of(context).push(
@@ -115,8 +116,9 @@ class EdibleListScreen extends ConsumerWidget with WidgetMessenger {
   }
 
   void _addDish(BuildContext context, WidgetRef ref) async {
-    final nutrientDefaults =
-        await ref.read(edibleListViewModel.notifier).getNutrientDefaults();
+    final nutrientDefaults = await ref
+        .read(edibleListViewModel.notifier)
+        .getNutrientDefaults();
 
     if (context.mounted) {
       Navigator.of(context).push(
@@ -260,8 +262,8 @@ class EdibleListScreen extends ConsumerWidget with WidgetMessenger {
             title: Text(
               l10n(context).screenFoods,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             actions: [
               IconButton(
@@ -306,16 +308,18 @@ class EdibleListScreen extends ConsumerWidget with WidgetMessenger {
             },
             noItemsMessage: l10n(context).messageEdibleSearchNothingFound,
             confirmDeleteMessage: (preview) => switch (preview.type) {
-              EdiblePreviewType.food =>
-                l10n(context).messageFoodDeletionConfirmation,
-              EdiblePreviewType.dish =>
-                l10n(context).messageDishDeletionConfirmation,
+              EdiblePreviewType.food => l10n(
+                context,
+              ).messageFoodDeletionConfirmation,
+              EdiblePreviewType.dish => l10n(
+                context,
+              ).messageDishDeletionConfirmation,
               _ => null,
             },
           ),
           floatingActionButton: Awaited(
             future: uiState,
-            data: (_, __) => EdibleAddFab(
+            data: (_, _) => EdibleAddFab(
               onAddFood: () {
                 _addFood(context, ref);
               },
