@@ -1,8 +1,9 @@
 // ignore_for_file: invalid_annotation_target
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/utils/json_flavourful/annotations/json_flavoured.dart';
-import 'package:kcalculus/utils/json_flavourful/annotations/json_flavourful.dart';
+import 'package:kcalculus/utils/json_flavourful/json_flavourful.dart';
+
+import 'created_at.dart';
 
 part 'test_model.freezed.dart';
 part 'test_model.g.dart';
@@ -17,88 +18,78 @@ enum Action {
 const kGeneratedId = 'generated-model-id';
 const kServerTimestamp = 'serverTimestamp';
 
-dynamic idGenerator(
-  Action action,
-  dynamic actual,
-) => actual ?? kGeneratedId;
-
-dynamic serverTimestamp(
-  Action action,
-  dynamic actual,
-) => kServerTimestamp;
-
-dynamic deletedAtTimestamp(
+JsonDecision idGenerator(
   Action action,
   dynamic actual,
 ) => switch (action) {
-  Action.delete => kServerTimestamp,
-  _ => null,
+  Action.create => JsonDecision.include(actual ?? kGeneratedId),
+  _ => JsonDecision.include(actual),
 };
 
-dynamic deletedFlag(
+JsonDecision serverTimestamp(
   Action action,
   dynamic actual,
 ) => switch (action) {
-  Action.create => false,
-  _ => true,
+  Action.create ||
+  Action.update => const JsonDecision.include(kServerTimestamp),
+  _ => JsonDecision.exclude(),
 };
 
-bool nonNull(
+JsonDecision deletedAtTimestamp(
   Action action,
   dynamic actual,
-) => actual != null;
+) => switch (action) {
+  Action.create => const JsonDecision.include(null),
+  Action.delete => const JsonDecision.include(kServerTimestamp),
+  _ => JsonDecision.exclude(),
+};
+
+JsonDecision deletedFlag(
+  Action action,
+  dynamic actual,
+) => switch (action) {
+  Action.create => const JsonDecision.include(false),
+  Action.delete => const JsonDecision.include(true),
+  _ => JsonDecision.exclude(),
+};
+
+JsonDecision nonNull(
+  Action action,
+  dynamic actual,
+) => switch (action) {
+  Action.create || Action.update =>
+    actual != null ? JsonDecision.include(actual) : JsonDecision.exclude(),
+  _ => JsonDecision.exclude(),
+};
 
 @Freezed()
 @JsonFlavourful<Action>()
 sealed class TestModel with _$TestModel {
   const factory TestModel({
     @JsonFlavoured(
-      {
-        Action.create,
-      },
-      value: idGenerator,
-      exclusive: false,
+      idGenerator,
     )
     String? id,
     required String name,
     @JsonFlavoured(
-      {
-        Action.create,
-        Action.update,
-      },
-      filter: nonNull,
+      nonNull,
     )
     String? description,
-    @JsonKey(name: 'created_at')
-    @JsonFlavoured(
-      {
-        Action.create,
-      },
-      value: serverTimestamp,
+    @JsonKey(
+      name: 'created_at',
     )
+    @CreatedAt()
     DateTime? createdAt,
     @JsonFlavoured(
-      {
-        Action.create,
-        Action.update,
-      },
-      value: serverTimestamp,
+      serverTimestamp,
     )
     DateTime? updatedAt,
     @JsonFlavoured(
-      {
-        Action.create,
-        Action.delete,
-      },
-      value: deletedAtTimestamp,
+      deletedAtTimestamp,
     )
     DateTime? deletedAt,
     @JsonFlavoured(
-      {
-        Action.create,
-        Action.delete,
-      },
-      value: deletedFlag,
+      deletedFlag,
     )
     bool? deleted,
   }) = _TestModel;

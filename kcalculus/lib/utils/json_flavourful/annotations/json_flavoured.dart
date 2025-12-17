@@ -1,16 +1,13 @@
-class JsonFlavoured<Flavour> {
-  const JsonFlavoured(
-    this.flavours, {
-    this.filter,
-    this.value,
-    this.exclusive = true,
-  });
+import 'package:kcalculus/utils/json_flavourful/annotations/json_flavoured_base.dart';
+import 'package:kcalculus/utils/json_flavourful/json_decider.dart';
+import 'package:kcalculus/utils/json_flavourful/json_decision.dart';
 
-  final Set<Flavour> flavours;
+class JsonFlavoured<Flavour> extends JsonFlavouredBase<Flavour> {
+  const JsonFlavoured(this.decider);
 
-  final bool Function(Flavour, dynamic)? filter;
+  final JsonDecider<Flavour> decider;
 
-  final dynamic Function(Flavour, dynamic)? value;
-
-  final bool exclusive;
+  @override
+  JsonDecision decide(Flavour flavour, dynamic actual) =>
+      decider(flavour, actual);
 }

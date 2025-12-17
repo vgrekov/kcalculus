@@ -1,19 +1,19 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:analyzer/dart/constant/value.dart';
+import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
+import 'package:build/build.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kcalculus/utils/json_flavourful/annotations/json_flavoured.dart';
+import 'package:kcalculus/utils/json_flavourful/annotations/json_flavoured_base.dart';
 import 'package:kcalculus/utils/json_flavourful/annotations/json_flavourful.dart';
 import 'package:mustache_template/mustache_template.dart';
 import 'package:source_gen/source_gen.dart';
-import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/type.dart';
-import 'package:analyzer/dart/constant/value.dart';
-import 'package:build/build.dart';
 
 class JsonFlavourfulGenerator extends GeneratorForAnnotation<JsonFlavourful> {
   final _jsonKeyChecker = TypeChecker.typeNamed(JsonKey);
 
-  final _jsonFlavouredChecker = TypeChecker.typeNamed(JsonFlavoured);
+  final _jsonFlavouredChecker = TypeChecker.typeNamed(JsonFlavouredBase);
 
   @override
   Future<String?> generateForAnnotatedElement(
@@ -132,7 +132,7 @@ class JsonFlavourfulGenerator extends GeneratorForAnnotation<JsonFlavourful> {
       final type = value.type;
       if (type == null) continue;
 
-      if (typeChecker.isExactlyType(type)) {
+      if (typeChecker.isAssignableFromType(type)) {
         yield (annotation, value);
       }
     }

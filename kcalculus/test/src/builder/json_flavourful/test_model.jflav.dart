@@ -7,19 +7,13 @@
 
 part of 'test_model.dart';
 
-final _flavouredFields = Map<String, JsonFlavoured<Action>>.unmodifiable({
-  'id': JsonFlavoured({Action.create}, value: idGenerator, exclusive: false),
-  'description': JsonFlavoured({Action.create, Action.update}, filter: nonNull),
-  'created_at': JsonFlavoured({Action.create}, value: serverTimestamp),
-  'updatedAt': JsonFlavoured({
-    Action.create,
-    Action.update,
-  }, value: serverTimestamp),
-  'deletedAt': JsonFlavoured({
-    Action.create,
-    Action.delete,
-  }, value: deletedAtTimestamp),
-  'deleted': JsonFlavoured({Action.create, Action.delete}, value: deletedFlag),
+final _flavouredFields = Map<String, JsonFlavouredBase<Action>>.unmodifiable({
+  'id': JsonFlavoured(idGenerator),
+  'description': JsonFlavoured(nonNull),
+  'created_at': CreatedAt(),
+  'updatedAt': JsonFlavoured(serverTimestamp),
+  'deletedAt': JsonFlavoured(deletedAtTimestamp),
+  'deleted': JsonFlavoured(deletedFlag),
 });
 
 extension TestModelJsonFlavourful on TestModel {
@@ -29,21 +23,10 @@ extension TestModelJsonFlavourful on TestModel {
     for (final key in json.keys.toList()) {
       final flavouredField = _flavouredFields[key];
       if (flavouredField != null) {
-        if (flavouredField.flavours.contains(flavour)) {
-          final originalValue = json[key];
-
-          final shouldBeIncluded =
-              flavouredField.filter == null ||
-              flavouredField.filter!(flavour, originalValue);
-
-          if (shouldBeIncluded) {
-            if (flavouredField.value != null) {
-              json[key] = flavouredField.value!(flavour, originalValue);
-            }
-          } else {
-            json.remove(key);
-          }
-        } else if (flavouredField.exclusive) {
+        final decision = flavouredField.decide(flavour, json[key]);
+        if (decision is JsonInclude) {
+          json[key] = decision.value;
+        } else {
           json.remove(key);
         }
       }
