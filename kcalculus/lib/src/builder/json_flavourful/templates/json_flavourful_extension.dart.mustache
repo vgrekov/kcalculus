@@ -1,0 +1,36 @@
+part of '{{lib_name}}';
+
+final _flavouredFields = Map<String, JsonFlavoured{{#flavour_type_deducted}}<{{flavour_type}}>{{/flavour_type_deducted}}>.unmodifiable({
+{{#flavoured_fields}}
+  '{{key}}': {{value}},
+{{/flavoured_fields}}
+});
+
+extension {{class_name}}JsonFlavourful on {{class_name}} {
+  Map<String, dynamic> toJsonFlavour({{#flavour_type_deducted}}{{flavour_type}}{{/flavour_type_deducted}}{{^flavour_type_deducted}}dynamic{{/flavour_type_deducted}} flavour) {
+    final json = toJson();
+
+    for (final key in json.keys.toList()) {
+      final flavouredField = _flavouredFields[key];
+      if (flavouredField != null) {
+        if (flavouredField.flavours.contains(flavour)) {
+          final originalValue = json[key];
+
+          final shouldBeIncluded = flavouredField.filter == null || flavouredField.filter!(flavour, originalValue);
+          
+          if (shouldBeIncluded) {
+            if (flavouredField.value != null) {
+              json[key] = flavouredField.value!(flavour, originalValue);
+            }
+          } else {
+            json.remove(key);
+          }
+        } else if (flavouredField.exclusive) {
+          json.remove(key);
+        }
+      }
+    }
+
+    return json;
+  }
+}

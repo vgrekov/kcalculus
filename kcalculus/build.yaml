@@ -4,3 +4,11 @@ targets:
       json_serializable:
         options:
           explicit_to_json: true
+
+builders:
+  json_flavourful:
+    import: "package:kcalculus/src/builder/builder.dart"
+    builder_factories: ["jsonFlavourfulBuilder"]
+    build_extensions: {".dart": [".jflav.dart"]}
+    auto_apply: root_package
+    build_to: source
