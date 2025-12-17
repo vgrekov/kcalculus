@@ -7,15 +7,12 @@ part of 'default_nutrient_db_model.dart';
 // **************************************************************************
 
 _DefaultNutrientDbModel _$DefaultNutrientDbModelFromJson(
-        Map<String, dynamic> json) =>
-    _DefaultNutrientDbModel(
-      name: json['name'] as String,
-      position: (json['position'] as num).toInt(),
-    );
+  Map<String, dynamic> json,
+) => _DefaultNutrientDbModel(
+  name: json['name'] as String,
+  position: (json['position'] as num).toInt(),
+);
 
 Map<String, dynamic> _$DefaultNutrientDbModelToJson(
-        _DefaultNutrientDbModel instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'position': instance.position,
-    };
+  _DefaultNutrientDbModel instance,
+) => <String, dynamic>{'name': instance.name, 'position': instance.position};

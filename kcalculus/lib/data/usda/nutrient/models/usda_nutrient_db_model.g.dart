@@ -15,10 +15,10 @@ _UsdaNutrientDbModel _$UsdaNutrientDbModelFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$UsdaNutrientDbModelToJson(
-        _UsdaNutrientDbModel instance) =>
-    <String, dynamic>{
-      'fdc_id': instance.fdc_id,
-      'number': instance.number,
-      'amount': instance.amount,
-      'unit_name': instance.unit_name,
-    };
+  _UsdaNutrientDbModel instance,
+) => <String, dynamic>{
+  'fdc_id': instance.fdc_id,
+  'number': instance.number,
+  'amount': instance.amount,
+  'unit_name': instance.unit_name,
+};

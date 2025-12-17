@@ -7,31 +7,30 @@ part of 'dish_db_model.dart';
 // **************************************************************************
 
 _DishDbModel _$DishDbModelFromJson(Map<String, dynamic> json) => _DishDbModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String?,
-      mass_per_amount_unit: json['mass_per_amount_unit'] as String?,
-      mass_per_amount_value:
-          (json['mass_per_amount_value'] as num?)?.toDouble(),
-      mass_total_amount_unit: json['mass_total_amount_unit'] as String?,
-      mass_total_amount_value:
-          (json['mass_total_amount_value'] as num?)?.toDouble(),
-      volume_per_amount_unit: json['volume_per_amount_unit'] as String?,
-      volume_per_amount_value:
-          (json['volume_per_amount_value'] as num?)?.toDouble(),
-      volume_total_amount_unit: json['volume_total_amount_unit'] as String?,
-      volume_total_amount_value:
-          (json['volume_total_amount_value'] as num?)?.toDouble(),
-      quantity_per_amount_unit: json['quantity_per_amount_unit'] as String?,
-      quantity_per_amount_value:
-          (json['quantity_per_amount_value'] as num?)?.toDouble(),
-      quantity_total_amount_unit: json['quantity_total_amount_unit'] as String?,
-      quantity_total_amount_value:
-          (json['quantity_total_amount_value'] as num?)?.toDouble(),
-      created_at: json['created_at'] as String?,
-      updated_at: json['updated_at'] as String?,
-      deleted_at: json['deleted_at'] as String?,
-    );
+  id: json['id'] as String,
+  name: json['name'] as String,
+  description: json['description'] as String?,
+  mass_per_amount_unit: json['mass_per_amount_unit'] as String?,
+  mass_per_amount_value: (json['mass_per_amount_value'] as num?)?.toDouble(),
+  mass_total_amount_unit: json['mass_total_amount_unit'] as String?,
+  mass_total_amount_value: (json['mass_total_amount_value'] as num?)
+      ?.toDouble(),
+  volume_per_amount_unit: json['volume_per_amount_unit'] as String?,
+  volume_per_amount_value: (json['volume_per_amount_value'] as num?)
+      ?.toDouble(),
+  volume_total_amount_unit: json['volume_total_amount_unit'] as String?,
+  volume_total_amount_value: (json['volume_total_amount_value'] as num?)
+      ?.toDouble(),
+  quantity_per_amount_unit: json['quantity_per_amount_unit'] as String?,
+  quantity_per_amount_value: (json['quantity_per_amount_value'] as num?)
+      ?.toDouble(),
+  quantity_total_amount_unit: json['quantity_total_amount_unit'] as String?,
+  quantity_total_amount_value: (json['quantity_total_amount_value'] as num?)
+      ?.toDouble(),
+  created_at: json['created_at'] as String?,
+  updated_at: json['updated_at'] as String?,
+  deleted_at: json['deleted_at'] as String?,
+);
 
 Map<String, dynamic> _$DishDbModelToJson(_DishDbModel instance) =>
     <String, dynamic>{

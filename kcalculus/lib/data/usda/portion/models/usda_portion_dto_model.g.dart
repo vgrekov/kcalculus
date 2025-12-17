@@ -14,9 +14,9 @@ _UsdaPortionDtoModel _$UsdaPortionDtoModelFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$UsdaPortionDtoModelToJson(
-        _UsdaPortionDtoModel instance) =>
-    <String, dynamic>{
-      'measureUnitId': instance.measureUnitId,
-      'amount': instance.amount,
-      'gramWeight': instance.gramWeight,
-    };
+  _UsdaPortionDtoModel instance,
+) => <String, dynamic>{
+  'measureUnitId': instance.measureUnitId,
+  'amount': instance.amount,
+  'gramWeight': instance.gramWeight,
+};

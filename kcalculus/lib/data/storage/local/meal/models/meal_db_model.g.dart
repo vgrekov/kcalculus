@@ -7,15 +7,15 @@ part of 'meal_db_model.dart';
 // **************************************************************************
 
 _MealDbModel _$MealDbModelFromJson(Map<String, dynamic> json) => _MealDbModel(
-      id: json['id'] as String,
-      edible_id: json['edible_id'] as String,
-      edible_food_id: json['edible_food_id'] as String?,
-      edible_dish_id: json['edible_dish_id'] as String?,
-      amount_unit: json['amount_unit'] as String,
-      amount_value: (json['amount_value'] as num).toDouble(),
-      eaten_at: json['eaten_at'] as String,
-      deleted_at: json['deleted_at'] as String?,
-    );
+  id: json['id'] as String,
+  edible_id: json['edible_id'] as String,
+  edible_food_id: json['edible_food_id'] as String?,
+  edible_dish_id: json['edible_dish_id'] as String?,
+  amount_unit: json['amount_unit'] as String,
+  amount_value: (json['amount_value'] as num).toDouble(),
+  eaten_at: json['eaten_at'] as String,
+  deleted_at: json['deleted_at'] as String?,
+);
 
 Map<String, dynamic> _$MealDbModelToJson(_MealDbModel instance) =>
     <String, dynamic>{

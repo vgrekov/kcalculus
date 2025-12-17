@@ -15,10 +15,10 @@ _NutrientGoalDbModel _$NutrientGoalDbModelFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$NutrientGoalDbModelToJson(
-        _NutrientGoalDbModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'nutrient': instance.nutrient,
-      'amount_unit': instance.amount_unit,
-      'amount_value': instance.amount_value,
-    };
+  _NutrientGoalDbModel instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'nutrient': instance.nutrient,
+  'amount_unit': instance.amount_unit,
+  'amount_value': instance.amount_value,
+};
