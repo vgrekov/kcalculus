@@ -52,6 +52,7 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^1.0.4
   source_gen: ^4.1.1
+  mustache_template: ^2.0.2
 
 flutter:
   uses-material-design: true
