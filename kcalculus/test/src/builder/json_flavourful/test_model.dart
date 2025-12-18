@@ -1,97 +1,45 @@
 // ignore_for_file: invalid_annotation_target
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
 import 'package:kcalculus/utils/json_flavourful/json_flavourful.dart';
 
-import 'created_at.dart';
+import 'annotations/created_at.dart';
+import 'annotations/deleted_at.dart';
+import 'annotations/deleted_flag.dart';
+import 'annotations/id.dart';
+import 'annotations/non_null.dart';
+import 'annotations/updated_at.dart';
 
 part 'test_model.freezed.dart';
 part 'test_model.g.dart';
 part 'test_model.jflav.dart';
 
-enum Action {
-  create,
-  update,
-  delete,
-}
-
 const kGeneratedId = 'generated-model-id';
+
 const kServerTimestamp = 'serverTimestamp';
 
-JsonDecision idGenerator(
-  Action action,
-  dynamic actual,
-) => switch (action) {
-  Action.create => JsonDecision.include(actual ?? kGeneratedId),
-  _ => JsonDecision.include(actual),
-};
-
-JsonDecision serverTimestamp(
-  Action action,
-  dynamic actual,
-) => switch (action) {
-  Action.create ||
-  Action.update => const JsonDecision.include(kServerTimestamp),
-  _ => JsonDecision.exclude(),
-};
-
-JsonDecision deletedAtTimestamp(
-  Action action,
-  dynamic actual,
-) => switch (action) {
-  Action.create => const JsonDecision.include(null),
-  Action.delete => const JsonDecision.include(kServerTimestamp),
-  _ => JsonDecision.exclude(),
-};
-
-JsonDecision deletedFlag(
-  Action action,
-  dynamic actual,
-) => switch (action) {
-  Action.create => const JsonDecision.include(false),
-  Action.delete => const JsonDecision.include(true),
-  _ => JsonDecision.exclude(),
-};
-
-JsonDecision nonNull(
-  Action action,
-  dynamic actual,
-) => switch (action) {
-  Action.create || Action.update =>
-    actual != null ? JsonDecision.include(actual) : JsonDecision.exclude(),
-  _ => JsonDecision.exclude(),
-};
-
 @Freezed()
-@JsonFlavourful<Action>()
+@JsonFlavourful<StorageAction>()
 sealed class TestModel with _$TestModel {
   const factory TestModel({
-    @JsonFlavoured(
-      idGenerator,
-    )
-    String? id,
+    @Id(kGeneratedId) String? id,
+
     required String name,
-    @JsonFlavoured(
-      nonNull,
-    )
-    String? description,
+
+    @NonNull() String? description,
+
     @JsonKey(
       name: 'created_at',
     )
-    @CreatedAt()
+    @CreatedAt(kServerTimestamp)
     DateTime? createdAt,
-    @JsonFlavoured(
-      serverTimestamp,
-    )
-    DateTime? updatedAt,
-    @JsonFlavoured(
-      deletedAtTimestamp,
-    )
-    DateTime? deletedAt,
-    @JsonFlavoured(
-      deletedFlag,
-    )
-    bool? deleted,
+
+    @UpdatedAt(kServerTimestamp) DateTime? updatedAt,
+
+    @DeletedAt() DateTime? deletedAt,
+
+    @DeletedFlag() bool? deleted,
   }) = _TestModel;
 
   factory TestModel.fromJson(Map<String, dynamic> json) =>

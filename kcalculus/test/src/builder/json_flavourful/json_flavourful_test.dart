@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
 
 import 'test_model.dart';
 
 void main() {
   group(
-    'Action.create',
+    'StorageActionCreate',
     () {
       test(
         'Audit fields not provided',
@@ -14,7 +15,7 @@ void main() {
             name: 'Model Name',
           );
 
-          final json = model.toJsonFlavour(Action.create);
+          final json = model.toJsonFlavour(const StorageActionCreate());
 
           expect(json['created_at'], kServerTimestamp);
           expect(json['updatedAt'], kServerTimestamp);
@@ -38,7 +39,7 @@ void main() {
             deleted: true,
           );
 
-          final json = model.toJsonFlavour(Action.create);
+          final json = model.toJsonFlavour(const StorageActionCreate());
 
           expect(json['created_at'], kServerTimestamp);
           expect(json['updatedAt'], kServerTimestamp);
@@ -53,7 +54,7 @@ void main() {
   );
 
   group(
-    'Action.update',
+    'StorageActionUpdate',
     () {
       test(
         'Audit fields not provided',
@@ -63,7 +64,7 @@ void main() {
             name: 'Model Name',
           );
 
-          final json = model.toJsonFlavour(Action.update);
+          final json = model.toJsonFlavour(const StorageActionUpdate());
 
           expect(json.containsKey('created_at'), false);
 
@@ -86,7 +87,7 @@ void main() {
             deleted: true,
           );
 
-          final json = model.toJsonFlavour(Action.update);
+          final json = model.toJsonFlavour(const StorageActionUpdate());
 
           expect(json.containsKey('created_at'), false);
 
@@ -94,51 +95,6 @@ void main() {
 
           expect(json.containsKey('deletedAt'), false);
           expect(json.containsKey('deleted'), false);
-        },
-      );
-    },
-  );
-
-  group(
-    'Action.delete',
-    () {
-      test(
-        'Audit fields not provided',
-        () {
-          final model = TestModel(
-            id: 'model-id',
-            name: 'Model Name',
-          );
-
-          final json = model.toJsonFlavour(Action.delete);
-
-          expect(json.containsKey('created_at'), false);
-          expect(json.containsKey('updatedAt'), false);
-
-          expect(json['deletedAt'], kServerTimestamp);
-          expect(json['deleted'], true);
-        },
-      );
-
-      test(
-        'Audit fields provided, but overridden',
-        () {
-          final model = TestModel(
-            id: 'model-id',
-            name: 'Model Name',
-            createdAt: DateTime.now(),
-            updatedAt: DateTime.now(),
-            deletedAt: DateTime.now(),
-            deleted: true,
-          );
-
-          final json = model.toJsonFlavour(Action.delete);
-
-          expect(json.containsKey('created_at'), false);
-          expect(json.containsKey('updatedAt'), false);
-
-          expect(json['deletedAt'], kServerTimestamp);
-          expect(json['deleted'], true);
         },
       );
     },
@@ -154,16 +110,11 @@ void main() {
             name: 'Model Name',
           );
 
-          var json = model.toJsonFlavour(Action.create);
+          var json = model.toJsonFlavour(const StorageActionCreate());
 
           expect(json['id'], kGeneratedId);
 
-          json = model.toJsonFlavour(Action.update);
-
-          expect(json.containsKey('id'), true);
-          expect(json['id'], null);
-
-          json = model.toJsonFlavour(Action.delete);
+          json = model.toJsonFlavour(const StorageActionUpdate());
 
           expect(json.containsKey('id'), true);
           expect(json['id'], null);
@@ -180,15 +131,11 @@ void main() {
             name: 'Model Name',
           );
 
-          var json = model.toJsonFlavour(Action.create);
+          var json = model.toJsonFlavour(const StorageActionCreate());
 
           expect(json['id'], id);
 
-          json = model.toJsonFlavour(Action.update);
-
-          expect(json['id'], id);
-
-          json = model.toJsonFlavour(Action.delete);
+          json = model.toJsonFlavour(const StorageActionUpdate());
 
           expect(json['id'], id);
         },
@@ -206,7 +153,7 @@ void main() {
             name: 'Model Name',
           );
 
-          var json = model.toJsonFlavour(Action.create);
+          var json = model.toJsonFlavour(const StorageActionCreate());
 
           expect(json.containsKey('description'), false);
         },
@@ -222,7 +169,7 @@ void main() {
             description: description,
           );
 
-          var json = model.toJsonFlavour(Action.create);
+          var json = model.toJsonFlavour(const StorageActionCreate());
 
           expect(json.containsKey('description'), true);
           expect(json['description'], description);

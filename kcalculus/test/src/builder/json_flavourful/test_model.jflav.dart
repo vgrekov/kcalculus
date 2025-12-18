@@ -7,17 +7,18 @@
 
 part of 'test_model.dart';
 
-final _flavouredFields = Map<String, JsonFlavouredBase<Action>>.unmodifiable({
-  'id': JsonFlavoured(idGenerator),
-  'description': JsonFlavoured(nonNull),
-  'created_at': CreatedAt(),
-  'updatedAt': JsonFlavoured(serverTimestamp),
-  'deletedAt': JsonFlavoured(deletedAtTimestamp),
-  'deleted': JsonFlavoured(deletedFlag),
-});
+final _flavouredFields =
+    Map<String, JsonFlavouredBase<StorageAction>>.unmodifiable({
+      'id': Id(kGeneratedId),
+      'description': NonNull(),
+      'created_at': CreatedAt(kServerTimestamp),
+      'updatedAt': UpdatedAt(kServerTimestamp),
+      'deletedAt': DeletedAt(),
+      'deleted': DeletedFlag(),
+    });
 
 extension TestModelJsonFlavourful on TestModel {
-  Map<String, dynamic> toJsonFlavour(Action flavour) {
+  Map<String, dynamic> toJsonFlavour(StorageAction flavour) {
     final json = toJson();
 
     for (final key in json.keys.toList()) {
