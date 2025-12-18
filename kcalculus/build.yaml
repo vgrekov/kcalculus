@@ -12,3 +12,9 @@ builders:
     build_extensions: {".dart": [".jflav.dart"]}
     auto_apply: root_package
     build_to: source
+  json_fields:
+    import: "package:kcalculus/src/builder/builder.dart"
+    builder_factories: ["jsonFieldsBuilder"]
+    build_extensions: {".dart": [".jfields.dart"]}
+    auto_apply: root_package
+    build_to: source
