@@ -1,9 +1,17 @@
 part of '{{lib_name}}';
 
 class {{class_name}}JsonFields {
-  const {{class_name}}JsonFields._();
+  {{class_name}}JsonFields._(
+    String prefix,
+  ) {{#fields}}{{#first}}: {{/first}}{{name}} = {{#json_fields_class_found}}{{json_fields_class}}JsonFields.withParent({{/json_fields_class_found}}'${prefix}{{json_name}}'{{#json_fields_class_found}}){{/json_fields_class_found}}{{^last}},{{/last}}{{/fields}};
+
+  {{class_name}}JsonFields.root() : this._('');
+
+  {{class_name}}JsonFields.withParent(String parentPath)
+    : this._('$parentPath.');
 
   {{#fields}}
-  static const {{fieldName}} = '{{jsonFieldName}}';
+    final {{#json_fields_class_found}}{{json_fields_class}}JsonFields{{/json_fields_class_found}}{{^json_fields_class_found}}String{{/json_fields_class_found}} {{name}};
+
   {{/fields}}
 }

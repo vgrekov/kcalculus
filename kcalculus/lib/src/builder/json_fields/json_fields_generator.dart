@@ -9,6 +9,8 @@ import 'package:mustache_template/mustache_template.dart';
 import 'package:source_gen/source_gen.dart';
 
 class JsonFieldsGenerator extends GeneratorForAnnotation<JsonFields> {
+  final _jsonFieldsChecker = TypeChecker.typeNamed(JsonFields);
+
   final _jsonKeyChecker = TypeChecker.typeNamed(JsonKey);
 
   @override
@@ -32,20 +34,26 @@ class JsonFieldsGenerator extends GeneratorForAnnotation<JsonFields> {
 
     final template = Template(content);
 
+    final fields = _readJsonFields(element);
+
     return template.renderString({
       'lib_name': libName,
       'class_name': className,
-      'fields': _readJsonFields(element).entries.map(
+      'fields': fields.entries.indexed.map(
         (e) => {
-          'fieldName': e.key,
-          'jsonFieldName': e.value,
+          'name': e.$2.key,
+          'json_name': e.$2.value.jsonName,
+          'json_fields_class': e.$2.value.jsonFieldsClassName,
+          'json_fields_class_found': e.$2.value.jsonFieldsClassName != null,
+          'first': e.$1 == 0,
+          'last': e.$1 == fields.length - 1,
         },
       ),
     });
   }
 
-  Map<String, String> _readJsonFields(ClassElement classElement) {
-    final resolved = <String, String>{};
+  Map<String, _JsonField> _readJsonFields(ClassElement classElement) {
+    final resolved = <String, _JsonField>{};
 
     _resolveConstructorParams(classElement, resolved);
     _resolveFields(classElement, resolved);
@@ -55,47 +63,49 @@ class JsonFieldsGenerator extends GeneratorForAnnotation<JsonFields> {
 
   void _resolveConstructorParams(
     ClassElement classElement,
-    Map<String, String> resolved,
+    Map<String, _JsonField> resolved,
   ) {
     for (final constructor in classElement.constructors) {
       for (final param in constructor.formalParameters) {
-        final fieldName = param.name;
-        if (fieldName == null) continue;
-
-        final jsonKeyName = _readJsonKeyName(param);
-
-        if (jsonKeyName != null) {
-          resolved[fieldName] = jsonKeyName;
-        } else {
-          resolved.putIfAbsent(
-            fieldName,
-            () => jsonKeyName ?? fieldName,
-          );
-        }
+        _resolveElement(param, resolved);
       }
     }
   }
 
   void _resolveFields(
     ClassElement classElement,
-    Map<String, String> resolved,
+    Map<String, _JsonField> resolved,
   ) {
     for (final field in classElement.fields) {
       if (field.isStatic) continue;
 
-      final fieldName = field.name;
-      if (fieldName == null) continue;
+      _resolveElement(field, resolved);
+    }
+  }
 
-      final jsonKeyName = _readJsonKeyName(field);
+  void _resolveElement(
+    VariableElement element,
+    Map<String, _JsonField> resolved,
+  ) {
+    final fieldName = element.name;
+    if (fieldName == null) return;
 
-      if (jsonKeyName != null) {
-        resolved[fieldName] = jsonKeyName;
-      } else {
-        resolved.putIfAbsent(
-          fieldName,
-          () => jsonKeyName ?? fieldName,
-        );
-      }
+    final jsonKeyName = _readJsonKeyName(element);
+    final jsonFieldsClassName = _jsonFieldsClassName(element);
+
+    if (jsonKeyName != null) {
+      resolved[fieldName] = _JsonField(
+        jsonName: jsonKeyName,
+        jsonFieldsClassName: jsonFieldsClassName,
+      );
+    } else {
+      resolved.putIfAbsent(
+        fieldName,
+        () => _JsonField(
+          jsonName: jsonKeyName ?? fieldName,
+          jsonFieldsClassName: jsonFieldsClassName,
+        ),
+      );
     }
   }
 
@@ -130,4 +140,32 @@ class JsonFieldsGenerator extends GeneratorForAnnotation<JsonFields> {
 
     return jsonKeyName.isNull ? null : jsonKeyName.stringValue;
   }
+
+  String? _jsonFieldsClassName(VariableElement element) {
+    final typeElement = element.type.element;
+
+    if (typeElement != null) {
+      final hasJsonFieldsAnnotation = _jsonFieldsChecker.hasAnnotationOfExact(
+        typeElement,
+        throwOnUnresolved: false,
+      );
+
+      if (hasJsonFieldsAnnotation) {
+        return typeElement.name;
+      }
+    }
+
+    return null;
+  }
+}
+
+class _JsonField {
+  const _JsonField({
+    required this.jsonName,
+    this.jsonFieldsClassName,
+  });
+
+  final String jsonName;
+
+  final String? jsonFieldsClassName;
 }
