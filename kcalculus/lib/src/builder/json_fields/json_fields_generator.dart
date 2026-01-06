@@ -37,8 +37,8 @@ class JsonFieldsGenerator extends GeneratorForAnnotation<JsonFields> {
       'class_name': className,
       'fields': _readJsonFields(element).entries.map(
         (e) => {
-          'fieldName': e.key,
-          'jsonFieldName': e.value,
+          'name': e.key,
+          'json_name': e.value,
         },
       ),
     });
@@ -59,19 +59,7 @@ class JsonFieldsGenerator extends GeneratorForAnnotation<JsonFields> {
   ) {
     for (final constructor in classElement.constructors) {
       for (final param in constructor.formalParameters) {
-        final fieldName = param.name;
-        if (fieldName == null) continue;
-
-        final jsonKeyName = _readJsonKeyName(param);
-
-        if (jsonKeyName != null) {
-          resolved[fieldName] = jsonKeyName;
-        } else {
-          resolved.putIfAbsent(
-            fieldName,
-            () => jsonKeyName ?? fieldName,
-          );
-        }
+        _resolveElement(param, resolved);
       }
     }
   }
@@ -83,19 +71,26 @@ class JsonFieldsGenerator extends GeneratorForAnnotation<JsonFields> {
     for (final field in classElement.fields) {
       if (field.isStatic) continue;
 
-      final fieldName = field.name;
-      if (fieldName == null) continue;
+      _resolveElement(field, resolved);
+    }
+  }
 
-      final jsonKeyName = _readJsonKeyName(field);
+  void _resolveElement(
+    VariableElement element,
+    Map<String, String> resolved,
+  ) {
+    final fieldName = element.name;
+    if (fieldName == null) return;
 
-      if (jsonKeyName != null) {
-        resolved[fieldName] = jsonKeyName;
-      } else {
-        resolved.putIfAbsent(
-          fieldName,
-          () => jsonKeyName ?? fieldName,
-        );
-      }
+    final jsonKeyName = _readJsonKeyName(element);
+
+    if (jsonKeyName != null) {
+      resolved[fieldName] = jsonKeyName;
+    } else {
+      resolved.putIfAbsent(
+        fieldName,
+        () => jsonKeyName ?? fieldName,
+      );
     }
   }
 
