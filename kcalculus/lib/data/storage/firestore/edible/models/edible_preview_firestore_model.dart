@@ -18,21 +18,29 @@ sealed class EdiblePreviewFirestoreModel with _$EdiblePreviewFirestoreModel {
       includeToJson: false,
     )
     required String id,
+
     required EdibleType type,
+
     required String name,
+
     required String description,
+
     required String ownerId,
+
     NutritionFactsPreviewFirestoreModel? nutritionFactsPreview,
+
     @JsonKey(
       includeToJson: false,
       fromJson: timestampToDate,
     )
     DateTime? eatenAt,
+
     @JsonKey(
       includeToJson: false,
       fromJson: timestampToDate,
     )
     DateTime? touchedAt,
+
     @JsonKey(
       includeToJson: false,
       fromJson: timestampToDate,
@@ -46,38 +54,37 @@ sealed class EdiblePreviewFirestoreModel with _$EdiblePreviewFirestoreModel {
   factory EdiblePreviewFirestoreModel.fromDomain(
     EdiblePreview model,
     String ownerId,
-  ) =>
-      EdiblePreviewFirestoreModel(
-        id: model.id,
-        type: switch (model.type) {
-          EdiblePreviewType.dish => EdibleType.dish,
-          _ => EdibleType.food,
-        },
-        name: model.name,
-        description: model.description,
-        ownerId: ownerId,
-        nutritionFactsPreview: model.nutritionFactsPreview == null
-            ? null
-            : NutritionFactsPreviewFirestoreModel.fromDomain(
-                model.nutritionFactsPreview!,
-              ),
-        eatenAt: model.lastEatenAt,
-        touchedAt: model.touchedAt,
-        deletedAt: model.deletedAt,
-      );
+  ) => EdiblePreviewFirestoreModel(
+    id: model.id,
+    type: switch (model.type) {
+      EdiblePreviewType.dish => EdibleType.dish,
+      _ => EdibleType.food,
+    },
+    name: model.name,
+    description: model.description,
+    ownerId: ownerId,
+    nutritionFactsPreview: model.nutritionFactsPreview == null
+        ? null
+        : NutritionFactsPreviewFirestoreModel.fromDomain(
+            model.nutritionFactsPreview!,
+          ),
+    eatenAt: model.lastEatenAt,
+    touchedAt: model.touchedAt,
+    deletedAt: model.deletedAt,
+  );
 
   EdiblePreview toDomain([bool isRecent = false]) => EdiblePreview(
-        id: id,
-        name: name,
-        description: description,
-        type: switch (type) {
-          EdibleType.food => EdiblePreviewType.food,
-          EdibleType.dish => EdiblePreviewType.dish,
-        },
-        nutritionFactsPreview: nutritionFactsPreview?.toDomain(),
-        lastEatenAt: eatenAt,
-        touchedAt: touchedAt,
-        deletedAt: deletedAt,
-        isRecent: isRecent,
-      );
+    id: id,
+    name: name,
+    description: description,
+    type: switch (type) {
+      EdibleType.food => EdiblePreviewType.food,
+      EdibleType.dish => EdiblePreviewType.dish,
+    },
+    nutritionFactsPreview: nutritionFactsPreview?.toDomain(),
+    lastEatenAt: eatenAt,
+    touchedAt: touchedAt,
+    deletedAt: deletedAt,
+    isRecent: isRecent,
+  );
 }
