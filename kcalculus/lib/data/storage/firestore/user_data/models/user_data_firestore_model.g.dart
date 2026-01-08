@@ -23,9 +23,6 @@ _UserDataFirestoreModel _$UserDataFirestoreModelFromJson(
       : SearchConfigFirestoreModel.fromJson(
           json['searchConfig'] as Map<String, dynamic>,
         ),
-  import: json['import'] == null
-      ? null
-      : ImportState.fromJson(json['import'] as Map<String, dynamic>),
   createdAt: timestampToDate(json['createdAt']),
   updatedAt: timestampToDate(json['updatedAt']),
   deletedAt: timestampToDate(json['deletedAt']),
@@ -36,5 +33,4 @@ Map<String, dynamic> _$UserDataFirestoreModelToJson(
 ) => <String, dynamic>{
   'settings': instance.settings?.toJson(),
   'defaultNutrients': instance.defaultNutrients,
-  'import': instance.import?.toJson(),
 };

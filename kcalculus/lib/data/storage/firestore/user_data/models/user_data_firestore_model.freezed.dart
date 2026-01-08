@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserDataFirestoreModel {
 
-@JsonKey(includeToJson: false) String get id; AppSettingsFirestoreModel? get settings; List<String>? get defaultNutrients;@JsonKey(includeToJson: false) SearchConfigFirestoreModel? get searchConfig; ImportState? get import;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get createdAt;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get updatedAt;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get deletedAt;
+@JsonKey(includeToJson: false) String get id; AppSettingsFirestoreModel? get settings; List<String>? get defaultNutrients;@JsonKey(includeToJson: false) SearchConfigFirestoreModel? get searchConfig;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get createdAt;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get updatedAt;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get deletedAt;
 /// Create a copy of UserDataFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $UserDataFirestoreModelCopyWith<UserDataFirestoreModel> get copyWith => _$UserDa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserDataFirestoreModel&&(identical(other.id, id) || other.id == id)&&(identical(other.settings, settings) || other.settings == settings)&&const DeepCollectionEquality().equals(other.defaultNutrients, defaultNutrients)&&(identical(other.searchConfig, searchConfig) || other.searchConfig == searchConfig)&&(identical(other.import, import) || other.import == import)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserDataFirestoreModel&&(identical(other.id, id) || other.id == id)&&(identical(other.settings, settings) || other.settings == settings)&&const DeepCollectionEquality().equals(other.defaultNutrients, defaultNutrients)&&(identical(other.searchConfig, searchConfig) || other.searchConfig == searchConfig)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,settings,const DeepCollectionEquality().hash(defaultNutrients),searchConfig,import,createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,settings,const DeepCollectionEquality().hash(defaultNutrients),searchConfig,createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'UserDataFirestoreModel(id: $id, settings: $settings, defaultNutrients: $defaultNutrients, searchConfig: $searchConfig, import: $import, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'UserDataFirestoreModel(id: $id, settings: $settings, defaultNutrients: $defaultNutrients, searchConfig: $searchConfig, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -48,11 +48,11 @@ abstract mixin class $UserDataFirestoreModelCopyWith<$Res>  {
   factory $UserDataFirestoreModelCopyWith(UserDataFirestoreModel value, $Res Function(UserDataFirestoreModel) _then) = _$UserDataFirestoreModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeToJson: false) String id, AppSettingsFirestoreModel? settings, List<String>? defaultNutrients,@JsonKey(includeToJson: false) SearchConfigFirestoreModel? searchConfig, ImportState? import,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? createdAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? updatedAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? deletedAt
+@JsonKey(includeToJson: false) String id, AppSettingsFirestoreModel? settings, List<String>? defaultNutrients,@JsonKey(includeToJson: false) SearchConfigFirestoreModel? searchConfig,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? createdAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? updatedAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? deletedAt
 });
 
 
-$AppSettingsFirestoreModelCopyWith<$Res>? get settings;$SearchConfigFirestoreModelCopyWith<$Res>? get searchConfig;$ImportStateCopyWith<$Res>? get import;
+$AppSettingsFirestoreModelCopyWith<$Res>? get settings;$SearchConfigFirestoreModelCopyWith<$Res>? get searchConfig;
 
 }
 /// @nodoc
@@ -65,14 +65,13 @@ class _$UserDataFirestoreModelCopyWithImpl<$Res>
 
 /// Create a copy of UserDataFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? settings = freezed,Object? defaultNutrients = freezed,Object? searchConfig = freezed,Object? import = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? deletedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? settings = freezed,Object? defaultNutrients = freezed,Object? searchConfig = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? deletedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,settings: freezed == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
 as AppSettingsFirestoreModel?,defaultNutrients: freezed == defaultNutrients ? _self.defaultNutrients : defaultNutrients // ignore: cast_nullable_to_non_nullable
 as List<String>?,searchConfig: freezed == searchConfig ? _self.searchConfig : searchConfig // ignore: cast_nullable_to_non_nullable
-as SearchConfigFirestoreModel?,import: freezed == import ? _self.import : import // ignore: cast_nullable_to_non_nullable
-as ImportState?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as SearchConfigFirestoreModel?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
@@ -101,18 +100,6 @@ $SearchConfigFirestoreModelCopyWith<$Res>? get searchConfig {
 
   return $SearchConfigFirestoreModelCopyWith<$Res>(_self.searchConfig!, (value) {
     return _then(_self.copyWith(searchConfig: value));
-  });
-}/// Create a copy of UserDataFirestoreModel
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$ImportStateCopyWith<$Res>? get import {
-    if (_self.import == null) {
-    return null;
-  }
-
-  return $ImportStateCopyWith<$Res>(_self.import!, (value) {
-    return _then(_self.copyWith(import: value));
   });
 }
 }
@@ -193,10 +180,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig,  ImportState? import, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserDataFirestoreModel() when $default != null:
-return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfig,_that.import,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfig,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return orElse();
 
 }
@@ -214,10 +201,10 @@ return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig,  ImportState? import, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _UserDataFirestoreModel():
-return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfig,_that.import,_that.createdAt,_that.updatedAt,_that.deletedAt);}
+return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfig,_that.createdAt,_that.updatedAt,_that.deletedAt);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -231,10 +218,10 @@ return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig,  ImportState? import, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _UserDataFirestoreModel() when $default != null:
-return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfig,_that.import,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfig,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return null;
 
 }
@@ -246,7 +233,7 @@ return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfi
 @JsonSerializable()
 
 class _UserDataFirestoreModel extends UserDataFirestoreModel {
-  const _UserDataFirestoreModel({@JsonKey(includeToJson: false) required this.id, this.settings, final  List<String>? defaultNutrients, @JsonKey(includeToJson: false) this.searchConfig, this.import, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.deletedAt}): _defaultNutrients = defaultNutrients,super._();
+  const _UserDataFirestoreModel({@JsonKey(includeToJson: false) required this.id, this.settings, final  List<String>? defaultNutrients, @JsonKey(includeToJson: false) this.searchConfig, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.deletedAt}): _defaultNutrients = defaultNutrients,super._();
   factory _UserDataFirestoreModel.fromJson(Map<String, dynamic> json) => _$UserDataFirestoreModelFromJson(json);
 
 @override@JsonKey(includeToJson: false) final  String id;
@@ -261,7 +248,6 @@ class _UserDataFirestoreModel extends UserDataFirestoreModel {
 }
 
 @override@JsonKey(includeToJson: false) final  SearchConfigFirestoreModel? searchConfig;
-@override final  ImportState? import;
 @override@JsonKey(includeToJson: false, fromJson: timestampToDate) final  DateTime? createdAt;
 @override@JsonKey(includeToJson: false, fromJson: timestampToDate) final  DateTime? updatedAt;
 @override@JsonKey(includeToJson: false, fromJson: timestampToDate) final  DateTime? deletedAt;
@@ -279,16 +265,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserDataFirestoreModel&&(identical(other.id, id) || other.id == id)&&(identical(other.settings, settings) || other.settings == settings)&&const DeepCollectionEquality().equals(other._defaultNutrients, _defaultNutrients)&&(identical(other.searchConfig, searchConfig) || other.searchConfig == searchConfig)&&(identical(other.import, import) || other.import == import)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserDataFirestoreModel&&(identical(other.id, id) || other.id == id)&&(identical(other.settings, settings) || other.settings == settings)&&const DeepCollectionEquality().equals(other._defaultNutrients, _defaultNutrients)&&(identical(other.searchConfig, searchConfig) || other.searchConfig == searchConfig)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,settings,const DeepCollectionEquality().hash(_defaultNutrients),searchConfig,import,createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,settings,const DeepCollectionEquality().hash(_defaultNutrients),searchConfig,createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'UserDataFirestoreModel(id: $id, settings: $settings, defaultNutrients: $defaultNutrients, searchConfig: $searchConfig, import: $import, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'UserDataFirestoreModel(id: $id, settings: $settings, defaultNutrients: $defaultNutrients, searchConfig: $searchConfig, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -299,11 +285,11 @@ abstract mixin class _$UserDataFirestoreModelCopyWith<$Res> implements $UserData
   factory _$UserDataFirestoreModelCopyWith(_UserDataFirestoreModel value, $Res Function(_UserDataFirestoreModel) _then) = __$UserDataFirestoreModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeToJson: false) String id, AppSettingsFirestoreModel? settings, List<String>? defaultNutrients,@JsonKey(includeToJson: false) SearchConfigFirestoreModel? searchConfig, ImportState? import,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? createdAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? updatedAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? deletedAt
+@JsonKey(includeToJson: false) String id, AppSettingsFirestoreModel? settings, List<String>? defaultNutrients,@JsonKey(includeToJson: false) SearchConfigFirestoreModel? searchConfig,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? createdAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? updatedAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? deletedAt
 });
 
 
-@override $AppSettingsFirestoreModelCopyWith<$Res>? get settings;@override $SearchConfigFirestoreModelCopyWith<$Res>? get searchConfig;@override $ImportStateCopyWith<$Res>? get import;
+@override $AppSettingsFirestoreModelCopyWith<$Res>? get settings;@override $SearchConfigFirestoreModelCopyWith<$Res>? get searchConfig;
 
 }
 /// @nodoc
@@ -316,14 +302,13 @@ class __$UserDataFirestoreModelCopyWithImpl<$Res>
 
 /// Create a copy of UserDataFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? settings = freezed,Object? defaultNutrients = freezed,Object? searchConfig = freezed,Object? import = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? deletedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? settings = freezed,Object? defaultNutrients = freezed,Object? searchConfig = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? deletedAt = freezed,}) {
   return _then(_UserDataFirestoreModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,settings: freezed == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
 as AppSettingsFirestoreModel?,defaultNutrients: freezed == defaultNutrients ? _self._defaultNutrients : defaultNutrients // ignore: cast_nullable_to_non_nullable
 as List<String>?,searchConfig: freezed == searchConfig ? _self.searchConfig : searchConfig // ignore: cast_nullable_to_non_nullable
-as SearchConfigFirestoreModel?,import: freezed == import ? _self.import : import // ignore: cast_nullable_to_non_nullable
-as ImportState?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as SearchConfigFirestoreModel?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
@@ -353,18 +338,6 @@ $SearchConfigFirestoreModelCopyWith<$Res>? get searchConfig {
 
   return $SearchConfigFirestoreModelCopyWith<$Res>(_self.searchConfig!, (value) {
     return _then(_self.copyWith(searchConfig: value));
-  });
-}/// Create a copy of UserDataFirestoreModel
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$ImportStateCopyWith<$Res>? get import {
-    if (_self.import == null) {
-    return null;
-  }
-
-  return $ImportStateCopyWith<$Res>(_self.import!, (value) {
-    return _then(_self.copyWith(import: value));
   });
 }
 }
