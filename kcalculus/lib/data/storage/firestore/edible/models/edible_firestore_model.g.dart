@@ -12,9 +12,9 @@ _EdibleFirestoreModel _$EdibleFirestoreModelFromJson(
   id: json['id'] as String?,
   type: $enumDecode(_$EdibleTypeEnumMap, json['type']),
   name: json['name'] as String,
-  name_lower: json['name_lower'] as String,
+  nameLower: json['name_lower'] as String,
   description: json['description'] as String,
-  description_lower: json['description_lower'] as String,
+  descriptionLower: json['description_lower'] as String,
   ownerId: json['ownerId'] as String,
   nutritionFactsPreview: json['nutritionFactsPreview'] == null
       ? null
@@ -40,6 +40,7 @@ _EdibleFirestoreModel _$EdibleFirestoreModelFromJson(
   eatenAt: timestampToDate(json['eatenAt']),
   touchedAt: timestampToDate(json['touchedAt']),
   deletedAt: timestampToDate(json['deletedAt']),
+  deleted: json['deleted'] as bool?,
 );
 
 Map<String, dynamic> _$EdibleFirestoreModelToJson(
@@ -47,9 +48,9 @@ Map<String, dynamic> _$EdibleFirestoreModelToJson(
 ) => <String, dynamic>{
   'type': _$EdibleTypeEnumMap[instance.type]!,
   'name': instance.name,
-  'name_lower': instance.name_lower,
+  'name_lower': instance.nameLower,
   'description': instance.description,
-  'description_lower': instance.description_lower,
+  'description_lower': instance.descriptionLower,
   'ownerId': instance.ownerId,
   'nutritionFactsPreview': instance.nutritionFactsPreview?.toJson(),
   'nutritionFacts': instance.nutritionFacts?.map((e) => e.toJson()).toList(),
@@ -57,6 +58,12 @@ Map<String, dynamic> _$EdibleFirestoreModelToJson(
     (k, e) => MapEntry(_$MeasureEnumMap[k]!, e.toJson()),
   ),
   'ingredients': instance.ingredients?.map((e) => e.toJson()).toList(),
+  'createdAt': dateToTimestamp(instance.createdAt),
+  'updatedAt': dateToTimestamp(instance.updatedAt),
+  'eatenAt': dateToTimestamp(instance.eatenAt),
+  'touchedAt': dateToTimestamp(instance.touchedAt),
+  'deletedAt': dateToTimestamp(instance.deletedAt),
+  'deleted': instance.deleted,
 };
 
 const _$EdibleTypeEnumMap = {EdibleType.food: 'food', EdibleType.dish: 'dish'};

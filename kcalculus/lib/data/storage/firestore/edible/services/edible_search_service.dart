@@ -1,5 +1,6 @@
 import 'package:algoliasearch/algoliasearch.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_preview_firestore_model.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
 
@@ -31,7 +32,7 @@ class FirestoreEdibleSearchService extends Notifier<void> {
     return response.hits
         .map(
           (hit) => EdiblePreviewFirestoreModel.fromJson({
-            'id': hit.objectID,
+            EdibleFirestoreModelJsonFields.id: hit.objectID,
             ...hit,
           }),
         )
@@ -63,5 +64,5 @@ class FirestoreEdibleSearchService extends Notifier<void> {
 
 final firestoreEdibleSearchServiceProvider =
     NotifierProvider<FirestoreEdibleSearchService, void>(
-  FirestoreEdibleSearchService.new,
-);
+      FirestoreEdibleSearchService.new,
+    );

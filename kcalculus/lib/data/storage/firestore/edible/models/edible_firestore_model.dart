@@ -1,6 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kcalculus/data/storage/_common/annotations/create_only.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
+import 'package:kcalculus/data/storage/firestore/_common/annotations/firestore_created_at.dart';
+import 'package:kcalculus/data/storage/firestore/_common/annotations/firestore_touched_at.dart';
+import 'package:kcalculus/data/storage/firestore/_common/annotations/firestore_updated_at.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_type.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/ingredient_firestore_model.dart';
@@ -12,11 +17,21 @@ import 'package:kcalculus/domain/dish/models/dish.dart';
 import 'package:kcalculus/domain/dish/models/ingredient.dart';
 import 'package:kcalculus/domain/edible/models/edible.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/utils/json_fields/json_fields.dart';
+import 'package:kcalculus/utils/json_flavourful/json_flavourful.dart';
 
 part 'edible_firestore_model.freezed.dart';
 part 'edible_firestore_model.g.dart';
+part 'edible_firestore_model.jfields.dart';
+part 'edible_firestore_model.jflav.dart';
+
+class EdibleActionEat extends StorageAction {
+  const EdibleActionEat();
+}
 
 @freezed
+@JsonFlavourful<StorageAction>()
+@JsonFields()
 sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
   static const kCollection = 'edibles';
 
@@ -27,41 +42,69 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
       includeToJson: false,
     )
     String? id,
-    required EdibleType type,
+
+    @CreateOnly() required EdibleType type,
+
     required String name,
-    required String name_lower,
+
+    @JsonKey(
+      name: 'name_lower',
+    )
+    required String nameLower,
+
     required String description,
-    required String description_lower,
-    required String ownerId,
+
+    @JsonKey(
+      name: 'description_lower',
+    )
+    required String descriptionLower,
+
+    @CreateOnly() required String ownerId,
+
     NutritionFactsPreviewFirestoreModel? nutritionFactsPreview,
+
     List<NutritionFactsFirestoreModel>? nutritionFacts,
+
     Map<Measure, NutritionRatioFirestoreModel>? nutritionRatios,
+
     List<IngredientFirestoreModel>? ingredients,
+
     @JsonKey(
-      includeToJson: false,
       fromJson: timestampToDate,
+      toJson: dateToTimestamp,
     )
+    @FirestoreCreatedAt()
     DateTime? createdAt,
+
     @JsonKey(
-      includeToJson: false,
       fromJson: timestampToDate,
+      toJson: dateToTimestamp,
     )
+    @FirestoreUpdatedAt()
     DateTime? updatedAt,
+
     @JsonKey(
-      includeToJson: false,
       fromJson: timestampToDate,
+      toJson: dateToTimestamp,
     )
+    @CreateOnly.override(null)
     DateTime? eatenAt,
+
     @JsonKey(
-      includeToJson: false,
       fromJson: timestampToDate,
+      toJson: dateToTimestamp,
     )
+    @FirestoreTouchedAt()
     DateTime? touchedAt,
+
     @JsonKey(
-      includeToJson: false,
       fromJson: timestampToDate,
+      toJson: dateToTimestamp,
     )
+    @CreateOnly.override(null)
     DateTime? deletedAt,
+
+    @CreateOnly.override(false) bool? deleted,
   }) = _EdibleFirestoreModel;
 
   factory EdibleFirestoreModel({
@@ -83,9 +126,9 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
     id: id,
     type: type,
     name: name,
-    name_lower: name.toLowerCase(),
+    nameLower: name.toLowerCase(),
     description: description,
-    description_lower: description.toLowerCase(),
+    descriptionLower: description.toLowerCase(),
     ownerId: ownerId,
     nutritionFactsPreview: nutritionFactsPreview,
     nutritionFacts: nutritionFacts,
@@ -96,6 +139,7 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
     eatenAt: eatenAt,
     touchedAt: touchedAt,
     deletedAt: deletedAt,
+    deleted: deletedAt != null,
   );
 
   factory EdibleFirestoreModel.fromJson(Map<String, dynamic> json) =>

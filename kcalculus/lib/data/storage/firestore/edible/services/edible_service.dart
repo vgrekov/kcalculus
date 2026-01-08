@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
@@ -21,7 +22,10 @@ class FirestoreEdibleService extends Notifier<void> {
   }) async {
     var query = _db
         .collection(EdibleFirestoreModel.kCollection)
-        .where('ownerId', isEqualTo: userId);
+        .where(
+          EdibleFirestoreModelJsonFields.ownerId,
+          isEqualTo: userId,
+        );
 
     final snapshot = await query.count().get();
 
@@ -34,9 +38,9 @@ class FirestoreEdibleService extends Notifier<void> {
   }) async {
     var query = _db
         .collection(EdibleFirestoreModel.kCollection)
-        .where('ownerId', isEqualTo: userId)
-        .where('deleted', isEqualTo: false)
-        .orderBy('touchedAt', descending: true)
+        .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId)
+        .where(EdibleFirestoreModelJsonFields.deleted, isEqualTo: false)
+        .orderBy(EdibleFirestoreModelJsonFields.touchedAt, descending: true)
         .orderBy(FieldPath.documentId, descending: true);
 
     if (pageConfig != null) {
@@ -52,10 +56,12 @@ class FirestoreEdibleService extends Notifier<void> {
     final snapshot = await query.get();
 
     return snapshot.docs
-        .map((s) => EdiblePreviewFirestoreModel.fromJson({
-              'id': s.id,
-              ...s.data(),
-            }))
+        .map(
+          (s) => EdiblePreviewFirestoreModel.fromJson({
+            EdibleFirestoreModelJsonFields.id: s.id,
+            ...s.data(),
+          }),
+        )
         .toList();
   }
 
@@ -71,16 +77,22 @@ class FirestoreEdibleService extends Notifier<void> {
       // upserted
       _db
           .collection(EdibleFirestoreModel.kCollection)
-          .where('ownerId', isEqualTo: userId)
-          .where('deleted', isEqualTo: false)
-          .where('updatedAt', isGreaterThanOrEqualTo: since)
-          .orderBy('updatedAt', descending: true)
+          .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId)
+          .where(EdibleFirestoreModelJsonFields.deleted, isEqualTo: false)
+          .where(
+            EdibleFirestoreModelJsonFields.updatedAt,
+            isGreaterThanOrEqualTo: since,
+          )
+          .orderBy(EdibleFirestoreModelJsonFields.updatedAt, descending: true)
           .orderBy(FieldPath.documentId, descending: true),
       // deleted
       _db
           .collection(EdibleFirestoreModel.kCollection)
-          .where('ownerId', isEqualTo: userId)
-          .where('deletedAt', isGreaterThanOrEqualTo: since),
+          .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId)
+          .where(
+            EdibleFirestoreModelJsonFields.deletedAt,
+            isGreaterThanOrEqualTo: since,
+          ),
     ];
 
     final result = <EdiblePreviewFirestoreModel>[];
@@ -91,7 +103,7 @@ class FirestoreEdibleService extends Notifier<void> {
       result.addAll(
         snapshot.docs.map(
           (s) => EdiblePreviewFirestoreModel.fromJson({
-            'id': s.id,
+            EdibleFirestoreModelJsonFields.id: s.id,
             ...s.data(),
           }),
         ),
@@ -106,8 +118,8 @@ class FirestoreEdibleService extends Notifier<void> {
   }) async {
     var query = _db
         .collection(EdibleFirestoreModel.kCollection)
-        .where('ownerId', isEqualTo: userId)
-        .where('deleted', isEqualTo: false);
+        .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId)
+        .where(EdibleFirestoreModelJsonFields.deleted, isEqualTo: false);
 
     final snapshot = await query.count().get();
 
@@ -123,10 +135,16 @@ class FirestoreEdibleService extends Notifier<void> {
     var query = _db
         .collection(EdibleFirestoreModel.kCollection)
         .where(FieldPath.documentId, isNotEqualTo: exceptWithId)
-        .where('ownerId', isEqualTo: userId)
-        .where('name_lower', isEqualTo: name.toLowerCase())
-        .where('description_lower', isEqualTo: description.toLowerCase())
-        .where('deleted', isEqualTo: false);
+        .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId)
+        .where(
+          EdibleFirestoreModelJsonFields.nameLower,
+          isEqualTo: name.toLowerCase(),
+        )
+        .where(
+          EdibleFirestoreModelJsonFields.descriptionLower,
+          isEqualTo: description.toLowerCase(),
+        )
+        .where(EdibleFirestoreModelJsonFields.deleted, isEqualTo: false);
 
     final snapshot = await query.count().get();
 
@@ -142,9 +160,12 @@ class FirestoreEdibleService extends Notifier<void> {
   FutureOr<bool> isMissingNutritionFactsPreviews(String userId) async {
     var query = _db
         .collection(EdibleFirestoreModel.kCollection)
-        .where('ownerId', isEqualTo: userId)
-        .where('nutritionFactsPreview', isNull: true)
-        .where('deleted', isEqualTo: false);
+        .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId)
+        .where(
+          EdibleFirestoreModelJsonFields.nutritionFactsPreview,
+          isNull: true,
+        )
+        .where(EdibleFirestoreModelJsonFields.deleted, isEqualTo: false);
 
     final snapshot = await query.count().get();
 
@@ -152,20 +173,25 @@ class FirestoreEdibleService extends Notifier<void> {
   }
 
   Future<List<EdiblePreviewFirestoreModel>>
-      findEdiblesWithoutNutritionFactsPreviews(String userId) async {
+  findEdiblesWithoutNutritionFactsPreviews(String userId) async {
     var query = _db
         .collection(EdibleFirestoreModel.kCollection)
-        .where('ownerId', isEqualTo: userId)
-        .where('nutritionFactsPreview', isNull: true)
-        .where('deleted', isEqualTo: false);
+        .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId)
+        .where(
+          EdibleFirestoreModelJsonFields.nutritionFactsPreview,
+          isNull: true,
+        )
+        .where(EdibleFirestoreModelJsonFields.deleted, isEqualTo: false);
 
     final snapshot = await query.get();
 
     return snapshot.docs
-        .map((s) => EdiblePreviewFirestoreModel.fromJson({
-              'id': s.id,
-              ...s.data(),
-            }))
+        .map(
+          (s) => EdiblePreviewFirestoreModel.fromJson({
+            EdibleFirestoreModelJsonFields.id: s.id,
+            ...s.data(),
+          }),
+        )
         .toList();
   }
 
@@ -184,7 +210,7 @@ class FirestoreEdibleService extends Notifier<void> {
     return data == null
         ? null
         : EdibleFirestoreModel.fromJson({
-            'id': snapshot.id,
+            EdibleFirestoreModelJsonFields.id: snapshot.id,
             ...data,
           });
   }
@@ -198,32 +224,19 @@ class FirestoreEdibleService extends Notifier<void> {
 
     final executor = FirestoreExecutor(txn);
 
-    final docRef =
-        _db.collection(EdibleFirestoreModel.kCollection).doc(model.id);
+    final docRef = _db
+        .collection(EdibleFirestoreModel.kCollection)
+        .doc(model.id);
 
     if (model.id == null) {
       await executor.set(
         docRef,
-        {
-          ...model.toJson(),
-          'createdAt': FieldValue.serverTimestamp(),
-          'updatedAt': FieldValue.serverTimestamp(),
-          'eatenAt': null,
-          'touchedAt': FieldValue.serverTimestamp(),
-          'deletedAt': null,
-          'deleted': false,
-        },
+        model.toJsonFlavour(const StorageActionCreate()),
       );
     } else {
       await executor.update(
         docRef,
-        {
-          ...model.toJson(),
-          if (!skipAudit) ...{
-            'updatedAt': FieldValue.serverTimestamp(),
-            'touchedAt': FieldValue.serverTimestamp(),
-          },
-        },
+        model.toJsonFlavour(StorageActionUpdate(skipAudit: skipAudit)),
       );
     }
 
@@ -255,8 +268,8 @@ class FirestoreEdibleService extends Notifier<void> {
     await executor.update(
       docRef,
       {
-        'eatenAt': dateToTimestamp(at),
-        'touchedAt': FieldValue.serverTimestamp(),
+        EdibleFirestoreModelJsonFields.eatenAt: dateToTimestamp(at),
+        EdibleFirestoreModelJsonFields.touchedAt: FieldValue.serverTimestamp(),
       },
     );
 
@@ -274,8 +287,8 @@ class FirestoreEdibleService extends Notifier<void> {
     await executor.update(
       docRef,
       {
-        'deletedAt': FieldValue.serverTimestamp(),
-        'deleted': true,
+        EdibleFirestoreModelJsonFields.deletedAt: FieldValue.serverTimestamp(),
+        EdibleFirestoreModelJsonFields.deleted: true,
       },
     );
 
@@ -293,8 +306,8 @@ class FirestoreEdibleService extends Notifier<void> {
     await executor.update(
       docRef,
       {
-        'deletedAt': null,
-        'deleted': false,
+        EdibleFirestoreModelJsonFields.deletedAt: null,
+        EdibleFirestoreModelJsonFields.deleted: false,
       },
     );
 
@@ -303,15 +316,17 @@ class FirestoreEdibleService extends Notifier<void> {
 
   Future<void> purge({
     required String userId,
-  }) =>
-      batchDelete(
-        _db
-            .collection(EdibleFirestoreModel.kCollection)
-            .where('ownerId', isEqualTo: userId),
-      );
+  }) => batchDelete(
+    _db
+        .collection(EdibleFirestoreModel.kCollection)
+        .where(
+          EdibleFirestoreModelJsonFields.ownerId,
+          isEqualTo: userId,
+        ),
+  );
 }
 
 final firestoreEdibleServiceProvider =
     NotifierProvider<FirestoreEdibleService, void>(
-  FirestoreEdibleService.new,
-);
+      FirestoreEdibleService.new,
+    );
