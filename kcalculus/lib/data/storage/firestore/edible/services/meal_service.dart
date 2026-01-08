@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/meal_firestore_model.dart';
@@ -30,19 +31,27 @@ class FirestoreMealService extends Notifier<void> {
 
     var query = _db
         .collection(MealFirestoreModel.collection(userId))
-        .where('deletedAt', isNull: true)
-        .where('eatenAt', isGreaterThanOrEqualTo: Timestamp.fromDate(start))
-        .where('eatenAt', isLessThan: Timestamp.fromDate(end))
-        .orderBy('eatenAt', descending: true)
+        .where(MealFirestoreModelJsonFields.deletedAt, isNull: true)
+        .where(
+          MealFirestoreModelJsonFields.eatenAt,
+          isGreaterThanOrEqualTo: Timestamp.fromDate(start),
+        )
+        .where(
+          MealFirestoreModelJsonFields.eatenAt,
+          isLessThan: Timestamp.fromDate(end),
+        )
+        .orderBy(MealFirestoreModelJsonFields.eatenAt, descending: true)
         .orderBy(FieldPath.documentId, descending: true);
 
     final snapshot = await query.get();
 
     return snapshot.docs
-        .map((s) => MealFirestoreModel.fromJson({
-              'id': s.id,
-              ...s.data(),
-            }))
+        .map(
+          (s) => MealFirestoreModel.fromJson({
+            MealFirestoreModelJsonFields.id: s.id,
+            ...s.data(),
+          }),
+        )
         .toList();
   }
 
@@ -53,8 +62,9 @@ class FirestoreMealService extends Notifier<void> {
   }) async {
     final executor = FirestoreExecutor(txn);
 
-    final docRef =
-        _db.collection(MealFirestoreModel.collection(userId)).doc(id);
+    final docRef = _db
+        .collection(MealFirestoreModel.collection(userId))
+        .doc(id);
 
     final snapshot = await executor.get(docRef);
 
@@ -63,7 +73,7 @@ class FirestoreMealService extends Notifier<void> {
     return data == null
         ? null
         : MealFirestoreModel.fromJson({
-            'id': snapshot.id,
+            MealFirestoreModelJsonFields.id: snapshot.id,
             ...data,
           });
   }
@@ -75,26 +85,19 @@ class FirestoreMealService extends Notifier<void> {
   }) async {
     final executor = FirestoreExecutor(txn);
 
-    final docRef =
-        _db.collection(MealFirestoreModel.collection(userId)).doc(model.id);
+    final docRef = _db
+        .collection(MealFirestoreModel.collection(userId))
+        .doc(model.id);
 
     if (model.id == null) {
       await executor.set(
         docRef,
-        {
-          ...model.toJson(),
-          'createdAt': FieldValue.serverTimestamp(),
-          'updatedAt': FieldValue.serverTimestamp(),
-          'deletedAt': null,
-        },
+        model.toJsonFlavour(const StorageActionCreate()),
       );
     } else {
       await executor.update(
         docRef,
-        {
-          ...model.toJson(),
-          'updatedAt': FieldValue.serverTimestamp(),
-        },
+        model.toJsonFlavour(const StorageActionUpdate()),
       );
     }
 
@@ -108,13 +111,14 @@ class FirestoreMealService extends Notifier<void> {
   }) async {
     final executor = FirestoreExecutor(txn);
 
-    final docRef =
-        _db.collection(MealFirestoreModel.collection(userId)).doc(id);
+    final docRef = _db
+        .collection(MealFirestoreModel.collection(userId))
+        .doc(id);
 
     await executor.update(
       docRef,
       {
-        'deletedAt': FieldValue.serverTimestamp(),
+        MealFirestoreModelJsonFields.deletedAt: FieldValue.serverTimestamp(),
       },
     );
 
@@ -128,13 +132,14 @@ class FirestoreMealService extends Notifier<void> {
   }) async {
     final executor = FirestoreExecutor(txn);
 
-    final docRef =
-        _db.collection(MealFirestoreModel.collection(userId)).doc(id);
+    final docRef = _db
+        .collection(MealFirestoreModel.collection(userId))
+        .doc(id);
 
     await executor.update(
       docRef,
       {
-        'deletedAt': null,
+        MealFirestoreModelJsonFields.deletedAt: null,
       },
     );
 
@@ -143,13 +148,12 @@ class FirestoreMealService extends Notifier<void> {
 
   Future<void> purge({
     required String userId,
-  }) =>
-      batchDelete(
-        _db.collection(MealFirestoreModel.collection(userId)),
-      );
+  }) => batchDelete(
+    _db.collection(MealFirestoreModel.collection(userId)),
+  );
 }
 
 final firestoreMealServiceProvider =
     NotifierProvider<FirestoreMealService, void>(
-  FirestoreMealService.new,
-);
+      FirestoreMealService.new,
+    );

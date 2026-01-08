@@ -2,15 +2,25 @@
 // ignore_for_file: invalid_annotation_target
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kcalculus/data/storage/_common/annotations/create_only.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
+import 'package:kcalculus/data/storage/firestore/_common/annotations/firestore_created_at.dart';
+import 'package:kcalculus/data/storage/firestore/_common/annotations/firestore_updated_at.dart';
 import 'package:kcalculus/data/storage/firestore/_common/models/amount_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/domain/edible/models/edible.dart';
 import 'package:kcalculus/domain/meal/models/meal.dart';
+import 'package:kcalculus/utils/json_fields/json_fields.dart';
+import 'package:kcalculus/utils/json_flavourful/json_flavourful.dart';
 
 part 'meal_firestore_model.freezed.dart';
 part 'meal_firestore_model.g.dart';
+part 'meal_firestore_model.jflav.dart';
+part 'meal_firestore_model.jfields.dart';
 
 @freezed
+@JsonFlavourful<StorageAction>()
+@JsonFields()
 sealed class MealFirestoreModel with _$MealFirestoreModel {
   static String collection(String userId) => 'users/$userId/meals';
 
@@ -21,27 +31,36 @@ sealed class MealFirestoreModel with _$MealFirestoreModel {
       includeToJson: false,
     )
     String? id,
+
     required String edibleId,
+
     required AmountFirestoreModel amount,
+
     @JsonKey(
       fromJson: timestampToDateNotNull,
       toJson: dateToTimestamp,
     )
     required DateTime eatenAt,
+
     @JsonKey(
-      includeToJson: false,
       fromJson: timestampToDate,
+      toJson: dateToTimestamp,
     )
+    @FirestoreCreatedAt()
     DateTime? createdAt,
+
     @JsonKey(
-      includeToJson: false,
       fromJson: timestampToDate,
+      toJson: dateToTimestamp,
     )
+    @FirestoreUpdatedAt()
     DateTime? updatedAt,
+
     @JsonKey(
-      includeToJson: false,
       fromJson: timestampToDate,
+      toJson: dateToTimestamp,
     )
+    @CreateOnly.override(null)
     DateTime? deletedAt,
   }) = _MealFirestoreModel;
 
@@ -49,16 +68,16 @@ sealed class MealFirestoreModel with _$MealFirestoreModel {
       _$MealFirestoreModelFromJson(json);
 
   factory MealFirestoreModel.fromDomain(Meal model) => MealFirestoreModel(
-        id: model.id,
-        edibleId: model.edible.id!,
-        amount: AmountFirestoreModel.fromDomain(model.amount),
-        eatenAt: model.eatenAt,
-      );
+    id: model.id,
+    edibleId: model.edible.id!,
+    amount: AmountFirestoreModel.fromDomain(model.amount),
+    eatenAt: model.eatenAt,
+  );
 
   Meal toDomain(Edible edible) => Meal(
-        id: id,
-        edible: edible,
-        amount: amount.toDomain(),
-        eatenAt: eatenAt,
-      );
+    id: id,
+    edible: edible,
+    amount: amount.toDomain(),
+    eatenAt: eatenAt,
+  );
 }

@@ -24,4 +24,7 @@ Map<String, dynamic> _$MealFirestoreModelToJson(_MealFirestoreModel instance) =>
       'edibleId': instance.edibleId,
       'amount': instance.amount.toJson(),
       'eatenAt': dateToTimestamp(instance.eatenAt),
+      'createdAt': dateToTimestamp(instance.createdAt),
+      'updatedAt': dateToTimestamp(instance.updatedAt),
+      'deletedAt': dateToTimestamp(instance.deletedAt),
     };
