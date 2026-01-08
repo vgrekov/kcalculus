@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserDataFirestoreModel {
 
-@JsonKey(includeToJson: false) String get id; AppSettingsFirestoreModel? get settings; List<String>? get defaultNutrients;@JsonKey(includeToJson: false) SearchConfigFirestoreModel? get searchConfig;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get createdAt;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get updatedAt;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get deletedAt;
+@JsonKey(includeToJson: false) String get id; AppSettingsFirestoreModel? get settings; List<String>? get defaultNutrients;@JsonKey(includeToJson: false) SearchConfigFirestoreModel? get searchConfig;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? get createdAt;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? get updatedAt;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null) DateTime? get deletedAt;
 /// Create a copy of UserDataFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $UserDataFirestoreModelCopyWith<$Res>  {
   factory $UserDataFirestoreModelCopyWith(UserDataFirestoreModel value, $Res Function(UserDataFirestoreModel) _then) = _$UserDataFirestoreModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeToJson: false) String id, AppSettingsFirestoreModel? settings, List<String>? defaultNutrients,@JsonKey(includeToJson: false) SearchConfigFirestoreModel? searchConfig,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? createdAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? updatedAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? deletedAt
+@JsonKey(includeToJson: false) String id, AppSettingsFirestoreModel? settings, List<String>? defaultNutrients,@JsonKey(includeToJson: false) SearchConfigFirestoreModel? searchConfig,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? updatedAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null) DateTime? deletedAt
 });
 
 
@@ -180,7 +180,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null)  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserDataFirestoreModel() when $default != null:
 return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfig,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
@@ -201,7 +201,7 @@ return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null)  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _UserDataFirestoreModel():
 return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfig,_that.createdAt,_that.updatedAt,_that.deletedAt);}
@@ -218,7 +218,7 @@ return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeToJson: false)  String id,  AppSettingsFirestoreModel? settings,  List<String>? defaultNutrients, @JsonKey(includeToJson: false)  SearchConfigFirestoreModel? searchConfig, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null)  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _UserDataFirestoreModel() when $default != null:
 return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfig,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
@@ -233,7 +233,7 @@ return $default(_that.id,_that.settings,_that.defaultNutrients,_that.searchConfi
 @JsonSerializable()
 
 class _UserDataFirestoreModel extends UserDataFirestoreModel {
-  const _UserDataFirestoreModel({@JsonKey(includeToJson: false) required this.id, this.settings, final  List<String>? defaultNutrients, @JsonKey(includeToJson: false) this.searchConfig, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.deletedAt}): _defaultNutrients = defaultNutrients,super._();
+  const _UserDataFirestoreModel({@JsonKey(includeToJson: false) required this.id, this.settings, final  List<String>? defaultNutrients, @JsonKey(includeToJson: false) this.searchConfig, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() this.createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() this.updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null) this.deletedAt}): _defaultNutrients = defaultNutrients,super._();
   factory _UserDataFirestoreModel.fromJson(Map<String, dynamic> json) => _$UserDataFirestoreModelFromJson(json);
 
 @override@JsonKey(includeToJson: false) final  String id;
@@ -248,9 +248,9 @@ class _UserDataFirestoreModel extends UserDataFirestoreModel {
 }
 
 @override@JsonKey(includeToJson: false) final  SearchConfigFirestoreModel? searchConfig;
-@override@JsonKey(includeToJson: false, fromJson: timestampToDate) final  DateTime? createdAt;
-@override@JsonKey(includeToJson: false, fromJson: timestampToDate) final  DateTime? updatedAt;
-@override@JsonKey(includeToJson: false, fromJson: timestampToDate) final  DateTime? deletedAt;
+@override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() final  DateTime? createdAt;
+@override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() final  DateTime? updatedAt;
+@override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null) final  DateTime? deletedAt;
 
 /// Create a copy of UserDataFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
@@ -285,7 +285,7 @@ abstract mixin class _$UserDataFirestoreModelCopyWith<$Res> implements $UserData
   factory _$UserDataFirestoreModelCopyWith(_UserDataFirestoreModel value, $Res Function(_UserDataFirestoreModel) _then) = __$UserDataFirestoreModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeToJson: false) String id, AppSettingsFirestoreModel? settings, List<String>? defaultNutrients,@JsonKey(includeToJson: false) SearchConfigFirestoreModel? searchConfig,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? createdAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? updatedAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? deletedAt
+@JsonKey(includeToJson: false) String id, AppSettingsFirestoreModel? settings, List<String>? defaultNutrients,@JsonKey(includeToJson: false) SearchConfigFirestoreModel? searchConfig,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? updatedAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null) DateTime? deletedAt
 });
 
 

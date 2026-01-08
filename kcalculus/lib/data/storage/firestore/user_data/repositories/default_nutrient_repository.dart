@@ -4,14 +4,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/auth/services/auth_service.dart';
 import 'package:kcalculus/data/auth/utils/auth.dart';
-import 'package:kcalculus/data/storage/firestore/user_data/models/user_data_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/services/user_data_service.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 
 class FirestoreDefaultNutrientRepository extends DefaultNutrientRepository {
   static final _kNutrientsByName = {
-    for (final nutrient in Nutrient.values) nutrient.name: nutrient
+    for (final nutrient in Nutrient.values) nutrient.name: nutrient,
   };
 
   @override
@@ -36,22 +35,12 @@ class FirestoreDefaultNutrientRepository extends DefaultNutrientRepository {
   @override
   Future<void> saveAll(List<Nutrient> nutrients) {
     return Auth.guard((user) async {
-      var userData = await _userDataService.getById(user.uid);
-
-      if (userData == null) {
-        await _userDataService.add(
-          UserDataFirestoreModel(
-            id: user.uid,
-            defaultNutrients: _defaultNutrientsFromDomain(nutrients),
-          ),
-        );
-      } else {
-        await _userDataService.update(
-          userData.copyWith(
-            defaultNutrients: _defaultNutrientsFromDomain(nutrients),
-          ),
-        );
-      }
+      await _userDataService.save(
+        (data) => data.copyWith(
+          defaultNutrients: _defaultNutrientsFromDomain(nutrients),
+        ),
+        id: user.uid,
+      );
 
       state = AsyncData(nutrients);
     });
@@ -81,11 +70,11 @@ class FirestoreDefaultNutrientRepository extends DefaultNutrientRepository {
   }
 
   Future<void> purge() => Auth.guard(
-        (user) => _userDataService.purge(userId: user.uid),
-      );
+    (user) => _userDataService.purge(userId: user.uid),
+  );
 }
 
 final firestoreDefaultNutrientRepositoryProvider =
     AsyncNotifierProvider<DefaultNutrientRepository, List<Nutrient>>(
-  FirestoreDefaultNutrientRepository.new,
-);
+      FirestoreDefaultNutrientRepository.new,
+    );

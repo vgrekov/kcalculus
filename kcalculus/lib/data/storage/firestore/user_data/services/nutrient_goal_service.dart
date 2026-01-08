@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/models/nutrient_goal_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/models/user_data_firestore_model.dart';
 
 class FirestoreNutrientGoalService extends Notifier<void> {
-  static final _kMaxDate = Timestamp.fromDate(DateTime(9999, 12, 31));
-
   @override
   void build() {}
 
@@ -40,12 +39,18 @@ class FirestoreNutrientGoalService extends Notifier<void> {
         .collection(UserDataFirestoreModel.kCollection)
         .doc(userId)
         .collection(NutrientGoalFirestoreModel.kCollection)
-        .where('createdAt', isLessThan: nextDay)
-        .where('deletedAt', isGreaterThanOrEqualTo: nextDay)
+        .where(
+          NutrientGoalFirestoreModelJsonFields.createdAt,
+          isLessThan: nextDay,
+        )
+        .where(
+          NutrientGoalFirestoreModelJsonFields.deletedAt,
+          isGreaterThanOrEqualTo: nextDay,
+        )
         .withConverter<NutrientGoalFirestoreModel>(
           fromFirestore: (snapshot, _) => NutrientGoalFirestoreModel.fromJson(
             {
-              'id': snapshot.id,
+              NutrientGoalFirestoreModelJsonFields.id: snapshot.id,
               ...snapshot.data()!,
             },
           ),
@@ -111,11 +116,7 @@ class FirestoreNutrientGoalService extends Notifier<void> {
 
     await executor.set(
       newRef,
-      {
-        ...model.toJson(),
-        'createdAt': FieldValue.serverTimestamp(),
-        'deletedAt': _kMaxDate,
-      },
+      model.toJsonFlavour(const StorageActionCreate()),
     );
 
     return newRef.id;
@@ -137,7 +138,8 @@ class FirestoreNutrientGoalService extends Notifier<void> {
     await executor.update(
       docRef,
       {
-        'deletedAt': FieldValue.serverTimestamp(),
+        NutrientGoalFirestoreModelJsonFields.deletedAt:
+            FieldValue.serverTimestamp(),
       },
     );
 
@@ -160,7 +162,8 @@ class FirestoreNutrientGoalService extends Notifier<void> {
     await executor.update(
       docRef,
       {
-        'deletedAt': _kMaxDate,
+        NutrientGoalFirestoreModelJsonFields.deletedAt:
+            NutrientGoalFirestoreModel.kMaxDate,
       },
     );
 
@@ -169,16 +172,15 @@ class FirestoreNutrientGoalService extends Notifier<void> {
 
   Future<void> purge({
     required String userId,
-  }) =>
-      batchDelete(
-        _db
-            .collection(UserDataFirestoreModel.kCollection)
-            .doc(userId)
-            .collection(NutrientGoalFirestoreModel.kCollection),
-      );
+  }) => batchDelete(
+    _db
+        .collection(UserDataFirestoreModel.kCollection)
+        .doc(userId)
+        .collection(NutrientGoalFirestoreModel.kCollection),
+  );
 }
 
 final firestoreNutrientGoalServiceProvider =
     NotifierProvider<FirestoreNutrientGoalService, void>(
-  FirestoreNutrientGoalService.new,
-);
+      FirestoreNutrientGoalService.new,
+    );

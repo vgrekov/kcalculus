@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/auth/services/auth_service.dart';
 import 'package:kcalculus/data/auth/utils/auth.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/models/app_settings_firestore_model.dart';
-import 'package:kcalculus/data/storage/firestore/user_data/models/user_data_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/services/user_data_service.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/models/app_settings.dart';
@@ -35,33 +34,23 @@ class FirestoreAppSettingsRepository extends AppSettingsRepository {
   @override
   Future<void> saveSettings(AppSettings settings) {
     return Auth.guard((user) async {
-      var userData = await _userDataService.getById(user.uid);
-
-      if (userData == null) {
-        await _userDataService.add(
-          UserDataFirestoreModel(
-            id: user.uid,
-            settings: AppSettingsFirestoreModel.fromDomain(settings),
-          ),
-        );
-      } else {
-        await _userDataService.update(
-          userData.copyWith(
-            settings: AppSettingsFirestoreModel.fromDomain(settings),
-          ),
-        );
-      }
+      await _userDataService.save(
+        (data) => data.copyWith(
+          settings: AppSettingsFirestoreModel.fromDomain(settings),
+        ),
+        id: user.uid,
+      );
 
       state = AsyncData(settings);
     });
   }
 
   Future<void> purge() => Auth.guard(
-        (user) => _userDataService.purge(userId: user.uid),
-      );
+    (user) => _userDataService.purge(userId: user.uid),
+  );
 }
 
 final firestoreAppSettingsRepositoryProvider =
     AsyncNotifierProvider<AppSettingsRepository, AppSettings>(
-  FirestoreAppSettingsRepository.new,
-);
+      FirestoreAppSettingsRepository.new,
+    );

@@ -33,4 +33,7 @@ Map<String, dynamic> _$UserDataFirestoreModelToJson(
 ) => <String, dynamic>{
   'settings': instance.settings?.toJson(),
   'defaultNutrients': instance.defaultNutrients,
+  'createdAt': dateToTimestamp(instance.createdAt),
+  'updatedAt': dateToTimestamp(instance.updatedAt),
+  'deletedAt': dateToTimestamp(instance.deletedAt),
 };

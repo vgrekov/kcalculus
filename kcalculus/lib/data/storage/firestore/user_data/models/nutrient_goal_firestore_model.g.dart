@@ -23,4 +23,6 @@ Map<String, dynamic> _$NutrientGoalFirestoreModelToJson(
   'nutrient': instance.nutrient,
   'unit': instance.unit,
   'value': instance.value,
+  'createdAt': dateToTimestamp(instance.createdAt),
+  'deletedAt': dateToTimestamp(instance.deletedAt),
 };
