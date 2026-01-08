@@ -7,9 +7,12 @@ class TouchedAt extends JsonFlavouredBase<StorageAction> {
   final dynamic timestamp;
 
   @override
-  JsonDecision decide(StorageAction action, _) => switch (action) {
-    StorageActionUpdate a =>
-      a.skipAudit ? JsonDecision.exclude() : JsonDecision.include(timestamp),
-    _ => JsonDecision.include(timestamp),
-  };
+  JsonDecision decide(JsonRequest<StorageAction> request) =>
+      switch (request.flavour) {
+        StorageActionUpdate a =>
+          a.skipAudit
+              ? JsonDecision.exclude()
+              : JsonDecision.include(timestamp),
+        _ => JsonDecision.include(timestamp),
+      };
 }

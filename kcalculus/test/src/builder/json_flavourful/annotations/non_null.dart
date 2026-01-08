@@ -5,9 +5,12 @@ class NonNull extends JsonFlavouredBase<StorageAction> {
   const NonNull();
 
   @override
-  JsonDecision decide(StorageAction action, actual) => switch (action) {
-    StorageActionCreate _ || StorageActionUpdate _ =>
-      actual != null ? JsonDecision.include(actual) : JsonDecision.exclude(),
-    _ => JsonDecision.exclude(),
-  };
+  JsonDecision decide(JsonRequest<StorageAction> request) =>
+      switch (request.flavour) {
+        StorageActionCreate _ || StorageActionUpdate _ =>
+          request.actualValue != null
+              ? JsonDecision.include(request.actualValue)
+              : JsonDecision.exclude(),
+        _ => JsonDecision.exclude(),
+      };
 }

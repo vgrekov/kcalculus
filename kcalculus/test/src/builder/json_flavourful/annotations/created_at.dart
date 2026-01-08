@@ -7,8 +7,9 @@ class CreatedAt extends JsonFlavouredBase<StorageAction> {
   final dynamic timestamp;
 
   @override
-  JsonDecision decide(StorageAction action, _) => switch (action) {
-    StorageActionCreate _ => JsonDecision.include(timestamp),
-    _ => JsonDecision.exclude(),
-  };
+  JsonDecision decide(JsonRequest<StorageAction> request) =>
+      switch (request.flavour) {
+        StorageActionCreate _ => JsonDecision.include(timestamp),
+        _ => JsonDecision.exclude(),
+      };
 }

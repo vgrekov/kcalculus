@@ -37,7 +37,7 @@ sealed class TestModel with _$TestModel {
 
     @UpdatedAt(kServerTimestamp) DateTime? updatedAt,
 
-    @DeletedAt() DateTime? deletedAt,
+    @DeletedAt(kServerTimestamp) DateTime? deletedAt,
 
     @DeletedFlag() bool? deleted,
   }) = _TestModel;

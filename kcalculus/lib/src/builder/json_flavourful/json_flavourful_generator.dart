@@ -50,75 +50,73 @@ class JsonFlavourfulGenerator extends GeneratorForAnnotation<JsonFlavourful> {
       'class_name': className,
       'flavour_type': flavourType,
       'flavour_type_deducted': flavourType != null,
-      'flavoured_fields': _readJsonFlavouredFields(element).entries.map(
-        (e) => {
-          'key': e.key,
-          'value': e.value,
+      'flavoured_fields': _readJsonFlavouredFields(element).map(
+        (f) => {
+          'name': f.name,
+          'json_name': f.jsonName,
+          'annotation': _annotationObjectSource(f.annotation),
         },
       ),
     });
   }
 
-  Map<String, String> _readJsonFlavouredFields(ClassElement classElement) {
-    final resolved = <String, ElementAnnotation>{};
+  Iterable<_FlavouredField> _readJsonFlavouredFields(
+    ClassElement classElement,
+  ) {
+    final resolved = <String, _FlavouredField>{};
 
     _resolveJsonFlavouredConstructorParams(classElement, resolved);
     _resolveJsonFlavouredFields(classElement, resolved);
 
-    return {
-      for (final entry in resolved.entries)
-        entry.key: _annotationObjectSource(entry.value),
-    };
+    return resolved.values;
   }
 
   void _resolveJsonFlavouredConstructorParams(
     ClassElement classElement,
-    Map<String, ElementAnnotation> resolved,
+    Map<String, _FlavouredField> resolved,
   ) {
     for (final constructor in classElement.constructors) {
       for (final param in constructor.formalParameters) {
-        final annotation = _readElementAnnotations(
-          param,
-          _jsonFlavouredChecker,
-        ).firstOrNull;
-
-        if (annotation == null) continue;
-
-        final name = _readJsonFieldName(param);
-
-        if (name == null) continue;
-
-        resolved.putIfAbsent(
-          name,
-          () => annotation.$1,
-        );
+        _resolveJsonFlavouredField(param, resolved);
       }
     }
   }
 
   void _resolveJsonFlavouredFields(
     ClassElement classElement,
-    Map<String, ElementAnnotation> resolved,
+    Map<String, _FlavouredField> resolved,
   ) {
     for (final field in classElement.fields) {
       if (field.isStatic) continue;
 
-      final annotation = _readElementAnnotations(
-        field,
-        _jsonFlavouredChecker,
-      ).firstOrNull;
-
-      if (annotation == null) continue;
-
-      final name = _readJsonFieldName(field);
-
-      if (name == null) continue;
-
-      resolved.putIfAbsent(
-        name,
-        () => annotation.$1,
-      );
+      _resolveJsonFlavouredField(field, resolved);
     }
+  }
+
+  void _resolveJsonFlavouredField(
+    VariableElement element,
+    Map<String, _FlavouredField> resolved,
+  ) {
+    final name = element.name;
+    if (name == null) return;
+
+    final annotation = _readElementAnnotations(
+      element,
+      _jsonFlavouredChecker,
+    ).firstOrNull;
+    if (annotation == null) return;
+
+    final jsonName = _readJsonFieldName(element);
+    if (jsonName == null) return;
+
+    resolved.putIfAbsent(
+      jsonName,
+      () => _FlavouredField(
+        name: name,
+        jsonName: jsonName,
+        annotation: annotation.$1,
+      ),
+    );
   }
 
   Iterable<(ElementAnnotation, DartObject)> _readElementAnnotations(
@@ -157,4 +155,18 @@ class JsonFlavourfulGenerator extends GeneratorForAnnotation<JsonFlavourful> {
     final source = annotation.toSource();
     return source.startsWith('@') ? source.substring(1) : source;
   }
+}
+
+class _FlavouredField {
+  const _FlavouredField({
+    required this.name,
+    required this.jsonName,
+    required this.annotation,
+  });
+
+  final String name;
+
+  final String jsonName;
+
+  final ElementAnnotation annotation;
 }

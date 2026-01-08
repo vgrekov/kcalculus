@@ -13,7 +13,7 @@ final _flavouredFields =
       'description': NonNull(),
       'created_at': CreatedAt(kServerTimestamp),
       'updatedAt': UpdatedAt(kServerTimestamp),
-      'deletedAt': DeletedAt(),
+      'deletedAt': DeletedAt(kServerTimestamp),
       'deleted': DeletedFlag(),
     });
 
@@ -24,10 +24,12 @@ extension TestModelJsonFlavourful on TestModel {
     for (final key in json.keys.toList()) {
       final flavouredField = _flavouredFields[key];
       if (flavouredField != null) {
-        final decision = flavouredField.decide(flavour, json[key]);
+        final actualValue = _getActualValue(key);
+        final request = JsonRequest(flavour, actualValue);
+        final decision = flavouredField.decide(request);
         if (decision is JsonInclude) {
           json[key] = decision.value;
-        } else {
+        } else if (decision is JsonExclude) {
           json.remove(key);
         }
       }
@@ -35,4 +37,29 @@ extension TestModelJsonFlavourful on TestModel {
 
     return json;
   }
+
+  Map<String, dynamic> extractJsonFlavour(StorageAction flavour) {
+    final json = <String, dynamic>{};
+
+    for (final e in _flavouredFields.entries) {
+      final actualValue = _getActualValue(e.key);
+      final request = JsonRequest(flavour, actualValue);
+      final decision = e.value.decide(request);
+      if (decision is JsonInclude) {
+        json[e.key] = decision.value;
+      }
+    }
+
+    return json;
+  }
+
+  Object? _getActualValue(String jsonName) => switch (jsonName) {
+    'id' => id,
+    'description' => description,
+    'created_at' => createdAt,
+    'updatedAt' => updatedAt,
+    'deletedAt' => deletedAt,
+    'deleted' => deleted,
+    _ => null,
+  };
 }

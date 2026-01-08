@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TestModel {
 
-@Id(kGeneratedId) String? get id; String get name;@NonNull() String? get description;@JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp) DateTime? get createdAt;@UpdatedAt(kServerTimestamp) DateTime? get updatedAt;@DeletedAt() DateTime? get deletedAt;@DeletedFlag() bool? get deleted;
+@Id(kGeneratedId) String? get id; String get name;@NonNull() String? get description;@JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp) DateTime? get createdAt;@UpdatedAt(kServerTimestamp) DateTime? get updatedAt;@DeletedAt(kServerTimestamp) DateTime? get deletedAt;@DeletedFlag() bool? get deleted;
 /// Create a copy of TestModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $TestModelCopyWith<$Res>  {
   factory $TestModelCopyWith(TestModel value, $Res Function(TestModel) _then) = _$TestModelCopyWithImpl;
 @useResult
 $Res call({
-@Id(kGeneratedId) String? id, String name,@NonNull() String? description,@JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp) DateTime? createdAt,@UpdatedAt(kServerTimestamp) DateTime? updatedAt,@DeletedAt() DateTime? deletedAt,@DeletedFlag() bool? deleted
+@Id(kGeneratedId) String? id, String name,@NonNull() String? description,@JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp) DateTime? createdAt,@UpdatedAt(kServerTimestamp) DateTime? updatedAt,@DeletedAt(kServerTimestamp) DateTime? deletedAt,@DeletedFlag() bool? deleted
 });
 
 
@@ -156,7 +156,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@Id(kGeneratedId)  String? id,  String name, @NonNull()  String? description, @JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp)  DateTime? createdAt, @UpdatedAt(kServerTimestamp)  DateTime? updatedAt, @DeletedAt()  DateTime? deletedAt, @DeletedFlag()  bool? deleted)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@Id(kGeneratedId)  String? id,  String name, @NonNull()  String? description, @JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp)  DateTime? createdAt, @UpdatedAt(kServerTimestamp)  DateTime? updatedAt, @DeletedAt(kServerTimestamp)  DateTime? deletedAt, @DeletedFlag()  bool? deleted)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TestModel() when $default != null:
 return $default(_that.id,_that.name,_that.description,_that.createdAt,_that.updatedAt,_that.deletedAt,_that.deleted);case _:
@@ -177,7 +177,7 @@ return $default(_that.id,_that.name,_that.description,_that.createdAt,_that.upda
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@Id(kGeneratedId)  String? id,  String name, @NonNull()  String? description, @JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp)  DateTime? createdAt, @UpdatedAt(kServerTimestamp)  DateTime? updatedAt, @DeletedAt()  DateTime? deletedAt, @DeletedFlag()  bool? deleted)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@Id(kGeneratedId)  String? id,  String name, @NonNull()  String? description, @JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp)  DateTime? createdAt, @UpdatedAt(kServerTimestamp)  DateTime? updatedAt, @DeletedAt(kServerTimestamp)  DateTime? deletedAt, @DeletedFlag()  bool? deleted)  $default,) {final _that = this;
 switch (_that) {
 case _TestModel():
 return $default(_that.id,_that.name,_that.description,_that.createdAt,_that.updatedAt,_that.deletedAt,_that.deleted);}
@@ -194,7 +194,7 @@ return $default(_that.id,_that.name,_that.description,_that.createdAt,_that.upda
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@Id(kGeneratedId)  String? id,  String name, @NonNull()  String? description, @JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp)  DateTime? createdAt, @UpdatedAt(kServerTimestamp)  DateTime? updatedAt, @DeletedAt()  DateTime? deletedAt, @DeletedFlag()  bool? deleted)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@Id(kGeneratedId)  String? id,  String name, @NonNull()  String? description, @JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp)  DateTime? createdAt, @UpdatedAt(kServerTimestamp)  DateTime? updatedAt, @DeletedAt(kServerTimestamp)  DateTime? deletedAt, @DeletedFlag()  bool? deleted)?  $default,) {final _that = this;
 switch (_that) {
 case _TestModel() when $default != null:
 return $default(_that.id,_that.name,_that.description,_that.createdAt,_that.updatedAt,_that.deletedAt,_that.deleted);case _:
@@ -209,7 +209,7 @@ return $default(_that.id,_that.name,_that.description,_that.createdAt,_that.upda
 @JsonSerializable()
 
 class _TestModel implements TestModel {
-  const _TestModel({@Id(kGeneratedId) this.id, required this.name, @NonNull() this.description, @JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp) this.createdAt, @UpdatedAt(kServerTimestamp) this.updatedAt, @DeletedAt() this.deletedAt, @DeletedFlag() this.deleted});
+  const _TestModel({@Id(kGeneratedId) this.id, required this.name, @NonNull() this.description, @JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp) this.createdAt, @UpdatedAt(kServerTimestamp) this.updatedAt, @DeletedAt(kServerTimestamp) this.deletedAt, @DeletedFlag() this.deleted});
   factory _TestModel.fromJson(Map<String, dynamic> json) => _$TestModelFromJson(json);
 
 @override@Id(kGeneratedId) final  String? id;
@@ -217,7 +217,7 @@ class _TestModel implements TestModel {
 @override@NonNull() final  String? description;
 @override@JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp) final  DateTime? createdAt;
 @override@UpdatedAt(kServerTimestamp) final  DateTime? updatedAt;
-@override@DeletedAt() final  DateTime? deletedAt;
+@override@DeletedAt(kServerTimestamp) final  DateTime? deletedAt;
 @override@DeletedFlag() final  bool? deleted;
 
 /// Create a copy of TestModel
@@ -253,7 +253,7 @@ abstract mixin class _$TestModelCopyWith<$Res> implements $TestModelCopyWith<$Re
   factory _$TestModelCopyWith(_TestModel value, $Res Function(_TestModel) _then) = __$TestModelCopyWithImpl;
 @override @useResult
 $Res call({
-@Id(kGeneratedId) String? id, String name,@NonNull() String? description,@JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp) DateTime? createdAt,@UpdatedAt(kServerTimestamp) DateTime? updatedAt,@DeletedAt() DateTime? deletedAt,@DeletedFlag() bool? deleted
+@Id(kGeneratedId) String? id, String name,@NonNull() String? description,@JsonKey(name: 'created_at')@CreatedAt(kServerTimestamp) DateTime? createdAt,@UpdatedAt(kServerTimestamp) DateTime? updatedAt,@DeletedAt(kServerTimestamp) DateTime? deletedAt,@DeletedFlag() bool? deleted
 });
 
 

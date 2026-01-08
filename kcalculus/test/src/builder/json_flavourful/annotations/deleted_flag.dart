@@ -5,8 +5,9 @@ class DeletedFlag extends JsonFlavouredBase<StorageAction> {
   const DeletedFlag();
 
   @override
-  JsonDecision decide(StorageAction action, _) => switch (action) {
-    StorageActionCreate _ => JsonDecision.include(false),
-    _ => JsonDecision.exclude(),
-  };
+  JsonDecision decide(JsonRequest<StorageAction> request) =>
+      switch (request.flavour) {
+        StorageActionCreate _ => JsonDecision.include(false),
+        _ => JsonDecision.exclude(),
+      };
 }

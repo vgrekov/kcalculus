@@ -7,8 +7,11 @@ class Id extends JsonFlavouredBase<StorageAction> {
   final dynamic value;
 
   @override
-  JsonDecision decide(StorageAction action, actual) => switch (action) {
-    StorageActionCreate _ => JsonDecision.include(actual ?? value),
-    _ => JsonDecision.include(actual),
-  };
+  JsonDecision decide(JsonRequest<StorageAction> request) =>
+      switch (request.flavour) {
+        StorageActionCreate _ => JsonDecision.include(
+          request.actualValue ?? value,
+        ),
+        _ => JsonDecision.include(request.actualValue),
+      };
 }
