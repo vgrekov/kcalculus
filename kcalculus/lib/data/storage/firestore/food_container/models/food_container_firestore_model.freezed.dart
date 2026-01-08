@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FoodContainerFirestoreModel {
 
-@JsonKey(includeToJson: false) String? get id; String get name;@JsonKey(name: 'name_lower') String get nameLower; String get description;@JsonKey(name: 'description_lower') String get descriptionLower; AmountFirestoreModel get weight; String get ownerId;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? get createdAt;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? get updatedAt;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null) DateTime? get deletedAt;@CreateOnly.override(false) bool? get deleted;
+@JsonKey(includeToJson: false) String? get id; String get name;@JsonKey(name: 'name_lower') String get nameLower; String get description;@JsonKey(name: 'description_lower') String get descriptionLower; AmountFirestoreModel get weight; String get ownerId;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? get createdAt;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? get updatedAt;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null) DateTime? get deletedAt;@CreateOnly.overrideValue(false) bool? get deleted;
 /// Create a copy of FoodContainerFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $FoodContainerFirestoreModelCopyWith<$Res>  {
   factory $FoodContainerFirestoreModelCopyWith(FoodContainerFirestoreModel value, $Res Function(FoodContainerFirestoreModel) _then) = _$FoodContainerFirestoreModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeToJson: false) String? id, String name,@JsonKey(name: 'name_lower') String nameLower, String description,@JsonKey(name: 'description_lower') String descriptionLower, AmountFirestoreModel weight, String ownerId,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? updatedAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null) DateTime? deletedAt,@CreateOnly.override(false) bool? deleted
+@JsonKey(includeToJson: false) String? id, String name,@JsonKey(name: 'name_lower') String nameLower, String description,@JsonKey(name: 'description_lower') String descriptionLower, AmountFirestoreModel weight, String ownerId,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? updatedAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null) DateTime? deletedAt,@CreateOnly.overrideValue(false) bool? deleted
 });
 
 
@@ -169,7 +169,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function(@JsonKey(includeToJson: false)  String? id,  String name, @JsonKey(name: 'name_lower')  String nameLower,  String description, @JsonKey(name: 'description_lower')  String descriptionLower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null)  DateTime? deletedAt, @CreateOnly.override(false)  bool? deleted)?  $default,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function(@JsonKey(includeToJson: false)  String? id,  String name, @JsonKey(name: 'name_lower')  String nameLower,  String description, @JsonKey(name: 'description_lower')  String descriptionLower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null)  DateTime? deletedAt, @CreateOnly.overrideValue(false)  bool? deleted)?  $default,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FoodContainerFirestoreModel() when $default != null:
 return $default(_that.id,_that.name,_that.nameLower,_that.description,_that.descriptionLower,_that.weight,_that.ownerId,_that.createdAt,_that.updatedAt,_that.deletedAt,_that.deleted);case _:
@@ -190,7 +190,7 @@ return $default(_that.id,_that.name,_that.nameLower,_that.description,_that.desc
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function(@JsonKey(includeToJson: false)  String? id,  String name, @JsonKey(name: 'name_lower')  String nameLower,  String description, @JsonKey(name: 'description_lower')  String descriptionLower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null)  DateTime? deletedAt, @CreateOnly.override(false)  bool? deleted)  $default,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function(@JsonKey(includeToJson: false)  String? id,  String name, @JsonKey(name: 'name_lower')  String nameLower,  String description, @JsonKey(name: 'description_lower')  String descriptionLower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null)  DateTime? deletedAt, @CreateOnly.overrideValue(false)  bool? deleted)  $default,}) {final _that = this;
 switch (_that) {
 case _FoodContainerFirestoreModel():
 return $default(_that.id,_that.name,_that.nameLower,_that.description,_that.descriptionLower,_that.weight,_that.ownerId,_that.createdAt,_that.updatedAt,_that.deletedAt,_that.deleted);}
@@ -207,7 +207,7 @@ return $default(_that.id,_that.name,_that.nameLower,_that.description,_that.desc
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function(@JsonKey(includeToJson: false)  String? id,  String name, @JsonKey(name: 'name_lower')  String nameLower,  String description, @JsonKey(name: 'description_lower')  String descriptionLower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null)  DateTime? deletedAt, @CreateOnly.override(false)  bool? deleted)?  $default,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function(@JsonKey(includeToJson: false)  String? id,  String name, @JsonKey(name: 'name_lower')  String nameLower,  String description, @JsonKey(name: 'description_lower')  String descriptionLower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null)  DateTime? deletedAt, @CreateOnly.overrideValue(false)  bool? deleted)?  $default,}) {final _that = this;
 switch (_that) {
 case _FoodContainerFirestoreModel() when $default != null:
 return $default(_that.id,_that.name,_that.nameLower,_that.description,_that.descriptionLower,_that.weight,_that.ownerId,_that.createdAt,_that.updatedAt,_that.deletedAt,_that.deleted);case _:
@@ -222,7 +222,7 @@ return $default(_that.id,_that.name,_that.nameLower,_that.description,_that.desc
 @JsonSerializable()
 
 class _FoodContainerFirestoreModel extends FoodContainerFirestoreModel {
-  const _FoodContainerFirestoreModel({@JsonKey(includeToJson: false) this.id, required this.name, @JsonKey(name: 'name_lower') required this.nameLower, required this.description, @JsonKey(name: 'description_lower') required this.descriptionLower, required this.weight, required this.ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() this.createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() this.updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null) this.deletedAt, @CreateOnly.override(false) this.deleted}): super._();
+  const _FoodContainerFirestoreModel({@JsonKey(includeToJson: false) this.id, required this.name, @JsonKey(name: 'name_lower') required this.nameLower, required this.description, @JsonKey(name: 'description_lower') required this.descriptionLower, required this.weight, required this.ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() this.createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() this.updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null) this.deletedAt, @CreateOnly.overrideValue(false) this.deleted}): super._();
   factory _FoodContainerFirestoreModel.fromJson(Map<String, dynamic> json) => _$FoodContainerFirestoreModelFromJson(json);
 
 @override@JsonKey(includeToJson: false) final  String? id;
@@ -234,8 +234,8 @@ class _FoodContainerFirestoreModel extends FoodContainerFirestoreModel {
 @override final  String ownerId;
 @override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() final  DateTime? createdAt;
 @override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() final  DateTime? updatedAt;
-@override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null) final  DateTime? deletedAt;
-@override@CreateOnly.override(false) final  bool? deleted;
+@override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null) final  DateTime? deletedAt;
+@override@CreateOnly.overrideValue(false) final  bool? deleted;
 
 /// Create a copy of FoodContainerFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
@@ -270,7 +270,7 @@ abstract mixin class _$FoodContainerFirestoreModelCopyWith<$Res> implements $Foo
   factory _$FoodContainerFirestoreModelCopyWith(_FoodContainerFirestoreModel value, $Res Function(_FoodContainerFirestoreModel) _then) = __$FoodContainerFirestoreModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeToJson: false) String? id, String name,@JsonKey(name: 'name_lower') String nameLower, String description,@JsonKey(name: 'description_lower') String descriptionLower, AmountFirestoreModel weight, String ownerId,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? updatedAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null) DateTime? deletedAt,@CreateOnly.override(false) bool? deleted
+@JsonKey(includeToJson: false) String? id, String name,@JsonKey(name: 'name_lower') String nameLower, String description,@JsonKey(name: 'description_lower') String descriptionLower, AmountFirestoreModel weight, String ownerId,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? updatedAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.overrideValue(null) DateTime? deletedAt,@CreateOnly.overrideValue(false) bool? deleted
 });
 
 

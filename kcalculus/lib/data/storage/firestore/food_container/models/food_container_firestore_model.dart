@@ -66,10 +66,10 @@ sealed class FoodContainerFirestoreModel with _$FoodContainerFirestoreModel {
       fromJson: timestampToDate,
       toJson: dateToTimestamp,
     )
-    @CreateOnly.override(null)
+    @CreateOnly.overrideValue(null)
     DateTime? deletedAt,
 
-    @CreateOnly.override(false) bool? deleted,
+    @CreateOnly.overrideValue(false) bool? deleted,
   }) = _FoodContainerFirestoreModel;
 
   factory FoodContainerFirestoreModel({

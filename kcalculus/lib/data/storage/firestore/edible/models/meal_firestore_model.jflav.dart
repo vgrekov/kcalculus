@@ -11,7 +11,7 @@ final _flavouredFields =
     Map<String, JsonFlavouredBase<StorageAction>>.unmodifiable({
       'createdAt': FirestoreCreatedAt(),
       'updatedAt': FirestoreUpdatedAt(),
-      'deletedAt': CreateOnly.override(null),
+      'deletedAt': CreateOnly.overrideValue(null),
     });
 
 extension MealFirestoreModelJsonFlavourful on MealFirestoreModel {

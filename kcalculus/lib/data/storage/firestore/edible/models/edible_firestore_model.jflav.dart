@@ -13,10 +13,10 @@ final _flavouredFields =
       'ownerId': CreateOnly(),
       'createdAt': FirestoreCreatedAt(),
       'updatedAt': FirestoreUpdatedAt(),
-      'eatenAt': CreateOnly.override(null),
+      'eatenAt': CreateOnly.overrideValue(null),
       'touchedAt': FirestoreTouchedAt(),
-      'deletedAt': CreateOnly.override(null),
-      'deleted': CreateOnly.override(false),
+      'deletedAt': CreateOnly.overrideValue(null),
+      'deleted': CreateOnly.overrideValue(false),
     });
 
 extension EdibleFirestoreModelJsonFlavourful on EdibleFirestoreModel {

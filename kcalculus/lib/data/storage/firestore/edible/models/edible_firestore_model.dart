@@ -87,7 +87,7 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
       fromJson: timestampToDate,
       toJson: dateToTimestamp,
     )
-    @CreateOnly.override(null)
+    @CreateOnly.overrideValue(null)
     DateTime? eatenAt,
 
     @JsonKey(
@@ -101,10 +101,10 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
       fromJson: timestampToDate,
       toJson: dateToTimestamp,
     )
-    @CreateOnly.override(null)
+    @CreateOnly.overrideValue(null)
     DateTime? deletedAt,
 
-    @CreateOnly.override(false) bool? deleted,
+    @CreateOnly.overrideValue(false) bool? deleted,
   }) = _EdibleFirestoreModel;
 
   factory EdibleFirestoreModel({

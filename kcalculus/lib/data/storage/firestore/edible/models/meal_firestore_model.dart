@@ -15,8 +15,8 @@ import 'package:kcalculus/utils/json_flavourful/json_flavourful.dart';
 
 part 'meal_firestore_model.freezed.dart';
 part 'meal_firestore_model.g.dart';
-part 'meal_firestore_model.jflav.dart';
 part 'meal_firestore_model.jfields.dart';
+part 'meal_firestore_model.jflav.dart';
 
 @freezed
 @JsonFlavourful<StorageAction>()
@@ -60,7 +60,7 @@ sealed class MealFirestoreModel with _$MealFirestoreModel {
       fromJson: timestampToDate,
       toJson: dateToTimestamp,
     )
-    @CreateOnly.override(null)
+    @CreateOnly.overrideValue(null)
     DateTime? deletedAt,
   }) = _MealFirestoreModel;
 
