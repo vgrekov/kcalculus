@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
@@ -18,7 +19,10 @@ class FirestoreFoodContainerService extends Notifier<void> {
   }) async {
     var query = _db
         .collection(FoodContainerFirestoreModel.kCollection)
-        .where('ownerId', isEqualTo: userId);
+        .where(
+          FoodContainerFirestoreModelJsonFields.ownerId,
+          isEqualTo: userId,
+        );
 
     final snapshot = await query.count().get();
 
@@ -31,9 +35,12 @@ class FirestoreFoodContainerService extends Notifier<void> {
   }) async {
     var query = _db
         .collection(FoodContainerFirestoreModel.kCollection)
-        .where('ownerId', isEqualTo: userId)
-        .where('deleted', isEqualTo: false)
-        .orderBy('updatedAt', descending: true)
+        .where(FoodContainerFirestoreModelJsonFields.ownerId, isEqualTo: userId)
+        .where(FoodContainerFirestoreModelJsonFields.deleted, isEqualTo: false)
+        .orderBy(
+          FoodContainerFirestoreModelJsonFields.updatedAt,
+          descending: true,
+        )
         .orderBy(FieldPath.documentId, descending: true);
 
     if (pageConfig != null) {
@@ -49,10 +56,12 @@ class FirestoreFoodContainerService extends Notifier<void> {
     final snapshot = await query.get();
 
     return snapshot.docs
-        .map((s) => FoodContainerFirestoreModel.fromJson({
-              'id': s.id,
-              ...s.data(),
-            }))
+        .map(
+          (s) => FoodContainerFirestoreModel.fromJson({
+            FoodContainerFirestoreModelJsonFields.id: s.id,
+            ...s.data(),
+          }),
+        )
         .toList();
   }
 
@@ -68,16 +77,34 @@ class FirestoreFoodContainerService extends Notifier<void> {
       // upserted
       _db
           .collection(FoodContainerFirestoreModel.kCollection)
-          .where('ownerId', isEqualTo: userId)
-          .where('deleted', isEqualTo: false)
-          .where('updatedAt', isGreaterThanOrEqualTo: since)
-          .orderBy('updatedAt', descending: true)
+          .where(
+            FoodContainerFirestoreModelJsonFields.ownerId,
+            isEqualTo: userId,
+          )
+          .where(
+            FoodContainerFirestoreModelJsonFields.deleted,
+            isEqualTo: false,
+          )
+          .where(
+            FoodContainerFirestoreModelJsonFields.updatedAt,
+            isGreaterThanOrEqualTo: since,
+          )
+          .orderBy(
+            FoodContainerFirestoreModelJsonFields.updatedAt,
+            descending: true,
+          )
           .orderBy(FieldPath.documentId, descending: true),
       // deleted
       _db
           .collection(FoodContainerFirestoreModel.kCollection)
-          .where('ownerId', isEqualTo: userId)
-          .where('deletedAt', isGreaterThanOrEqualTo: since),
+          .where(
+            FoodContainerFirestoreModelJsonFields.ownerId,
+            isEqualTo: userId,
+          )
+          .where(
+            FoodContainerFirestoreModelJsonFields.deletedAt,
+            isGreaterThanOrEqualTo: since,
+          ),
     ];
 
     final result = <FoodContainerFirestoreModel>[];
@@ -88,7 +115,7 @@ class FirestoreFoodContainerService extends Notifier<void> {
       result.addAll(
         snapshot.docs.map(
           (s) => FoodContainerFirestoreModel.fromJson({
-            'id': s.id,
+            FoodContainerFirestoreModelJsonFields.id: s.id,
             ...s.data(),
           }),
         ),
@@ -104,8 +131,9 @@ class FirestoreFoodContainerService extends Notifier<void> {
   }) async {
     final executor = FirestoreExecutor(txn);
 
-    final docRef =
-        _db.collection(FoodContainerFirestoreModel.kCollection).doc(id);
+    final docRef = _db
+        .collection(FoodContainerFirestoreModel.kCollection)
+        .doc(id);
 
     final snapshot = await executor.get(docRef);
 
@@ -114,7 +142,7 @@ class FirestoreFoodContainerService extends Notifier<void> {
     return data == null
         ? null
         : FoodContainerFirestoreModel.fromJson({
-            'id': snapshot.id,
+            FoodContainerFirestoreModelJsonFields.id: snapshot.id,
             ...data,
           });
   }
@@ -128,29 +156,19 @@ class FirestoreFoodContainerService extends Notifier<void> {
 
     final executor = FirestoreExecutor(txn);
 
-    final docRef =
-        _db.collection(FoodContainerFirestoreModel.kCollection).doc(model.id);
+    final docRef = _db
+        .collection(FoodContainerFirestoreModel.kCollection)
+        .doc(model.id);
 
     if (model.id == null) {
       await executor.set(
         docRef,
-        {
-          ...model.toJson(),
-          'createdAt': FieldValue.serverTimestamp(),
-          'updatedAt': FieldValue.serverTimestamp(),
-          'deletedAt': null,
-          'deleted': false,
-        },
+        model.toJsonFlavour(const StorageActionCreate()),
       );
     } else {
       await executor.update(
         docRef,
-        {
-          ...model.toJson(),
-          if (!skipAudit) ...{
-            'updatedAt': FieldValue.serverTimestamp(),
-          },
-        },
+        model.toJsonFlavour(StorageActionUpdate(skipAudit: skipAudit)),
       );
     }
 
@@ -166,10 +184,16 @@ class FirestoreFoodContainerService extends Notifier<void> {
     var query = _db
         .collection(FoodContainerFirestoreModel.kCollection)
         .where(FieldPath.documentId, isNotEqualTo: exceptWithId)
-        .where('ownerId', isEqualTo: userId)
-        .where('name_lower', isEqualTo: name.toLowerCase())
-        .where('description_lower', isEqualTo: description.toLowerCase())
-        .where('deleted', isEqualTo: false);
+        .where(FoodContainerFirestoreModelJsonFields.ownerId, isEqualTo: userId)
+        .where(
+          FoodContainerFirestoreModelJsonFields.nameLower,
+          isEqualTo: name.toLowerCase(),
+        )
+        .where(
+          FoodContainerFirestoreModelJsonFields.descriptionLower,
+          isEqualTo: description.toLowerCase(),
+        )
+        .where(FoodContainerFirestoreModelJsonFields.deleted, isEqualTo: false);
 
     final snapshot = await query.count().get();
 
@@ -195,14 +219,16 @@ class FirestoreFoodContainerService extends Notifier<void> {
   }) async {
     final executor = FirestoreExecutor(txn);
 
-    final docRef =
-        _db.collection(FoodContainerFirestoreModel.kCollection).doc(id);
+    final docRef = _db
+        .collection(FoodContainerFirestoreModel.kCollection)
+        .doc(id);
 
     await executor.update(
       docRef,
       {
-        'deletedAt': FieldValue.serverTimestamp(),
-        'deleted': true,
+        FoodContainerFirestoreModelJsonFields.deletedAt:
+            FieldValue.serverTimestamp(),
+        FoodContainerFirestoreModelJsonFields.deleted: true,
       },
     );
 
@@ -215,14 +241,15 @@ class FirestoreFoodContainerService extends Notifier<void> {
   }) async {
     final executor = FirestoreExecutor(txn);
 
-    final docRef =
-        _db.collection(FoodContainerFirestoreModel.kCollection).doc(id);
+    final docRef = _db
+        .collection(FoodContainerFirestoreModel.kCollection)
+        .doc(id);
 
     await executor.update(
       docRef,
       {
-        'deletedAt': null,
-        'deleted': false,
+        FoodContainerFirestoreModelJsonFields.deletedAt: null,
+        FoodContainerFirestoreModelJsonFields.deleted: false,
       },
     );
 
@@ -231,15 +258,17 @@ class FirestoreFoodContainerService extends Notifier<void> {
 
   Future<void> purge({
     required String userId,
-  }) =>
-      batchDelete(
-        _db
-            .collection(FoodContainerFirestoreModel.kCollection)
-            .where('ownerId', isEqualTo: userId),
-      );
+  }) => batchDelete(
+    _db
+        .collection(FoodContainerFirestoreModel.kCollection)
+        .where(
+          FoodContainerFirestoreModelJsonFields.ownerId,
+          isEqualTo: userId,
+        ),
+  );
 }
 
 final firestoreFoodContainerService =
     NotifierProvider<FirestoreFoodContainerService, void>(
-  FirestoreFoodContainerService.new,
-);
+      FirestoreFoodContainerService.new,
+    );

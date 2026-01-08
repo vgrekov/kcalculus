@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FoodContainerFirestoreModel {
 
-@JsonKey(includeToJson: false) String? get id; String get name; String get name_lower; String get description; String get description_lower; AmountFirestoreModel get weight; String get ownerId;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get createdAt;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get updatedAt;@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? get deletedAt;
+@JsonKey(includeToJson: false) String? get id; String get name;@JsonKey(name: 'name_lower') String get nameLower; String get description;@JsonKey(name: 'description_lower') String get descriptionLower; AmountFirestoreModel get weight; String get ownerId;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? get createdAt;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? get updatedAt;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null) DateTime? get deletedAt;@CreateOnly.override(false) bool? get deleted;
 /// Create a copy of FoodContainerFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $FoodContainerFirestoreModelCopyWith<FoodContainerFirestoreModel> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FoodContainerFirestoreModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.name_lower, name_lower) || other.name_lower == name_lower)&&(identical(other.description, description) || other.description == description)&&(identical(other.description_lower, description_lower) || other.description_lower == description_lower)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FoodContainerFirestoreModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.nameLower, nameLower) || other.nameLower == nameLower)&&(identical(other.description, description) || other.description == description)&&(identical(other.descriptionLower, descriptionLower) || other.descriptionLower == descriptionLower)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt)&&(identical(other.deleted, deleted) || other.deleted == deleted));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,name_lower,description,description_lower,weight,ownerId,createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,name,nameLower,description,descriptionLower,weight,ownerId,createdAt,updatedAt,deletedAt,deleted);
 
 @override
 String toString() {
-  return 'FoodContainerFirestoreModel(id: $id, name: $name, name_lower: $name_lower, description: $description, description_lower: $description_lower, weight: $weight, ownerId: $ownerId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'FoodContainerFirestoreModel(id: $id, name: $name, nameLower: $nameLower, description: $description, descriptionLower: $descriptionLower, weight: $weight, ownerId: $ownerId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, deleted: $deleted)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $FoodContainerFirestoreModelCopyWith<$Res>  {
   factory $FoodContainerFirestoreModelCopyWith(FoodContainerFirestoreModel value, $Res Function(FoodContainerFirestoreModel) _then) = _$FoodContainerFirestoreModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeToJson: false) String? id, String name, String name_lower, String description, String description_lower, AmountFirestoreModel weight, String ownerId,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? createdAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? updatedAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? deletedAt
+@JsonKey(includeToJson: false) String? id, String name,@JsonKey(name: 'name_lower') String nameLower, String description,@JsonKey(name: 'description_lower') String descriptionLower, AmountFirestoreModel weight, String ownerId,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? updatedAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null) DateTime? deletedAt,@CreateOnly.override(false) bool? deleted
 });
 
 
@@ -65,19 +65,20 @@ class _$FoodContainerFirestoreModelCopyWithImpl<$Res>
 
 /// Create a copy of FoodContainerFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? name_lower = null,Object? description = null,Object? description_lower = null,Object? weight = null,Object? ownerId = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? deletedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? nameLower = null,Object? description = null,Object? descriptionLower = null,Object? weight = null,Object? ownerId = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? deletedAt = freezed,Object? deleted = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,name_lower: null == name_lower ? _self.name_lower : name_lower // ignore: cast_nullable_to_non_nullable
+as String,nameLower: null == nameLower ? _self.nameLower : nameLower // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,description_lower: null == description_lower ? _self.description_lower : description_lower // ignore: cast_nullable_to_non_nullable
+as String,descriptionLower: null == descriptionLower ? _self.descriptionLower : descriptionLower // ignore: cast_nullable_to_non_nullable
 as String,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
 as AmountFirestoreModel,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
 as String,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,deleted: freezed == deleted ? _self.deleted : deleted // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 /// Create a copy of FoodContainerFirestoreModel
@@ -168,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function(@JsonKey(includeToJson: false)  String? id,  String name,  String name_lower,  String description,  String description_lower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)?  $default,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function(@JsonKey(includeToJson: false)  String? id,  String name, @JsonKey(name: 'name_lower')  String nameLower,  String description, @JsonKey(name: 'description_lower')  String descriptionLower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null)  DateTime? deletedAt, @CreateOnly.override(false)  bool? deleted)?  $default,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FoodContainerFirestoreModel() when $default != null:
-return $default(_that.id,_that.name,_that.name_lower,_that.description,_that.description_lower,_that.weight,_that.ownerId,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.name,_that.nameLower,_that.description,_that.descriptionLower,_that.weight,_that.ownerId,_that.createdAt,_that.updatedAt,_that.deletedAt,_that.deleted);case _:
   return orElse();
 
 }
@@ -189,10 +190,10 @@ return $default(_that.id,_that.name,_that.name_lower,_that.description,_that.des
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function(@JsonKey(includeToJson: false)  String? id,  String name,  String name_lower,  String description,  String description_lower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)  $default,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function(@JsonKey(includeToJson: false)  String? id,  String name, @JsonKey(name: 'name_lower')  String nameLower,  String description, @JsonKey(name: 'description_lower')  String descriptionLower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null)  DateTime? deletedAt, @CreateOnly.override(false)  bool? deleted)  $default,}) {final _that = this;
 switch (_that) {
 case _FoodContainerFirestoreModel():
-return $default(_that.id,_that.name,_that.name_lower,_that.description,_that.description_lower,_that.weight,_that.ownerId,_that.createdAt,_that.updatedAt,_that.deletedAt);}
+return $default(_that.id,_that.name,_that.nameLower,_that.description,_that.descriptionLower,_that.weight,_that.ownerId,_that.createdAt,_that.updatedAt,_that.deletedAt,_that.deleted);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -206,10 +207,10 @@ return $default(_that.id,_that.name,_that.name_lower,_that.description,_that.des
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function(@JsonKey(includeToJson: false)  String? id,  String name,  String name_lower,  String description,  String description_lower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate)  DateTime? deletedAt)?  $default,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function(@JsonKey(includeToJson: false)  String? id,  String name, @JsonKey(name: 'name_lower')  String nameLower,  String description, @JsonKey(name: 'description_lower')  String descriptionLower,  AmountFirestoreModel weight,  String ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt()  DateTime? updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null)  DateTime? deletedAt, @CreateOnly.override(false)  bool? deleted)?  $default,}) {final _that = this;
 switch (_that) {
 case _FoodContainerFirestoreModel() when $default != null:
-return $default(_that.id,_that.name,_that.name_lower,_that.description,_that.description_lower,_that.weight,_that.ownerId,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.name,_that.nameLower,_that.description,_that.descriptionLower,_that.weight,_that.ownerId,_that.createdAt,_that.updatedAt,_that.deletedAt,_that.deleted);case _:
   return null;
 
 }
@@ -221,19 +222,20 @@ return $default(_that.id,_that.name,_that.name_lower,_that.description,_that.des
 @JsonSerializable()
 
 class _FoodContainerFirestoreModel extends FoodContainerFirestoreModel {
-  const _FoodContainerFirestoreModel({@JsonKey(includeToJson: false) this.id, required this.name, required this.name_lower, required this.description, required this.description_lower, required this.weight, required this.ownerId, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.createdAt, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.updatedAt, @JsonKey(includeToJson: false, fromJson: timestampToDate) this.deletedAt}): super._();
+  const _FoodContainerFirestoreModel({@JsonKey(includeToJson: false) this.id, required this.name, @JsonKey(name: 'name_lower') required this.nameLower, required this.description, @JsonKey(name: 'description_lower') required this.descriptionLower, required this.weight, required this.ownerId, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() this.createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() this.updatedAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null) this.deletedAt, @CreateOnly.override(false) this.deleted}): super._();
   factory _FoodContainerFirestoreModel.fromJson(Map<String, dynamic> json) => _$FoodContainerFirestoreModelFromJson(json);
 
 @override@JsonKey(includeToJson: false) final  String? id;
 @override final  String name;
-@override final  String name_lower;
+@override@JsonKey(name: 'name_lower') final  String nameLower;
 @override final  String description;
-@override final  String description_lower;
+@override@JsonKey(name: 'description_lower') final  String descriptionLower;
 @override final  AmountFirestoreModel weight;
 @override final  String ownerId;
-@override@JsonKey(includeToJson: false, fromJson: timestampToDate) final  DateTime? createdAt;
-@override@JsonKey(includeToJson: false, fromJson: timestampToDate) final  DateTime? updatedAt;
-@override@JsonKey(includeToJson: false, fromJson: timestampToDate) final  DateTime? deletedAt;
+@override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() final  DateTime? createdAt;
+@override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() final  DateTime? updatedAt;
+@override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null) final  DateTime? deletedAt;
+@override@CreateOnly.override(false) final  bool? deleted;
 
 /// Create a copy of FoodContainerFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
@@ -248,16 +250,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FoodContainerFirestoreModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.name_lower, name_lower) || other.name_lower == name_lower)&&(identical(other.description, description) || other.description == description)&&(identical(other.description_lower, description_lower) || other.description_lower == description_lower)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FoodContainerFirestoreModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.nameLower, nameLower) || other.nameLower == nameLower)&&(identical(other.description, description) || other.description == description)&&(identical(other.descriptionLower, descriptionLower) || other.descriptionLower == descriptionLower)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt)&&(identical(other.deleted, deleted) || other.deleted == deleted));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,name_lower,description,description_lower,weight,ownerId,createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,name,nameLower,description,descriptionLower,weight,ownerId,createdAt,updatedAt,deletedAt,deleted);
 
 @override
 String toString() {
-  return 'FoodContainerFirestoreModel.\$default(id: $id, name: $name, name_lower: $name_lower, description: $description, description_lower: $description_lower, weight: $weight, ownerId: $ownerId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'FoodContainerFirestoreModel.\$default(id: $id, name: $name, nameLower: $nameLower, description: $description, descriptionLower: $descriptionLower, weight: $weight, ownerId: $ownerId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, deleted: $deleted)';
 }
 
 
@@ -268,7 +270,7 @@ abstract mixin class _$FoodContainerFirestoreModelCopyWith<$Res> implements $Foo
   factory _$FoodContainerFirestoreModelCopyWith(_FoodContainerFirestoreModel value, $Res Function(_FoodContainerFirestoreModel) _then) = __$FoodContainerFirestoreModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeToJson: false) String? id, String name, String name_lower, String description, String description_lower, AmountFirestoreModel weight, String ownerId,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? createdAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? updatedAt,@JsonKey(includeToJson: false, fromJson: timestampToDate) DateTime? deletedAt
+@JsonKey(includeToJson: false) String? id, String name,@JsonKey(name: 'name_lower') String nameLower, String description,@JsonKey(name: 'description_lower') String descriptionLower, AmountFirestoreModel weight, String ownerId,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreUpdatedAt() DateTime? updatedAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(null) DateTime? deletedAt,@CreateOnly.override(false) bool? deleted
 });
 
 
@@ -285,19 +287,20 @@ class __$FoodContainerFirestoreModelCopyWithImpl<$Res>
 
 /// Create a copy of FoodContainerFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? name_lower = null,Object? description = null,Object? description_lower = null,Object? weight = null,Object? ownerId = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? deletedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? nameLower = null,Object? description = null,Object? descriptionLower = null,Object? weight = null,Object? ownerId = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? deletedAt = freezed,Object? deleted = freezed,}) {
   return _then(_FoodContainerFirestoreModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,name_lower: null == name_lower ? _self.name_lower : name_lower // ignore: cast_nullable_to_non_nullable
+as String,nameLower: null == nameLower ? _self.nameLower : nameLower // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,description_lower: null == description_lower ? _self.description_lower : description_lower // ignore: cast_nullable_to_non_nullable
+as String,descriptionLower: null == descriptionLower ? _self.descriptionLower : descriptionLower // ignore: cast_nullable_to_non_nullable
 as String,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
 as AmountFirestoreModel,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
 as String,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,deleted: freezed == deleted ? _self.deleted : deleted // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 

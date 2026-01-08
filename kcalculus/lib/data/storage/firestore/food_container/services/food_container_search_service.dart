@@ -31,7 +31,7 @@ class FirestoreFoodContainerSearchService extends Notifier<void> {
     return response.hits
         .map(
           (hit) => FoodContainerFirestoreModel.fromJson({
-            'id': hit.objectID,
+            FoodContainerFirestoreModelJsonFields.id: hit.objectID,
             ...hit,
           }),
         )
@@ -41,5 +41,5 @@ class FirestoreFoodContainerSearchService extends Notifier<void> {
 
 final firestoreFoodContainerSearchService =
     NotifierProvider<FirestoreFoodContainerSearchService, void>(
-  FirestoreFoodContainerSearchService.new,
-);
+      FirestoreFoodContainerSearchService.new,
+    );
