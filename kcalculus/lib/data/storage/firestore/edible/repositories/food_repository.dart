@@ -12,55 +12,58 @@ class FirestoreFoodRepository extends FoodRepository {
 
   @override
   Future<Food?> getById(String id) => Auth.guard(
-        (user) async {
-          final fsModel = await _edibleService.get(id);
+    ref,
+    (user) async {
+      final fsModel = await _edibleService.get(id);
 
-          return fsModel?.toFood();
-        },
-      );
+      return fsModel?.toFood();
+    },
+  );
 
   @override
   Future<Food> save(
     Food food, {
     bool skipAudit = false,
-  }) =>
-      Auth.guard(
-        (user) async {
-          final id = await _edibleService.save(
-            EdibleFirestoreModel.fromDomainFood(food, user.uid),
-            skipAudit: skipAudit,
-          );
-
-          emitChangeSignal();
-
-          return food.id == id ? food : food.copyWith(id: id);
-        },
+  }) => Auth.guard(
+    ref,
+    (user) async {
+      final id = await _edibleService.save(
+        EdibleFirestoreModel.fromDomainFood(food, user.uid),
+        skipAudit: skipAudit,
       );
+
+      emitChangeSignal();
+
+      return food.id == id ? food : food.copyWith(id: id);
+    },
+  );
 
   @override
   Future<bool> delete(String id) => Auth.guard(
-        (user) async {
-          final result = await _edibleService.delete(id);
+    ref,
+    (user) async {
+      final result = await _edibleService.delete(id);
 
-          emitChangeSignal();
+      emitChangeSignal();
 
-          return result;
-        },
-      );
+      return result;
+    },
+  );
 
   @override
   Future<bool> restore(String id) => Auth.guard(
-        (user) async {
-          final result = await _edibleService.restore(id);
+    ref,
+    (user) async {
+      final result = await _edibleService.restore(id);
 
-          emitChangeSignal();
+      emitChangeSignal();
 
-          return result;
-        },
-      );
+      return result;
+    },
+  );
 }
 
 final firestoreFoodRepositoryProvider =
     NotifierProvider<FoodRepository, ChangeSignal?>(
-  FirestoreFoodRepository.new,
-);
+      FirestoreFoodRepository.new,
+    );

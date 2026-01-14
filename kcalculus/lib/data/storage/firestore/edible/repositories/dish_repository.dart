@@ -18,55 +18,58 @@ class FirestoreDishRepository extends DishRepository {
 
   @override
   Future<Dish?> getById(String id) => Auth.guard(
-        (user) async {
-          final edible = await _edibleDao.getById(id, user: user);
-          return edible is Dish ? edible : null;
-        },
-      );
+    ref,
+    (user) async {
+      final edible = await _edibleDao.getById(id, user: user);
+      return edible is Dish ? edible : null;
+    },
+  );
 
   @override
   Future<Dish> save(
     Dish dish, {
     bool skipAudit = false,
-  }) =>
-      Auth.guard(
-        (user) async {
-          final id = await _dishDao.save(
-            dish,
-            user: user,
-            skipAudit: skipAudit,
-          );
-
-          emitChangeSignal();
-
-          return (await getById(id))!;
-        },
+  }) => Auth.guard(
+    ref,
+    (user) async {
+      final id = await _dishDao.save(
+        dish,
+        user: user,
+        skipAudit: skipAudit,
       );
+
+      emitChangeSignal();
+
+      return (await getById(id))!;
+    },
+  );
 
   @override
   Future<bool> delete(String id) => Auth.guard(
-        (user) async {
-          final result = await _edibleService.delete(id);
+    ref,
+    (user) async {
+      final result = await _edibleService.delete(id);
 
-          emitChangeSignal();
+      emitChangeSignal();
 
-          return result;
-        },
-      );
+      return result;
+    },
+  );
 
   @override
   Future<bool> restore(String id) => Auth.guard(
-        (user) async {
-          final result = await _edibleService.restore(id);
+    ref,
+    (user) async {
+      final result = await _edibleService.restore(id);
 
-          emitChangeSignal();
+      emitChangeSignal();
 
-          return result;
-        },
-      );
+      return result;
+    },
+  );
 }
 
 final firestoreDishRepositoryProvider =
     NotifierProvider<DishRepository, ChangeSignal?>(
-  FirestoreDishRepository.new,
-);
+      FirestoreDishRepository.new,
+    );

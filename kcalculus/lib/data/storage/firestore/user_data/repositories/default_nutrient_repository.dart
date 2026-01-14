@@ -18,6 +18,7 @@ class FirestoreDefaultNutrientRepository extends DefaultNutrientRepository {
     ref.watch(authServiceProvider);
 
     return Auth.guard(
+      ref,
       (user) async {
         final userData = await _userDataService.getById(user.uid);
 
@@ -33,8 +34,9 @@ class FirestoreDefaultNutrientRepository extends DefaultNutrientRepository {
       ref.read(firestoreUserDataServiceProvider.notifier);
 
   @override
-  Future<void> saveAll(List<Nutrient> nutrients) {
-    return Auth.guard((user) async {
+  Future<void> saveAll(List<Nutrient> nutrients) => Auth.guard(
+    ref,
+    (user) async {
       await _userDataService.save(
         (data) => data.copyWith(
           defaultNutrients: _defaultNutrientsFromDomain(nutrients),
@@ -43,8 +45,8 @@ class FirestoreDefaultNutrientRepository extends DefaultNutrientRepository {
       );
 
       state = AsyncData(nutrients);
-    });
-  }
+    },
+  );
 
   Future<List<Nutrient>> _getAppDefaults() async {
     final ref = FirebaseDatabase.instance.ref('default_nutrients');
@@ -70,6 +72,7 @@ class FirestoreDefaultNutrientRepository extends DefaultNutrientRepository {
   }
 
   Future<void> purge() => Auth.guard(
+    ref,
     (user) => _userDataService.purge(userId: user.uid),
   );
 }

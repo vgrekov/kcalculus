@@ -12,24 +12,27 @@ class FirestoreNutrientGoalRepository extends NutrientGoalRepository {
 
   @override
   Future<bool> isEmpty() => Auth.guard(
-        (user) => _nutrientGoalService.isEmpty(user.uid),
-      );
+    ref,
+    (user) => _nutrientGoalService.isEmpty(user.uid),
+  );
 
   @override
-  Future<List<NutrientGoal>> getActiveGoals(DateTime date) {
-    return Auth.guard((user) async {
+  Future<List<NutrientGoal>> getActiveGoals(DateTime date) => Auth.guard(
+    ref,
+    (user) async {
       final fsModels = await _nutrientGoalService.getActiveGoals(
         date,
         user.uid,
       );
 
       return fsModels.map((g) => g.toDomain()).toList();
-    });
-  }
+    },
+  );
 
   @override
-  Future<String> save(NutrientGoal goal) {
-    return Auth.guard((user) async {
+  Future<String> save(NutrientGoal goal) => Auth.guard(
+    ref,
+    (user) async {
       final result = await _nutrientGoalService.save(
         NutrientGoalFirestoreModel.fromDomain(goal),
         user.uid,
@@ -38,12 +41,13 @@ class FirestoreNutrientGoalRepository extends NutrientGoalRepository {
       emitChangeSignal();
 
       return result;
-    });
-  }
+    },
+  );
 
   @override
-  Future<bool> delete(String id) {
-    return Auth.guard((user) async {
+  Future<bool> delete(String id) => Auth.guard(
+    ref,
+    (user) async {
       final result = await _nutrientGoalService.delete(
         id,
         user.uid,
@@ -52,12 +56,13 @@ class FirestoreNutrientGoalRepository extends NutrientGoalRepository {
       emitChangeSignal();
 
       return result;
-    });
-  }
+    },
+  );
 
   @override
-  Future<bool> restore(String id) {
-    return Auth.guard((user) async {
+  Future<bool> restore(String id) => Auth.guard(
+    ref,
+    (user) async {
       final result = await _nutrientGoalService.restore(
         id,
         user.uid,
@@ -66,15 +71,16 @@ class FirestoreNutrientGoalRepository extends NutrientGoalRepository {
       emitChangeSignal();
 
       return result;
-    });
-  }
+    },
+  );
 
   Future<void> purge() => Auth.guard(
-        (user) => _nutrientGoalService.purge(userId: user.uid),
-      );
+    ref,
+    (user) => _nutrientGoalService.purge(userId: user.uid),
+  );
 }
 
 final firestoreNutrientGoalRepositoryProvider =
     NotifierProvider<NutrientGoalRepository, ChangeSignal?>(
-  FirestoreNutrientGoalRepository.new,
-);
+      FirestoreNutrientGoalRepository.new,
+    );

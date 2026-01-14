@@ -23,80 +23,81 @@ class FirestoreFoodContainerRepository extends FoodContainerRepository {
 
   @override
   Future<bool> isEmpty() => Auth.guard(
-        (user) => _foodContainerService.isEmpty(
-          userId: user.uid,
-        ),
-      );
+    ref,
+    (user) => _foodContainerService.isEmpty(
+      userId: user.uid,
+    ),
+  );
 
   @override
   Future<List<FoodContainer>> getAll({
     PageConfig<FoodContainer>? pageConfig,
-  }) =>
-      Auth.guard(
-        (user) => _foodContainerService
-            .all(
-              userId: user.uid,
-              pageConfig: pageConfig == null
-                  ? null
-                  : PageConfig<FoodContainerFirestoreModel>(
-                      size: pageConfig.size,
-                      offset: pageConfig.offset,
-                      startAfter: pageConfig.startAfter == null
-                          ? null
-                          : FoodContainerFirestoreModel.fromDomain(
-                              pageConfig.startAfter!,
-                              user.uid,
-                            ),
-                    ),
-            )
-            .then(
-              (results) => results.map((r) => r.toDomain()).toList(),
-            ),
-      );
+  }) => Auth.guard(
+    ref,
+    (user) => _foodContainerService
+        .all(
+          userId: user.uid,
+          pageConfig: pageConfig == null
+              ? null
+              : PageConfig<FoodContainerFirestoreModel>(
+                  size: pageConfig.size,
+                  offset: pageConfig.offset,
+                  startAfter: pageConfig.startAfter == null
+                      ? null
+                      : FoodContainerFirestoreModel.fromDomain(
+                          pageConfig.startAfter!,
+                          user.uid,
+                        ),
+                ),
+        )
+        .then(
+          (results) => results.map((r) => r.toDomain()).toList(),
+        ),
+  );
 
   @override
   Future<List<FoodContainer>> search(
     String? query, {
     PageConfig<FoodContainer>? pageConfig,
-  }) =>
-      Auth.guard(
-        (user) async {
-          final searchResults = await _search(
-            query,
-            userId: user.uid,
-            pageConfig: pageConfig,
-          );
-
-          final recents = await _recents(
-            userId: user.uid,
-          );
-
-          final recentsById = {
-            for (final model in recents) model.id: model,
-          };
-
-          final syncedSearchResults = searchResults
-              .map(
-                (model) => recentsById.remove(model.id) ?? model,
-              )
-              .toList();
-
-          final isFirstPage =
-              (pageConfig?.offset ?? 0) == 0 && pageConfig?.startAfter == null;
-
-          return [
-            if (isFirstPage)
-              ...recents
-                  .where(
-                    (model) =>
-                        recentsById.containsKey(model.id) &&
-                        model.deletedAt == null,
-                  )
-                  .map((r) => r.toDomain(true)),
-            ...syncedSearchResults.map((r) => r.toDomain()),
-          ];
-        },
+  }) => Auth.guard(
+    ref,
+    (user) async {
+      final searchResults = await _search(
+        query,
+        userId: user.uid,
+        pageConfig: pageConfig,
       );
+
+      final recents = await _recents(
+        userId: user.uid,
+      );
+
+      final recentsById = {
+        for (final model in recents) model.id: model,
+      };
+
+      final syncedSearchResults = searchResults
+          .map(
+            (model) => recentsById.remove(model.id) ?? model,
+          )
+          .toList();
+
+      final isFirstPage =
+          (pageConfig?.offset ?? 0) == 0 && pageConfig?.startAfter == null;
+
+      return [
+        if (isFirstPage)
+          ...recents
+              .where(
+                (model) =>
+                    recentsById.containsKey(model.id) &&
+                    model.deletedAt == null,
+              )
+              .map((r) => r.toDomain(true)),
+        ...syncedSearchResults.map((r) => r.toDomain()),
+      ];
+    },
+  );
 
   Future<List<FoodContainerFirestoreModel>> _search(
     String? query, {
@@ -139,7 +140,8 @@ class FirestoreFoodContainerRepository extends FoodContainerRepository {
     return _foodContainerService.recent(
       userId: userId,
       lookbackDuration: Duration(
-        seconds: appConfig?.recentLookbackDurationSecs ??
+        seconds:
+            appConfig?.recentLookbackDurationSecs ??
             kDefaultRecentLookbackDurationSecs,
       ),
     );
@@ -147,54 +149,59 @@ class FirestoreFoodContainerRepository extends FoodContainerRepository {
 
   @override
   Future<FoodContainer?> getById(String id) => Auth.guard(
-        (user) async {
-          final fsModel = await _foodContainerService.get(id);
+    ref,
+    (user) async {
+      final fsModel = await _foodContainerService.get(id);
 
-          return fsModel?.toDomain();
-        },
-      );
+      return fsModel?.toDomain();
+    },
+  );
 
   @override
   Future<FoodContainer> save(FoodContainer container) => Auth.guard(
-        (user) async {
-          final id = await _foodContainerService.save(
-            FoodContainerFirestoreModel.fromDomain(container, user.uid),
-          );
-
-          emitChangeSignal();
-
-          return container.id == id ? container : container.copyWith(id: id);
-        },
+    ref,
+    (user) async {
+      final id = await _foodContainerService.save(
+        FoodContainerFirestoreModel.fromDomain(container, user.uid),
       );
+
+      emitChangeSignal();
+
+      return container.id == id ? container : container.copyWith(id: id);
+    },
+  );
 
   @override
   Future<bool> delete(String id) => Auth.guard(
-        (user) async {
-          final result = await _foodContainerService.delete(id);
+    ref,
+    (user) async {
+      final result = await _foodContainerService.delete(id);
 
-          emitChangeSignal();
+      emitChangeSignal();
 
-          return result;
-        },
-      );
+      return result;
+    },
+  );
 
   @override
   Future<bool> restore(String id) => Auth.guard(
-        (user) async {
-          final result = await _foodContainerService.restore(id);
+    ref,
+    (user) async {
+      final result = await _foodContainerService.restore(id);
 
-          emitChangeSignal();
+      emitChangeSignal();
 
-          return result;
-        },
-      );
+      return result;
+    },
+  );
 
   Future<void> purge() => Auth.guard(
-        (user) => _foodContainerService.purge(userId: user.uid),
-      );
+    ref,
+    (user) => _foodContainerService.purge(userId: user.uid),
+  );
 }
 
 final firestoreFoodContainerRepositoryProvider =
     NotifierProvider<FoodContainerRepository, ChangeSignal?>(
-  FirestoreFoodContainerRepository.new,
-);
+      FirestoreFoodContainerRepository.new,
+    );

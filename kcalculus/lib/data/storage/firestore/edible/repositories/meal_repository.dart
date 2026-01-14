@@ -30,85 +30,89 @@ class FirestoreMealRepository extends MealRepository {
 
   @override
   Future<bool> isEmpty() => Auth.guard(
-        (user) => _mealService.isEmpty(
-          userId: user.uid,
-        ),
-      );
+    ref,
+    (user) => _mealService.isEmpty(
+      userId: user.uid,
+    ),
+  );
 
   @override
   Future<List<Meal>> getByDate(DateTime date) => Auth.guard(
-        (user) => _mealService.getByDate(date, userId: user.uid).then(
-              (meals) => Future.wait(
-                meals.map(
-                  (meal) async => meal.toDomain(
-                    (await _edibleDao.getById(
-                      meal.edibleId,
-                      user: user,
-                    ))!,
-                  ),
-                ),
+    ref,
+    (user) => _mealService
+        .getByDate(date, userId: user.uid)
+        .then(
+          (meals) => Future.wait(
+            meals.map(
+              (meal) async => meal.toDomain(
+                (await _edibleDao.getById(
+                  meal.edibleId,
+                  user: user,
+                ))!,
               ),
             ),
-      );
+          ),
+        ),
+  );
 
   @override
   Future<Meal> save(Meal meal) => Auth.guard(
-        (user) async {
-          final id = await _db.runTransaction((txn) async {
-            DateTime? edibleEatenAt;
+    ref,
+    (user) async {
+      final id = await _db.runTransaction((txn) async {
+        DateTime? edibleEatenAt;
 
-            if (meal.edible.id == null) {
-              var edible = meal.edible;
+        if (meal.edible.id == null) {
+          var edible = meal.edible;
 
-              switch (edible) {
-                case Food food:
-                  edible = food.copyWith(
-                    id: await _edibleService.save(
-                      EdibleFirestoreModel.fromDomain(meal.edible, user.uid),
-                      txn: txn,
-                    ),
-                  );
-                  break;
-                case Dish dish:
-                  edible = dish.copyWith(
-                    id: await _dishDao.save(
-                      dish,
-                      user: user,
-                      txn: txn,
-                    ),
-                  );
-                  break;
-              }
-
-              meal = meal.copyWith(edible: edible);
-            } else {
-              final fsEdible =
-                  await _edibleService.get(meal.edible.id!, txn: txn);
-              edibleEatenAt = fsEdible?.eatenAt;
-            }
-
-            final id = await _mealService.save(
-              MealFirestoreModel.fromDomain(meal),
-              userId: user.uid,
-              txn: txn,
-            );
-
-            if (edibleEatenAt?.isBefore(meal.eatenAt) ?? true) {
-              await _edibleService.markEaten(
-                meal.edible.id!,
-                at: meal.eatenAt,
-                txn: txn,
+          switch (edible) {
+            case Food food:
+              edible = food.copyWith(
+                id: await _edibleService.save(
+                  EdibleFirestoreModel.fromDomain(meal.edible, user.uid),
+                  txn: txn,
+                ),
               );
-            }
+              break;
+            case Dish dish:
+              edible = dish.copyWith(
+                id: await _dishDao.save(
+                  dish,
+                  user: user,
+                  txn: txn,
+                ),
+              );
+              break;
+          }
 
-            return id;
-          });
+          meal = meal.copyWith(edible: edible);
+        } else {
+          final fsEdible = await _edibleService.get(meal.edible.id!, txn: txn);
+          edibleEatenAt = fsEdible?.eatenAt;
+        }
 
-          emitChangeSignal();
+        final id = await _mealService.save(
+          MealFirestoreModel.fromDomain(meal),
+          userId: user.uid,
+          txn: txn,
+        );
 
-          return (await _getById(id, user: user))!;
-        },
-      );
+        if (edibleEatenAt?.isBefore(meal.eatenAt) ?? true) {
+          await _edibleService.markEaten(
+            meal.edible.id!,
+            at: meal.eatenAt,
+            txn: txn,
+          );
+        }
+
+        return id;
+      });
+
+      emitChangeSignal();
+
+      return (await _getById(id, user: user))!;
+    },
+  );
 
   Future<Meal?> _getById(
     String id, {
@@ -128,32 +132,35 @@ class FirestoreMealRepository extends MealRepository {
 
   @override
   Future<bool> delete(String id) => Auth.guard(
-        (user) async {
-          final result = await _mealService.delete(id, userId: user.uid);
+    ref,
+    (user) async {
+      final result = await _mealService.delete(id, userId: user.uid);
 
-          emitChangeSignal();
+      emitChangeSignal();
 
-          return result;
-        },
-      );
+      return result;
+    },
+  );
 
   @override
   Future<bool> restore(String id) => Auth.guard(
-        (user) async {
-          final result = await _mealService.restore(id, userId: user.uid);
+    ref,
+    (user) async {
+      final result = await _mealService.restore(id, userId: user.uid);
 
-          emitChangeSignal();
+      emitChangeSignal();
 
-          return result;
-        },
-      );
+      return result;
+    },
+  );
 
   Future<void> purge() => Auth.guard(
-        (user) => _mealService.purge(userId: user.uid),
-      );
+    ref,
+    (user) => _mealService.purge(userId: user.uid),
+  );
 }
 
 final firestoreMealRepositoryProvider =
     NotifierProvider<MealRepository, ChangeSignal?>(
-  FirestoreMealRepository.new,
-);
+      FirestoreMealRepository.new,
+    );
