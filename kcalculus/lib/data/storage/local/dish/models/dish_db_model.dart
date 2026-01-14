@@ -108,6 +108,11 @@ sealed class DishDbModel with _$DishDbModel {
       includeToJson: false,
       includeFromJson: true,
     )
+    String? last_eaten_at,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: true,
+    )
     String? deleted_at,
   }) = _DishDbModel;
 

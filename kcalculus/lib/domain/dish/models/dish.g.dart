@@ -16,6 +16,8 @@ Map<String, dynamic> _$DishToJson(_Dish instance) => <String, dynamic>{
   ),
   'createdAt': instance.createdAt?.toIso8601String(),
   'updatedAt': instance.updatedAt?.toIso8601String(),
+  'lastEatenAt': instance.lastEatenAt?.toIso8601String(),
+  'deletedAt': instance.deletedAt?.toIso8601String(),
 };
 
 const _$MeasureEnumMap = {

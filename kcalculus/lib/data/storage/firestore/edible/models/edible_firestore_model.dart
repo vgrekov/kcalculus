@@ -185,6 +185,10 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
             NutritionFactsFirestoreModel.fromDomain,
           )
           .toList(),
+      createdAt: model.createdAt,
+      updatedAt: model.updatedAt,
+      eatenAt: model.lastEatenAt,
+      deletedAt: model.deletedAt,
     );
   }
 
@@ -215,6 +219,10 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
             IngredientFirestoreModel.fromDomain,
           )
           .toList(),
+      createdAt: model.createdAt,
+      updatedAt: model.updatedAt,
+      eatenAt: model.lastEatenAt,
+      deletedAt: model.deletedAt,
     );
   }
 
@@ -234,6 +242,8 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
           .toList(),
       createdAt: createdAt,
       updatedAt: updatedAt,
+      lastEatenAt: eatenAt,
+      deletedAt: deletedAt,
     );
   }
 
@@ -259,6 +269,8 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
       },
       createdAt: createdAt,
       updatedAt: updatedAt,
+      lastEatenAt: eatenAt,
+      deletedAt: deletedAt,
     );
   }
 }

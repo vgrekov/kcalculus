@@ -19,6 +19,12 @@ _Food _$FoodFromJson(Map<String, dynamic> json) => _Food(
   updatedAt: json['updatedAt'] == null
       ? null
       : DateTime.parse(json['updatedAt'] as String),
+  lastEatenAt: json['lastEatenAt'] == null
+      ? null
+      : DateTime.parse(json['lastEatenAt'] as String),
+  deletedAt: json['deletedAt'] == null
+      ? null
+      : DateTime.parse(json['deletedAt'] as String),
 );
 
 Map<String, dynamic> _$FoodToJson(_Food instance) => <String, dynamic>{
@@ -29,4 +35,6 @@ Map<String, dynamic> _$FoodToJson(_Food instance) => <String, dynamic>{
   'nutritionFacts': instance.nutritionFacts.map((e) => e.toJson()).toList(),
   'createdAt': instance.createdAt?.toIso8601String(),
   'updatedAt': instance.updatedAt?.toIso8601String(),
+  'lastEatenAt': instance.lastEatenAt?.toIso8601String(),
+  'deletedAt': instance.deletedAt?.toIso8601String(),
 };

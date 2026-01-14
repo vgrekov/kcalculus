@@ -26,6 +26,8 @@ sealed class Dish with _$Dish implements Edible {
     required Map<Measure, NutritionRatio> nutritionRatios,
     DateTime? createdAt,
     DateTime? updatedAt,
+    DateTime? lastEatenAt,
+    DateTime? deletedAt,
   }) = _Dish;
 
   @override

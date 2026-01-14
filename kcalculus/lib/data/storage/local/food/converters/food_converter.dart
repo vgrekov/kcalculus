@@ -46,6 +46,12 @@ class LocalFoodConverter extends Notifier<void> {
       updatedAt: dbModel.updated_at != null
           ? dt.parseISO8601(dbModel.updated_at!)
           : null,
+      lastEatenAt: dbModel.last_eaten_at != null
+          ? dt.parseISO8601(dbModel.last_eaten_at!)
+          : null,
+      deletedAt: dbModel.deleted_at != null
+          ? dt.parseISO8601(dbModel.deleted_at!)
+          : null,
     );
   }
 }

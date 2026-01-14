@@ -12,6 +12,7 @@ _FoodDbModel _$FoodDbModelFromJson(Map<String, dynamic> json) => _FoodDbModel(
   description: json['description'] as String?,
   created_at: json['created_at'] as String?,
   updated_at: json['updated_at'] as String?,
+  last_eaten_at: json['last_eaten_at'] as String?,
   deleted_at: json['deleted_at'] as String?,
 );
 
