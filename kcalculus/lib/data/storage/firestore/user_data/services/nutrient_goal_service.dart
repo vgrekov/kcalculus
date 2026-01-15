@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
+import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/models/nutrient_goal_firestore_model.dart';
@@ -10,7 +11,7 @@ class FirestoreNutrientGoalService extends Notifier<void> {
   @override
   void build() {}
 
-  FirebaseFirestore get _db => FirebaseFirestore.instance;
+  FirebaseFirestore get _db => ref.read(firestoreProvider);
 
   Future<bool> isEmpty(String userId) async {
     final snapshot = await _db

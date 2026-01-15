@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/auth/utils/auth.dart';
+import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
 import 'package:kcalculus/data/storage/firestore/edible/dao/dish_dao.dart';
 import 'package:kcalculus/data/storage/firestore/edible/dao/edible_dao.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
@@ -15,7 +16,7 @@ import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/domain/meal/models/meal.dart';
 
 class FirestoreMealRepository extends MealRepository {
-  FirebaseFirestore get _db => FirebaseFirestore.instance;
+  FirebaseFirestore get _db => ref.read(firestoreProvider);
 
   FirestoreEdibleService get _edibleService =>
       ref.read(firestoreEdibleServiceProvider.notifier);
