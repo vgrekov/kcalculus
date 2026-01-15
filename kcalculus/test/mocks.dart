@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/_common/database/models/database_config.dart';
@@ -5,28 +6,26 @@ import 'package:kcalculus/data/_common/database/services/database_service.dart';
 import 'package:kcalculus/data/app_config/models/app_config.dart';
 import 'package:kcalculus/data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/data/auth/services/auth_service.dart';
+import 'package:kcalculus/data/storage/firestore/edible/dao/edible_dao.dart';
 import 'package:kcalculus/data/storage/firestore/edible/services/edible_service.dart';
 import 'package:kcalculus/data/storage/local/edible/dao/nutrition_facts_dao.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/sqflite.dart' as sql;
 
 class MockAppConfigService extends AsyncNotifier<AppConfig?>
     with Mock
     implements AppConfigService {}
 
-class MockDatabaseService extends FamilyAsyncNotifier<Database, DatabaseConfig>
+class MockDatabaseService
+    extends FamilyAsyncNotifier<sql.Database, DatabaseConfig>
     with Mock
     implements DatabaseService {}
 
-class MockDatabase with Mock implements Database {}
+class MockDatabase with Mock implements sql.Database {}
 
 class MockLocalNutritionFactsDao extends Notifier<void>
     with Mock
     implements LocalNutritionFactsDao {}
-
-class MockFirestoreEdibleService extends Notifier<void>
-    with Mock
-    implements FirestoreEdibleService {}
 
 class MockAuthService extends AsyncNotifier<User?>
     with Mock
@@ -48,3 +47,22 @@ class MockUser with Mock implements User {
   @override
   final String? displayName;
 }
+
+class MockTransaction with Mock implements Transaction {}
+
+class MockFirebaseFirestore with Mock implements FirebaseFirestore {
+  @override
+  Future<T> runTransaction<T>(
+    TransactionHandler<T> transactionHandler, {
+    Duration timeout = const Duration(seconds: 30),
+    int maxAttempts = 5,
+  }) => transactionHandler(MockTransaction());
+}
+
+class MockFirestoreEdibleDao extends Notifier<void>
+    with Mock
+    implements FirestoreEdibleDao {}
+
+class MockFirestoreEdibleService extends Notifier<void>
+    with Mock
+    implements FirestoreEdibleService {}
