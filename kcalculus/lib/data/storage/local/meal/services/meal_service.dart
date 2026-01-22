@@ -106,8 +106,9 @@ class LocalMealService extends Notifier<void> {
       ORDER BY
         meals.eaten_at DESC
       ''',
-      [dt.formatDate(date)],
-    ).then((data) => data.map(MealDbModel.fromJson).toList());
+          [dt.formatDate(date)],
+        )
+        .then((data) => data.map(MealDbModel.fromJson).toList());
   }
 
   Future<void> add(
@@ -116,10 +117,10 @@ class LocalMealService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    await executor.insert(
-      'meals',
-      model.toJson(),
-    );
+    await executor.insert('meals', {
+      ...model.toJson(),
+      'created_at': dt.formatISO8601(DateTime.now()),
+    });
   }
 
   Future<void> update(
@@ -130,7 +131,10 @@ class LocalMealService extends Notifier<void> {
 
     await executor.update(
       'meals',
-      model.toJson(),
+      {
+        ...model.toJson(),
+        'updated_at': dt.formatISO8601(DateTime.now()),
+      },
       where: 'id = ?',
       whereArgs: [model.id],
     );

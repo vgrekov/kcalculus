@@ -72,6 +72,9 @@ sealed class MealFirestoreModel with _$MealFirestoreModel {
     edibleId: model.edible.id!,
     amount: AmountFirestoreModel.fromDomain(model.amount),
     eatenAt: model.eatenAt,
+    createdAt: model.createdAt,
+    updatedAt: model.updatedAt ?? model.createdAt,
+    deletedAt: model.deletedAt,
   );
 
   Meal toDomain(Edible edible) => Meal(
@@ -79,5 +82,8 @@ sealed class MealFirestoreModel with _$MealFirestoreModel {
     edible: edible,
     amount: amount.toDomain(),
     eatenAt: eatenAt,
+    createdAt: createdAt,
+    updatedAt: updatedAt,
+    deletedAt: deletedAt,
   );
 }

@@ -1,0 +1,12 @@
+ALTER TABLE meals
+ADD COLUMN created_at TEXT NOT NULL DEFAULT '';
+
+--SQL-STATEMENT-SEPARATOR
+
+ALTER TABLE meals
+ADD COLUMN updated_at TEXT;
+
+--SQL-STATEMENT-SEPARATOR
+
+UPDATE meals
+SET created_at = eaten_at;

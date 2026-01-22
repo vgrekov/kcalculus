@@ -14,6 +14,8 @@ _MealDbModel _$MealDbModelFromJson(Map<String, dynamic> json) => _MealDbModel(
   amount_unit: json['amount_unit'] as String,
   amount_value: (json['amount_value'] as num).toDouble(),
   eaten_at: json['eaten_at'] as String,
+  created_at: json['created_at'] as String?,
+  updated_at: json['updated_at'] as String?,
   deleted_at: json['deleted_at'] as String?,
 );
 

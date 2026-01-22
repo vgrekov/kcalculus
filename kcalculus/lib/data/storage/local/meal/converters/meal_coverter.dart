@@ -21,6 +21,15 @@ class LocalMealConverter extends Notifier<void> {
       amount_unit: model.amount.unit.name,
       amount_value: model.amount.value,
       eaten_at: dt.formatISO8601(model.eatenAt),
+      created_at: model.createdAt == null
+          ? null
+          : dt.formatISO8601(model.createdAt!),
+      updated_at: model.updatedAt == null
+          ? null
+          : dt.formatISO8601(model.updatedAt!),
+      deleted_at: model.deletedAt == null
+          ? null
+          : dt.formatISO8601(model.deletedAt!),
     );
   }
 
@@ -33,6 +42,15 @@ class LocalMealConverter extends Notifier<void> {
         value: dbModel.amount_value,
       ),
       eatenAt: dt.parseISO8601(dbModel.eaten_at),
+      createdAt: dbModel.created_at == null
+          ? null
+          : dt.parseISO8601(dbModel.created_at!),
+      updatedAt: dbModel.updated_at == null
+          ? null
+          : dt.parseISO8601(dbModel.updated_at!),
+      deletedAt: dbModel.deleted_at == null
+          ? null
+          : dt.parseISO8601(dbModel.deleted_at!),
     );
   }
 }
