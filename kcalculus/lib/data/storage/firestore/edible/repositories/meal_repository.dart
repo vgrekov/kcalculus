@@ -11,6 +11,7 @@ import 'package:kcalculus/data/storage/firestore/edible/services/edible_service.
 import 'package:kcalculus/data/storage/firestore/edible/services/meal_service.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/dish/models/dish.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/domain/meal/models/meal.dart';
@@ -35,6 +36,38 @@ class FirestoreMealRepository extends MealRepository {
     (user) => _mealService.isEmpty(
       userId: user.uid,
     ),
+  );
+
+  @override
+  Future<List<Meal>> getAll({PageConfig<Meal>? pageConfig}) => Auth.guard(
+    ref,
+    (user) => _mealService
+        .all(
+          userId: user.uid,
+          pageConfig: pageConfig == null
+              ? null
+              : PageConfig<MealFirestoreModel>(
+                  size: pageConfig.size,
+                  offset: pageConfig.offset,
+                  startAfter: pageConfig.startAfter == null
+                      ? null
+                      : MealFirestoreModel.fromDomain(
+                          pageConfig.startAfter!,
+                        ),
+                ),
+        )
+        .then(
+          (meals) => Future.wait(
+            meals.map(
+              (meal) async => meal.toDomain(
+                (await _edibleDao.getById(
+                  meal.edibleId,
+                  user: user,
+                ))!,
+              ),
+            ),
+          ),
+        ),
   );
 
   @override

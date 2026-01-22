@@ -3,6 +3,7 @@ import 'package:kcalculus/data/storage/local/_common/services/local_storage_serv
 import 'package:kcalculus/data/storage/local/dish/dao/dish_dao.dart';
 import 'package:kcalculus/data/storage/local/food/dao/food_dao.dart';
 import 'package:kcalculus/data/storage/local/meal/converters/meal_coverter.dart';
+import 'package:kcalculus/data/storage/local/meal/models/meal_db_model.dart';
 import 'package:kcalculus/data/storage/local/meal/services/meal_service.dart';
 import 'package:kcalculus/domain/dish/models/dish.dart';
 import 'package:kcalculus/domain/edible/models/edible.dart';
@@ -27,37 +28,67 @@ class LocalMealDao extends Notifier<void> {
 
   Future<bool> isEmpty({
     Transaction? txn,
-  }) =>
-      _mealService.isEmpty(
-        txn: txn,
-      );
+  }) => _mealService.isEmpty(
+    txn: txn,
+  );
+
+  Future<List<Meal>> getAll({
+    int? limit,
+    int? offset,
+    Transaction? txn,
+  }) {
+    return _mealService
+        .all(
+          limit: limit,
+          offset: offset,
+          txn: txn,
+        )
+        .then(
+          (data) => Future.wait(
+            data
+                .map(
+                  (dbModel) => _enrichMeal(dbModel, txn: txn),
+                )
+                .toList(),
+          ),
+        );
+  }
 
   Future<List<Meal>> getByDate(
     DateTime date, {
     Transaction? txn,
   }) {
-    return _mealService.getByDate(date, txn: txn).then(
+    return _mealService
+        .getByDate(date, txn: txn)
+        .then(
           (data) => Future.wait(
-            data.map(
-              (dbModel) async {
-                final Edible? edible;
-                if (dbModel.edible_dish_id != null) {
-                  edible = await _dishDao.getById(
-                    dbModel.edible_id,
-                    txn: txn,
-                  );
-                } else {
-                  edible = await _foodDao.getById(
-                    dbModel.edible_id,
-                    txn: txn,
-                  );
-                }
-
-                return _mealConverter.toModel(dbModel, edible!);
-              },
-            ).toList(),
+            data
+                .map(
+                  (dbModel) => _enrichMeal(dbModel, txn: txn),
+                )
+                .toList(),
           ),
         );
+  }
+
+  Future<Meal> _enrichMeal(
+    MealDbModel dbModel, {
+    Transaction? txn,
+  }) async {
+    final Edible? edible;
+    if (dbModel.edible_dish_id != null) {
+      edible = await _dishDao.getById(
+        dbModel.edible_id,
+        txn: txn,
+      );
+    } else {
+      edible = await _foodDao.getById(
+        dbModel.edible_id,
+        txn: txn,
+      );
+    }
+
+    return _mealConverter.toModel(dbModel, edible!);
   }
 
   Future<Meal> save(

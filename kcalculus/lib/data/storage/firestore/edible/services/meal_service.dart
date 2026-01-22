@@ -4,7 +4,9 @@ import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
 import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
+import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/meal_firestore_model.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 
 class FirestoreMealService extends Notifier<void> {
   @override
@@ -21,6 +23,37 @@ class FirestoreMealService extends Notifier<void> {
         .get();
 
     return (snapshot.count ?? 0) == 0;
+  }
+
+  Future<List<MealFirestoreModel>> all({
+    required String userId,
+    PageConfig<MealFirestoreModel>? pageConfig,
+  }) async {
+    var query = _db
+        .collection(MealFirestoreModel.collection(userId))
+        .orderBy(MealFirestoreModelJsonFields.eatenAt, descending: false)
+        .orderBy(FieldPath.documentId, descending: true);
+
+    if (pageConfig != null) {
+      query = query.limit(pageConfig.size);
+      if (pageConfig.startAfter != null) {
+        query = query.startAfter([
+          dateToTimestamp(pageConfig.startAfter!.eatenAt),
+          pageConfig.startAfter!.id,
+        ]);
+      }
+    }
+
+    final snapshot = await query.get();
+
+    return snapshot.docs
+        .map(
+          (s) => MealFirestoreModel.fromJson({
+            MealFirestoreModelJsonFields.id: s.id,
+            ...s.data(),
+          }),
+        )
+        .toList();
   }
 
   Future<List<MealFirestoreModel>> getByDate(
