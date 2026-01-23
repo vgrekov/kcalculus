@@ -281,7 +281,7 @@ class FirestoreFoodContainerService extends Notifier<void> {
   );
 }
 
-final firestoreFoodContainerService =
+final firestoreFoodContainerServiceProvider =
     NotifierProvider<FirestoreFoodContainerService, void>(
       FirestoreFoodContainerService.new,
     );
