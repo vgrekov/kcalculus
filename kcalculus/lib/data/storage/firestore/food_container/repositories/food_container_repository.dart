@@ -16,10 +16,10 @@ import 'package:kcalculus/domain/dish/models/food_container.dart';
 
 class FirestoreFoodContainerRepository extends FoodContainerRepository {
   FirestoreFoodContainerService get _foodContainerService =>
-      ref.read(firestoreFoodContainerService.notifier);
+      ref.read(firestoreFoodContainerServiceProvider.notifier);
 
   FirestoreFoodContainerSearchService get _foodContainerSearchService =>
-      ref.read(firestoreFoodContainerSearchService.notifier);
+      ref.read(firestoreFoodContainerSearchServiceProvider.notifier);
 
   @override
   Future<bool> isEmpty() => Auth.guard(
@@ -31,12 +31,14 @@ class FirestoreFoodContainerRepository extends FoodContainerRepository {
 
   @override
   Future<List<FoodContainer>> getAll({
+    bool includeDeleted = false,
     PageConfig<FoodContainer>? pageConfig,
   }) => Auth.guard(
     ref,
     (user) => _foodContainerService
         .all(
           userId: user.uid,
+          includeDeleted: includeDeleted,
           pageConfig: pageConfig == null
               ? null
               : PageConfig<FoodContainerFirestoreModel>(

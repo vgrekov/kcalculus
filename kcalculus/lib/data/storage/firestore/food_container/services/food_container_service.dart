@@ -32,12 +32,24 @@ class FirestoreFoodContainerService extends Notifier<void> {
 
   Future<List<FoodContainerFirestoreModel>> all({
     required String userId,
+    bool includeDeleted = false,
     PageConfig<FoodContainerFirestoreModel>? pageConfig,
   }) async {
     var query = _db
         .collection(FoodContainerFirestoreModel.kCollection)
-        .where(FoodContainerFirestoreModelJsonFields.ownerId, isEqualTo: userId)
-        .where(FoodContainerFirestoreModelJsonFields.deleted, isEqualTo: false)
+        .where(
+          FoodContainerFirestoreModelJsonFields.ownerId,
+          isEqualTo: userId,
+        );
+
+    if (!includeDeleted) {
+      query = query.where(
+        FoodContainerFirestoreModelJsonFields.deleted,
+        isEqualTo: false,
+      );
+    }
+
+    query = query
         .orderBy(
           FoodContainerFirestoreModelJsonFields.updatedAt,
           descending: true,

@@ -15,8 +15,12 @@ class LocalFoodContainerRepository extends FoodContainerRepository {
   Future<bool> isEmpty() => _dao.isEmpty();
 
   @override
-  Future<List<FoodContainer>> getAll({PageConfig<FoodContainer>? pageConfig}) {
+  Future<List<FoodContainer>> getAll({
+    bool includeDeleted = false,
+    PageConfig<FoodContainer>? pageConfig,
+  }) {
     return _dao.getAll(
+      includeDeleted: includeDeleted,
       pageConfig: pageConfig,
     );
   }
@@ -67,5 +71,5 @@ class LocalFoodContainerRepository extends FoodContainerRepository {
 
 final localFoodContainerRepositoryProvider =
     NotifierProvider<FoodContainerRepository, ChangeSignal?>(
-  LocalFoodContainerRepository.new,
-);
+      LocalFoodContainerRepository.new,
+    );
