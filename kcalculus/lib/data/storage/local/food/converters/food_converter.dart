@@ -40,16 +40,16 @@ class LocalFoodConverter extends Notifier<void> {
       name: dbModel.name,
       description: dbModel.description ?? '',
       nutritionFacts: nutritionFacts,
-      createdAt: dbModel.created_at != null
+      createdAt: (dbModel.created_at?.isNotEmpty ?? false)
           ? dt.parseISO8601(dbModel.created_at!)
           : null,
-      updatedAt: dbModel.updated_at != null
+      updatedAt: (dbModel.updated_at?.isNotEmpty ?? false)
           ? dt.parseISO8601(dbModel.updated_at!)
           : null,
-      lastEatenAt: dbModel.last_eaten_at != null
+      lastEatenAt: (dbModel.last_eaten_at?.isNotEmpty ?? false)
           ? dt.parseISO8601(dbModel.last_eaten_at!)
           : null,
-      deletedAt: dbModel.deleted_at != null
+      deletedAt: (dbModel.deleted_at?.isNotEmpty ?? false)
           ? dt.parseISO8601(dbModel.deleted_at!)
           : null,
     );

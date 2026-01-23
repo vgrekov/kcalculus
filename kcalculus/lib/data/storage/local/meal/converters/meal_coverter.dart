@@ -42,15 +42,15 @@ class LocalMealConverter extends Notifier<void> {
         value: dbModel.amount_value,
       ),
       eatenAt: dt.parseISO8601(dbModel.eaten_at),
-      createdAt: dbModel.created_at == null
-          ? null
-          : dt.parseISO8601(dbModel.created_at!),
-      updatedAt: dbModel.updated_at == null
-          ? null
-          : dt.parseISO8601(dbModel.updated_at!),
-      deletedAt: dbModel.deleted_at == null
-          ? null
-          : dt.parseISO8601(dbModel.deleted_at!),
+      createdAt: (dbModel.created_at?.isNotEmpty ?? false)
+          ? dt.parseISO8601(dbModel.created_at!)
+          : null,
+      updatedAt: (dbModel.updated_at?.isNotEmpty ?? false)
+          ? dt.parseISO8601(dbModel.updated_at!)
+          : null,
+      deletedAt: (dbModel.deleted_at?.isNotEmpty ?? false)
+          ? dt.parseISO8601(dbModel.deleted_at!)
+          : null,
     );
   }
 }
