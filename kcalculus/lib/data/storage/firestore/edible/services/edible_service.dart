@@ -35,12 +35,21 @@ class FirestoreEdibleService extends Notifier<void> {
 
   Future<List<EdiblePreviewFirestoreModel>> all({
     required String userId,
+    bool includeDeleted = false,
     PageConfig<EdiblePreviewFirestoreModel>? pageConfig,
   }) async {
     var query = _db
         .collection(EdibleFirestoreModel.kCollection)
-        .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId)
-        .where(EdibleFirestoreModelJsonFields.deleted, isEqualTo: false)
+        .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId);
+
+    if (!includeDeleted) {
+      query = query.where(
+        EdibleFirestoreModelJsonFields.deleted,
+        isEqualTo: false,
+      );
+    }
+
+    query = query
         .orderBy(EdibleFirestoreModelJsonFields.touchedAt, descending: true)
         .orderBy(FieldPath.documentId, descending: true);
 

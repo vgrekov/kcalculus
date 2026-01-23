@@ -15,6 +15,7 @@ abstract class EdibleRepository extends Notifier<void> {
   Future<bool> isEmpty();
 
   Future<List<EdiblePreview>> getAll({
+    bool includeDeleted = false,
     PageConfig<EdiblePreview>? pageConfig,
   });
 
@@ -55,19 +56,22 @@ class _EdibleRepository extends EdibleRepository
   @override
   NotifierProvider<EdibleRepository, void> buildDelegateProvider(
     StorageType storageType,
-  ) =>
-      switch (storageType) {
-        StorageType.local => localEdibleRepositoryProvider,
-        StorageType.firestore => firestoreEdibleRepositoryProvider,
-      };
+  ) => switch (storageType) {
+    StorageType.local => localEdibleRepositoryProvider,
+    StorageType.firestore => firestoreEdibleRepositoryProvider,
+  };
 
   @override
   Future<List<EdiblePreview>> getAll({
+    bool includeDeleted = false,
     PageConfig<EdiblePreview>? pageConfig,
   }) async {
     final provider = await delegateProvider;
 
-    return ref.read(provider.notifier).getAll(
+    return ref
+        .read(provider.notifier)
+        .getAll(
+          includeDeleted: includeDeleted,
           pageConfig: pageConfig,
         );
   }
@@ -79,7 +83,9 @@ class _EdibleRepository extends EdibleRepository
   }) async {
     final provider = await delegateProvider;
 
-    return ref.read(provider.notifier).search(
+    return ref
+        .read(provider.notifier)
+        .search(
           query,
           pageConfig: pageConfig,
         );
@@ -100,7 +106,9 @@ class _EdibleRepository extends EdibleRepository
   }) async {
     final provider = await delegateProvider;
 
-    return ref.read(provider.notifier).exists(
+    return ref
+        .read(provider.notifier)
+        .exists(
           name,
           description,
           exceptWithId: exceptWithId,

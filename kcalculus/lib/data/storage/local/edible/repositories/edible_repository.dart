@@ -14,9 +14,11 @@ class LocalEdibleRepository extends EdibleRepository {
 
   @override
   Future<List<EdiblePreview>> getAll({
+    bool includeDeleted = false,
     PageConfig<EdiblePreview>? pageConfig,
   }) {
     return _edibleDao.getAll(
+      includeDeleted: includeDeleted,
       limit: pageConfig?.size,
       offset: pageConfig?.offset,
     );

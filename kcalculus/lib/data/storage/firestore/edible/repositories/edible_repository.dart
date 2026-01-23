@@ -30,12 +30,14 @@ class FirestoreEdibleRepository extends EdibleRepository {
 
   @override
   Future<List<EdiblePreview>> getAll({
+    bool includeDeleted = false,
     PageConfig<EdiblePreview>? pageConfig,
   }) => Auth.guard(
     ref,
     (user) => _edibleService
         .all(
           userId: user.uid,
+          includeDeleted: includeDeleted,
           pageConfig: pageConfig == null
               ? null
               : PageConfig<EdiblePreviewFirestoreModel>(
