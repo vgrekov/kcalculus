@@ -9,6 +9,7 @@ import 'package:kcalculus/data/auth/services/auth_service.dart';
 import 'package:kcalculus/data/storage/firestore/edible/dao/edible_dao.dart';
 import 'package:kcalculus/data/storage/firestore/edible/services/edible_service.dart';
 import 'package:kcalculus/data/storage/firestore/edible/services/meal_service.dart';
+import 'package:kcalculus/data/storage/firestore/food_container/services/food_container_service.dart';
 import 'package:kcalculus/data/storage/local/edible/dao/nutrition_facts_dao.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:sqflite/sqflite.dart' as sql;
@@ -71,3 +72,7 @@ class MockFirestoreEdibleService extends Notifier<void>
 class MockFirestoreMealService extends Notifier<void>
     with Mock
     implements FirestoreMealService {}
+
+class MockFirestoreFoodContainerService extends Notifier<void>
+    with Mock
+    implements FirestoreFoodContainerService {}

@@ -16,9 +16,13 @@ import 'package:kcalculus/data/storage/firestore/edible/repositories/food_reposi
 import 'package:kcalculus/data/storage/firestore/edible/repositories/meal_repository.dart';
 import 'package:kcalculus/data/storage/firestore/edible/services/edible_service.dart';
 import 'package:kcalculus/data/storage/firestore/edible/services/meal_service.dart';
+import 'package:kcalculus/data/storage/firestore/food_container/models/food_container_firestore_model.dart';
+import 'package:kcalculus/data/storage/firestore/food_container/repositories/food_container_repository.dart';
+import 'package:kcalculus/data/storage/firestore/food_container/services/food_container_service.dart';
 import 'package:kcalculus/data/storage/local/dish/repositories/dish_repository.dart';
 import 'package:kcalculus/data/storage/local/edible/dao/nutrition_facts_dao.dart';
 import 'package:kcalculus/data/storage/local/food/repositories/food_repository.dart';
+import 'package:kcalculus/data/storage/local/food_container/repositories/food_container_repository.dart';
 import 'package:kcalculus/data/storage/local/meal/repositories/meal_repository.dart';
 import 'package:kcalculus/domain/_common/models/amount.dart';
 import 'package:kcalculus/domain/_common/models/units.dart';
@@ -35,6 +39,7 @@ import '../../mocks.dart';
 
 part 'audit_fields_flow_test.dish.dart';
 part 'audit_fields_flow_test.food.dart';
+part 'audit_fields_flow_test.food_container.dart';
 part 'audit_fields_flow_test.meal.dart';
 
 final _kDefaultNf = NutritionFacts(
@@ -104,12 +109,21 @@ final _kMealFirestoreModelFallback = MealFirestoreModel(
   edibleId: '',
 );
 
+final _kFoodContainerFirestoreModelFallback = FoodContainerFirestoreModel(
+  name: '',
+  description: '',
+  ownerId: '',
+  weight: AmountFirestoreModel(unit: 'gram', value: 100),
+);
+
 void main() {
   foodTests();
 
   dishTests();
 
   mealTests();
+
+  foodContainerTests();
 }
 
 void _stubQuery(
