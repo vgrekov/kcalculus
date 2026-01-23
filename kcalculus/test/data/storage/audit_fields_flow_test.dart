@@ -31,7 +31,7 @@ import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:mocktail/mocktail.dart';
 
-import '../../../mocks.dart';
+import '../../mocks.dart';
 
 part 'audit_fields_flow_test.dish.dart';
 part 'audit_fields_flow_test.food.dart';
