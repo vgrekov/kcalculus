@@ -39,11 +39,15 @@ class FirestoreMealRepository extends MealRepository {
   );
 
   @override
-  Future<List<Meal>> getAll({PageConfig<Meal>? pageConfig}) => Auth.guard(
+  Future<List<Meal>> getAll({
+    bool includeDeleted = false,
+    PageConfig<Meal>? pageConfig,
+  }) => Auth.guard(
     ref,
     (user) => _mealService
         .all(
           userId: user.uid,
+          includeDeleted: includeDeleted,
           pageConfig: pageConfig == null
               ? null
               : PageConfig<MealFirestoreModel>(

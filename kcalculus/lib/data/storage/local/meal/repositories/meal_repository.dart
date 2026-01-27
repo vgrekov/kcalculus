@@ -15,9 +15,11 @@ class LocalMealRepository extends MealRepository {
 
   @override
   Future<List<Meal>> getAll({
+    bool includeDeleted = false,
     PageConfig<Meal>? pageConfig,
   }) {
     return _mealDao.getAll(
+      includeDeleted: includeDeleted,
       limit: pageConfig?.size,
       offset: pageConfig?.offset,
     );

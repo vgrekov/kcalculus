@@ -153,7 +153,7 @@ void mealTests() {
             localMealRepositoryProvider.notifier,
           );
 
-          final meals = await localMealRepo.getAll();
+          final meals = await localMealRepo.getAll(includeDeleted: true);
 
           expect(meals.length, 1);
 

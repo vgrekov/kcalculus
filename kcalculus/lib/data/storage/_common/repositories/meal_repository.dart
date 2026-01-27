@@ -12,6 +12,7 @@ abstract class MealRepository extends ChangeSignalNotifier {
   Future<bool> isEmpty();
 
   Future<List<Meal>> getAll({
+    bool includeDeleted = false,
     PageConfig<Meal>? pageConfig,
   });
 
@@ -49,10 +50,18 @@ class _MealRepository extends MealRepository
   }
 
   @override
-  Future<List<Meal>> getAll({PageConfig<Meal>? pageConfig}) async {
+  Future<List<Meal>> getAll({
+    bool includeDeleted = false,
+    PageConfig<Meal>? pageConfig,
+  }) async {
     final provider = await delegateProvider;
 
-    return ref.read(provider.notifier).getAll(pageConfig: pageConfig);
+    return ref
+        .read(provider.notifier)
+        .getAll(
+          includeDeleted: includeDeleted,
+          pageConfig: pageConfig,
+        );
   }
 
   @override

@@ -27,12 +27,17 @@ class FirestoreMealService extends Notifier<void> {
 
   Future<List<MealFirestoreModel>> all({
     required String userId,
+    bool includeDeleted = false,
     PageConfig<MealFirestoreModel>? pageConfig,
   }) async {
     var query = _db
         .collection(MealFirestoreModel.collection(userId))
         .orderBy(MealFirestoreModelJsonFields.eatenAt, descending: false)
         .orderBy(FieldPath.documentId, descending: true);
+
+    if (!includeDeleted) {
+      query = query.where(MealFirestoreModelJsonFields.deletedAt, isNull: true);
+    }
 
     if (pageConfig != null) {
       query = query.limit(pageConfig.size);

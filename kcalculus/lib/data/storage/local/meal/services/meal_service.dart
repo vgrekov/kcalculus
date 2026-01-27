@@ -29,6 +29,7 @@ class LocalMealService extends Notifier<void> {
   }
 
   Future<List<MealDbModel>> all({
+    bool includeDeleted = false,
     int? limit,
     int? offset,
     Transaction? txn,
@@ -62,11 +63,15 @@ class LocalMealService extends Notifier<void> {
         foods.id = meals.edible_id
       LEFT JOIN dishes ON
         dishes.id = meals.edible_id
+      WHERE
+        ? = 1 OR meals.deleted_at IS NULL
       ORDER BY
         meals.eaten_at ASC
       ''';
 
-    var arguments = [];
+    var arguments = [
+      includeDeleted ? 1 : 0,
+    ];
 
     if (limit != null) {
       sql += 'LIMIT ? OFFSET ?';

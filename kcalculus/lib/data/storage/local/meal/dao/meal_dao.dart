@@ -33,12 +33,14 @@ class LocalMealDao extends Notifier<void> {
   );
 
   Future<List<Meal>> getAll({
+    bool includeDeleted = false,
     int? limit,
     int? offset,
     Transaction? txn,
   }) {
     return _mealService
         .all(
+          includeDeleted: includeDeleted,
           limit: limit,
           offset: offset,
           txn: txn,
