@@ -12,6 +12,8 @@ _NutrientGoalDbModel _$NutrientGoalDbModelFromJson(Map<String, dynamic> json) =>
       nutrient: json['nutrient'] as String,
       amount_unit: json['amount_unit'] as String,
       amount_value: (json['amount_value'] as num).toDouble(),
+      created_at: json['created_at'] as String?,
+      deleted_at: json['deleted_at'] as String?,
     );
 
 Map<String, dynamic> _$NutrientGoalDbModelToJson(

@@ -9,9 +9,24 @@ part 'nutrient_goal_db_model.g.dart';
 sealed class NutrientGoalDbModel with _$NutrientGoalDbModel {
   const factory NutrientGoalDbModel({
     required String id,
+
     required String nutrient,
+
     required String amount_unit,
+
     required double amount_value,
+
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: true,
+    )
+    String? created_at,
+
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: true,
+    )
+    String? deleted_at,
   }) = _NutrientGoalDbModel;
 
   factory NutrientGoalDbModel.fromJson(Map<String, dynamic> json) =>

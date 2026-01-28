@@ -4,8 +4,10 @@ import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
 import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
+import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/models/nutrient_goal_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/models/user_data_firestore_model.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 
 class FirestoreNutrientGoalService extends Notifier<void> {
   @override
@@ -22,6 +24,52 @@ class FirestoreNutrientGoalService extends Notifier<void> {
         .get();
 
     return (snapshot.count ?? 0) == 0;
+  }
+
+  Future<List<NutrientGoalFirestoreModel>> all({
+    required String userId,
+    bool includeDeleted = false,
+    PageConfig<NutrientGoalFirestoreModel>? pageConfig,
+  }) async {
+    var query = _db
+        .collection(UserDataFirestoreModel.kCollection)
+        .doc(userId)
+        .collection(NutrientGoalFirestoreModel.kCollection)
+        .withConverter<NutrientGoalFirestoreModel>(
+          fromFirestore: (snapshot, _) => NutrientGoalFirestoreModel.fromJson(
+            {
+              NutrientGoalFirestoreModelJsonFields.id: snapshot.id,
+              ...snapshot.data()!,
+            },
+          ),
+          toFirestore: (model, _) => model.toJson(),
+        )
+        .orderBy(
+          NutrientGoalFirestoreModelJsonFields.createdAt,
+          descending: false,
+        )
+        .orderBy(FieldPath.documentId, descending: true);
+
+    if (!includeDeleted) {
+      query = query.where(
+        NutrientGoalFirestoreModelJsonFields.deletedAt,
+        isLessThan: NutrientGoalFirestoreModel.kMaxDate,
+      );
+    }
+
+    if (pageConfig != null) {
+      query = query.limit(pageConfig.size);
+      if (pageConfig.startAfter != null) {
+        query = query.startAfter([
+          dateToTimestamp(pageConfig.startAfter!.createdAt),
+          pageConfig.startAfter!.id,
+        ]);
+      }
+    }
+
+    final snapshot = await query.get();
+
+    return snapshot.docs.map((s) => s.data()).toList();
   }
 
   Future<List<NutrientGoalFirestoreModel>> getActiveGoals(
