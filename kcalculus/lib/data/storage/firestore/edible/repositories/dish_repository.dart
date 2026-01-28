@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/auth/utils/auth.dart';
 import 'package:kcalculus/data/storage/firestore/edible/dao/dish_dao.dart';
 import 'package:kcalculus/data/storage/firestore/edible/dao/edible_dao.dart';
+import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/edible/services/edible_service.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
@@ -42,6 +43,13 @@ class FirestoreDishRepository extends DishRepository {
 
       return (await getById(id))!;
     },
+  );
+
+  Future<void> import(Dish dish) => Auth.guard(
+    ref,
+    (user) => _edibleService.import(
+      EdibleFirestoreModel.fromDomainDish(dish, user.uid),
+    ),
   );
 
   @override
