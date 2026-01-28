@@ -7,6 +7,7 @@ import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.d
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/meal_firestore_model.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
+import 'package:kcalculus/domain/import/exceptions/import_unsaved_model_exception.dart';
 
 class FirestoreMealService extends Notifier<void> {
   @override
@@ -141,6 +142,27 @@ class FirestoreMealService extends Notifier<void> {
     }
 
     return docRef.id;
+  }
+
+  Future<void> import(
+    MealFirestoreModel model, {
+    required String userId,
+    Transaction? txn,
+  }) async {
+    if (model.id?.isEmpty ?? true) {
+      throw ImportUnsavedModelException();
+    }
+
+    final executor = FirestoreExecutor(txn);
+
+    final docRef = _db
+        .collection(MealFirestoreModel.collection(userId))
+        .doc(model.id);
+
+    await executor.set(
+      docRef,
+      model.toJson(),
+    );
   }
 
   Future<bool> delete(

@@ -152,6 +152,14 @@ class FirestoreMealRepository extends MealRepository {
     },
   );
 
+  Future<void> import(Meal meal) => Auth.guard(
+    ref,
+    (user) => _mealService.import(
+      MealFirestoreModel.fromDomain(meal),
+      userId: user.uid,
+    ),
+  );
+
   Future<Meal?> _getById(
     String id, {
     required User user,
