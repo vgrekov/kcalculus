@@ -9,20 +9,39 @@ part 'meal_db_model.g.dart';
 sealed class MealDbModel with _$MealDbModel {
   factory MealDbModel({
     required String id,
+
     required String edible_id,
+
     @JsonKey(
       includeToJson: false,
       includeFromJson: true,
     )
     String? edible_food_id,
+
     @JsonKey(
       includeToJson: false,
       includeFromJson: true,
     )
     String? edible_dish_id,
+
     required String amount_unit,
+
     required double amount_value,
+
     required String eaten_at,
+
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: true,
+    )
+    String? created_at,
+
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: true,
+    )
+    String? updated_at,
+
     @JsonKey(
       includeToJson: false,
       includeFromJson: true,

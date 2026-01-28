@@ -11,6 +11,8 @@ sealed class NutrientGoal with _$NutrientGoal {
     String? id,
     required Nutrient nutrient,
     required Amount amount,
+    DateTime? createdAt,
+    DateTime? deletedAt,
   }) = _NutrientGoal;
 
   factory NutrientGoal.fromJson(Map<String, dynamic> json) =>

@@ -96,6 +96,11 @@ sealed class FoodDbModel with _$FoodDbModel {
       includeToJson: false,
       includeFromJson: true,
     )
+    String? last_eaten_at,
+    @JsonKey(
+      includeToJson: false,
+      includeFromJson: true,
+    )
     String? deleted_at,
   }) = _FoodDbModel;
 

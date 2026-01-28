@@ -19,5 +19,8 @@ abstract class Meal with _$Meal, Portion {
     required Edible edible,
     required Amount amount,
     required DateTime eatenAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
   }) = _Meal;
 }

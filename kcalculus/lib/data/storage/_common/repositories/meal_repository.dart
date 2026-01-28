@@ -5,10 +5,16 @@ import 'package:kcalculus/data/storage/_common/utils/storage_type_router.dart';
 import 'package:kcalculus/data/storage/firestore/edible/repositories/meal_repository.dart';
 import 'package:kcalculus/data/storage/local/meal/repositories/meal_repository.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/meal/models/meal.dart';
 
 abstract class MealRepository extends ChangeSignalNotifier {
   Future<bool> isEmpty();
+
+  Future<List<Meal>> getAll({
+    bool includeDeleted = false,
+    PageConfig<Meal>? pageConfig,
+  });
 
   Future<List<Meal>> getByDate(DateTime date);
 
@@ -31,17 +37,31 @@ class _MealRepository extends MealRepository
   @override
   NotifierProvider<MealRepository, ChangeSignal?> buildDelegateProvider(
     StorageType storageType,
-  ) =>
-      switch (storageType) {
-        StorageType.local => localMealRepositoryProvider,
-        StorageType.firestore => firestoreMealRepositoryProvider,
-      };
+  ) => switch (storageType) {
+    StorageType.local => localMealRepositoryProvider,
+    StorageType.firestore => firestoreMealRepositoryProvider,
+  };
 
   @override
   Future<bool> isEmpty() async {
     final provider = await delegateProvider;
 
     return ref.read(provider.notifier).isEmpty();
+  }
+
+  @override
+  Future<List<Meal>> getAll({
+    bool includeDeleted = false,
+    PageConfig<Meal>? pageConfig,
+  }) async {
+    final provider = await delegateProvider;
+
+    return ref
+        .read(provider.notifier)
+        .getAll(
+          includeDeleted: includeDeleted,
+          pageConfig: pageConfig,
+        );
   }
 
   @override

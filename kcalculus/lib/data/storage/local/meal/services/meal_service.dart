@@ -16,14 +16,74 @@ class LocalMealService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         COUNT(id) AS meals_count
       FROM
         meals
       ''',
-    ).then((data) => (data.first['meals_count'] as int) == 0);
+        )
+        .then((data) => (data.first['meals_count'] as int) == 0);
+  }
+
+  Future<List<MealDbModel>> all({
+    bool includeDeleted = false,
+    int? limit,
+    int? offset,
+    Transaction? txn,
+  }) async {
+    if (offset != null && limit == null) {
+      throw ArgumentError('Argument "limit" is missing');
+    }
+
+    if (limit != null && limit <= 0) {
+      throw ArgumentError(
+        'If present, "limit" argument must be a positive integer',
+      );
+    }
+
+    if (offset != null && offset < 0) {
+      throw ArgumentError(
+        'If present, "offset" argument must be a non-negative integer',
+      );
+    }
+
+    final executor = txn ?? await _database;
+
+    var sql = '''
+      SELECT
+        meals.*,
+        foods.id AS edible_food_id,
+        dishes.id AS edible_dish_id
+      FROM
+        meals
+      LEFT JOIN foods ON
+        foods.id = meals.edible_id
+      LEFT JOIN dishes ON
+        dishes.id = meals.edible_id
+      WHERE
+        ? = 1 OR meals.deleted_at IS NULL
+      ORDER BY
+        meals.eaten_at ASC
+      ''';
+
+    var arguments = [
+      includeDeleted ? 1 : 0,
+    ];
+
+    if (limit != null) {
+      sql += 'LIMIT ? OFFSET ?';
+      arguments.addAll([
+        limit,
+        offset ?? 0,
+      ]);
+    }
+
+    return executor
+        .rawQuery(sql, arguments)
+        .then((data) => data.map(MealDbModel.fromJson).toList());
   }
 
   Future<List<MealDbModel>> getByDate(
@@ -32,8 +92,9 @@ class LocalMealService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         meals.*,
         foods.id AS edible_food_id,
@@ -50,8 +111,9 @@ class LocalMealService extends Notifier<void> {
       ORDER BY
         meals.eaten_at DESC
       ''',
-      [dt.formatDate(date)],
-    ).then((data) => data.map(MealDbModel.fromJson).toList());
+          [dt.formatDate(date)],
+        )
+        .then((data) => data.map(MealDbModel.fromJson).toList());
   }
 
   Future<void> add(
@@ -60,10 +122,10 @@ class LocalMealService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    await executor.insert(
-      'meals',
-      model.toJson(),
-    );
+    await executor.insert('meals', {
+      ...model.toJson(),
+      'created_at': dt.formatISO8601(DateTime.now()),
+    });
   }
 
   Future<void> update(
@@ -74,7 +136,10 @@ class LocalMealService extends Notifier<void> {
 
     await executor.update(
       'meals',
-      model.toJson(),
+      {
+        ...model.toJson(),
+        'updated_at': dt.formatISO8601(DateTime.now()),
+      },
       where: 'id = ?',
       whereArgs: [model.id],
     );

@@ -39,7 +39,7 @@ class FirestoreFoodContainerSearchService extends Notifier<void> {
   }
 }
 
-final firestoreFoodContainerSearchService =
+final firestoreFoodContainerSearchServiceProvider =
     NotifierProvider<FirestoreFoodContainerSearchService, void>(
       FirestoreFoodContainerSearchService.new,
     );

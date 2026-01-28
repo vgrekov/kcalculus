@@ -67,6 +67,8 @@ sealed class NutrientGoalFirestoreModel with _$NutrientGoalFirestoreModel {
     nutrient: model.nutrient.name,
     unit: model.amount.unit.name,
     value: model.amount.value,
+    createdAt: model.createdAt,
+    deletedAt: model.deletedAt,
   );
 
   NutrientGoal toDomain() => NutrientGoal(
@@ -76,5 +78,7 @@ sealed class NutrientGoalFirestoreModel with _$NutrientGoalFirestoreModel {
       unit: Unit.of(unit),
       value: value,
     ),
+    createdAt: createdAt,
+    deletedAt: deletedAt,
   );
 }

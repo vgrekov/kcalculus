@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
+import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
@@ -12,7 +13,7 @@ class FirestoreFoodContainerService extends Notifier<void> {
   @override
   void build() {}
 
-  FirebaseFirestore get _db => FirebaseFirestore.instance;
+  FirebaseFirestore get _db => ref.read(firestoreProvider);
 
   Future<bool> isEmpty({
     required String userId,
@@ -31,12 +32,24 @@ class FirestoreFoodContainerService extends Notifier<void> {
 
   Future<List<FoodContainerFirestoreModel>> all({
     required String userId,
+    bool includeDeleted = false,
     PageConfig<FoodContainerFirestoreModel>? pageConfig,
   }) async {
     var query = _db
         .collection(FoodContainerFirestoreModel.kCollection)
-        .where(FoodContainerFirestoreModelJsonFields.ownerId, isEqualTo: userId)
-        .where(FoodContainerFirestoreModelJsonFields.deleted, isEqualTo: false)
+        .where(
+          FoodContainerFirestoreModelJsonFields.ownerId,
+          isEqualTo: userId,
+        );
+
+    if (!includeDeleted) {
+      query = query.where(
+        FoodContainerFirestoreModelJsonFields.deleted,
+        isEqualTo: false,
+      );
+    }
+
+    query = query
         .orderBy(
           FoodContainerFirestoreModelJsonFields.updatedAt,
           descending: true,
@@ -268,7 +281,7 @@ class FirestoreFoodContainerService extends Notifier<void> {
   );
 }
 
-final firestoreFoodContainerService =
+final firestoreFoodContainerServiceProvider =
     NotifierProvider<FirestoreFoodContainerService, void>(
       FirestoreFoodContainerService.new,
     );

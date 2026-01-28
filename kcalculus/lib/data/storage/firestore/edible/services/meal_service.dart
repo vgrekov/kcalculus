@@ -1,15 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
+import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
+import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/meal_firestore_model.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 
 class FirestoreMealService extends Notifier<void> {
   @override
   void build() {}
 
-  FirebaseFirestore get _db => FirebaseFirestore.instance;
+  FirebaseFirestore get _db => ref.read(firestoreProvider);
 
   Future<bool> isEmpty({
     required String userId,
@@ -20,6 +23,42 @@ class FirestoreMealService extends Notifier<void> {
         .get();
 
     return (snapshot.count ?? 0) == 0;
+  }
+
+  Future<List<MealFirestoreModel>> all({
+    required String userId,
+    bool includeDeleted = false,
+    PageConfig<MealFirestoreModel>? pageConfig,
+  }) async {
+    var query = _db
+        .collection(MealFirestoreModel.collection(userId))
+        .orderBy(MealFirestoreModelJsonFields.eatenAt, descending: false)
+        .orderBy(FieldPath.documentId, descending: true);
+
+    if (!includeDeleted) {
+      query = query.where(MealFirestoreModelJsonFields.deletedAt, isNull: true);
+    }
+
+    if (pageConfig != null) {
+      query = query.limit(pageConfig.size);
+      if (pageConfig.startAfter != null) {
+        query = query.startAfter([
+          dateToTimestamp(pageConfig.startAfter!.eatenAt),
+          pageConfig.startAfter!.id,
+        ]);
+      }
+    }
+
+    final snapshot = await query.get();
+
+    return snapshot.docs
+        .map(
+          (s) => MealFirestoreModel.fromJson({
+            MealFirestoreModelJsonFields.id: s.id,
+            ...s.data(),
+          }),
+        )
+        .toList();
   }
 
   Future<List<MealFirestoreModel>> getByDate(

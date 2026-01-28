@@ -17,17 +17,20 @@ class LocalFoodContainerService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         COUNT(id) AS containers_count
       FROM
         food_containers
       ''',
-    ).then((data) => (data.first['containers_count'] as int) == 0);
+        )
+        .then((data) => (data.first['containers_count'] as int) == 0);
   }
 
   Future<List<FoodContainerDbModel>> all({
+    bool includeDeleted = false,
     PageConfig<FoodContainerDbModel>? pageConfig,
     Transaction? txn,
   }) async {
@@ -41,11 +44,12 @@ class LocalFoodContainerService extends Notifier<void> {
         weight_unit,
         weight_value,
         created_at,
-        updated_at
+        updated_at,
+        deleted_at
       FROM
         food_containers
       WHERE
-        deleted_at IS NULL
+        ? = 1 OR deleted_at IS NULL
       ORDER BY
         CASE
           WHEN updated_at IS NOT NULL THEN updated_at
@@ -53,7 +57,9 @@ class LocalFoodContainerService extends Notifier<void> {
         END DESC
       ''';
 
-    var arguments = <Object?>[];
+    var arguments = <Object?>[
+      includeDeleted ? 1 : 0,
+    ];
 
     if (pageConfig != null) {
       sql += 'LIMIT ? OFFSET ?';
@@ -83,7 +89,8 @@ class LocalFoodContainerService extends Notifier<void> {
         weight_unit,
         weight_value,
         created_at,
-        updated_at
+        updated_at,
+        deleted_at
       FROM
         food_containers
       WHERE
@@ -121,8 +128,9 @@ class LocalFoodContainerService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         COUNT(id) AS containers_count
       FROM
@@ -133,12 +141,13 @@ class LocalFoodContainerService extends Notifier<void> {
         AND UPPER(name) = UPPER(?)
         AND UPPER(description) = UPPER(?)
       ''',
-      [
-        exceptWithId ?? '',
-        name,
-        description,
-      ],
-    ).then((data) => (data.first['containers_count'] as int) > 0);
+          [
+            exceptWithId ?? '',
+            name,
+            description,
+          ],
+        )
+        .then((data) => (data.first['containers_count'] as int) > 0);
   }
 
   Future<FoodContainerDbModel?> getById(
@@ -147,8 +156,9 @@ class LocalFoodContainerService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         id,
         name,
@@ -156,14 +166,16 @@ class LocalFoodContainerService extends Notifier<void> {
         weight_unit,
         weight_value,
         created_at,
-        updated_at
+        updated_at,
+        deleted_at
       FROM
         food_containers
       WHERE
         id = ?
       ''',
-      [id],
-    ).then((data) => data.map(FoodContainerDbModel.fromJson).firstOrNull);
+          [id],
+        )
+        .then((data) => data.map(FoodContainerDbModel.fromJson).firstOrNull);
   }
 
   Future<void> add(
@@ -237,5 +249,5 @@ class LocalFoodContainerService extends Notifier<void> {
 
 final localFoodContainerServiceProvider =
     NotifierProvider<LocalFoodContainerService, void>(
-  LocalFoodContainerService.new,
-);
+      LocalFoodContainerService.new,
+    );

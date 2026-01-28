@@ -18,16 +18,37 @@ class LocalNutrientGoalDao extends Notifier<void> {
 
   Future<bool> isEmpty({
     Transaction? txn,
-  }) =>
-      _nutrientGoalService.isEmpty(
-        txn: txn,
-      );
+  }) => _nutrientGoalService.isEmpty(
+    txn: txn,
+  );
+
+  Future<List<NutrientGoal>> getAll({
+    bool includeDeleted = false,
+    int? limit,
+    int? offset,
+    Transaction? txn,
+  }) {
+    return _nutrientGoalService
+        .all(
+          includeDeleted: includeDeleted,
+          limit: limit,
+          offset: offset,
+          txn: txn,
+        )
+        .then(
+          (data) => data
+              .map((dbModel) => _nutrientGoalConverter.toModel(dbModel))
+              .toList(),
+        );
+  }
 
   Future<List<NutrientGoal>> getActiveGoals(
     DateTime date, {
     Transaction? txn,
   }) {
-    return _nutrientGoalService.getActive(date, txn: txn).then(
+    return _nutrientGoalService
+        .getActive(date, txn: txn)
+        .then(
           (data) => data
               .map((dbModel) => _nutrientGoalConverter.toModel(dbModel))
               .toList(),
@@ -84,5 +105,5 @@ class LocalNutrientGoalDao extends Notifier<void> {
 
 final localNutrientGoalDaoProvider =
     NotifierProvider<LocalNutrientGoalDao, void>(
-  LocalNutrientGoalDao.new,
-);
+      LocalNutrientGoalDao.new,
+    );

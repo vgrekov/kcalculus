@@ -28,6 +28,18 @@ class LocalFoodConverter extends Notifier<void> {
       nf_preview_protein_value: nf?.nutrientData.proteinInGrams,
       nf_preview_fiber_unit: Unit.gram.name,
       nf_preview_fiber_value: nf?.nutrientData.fiberInGrams,
+      created_at: model.createdAt != null
+          ? dt.formatISO8601(model.createdAt!)
+          : null,
+      updated_at: model.updatedAt != null
+          ? dt.formatISO8601(model.updatedAt!)
+          : null,
+      last_eaten_at: model.lastEatenAt != null
+          ? dt.formatISO8601(model.lastEatenAt!)
+          : null,
+      deleted_at: model.deletedAt != null
+          ? dt.formatISO8601(model.deletedAt!)
+          : null,
     );
   }
 
@@ -40,11 +52,17 @@ class LocalFoodConverter extends Notifier<void> {
       name: dbModel.name,
       description: dbModel.description ?? '',
       nutritionFacts: nutritionFacts,
-      createdAt: dbModel.created_at != null
+      createdAt: (dbModel.created_at?.isNotEmpty ?? false)
           ? dt.parseISO8601(dbModel.created_at!)
           : null,
-      updatedAt: dbModel.updated_at != null
+      updatedAt: (dbModel.updated_at?.isNotEmpty ?? false)
           ? dt.parseISO8601(dbModel.updated_at!)
+          : null,
+      lastEatenAt: (dbModel.last_eaten_at?.isNotEmpty ?? false)
+          ? dt.parseISO8601(dbModel.last_eaten_at!)
+          : null,
+      deletedAt: (dbModel.deleted_at?.isNotEmpty ?? false)
+          ? dt.parseISO8601(dbModel.deleted_at!)
           : null,
     );
   }

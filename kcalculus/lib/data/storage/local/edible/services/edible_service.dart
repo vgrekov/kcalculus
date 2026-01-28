@@ -17,17 +17,20 @@ class LocalEdibleService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         COUNT(edibles.id) AS edibles_count
       FROM
         edibles
       ''',
-    ).then((data) => (data.first['edibles_count'] as int) == 0);
+        )
+        .then((data) => (data.first['edibles_count'] as int) == 0);
   }
 
   Future<List<EdiblePreviewDbModel>> all({
+    bool includeDeleted = false,
     int? limit,
     int? offset,
     Transaction? txn,
@@ -38,12 +41,14 @@ class LocalEdibleService extends Notifier<void> {
 
     if (limit != null && limit <= 0) {
       throw ArgumentError(
-          'If present, "limit" argument must be a positive integer');
+        'If present, "limit" argument must be a positive integer',
+      );
     }
 
     if (offset != null && offset < 0) {
       throw ArgumentError(
-          'If present, "offset" argument must be a non-negative integer');
+        'If present, "offset" argument must be a non-negative integer',
+      );
     }
 
     final executor = txn ?? await _database;
@@ -103,6 +108,8 @@ class LocalEdibleService extends Notifier<void> {
           LEFT JOIN meals ON
             meals.edible_id = edibles.id
             AND meals.deleted_at IS NULL
+          WHERE
+            ? = 1 OR edibles.deleted_at IS NULL
         ) results
         GROUP BY
           results.id,
@@ -133,7 +140,9 @@ class LocalEdibleService extends Notifier<void> {
         END DESC
       ''';
 
-    var arguments = [];
+    var arguments = [
+      includeDeleted ? 1 : 0,
+    ];
 
     if (limit != null) {
       sql += 'LIMIT ? OFFSET ?';
@@ -160,12 +169,14 @@ class LocalEdibleService extends Notifier<void> {
 
     if (limit != null && limit <= 0) {
       throw ArgumentError(
-          'If present, "limit" argument must be a positive integer');
+        'If present, "limit" argument must be a positive integer',
+      );
     }
 
     if (offset != null && offset < 0) {
       throw ArgumentError(
-          'If present, "offset" argument must be a non-negative integer');
+        'If present, "offset" argument must be a non-negative integer',
+      );
     }
 
     final executor = txn ?? await _database;
@@ -324,8 +335,9 @@ class LocalEdibleService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         COUNT(edibles.id) AS edibles_count
       FROM
@@ -336,12 +348,13 @@ class LocalEdibleService extends Notifier<void> {
         AND UPPER(edibles.name) = UPPER(?)
         AND UPPER(edibles.description) = UPPER(?)
       ''',
-      [
-        exceptWithId ?? '',
-        name,
-        description,
-      ],
-    ).then((data) => (data.first['edibles_count'] as int) > 0);
+          [
+            exceptWithId ?? '',
+            name,
+            description,
+          ],
+        )
+        .then((data) => (data.first['edibles_count'] as int) > 0);
   }
 
   Future<bool> wasEaten(
@@ -350,8 +363,9 @@ class LocalEdibleService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       WITH RECURSIVE hierarchy_up(id) AS (
         VALUES(?)
         UNION ALL
@@ -373,8 +387,9 @@ class LocalEdibleService extends Notifier<void> {
         AND meals.deleted_at IS NULL
       LIMIT 1
       ''',
-      [id],
-    ).then((data) => data.isNotEmpty);
+          [id],
+        )
+        .then((data) => data.isNotEmpty);
   }
 
   Future<void> add(
@@ -451,8 +466,9 @@ class LocalEdibleService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         COUNT(edibles.id) AS edibles_count
       FROM
@@ -472,7 +488,8 @@ class LocalEdibleService extends Notifier<void> {
           OR edibles.nf_preview_protein_value IS NULL
         )
       ''',
-    ).then((data) => (data.first['edibles_count'] as int) > 0);
+        )
+        .then((data) => (data.first['edibles_count'] as int) > 0);
   }
 
   Future<List<EdiblePreviewDbModel>> findEdiblesWithoutNutritionFactsPreviews({
@@ -480,8 +497,9 @@ class LocalEdibleService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         edibles.id AS id,
         edibles.name AS name,
@@ -514,7 +532,8 @@ class LocalEdibleService extends Notifier<void> {
           ELSE created_at
         END ASC
       ''',
-    ).then((data) => data.map(EdiblePreviewDbModel.fromJson).toList());
+        )
+        .then((data) => data.map(EdiblePreviewDbModel.fromJson).toList());
   }
 }
 

@@ -19,6 +19,7 @@ class FirestoreAppSettingsRepository extends AppSettingsRepository {
     ref.watch(authServiceProvider);
 
     return Auth.guard(
+      ref,
       (user) async {
         final userData = await _userDataService.getById(user.uid);
 
@@ -32,8 +33,9 @@ class FirestoreAppSettingsRepository extends AppSettingsRepository {
       ref.read(firestoreUserDataServiceProvider.notifier);
 
   @override
-  Future<void> saveSettings(AppSettings settings) {
-    return Auth.guard((user) async {
+  Future<void> saveSettings(AppSettings settings) => Auth.guard(
+    ref,
+    (user) async {
       await _userDataService.save(
         (data) => data.copyWith(
           settings: AppSettingsFirestoreModel.fromDomain(settings),
@@ -42,10 +44,11 @@ class FirestoreAppSettingsRepository extends AppSettingsRepository {
       );
 
       state = AsyncData(settings);
-    });
-  }
+    },
+  );
 
   Future<void> purge() => Auth.guard(
+    ref,
     (user) => _userDataService.purge(userId: user.uid),
   );
 }

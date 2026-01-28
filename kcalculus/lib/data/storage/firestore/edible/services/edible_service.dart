@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
+import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
@@ -15,7 +16,7 @@ class FirestoreEdibleService extends Notifier<void> {
   @override
   void build() {}
 
-  FirebaseFirestore get _db => FirebaseFirestore.instance;
+  FirebaseFirestore get _db => ref.read(firestoreProvider);
 
   Future<bool> isEmpty({
     required String userId,
@@ -34,12 +35,21 @@ class FirestoreEdibleService extends Notifier<void> {
 
   Future<List<EdiblePreviewFirestoreModel>> all({
     required String userId,
+    bool includeDeleted = false,
     PageConfig<EdiblePreviewFirestoreModel>? pageConfig,
   }) async {
     var query = _db
         .collection(EdibleFirestoreModel.kCollection)
-        .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId)
-        .where(EdibleFirestoreModelJsonFields.deleted, isEqualTo: false)
+        .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId);
+
+    if (!includeDeleted) {
+      query = query.where(
+        EdibleFirestoreModelJsonFields.deleted,
+        isEqualTo: false,
+      );
+    }
+
+    query = query
         .orderBy(EdibleFirestoreModelJsonFields.touchedAt, descending: true)
         .orderBy(FieldPath.documentId, descending: true);
 

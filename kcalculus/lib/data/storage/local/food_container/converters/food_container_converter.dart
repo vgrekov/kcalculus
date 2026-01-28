@@ -16,6 +16,15 @@ class LocalFoodContainerConverter extends Notifier<void> {
       description: model.description,
       weight_unit: model.weight.unit.name,
       weight_value: model.weight.value,
+      created_at: model.createdAt != null
+          ? dt.formatISO8601(model.createdAt!)
+          : null,
+      updated_at: model.updatedAt != null
+          ? dt.formatISO8601(model.updatedAt!)
+          : null,
+      deleted_at: model.deletedAt != null
+          ? dt.formatISO8601(model.deletedAt!)
+          : null,
     );
   }
 
@@ -34,11 +43,14 @@ class LocalFoodContainerConverter extends Notifier<void> {
       updatedAt: (dbModel.updated_at?.isNotEmpty ?? false)
           ? dt.parseISO8601(dbModel.updated_at!)
           : null,
+      deletedAt: (dbModel.deleted_at?.isNotEmpty ?? false)
+          ? dt.parseISO8601(dbModel.deleted_at!)
+          : null,
     );
   }
 }
 
 final localFoodContainerConverterProvider =
     NotifierProvider<LocalFoodContainerConverter, void>(
-  LocalFoodContainerConverter.new,
-);
+      LocalFoodContainerConverter.new,
+    );

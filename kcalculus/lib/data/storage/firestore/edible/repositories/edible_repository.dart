@@ -22,80 +22,83 @@ class FirestoreEdibleRepository extends EdibleRepository {
 
   @override
   Future<bool> isEmpty() => Auth.guard(
-        (user) => _edibleService.isEmpty(
-          userId: user.uid,
-        ),
-      );
+    ref,
+    (user) => _edibleService.isEmpty(
+      userId: user.uid,
+    ),
+  );
 
   @override
   Future<List<EdiblePreview>> getAll({
+    bool includeDeleted = false,
     PageConfig<EdiblePreview>? pageConfig,
-  }) =>
-      Auth.guard(
-        (user) => _edibleService
-            .all(
-              userId: user.uid,
-              pageConfig: pageConfig == null
-                  ? null
-                  : PageConfig<EdiblePreviewFirestoreModel>(
-                      size: pageConfig.size,
-                      offset: pageConfig.offset,
-                      startAfter: pageConfig.startAfter == null
-                          ? null
-                          : EdiblePreviewFirestoreModel.fromDomain(
-                              pageConfig.startAfter!,
-                              user.uid,
-                            ),
-                    ),
-            )
-            .then(
-              (results) => results.map((r) => r.toDomain()).toList(),
-            ),
-      );
+  }) => Auth.guard(
+    ref,
+    (user) => _edibleService
+        .all(
+          userId: user.uid,
+          includeDeleted: includeDeleted,
+          pageConfig: pageConfig == null
+              ? null
+              : PageConfig<EdiblePreviewFirestoreModel>(
+                  size: pageConfig.size,
+                  offset: pageConfig.offset,
+                  startAfter: pageConfig.startAfter == null
+                      ? null
+                      : EdiblePreviewFirestoreModel.fromDomain(
+                          pageConfig.startAfter!,
+                          user.uid,
+                        ),
+                ),
+        )
+        .then(
+          (results) => results.map((r) => r.toDomain()).toList(),
+        ),
+  );
 
   @override
   Future<List<EdiblePreview>> search(
     String? query, {
     PageConfig<EdiblePreview>? pageConfig,
-  }) =>
-      Auth.guard(
-        (user) async {
-          final searchResults = await _search(
-            query,
-            userId: user.uid,
-            pageConfig: pageConfig,
-          );
-
-          final recents = await _recents(
-            userId: user.uid,
-          );
-
-          final recentsById = {
-            for (final model in recents) model.id: model,
-          };
-
-          final syncedSearchResults = searchResults
-              .map(
-                (model) => recentsById.remove(model.id) ?? model,
-              )
-              .toList();
-
-          final isFirstPage =
-              (pageConfig?.offset ?? 0) == 0 && pageConfig?.startAfter == null;
-
-          return [
-            if (isFirstPage)
-              ...recents
-                  .where(
-                    (model) =>
-                        recentsById.containsKey(model.id) &&
-                        model.deletedAt == null,
-                  )
-                  .map((r) => r.toDomain(true)),
-            ...syncedSearchResults.map((r) => r.toDomain()),
-          ];
-        },
+  }) => Auth.guard(
+    ref,
+    (user) async {
+      final searchResults = await _search(
+        query,
+        userId: user.uid,
+        pageConfig: pageConfig,
       );
+
+      final recents = await _recents(
+        userId: user.uid,
+      );
+
+      final recentsById = {
+        for (final model in recents) model.id: model,
+      };
+
+      final syncedSearchResults = searchResults
+          .map(
+            (model) => recentsById.remove(model.id) ?? model,
+          )
+          .toList();
+
+      final isFirstPage =
+          (pageConfig?.offset ?? 0) == 0 && pageConfig?.startAfter == null;
+
+      return [
+        if (isFirstPage)
+          ...recents
+              .where(
+                (model) =>
+                    recentsById.containsKey(model.id) &&
+                    model.deletedAt == null,
+              )
+              .map((r) => r.toDomain(true)),
+        ...syncedSearchResults.map((r) => r.toDomain()),
+      ];
+    },
+  );
 
   Future<List<EdiblePreviewFirestoreModel>> _search(
     String? query, {
@@ -138,7 +141,8 @@ class FirestoreEdibleRepository extends EdibleRepository {
     return _edibleService.recent(
       userId: userId,
       lookbackDuration: Duration(
-        seconds: appConfig?.recentLookbackDurationSecs ??
+        seconds:
+            appConfig?.recentLookbackDurationSecs ??
             kDefaultRecentLookbackDurationSecs,
       ),
     );
@@ -146,56 +150,60 @@ class FirestoreEdibleRepository extends EdibleRepository {
 
   @override
   Future<int> count([String? query]) => Auth.guard(
-        (user) async {
-          if (query == null) {
-            return _edibleService.count(userId: user.uid);
-          }
+    ref,
+    (user) async {
+      if (query == null) {
+        return _edibleService.count(userId: user.uid);
+      }
 
-          final userData = await ref
-              .read(firestoreUserDataServiceProvider.notifier)
-              .getById(user.uid);
+      final userData = await ref
+          .read(firestoreUserDataServiceProvider.notifier)
+          .getById(user.uid);
 
-          if (userData?.searchConfig == null) {
-            throw SearchNotConfiguredException();
-          }
+      if (userData?.searchConfig == null) {
+        throw SearchNotConfiguredException();
+      }
 
-          return _edibleSearchService.count(
-            query,
-            searchAppId: userData!.searchConfig!.appId,
-            searchApiKey: userData.searchConfig!.apiKey,
-            userId: user.uid,
-          );
-        },
+      return _edibleSearchService.count(
+        query,
+        searchAppId: userData!.searchConfig!.appId,
+        searchApiKey: userData.searchConfig!.apiKey,
+        userId: user.uid,
       );
+    },
+  );
 
   @override
   Future<bool> exists(
     String name,
     String description, {
     String? exceptWithId,
-  }) =>
-      Auth.guard(
-        (user) => _edibleService.exists(
-          name,
-          description,
-          userId: user.uid,
-          exceptWithId: exceptWithId,
-        ),
-      );
+  }) => Auth.guard(
+    ref,
+    (user) => _edibleService.exists(
+      name,
+      description,
+      userId: user.uid,
+      exceptWithId: exceptWithId,
+    ),
+  );
 
   @override
   Future<bool> wasEaten(String id) => Auth.guard(
-        (user) => _edibleService.wasEaten(id),
-      );
+    ref,
+    (user) => _edibleService.wasEaten(id),
+  );
 
   @override
   FutureOr<bool> isMissingNutritionFactsPreviews() => Auth.guard(
-        (user) => _edibleService.isMissingNutritionFactsPreviews(user.uid),
-      );
+    ref,
+    (user) => _edibleService.isMissingNutritionFactsPreviews(user.uid),
+  );
 
   @override
   Future<List<EdiblePreview>> findEdiblesWithoutNutritionFactsPreviews() =>
       Auth.guard(
+        ref,
         (user) => _edibleService
             .findEdiblesWithoutNutritionFactsPreviews(user.uid)
             .then(
@@ -204,11 +212,12 @@ class FirestoreEdibleRepository extends EdibleRepository {
       );
 
   Future<void> purge() => Auth.guard(
-        (user) => _edibleService.purge(userId: user.uid),
-      );
+    ref,
+    (user) => _edibleService.purge(userId: user.uid),
+  );
 }
 
 final firestoreEdibleRepositoryProvider =
     NotifierProvider<FirestoreEdibleRepository, void>(
-  FirestoreEdibleRepository.new,
-);
+      FirestoreEdibleRepository.new,
+    );

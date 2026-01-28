@@ -26,6 +26,8 @@ sealed class Food with _$Food implements Edible {
     required List<NutritionFacts> nutritionFacts,
     DateTime? createdAt,
     DateTime? updatedAt,
+    DateTime? lastEatenAt,
+    DateTime? deletedAt,
   }) = _Food;
 
   factory Food.fromJson(Map<String, dynamic> json) => _$FoodFromJson(json);

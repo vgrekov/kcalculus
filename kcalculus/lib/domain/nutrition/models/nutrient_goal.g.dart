@@ -11,6 +11,12 @@ _NutrientGoal _$NutrientGoalFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       nutrient: $enumDecode(_$NutrientEnumMap, json['nutrient']),
       amount: Amount.fromJson(json['amount'] as Map<String, dynamic>),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      deletedAt: json['deletedAt'] == null
+          ? null
+          : DateTime.parse(json['deletedAt'] as String),
     );
 
 Map<String, dynamic> _$NutrientGoalToJson(_NutrientGoal instance) =>
@@ -18,6 +24,8 @@ Map<String, dynamic> _$NutrientGoalToJson(_NutrientGoal instance) =>
       'id': instance.id,
       'nutrient': _$NutrientEnumMap[instance.nutrient]!,
       'amount': instance.amount.toJson(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'deletedAt': instance.deletedAt?.toIso8601String(),
     };
 
 const _$NutrientEnumMap = {

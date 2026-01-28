@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Food {
 
- String? get id; String get name; String get description; List<NutritionFacts> get nutritionFacts; DateTime? get createdAt; DateTime? get updatedAt;
+ String? get id; String get name; String get description; List<NutritionFacts> get nutritionFacts; DateTime? get createdAt; DateTime? get updatedAt; DateTime? get lastEatenAt; DateTime? get deletedAt;
 /// Create a copy of Food
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $FoodCopyWith<Food> get copyWith => _$FoodCopyWithImpl<Food>(this as Food, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Food&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.nutritionFacts, nutritionFacts)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Food&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.nutritionFacts, nutritionFacts)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.lastEatenAt, lastEatenAt) || other.lastEatenAt == lastEatenAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,const DeepCollectionEquality().hash(nutritionFacts),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,description,const DeepCollectionEquality().hash(nutritionFacts),createdAt,updatedAt,lastEatenAt,deletedAt);
 
 @override
 String toString() {
-  return 'Food(id: $id, name: $name, description: $description, nutritionFacts: $nutritionFacts, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Food(id: $id, name: $name, description: $description, nutritionFacts: $nutritionFacts, createdAt: $createdAt, updatedAt: $updatedAt, lastEatenAt: $lastEatenAt, deletedAt: $deletedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $FoodCopyWith<$Res>  {
   factory $FoodCopyWith(Food value, $Res Function(Food) _then) = _$FoodCopyWithImpl;
 @useResult
 $Res call({
- String? id, String name, String description, List<NutritionFacts> nutritionFacts, DateTime? createdAt, DateTime? updatedAt
+ String? id, String name, String description, List<NutritionFacts> nutritionFacts, DateTime? createdAt, DateTime? updatedAt, DateTime? lastEatenAt, DateTime? deletedAt
 });
 
 
@@ -65,7 +65,7 @@ class _$FoodCopyWithImpl<$Res>
 
 /// Create a copy of Food
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? description = null,Object? nutritionFacts = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? description = null,Object? nutritionFacts = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? lastEatenAt = freezed,Object? deletedAt = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -73,6 +73,8 @@ as String,description: null == description ? _self.description : description // 
 as String,nutritionFacts: null == nutritionFacts ? _self.nutritionFacts : nutritionFacts // ignore: cast_nullable_to_non_nullable
 as List<NutritionFacts>,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,lastEatenAt: freezed == lastEatenAt ? _self.lastEatenAt : lastEatenAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
@@ -155,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String name,  String description,  List<NutritionFacts> nutritionFacts,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String name,  String description,  List<NutritionFacts> nutritionFacts,  DateTime? createdAt,  DateTime? updatedAt,  DateTime? lastEatenAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Food() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.nutritionFacts,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.description,_that.nutritionFacts,_that.createdAt,_that.updatedAt,_that.lastEatenAt,_that.deletedAt);case _:
   return orElse();
 
 }
@@ -176,10 +178,10 @@ return $default(_that.id,_that.name,_that.description,_that.nutritionFacts,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String name,  String description,  List<NutritionFacts> nutritionFacts,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String name,  String description,  List<NutritionFacts> nutritionFacts,  DateTime? createdAt,  DateTime? updatedAt,  DateTime? lastEatenAt,  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Food():
-return $default(_that.id,_that.name,_that.description,_that.nutritionFacts,_that.createdAt,_that.updatedAt);}
+return $default(_that.id,_that.name,_that.description,_that.nutritionFacts,_that.createdAt,_that.updatedAt,_that.lastEatenAt,_that.deletedAt);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -193,10 +195,10 @@ return $default(_that.id,_that.name,_that.description,_that.nutritionFacts,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String name,  String description,  List<NutritionFacts> nutritionFacts,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String name,  String description,  List<NutritionFacts> nutritionFacts,  DateTime? createdAt,  DateTime? updatedAt,  DateTime? lastEatenAt,  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Food() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.nutritionFacts,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.description,_that.nutritionFacts,_that.createdAt,_that.updatedAt,_that.lastEatenAt,_that.deletedAt);case _:
   return null;
 
 }
@@ -208,7 +210,7 @@ return $default(_that.id,_that.name,_that.description,_that.nutritionFacts,_that
 @JsonSerializable()
 
 class _Food extends Food {
-  const _Food({this.id, required this.name, required this.description, required final  List<NutritionFacts> nutritionFacts, this.createdAt, this.updatedAt}): _nutritionFacts = nutritionFacts,super._();
+  const _Food({this.id, required this.name, required this.description, required final  List<NutritionFacts> nutritionFacts, this.createdAt, this.updatedAt, this.lastEatenAt, this.deletedAt}): _nutritionFacts = nutritionFacts,super._();
   factory _Food.fromJson(Map<String, dynamic> json) => _$FoodFromJson(json);
 
 @override final  String? id;
@@ -223,6 +225,8 @@ class _Food extends Food {
 
 @override final  DateTime? createdAt;
 @override final  DateTime? updatedAt;
+@override final  DateTime? lastEatenAt;
+@override final  DateTime? deletedAt;
 
 /// Create a copy of Food
 /// with the given fields replaced by the non-null parameter values.
@@ -237,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Food&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._nutritionFacts, _nutritionFacts)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Food&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._nutritionFacts, _nutritionFacts)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.lastEatenAt, lastEatenAt) || other.lastEatenAt == lastEatenAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,const DeepCollectionEquality().hash(_nutritionFacts),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,description,const DeepCollectionEquality().hash(_nutritionFacts),createdAt,updatedAt,lastEatenAt,deletedAt);
 
 @override
 String toString() {
-  return 'Food(id: $id, name: $name, description: $description, nutritionFacts: $nutritionFacts, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Food(id: $id, name: $name, description: $description, nutritionFacts: $nutritionFacts, createdAt: $createdAt, updatedAt: $updatedAt, lastEatenAt: $lastEatenAt, deletedAt: $deletedAt)';
 }
 
 
@@ -257,7 +261,7 @@ abstract mixin class _$FoodCopyWith<$Res> implements $FoodCopyWith<$Res> {
   factory _$FoodCopyWith(_Food value, $Res Function(_Food) _then) = __$FoodCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, String name, String description, List<NutritionFacts> nutritionFacts, DateTime? createdAt, DateTime? updatedAt
+ String? id, String name, String description, List<NutritionFacts> nutritionFacts, DateTime? createdAt, DateTime? updatedAt, DateTime? lastEatenAt, DateTime? deletedAt
 });
 
 
@@ -274,7 +278,7 @@ class __$FoodCopyWithImpl<$Res>
 
 /// Create a copy of Food
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? description = null,Object? nutritionFacts = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? description = null,Object? nutritionFacts = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? lastEatenAt = freezed,Object? deletedAt = freezed,}) {
   return _then(_Food(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -282,6 +286,8 @@ as String,description: null == description ? _self.description : description // 
 as String,nutritionFacts: null == nutritionFacts ? _self._nutritionFacts : nutritionFacts // ignore: cast_nullable_to_non_nullable
 as List<NutritionFacts>,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,lastEatenAt: freezed == lastEatenAt ? _self.lastEatenAt : lastEatenAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }

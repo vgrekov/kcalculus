@@ -18,18 +18,19 @@ class LocalEdibleDao extends Notifier<void> {
 
   Future<bool> isEmpty({
     Transaction? txn,
-  }) =>
-      _edibleService.isEmpty(
-        txn: txn,
-      );
+  }) => _edibleService.isEmpty(
+    txn: txn,
+  );
 
   Future<List<EdiblePreview>> getAll({
+    bool includeDeleted = false,
     int? limit,
     int? offset,
     Transaction? txn,
   }) {
     return _edibleService
         .all(
+          includeDeleted: includeDeleted,
           limit: limit,
           offset: offset,
           txn: txn,
@@ -115,8 +116,8 @@ class LocalEdibleDao extends Notifier<void> {
     Transaction? txn,
   }) {
     return _edibleService.findEdiblesWithoutNutritionFactsPreviews().then(
-          (data) => data.map(_ediblePreviewConverter.toModel).toList(),
-        );
+      (data) => data.map(_ediblePreviewConverter.toModel).toList(),
+    );
   }
 }
 

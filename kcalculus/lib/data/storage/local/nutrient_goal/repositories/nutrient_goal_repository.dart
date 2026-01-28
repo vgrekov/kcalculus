@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/storage/_common/repositories/nutrient_goal_repository.dart';
 import 'package:kcalculus/data/storage/local/nutrient_goal/dao/nutrient_goal_dao.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
 
 class LocalNutrientGoalRepository extends NutrientGoalRepository {
@@ -12,6 +13,18 @@ class LocalNutrientGoalRepository extends NutrientGoalRepository {
 
   @override
   Future<bool> isEmpty() => _nutrientGoalDao.isEmpty();
+
+  @override
+  Future<List<NutrientGoal>> getAll({
+    bool includeDeleted = false,
+    PageConfig<NutrientGoal>? pageConfig,
+  }) {
+    return _nutrientGoalDao.getAll(
+      includeDeleted: includeDeleted,
+      limit: pageConfig?.size,
+      offset: pageConfig?.offset,
+    );
+  }
 
   @override
   Future<List<NutrientGoal>> getActiveGoals(DateTime date) {
@@ -48,5 +61,5 @@ class LocalNutrientGoalRepository extends NutrientGoalRepository {
 
 final localNutrientGoalRepositoryProvider =
     NotifierProvider<NutrientGoalRepository, ChangeSignal?>(
-  LocalNutrientGoalRepository.new,
-);
+      LocalNutrientGoalRepository.new,
+    );

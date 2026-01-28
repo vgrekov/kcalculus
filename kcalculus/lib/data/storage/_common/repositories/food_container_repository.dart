@@ -14,6 +14,7 @@ abstract class FoodContainerRepository extends ChangeSignalNotifier {
   Future<bool> isEmpty();
 
   Future<List<FoodContainer>> getAll({
+    bool includeDeleted = false,
     PageConfig<FoodContainer>? pageConfig,
   });
 
@@ -42,13 +43,12 @@ class _FoodContainerRepository extends FoodContainerRepository
 
   @override
   NotifierProvider<FoodContainerRepository, ChangeSignal?>
-      buildDelegateProvider(
+  buildDelegateProvider(
     StorageType storageType,
-  ) =>
-          switch (storageType) {
-            StorageType.local => localFoodContainerRepositoryProvider,
-            StorageType.firestore => firestoreFoodContainerRepositoryProvider,
-          };
+  ) => switch (storageType) {
+    StorageType.local => localFoodContainerRepositoryProvider,
+    StorageType.firestore => firestoreFoodContainerRepositoryProvider,
+  };
 
   @override
   Future<bool> isEmpty() async {
@@ -59,11 +59,15 @@ class _FoodContainerRepository extends FoodContainerRepository
 
   @override
   Future<List<FoodContainer>> getAll({
+    bool includeDeleted = false,
     PageConfig<FoodContainer>? pageConfig,
   }) async {
     final provider = await delegateProvider;
 
-    return ref.read(provider.notifier).getAll(
+    return ref
+        .read(provider.notifier)
+        .getAll(
+          includeDeleted: includeDeleted,
           pageConfig: pageConfig,
         );
   }
@@ -75,7 +79,9 @@ class _FoodContainerRepository extends FoodContainerRepository
   }) async {
     final provider = await delegateProvider;
 
-    return ref.read(provider.notifier).search(
+    return ref
+        .read(provider.notifier)
+        .search(
           query,
           pageConfig: pageConfig,
         );
@@ -112,5 +118,5 @@ class _FoodContainerRepository extends FoodContainerRepository
 
 final foodContainerRepositoryProvider =
     NotifierProvider<FoodContainerRepository, ChangeSignal?>(
-  _FoodContainerRepository.new,
-);
+      _FoodContainerRepository.new,
+    );

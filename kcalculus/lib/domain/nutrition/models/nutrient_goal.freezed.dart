@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NutrientGoal {
 
- String? get id; Nutrient get nutrient; Amount get amount;
+ String? get id; Nutrient get nutrient; Amount get amount; DateTime? get createdAt; DateTime? get deletedAt;
 /// Create a copy of NutrientGoal
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $NutrientGoalCopyWith<NutrientGoal> get copyWith => _$NutrientGoalCopyWithImpl<N
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NutrientGoal&&(identical(other.id, id) || other.id == id)&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount, amount) || other.amount == amount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NutrientGoal&&(identical(other.id, id) || other.id == id)&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nutrient,amount);
+int get hashCode => Object.hash(runtimeType,id,nutrient,amount,createdAt,deletedAt);
 
 @override
 String toString() {
-  return 'NutrientGoal(id: $id, nutrient: $nutrient, amount: $amount)';
+  return 'NutrientGoal(id: $id, nutrient: $nutrient, amount: $amount, createdAt: $createdAt, deletedAt: $deletedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $NutrientGoalCopyWith<$Res>  {
   factory $NutrientGoalCopyWith(NutrientGoal value, $Res Function(NutrientGoal) _then) = _$NutrientGoalCopyWithImpl;
 @useResult
 $Res call({
- String? id, Nutrient nutrient, Amount amount
+ String? id, Nutrient nutrient, Amount amount, DateTime? createdAt, DateTime? deletedAt
 });
 
 
@@ -65,12 +65,14 @@ class _$NutrientGoalCopyWithImpl<$Res>
 
 /// Create a copy of NutrientGoal
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? nutrient = null,Object? amount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? nutrient = null,Object? amount = null,Object? createdAt = freezed,Object? deletedAt = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,nutrient: null == nutrient ? _self.nutrient : nutrient // ignore: cast_nullable_to_non_nullable
 as Nutrient,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as Amount,
+as Amount,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 /// Create a copy of NutrientGoal
@@ -161,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  Nutrient nutrient,  Amount amount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  Nutrient nutrient,  Amount amount,  DateTime? createdAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NutrientGoal() when $default != null:
-return $default(_that.id,_that.nutrient,_that.amount);case _:
+return $default(_that.id,_that.nutrient,_that.amount,_that.createdAt,_that.deletedAt);case _:
   return orElse();
 
 }
@@ -182,10 +184,10 @@ return $default(_that.id,_that.nutrient,_that.amount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  Nutrient nutrient,  Amount amount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  Nutrient nutrient,  Amount amount,  DateTime? createdAt,  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _NutrientGoal():
-return $default(_that.id,_that.nutrient,_that.amount);}
+return $default(_that.id,_that.nutrient,_that.amount,_that.createdAt,_that.deletedAt);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -199,10 +201,10 @@ return $default(_that.id,_that.nutrient,_that.amount);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  Nutrient nutrient,  Amount amount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  Nutrient nutrient,  Amount amount,  DateTime? createdAt,  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _NutrientGoal() when $default != null:
-return $default(_that.id,_that.nutrient,_that.amount);case _:
+return $default(_that.id,_that.nutrient,_that.amount,_that.createdAt,_that.deletedAt);case _:
   return null;
 
 }
@@ -214,12 +216,14 @@ return $default(_that.id,_that.nutrient,_that.amount);case _:
 @JsonSerializable()
 
 class _NutrientGoal implements NutrientGoal {
-  const _NutrientGoal({this.id, required this.nutrient, required this.amount});
+  const _NutrientGoal({this.id, required this.nutrient, required this.amount, this.createdAt, this.deletedAt});
   factory _NutrientGoal.fromJson(Map<String, dynamic> json) => _$NutrientGoalFromJson(json);
 
 @override final  String? id;
 @override final  Nutrient nutrient;
 @override final  Amount amount;
+@override final  DateTime? createdAt;
+@override final  DateTime? deletedAt;
 
 /// Create a copy of NutrientGoal
 /// with the given fields replaced by the non-null parameter values.
@@ -234,16 +238,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NutrientGoal&&(identical(other.id, id) || other.id == id)&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount, amount) || other.amount == amount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NutrientGoal&&(identical(other.id, id) || other.id == id)&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nutrient,amount);
+int get hashCode => Object.hash(runtimeType,id,nutrient,amount,createdAt,deletedAt);
 
 @override
 String toString() {
-  return 'NutrientGoal(id: $id, nutrient: $nutrient, amount: $amount)';
+  return 'NutrientGoal(id: $id, nutrient: $nutrient, amount: $amount, createdAt: $createdAt, deletedAt: $deletedAt)';
 }
 
 
@@ -254,7 +258,7 @@ abstract mixin class _$NutrientGoalCopyWith<$Res> implements $NutrientGoalCopyWi
   factory _$NutrientGoalCopyWith(_NutrientGoal value, $Res Function(_NutrientGoal) _then) = __$NutrientGoalCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, Nutrient nutrient, Amount amount
+ String? id, Nutrient nutrient, Amount amount, DateTime? createdAt, DateTime? deletedAt
 });
 
 
@@ -271,12 +275,14 @@ class __$NutrientGoalCopyWithImpl<$Res>
 
 /// Create a copy of NutrientGoal
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? nutrient = null,Object? amount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? nutrient = null,Object? amount = null,Object? createdAt = freezed,Object? deletedAt = freezed,}) {
   return _then(_NutrientGoal(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,nutrient: null == nutrient ? _self.nutrient : nutrient // ignore: cast_nullable_to_non_nullable
 as Nutrient,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as Amount,
+as Amount,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

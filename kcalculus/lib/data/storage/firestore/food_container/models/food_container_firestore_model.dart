@@ -108,7 +108,7 @@ sealed class FoodContainerFirestoreModel with _$FoodContainerFirestoreModel {
     weight: AmountFirestoreModel.fromDomain(model.weight),
     ownerId: ownerId,
     createdAt: model.createdAt,
-    updatedAt: model.updatedAt,
+    updatedAt: model.updatedAt ?? model.createdAt,
     deletedAt: model.deletedAt,
   );
 

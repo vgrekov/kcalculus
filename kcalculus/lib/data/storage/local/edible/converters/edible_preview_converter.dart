@@ -12,10 +12,10 @@ class LocalEdiblePreviewConverter extends Notifier<void> {
 
   EdiblePreview toModel(EdiblePreviewDbModel dbModel) {
     final createdAt = dt.parseISO8601(dbModel.created_at);
-    final updatedAt = dbModel.updated_at != null
+    final updatedAt = (dbModel.updated_at?.isNotEmpty ?? false)
         ? dt.parseISO8601(dbModel.updated_at!)
         : null;
-    final lastEatenAt = dbModel.last_eaten_at != null
+    final lastEatenAt = (dbModel.last_eaten_at?.isNotEmpty ?? false)
         ? dt.parseISO8601(dbModel.last_eaten_at!)
         : null;
 
@@ -78,7 +78,8 @@ class LocalEdiblePreviewConverter extends Notifier<void> {
         unit: Unit.of(dbModel.nf_preview_protein_unit!),
         value: dbModel.nf_preview_protein_value!,
       ),
-      fiber: (dbModel.nf_preview_fiber_unit == null ||
+      fiber:
+          (dbModel.nf_preview_fiber_unit == null ||
               dbModel.nf_preview_fiber_value == null)
           ? null
           : Amount(
@@ -91,5 +92,5 @@ class LocalEdiblePreviewConverter extends Notifier<void> {
 
 final localEdiblePreviewConverterProvider =
     NotifierProvider<LocalEdiblePreviewConverter, void>(
-  LocalEdiblePreviewConverter.new,
-);
+      LocalEdiblePreviewConverter.new,
+    );

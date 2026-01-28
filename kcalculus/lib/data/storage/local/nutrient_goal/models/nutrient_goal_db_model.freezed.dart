@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NutrientGoalDbModel {
 
- String get id; String get nutrient; String get amount_unit; double get amount_value;
+ String get id; String get nutrient; String get amount_unit; double get amount_value;@JsonKey(includeToJson: false, includeFromJson: true) String? get created_at;@JsonKey(includeToJson: false, includeFromJson: true) String? get deleted_at;
 /// Create a copy of NutrientGoalDbModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $NutrientGoalDbModelCopyWith<NutrientGoalDbModel> get copyWith => _$NutrientGoal
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NutrientGoalDbModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount_unit, amount_unit) || other.amount_unit == amount_unit)&&(identical(other.amount_value, amount_value) || other.amount_value == amount_value));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NutrientGoalDbModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount_unit, amount_unit) || other.amount_unit == amount_unit)&&(identical(other.amount_value, amount_value) || other.amount_value == amount_value)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.deleted_at, deleted_at) || other.deleted_at == deleted_at));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nutrient,amount_unit,amount_value);
+int get hashCode => Object.hash(runtimeType,id,nutrient,amount_unit,amount_value,created_at,deleted_at);
 
 @override
 String toString() {
-  return 'NutrientGoalDbModel(id: $id, nutrient: $nutrient, amount_unit: $amount_unit, amount_value: $amount_value)';
+  return 'NutrientGoalDbModel(id: $id, nutrient: $nutrient, amount_unit: $amount_unit, amount_value: $amount_value, created_at: $created_at, deleted_at: $deleted_at)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $NutrientGoalDbModelCopyWith<$Res>  {
   factory $NutrientGoalDbModelCopyWith(NutrientGoalDbModel value, $Res Function(NutrientGoalDbModel) _then) = _$NutrientGoalDbModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String nutrient, String amount_unit, double amount_value
+ String id, String nutrient, String amount_unit, double amount_value,@JsonKey(includeToJson: false, includeFromJson: true) String? created_at,@JsonKey(includeToJson: false, includeFromJson: true) String? deleted_at
 });
 
 
@@ -65,13 +65,15 @@ class _$NutrientGoalDbModelCopyWithImpl<$Res>
 
 /// Create a copy of NutrientGoalDbModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nutrient = null,Object? amount_unit = null,Object? amount_value = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nutrient = null,Object? amount_unit = null,Object? amount_value = null,Object? created_at = freezed,Object? deleted_at = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,nutrient: null == nutrient ? _self.nutrient : nutrient // ignore: cast_nullable_to_non_nullable
 as String,amount_unit: null == amount_unit ? _self.amount_unit : amount_unit // ignore: cast_nullable_to_non_nullable
 as String,amount_value: null == amount_value ? _self.amount_value : amount_value // ignore: cast_nullable_to_non_nullable
-as double,
+as double,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
+as String?,deleted_at: freezed == deleted_at ? _self.deleted_at : deleted_at // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -153,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String nutrient,  String amount_unit,  double amount_value)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String nutrient,  String amount_unit,  double amount_value, @JsonKey(includeToJson: false, includeFromJson: true)  String? created_at, @JsonKey(includeToJson: false, includeFromJson: true)  String? deleted_at)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NutrientGoalDbModel() when $default != null:
-return $default(_that.id,_that.nutrient,_that.amount_unit,_that.amount_value);case _:
+return $default(_that.id,_that.nutrient,_that.amount_unit,_that.amount_value,_that.created_at,_that.deleted_at);case _:
   return orElse();
 
 }
@@ -174,10 +176,10 @@ return $default(_that.id,_that.nutrient,_that.amount_unit,_that.amount_value);ca
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String nutrient,  String amount_unit,  double amount_value)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String nutrient,  String amount_unit,  double amount_value, @JsonKey(includeToJson: false, includeFromJson: true)  String? created_at, @JsonKey(includeToJson: false, includeFromJson: true)  String? deleted_at)  $default,) {final _that = this;
 switch (_that) {
 case _NutrientGoalDbModel():
-return $default(_that.id,_that.nutrient,_that.amount_unit,_that.amount_value);}
+return $default(_that.id,_that.nutrient,_that.amount_unit,_that.amount_value,_that.created_at,_that.deleted_at);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -191,10 +193,10 @@ return $default(_that.id,_that.nutrient,_that.amount_unit,_that.amount_value);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String nutrient,  String amount_unit,  double amount_value)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String nutrient,  String amount_unit,  double amount_value, @JsonKey(includeToJson: false, includeFromJson: true)  String? created_at, @JsonKey(includeToJson: false, includeFromJson: true)  String? deleted_at)?  $default,) {final _that = this;
 switch (_that) {
 case _NutrientGoalDbModel() when $default != null:
-return $default(_that.id,_that.nutrient,_that.amount_unit,_that.amount_value);case _:
+return $default(_that.id,_that.nutrient,_that.amount_unit,_that.amount_value,_that.created_at,_that.deleted_at);case _:
   return null;
 
 }
@@ -206,13 +208,15 @@ return $default(_that.id,_that.nutrient,_that.amount_unit,_that.amount_value);ca
 @JsonSerializable()
 
 class _NutrientGoalDbModel implements NutrientGoalDbModel {
-  const _NutrientGoalDbModel({required this.id, required this.nutrient, required this.amount_unit, required this.amount_value});
+  const _NutrientGoalDbModel({required this.id, required this.nutrient, required this.amount_unit, required this.amount_value, @JsonKey(includeToJson: false, includeFromJson: true) this.created_at, @JsonKey(includeToJson: false, includeFromJson: true) this.deleted_at});
   factory _NutrientGoalDbModel.fromJson(Map<String, dynamic> json) => _$NutrientGoalDbModelFromJson(json);
 
 @override final  String id;
 @override final  String nutrient;
 @override final  String amount_unit;
 @override final  double amount_value;
+@override@JsonKey(includeToJson: false, includeFromJson: true) final  String? created_at;
+@override@JsonKey(includeToJson: false, includeFromJson: true) final  String? deleted_at;
 
 /// Create a copy of NutrientGoalDbModel
 /// with the given fields replaced by the non-null parameter values.
@@ -227,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NutrientGoalDbModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount_unit, amount_unit) || other.amount_unit == amount_unit)&&(identical(other.amount_value, amount_value) || other.amount_value == amount_value));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NutrientGoalDbModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount_unit, amount_unit) || other.amount_unit == amount_unit)&&(identical(other.amount_value, amount_value) || other.amount_value == amount_value)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.deleted_at, deleted_at) || other.deleted_at == deleted_at));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,nutrient,amount_unit,amount_value);
+int get hashCode => Object.hash(runtimeType,id,nutrient,amount_unit,amount_value,created_at,deleted_at);
 
 @override
 String toString() {
-  return 'NutrientGoalDbModel(id: $id, nutrient: $nutrient, amount_unit: $amount_unit, amount_value: $amount_value)';
+  return 'NutrientGoalDbModel(id: $id, nutrient: $nutrient, amount_unit: $amount_unit, amount_value: $amount_value, created_at: $created_at, deleted_at: $deleted_at)';
 }
 
 
@@ -247,7 +251,7 @@ abstract mixin class _$NutrientGoalDbModelCopyWith<$Res> implements $NutrientGoa
   factory _$NutrientGoalDbModelCopyWith(_NutrientGoalDbModel value, $Res Function(_NutrientGoalDbModel) _then) = __$NutrientGoalDbModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String nutrient, String amount_unit, double amount_value
+ String id, String nutrient, String amount_unit, double amount_value,@JsonKey(includeToJson: false, includeFromJson: true) String? created_at,@JsonKey(includeToJson: false, includeFromJson: true) String? deleted_at
 });
 
 
@@ -264,13 +268,15 @@ class __$NutrientGoalDbModelCopyWithImpl<$Res>
 
 /// Create a copy of NutrientGoalDbModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? nutrient = null,Object? amount_unit = null,Object? amount_value = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? nutrient = null,Object? amount_unit = null,Object? amount_value = null,Object? created_at = freezed,Object? deleted_at = freezed,}) {
   return _then(_NutrientGoalDbModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,nutrient: null == nutrient ? _self.nutrient : nutrient // ignore: cast_nullable_to_non_nullable
 as String,amount_unit: null == amount_unit ? _self.amount_unit : amount_unit // ignore: cast_nullable_to_non_nullable
 as String,amount_value: null == amount_value ? _self.amount_value : amount_value // ignore: cast_nullable_to_non_nullable
-as double,
+as double,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
+as String?,deleted_at: freezed == deleted_at ? _self.deleted_at : deleted_at // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

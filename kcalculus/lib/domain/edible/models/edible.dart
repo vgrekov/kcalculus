@@ -11,6 +11,10 @@ abstract interface class Edible {
 
   DateTime? get updatedAt;
 
+  DateTime? get lastEatenAt;
+
+  DateTime? get deletedAt;
+
   List<NutritionFacts> getNutritionFacts();
 
   Map<String, dynamic> toJson();

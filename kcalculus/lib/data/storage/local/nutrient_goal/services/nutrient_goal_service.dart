@@ -16,14 +16,68 @@ class LocalNutrientGoalService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         COUNT(id) AS ng_count
       FROM
         nutrient_goals
       ''',
-    ).then((data) => (data.first['ng_count'] as int) == 0);
+        )
+        .then((data) => (data.first['ng_count'] as int) == 0);
+  }
+
+  Future<List<NutrientGoalDbModel>> all({
+    bool includeDeleted = false,
+    int? limit,
+    int? offset,
+    Transaction? txn,
+  }) async {
+    if (offset != null && limit == null) {
+      throw ArgumentError('Argument "limit" is missing');
+    }
+
+    if (limit != null && limit <= 0) {
+      throw ArgumentError(
+        'If present, "limit" argument must be a positive integer',
+      );
+    }
+
+    if (offset != null && offset < 0) {
+      throw ArgumentError(
+        'If present, "offset" argument must be a non-negative integer',
+      );
+    }
+
+    final executor = txn ?? await _database;
+
+    var sql = '''
+      SELECT
+        *
+      FROM
+        nutrient_goals
+      WHERE
+        ? = 1 OR deleted_at IS NULL
+      ORDER BY
+        created_at ASC
+      ''';
+
+    var arguments = [
+      includeDeleted ? 1 : 0,
+    ];
+
+    if (limit != null) {
+      sql += 'LIMIT ? OFFSET ?';
+      arguments.addAll([
+        limit,
+        offset ?? 0,
+      ]);
+    }
+
+    return executor
+        .rawQuery(sql, arguments)
+        .then((data) => data.map(NutrientGoalDbModel.fromJson).toList());
   }
 
   Future<List<NutrientGoalDbModel>> getActive(
@@ -40,8 +94,9 @@ class LocalNutrientGoalService extends Notifier<void> {
 
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         ng.*
       FROM
@@ -69,21 +124,22 @@ class LocalNutrientGoalService extends Notifier<void> {
       ORDER BY
         ng.created_at ASC
       ''',
-      [
-        nextDay,
-        nextDay,
-        nextDay,
-      ],
-    ).then(
-      (data) => data
-          .map(NutrientGoalDbModel.fromJson)
-          .fold(
-            <String, NutrientGoalDbModel>{},
-            (acc, model) => acc..putIfAbsent(model.nutrient, () => model),
-          )
-          .values
-          .toList(),
-    );
+          [
+            nextDay,
+            nextDay,
+            nextDay,
+          ],
+        )
+        .then(
+          (data) => data
+              .map(NutrientGoalDbModel.fromJson)
+              .fold(
+                <String, NutrientGoalDbModel>{},
+                (acc, model) => acc..putIfAbsent(model.nutrient, () => model),
+              )
+              .values
+              .toList(),
+        );
   }
 
   Future<void> add(
@@ -140,5 +196,5 @@ class LocalNutrientGoalService extends Notifier<void> {
 
 final localNutrientGoalServiceProvider =
     NotifierProvider<LocalNutrientGoalService, void>(
-  LocalNutrientGoalService.new,
-);
+      LocalNutrientGoalService.new,
+    );

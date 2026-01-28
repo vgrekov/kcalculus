@@ -21,17 +21,18 @@ class LocalFoodContainerDao extends Notifier<void> {
 
   Future<bool> isEmpty({
     Transaction? txn,
-  }) =>
-      _service.isEmpty(
-        txn: txn,
-      );
+  }) => _service.isEmpty(
+    txn: txn,
+  );
 
   Future<List<FoodContainer>> getAll({
+    bool includeDeleted = false,
     PageConfig<FoodContainer>? pageConfig,
     Transaction? txn,
   }) {
     return _service
         .all(
+          includeDeleted: includeDeleted,
           pageConfig: pageConfig == null
               ? null
               : PageConfig<FoodContainerDbModel>(
@@ -155,5 +156,5 @@ class LocalFoodContainerDao extends Notifier<void> {
 
 final localFoodContainerDaoProvider =
     NotifierProvider<LocalFoodContainerDao, void>(
-  LocalFoodContainerDao.new,
-);
+      LocalFoodContainerDao.new,
+    );
