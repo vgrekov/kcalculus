@@ -8,6 +8,7 @@ import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.d
 import 'package:kcalculus/data/storage/firestore/user_data/models/nutrient_goal_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/user_data/models/user_data_firestore_model.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
+import 'package:kcalculus/domain/import/exceptions/import_unsaved_model_exception.dart';
 
 class FirestoreNutrientGoalService extends Notifier<void> {
   @override
@@ -169,6 +170,29 @@ class FirestoreNutrientGoalService extends Notifier<void> {
     );
 
     return newRef.id;
+  }
+
+  Future<void> import(
+    NutrientGoalFirestoreModel model,
+    String userId, {
+    Transaction? txn,
+  }) async {
+    if (model.id?.isEmpty ?? true) {
+      throw ImportUnsavedModelException();
+    }
+
+    final executor = FirestoreExecutor(txn);
+
+    final newRef = _db
+        .collection(UserDataFirestoreModel.kCollection)
+        .doc(userId)
+        .collection(NutrientGoalFirestoreModel.kCollection)
+        .doc(model.id);
+
+    await executor.set(
+      newRef,
+      model.toJson(),
+    );
   }
 
   Future<bool> delete(

@@ -72,6 +72,14 @@ class FirestoreNutrientGoalRepository extends NutrientGoalRepository {
     },
   );
 
+  Future<void> import(NutrientGoal goal) => Auth.guard(
+    ref,
+    (user) => _nutrientGoalService.import(
+      NutrientGoalFirestoreModel.fromDomain(goal),
+      user.uid,
+    ),
+  );
+
   @override
   Future<bool> delete(String id) => Auth.guard(
     ref,
