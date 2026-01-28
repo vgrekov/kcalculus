@@ -11,6 +11,7 @@ import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_preview_firestore_model.dart';
 import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
+import 'package:kcalculus/domain/import/exceptions/import_unsaved_model_exception.dart';
 
 class FirestoreEdibleService extends Notifier<void> {
   @override
@@ -251,6 +252,26 @@ class FirestoreEdibleService extends Notifier<void> {
     }
 
     return docRef.id;
+  }
+
+  Future<void> import(
+    EdibleFirestoreModel model, {
+    Transaction? txn,
+  }) async {
+    if (model.id?.isEmpty ?? true) {
+      throw ImportUnsavedModelException();
+    }
+
+    final executor = FirestoreExecutor(txn);
+
+    final docRef = _db
+        .collection(EdibleFirestoreModel.kCollection)
+        .doc(model.id);
+
+    await executor.set(
+      docRef,
+      model.toJson(),
+    );
   }
 
   Future<void> _checkForDuplication(EdibleFirestoreModel model) async {
