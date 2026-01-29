@@ -173,6 +173,13 @@ class FirestoreFoodContainerRepository extends FoodContainerRepository {
     },
   );
 
+  Future<void> import(FoodContainer container) => Auth.guard(
+    ref,
+    (user) => _foodContainerService.import(
+      FoodContainerFirestoreModel.fromDomain(container, user.uid),
+    ),
+  );
+
   @override
   Future<bool> delete(String id) => Auth.guard(
     ref,

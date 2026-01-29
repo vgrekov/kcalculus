@@ -8,6 +8,7 @@ import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.d
 import 'package:kcalculus/data/storage/firestore/food_container/models/food_container_firestore_model.dart';
 import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
+import 'package:kcalculus/domain/import/exceptions/import_unsaved_model_exception.dart';
 
 class FirestoreFoodContainerService extends Notifier<void> {
   @override
@@ -186,6 +187,26 @@ class FirestoreFoodContainerService extends Notifier<void> {
     }
 
     return docRef.id;
+  }
+
+  Future<void> import(
+    FoodContainerFirestoreModel model, {
+    Transaction? txn,
+  }) async {
+    if (model.id?.isEmpty ?? true) {
+      throw ImportUnsavedModelException();
+    }
+
+    final executor = FirestoreExecutor(txn);
+
+    final docRef = _db
+        .collection(FoodContainerFirestoreModel.kCollection)
+        .doc(model.id);
+
+    await executor.set(
+      docRef,
+      model.toJson(),
+    );
   }
 
   Future<bool> _exists(
