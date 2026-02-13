@@ -19,10 +19,7 @@ class LocalEdiblePreviewConverter extends Notifier<void> {
         ? dt.parseISO8601(dbModel.last_eaten_at!)
         : null;
 
-    final touchedAt = [updatedAt, lastEatenAt].fold(
-      createdAt,
-      (a, b) => b?.isAfter(a) ?? false ? b! : a,
-    );
+    final touchedAt = dt.max([createdAt, updatedAt, lastEatenAt]);
 
     return EdiblePreview(
       id: dbModel.id,

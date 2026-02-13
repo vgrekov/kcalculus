@@ -51,3 +51,13 @@ bool isNextDay(DateTime curr, DateTime next) {
   final diff = nextMidnight.difference(currMidnight);
   return diff.inDays == 1;
 }
+
+DateTime? max(List<DateTime?> dates) => dates.fold<DateTime?>(
+  null,
+  (a, b) {
+    if (b == null) return a;
+    if (a == null) return b;
+
+    return a.isAfter(b) ? a : b;
+  },
+);
