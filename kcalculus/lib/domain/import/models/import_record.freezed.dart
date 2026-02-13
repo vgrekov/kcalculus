@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ImportRecord {
 
- String get deviceId; List<ImportStateRecord> get states; ImportReport? get report;
+ ImportState get state; ImportReport? get report;
 /// Create a copy of ImportRecord
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ImportRecordCopyWith<ImportRecord> get copyWith => _$ImportRecordCopyWithImpl<I
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImportRecord&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&const DeepCollectionEquality().equals(other.states, states)&&(identical(other.report, report) || other.report == report));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImportRecord&&(identical(other.state, state) || other.state == state)&&(identical(other.report, report) || other.report == report));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,deviceId,const DeepCollectionEquality().hash(states),report);
+int get hashCode => Object.hash(runtimeType,state,report);
 
 @override
 String toString() {
-  return 'ImportRecord(deviceId: $deviceId, states: $states, report: $report)';
+  return 'ImportRecord(state: $state, report: $report)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ImportRecordCopyWith<$Res>  {
   factory $ImportRecordCopyWith(ImportRecord value, $Res Function(ImportRecord) _then) = _$ImportRecordCopyWithImpl;
 @useResult
 $Res call({
- String deviceId, List<ImportStateRecord> states, ImportReport? report
+ ImportState state, ImportReport? report
 });
 
 
@@ -65,11 +65,10 @@ class _$ImportRecordCopyWithImpl<$Res>
 
 /// Create a copy of ImportRecord
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? deviceId = null,Object? states = null,Object? report = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? state = null,Object? report = freezed,}) {
   return _then(_self.copyWith(
-deviceId: null == deviceId ? _self.deviceId : deviceId // ignore: cast_nullable_to_non_nullable
-as String,states: null == states ? _self.states : states // ignore: cast_nullable_to_non_nullable
-as List<ImportStateRecord>,report: freezed == report ? _self.report : report // ignore: cast_nullable_to_non_nullable
+state: null == state ? _self.state : state // ignore: cast_nullable_to_non_nullable
+as ImportState,report: freezed == report ? _self.report : report // ignore: cast_nullable_to_non_nullable
 as ImportReport?,
   ));
 }
@@ -103,7 +102,7 @@ extension ImportRecordPatterns on ImportRecord {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _ImportRecord value)?  $default,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ImportRecord value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _ImportRecord() when $default != null:
@@ -125,7 +124,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _ImportRecord value)  $default,}){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ImportRecord value)  $default,){
 final _that = this;
 switch (_that) {
 case _ImportRecord():
@@ -143,7 +142,7 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _ImportRecord value)?  $default,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ImportRecord value)?  $default,){
 final _that = this;
 switch (_that) {
 case _ImportRecord() when $default != null:
@@ -164,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String deviceId,  List<ImportStateRecord> states,  ImportReport? report)?  $default,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ImportState state,  ImportReport? report)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ImportRecord() when $default != null:
-return $default(_that.deviceId,_that.states,_that.report);case _:
+return $default(_that.state,_that.report);case _:
   return orElse();
 
 }
@@ -185,10 +184,10 @@ return $default(_that.deviceId,_that.states,_that.report);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String deviceId,  List<ImportStateRecord> states,  ImportReport? report)  $default,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ImportState state,  ImportReport? report)  $default,) {final _that = this;
 switch (_that) {
 case _ImportRecord():
-return $default(_that.deviceId,_that.states,_that.report);}
+return $default(_that.state,_that.report);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -202,10 +201,10 @@ return $default(_that.deviceId,_that.states,_that.report);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String deviceId,  List<ImportStateRecord> states,  ImportReport? report)?  $default,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ImportState state,  ImportReport? report)?  $default,) {final _that = this;
 switch (_that) {
 case _ImportRecord() when $default != null:
-return $default(_that.deviceId,_that.states,_that.report);case _:
+return $default(_that.state,_that.report);case _:
   return null;
 
 }
@@ -217,17 +216,10 @@ return $default(_that.deviceId,_that.states,_that.report);case _:
 @JsonSerializable()
 
 class _ImportRecord extends ImportRecord {
-  const _ImportRecord({required this.deviceId, required final  List<ImportStateRecord> states, this.report}): _states = states,super._();
+  const _ImportRecord({required this.state, this.report}): super._();
   factory _ImportRecord.fromJson(Map<String, dynamic> json) => _$ImportRecordFromJson(json);
 
-@override final  String deviceId;
- final  List<ImportStateRecord> _states;
-@override List<ImportStateRecord> get states {
-  if (_states is EqualUnmodifiableListView) return _states;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_states);
-}
-
+@override final  ImportState state;
 @override final  ImportReport? report;
 
 /// Create a copy of ImportRecord
@@ -243,16 +235,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ImportRecord&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&const DeepCollectionEquality().equals(other._states, _states)&&(identical(other.report, report) || other.report == report));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ImportRecord&&(identical(other.state, state) || other.state == state)&&(identical(other.report, report) || other.report == report));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,deviceId,const DeepCollectionEquality().hash(_states),report);
+int get hashCode => Object.hash(runtimeType,state,report);
 
 @override
 String toString() {
-  return 'ImportRecord.\$default(deviceId: $deviceId, states: $states, report: $report)';
+  return 'ImportRecord(state: $state, report: $report)';
 }
 
 
@@ -263,7 +255,7 @@ abstract mixin class _$ImportRecordCopyWith<$Res> implements $ImportRecordCopyWi
   factory _$ImportRecordCopyWith(_ImportRecord value, $Res Function(_ImportRecord) _then) = __$ImportRecordCopyWithImpl;
 @override @useResult
 $Res call({
- String deviceId, List<ImportStateRecord> states, ImportReport? report
+ ImportState state, ImportReport? report
 });
 
 
@@ -280,11 +272,10 @@ class __$ImportRecordCopyWithImpl<$Res>
 
 /// Create a copy of ImportRecord
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? deviceId = null,Object? states = null,Object? report = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? state = null,Object? report = freezed,}) {
   return _then(_ImportRecord(
-deviceId: null == deviceId ? _self.deviceId : deviceId // ignore: cast_nullable_to_non_nullable
-as String,states: null == states ? _self._states : states // ignore: cast_nullable_to_non_nullable
-as List<ImportStateRecord>,report: freezed == report ? _self.report : report // ignore: cast_nullable_to_non_nullable
+state: null == state ? _self.state : state // ignore: cast_nullable_to_non_nullable
+as ImportState,report: freezed == report ? _self.report : report // ignore: cast_nullable_to_non_nullable
 as ImportReport?,
   ));
 }

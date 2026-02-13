@@ -5,6 +5,8 @@ part 'import_progress.g.dart';
 
 @freezed
 sealed class ImportProgress with _$ImportProgress {
+  const ImportProgress._();
+
   const factory ImportProgress.$default({
     required int imported,
     int? total,
@@ -29,4 +31,13 @@ sealed class ImportProgress with _$ImportProgress {
 
   factory ImportProgress.fromJson(Map<String, dynamic> json) =>
       _$ImportProgressFromJson(json);
+
+  @override
+  String toString() {
+    if (total != null) {
+      return '$imported / $total';
+    } else {
+      return '$imported';
+    }
+  }
 }

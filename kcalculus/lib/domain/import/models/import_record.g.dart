@@ -8,10 +8,7 @@ part of 'import_record.dart';
 
 _ImportRecord _$ImportRecordFromJson(Map<String, dynamic> json) =>
     _ImportRecord(
-      deviceId: json['deviceId'] as String,
-      states: (json['states'] as List<dynamic>)
-          .map((e) => ImportStateRecord.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      state: $enumDecode(_$ImportStateEnumMap, json['state']),
       report: json['report'] == null
           ? null
           : ImportReport.fromJson(json['report'] as Map<String, dynamic>),
@@ -19,7 +16,17 @@ _ImportRecord _$ImportRecordFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ImportRecordToJson(_ImportRecord instance) =>
     <String, dynamic>{
-      'deviceId': instance.deviceId,
-      'states': instance.states.map((e) => e.toJson()).toList(),
+      'state': _$ImportStateEnumMap[instance.state]!,
       'report': instance.report?.toJson(),
     };
+
+const _$ImportStateEnumMap = {
+  ImportState.booked: 'booked',
+  ImportState.declined: 'declined',
+  ImportState.inProgress: 'inProgress',
+  ImportState.succeeded: 'succeeded',
+  ImportState.failed: 'failed',
+  ImportState.acknowledged: 'acknowledged',
+  ImportState.reverted: 'reverted',
+  ImportState.ignored: 'ignored',
+};

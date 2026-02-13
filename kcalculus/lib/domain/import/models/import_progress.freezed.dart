@@ -35,10 +35,6 @@ bool operator ==(Object other) {
 @override
 int get hashCode => Object.hash(runtimeType,imported,total);
 
-@override
-String toString() {
-  return 'ImportProgress(imported: $imported, total: $total)';
-}
 
 
 }
@@ -203,8 +199,8 @@ return $default(_that.imported,_that.total);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _ImportProgress implements ImportProgress {
-  const _ImportProgress({required this.imported, this.total});
+class _ImportProgress extends ImportProgress {
+  const _ImportProgress({required this.imported, this.total}): super._();
   factory _ImportProgress.fromJson(Map<String, dynamic> json) => _$ImportProgressFromJson(json);
 
 @override final  int imported;
@@ -230,10 +226,6 @@ bool operator ==(Object other) {
 @override
 int get hashCode => Object.hash(runtimeType,imported,total);
 
-@override
-String toString() {
-  return 'ImportProgress.\$default(imported: $imported, total: $total)';
-}
 
 
 }
