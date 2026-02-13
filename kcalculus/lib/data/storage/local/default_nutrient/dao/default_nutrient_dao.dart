@@ -9,12 +9,11 @@ import 'package:sqflite/sqflite.dart';
 class LocalDefaultNutrientDao extends AsyncNotifier<List<Nutrient>> {
   @override
   FutureOr<List<Nutrient>> build() async {
-    ref.watch(localDefaultNutrientServiceProvider);
-
-    final dbModels =
-        await ref.watch(localDefaultNutrientServiceProvider.future);
-
-    return _defaultNutrientConverter.toModels(dbModels);
+    return ref.watch(
+      localDefaultNutrientServiceProvider.selectAsync(
+        _defaultNutrientConverter.toModels,
+      ),
+    );
   }
 
   LocalDefaultNutrientService get _defaultNutrientService =>
@@ -35,5 +34,5 @@ class LocalDefaultNutrientDao extends AsyncNotifier<List<Nutrient>> {
 
 final localDefaultNutrientDaoProvider =
     AsyncNotifierProvider<LocalDefaultNutrientDao, List<Nutrient>>(
-  LocalDefaultNutrientDao.new,
-);
+      LocalDefaultNutrientDao.new,
+    );

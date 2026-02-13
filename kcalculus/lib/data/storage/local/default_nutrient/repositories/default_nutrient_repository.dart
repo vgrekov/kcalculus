@@ -8,9 +8,11 @@ import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 class LocalDefaultNutrientRepository extends DefaultNutrientRepository {
   @override
   FutureOr<List<Nutrient>> build() {
-    ref.watch(localDefaultNutrientDaoProvider);
-
-    return ref.read(localDefaultNutrientDaoProvider.future);
+    return ref.watch(
+      localDefaultNutrientDaoProvider.selectAsync(
+        (data) => data,
+      ),
+    );
   }
 
   LocalDefaultNutrientDao get _defaultNutrientDao =>

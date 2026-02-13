@@ -8,20 +8,22 @@ import 'package:sqflite/sqflite.dart';
 class LocalDefaultNutrientService
     extends AsyncNotifier<List<DefaultNutrientDbModel>> {
   @override
-  FutureOr<List<DefaultNutrientDbModel>> build() {
-    ref.watch(localStorageServiceProvider);
+  FutureOr<List<DefaultNutrientDbModel>> build() async {
+    final db = ref.watch(
+      localStorageServiceProvider.selectAsync(
+        (db) => db,
+      ),
+    );
 
-    return _getAll();
+    return _getAll(await db);
   }
 
   Future<Database> get _database =>
       ref.read(localStorageServiceProvider.future);
 
-  Future<List<DefaultNutrientDbModel>> _getAll({
-    Transaction? txn,
-  }) async {
-    final executor = txn ?? await _database;
-
+  Future<List<DefaultNutrientDbModel>> _getAll(
+    DatabaseExecutor executor,
+  ) async {
     return executor
         .query('default_nutrients')
         .then((data) => data.map(DefaultNutrientDbModel.fromJson).toList());
@@ -50,7 +52,10 @@ class LocalDefaultNutrientService
   }
 }
 
-final localDefaultNutrientServiceProvider = AsyncNotifierProvider<
-    LocalDefaultNutrientService, List<DefaultNutrientDbModel>>(
-  LocalDefaultNutrientService.new,
-);
+final localDefaultNutrientServiceProvider =
+    AsyncNotifierProvider<
+      LocalDefaultNutrientService,
+      List<DefaultNutrientDbModel>
+    >(
+      LocalDefaultNutrientService.new,
+    );

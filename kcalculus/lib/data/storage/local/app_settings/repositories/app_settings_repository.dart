@@ -9,12 +9,11 @@ import 'package:kcalculus/domain/_common/models/app_settings.dart';
 class LocalAppSettingsRepository extends AppSettingsRepository {
   @override
   FutureOr<AppSettings> build() async {
-    ref.watch(appSettingsSharedPrefServiceProvider);
-
-    final settings =
-        await ref.read(appSettingsSharedPrefServiceProvider.future);
-
-    return settings.toDomain();
+    return ref.watch(
+      appSettingsSharedPrefServiceProvider.selectAsync(
+        (settings) => settings.toDomain(),
+      ),
+    );
   }
 
   @override
@@ -29,5 +28,5 @@ class LocalAppSettingsRepository extends AppSettingsRepository {
 
 final localAppSettingsRepositoryProvider =
     AsyncNotifierProvider<AppSettingsRepository, AppSettings>(
-  LocalAppSettingsRepository.new,
-);
+      LocalAppSettingsRepository.new,
+    );
