@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NutrientGoalFirestoreModel {
 
-@JsonKey(includeToJson: false) String? get id; String get nutrient; String get unit; double get value;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? get createdAt;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxDateProvider) DateTime? get deletedAt;
+@JsonKey(includeToJson: false) String? get id; String get nutrient; String get unit; double get value;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? get createdAt;@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxTimestampProvider) DateTime? get deletedAt;
 /// Create a copy of NutrientGoalFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $NutrientGoalFirestoreModelCopyWith<$Res>  {
   factory $NutrientGoalFirestoreModelCopyWith(NutrientGoalFirestoreModel value, $Res Function(NutrientGoalFirestoreModel) _then) = _$NutrientGoalFirestoreModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeToJson: false) String? id, String nutrient, String unit, double value,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxDateProvider) DateTime? deletedAt
+@JsonKey(includeToJson: false) String? id, String nutrient, String unit, double value,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxTimestampProvider) DateTime? deletedAt
 });
 
 
@@ -155,7 +155,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String? id,  String nutrient,  String unit,  double value, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxDateProvider)  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String? id,  String nutrient,  String unit,  double value, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxTimestampProvider)  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NutrientGoalFirestoreModel() when $default != null:
 return $default(_that.id,_that.nutrient,_that.unit,_that.value,_that.createdAt,_that.deletedAt);case _:
@@ -176,7 +176,7 @@ return $default(_that.id,_that.nutrient,_that.unit,_that.value,_that.createdAt,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String? id,  String nutrient,  String unit,  double value, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxDateProvider)  DateTime? deletedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String? id,  String nutrient,  String unit,  double value, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxTimestampProvider)  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _NutrientGoalFirestoreModel():
 return $default(_that.id,_that.nutrient,_that.unit,_that.value,_that.createdAt,_that.deletedAt);}
@@ -193,7 +193,7 @@ return $default(_that.id,_that.nutrient,_that.unit,_that.value,_that.createdAt,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeToJson: false)  String? id,  String nutrient,  String unit,  double value, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxDateProvider)  DateTime? deletedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeToJson: false)  String? id,  String nutrient,  String unit,  double value, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt()  DateTime? createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxTimestampProvider)  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _NutrientGoalFirestoreModel() when $default != null:
 return $default(_that.id,_that.nutrient,_that.unit,_that.value,_that.createdAt,_that.deletedAt);case _:
@@ -208,7 +208,7 @@ return $default(_that.id,_that.nutrient,_that.unit,_that.value,_that.createdAt,_
 @JsonSerializable()
 
 class _NutrientGoalFirestoreModel extends NutrientGoalFirestoreModel {
-  const _NutrientGoalFirestoreModel({@JsonKey(includeToJson: false) this.id, required this.nutrient, required this.unit, required this.value, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() this.createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxDateProvider) this.deletedAt}): super._();
+  const _NutrientGoalFirestoreModel({@JsonKey(includeToJson: false) this.id, required this.nutrient, required this.unit, required this.value, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() this.createdAt, @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxTimestampProvider) this.deletedAt}): super._();
   factory _NutrientGoalFirestoreModel.fromJson(Map<String, dynamic> json) => _$NutrientGoalFirestoreModelFromJson(json);
 
 @override@JsonKey(includeToJson: false) final  String? id;
@@ -216,7 +216,7 @@ class _NutrientGoalFirestoreModel extends NutrientGoalFirestoreModel {
 @override final  String unit;
 @override final  double value;
 @override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() final  DateTime? createdAt;
-@override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxDateProvider) final  DateTime? deletedAt;
+@override@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxTimestampProvider) final  DateTime? deletedAt;
 
 /// Create a copy of NutrientGoalFirestoreModel
 /// with the given fields replaced by the non-null parameter values.
@@ -251,7 +251,7 @@ abstract mixin class _$NutrientGoalFirestoreModelCopyWith<$Res> implements $Nutr
   factory _$NutrientGoalFirestoreModelCopyWith(_NutrientGoalFirestoreModel value, $Res Function(_NutrientGoalFirestoreModel) _then) = __$NutrientGoalFirestoreModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeToJson: false) String? id, String nutrient, String unit, double value,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxDateProvider) DateTime? deletedAt
+@JsonKey(includeToJson: false) String? id, String nutrient, String unit, double value,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@FirestoreCreatedAt() DateTime? createdAt,@JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)@CreateOnly.override(NutrientGoalFirestoreModel._maxTimestampProvider) DateTime? deletedAt
 });
 
 

@@ -54,7 +54,7 @@ class FirestoreNutrientGoalService extends Notifier<void> {
     if (!includeDeleted) {
       query = query.where(
         NutrientGoalFirestoreModelJsonFields.deletedAt,
-        isLessThan: NutrientGoalFirestoreModel.kMaxDate,
+        isLessThan: NutrientGoalFirestoreModel.kMaxTimestamp,
       );
     }
 
@@ -236,7 +236,7 @@ class FirestoreNutrientGoalService extends Notifier<void> {
       docRef,
       {
         NutrientGoalFirestoreModelJsonFields.deletedAt:
-            NutrientGoalFirestoreModel.kMaxDate,
+            NutrientGoalFirestoreModel.kMaxTimestamp,
       },
     );
 

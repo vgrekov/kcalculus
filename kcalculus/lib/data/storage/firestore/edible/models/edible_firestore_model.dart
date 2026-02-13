@@ -17,6 +17,7 @@ import 'package:kcalculus/domain/dish/models/dish.dart';
 import 'package:kcalculus/domain/dish/models/ingredient.dart';
 import 'package:kcalculus/domain/edible/models/edible.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/json_fields/json_fields.dart';
 import 'package:kcalculus/utils/json_flavourful/json_flavourful.dart';
 
@@ -120,7 +121,6 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? eatenAt,
-    DateTime? touchedAt,
     DateTime? deletedAt,
   }) => EdibleFirestoreModel.$default(
     id: id,
@@ -135,9 +135,9 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
     nutritionRatios: nutritionRatios,
     ingredients: ingredients,
     createdAt: createdAt,
-    updatedAt: updatedAt,
+    updatedAt: updatedAt ?? createdAt,
     eatenAt: eatenAt,
-    touchedAt: touchedAt,
+    touchedAt: dt.max([createdAt, updatedAt, eatenAt]),
     deletedAt: deletedAt,
     deleted: deletedAt != null,
   );

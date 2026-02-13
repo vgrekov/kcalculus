@@ -24,9 +24,11 @@ part 'nutrient_goal_firestore_model.jflav.dart';
 sealed class NutrientGoalFirestoreModel with _$NutrientGoalFirestoreModel {
   static const kCollection = 'nutrientGoals';
 
-  static final kMaxDate = Timestamp.fromDate(DateTime(9999, 12, 31));
+  static final kMaxDateTime = DateTime(9999, 12, 31);
 
-  static Object? _maxDateProvider() => kMaxDate;
+  static final kMaxTimestamp = Timestamp.fromDate(kMaxDateTime);
+
+  static Object? _maxTimestampProvider() => kMaxTimestamp;
 
   const NutrientGoalFirestoreModel._();
 
@@ -53,7 +55,7 @@ sealed class NutrientGoalFirestoreModel with _$NutrientGoalFirestoreModel {
       fromJson: timestampToDate,
       toJson: dateToTimestamp,
     )
-    @CreateOnly.override(NutrientGoalFirestoreModel._maxDateProvider)
+    @CreateOnly.override(NutrientGoalFirestoreModel._maxTimestampProvider)
     DateTime? deletedAt,
   }) = _NutrientGoalFirestoreModel;
 
@@ -68,7 +70,7 @@ sealed class NutrientGoalFirestoreModel with _$NutrientGoalFirestoreModel {
     unit: model.amount.unit.name,
     value: model.amount.value,
     createdAt: model.createdAt,
-    deletedAt: model.deletedAt,
+    deletedAt: model.deletedAt ?? kMaxDateTime,
   );
 
   NutrientGoal toDomain() => NutrientGoal(

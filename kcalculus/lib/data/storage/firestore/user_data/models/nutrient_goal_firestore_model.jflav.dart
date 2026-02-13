@@ -11,7 +11,7 @@ final _flavouredFields =
     Map<String, JsonFlavouredBase<StorageAction>>.unmodifiable({
       'createdAt': FirestoreCreatedAt(),
       'deletedAt': CreateOnly.override(
-        NutrientGoalFirestoreModel._maxDateProvider,
+        NutrientGoalFirestoreModel._maxTimestampProvider,
       ),
     });
 
