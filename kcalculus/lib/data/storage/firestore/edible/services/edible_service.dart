@@ -52,7 +52,7 @@ class FirestoreEdibleService extends Notifier<void> {
 
     query = query
         .orderBy(EdibleFirestoreModelJsonFields.touchedAt, descending: true)
-        .orderBy(FieldPath.documentId, descending: true);
+        .orderBy(FieldPath.documentId);
 
     if (pageConfig != null) {
       query = query.limit(pageConfig.size);
