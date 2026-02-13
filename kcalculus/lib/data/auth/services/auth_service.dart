@@ -44,11 +44,11 @@ class AuthService extends AsyncNotifier<User?> {
     try {
       _stopUserSubscription();
 
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
 
       if (credential.user != null) {
         await credential.user!.updateDisplayName(displayName);
@@ -217,7 +217,9 @@ class AuthService extends AsyncNotifier<User?> {
     final prefs = await SharedPreferences.getInstance();
 
     await prefs.setString(
-        '$_kVerificationSentAtPrefix$email', formatISO8601(now));
+      '$_kVerificationSentAtPrefix$email',
+      formatISO8601(now),
+    );
   }
 
   Future<DateTime?> _getEmailVerificationCooldownEnd(String email) async {
