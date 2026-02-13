@@ -9,7 +9,7 @@ service cloud.firestore {
     match /foodContainers/{containerId} {
       allow create: if request.auth != null && request.auth.uid == request.resource.data.ownerId;
       
-      allow read, update: if request.auth != null && request.auth.uid == resource.data.ownerId;
+      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.ownerId;
     }
     
     match /users/{userId} {
@@ -23,7 +23,7 @@ service cloud.firestore {
     match /edibles/{edibleId} {
       allow create: if request.auth != null && request.auth.uid == request.resource.data.ownerId;
       
-      allow read, update: if request.auth != null && request.auth.uid == resource.data.ownerId;
+      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.ownerId;
     }
   }
 }
