@@ -78,6 +78,6 @@ class FirestoreDishRepository extends DishRepository {
 }
 
 final firestoreDishRepositoryProvider =
-    NotifierProvider<DishRepository, ChangeSignal?>(
+    NotifierProvider<FirestoreDishRepository, ChangeSignal?>(
       FirestoreDishRepository.new,
     );

@@ -211,6 +211,6 @@ class FirestoreFoodContainerRepository extends FoodContainerRepository {
 }
 
 final firestoreFoodContainerRepositoryProvider =
-    NotifierProvider<FoodContainerRepository, ChangeSignal?>(
+    NotifierProvider<FirestoreFoodContainerRepository, ChangeSignal?>(
       FirestoreFoodContainerRepository.new,
     );

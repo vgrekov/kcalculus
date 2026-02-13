@@ -117,6 +117,6 @@ class FirestoreNutrientGoalRepository extends NutrientGoalRepository {
 }
 
 final firestoreNutrientGoalRepositoryProvider =
-    NotifierProvider<NutrientGoalRepository, ChangeSignal?>(
+    NotifierProvider<FirestoreNutrientGoalRepository, ChangeSignal?>(
       FirestoreNutrientGoalRepository.new,
     );
