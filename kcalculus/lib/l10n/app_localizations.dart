@@ -2064,6 +2064,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DELETED'**
   String get tagDeleted;
+
+  /// No description provided for @screenImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get screenImport;
+
+  /// No description provided for @importBookedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import local data to your account?'**
+  String get importBookedTitle;
+
+  /// No description provided for @importBookedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Data stored on this device can be imported to your account.\n\nImporting will replace any data currently in your account with the data from this device.'**
+  String get importBookedMessage;
+
+  /// No description provided for @messageImportConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently replace the data in your account with the data from this device.\n\nYour current account data will be lost. This action cannot be undone.'**
+  String get messageImportConfirmation;
+
+  /// No description provided for @actionImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import and replace'**
+  String get actionImport;
+
+  /// No description provided for @actionDeclineImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep account data'**
+  String get actionDeclineImport;
+
+  /// No description provided for @importRunningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing data...'**
+  String get importRunningTitle;
+
+  /// No description provided for @importRunningMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Data from this device is being imported to your account.\nThis may take a few moments.\n\nPlease keep the app open until the import is complete.'**
+  String get importRunningMessage;
+
+  /// No description provided for @importStuckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import couldn\'\'t be completed'**
+  String get importStuckTitle;
+
+  /// No description provided for @importStuckMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'An import from this device is still marked as in progress but is no longer running.\n\nPlease contact support for assistance.'**
+  String get importStuckMessage;
+
+  /// No description provided for @actionContactSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact support'**
+  String get actionContactSupport;
+
+  /// No description provided for @importRemoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import on another device'**
+  String get importRemoteTitle;
+
+  /// No description provided for @importRemoteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Another device is importing data to your account.\n\nPlease complete the import on that device, or contact support if you cannot access it.'**
+  String get importRemoteMessage;
+
+  /// No description provided for @importSucceededTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import complete'**
+  String get importSucceededTitle;
+
+  /// No description provided for @importSucceededMessageNoReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Data from this device has been imported to your account.'**
+  String get importSucceededMessageNoReport;
+
+  /// No description provided for @importSucceededMessageWithReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Data from this device has been imported to your account.\nSee the report below for details.'**
+  String get importSucceededMessageWithReport;
+
+  /// No description provided for @actionDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get actionDone;
+
+  /// No description provided for @labelFoods.
+  ///
+  /// In en, this message translates to:
+  /// **'Foods'**
+  String get labelFoods;
+
+  /// No description provided for @labelDishes.
+  ///
+  /// In en, this message translates to:
+  /// **'Dishes'**
+  String get labelDishes;
+
+  /// No description provided for @labelMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Meals'**
+  String get labelMeals;
+
+  /// No description provided for @labelContainers.
+  ///
+  /// In en, this message translates to:
+  /// **'Containers'**
+  String get labelContainers;
+
+  /// No description provided for @labelDefaultNutrients.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Nutrients'**
+  String get labelDefaultNutrients;
+
+  /// No description provided for @labelNutrientGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrient Goals'**
+  String get labelNutrientGoals;
+
+  /// No description provided for @labelSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get labelSettings;
+
+  /// No description provided for @importFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed'**
+  String get importFailedTitle;
+
+  /// No description provided for @importFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The import did not complete successfully.\nSome data may have already been applied to your account, and your account data may now be incomplete.'**
+  String get importFailedMessage;
+
+  /// No description provided for @actionRetryImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry import'**
+  String get actionRetryImport;
+
+  /// No description provided for @messageRetryImportConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Erase your current account data and restart the import?'**
+  String get messageRetryImportConfirmation;
+
+  /// No description provided for @actionRevertImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset account data'**
+  String get actionRevertImport;
+
+  /// No description provided for @messageRevertImportConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Erase your current account data?'**
+  String get messageRevertImportConfirmation;
+
+  /// No description provided for @actionIgnoreImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep current data'**
+  String get actionIgnoreImport;
+
+  /// No description provided for @messageIgnoreImportConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Ignore the import and continue using the app as-is?'**
+  String get messageIgnoreImportConfirmation;
 }
 
 class _AppLocalizationsDelegate

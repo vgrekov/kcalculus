@@ -1173,4 +1173,111 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tagDeleted => 'DELETED';
+
+  @override
+  String get screenImport => 'Import';
+
+  @override
+  String get importBookedTitle => 'Import local data to your account?';
+
+  @override
+  String get importBookedMessage =>
+      'Data stored on this device can be imported to your account.\n\nImporting will replace any data currently in your account with the data from this device.';
+
+  @override
+  String get messageImportConfirmation =>
+      'This will permanently replace the data in your account with the data from this device.\n\nYour current account data will be lost. This action cannot be undone.';
+
+  @override
+  String get actionImport => 'Import and replace';
+
+  @override
+  String get actionDeclineImport => 'Keep account data';
+
+  @override
+  String get importRunningTitle => 'Importing data...';
+
+  @override
+  String get importRunningMessage =>
+      'Data from this device is being imported to your account.\nThis may take a few moments.\n\nPlease keep the app open until the import is complete.';
+
+  @override
+  String get importStuckTitle => 'Import couldn\'t be completed';
+
+  @override
+  String get importStuckMessage =>
+      'An import from this device is still marked as in progress but is no longer running.\n\nPlease contact support for assistance.';
+
+  @override
+  String get actionContactSupport => 'Contact support';
+
+  @override
+  String get importRemoteTitle => 'Import on another device';
+
+  @override
+  String get importRemoteMessage =>
+      'Another device is importing data to your account.\n\nPlease complete the import on that device, or contact support if you cannot access it.';
+
+  @override
+  String get importSucceededTitle => 'Import complete';
+
+  @override
+  String get importSucceededMessageNoReport =>
+      'Data from this device has been imported to your account.';
+
+  @override
+  String get importSucceededMessageWithReport =>
+      'Data from this device has been imported to your account.\nSee the report below for details.';
+
+  @override
+  String get actionDone => 'Done';
+
+  @override
+  String get labelFoods => 'Foods';
+
+  @override
+  String get labelDishes => 'Dishes';
+
+  @override
+  String get labelMeals => 'Meals';
+
+  @override
+  String get labelContainers => 'Containers';
+
+  @override
+  String get labelDefaultNutrients => 'Default Nutrients';
+
+  @override
+  String get labelNutrientGoals => 'Nutrient Goals';
+
+  @override
+  String get labelSettings => 'Settings';
+
+  @override
+  String get importFailedTitle => 'Import failed';
+
+  @override
+  String get importFailedMessage =>
+      'The import did not complete successfully.\nSome data may have already been applied to your account, and your account data may now be incomplete.';
+
+  @override
+  String get actionRetryImport => 'Retry import';
+
+  @override
+  String get messageRetryImportConfirmation =>
+      'Erase your current account data and restart the import?';
+
+  @override
+  String get actionRevertImport => 'Reset account data';
+
+  @override
+  String get messageRevertImportConfirmation =>
+      'Erase your current account data?';
+
+  @override
+  String get actionIgnoreImport => 'Keep current data';
+
+  @override
+  String get messageIgnoreImportConfirmation =>
+      'Ignore the import and continue using the app as-is?';
 }

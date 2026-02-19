@@ -8,6 +8,7 @@ enum AppStage {
   dataSharingConsent,
   maintenance,
   authentication,
+  import,
   operation,
 }
 

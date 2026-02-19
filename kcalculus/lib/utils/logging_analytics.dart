@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:kcalculus/domain/import/models/import_report.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:logging/logging.dart';
 
@@ -216,6 +217,21 @@ extension Analytics on Logger {
   void eventNewAccount() {
     FirebaseAnalytics.instance.logEvent(
       name: 'new_account',
+    );
+  }
+
+  void eventImport(ImportReport report) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'import',
+      parameters: {
+        'foods': report.foods.toString(),
+        'dishes': report.dishes.toString(),
+        'meals': report.meals.toString(),
+        'containers': report.containers.toString(),
+        'default_nutrients': report.defaultNutrients.toString(),
+        'nutrient_goals': report.nutrientGoals.toString(),
+        'settings': report.settings.toString(),
+      },
     );
   }
 }

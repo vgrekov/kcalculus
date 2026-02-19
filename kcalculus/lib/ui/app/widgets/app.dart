@@ -8,6 +8,7 @@ import 'package:kcalculus/ui/app/view_models/app_view_model.dart';
 import 'package:kcalculus/ui/auth/login/widgets/login_screen.dart';
 import 'package:kcalculus/ui/common/themes/themes.dart';
 import 'package:kcalculus/ui/consent/widgets/consent_screen.dart';
+import 'package:kcalculus/ui/import/widgets/import_screen.dart';
 import 'package:kcalculus/ui/maintenance/widgets/maintenance_screen.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -32,14 +33,15 @@ class App extends ConsumerWidget {
           AppStage.dataSharingConsent => const ConsentScreen(),
           AppStage.maintenance => const MaintenanceScreen(),
           AppStage.authentication => LoginScreen(
-              onExit: (context) {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => const MealListScreen(),
-                  ),
-                );
-              },
-            ),
+            onExit: (context) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const MealListScreen(),
+                ),
+              );
+            },
+          ),
+          AppStage.import => ImportScreen(),
           _ => const MealListScreen(),
         };
         break;
@@ -50,8 +52,8 @@ class App extends ConsumerWidget {
             builder: (context) => Text(
               l10n(context).messageUnknownError,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ),
         );
@@ -75,9 +77,9 @@ class App extends ConsumerWidget {
         AppTheme.light => kLightTheme,
         AppTheme.dark => kDarkTheme,
         _ => switch (MediaQuery.of(context).platformBrightness) {
-            Brightness.light => kLightTheme,
-            Brightness.dark => kDarkTheme,
-          },
+          Brightness.light => kLightTheme,
+          Brightness.dark => kDarkTheme,
+        },
       },
       home: home,
     );
