@@ -1,42 +1,45 @@
 enum ImportState {
-  booked({
-    declined,
-    inProgress,
-  }),
+  booked,
 
-  declined(),
+  declined,
 
-  inProgress({
-    succeeded,
-    failed,
-  }),
+  inProgress,
 
-  succeeded({
-    acknowledged,
-  }),
+  succeeded,
 
-  failed({
-    reverted,
-    ignored,
-  }),
+  failed,
 
-  acknowledged(),
+  acknowledged,
 
-  reverted(),
+  reverted,
 
-  ignored();
+  ignored;
 
-  final Set<ImportState> _nextStates;
-
-  const ImportState([
-    this._nextStates = const {},
-  ]);
+  static const _transitions = <ImportState, Set<ImportState>>{
+    booked: {
+      declined,
+      inProgress,
+    },
+    inProgress: {
+      succeeded,
+      failed,
+    },
+    succeeded: {
+      acknowledged,
+    },
+    failed: {
+      booked,
+      reverted,
+      ignored,
+    },
+  };
 
   static ImportState of(String name) {
     return ImportState.values.firstWhere((u) => u.name == name);
   }
 
-  bool canTransitionTo(ImportState newState) => _nextStates.contains(newState);
+  bool canTransitionTo(ImportState newState) =>
+      _transitions[this]?.contains(newState) ?? false;
 
-  bool get resolved => _nextStates.isEmpty;
+  bool get resolved => _transitions[this]?.isEmpty ?? true;
 }

@@ -33,7 +33,7 @@ import 'package:logging/logging.dart';
 final Logger _log = Logger('ImportUseCase');
 
 class ImportUseCase extends AsyncNotifier<ImportProcess> {
-  static const _kImportBatchSize = 100; // TODO: make configurable
+  static const _kImportBatchSize = 100;
 
   @override
   FutureOr<ImportProcess> build() {
@@ -52,7 +52,7 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
   Future<void> saveImport(ImportRecord model) => _importRepo.saveImport(model);
 
   Future<ImportReport> runImport() async {
-    await _purgeFirestore();
+    await purgeFirestore();
 
     final (foods, dishes) = await _importEdibles();
 
@@ -90,7 +90,7 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
     );
   }
 
-  Future<void> _purgeFirestore() async {
+  Future<void> purgeFirestore() async {
     // containers
     await ref
         .read(
