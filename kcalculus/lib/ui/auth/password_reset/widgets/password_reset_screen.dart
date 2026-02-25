@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/ui/auth/password_reset/view_models/password_reset_ui_state.dart';
 import 'package:kcalculus/ui/auth/password_reset/view_models/password_reset_view_model.dart';
+import 'package:kcalculus/ui/common/messaging/models/ui_message.dart';
+import 'package:kcalculus/ui/common/messaging/services/ui_message_service.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -100,10 +102,12 @@ class _PasswordResetScreenState extends ConsumerState<PasswordResetScreen>
     final uiState = ref.read(passwordResetViewModel(widget.email));
 
     return switch (uiState.validationError) {
-      PasswordResetValidationError.invalidEmail =>
-        l10n(context).validationErrorEmailInvalid,
-      PasswordResetValidationError.userNotFound =>
-        l10n(context).validationErrorUserNotFound,
+      PasswordResetValidationError.invalidEmail => l10n(
+        context,
+      ).validationErrorEmailInvalid,
+      PasswordResetValidationError.userNotFound => l10n(
+        context,
+      ).validationErrorUserNotFound,
       _ => null,
     };
   }
@@ -122,11 +126,12 @@ class _PasswordResetScreenState extends ConsumerState<PasswordResetScreen>
     required BuildContext context,
     required WidgetRef ref,
   }) {
-    showNotification(
-      l10n(context).messagePasswordResetEmailSent(
-        command.payload as String,
+    ref.sendUiMessage(
+      UiDialog.alert(
+        text: l10n(context).messagePasswordResetEmailSent(
+          command.payload as String,
+        ),
       ),
-      duration: Duration(seconds: 4),
     );
     command.complete();
   }
@@ -155,8 +160,8 @@ class _PasswordResetScreenState extends ConsumerState<PasswordResetScreen>
             title: Text(
               l10n(context).screenPasswordReset,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
           body: SafeArea(
@@ -182,8 +187,9 @@ class _PasswordResetScreenState extends ConsumerState<PasswordResetScreen>
                                     .textTheme
                                     .displayMedium!
                                     .copyWith(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                     ),
                               ),
                             ),
@@ -213,9 +219,9 @@ class _PasswordResetScreenState extends ConsumerState<PasswordResetScreen>
                                         .textTheme
                                         .labelLarge!
                                         .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
                                         ),
                                   ),
                                 ),
