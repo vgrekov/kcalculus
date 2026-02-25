@@ -22,7 +22,9 @@ class UserRepository extends AsyncNotifier<User?> {
     String email,
     String password,
   ) {
-    return ref.read(authServiceProvider.notifier).createAccount(
+    return ref
+        .read(authServiceProvider.notifier)
+        .createAccount(
           displayName,
           email,
           password,
@@ -33,7 +35,9 @@ class UserRepository extends AsyncNotifier<User?> {
     String email,
     String password,
   ) async {
-    final firebaseUser = await ref.read(authServiceProvider.notifier).login(
+    final firebaseUser = await ref
+        .read(authServiceProvider.notifier)
+        .login(
           email,
           password,
         );
@@ -49,7 +53,9 @@ class UserRepository extends AsyncNotifier<User?> {
     String email,
     String password,
   ) {
-    return ref.read(authServiceProvider.notifier).sendEmailVerification(
+    return ref
+        .read(authServiceProvider.notifier)
+        .sendEmailVerification(
           email,
           password,
         );
@@ -69,6 +75,10 @@ class UserRepository extends AsyncNotifier<User?> {
 
   Future<void> logout() {
     return ref.read(authServiceProvider.notifier).logout();
+  }
+
+  Future<void> deleteAccount() {
+    return ref.read(authServiceProvider.notifier).deleteAccount();
   }
 }
 

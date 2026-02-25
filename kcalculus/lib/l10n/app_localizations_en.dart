@@ -1280,4 +1280,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get messageIgnoreImportConfirmation =>
       'Ignore the import and continue using the app as-is?';
+
+  @override
+  String get settingLogoutTitle => 'Log out';
+
+  @override
+  String get settingLogoutSubtitle => 'Sign out of your account on this device';
+
+  @override
+  String get settingDeleteAccountTitle => 'Delete account';
+
+  @override
+  String get settingDeleteAccountSubtitle =>
+      'Permanently delete your account and all associated data';
+
+  @override
+  String get messageLoginToDeleteAccount =>
+      'For security reasons, you must log in again before deleting your account.';
+
+  @override
+  String messageDeleteAccountConfirmation(String email) {
+    return 'Delete account\n$email\npermanently?\n\nThis action cannot be undone.\nAll your data, including your account information and associated content, will be permanently deleted.\n\nIf you proceed, you will lose access to this account.';
+  }
+
+  @override
+  String get actionDeleteAccount => 'Delete account';
+
+  @override
+  String messageAccountDeleted(String email) {
+    return 'Account $email has been permanently deleted.';
+  }
 }

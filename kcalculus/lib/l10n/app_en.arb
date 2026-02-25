@@ -672,5 +672,27 @@
     "actionRevertImport": "Reset account data",
     "messageRevertImportConfirmation": "Erase your current account data?",
     "actionIgnoreImport": "Keep current data",
-    "messageIgnoreImportConfirmation": "Ignore the import and continue using the app as-is?"
+    "messageIgnoreImportConfirmation": "Ignore the import and continue using the app as-is?",
+    "settingLogoutTitle": "Log out",
+    "settingLogoutSubtitle": "Sign out of your account on this device",
+    "settingDeleteAccountTitle": "Delete account",
+    "settingDeleteAccountSubtitle": "Permanently delete your account and all associated data",
+    "messageLoginToDeleteAccount": "For security reasons, you must log in again before deleting your account.",
+    "messageDeleteAccountConfirmation": "Delete account\n{email}\npermanently?\n\nThis action cannot be undone.\nAll your data, including your account information and associated content, will be permanently deleted.\n\nIf you proceed, you will lose access to this account.",
+    "@messageDeleteAccountConfirmation": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+    "actionDeleteAccount": "Delete account",
+    "messageAccountDeleted": "Account {email} has been permanently deleted.",
+    "@messageAccountDeleted": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    }
 }

@@ -8,5 +8,6 @@ if (!getApps().length) {
 }
 
 export { updateUserSearchConfigOnCreate } from './auth-on-user-created';
+export { purgeUserOnDelete } from './auth-on-user-deleted';
 export { refreshUserSearchConfigsOnSchedule } from './scheduled';
 

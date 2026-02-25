@@ -6,6 +6,7 @@ import 'package:kcalculus/ui/agreement/widgets/agreement_screen.dart';
 import 'package:kcalculus/ui/app/view_models/app_ui_state.dart';
 import 'package:kcalculus/ui/app/view_models/app_view_model.dart';
 import 'package:kcalculus/ui/auth/login/widgets/login_screen.dart';
+import 'package:kcalculus/ui/common/messaging/widgets/ui_message_handler.dart';
 import 'package:kcalculus/ui/common/themes/themes.dart';
 import 'package:kcalculus/ui/consent/widgets/consent_screen.dart';
 import 'package:kcalculus/ui/import/widgets/import_screen.dart';
@@ -32,15 +33,7 @@ class App extends ConsumerWidget {
           AppStage.agreement => const AgreementScreen(),
           AppStage.dataSharingConsent => const ConsentScreen(),
           AppStage.maintenance => const MaintenanceScreen(),
-          AppStage.authentication => LoginScreen(
-            onExit: (context) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const MealListScreen(),
-                ),
-              );
-            },
-          ),
+          AppStage.authentication => const LoginScreen(),
           AppStage.import => ImportScreen(),
           _ => const MealListScreen(),
         };
@@ -81,7 +74,9 @@ class App extends ConsumerWidget {
           Brightness.dark => kDarkTheme,
         },
       },
-      home: home,
+      home: UiMessageHandler(
+        child: home,
+      ),
     );
   }
 }

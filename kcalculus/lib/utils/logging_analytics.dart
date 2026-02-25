@@ -234,4 +234,10 @@ extension Analytics on Logger {
       },
     );
   }
+
+  void eventAccountDeleted() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'account_deleted',
+    );
+  }
 }

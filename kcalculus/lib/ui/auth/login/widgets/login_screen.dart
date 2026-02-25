@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/domain/auth/models/user.dart';
 import 'package:kcalculus/ui/auth/login/view_models/login_ui_state.dart';
 import 'package:kcalculus/ui/auth/login/view_models/login_view_model.dart';
 import 'package:kcalculus/ui/auth/new_account/widgets/new_account_screen.dart';
@@ -16,10 +17,19 @@ import 'package:kcalculus/utils/l10n.dart';
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({
     super.key,
-    this.onExit,
+    this.email,
+    this.showForgotPassword = true,
+    this.showCreateNewAccount = true,
+    this.showContinueWithoutAccount = true,
   });
 
-  final void Function(BuildContext)? onExit;
+  final String? email;
+
+  final bool showForgotPassword;
+
+  final bool showCreateNewAccount;
+
+  final bool showContinueWithoutAccount;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -52,6 +62,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
       (prev, next) {
         _loadUiState(next);
       },
+      fireImmediately: true,
     );
 
     super.initState();
@@ -68,7 +79,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
   }
 
   void _loadUiState(LoginUiState uiState) {
-    _emailController.text = uiState.email;
+    _emailController.text = widget.email ?? uiState.email;
     _passwordController.text = uiState.password;
 
     if (uiState.validationError != null) {
@@ -111,7 +122,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
     if (email != null) {
       _form.currentState!.reset();
 
-      ref.read(loginViewModel.notifier).updateState(
+      ref
+          .read(loginViewModel.notifier)
+          .updateState(
             email: email,
             password: '',
           );
@@ -134,26 +147,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
     _exit();
   }
 
-  void _exit() {
-    if (widget.onExit != null) {
-      widget.onExit!(context);
-    } else {
-      Navigator.of(context).pop();
-    }
+  void _exit([User? user]) {
+    Navigator.of(context).pop(user);
   }
 
   String? _validateEmail(String? value) {
     final uiState = ref.read(loginViewModel);
 
     return switch (uiState.validationError) {
-      LoginValidationError.invalidEmail =>
-        l10n(context).validationErrorEmailInvalid,
-      LoginValidationError.userNotFound =>
-        l10n(context).validationErrorUserNotFound,
-      LoginValidationError.userDisabled =>
-        l10n(context).validationErrorUserDisabled,
-      LoginValidationError.unverifiedEmail =>
-        l10n(context).validationErrorEmailUnverified,
+      LoginValidationError.invalidEmail => l10n(
+        context,
+      ).validationErrorEmailInvalid,
+      LoginValidationError.userNotFound => l10n(
+        context,
+      ).validationErrorUserNotFound,
+      LoginValidationError.userDisabled => l10n(
+        context,
+      ).validationErrorUserDisabled,
+      LoginValidationError.unverifiedEmail => l10n(
+        context,
+      ).validationErrorEmailUnverified,
       _ => null,
     };
   }
@@ -162,8 +175,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
     final uiState = ref.read(loginViewModel);
 
     return switch (uiState.validationError) {
-      LoginValidationError.invalidCredentials =>
-        l10n(context).validationErrorCredentialsInvalid,
+      LoginValidationError.invalidCredentials => l10n(
+        context,
+      ).validationErrorCredentialsInvalid,
       _ => null,
     };
   }
@@ -213,13 +227,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
   }
 
   void _exitOnCommand(
-    UiCommand? command, {
+    UiCommand command, {
     required BuildContext context,
     required WidgetRef ref,
   }) async {
-    _exit();
+    _exit(command.payload as User?);
 
-    command?.complete();
+    command.complete();
   }
 
   @override
@@ -236,8 +250,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
             title: Text(
               l10n(context).screenLogin,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
           body: SafeArea(
@@ -263,8 +277,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
                                     .textTheme
                                     .displayMedium!
                                     .copyWith(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                     ),
                               ),
                             ),
@@ -282,6 +297,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
                                 textInputAction: TextInputAction.next,
                                 showCounter: false,
                                 validator: _validateEmail,
+                                enabled: widget.email == null,
                               ),
                               const SizedBox(height: 16),
                               PasswordInput(
@@ -306,31 +322,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
                                         .textTheme
                                         .labelLarge!
                                         .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
                                         ),
                                   ),
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              SizedBox(
-                                width: double.infinity,
-                                child: TextButton(
-                                  onPressed: _resetPassword,
-                                  child: Text(
-                                    l10n(context).actionForgotPassword,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                        ),
+                              if (widget.showForgotPassword)
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: TextButton(
+                                    onPressed: _resetPassword,
+                                    child: Text(
+                                      l10n(context).actionForgotPassword,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge!
+                                          .copyWith(
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.onSurface,
+                                          ),
+                                    ),
                                   ),
                                 ),
-                              ),
                             ],
                           ),
                         ),
@@ -340,41 +357,45 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton(
-                                  onPressed: _createNewAccount,
-                                  child: Text(
-                                    l10n(context).actionCreateNewAccount,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                        ),
+                              if (widget.showCreateNewAccount)
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: OutlinedButton(
+                                    onPressed: _createNewAccount,
+                                    child: Text(
+                                      l10n(context).actionCreateNewAccount,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge!
+                                          .copyWith(
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.onSurface,
+                                          ),
+                                    ),
                                   ),
                                 ),
-                              ),
                               const SizedBox(height: 8),
-                              SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton(
-                                  onPressed: _continueWithoutAccount,
-                                  child: Text(
-                                    l10n(context).actionContinueWithoutAccount,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                        ),
+                              if (widget.showContinueWithoutAccount)
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: OutlinedButton(
+                                    onPressed: _continueWithoutAccount,
+                                    child: Text(
+                                      l10n(
+                                        context,
+                                      ).actionContinueWithoutAccount,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge!
+                                          .copyWith(
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.onSurface,
+                                          ),
+                                    ),
                                   ),
                                 ),
-                              ),
                             ],
                           ),
                         ),

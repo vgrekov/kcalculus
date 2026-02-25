@@ -197,6 +197,15 @@ class AuthService extends AsyncNotifier<User?> {
     await _unselectAnonymousMode();
   }
 
+  Future<void> deleteAccount() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await user.delete();
+
+      await _unselectAnonymousMode();
+    }
+  }
+
   Future<void> _unselectAnonymousMode() async {
     final prefs = await SharedPreferences.getInstance();
 

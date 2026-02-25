@@ -2256,6 +2256,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ignore the import and continue using the app as-is?'**
   String get messageIgnoreImportConfirmation;
+
+  /// No description provided for @settingLogoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get settingLogoutTitle;
+
+  /// No description provided for @settingLogoutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of your account on this device'**
+  String get settingLogoutSubtitle;
+
+  /// No description provided for @settingDeleteAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get settingDeleteAccountTitle;
+
+  /// No description provided for @settingDeleteAccountSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete your account and all associated data'**
+  String get settingDeleteAccountSubtitle;
+
+  /// No description provided for @messageLoginToDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'For security reasons, you must log in again before deleting your account.'**
+  String get messageLoginToDeleteAccount;
+
+  /// No description provided for @messageDeleteAccountConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account\n{email}\npermanently?\n\nThis action cannot be undone.\nAll your data, including your account information and associated content, will be permanently deleted.\n\nIf you proceed, you will lose access to this account.'**
+  String messageDeleteAccountConfirmation(String email);
+
+  /// No description provided for @actionDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get actionDeleteAccount;
+
+  /// No description provided for @messageAccountDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Account {email} has been permanently deleted.'**
+  String messageAccountDeleted(String email);
 }
 
 class _AppLocalizationsDelegate
