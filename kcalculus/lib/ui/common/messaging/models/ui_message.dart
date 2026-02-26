@@ -16,6 +16,11 @@ sealed class UiMessage<ActionResult> {
 
   bool get isCompleted => _completer.isCompleted;
 
+  FutureOr<ActionResult?> castActionResult(FutureOr<dynamic> value) =>
+      value is Future
+      ? value.then((v) => v as ActionResult?)
+      : value as ActionResult?;
+
   void complete(FutureOr<ActionResult?> actionResult) {
     if (!isCompleted) {
       _completer.complete(actionResult);

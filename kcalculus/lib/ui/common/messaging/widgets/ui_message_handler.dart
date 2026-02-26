@@ -64,10 +64,10 @@ class _UiMessageHandlerState extends ConsumerState<UiMessageHandler> {
     });
   }
 
-  void _showNotification<ActionResult>(
+  void _showNotification(
     BuildContext context,
     WidgetRef ref,
-    UiNotification<ActionResult> notification,
+    UiNotification notification,
   ) async {
     try {
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -92,7 +92,9 @@ class _UiMessageHandlerState extends ConsumerState<UiMessageHandler> {
                               ref,
                             );
 
-                        notification.complete(actionResult);
+                        notification.complete(
+                          notification.castActionResult(actionResult),
+                        );
                       } catch (error, stackTrace) {
                         notification.completeError(error, stackTrace);
                       }
@@ -112,10 +114,10 @@ class _UiMessageHandlerState extends ConsumerState<UiMessageHandler> {
     }
   }
 
-  void _showDialog<ActionResult>(
+  void _showDialog(
     BuildContext context,
     WidgetRef ref,
-    UiDialog<ActionResult> dialog,
+    UiDialog dialog,
   ) {
     try {
       final title = Text(
@@ -147,7 +149,7 @@ class _UiMessageHandlerState extends ConsumerState<UiMessageHandler> {
       }).toList();
 
       final actionResult = Platform.isIOS
-          ? showCupertinoDialog<ActionResult>(
+          ? showCupertinoDialog(
               context: context,
               builder: (context) {
                 return CupertinoAlertDialog(
@@ -157,7 +159,7 @@ class _UiMessageHandlerState extends ConsumerState<UiMessageHandler> {
                 );
               },
             )
-          : showDialog<ActionResult>(
+          : showDialog(
               context: context,
               builder: (context) {
                 return AlertDialog(
@@ -171,7 +173,7 @@ class _UiMessageHandlerState extends ConsumerState<UiMessageHandler> {
               },
             );
 
-      dialog.complete(actionResult);
+      dialog.complete(dialog.castActionResult(actionResult));
     } catch (error, stackTrace) {
       dialog.completeError(error, stackTrace);
     }
