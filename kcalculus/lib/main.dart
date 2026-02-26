@@ -64,12 +64,15 @@ void main() async {
   };
 
   await FirebaseAppCheck.instance.activate(
-    androidProvider:
-        kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
+    androidProvider: kDebugMode
+        ? AndroidProvider.debug
+        : AndroidProvider.playIntegrity,
     appleProvider: kDebugMode ? AppleProvider.debug : AppleProvider.appAttest,
   );
 
-  runApp(const ProviderScope(
-    child: App(),
-  ));
+  runApp(
+    const ProviderScope(
+      child: App(),
+    ),
+  );
 }

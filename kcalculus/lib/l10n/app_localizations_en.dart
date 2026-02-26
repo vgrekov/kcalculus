@@ -1052,6 +1052,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionLogin => 'Log in';
 
   @override
+  String get actionLogout => 'Log out';
+
+  @override
   String get actionCreateNewAccount => 'Create new account';
 
   @override
@@ -1280,6 +1283,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get messageIgnoreImportConfirmation =>
       'Ignore the import and continue using the app as-is?';
+
+  @override
+  String get supportEmailAddress => 'support@kcalculus.app';
+
+  @override
+  String supportEmailImportSubject(String email) {
+    return '[Import] $email';
+  }
+
+  @override
+  String supportEmailImportBody(
+    String email,
+    String appVersion,
+    String buildNumber,
+    String platform,
+    String osVersion,
+    String device,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      platform,
+      {
+        'iOS': 'iOS',
+        'android': 'Android',
+        'other': 'Unknown',
+      },
+    );
+    return 'Hello,\r\n\r\nI\'m experiencing an issue with importing my local data into my account.\r\n\r\nAccount email: $email\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nApp version: $appVersion ($buildNumber)\r\nPlatform: $_temp0\r\nOS version: $osVersion\r\nDevice: $device';
+  }
 
   @override
   String get settingLogoutTitle => 'Log out';

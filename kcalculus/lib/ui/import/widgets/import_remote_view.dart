@@ -5,9 +5,12 @@ class ImportRemoteView extends StatelessWidget {
   const ImportRemoteView({
     super.key,
     required this.onContactSupport,
+    required this.onLogout,
   });
 
   final void Function() onContactSupport;
+
+  final void Function() onLogout;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,19 @@ class ImportRemoteView extends StatelessWidget {
               onPressed: onContactSupport,
               child: Text(
                 l10n(context).actionContactSupport,
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: onLogout,
+              child: Text(
+                l10n(context).actionLogout,
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
                 ),

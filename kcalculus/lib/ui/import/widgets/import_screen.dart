@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/import/models/import_process.dart';
 import 'package:kcalculus/domain/import/models/import_state.dart';
+import 'package:kcalculus/ui/common/messaging/models/ui_message.dart';
+import 'package:kcalculus/ui/common/messaging/services/ui_message_service.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
@@ -27,7 +29,9 @@ class ImportScreen extends ConsumerWidget with WidgetMessenger {
     ImportCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
   };
 
-  void _contactSupport(BuildContext context, WidgetRef ref) {}
+  void _contactSupport(BuildContext context, WidgetRef ref) {
+    ref.read(importViewModel.notifier).contactSupport();
+  }
 
   void _runImport(BuildContext context, WidgetRef ref) async {
     final confirmed = await showMessageDialog<bool>(
@@ -101,6 +105,18 @@ class ImportScreen extends ConsumerWidget with WidgetMessenger {
     }
   }
 
+  void _logout(BuildContext context, WidgetRef ref) async {
+    final confirmed = await ref.sendUiMessage(
+      UiDialog.confirm(
+        text: l10n(context).messageLogoutConfirmation,
+      ),
+    );
+
+    if (confirmed == true) {
+      await ref.read(importViewModel.notifier).logout();
+    }
+  }
+
   void _showUnknownErrorNotification(
     UiCommand command, {
     required BuildContext context,
@@ -146,6 +162,9 @@ class ImportScreen extends ConsumerWidget with WidgetMessenger {
               ImportProcessRemote _ => ImportRemoteView(
                 onContactSupport: () {
                   _contactSupport(context, ref);
+                },
+                onLogout: () {
+                  _logout(context, ref);
                 },
               ),
               ImportProcessLocalActive process =>

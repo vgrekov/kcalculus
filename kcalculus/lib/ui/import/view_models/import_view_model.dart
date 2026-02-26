@@ -1,12 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/_common/providers.dart';
+import 'package:kcalculus/data/data.dart';
+import 'package:kcalculus/data/email/services/email_service.dart';
 import 'package:kcalculus/domain/import/models/import_record.dart';
 import 'package:kcalculus/domain/import/models/import_state.dart';
 import 'package:kcalculus/domain/import/use_cases/import_use_case.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/import/view_models/import_ui_state.dart';
+import 'package:kcalculus/ui/providers.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
@@ -244,6 +248,71 @@ class ImportViewModel extends AsyncNotifier<ImportUiState> {
     }
 
     _log.finer('ignoreImport() END');
+  }
+
+  Future<bool> contactSupport() async {
+    _log.finer('contactSupport() START');
+
+    try {
+      final user = await ref.read(userRepositoryProvider.future);
+
+      if (user == null) {
+        _log.finer('contactSupport() No user found');
+        return false;
+      }
+
+      final appInfo = await ref.read(appInfoProvider.future);
+      final deviceInfo = await ref.read(deviceInfoProvider.future);
+      final l10n = ref.read(l10nProvider);
+
+      final launched = await ref
+          .read(emailServiceProvider.notifier)
+          .composeEmail(
+            to: l10n.supportEmailAddress,
+            subject: l10n.supportEmailImportSubject(user.email),
+            body: l10n.supportEmailImportBody(
+              user.email,
+              appInfo.version,
+              appInfo.buildNumber,
+              deviceInfo.platform.name,
+              deviceInfo.systemVersion,
+              deviceInfo.model,
+            ),
+          );
+
+      if (launched) {
+        _log.finer('contactSupport() Email client launched');
+      } else {
+        _log.severe('contactSupport() Email client didn\'t launch');
+
+        _commander!.send(ImportCommand.showUnknownErrorNotification);
+      }
+
+      return launched;
+    } catch (error, stackTrace) {
+      _log.severe('Failed to contact support', error, stackTrace);
+
+      _commander!.send(ImportCommand.showUnknownErrorNotification);
+
+      return false;
+    } finally {
+      _log.finer('contactSupport() END');
+    }
+  }
+
+  Future<void> logout() async {
+    _log.finer('logout() START');
+    try {
+      await ref.read(userRepositoryProvider.notifier).logout();
+
+      _log.finer('logout() Logged out');
+    } catch (error, stackTrace) {
+      _log.severe('Failed to log out', error, stackTrace);
+
+      _commander!.send(ImportCommand.showUnknownErrorNotification);
+    } finally {
+      _log.finer('logout() END');
+    }
   }
 }
 

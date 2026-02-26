@@ -1867,6 +1867,12 @@ abstract class AppLocalizations {
   /// **'Log in'**
   String get actionLogin;
 
+  /// No description provided for @actionLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get actionLogout;
+
   /// No description provided for @actionCreateNewAccount.
   ///
   /// In en, this message translates to:
@@ -2256,6 +2262,31 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ignore the import and continue using the app as-is?'**
   String get messageIgnoreImportConfirmation;
+
+  /// No description provided for @supportEmailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'support@kcalculus.app'**
+  String get supportEmailAddress;
+
+  /// No description provided for @supportEmailImportSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'[Import] {email}'**
+  String supportEmailImportSubject(String email);
+
+  /// No description provided for @supportEmailImportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello,\r\n\r\nI\'\'m experiencing an issue with importing my local data into my account.\r\n\r\nAccount email: {email}\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nApp version: {appVersion} ({buildNumber})\r\nPlatform: {platform, select, iOS{iOS} android{Android} other{Unknown}}\r\nOS version: {osVersion}\r\nDevice: {device}'**
+  String supportEmailImportBody(
+    String email,
+    String appVersion,
+    String buildNumber,
+    String platform,
+    String osVersion,
+    String device,
+  );
 
   /// No description provided for @settingLogoutTitle.
   ///
