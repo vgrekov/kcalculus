@@ -1,7 +1,9 @@
-class DuplicationException implements Exception {
-  final dynamic message;
+class DuplicationException<Model> implements Exception {
+  DuplicationException([this.model, this.message]);
 
-  DuplicationException([this.message]);
+  final Model? model;
+
+  final dynamic message;
 
   @override
   String toString() {

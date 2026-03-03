@@ -1072,6 +1072,20 @@ abstract class AppLocalizations {
   /// **'Failed to delete the ingredient'**
   String get messageIngredientDeletionFailure;
 
+  /// No description provided for @messageIngredientChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{ingredientName}{ingredientHasDescription, select, true{\n{ingredientDescription}} other{}}\n{valueFrom} {unitFrom} → {valueTo} {unitTo}'**
+  String messageIngredientChanged(
+    String ingredientName,
+    String ingredientDescription,
+    String ingredientHasDescription,
+    String valueFrom,
+    String unitFrom,
+    String valueTo,
+    String unitTo,
+  );
+
   /// No description provided for @screenAddIngredient.
   ///
   /// In en, this message translates to:
@@ -1143,6 +1157,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nutrition Facts'**
   String get dishWizardPageSummary;
+
+  /// No description provided for @messageIngredientDuplication.
+  ///
+  /// In en, this message translates to:
+  /// **'The following ingredient duplicates another item in this dish:\n\n{name}\n{description}\n\nPlease ensure name and description are unique before saving.'**
+  String messageIngredientDuplication(String name, String description);
 
   /// No description provided for @validationErrorIngredientsCycleDetected.
   ///

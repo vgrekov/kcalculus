@@ -519,6 +519,26 @@ class AppLocalizationsEn extends AppLocalizations {
       'Failed to delete the ingredient';
 
   @override
+  String messageIngredientChanged(
+    String ingredientName,
+    String ingredientDescription,
+    String ingredientHasDescription,
+    String valueFrom,
+    String unitFrom,
+    String valueTo,
+    String unitTo,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      ingredientHasDescription,
+      {
+        'true': '\n$ingredientDescription',
+        'other': '',
+      },
+    );
+    return '$ingredientName$_temp0\n$valueFrom $unitFrom → $valueTo $unitTo';
+  }
+
+  @override
   String get screenAddIngredient => 'New Ingredient';
 
   @override
@@ -557,6 +577,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dishWizardPageSummary => 'Nutrition Facts';
+
+  @override
+  String messageIngredientDuplication(String name, String description) {
+    return 'The following ingredient duplicates another item in this dish:\n\n$name\n$description\n\nPlease ensure name and description are unique before saving.';
+  }
 
   @override
   String get validationErrorIngredientsCycleDetected =>

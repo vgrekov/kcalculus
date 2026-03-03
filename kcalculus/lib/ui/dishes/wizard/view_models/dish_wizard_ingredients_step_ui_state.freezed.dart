@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DishWizardIngredientsStepUiState {
 
- List<Ingredient> get ingredients;
+ List<Ingredient> get ingredients; List<Ingredient> get ingredientsPrev;
 /// Create a copy of DishWizardIngredientsStepUiState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $DishWizardIngredientsStepUiStateCopyWith<DishWizardIngredientsStepUiState> get 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DishWizardIngredientsStepUiState&&const DeepCollectionEquality().equals(other.ingredients, ingredients));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DishWizardIngredientsStepUiState&&const DeepCollectionEquality().equals(other.ingredients, ingredients)&&const DeepCollectionEquality().equals(other.ingredientsPrev, ingredientsPrev));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(ingredients));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(ingredients),const DeepCollectionEquality().hash(ingredientsPrev));
 
 @override
 String toString() {
-  return 'DishWizardIngredientsStepUiState(ingredients: $ingredients)';
+  return 'DishWizardIngredientsStepUiState(ingredients: $ingredients, ingredientsPrev: $ingredientsPrev)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $DishWizardIngredientsStepUiStateCopyWith<$Res>  {
   factory $DishWizardIngredientsStepUiStateCopyWith(DishWizardIngredientsStepUiState value, $Res Function(DishWizardIngredientsStepUiState) _then) = _$DishWizardIngredientsStepUiStateCopyWithImpl;
 @useResult
 $Res call({
- List<Ingredient> ingredients
+ List<Ingredient> ingredients, List<Ingredient> ingredientsPrev
 });
 
 
@@ -62,9 +62,10 @@ class _$DishWizardIngredientsStepUiStateCopyWithImpl<$Res>
 
 /// Create a copy of DishWizardIngredientsStepUiState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ingredients = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ingredients = null,Object? ingredientsPrev = null,}) {
   return _then(_self.copyWith(
 ingredients: null == ingredients ? _self.ingredients : ingredients // ignore: cast_nullable_to_non_nullable
+as List<Ingredient>,ingredientsPrev: null == ingredientsPrev ? _self.ingredientsPrev : ingredientsPrev // ignore: cast_nullable_to_non_nullable
 as List<Ingredient>,
   ));
 }
@@ -147,10 +148,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Ingredient> ingredients)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Ingredient> ingredients,  List<Ingredient> ingredientsPrev)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DishWizardIngredientsStepUiState() when $default != null:
-return $default(_that.ingredients);case _:
+return $default(_that.ingredients,_that.ingredientsPrev);case _:
   return orElse();
 
 }
@@ -168,10 +169,10 @@ return $default(_that.ingredients);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Ingredient> ingredients)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Ingredient> ingredients,  List<Ingredient> ingredientsPrev)  $default,) {final _that = this;
 switch (_that) {
 case _DishWizardIngredientsStepUiState():
-return $default(_that.ingredients);}
+return $default(_that.ingredients,_that.ingredientsPrev);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -185,10 +186,10 @@ return $default(_that.ingredients);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Ingredient> ingredients)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Ingredient> ingredients,  List<Ingredient> ingredientsPrev)?  $default,) {final _that = this;
 switch (_that) {
 case _DishWizardIngredientsStepUiState() when $default != null:
-return $default(_that.ingredients);case _:
+return $default(_that.ingredients,_that.ingredientsPrev);case _:
   return null;
 
 }
@@ -200,7 +201,7 @@ return $default(_that.ingredients);case _:
 
 
 class _DishWizardIngredientsStepUiState extends DishWizardIngredientsStepUiState {
-  const _DishWizardIngredientsStepUiState({final  List<Ingredient> ingredients = const []}): _ingredients = ingredients,super._();
+  const _DishWizardIngredientsStepUiState({final  List<Ingredient> ingredients = const [], final  List<Ingredient> ingredientsPrev = const []}): _ingredients = ingredients,_ingredientsPrev = ingredientsPrev,super._();
   
 
  final  List<Ingredient> _ingredients;
@@ -208,6 +209,13 @@ class _DishWizardIngredientsStepUiState extends DishWizardIngredientsStepUiState
   if (_ingredients is EqualUnmodifiableListView) return _ingredients;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_ingredients);
+}
+
+ final  List<Ingredient> _ingredientsPrev;
+@override@JsonKey() List<Ingredient> get ingredientsPrev {
+  if (_ingredientsPrev is EqualUnmodifiableListView) return _ingredientsPrev;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_ingredientsPrev);
 }
 
 
@@ -221,16 +229,16 @@ _$DishWizardIngredientsStepUiStateCopyWith<_DishWizardIngredientsStepUiState> ge
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DishWizardIngredientsStepUiState&&const DeepCollectionEquality().equals(other._ingredients, _ingredients));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DishWizardIngredientsStepUiState&&const DeepCollectionEquality().equals(other._ingredients, _ingredients)&&const DeepCollectionEquality().equals(other._ingredientsPrev, _ingredientsPrev));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_ingredients));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_ingredients),const DeepCollectionEquality().hash(_ingredientsPrev));
 
 @override
 String toString() {
-  return 'DishWizardIngredientsStepUiState(ingredients: $ingredients)';
+  return 'DishWizardIngredientsStepUiState(ingredients: $ingredients, ingredientsPrev: $ingredientsPrev)';
 }
 
 
@@ -241,7 +249,7 @@ abstract mixin class _$DishWizardIngredientsStepUiStateCopyWith<$Res> implements
   factory _$DishWizardIngredientsStepUiStateCopyWith(_DishWizardIngredientsStepUiState value, $Res Function(_DishWizardIngredientsStepUiState) _then) = __$DishWizardIngredientsStepUiStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<Ingredient> ingredients
+ List<Ingredient> ingredients, List<Ingredient> ingredientsPrev
 });
 
 
@@ -258,9 +266,10 @@ class __$DishWizardIngredientsStepUiStateCopyWithImpl<$Res>
 
 /// Create a copy of DishWizardIngredientsStepUiState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ingredients = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ingredients = null,Object? ingredientsPrev = null,}) {
   return _then(_DishWizardIngredientsStepUiState(
 ingredients: null == ingredients ? _self._ingredients : ingredients // ignore: cast_nullable_to_non_nullable
+as List<Ingredient>,ingredientsPrev: null == ingredientsPrev ? _self._ingredientsPrev : ingredientsPrev // ignore: cast_nullable_to_non_nullable
 as List<Ingredient>,
   ));
 }

@@ -1,6 +1,11 @@
 import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 
 abstract interface class Edible {
+  static (String, String) uniqueFields(Edible edible) => (
+    edible.name.trim().toLowerCase(),
+    edible.description.trim().toLowerCase(),
+  );
+
   String? get id;
 
   String get name;

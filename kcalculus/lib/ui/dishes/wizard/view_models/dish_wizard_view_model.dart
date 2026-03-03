@@ -3,6 +3,8 @@ import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/dish/exceptions/ingredients_cycle_exception.dart';
 import 'package:kcalculus/domain/dish/models/dish.dart';
+import 'package:kcalculus/domain/dish/models/ingredient.dart';
+import 'package:kcalculus/domain/edible/models/edible.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_step_view_model.dart';
@@ -16,7 +18,8 @@ final Logger _log = Logger('DishWizardViewModel');
 
 enum DishWizardCommand {
   showUnknownErrorNotification,
-  showEdibleAlreadyExistsDialog,
+  showDishDuplicationDialog,
+  showIngredientDuplicationDialog,
   showIngredientsCycleDetectedNotification,
   goToInvalidStep,
   confirmDiscardChanges,
@@ -57,11 +60,14 @@ class DishWizardViewModel
       _log.finer('saveDish() Validating UI state');
 
       final validationResult = state.validate();
-      final invalidStep =
-          validationResult.entries.where((e) => !e.value).firstOrNull?.key;
+      final invalidStep = validationResult.entries
+          .where((e) => !e.value)
+          .firstOrNull
+          ?.key;
       if (invalidStep != null) {
         _log.finer(
-            'saveDish() Validation failed for step: ${invalidStep.name}');
+          'saveDish() Validation failed for step: ${invalidStep.name}',
+        );
 
         _commander!.send<DishWizardStep, void>(
           DishWizardCommand.goToInvalidStep,
@@ -70,9 +76,11 @@ class DishWizardViewModel
         return;
       }
 
-      _log.finer('saveDish() Validation success');
-
       var dish = state.toDish();
+
+      dish.checkForDuplication();
+
+      _log.finer('saveDish() Validation success');
 
       _log.finest('saveDish() Saving dish: ${dish.toJson()}');
 
@@ -83,13 +91,23 @@ class DishWizardViewModel
       _log.eventDishSave();
 
       _commander!.send(DishWizardCommand.exit);
-    } on DuplicationException {
-      _log.finer('Edible already exists');
+    } on DuplicationException catch (error) {
+      if (error.model is Ingredient) {
+        _log.finer('Ingredient duplication');
 
-      _commander!.send(DishWizardCommand.showEdibleAlreadyExistsDialog);
+        _commander!.send<Edible, void>(
+          DishWizardCommand.showIngredientDuplicationDialog,
+          payload: (error.model as Ingredient).edible,
+        );
+      } else {
+        _log.finer('Edible already exists');
+
+        _commander!.send(DishWizardCommand.showDishDuplicationDialog);
+      }
     } on IngredientsCycleException {
-      _commander!
-          .send(DishWizardCommand.showIngredientsCycleDetectedNotification);
+      _commander!.send(
+        DishWizardCommand.showIngredientsCycleDetectedNotification,
+      );
     } catch (error, stackTrace) {
       _log.severe('Failed to save dish', error, stackTrace);
 
@@ -120,5 +138,5 @@ class DishWizardViewModel
 
 final dishWizardViewModel = NotifierProvider.autoDispose
     .family<DishWizardViewModel, DishWizardUiState, Dish?>(
-  DishWizardViewModel.new,
-);
+      DishWizardViewModel.new,
+    );

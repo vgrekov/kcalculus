@@ -3,6 +3,7 @@ import 'package:kcalculus/data/auth/utils/auth.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/edible/services/edible_service.dart';
 import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
 
@@ -27,6 +28,17 @@ class FirestoreFoodRepository extends FoodRepository {
   }) => Auth.guard(
     ref,
     (user) async {
+      final alreadyExists = await _edibleService.exists(
+        food.name,
+        food.description,
+        userId: user.uid,
+        exceptWithId: food.id,
+      );
+
+      if (alreadyExists) {
+        throw DuplicationException(food);
+      }
+
       final id = await _edibleService.save(
         EdibleFirestoreModel.fromDomainFood(food, user.uid),
         skipAudit: skipAudit,

@@ -6,7 +6,6 @@ import 'package:kcalculus/data/storage/local/edible/services/edible_service.dart
 import 'package:kcalculus/data/storage/local/food/converters/food_converter.dart';
 import 'package:kcalculus/data/storage/local/food/services/food_service.dart';
 import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
-import 'package:kcalculus/domain/edible/models/edible.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/utils/ids.dart';
 import 'package:sqflite/sqflite.dart';
@@ -106,18 +105,18 @@ class LocalFoodDao extends Notifier<void> {
   }
 
   Future<void> _checkForDuplication(
-    Edible model, {
+    Food food, {
     Transaction? txn,
   }) async {
     final alreadyExists = await _edibleDao.exists(
-      model.name,
-      model.description,
-      exceptWithId: model.id,
+      food.name,
+      food.description,
+      exceptWithId: food.id,
       txn: txn,
     );
 
     if (alreadyExists) {
-      throw DuplicationException();
+      throw DuplicationException(food);
     }
   }
 }

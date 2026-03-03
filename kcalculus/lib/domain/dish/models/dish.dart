@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/_common/models/units.dart';
 import 'package:kcalculus/domain/dish/models/ingredient.dart';
 import 'package:kcalculus/domain/edible/models/edible.dart';
@@ -56,5 +57,17 @@ sealed class Dish with _$Dish implements Edible {
       description: description,
       nutritionFacts: getNutritionFacts(),
     );
+  }
+
+  void checkForDuplication() {
+    final edibleKeys = {
+      Edible.uniqueFields(this),
+    };
+
+    for (final ingredient in ingredients) {
+      if (!edibleKeys.add(Edible.uniqueFields(ingredient.edible))) {
+        throw DuplicationException(ingredient);
+      }
+    }
   }
 }

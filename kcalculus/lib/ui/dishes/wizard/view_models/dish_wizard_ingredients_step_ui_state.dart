@@ -15,6 +15,7 @@ sealed class DishWizardIngredientsStepUiState
 
   const factory DishWizardIngredientsStepUiState({
     @Default([]) List<Ingredient> ingredients,
+    @Default([]) List<Ingredient> ingredientsPrev,
   }) = _DishWizardIngredientsStepUiState;
 
   factory DishWizardIngredientsStepUiState.fromDish(Dish dish) {

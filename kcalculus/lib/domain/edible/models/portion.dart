@@ -33,4 +33,62 @@ mixin Portion {
 
     return null;
   }
+
+  Amount add(Amount amount) {
+    final thisNf = edible
+        .getNutritionFacts()
+        .where(
+          (nf) => nf.amount.unit.measure == this.amount.unit.measure,
+        )
+        .firstOrNull;
+
+    final otherNf = edible
+        .getNutritionFacts()
+        .where((nf) => nf.amount.unit.measure == amount.unit.measure)
+        .firstOrNull;
+
+    if (thisNf == null || otherNf == null) {
+      throw ArgumentError('Unsupported amount');
+    }
+
+    final convertedAmount = otherNf.convertAmount(
+      amount,
+      targetNutritionFacts: thisNf,
+    );
+
+    if (convertedAmount == null) {
+      throw ArgumentError('Unsupported amount');
+    }
+
+    return (this.amount + convertedAmount).convert(this.amount.unit);
+  }
+
+  Amount remove(Amount amount) {
+    final thisNf = edible
+        .getNutritionFacts()
+        .where(
+          (nf) => nf.amount.unit.measure == this.amount.unit.measure,
+        )
+        .firstOrNull;
+
+    final otherNf = edible
+        .getNutritionFacts()
+        .where((nf) => nf.amount.unit.measure == amount.unit.measure)
+        .firstOrNull;
+
+    if (thisNf == null || otherNf == null) {
+      throw ArgumentError('Unsupported amount');
+    }
+
+    final convertedAmount = otherNf.convertAmount(
+      amount,
+      targetNutritionFacts: thisNf,
+    );
+
+    if (convertedAmount == null || this.amount < convertedAmount) {
+      throw ArgumentError('Unsupported amount');
+    }
+
+    return (this.amount - convertedAmount).convert(this.amount.unit);
+  }
 }

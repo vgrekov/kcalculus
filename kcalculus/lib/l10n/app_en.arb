@@ -219,6 +219,32 @@
     "messageIngredientDeletionConfirmation": "Delete this ingredient?",
     "messageIngredientDeletionSuccess": "Ingredient deleted",
     "messageIngredientDeletionFailure": "Failed to delete the ingredient",
+    "messageIngredientChanged": "{ingredientName}{ingredientHasDescription, select, true{\n{ingredientDescription}} other{}}\n{valueFrom} {unitFrom} → {valueTo} {unitTo}",
+    "@messageIngredientChanged": {
+        "placeholders": {
+            "ingredientName": {
+                "type": "String"
+            },
+            "ingredientDescription": {
+                "type": "String"
+            },
+            "ingredientHasDescription": {
+                "type": "String"
+            },
+            "valueFrom": {
+                "type": "String"
+            },
+            "unitFrom": {
+                "type": "String"
+            },
+            "valueTo": {
+                "type": "String"
+            },
+            "unitTo": {
+                "type": "String"
+            }
+        }
+    },
     "screenAddIngredient": "New Ingredient",
     "screenEditIngredient": "Edit Ingredient",
     "dishWizardPageMain": "Main",
@@ -238,6 +264,17 @@
     "validationErrorTotalMustBeHeavierThanContainer": "Must be heavier than container",
     "messageDishSelectMeasurementOptionError": "Please select at least one measurement option",
     "dishWizardPageSummary": "Nutrition Facts",
+    "messageIngredientDuplication": "The following ingredient duplicates another item in this dish:\n\n{name}\n{description}\n\nPlease ensure name and description are unique before saving.",
+    "@messageIngredientDuplication": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "description": {
+                "type": "String"
+            }
+        }
+    },
     "validationErrorIngredientsCycleDetected": "Sorry, this would create a dish-ingredient cycle.",
     "titleIngredients": "Ingredients",
     "messageConfirmEatenEdibleEdit": "This was already eaten, so editing it may affect meals history.\nDo you want to make a copy instead?",

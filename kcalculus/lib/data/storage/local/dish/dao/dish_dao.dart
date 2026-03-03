@@ -12,6 +12,7 @@ import 'package:kcalculus/data/storage/local/edible/services/edible_service.dart
 import 'package:kcalculus/data/storage/local/food/dao/food_dao.dart';
 import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/dish/exceptions/ingredients_cycle_exception.dart';
+import 'package:kcalculus/domain/dish/exceptions/invalid_ingredient_exception.dart';
 import 'package:kcalculus/domain/dish/models/dish.dart';
 import 'package:kcalculus/domain/edible/models/edible.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
@@ -173,62 +174,59 @@ class LocalDishDao extends Notifier<void> {
 
     await _checkForIngredientsCycle(dish, txn: txn);
 
-    String dishId = id ?? dish.id ?? generateId();
+    final ingredients = [...dish.ingredients];
 
-    final ingredientsByDish = <String, List<IngredientDbModel>>{};
+    for (var i = 0; i < ingredients.length; i++) {
+      final ingredient = ingredients[i];
 
-    final ediblesToSave = Queue<(Edible, String)>();
+      final edible = ingredient.edible;
 
-    ediblesToSave.add((dish, dishId));
+      if (edible.id == null) {
+        if (edible is Food) {
+          try {
+            final edibleId = await _foodDao.save(
+              edible,
+              txn: txn,
+              skipAudit: skipAudit,
+            );
 
-    while (ediblesToSave.isNotEmpty) {
-      final item = ediblesToSave.removeFirst();
-      final edible = item.$1;
-      final edibleId = item.$2;
-
-      if (edible is Food) {
-        await _foodDao.save(
-          edible,
-          id: edibleId,
-          txn: txn,
-          skipAudit: skipAudit,
-        );
-      } else if (edible is Dish) {
-        await _saveDish(
-          edible,
-          edibleId,
-          txn: txn,
-          skipAudit: skipAudit,
-        );
-
-        for (final item in edible.ingredients.indexed) {
-          final ingredient = item.$2;
-          final index = item.$1;
-
-          final ingredientEdibleId = ingredient.edible.id ?? generateId();
-
-          ingredientsByDish[edibleId] = (ingredientsByDish[edibleId] ?? [])
-            ..add(_ingredientConverter.toDbModel(
-              ingredient,
-              edibleId,
-              ingredientEdibleId,
-              index,
-            ));
-
-          if (ingredient.edible.id == null) {
-            ediblesToSave.add((ingredient.edible, ingredientEdibleId));
+            ingredients[i] = ingredient.copyWith(
+              edible: edible.copyWith(id: edibleId),
+            );
+          } on DuplicationException {
+            throw DuplicationException(ingredient);
           }
+        } else {
+          throw InvalidIngredientException('Non food unsaved ingedient');
         }
       }
     }
 
-    for (final dishId in ingredientsByDish.keys) {
-      await _ingredientService.saveForDish(
-        ingredientsByDish[dishId]!,
-        dishId,
-        txn: txn,
-      );
-    }
+    dish = dish.copyWith(ingredients: ingredients);
+
+    final dishId = id ?? dish.id ?? generateId();
+
+    await _saveDish(
+      dish,
+      dishId,
+      txn: txn,
+      skipAudit: skipAudit,
+    );
+
+    await _ingredientService.saveForDish(
+      dish.ingredients.indexed
+          .map(
+            (pair) => _ingredientConverter.toDbModel(
+              pair.$2,
+              dishId,
+              pair.$2.edible.id,
+              pair.$1,
+            ),
+          )
+          .toList(),
+      dishId,
+      txn: txn,
+    );
 
     return dishId;
   }
@@ -245,8 +243,11 @@ class LocalDishDao extends Notifier<void> {
 
     if (ingredientDishes.isEmpty) return;
 
-    final hierarchies = await Future.wait(ingredientDishes
-        .map((e) => _ingredientService.getHierarchyByDish(e.id!, txn: txn)));
+    final hierarchies = await Future.wait(
+      ingredientDishes.map(
+        (e) => _ingredientService.getHierarchyByDish(e.id!, txn: txn),
+      ),
+    );
     final fullHierarchy = hierarchies.reduce((h1, h2) => h1.union(h2));
 
     if (fullHierarchy.contains(model.id!)) {
@@ -255,18 +256,18 @@ class LocalDishDao extends Notifier<void> {
   }
 
   Future<void> _checkForDuplication(
-    Edible model, {
+    Dish dish, {
     Transaction? txn,
   }) async {
     final alreadyExists = await _edibleDao.exists(
-      model.name,
-      model.description,
-      exceptWithId: model.id,
+      dish.name,
+      dish.description,
+      exceptWithId: dish.id,
       txn: txn,
     );
 
     if (alreadyExists) {
-      throw DuplicationException();
+      throw DuplicationException(dish);
     }
   }
 

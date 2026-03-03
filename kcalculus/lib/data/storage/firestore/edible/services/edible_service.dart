@@ -9,7 +9,6 @@ import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.d
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_preview_firestore_model.dart';
-import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/import/exceptions/import_unsaved_model_exception.dart';
 
@@ -231,8 +230,6 @@ class FirestoreEdibleService extends Notifier<void> {
     bool skipAudit = false,
     Transaction? txn,
   }) async {
-    await _checkForDuplication(model);
-
     final executor = FirestoreExecutor(txn);
 
     final docRef = _db
@@ -272,19 +269,6 @@ class FirestoreEdibleService extends Notifier<void> {
       docRef,
       model.toJson(),
     );
-  }
-
-  Future<void> _checkForDuplication(EdibleFirestoreModel model) async {
-    final alreadyExists = await exists(
-      model.name,
-      model.description,
-      userId: model.ownerId,
-      exceptWithId: model.id,
-    );
-
-    if (alreadyExists) {
-      throw DuplicationException();
-    }
   }
 
   Future<bool> markEaten(
