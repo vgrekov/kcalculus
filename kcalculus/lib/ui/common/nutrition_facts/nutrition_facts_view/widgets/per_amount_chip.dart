@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
 
@@ -21,7 +21,7 @@ class PerAmountChip extends StatelessWidget {
       label: Text(
         l10n(context).statWithUnit(
           nb.formatDouble(context, amount.value),
-          amount.unit.localName(context),
+          amount.unit.localName(l10n(context)),
         ),
         style: Theme.of(context).textTheme.headlineSmall!.copyWith(
               color: Theme.of(context).colorScheme.onSurface,

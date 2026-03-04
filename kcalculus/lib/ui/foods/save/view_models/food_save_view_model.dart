@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/exceptions/duplication_exception.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/foods/save/view_models/food_save_ui_state.dart';
@@ -68,7 +68,7 @@ class FoodSaveViewModel
 
       _log.finest('saveFood() Saving food: ${food.toJson()}');
 
-      food = await ref.read(foodRepositoryProvider).save(food);
+      food = await ref.read(foodRepositoryProvider.notifier).save(food);
 
       _log.info('Food saved');
       _log.finest('saveFood() Saved food ID: ${food.id}');

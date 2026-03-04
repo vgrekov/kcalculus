@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/exceptions/invalid_email_exception.dart';
-import 'package:kcalculus/data/exceptions/user_not_found_exception.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/data/auth/auth.dart';
+import 'package:kcalculus/domain/auth/exceptions/invalid_email_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/user_not_found_exception.dart';
 import 'package:kcalculus/ui/auth/password_reset/view_models/password_reset_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';

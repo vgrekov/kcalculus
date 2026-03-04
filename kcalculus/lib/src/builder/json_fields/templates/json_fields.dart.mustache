@@ -1,0 +1,9 @@
+part of '{{lib_name}}';
+
+class {{class_name}}JsonFields {
+  const {{class_name}}JsonFields._();
+
+  {{#fields}}
+  static const {{name}} = '{{json_name}}';
+  {{/fields}}
+}

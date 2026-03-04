@@ -62,7 +62,7 @@ import 'app_localizations_en.dart';
 /// property.
 abstract class AppLocalizations {
   AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -85,11 +85,11 @@ abstract class AppLocalizations {
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('en')];
@@ -1072,6 +1072,20 @@ abstract class AppLocalizations {
   /// **'Failed to delete the ingredient'**
   String get messageIngredientDeletionFailure;
 
+  /// No description provided for @messageIngredientChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{ingredientName}{ingredientHasDescription, select, true{\n{ingredientDescription}} other{}}\n{valueFrom} {unitFrom} → {valueTo} {unitTo}'**
+  String messageIngredientChanged(
+    String ingredientName,
+    String ingredientDescription,
+    String ingredientHasDescription,
+    String valueFrom,
+    String unitFrom,
+    String valueTo,
+    String unitTo,
+  );
+
   /// No description provided for @screenAddIngredient.
   ///
   /// In en, this message translates to:
@@ -1143,6 +1157,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nutrition Facts'**
   String get dishWizardPageSummary;
+
+  /// No description provided for @messageIngredientDuplication.
+  ///
+  /// In en, this message translates to:
+  /// **'The following ingredient duplicates another item in this dish:\n\n{name}\n{description}\n\nPlease ensure name and description are unique before saving.'**
+  String messageIngredientDuplication(String name, String description);
 
   /// No description provided for @validationErrorIngredientsCycleDetected.
   ///
@@ -1628,8 +1648,14 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **' - {part} ({partValue} {partUnit}) > {whole} ({wholeValue} {wholeUnit})'**
-  String partExceedsWhole(String part, String partUnit, String partValue,
-      String whole, String wholeUnit, String wholeValue);
+  String partExceedsWhole(
+    String part,
+    String partUnit,
+    String partValue,
+    String whole,
+    String wholeUnit,
+    String wholeValue,
+  );
 
   /// No description provided for @appVersion.
   ///
@@ -1827,8 +1853,14 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{min}–{max}{upper, select, true{ Ⓐ} other{}}{lower, select, true{ ⓐ} other{}}{digits, select, true{ 0–9} other{}}{special, select, true{ !@#\$%^&*} other{}}'**
-  String hintPassword(int min, int max, String upper, String lower,
-      String digits, String special);
+  String hintPassword(
+    int min,
+    int max,
+    String upper,
+    String lower,
+    String digits,
+    String special,
+  );
 
   /// No description provided for @validationErrorPasswordRequired.
   ///
@@ -1840,14 +1872,26 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Password must:\n• Be {min}–{max} characters long\n• Use only letters, digits, and !@#\$%^&*{upper, select, true{\n• Include at least one uppercase letter} other{}}{lower, select, true{\n• Include at least one lowercase letter} other{}}{digits, select, true{\n• Include at least one digit} other{}}{special, select, true{\n• Include at least one special character} other{}}'**
-  String validationErrorPasswordInvalid(int min, int max, String upper,
-      String lower, String digits, String special);
+  String validationErrorPasswordInvalid(
+    int min,
+    int max,
+    String upper,
+    String lower,
+    String digits,
+    String special,
+  );
 
   /// No description provided for @actionLogin.
   ///
   /// In en, this message translates to:
   /// **'Log in'**
   String get actionLogin;
+
+  /// No description provided for @actionLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get actionLogout;
 
   /// No description provided for @actionCreateNewAccount.
   ///
@@ -2032,8 +2076,285 @@ abstract class AppLocalizations {
   /// No description provided for @mealEatenAt.
   ///
   /// In en, this message translates to:
-  /// **'Last eaten at {time}'**
+  /// **'Eaten at {time}'**
   String mealEatenAt(String time);
+
+  /// No description provided for @tagRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'RECENT'**
+  String get tagRecent;
+
+  /// No description provided for @tagDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETED'**
+  String get tagDeleted;
+
+  /// No description provided for @screenImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get screenImport;
+
+  /// No description provided for @importBookedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import local data to your account?'**
+  String get importBookedTitle;
+
+  /// No description provided for @importBookedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Data stored on this device can be imported to your account.\n\nImporting will replace any data currently in your account with the data from this device.'**
+  String get importBookedMessage;
+
+  /// No description provided for @messageImportConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently replace the data in your account with the data from this device.\n\nYour current account data will be lost. This action cannot be undone.'**
+  String get messageImportConfirmation;
+
+  /// No description provided for @actionImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import and replace'**
+  String get actionImport;
+
+  /// No description provided for @actionDeclineImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep account data'**
+  String get actionDeclineImport;
+
+  /// No description provided for @importRunningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing data...'**
+  String get importRunningTitle;
+
+  /// No description provided for @importRunningMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Data from this device is being imported to your account.\nThis may take a few moments.\n\nPlease keep the app open until the import is complete.'**
+  String get importRunningMessage;
+
+  /// No description provided for @importStuckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import couldn\'\'t be completed'**
+  String get importStuckTitle;
+
+  /// No description provided for @importStuckMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'An import from this device is still marked as in progress but is no longer running.\n\nPlease contact support for assistance.'**
+  String get importStuckMessage;
+
+  /// No description provided for @actionContactSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact support'**
+  String get actionContactSupport;
+
+  /// No description provided for @importRemoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import on another device'**
+  String get importRemoteTitle;
+
+  /// No description provided for @importRemoteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Another device is importing data to your account.\n\nPlease complete the import on that device, or contact support if you cannot access it.'**
+  String get importRemoteMessage;
+
+  /// No description provided for @importSucceededTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import complete'**
+  String get importSucceededTitle;
+
+  /// No description provided for @importSucceededMessageNoReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Data from this device has been imported to your account.'**
+  String get importSucceededMessageNoReport;
+
+  /// No description provided for @importSucceededMessageWithReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Data from this device has been imported to your account.\nSee the report below for details.'**
+  String get importSucceededMessageWithReport;
+
+  /// No description provided for @actionDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get actionDone;
+
+  /// No description provided for @labelFoods.
+  ///
+  /// In en, this message translates to:
+  /// **'Foods'**
+  String get labelFoods;
+
+  /// No description provided for @labelDishes.
+  ///
+  /// In en, this message translates to:
+  /// **'Dishes'**
+  String get labelDishes;
+
+  /// No description provided for @labelMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Meals'**
+  String get labelMeals;
+
+  /// No description provided for @labelContainers.
+  ///
+  /// In en, this message translates to:
+  /// **'Containers'**
+  String get labelContainers;
+
+  /// No description provided for @labelDefaultNutrients.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Nutrients'**
+  String get labelDefaultNutrients;
+
+  /// No description provided for @labelNutrientGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrient Goals'**
+  String get labelNutrientGoals;
+
+  /// No description provided for @labelSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get labelSettings;
+
+  /// No description provided for @importFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed'**
+  String get importFailedTitle;
+
+  /// No description provided for @importFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The import did not complete successfully.\nSome data may have already been applied to your account, and your account data may now be incomplete.'**
+  String get importFailedMessage;
+
+  /// No description provided for @actionRetryImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry import'**
+  String get actionRetryImport;
+
+  /// No description provided for @messageRetryImportConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Erase your current account data and restart the import?'**
+  String get messageRetryImportConfirmation;
+
+  /// No description provided for @actionRevertImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset account data'**
+  String get actionRevertImport;
+
+  /// No description provided for @messageRevertImportConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Erase your current account data?'**
+  String get messageRevertImportConfirmation;
+
+  /// No description provided for @actionIgnoreImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep current data'**
+  String get actionIgnoreImport;
+
+  /// No description provided for @messageIgnoreImportConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Ignore the import and continue using the app as-is?'**
+  String get messageIgnoreImportConfirmation;
+
+  /// No description provided for @supportEmailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'support@kcalculus.app'**
+  String get supportEmailAddress;
+
+  /// No description provided for @supportEmailImportSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'[Import] {email}'**
+  String supportEmailImportSubject(String email);
+
+  /// No description provided for @supportEmailImportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello,\r\n\r\nI\'\'m experiencing an issue with importing my local data into my account.\r\n\r\nAccount email: {email}\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nApp version: {appVersion} ({buildNumber})\r\nPlatform: {platform, select, iOS{iOS} android{Android} other{Unknown}}\r\nOS version: {osVersion}\r\nDevice: {device}'**
+  String supportEmailImportBody(
+    String email,
+    String appVersion,
+    String buildNumber,
+    String platform,
+    String osVersion,
+    String device,
+  );
+
+  /// No description provided for @settingLogoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get settingLogoutTitle;
+
+  /// No description provided for @settingLogoutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of your account on this device'**
+  String get settingLogoutSubtitle;
+
+  /// No description provided for @settingDeleteAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get settingDeleteAccountTitle;
+
+  /// No description provided for @settingDeleteAccountSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete your account and all associated data'**
+  String get settingDeleteAccountSubtitle;
+
+  /// No description provided for @messageLoginToDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'For security reasons, you must log in again before deleting your account.'**
+  String get messageLoginToDeleteAccount;
+
+  /// No description provided for @messageDeleteAccountConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account\n{email}\npermanently?\n\nThis action cannot be undone.\nAll your data, including your account information and associated content, will be permanently deleted.\n\nIf you proceed, you will lose access to this account.'**
+  String messageDeleteAccountConfirmation(String email);
+
+  /// No description provided for @actionDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get actionDeleteAccount;
+
+  /// No description provided for @messageAccountDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Account {email} has been permanently deleted.'**
+  String messageAccountDeleted(String email);
 }
 
 class _AppLocalizationsDelegate
@@ -2061,8 +2382,9 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
 }

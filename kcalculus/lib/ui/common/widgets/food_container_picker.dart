@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/ui/food_containers/search/widgets/food_container_search_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
@@ -45,7 +45,7 @@ class FoodContainerPicker extends StatelessWidget {
             : l10n(context).labelFoodContainerSelected(
                 container!.name,
                 nb.formatDouble(context, container!.weight.value),
-                container!.weight.unit.localName(context),
+                container!.weight.unit.localName(l10n(context)),
               ),
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
               color: Theme.of(context).colorScheme.onSecondaryContainer,

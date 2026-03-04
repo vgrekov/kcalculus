@@ -1,0 +1,4 @@
+enum EdibleType {
+  food,
+  dish;
+}

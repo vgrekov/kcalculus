@@ -1,11 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/exceptions/invalid_credentials_exception.dart';
-import 'package:kcalculus/data/exceptions/invalid_email_exception.dart';
-import 'package:kcalculus/data/exceptions/too_many_requests_exception.dart';
-import 'package:kcalculus/data/exceptions/unverified_email_exception.dart';
-import 'package:kcalculus/data/exceptions/user_disabled_exception.dart';
-import 'package:kcalculus/data/exceptions/user_not_found_exception.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/data/auth/auth.dart';
+import 'package:kcalculus/domain/_common/exceptions/too_many_requests_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/invalid_credentials_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/invalid_email_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/unverified_email_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/user_disabled_exception.dart';
+import 'package:kcalculus/domain/auth/exceptions/user_not_found_exception.dart';
+import 'package:kcalculus/domain/auth/models/user.dart';
 import 'package:kcalculus/ui/auth/login/view_models/login_ui_state.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
@@ -54,7 +55,9 @@ class LoginViewModel extends AutoDisposeNotifier<LoginUiState> {
     try {
       _log.finest('login() Logging in: ${state.email}');
 
-      await ref.read(userRepositoryProvider.notifier).login(
+      final user = await ref
+          .read(userRepositoryProvider.notifier)
+          .login(
             state.email,
             state.password,
           );
@@ -62,7 +65,10 @@ class LoginViewModel extends AutoDisposeNotifier<LoginUiState> {
       _log.info('Login');
       _log.finest('login() Logged in: ${state.email}');
 
-      _commander!.send(LoginCommand.exit);
+      _commander!.send<User, void>(
+        LoginCommand.exit,
+        payload: user,
+      );
     } on InvalidEmailException {
       _log.finer('login() Invalid email');
 
@@ -117,11 +123,12 @@ class LoginViewModel extends AutoDisposeNotifier<LoginUiState> {
         'resendVerificationEmail() Resending verification instructions for: ${state.email}',
       );
 
-      final sent =
-          await ref.read(userRepositoryProvider.notifier).sendEmailVerification(
-                state.email,
-                state.password,
-              );
+      final sent = await ref
+          .read(userRepositoryProvider.notifier)
+          .sendEmailVerification(
+            state.email,
+            state.password,
+          );
 
       if (sent) {
         _log.info('Verification email resent');
@@ -173,5 +180,5 @@ class LoginViewModel extends AutoDisposeNotifier<LoginUiState> {
 
 final loginViewModel =
     NotifierProvider.autoDispose<LoginViewModel, LoginUiState>(
-  LoginViewModel.new,
-);
+      LoginViewModel.new,
+    );

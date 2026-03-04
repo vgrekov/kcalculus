@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
-import 'package:kcalculus/domain/models/user.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:kcalculus/domain/_common/models/app_info.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
+import 'package:kcalculus/domain/auth/models/user.dart';
 
 part 'settings_ui_state.freezed.dart';
 
@@ -10,6 +10,6 @@ sealed class SettingsUiState with _$SettingsUiState {
   const factory SettingsUiState({
     required AppSettings settings,
     User? user,
-    PackageInfo? packageInfo,
+    AppInfo? appInfo,
   }) = _SettingsUiState;
 }

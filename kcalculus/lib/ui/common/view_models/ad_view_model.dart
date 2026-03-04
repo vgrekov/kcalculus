@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/data/ad/ad.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
 
@@ -12,7 +12,7 @@ class AdViewModel extends Notifier<void> {
 
   Future<InterstitialAd?> loadInterstitialAd() async {
     try {
-      final adRepository = await ref.read(adRepositoryProvider.future);
+      final adRepository = ref.read(adRepositoryProvider.notifier);
 
       final ad = await adRepository.loadInterstitialAd();
 

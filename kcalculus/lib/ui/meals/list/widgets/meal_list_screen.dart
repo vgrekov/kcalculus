@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
 import 'package:kcalculus/ui/common/nutrient_stats/widgets/nutrient_stats.dart';
 import 'package:kcalculus/ui/common/nutrient_stats/widgets/nutrient_stats_with_goal.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
@@ -37,13 +37,14 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
     MealListCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
   };
 
-  Future<void> _refresh() {
+  Future<List<Meal>> _refresh() {
     return ref.read(mealListViewModel.notifier).refresh();
   }
 
   void _addMeal() async {
-    final nutrientDefaults =
-        await ref.read(mealListViewModel.notifier).getNutrientDefaults();
+    final nutrientDefaults = await ref
+        .read(mealListViewModel.notifier)
+        .getNutrientDefaults();
 
     if (mounted) {
       final meal = await Navigator.of(context).push<Meal>(
@@ -60,8 +61,9 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
   }
 
   void _selectMeal(Meal meal) async {
-    final nutrientDefaults =
-        await ref.read(mealListViewModel.notifier).getNutrientDefaults();
+    final nutrientDefaults = await ref
+        .read(mealListViewModel.notifier)
+        .getNutrientDefaults();
 
     if (mounted) {
       final savedMeal = await Navigator.of(context).push<Meal>(
@@ -166,14 +168,14 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
               Text(
                 l10n(context).screenMeals,
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
               Text(
                 dt.formatDateLocal(context, uiState.date),
                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),
@@ -196,7 +198,6 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
             Expanded(
               child: MealList(
                 items: uiState.data,
-                itemsLoader: uiState.dataLoader,
                 onRefresh: _refresh,
                 onSelectMeal: _selectMeal,
                 onDeleteMeal: _deleteMeal,
@@ -205,8 +206,8 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
           ],
         ),
         floatingActionButton: Awaited(
-          future: uiState.dataLoader,
-          data: (_, __) => FloatingActionButton(
+          future: uiState.data,
+          data: (_, _) => FloatingActionButton(
             onPressed: _addMeal,
             shape: const CircleBorder(),
             child: const Icon(Icons.add),
@@ -219,10 +220,14 @@ class _MealListScreenState extends ConsumerState<MealListScreen>
             mainAxisSize: MainAxisSize.min,
             children: [
               Awaited(
-                future: uiState.dataLoader,
-                data: (_, __) {
-                  final nutrientData = uiState.data
-                      .map((m) => m.getNutrientData() ?? NutrientData.empty())
+                future: uiState.data,
+                data: (_, data) {
+                  final nutrientData = (data ?? [])
+                      .map(
+                        (m) =>
+                            m.getNutritionFacts()?.nutrientData ??
+                            NutrientData.empty(),
+                      )
                       .fold(
                         NutrientData.empty(),
                         (nd1, nd2) => nd1 + nd2,

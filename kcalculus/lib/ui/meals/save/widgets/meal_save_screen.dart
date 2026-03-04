@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/portion.dart';
+import 'package:kcalculus/domain/edible/models/portion.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/portion_form/widgets/portion_form.dart';
 import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';

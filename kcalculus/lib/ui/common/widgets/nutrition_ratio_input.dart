@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
@@ -55,7 +55,7 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
             widget.onToggleEnabled(widget.measure);
           },
           title: Text(
-            widget.measure.localName(context),
+            widget.measure.localName(l10n(context)),
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
@@ -97,7 +97,7 @@ class _NutritionRatioInputState extends State<NutritionRatioInput> {
                             nb.formatDouble(
                                 context, widget.estimatedTotalAmount!.value),
                             widget.estimatedTotalAmount!.unit
-                                .localName(context),
+                                .localName(l10n(context)),
                           ),
                           style:
                               Theme.of(context).textTheme.labelMedium!.copyWith(

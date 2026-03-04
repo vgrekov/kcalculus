@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/edible.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/portion.dart';
+import 'package:kcalculus/domain/edible/models/edible.dart';
+import 'package:kcalculus/domain/edible/models/portion.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/modified_edible_option.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/portion_form_ui_state.dart';
@@ -148,7 +148,7 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
     String query = _nameController.text;
     final edible = await Navigator.of(context).push<Edible>(
       MaterialPageRoute(
-        builder: (context) => EdibleSearchScreen(
+        builder: (context) => EdibleSearchScreen.full(
           initialQuery: query,
         ),
       ),
@@ -200,8 +200,8 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
     final amount = uiState.getAmount()!;
     showMessage(
       l10n(context).messageNoCommonMeasureError(
-        amount.unit.localName(context),
-        amount.unit.measure.localName(context),
+        amount.unit.localName(l10n(context)),
+        amount.unit.measure.localName(l10n(context)),
       ),
       MessageType.error,
     );

@@ -1,1 +1,70 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"kcalcy-10030","appId":"1:954032866101:android:e252152470561ee45c027c","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"kcalcy-10030","appId":"1:954032866101:ios:63272bbb7c6fcdea5c027c","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"kcalcy-10030","configurations":{"android":"1:954032866101:android:e252152470561ee45c027c","ios":"1:954032866101:ios:63272bbb7c6fcdea5c027c"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "kcalcy-10030",
+          "appId": "1:954032866101:android:e252152470561ee45c027c",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "kcalcy-10030",
+          "appId": "1:954032866101:ios:63272bbb7c6fcdea5c027c",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "kcalcy-10030",
+          "configurations": {
+            "android": "1:954032866101:android:e252152470561ee45c027c",
+            "ios": "1:954032866101:ios:63272bbb7c6fcdea5c027c"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "database": "(default)",
+    "location": "nam5",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ],
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8081
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true,
+    "pubsub": {
+      "port": 8085
+    }
+  }
+}

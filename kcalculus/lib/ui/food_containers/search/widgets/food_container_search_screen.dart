@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/food_containers/common/widgets/food_container_list.dart';
@@ -29,7 +29,7 @@ class _FoodContainerSearchScreenState
   void initState() {
     var uiState = ref.read(foodContainerSearchViewModel(widget.initialQuery));
 
-    _searchController.text = uiState.searchQuery;
+    _searchController.text = uiState.query;
 
     super.initState();
   }
@@ -37,7 +37,6 @@ class _FoodContainerSearchScreenState
   void _updateSearchQuery(String query) {
     ref
         .read(foodContainerSearchViewModel(widget.initialQuery).notifier)
-        .searchHelper
         .searchController
         .updateQuery(query);
   }
@@ -45,7 +44,6 @@ class _FoodContainerSearchScreenState
   void _resetSearchQuery() {
     ref
         .read(foodContainerSearchViewModel(widget.initialQuery).notifier)
-        .searchHelper
         .searchController
         .reset();
   }
@@ -70,11 +68,8 @@ class _FoodContainerSearchScreenState
         ref.watch(foodContainerSearchViewModel(widget.initialQuery));
 
     ref.listen(foodContainerSearchViewModel(widget.initialQuery), (prev, next) {
-      _searchController.text = next.searchQuery;
+      _searchController.text = next.query;
     });
-
-    final viewModel =
-        ref.read(foodContainerSearchViewModel(widget.initialQuery).notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -111,8 +106,16 @@ class _FoodContainerSearchScreenState
       ),
       body: FoodContainerList(
         items: uiState.data,
-        itemsLoader: uiState.dataLoader,
-        paginator: viewModel.searchHelper.paginator,
+        onLoadNextPage: () => ref
+            .read(
+              foodContainerSearchViewModel(widget.initialQuery).notifier,
+            )
+            .loadNextPage(),
+        onRefresh: () => ref
+            .read(
+              foodContainerSearchViewModel(widget.initialQuery).notifier,
+            )
+            .refresh(),
         onSelectItem: _selectContainer,
       ),
     );

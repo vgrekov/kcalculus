@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/common/macro_split_view/widgets/macro_split_view.dart';

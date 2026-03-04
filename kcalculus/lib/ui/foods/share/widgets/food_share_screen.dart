@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/ui/common/widgets/edible_main_info.dart';
 import 'package:kcalculus/ui/foods/share/view_models/food_share_view_model.dart';
 import 'package:kcalculus/utils/l10n.dart';

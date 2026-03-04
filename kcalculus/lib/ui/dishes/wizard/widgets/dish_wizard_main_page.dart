@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_main_step_ui_state.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ui_state.dart';

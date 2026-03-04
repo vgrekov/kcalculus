@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/utils/nutrient_style.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
@@ -88,7 +88,7 @@ class NutrientGoalProgress extends StatelessWidget {
             Text(
               l10n(context).ofStatWithUnit(
                 nb.formatDouble(context, convertedGoalAmount.value),
-                convertedGoalAmount.unit.localName(context),
+                convertedGoalAmount.unit.localName(l10n(context)),
               ),
               style: goalAmountTextStyle.copyWith(
                 color: Theme.of(context).colorScheme.onSurface,
@@ -127,11 +127,11 @@ class NutrientGoalProgress extends StatelessWidget {
               aboveGoal
                   ? l10n(context).statWithUnitOver(
                       nb.formatDouble(context, diffAmount.value),
-                      diffAmount.unit.localName(context),
+                      diffAmount.unit.localName(l10n(context)),
                     )
                   : l10n(context).statWithUnitLeft(
                       nb.formatDouble(context, diffAmount.value),
-                      diffAmount.unit.localName(context),
+                      diffAmount.unit.localName(l10n(context)),
                     ),
               style: diffAmountTextStyle.copyWith(
                 color: aboveGoal

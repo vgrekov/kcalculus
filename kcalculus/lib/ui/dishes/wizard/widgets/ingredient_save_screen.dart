@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/dish/ingredient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/dish/models/ingredient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/portion_form/widgets/portion_form.dart';
 import 'package:kcalculus/ui/common/widgets/inattentive.dart';
 import 'package:kcalculus/utils/l10n.dart';

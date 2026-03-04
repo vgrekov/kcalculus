@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/nutrition/macro_split.dart';
+import 'package:kcalculus/domain/nutrition/models/macro_split.dart';
 import 'package:kcalculus/ui/common/themes/macro_nutrients.dart';
 
 class MacroSplitChart extends StatelessWidget {

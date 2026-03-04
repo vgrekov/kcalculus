@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/view_models/nutrition_facts_view_view_model.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/view_models/nutrition_facts_view_view_model_arg.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/widgets/nutrition_stat_row.dart';

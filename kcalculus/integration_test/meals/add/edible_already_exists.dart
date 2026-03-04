@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils.dart';
@@ -26,12 +26,12 @@ Future<void> testEdibleAlreadyExists(
     },
   );
 
-  final (l10n, context) = await pumpApp(
+  final l10n = await pumpApp(
     tester,
     overrides: [
       ...overrides,
       edibleRepositoryProvider.overrideWith(
-        (ref) => edibleRepository,
+        () => edibleRepository,
       ),
     ],
   );

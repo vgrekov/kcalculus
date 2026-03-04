@@ -3,17 +3,19 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
+import 'package:kcalculus/domain/auth/models/user.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/auth/login/widgets/login_screen.dart';
+import 'package:kcalculus/ui/common/messaging/models/ui_message.dart';
+import 'package:kcalculus/ui/common/messaging/services/ui_message_service.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
-import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
 import 'package:kcalculus/ui/nutrients/defaults/widgets/nutrient_defaults_screen.dart';
 import 'package:kcalculus/ui/nutrients/goals/list/widgets/nutrient_goal_list_screen.dart';
 import 'package:kcalculus/ui/settings/view_models/settings_view_model.dart';
@@ -49,6 +51,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         _showRestoreSuccessNotification,
     AppSettingsCommand.showRestoreFailureNotification:
         _showRestoreFailureNotification,
+    AppSettingsCommand.showAccountDeletedNotification:
+        _showAccountDeletedNotification,
+    AppSettingsCommand.showUnknownErrorNotification:
+        _showUnknownErrorNotification,
   };
 
   final _accessGuardKey = UniqueKey();
@@ -68,21 +74,46 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
     if (confirmed == true) {
       await ref.read(appSettingsViewModel.notifier).logout();
+    }
+  }
 
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => LoginScreen(
-              onExit: (context) {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => const MealListScreen(),
-                  ),
-                );
-              },
-            ),
+  void _deleteAccount() async {
+    final proceed = await showMessageDialog(
+      message: l10n(context).messageLoginToDeleteAccount,
+      actions: {
+        l10n(context).actionCancel: () => false,
+        l10n(context).actionProceed: () => true,
+      },
+      messageType: MessageType.info,
+    );
+
+    final state = await ref.read(appSettingsViewModel.future);
+
+    if (proceed == true && mounted) {
+      final user = await Navigator.of(context).push<User>(
+        MaterialPageRoute(
+          builder: (context) => LoginScreen(
+            email: state.user?.email,
+            showForgotPassword: false,
+            showCreateNewAccount: false,
+            showContinueWithoutAccount: false,
           ),
+        ),
+      );
+
+      if (user != null && mounted) {
+        final confirmed = await showMessageDialog(
+          message: l10n(context).messageDeleteAccountConfirmation(user.email),
+          actions: {
+            l10n(context).actionCancel: () => false,
+            l10n(context).actionDeleteAccount: () => true,
+          },
+          messageType: MessageType.warning,
         );
+
+        if (confirmed == true) {
+          await ref.read(appSettingsViewModel.notifier).deleteAccount();
+        }
       }
     }
   }
@@ -228,6 +259,31 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     command.complete();
   }
 
+  void _showAccountDeletedNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    final user = command.payload as User?;
+
+    ref.sendUiMessage(
+      UiDialog.alert(
+        text: l10n(context).messageAccountDeleted(user?.email ?? ''),
+      ),
+    );
+
+    command.complete();
+  }
+
+  void _showUnknownErrorNotification(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    showNotification(l10n(context).messageUnknownError);
+    command.complete();
+  }
+
   @override
   Widget build(BuildContext context) {
     final uiState = ref.watch(appSettingsViewModel);
@@ -244,8 +300,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           child: Text(
             l10n(context).messageUnknownError,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                ),
+              color: Theme.of(context).colorScheme.error,
+            ),
           ),
         );
 
@@ -267,6 +323,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     user: uiState.valueOrNull?.user,
                     onLogin: uiState.isLoading ? null : _login,
                     onLogout: uiState.isLoading ? null : _logout,
+                    onDeleteAccount: uiState.isLoading ? null : _deleteAccount,
                   ),
                 ],
               ),
@@ -281,8 +338,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                           },
                   ),
                   ActionSettingTile(
-                    onTap:
-                        uiState.isLoading ? null : _configureDefaultNutrients,
+                    onTap: uiState.isLoading
+                        ? null
+                        : _configureDefaultNutrients,
                     title: l10n(context).settingDefaultNutrientsTitle,
                     subtitle: l10n(context).settingDefaultNutrientsSubtitle,
                     icon: Icons.list_alt,
@@ -297,33 +355,36 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   ),
                 ],
               ),
-              SettingsGroup(
-                title: l10n(context).settingsGroupBackup,
-                children: [
-                  ActionSettingTile(
-                    onTap: uiState.isLoading ? null : _backup,
-                    title: l10n(context).settingBackupTitle,
-                    subtitle: l10n(context).settingBackupSubtitle,
-                    icon: Icons.download,
-                    premiumFeature: true,
-                  ),
-                  ActionSettingTile(
-                    onTap: uiState.isLoading ? null : _restore,
-                    title: l10n(context).settingRestoreTitle,
-                    subtitle: l10n(context).settingRestoreSubtitle,
-                    icon: Icons.upload,
-                    premiumFeature: true,
-                  ),
-                ],
-              ),
+              if (uiState.valueOrNull?.user == null)
+                SettingsGroup(
+                  title: l10n(context).settingsGroupBackup,
+                  children: [
+                    ActionSettingTile(
+                      onTap: uiState.isLoading ? null : _backup,
+                      title: l10n(context).settingBackupTitle,
+                      subtitle: l10n(context).settingBackupSubtitle,
+                      icon: Icons.download,
+                      premiumFeature: true,
+                    ),
+                    ActionSettingTile(
+                      onTap: uiState.isLoading ? null : _restore,
+                      title: l10n(context).settingRestoreTitle,
+                      subtitle: l10n(context).settingRestoreSubtitle,
+                      icon: Icons.upload,
+                      premiumFeature: true,
+                    ),
+                  ],
+                ),
               SettingsGroup(
                 title: l10n(context).settingsGroupDataSharing,
                 children: [
                   SwitchSettingTile(
-                    value: uiState.valueOrNull?.settings.crashlyticsEnabled ??
+                    value:
+                        uiState.valueOrNull?.settings.crashlyticsEnabled ??
                         false,
-                    onChanged:
-                        uiState.isLoading ? null : _setCrashlyticsEnabled,
+                    onChanged: uiState.isLoading
+                        ? null
+                        : _setCrashlyticsEnabled,
                     title: l10n(context).settingCrashReportingTitle,
                     subtitle: l10n(context).settingCrashReportingSubtitle,
                     icon: Icons.bug_report,
@@ -342,7 +403,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           ),
         );
 
-        final info = uiState.valueOrNull?.packageInfo;
+        final info = uiState.valueOrNull?.appInfo;
         version = info == null
             ? null
             : l10n(context).appVersion(
@@ -370,14 +431,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 Text(
                   l10n(context).screenSettings,
                   style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
                 Text(
                   version ?? '',
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),

@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/domain/models/nutrition/portion.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/edible/models/portion.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/meals/save/view_models/meal_save_ui_state.dart';
@@ -68,7 +68,7 @@ class MealSaveViewModel
       if (force || await _checkForEnergyGoalExceeding(meal)) {
         _log.finest('saveMeal() Saving meal: ${meal.toJson()}');
 
-        meal = await ref.read(mealRepositoryProvider).save(meal);
+        meal = await ref.read(mealRepositoryProvider.notifier).save(meal);
 
         result = true;
 
@@ -94,7 +94,7 @@ class MealSaveViewModel
 
   Future<bool> _checkForEnergyGoalExceeding(Meal meal) async {
     final goals = await ref
-        .read(nutrientGoalRepositoryProvider)
+        .read(nutrientGoalRepositoryProvider.notifier)
         .getActiveGoals(state.eatenAt);
     final goalEnergyAmount = goals
         .where(
@@ -104,11 +104,13 @@ class MealSaveViewModel
         ?.amount;
 
     if (goalEnergyAmount != null) {
-      final meals =
-          await ref.read(mealRepositoryProvider).getByDate(state.eatenAt);
+      final meals = await ref
+          .read(mealRepositoryProvider.notifier)
+          .getByDate(state.eatenAt);
       final currentNutrientData = meals
           .where((meal) => meal.id != state.id)
-          .map((m) => m.getNutrientData() ?? NutrientData.empty())
+          .map((m) =>
+              m.getNutritionFacts()?.nutrientData ?? NutrientData.empty())
           .fold(
             NutrientData.zeros(const [Nutrient.energy]),
             (nd1, nd2) => nd1 + nd2,
@@ -116,7 +118,7 @@ class MealSaveViewModel
       final currentEnergyAmount =
           currentNutrientData.nutrientAmountsMap[Nutrient.energy];
 
-      final portionNutrientData = meal.getNutrientData();
+      final portionNutrientData = meal.getNutritionFacts()?.nutrientData;
       final portionEnergyAmount =
           portionNutrientData?.nutrientAmountsMap[Nutrient.energy];
 

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/domain/models/dish/ingredient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
+import 'package:kcalculus/domain/dish/models/ingredient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
 import 'package:kcalculus/ui/common/nutrient_stats/widgets/nutrient_stats.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/ingredient_list.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_step_ui_state.dart';
+import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_ingredients_step_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/view_models/dish_wizard_view_model.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/dish_wizard_screen.dart';
 import 'package:kcalculus/ui/dishes/wizard/widgets/ingredient_save_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:kcalculus/utils/number.dart' as nb;
 
 class DishWizardIngredientsPage extends ConsumerWidget
     with WidgetMessenger
@@ -32,13 +34,25 @@ class DishWizardIngredientsPage extends ConsumerWidget
         builder: (context) => IngredientSaveScreen(
           nutrientDefaults: nutrientDefaults,
           onSaveIngredient: (ingredient) {
-            ref
-                .read(dishWizardViewModel(dish).notifier)
-                .addIngredient(ingredient);
+            _doAddIngredient(context, ref, ingredient);
           },
         ),
       ),
     );
+  }
+
+  void _doAddIngredient(
+    BuildContext context,
+    WidgetRef ref,
+    Ingredient ingredient,
+  ) {
+    final amountChange = ref
+        .read(dishWizardViewModel(dish).notifier)
+        .addIngredient(ingredient);
+
+    if (amountChange != null) {
+      _showIngredientChangeNotification(context, ref, amountChange);
+    }
   }
 
   void _selectIngredient(
@@ -53,13 +67,50 @@ class DishWizardIngredientsPage extends ConsumerWidget
           ingredient: ingredient,
           nutrientDefaults: nutrientDefaults,
           onSaveIngredient: (newIngredient) {
-            ref.read(dishWizardViewModel(dish).notifier).replaceIngredientAt(
-                  index,
-                  newIngredient,
-                );
+            _replaceIngredient(context, ref, newIngredient, index);
           },
         ),
       ),
+    );
+  }
+
+  void _replaceIngredient(
+    BuildContext context,
+    WidgetRef ref,
+    Ingredient newIngredient,
+    int index,
+  ) {
+    final amountChange = ref
+        .read(dishWizardViewModel(dish).notifier)
+        .replaceIngredientAt(
+          index,
+          newIngredient,
+        );
+
+    if (amountChange != null) {
+      _showIngredientChangeNotification(context, ref, amountChange);
+    }
+  }
+
+  void _showIngredientChangeNotification(
+    BuildContext context,
+    WidgetRef ref,
+    IngredientAmountChange amountChange,
+  ) {
+    showNotificationWithUndo(
+      context,
+      l10n(context).messageIngredientChanged(
+        amountChange.edible.name,
+        amountChange.edible.description,
+        amountChange.edible.description.isNotEmpty.toString(),
+        nb.formatDouble(context, amountChange.from.value),
+        amountChange.from.unit.localName(l10n(context)),
+        nb.formatDouble(context, amountChange.to.value),
+        amountChange.to.unit.localName(l10n(context)),
+      ),
+      undoAction: () {
+        ref.read(dishWizardViewModel(dish).notifier).undoPreviousAction();
+      },
     );
   }
 
@@ -79,14 +130,14 @@ class DishWizardIngredientsPage extends ConsumerWidget
           context,
           l10n(context).messageIngredientDeletionSuccess,
           undoAction: () {
-            ref
-                .read(dishWizardViewModel(dish).notifier)
-                .restoreIngredientAt(index, ingredient);
+            ref.read(dishWizardViewModel(dish).notifier).undoPreviousAction();
           },
         );
       } else {
         showNotification(
-            context, l10n(context).messageIngredientDeletionFailure);
+          context,
+          l10n(context).messageIngredientDeletionFailure,
+        );
       }
     } catch (error) {
       showNotification(context, error.toString());
@@ -113,7 +164,7 @@ class DishWizardIngredientsPage extends ConsumerWidget
     final uiState = ref.watch(dishWizardViewModel(dish));
 
     final totalNutrientData = uiState.ingredientsStepState.ingredients
-        .map((m) => m.getNutrientData() ?? NutrientData.empty())
+        .map((m) => m.getNutritionFacts()?.nutrientData ?? NutrientData.empty())
         .fold(
           NutrientData.empty(),
           (nd1, nd2) => nd1 + nd2,
@@ -150,8 +201,8 @@ class DishWizardIngredientsPage extends ConsumerWidget
         child: Text(
           l10n(context).messageNoIngredients,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
       );
     } else {

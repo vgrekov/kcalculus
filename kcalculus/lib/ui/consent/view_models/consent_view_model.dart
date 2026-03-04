@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/data/storage/storage.dart';
 
 class ConsentViewModel extends AutoDisposeNotifier<void> {
   @override
@@ -13,7 +13,7 @@ class ConsentViewModel extends AutoDisposeNotifier<void> {
   }) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
     final settings = await ref.read(appSettingsRepositoryProvider.future);
-    repository.setSettings(
+    repository.saveSettings(
       settings.copyWith(
         crashlyticsEnabled: crashlyticsEnabled,
         analyticsEnabled: analyticsEnabled,

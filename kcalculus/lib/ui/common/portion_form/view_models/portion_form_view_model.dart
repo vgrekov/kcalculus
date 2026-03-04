@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/edible.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
-import 'package:kcalculus/domain/models/nutrition/portion.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/edible/models/edible.dart';
+import 'package:kcalculus/domain/edible/models/portion.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/edible_already_exists_exception.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/modified_edible_option.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/no_common_measure_exception.dart';
@@ -60,23 +60,24 @@ class PortionFormViewModel
     final nutritionFacts = edible.getNutritionFacts();
 
     if (amountValue == null) {
-      amountUnit = ([
-        ...nutritionFacts.map((nf) => nf.amount.unit),
-      ]..sort(
-              (u1, u2) {
-                int index1 = _kMeasuresInOrder.indexOf(u1.measure);
-                int index2 = _kMeasuresInOrder.indexOf(u2.measure);
+      amountUnit =
+          ([
+                ...nutritionFacts.map((nf) => nf.amount.unit),
+              ]..sort(
+                (u1, u2) {
+                  int index1 = _kMeasuresInOrder.indexOf(u1.measure);
+                  int index2 = _kMeasuresInOrder.indexOf(u2.measure);
 
-                if (index1 != -1 && index2 == -1) {
-                  return -1;
-                } else if (index1 == -1 && index2 != -1) {
-                  return 1;
-                } else {
-                  return index1 - index2;
-                }
-              },
-            ))
-          .firstOrNull;
+                  if (index1 != -1 && index2 == -1) {
+                    return -1;
+                  } else if (index1 == -1 && index2 != -1) {
+                    return 1;
+                  } else {
+                    return index1 - index2;
+                  }
+                },
+              ))
+              .firstOrNull;
     }
 
     state = state.copyWith(
@@ -122,7 +123,8 @@ class PortionFormViewModel
       _commander!.send(PortionFormCommand.showEdibleAlreadyExistsDialog);
     } on SelectedEdibleModifiedAlreadyExistsException {
       _commander!.send(
-          PortionFormCommand.showSelectedEdibleModifiedAlreadyExistsDialog);
+        PortionFormCommand.showSelectedEdibleModifiedAlreadyExistsDialog,
+      );
     } catch (error, stackTrace) {
       _log.severe('Failed to build a portion', error, stackTrace);
 
@@ -145,7 +147,7 @@ class PortionFormViewModel
       return state.selectedEdible;
     }
 
-    final edibleRepository = ref.read(edibleRepositoryProvider);
+    final edibleRepository = ref.read(edibleRepositoryProvider.notifier);
     final alreadyExists = await edibleRepository.exists(
       state.name,
       state.description,
@@ -203,17 +205,19 @@ class PortionFormViewModel
   }
 
   void _checkIfCommonMeasureExists() {
-    final hasCommonMeasure = state.amountUnit != null &&
+    final hasCommonMeasure =
+        state.amountUnit != null &&
         state.nutritionFacts != null &&
-        state.nutritionFacts!
-            .any((nf) => nf.amount.unit.measure == state.amountUnit!.measure);
+        state.nutritionFacts!.any(
+          (nf) => nf.amount.unit.measure == state.amountUnit!.measure,
+        );
     if (!hasCommonMeasure) {
       throw NoCommonMeasureException();
     }
   }
 
   bool? _isSelectedEdibleModified() {
-    if (state.selectedEdible != null) {
+    if (state.selectedEdible?.id != null) {
       if (state.selectedEdible!.name != state.name ||
           state.selectedEdible!.description != state.description) {
         return true;
@@ -255,5 +259,5 @@ class _PortionImpl with Portion {
 
 final portionFormViewModel = NotifierProvider.family
     .autoDispose<PortionFormViewModel, PortionFormUiState, Portion?>(
-  PortionFormViewModel.new,
-);
+      PortionFormViewModel.new,
+    );

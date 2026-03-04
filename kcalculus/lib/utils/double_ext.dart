@@ -16,4 +16,8 @@ extension Precision on double {
 
     return result / factor;
   }
+
+  double atLeast(double min) => this < min ? min : this;
+
+  double atMost(double max) => this > max ? max : this;
 }

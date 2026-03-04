@@ -3,10 +3,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/providers.dart';
+import 'package:kcalculus/data/ad/ad.dart';
+import 'package:kcalculus/data/auth/auth.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
+import 'package:kcalculus/domain/maintenance/use_cases/maintenance_use_case.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/agreement/view_models/agreement_view_model.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -32,8 +34,9 @@ void main() {
       late MockAppSettingsRepository appSettingsRepository;
       late MockAdRepository adRepository;
       late MockMealRepository mealRepository;
-      late MockNutrientRepository nutrientRepository;
+      late MockDefaultNutrientRepository defaultNutrientRepository;
       late MockNutrientGoalRepository nutrientGoalRepository;
+      late MockUserRepository userRepository;
 
       late List<Override> commonOverrides;
 
@@ -62,9 +65,9 @@ void main() {
           },
         );
 
-        nutrientRepository = MockNutrientRepository();
+        defaultNutrientRepository = MockDefaultNutrientRepository();
 
-        when(() => nutrientRepository.getDefaults()).thenAnswer(
+        when(() => defaultNutrientRepository.build()).thenAnswer(
           (_) async => [
             Nutrient.energy,
             Nutrient.fat,
@@ -80,24 +83,37 @@ void main() {
           (_) async => [],
         );
 
+        userRepository = MockUserRepository();
+
+        when(() => userRepository.build()).thenAnswer(
+          (_) async => null,
+        );
+
+        when(() => userRepository.isAnonymousModeSelected()).thenAnswer(
+          (_) async => true,
+        );
+
         commonOverrides = [
           appSettingsRepositoryProvider.overrideWith(
             () => appSettingsRepository,
           ),
           adRepositoryProvider.overrideWith(
-            (ref) => adRepository,
+            () => adRepository,
           ),
           maintenanceUseCaseProvider.overrideWith(
             MockMaintenanceUseCase.new,
           ),
           mealRepositoryProvider.overrideWith(
-            (ref) => mealRepository,
+            () => mealRepository,
           ),
-          nutrientRepositoryProvider.overrideWith(
-            (ref) => nutrientRepository,
+          defaultNutrientRepositoryProvider.overrideWith(
+            () => defaultNutrientRepository,
           ),
           nutrientGoalRepositoryProvider.overrideWith(
-            (ref) => nutrientGoalRepository,
+            () => nutrientGoalRepository,
+          ),
+          userRepositoryProvider.overrideWith(
+            () => userRepository,
           ),
         ];
       });

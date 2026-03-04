@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
 import 'package:kcalculus/ui/agreement/widgets/agreement_screen.dart';
 import 'package:kcalculus/ui/app/view_models/app_ui_state.dart';
 import 'package:kcalculus/ui/app/view_models/app_view_model.dart';
 import 'package:kcalculus/ui/auth/login/widgets/login_screen.dart';
+import 'package:kcalculus/ui/common/messaging/widgets/ui_message_handler.dart';
 import 'package:kcalculus/ui/common/themes/themes.dart';
 import 'package:kcalculus/ui/consent/widgets/consent_screen.dart';
+import 'package:kcalculus/ui/import/widgets/import_screen.dart';
 import 'package:kcalculus/ui/maintenance/widgets/maintenance_screen.dart';
 import 'package:kcalculus/ui/meals/list/widgets/meal_list_screen.dart';
-import 'package:kcalculus/ui/providers.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:logging/logging.dart';
 
@@ -23,26 +24,17 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final uiState = ref.watch(appViewModel);
 
-    final navigatorKey = ref.watch(navigatorKeyProvider);
+    final theme = uiState.valueOrNull?.theme;
 
-    AppTheme? theme;
     final Widget home;
     switch (uiState) {
       case AsyncData(:final value):
-        theme = value.theme;
         home = switch (value.stage) {
           AppStage.agreement => const AgreementScreen(),
           AppStage.dataSharingConsent => const ConsentScreen(),
           AppStage.maintenance => const MaintenanceScreen(),
-          AppStage.authentication => LoginScreen(
-              onExit: (context) {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => const MealListScreen(),
-                  ),
-                );
-              },
-            ),
+          AppStage.authentication => const LoginScreen(),
+          AppStage.import => ImportScreen(),
           _ => const MealListScreen(),
         };
         break;
@@ -53,8 +45,8 @@ class App extends ConsumerWidget {
             builder: (context) => Text(
               l10n(context).messageUnknownError,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ),
         );
@@ -70,6 +62,7 @@ class App extends ConsumerWidget {
     }
 
     return MaterialApp(
+      key: ValueKey(uiState.valueOrNull?.stage),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -77,12 +70,13 @@ class App extends ConsumerWidget {
         AppTheme.light => kLightTheme,
         AppTheme.dark => kDarkTheme,
         _ => switch (MediaQuery.of(context).platformBrightness) {
-            Brightness.light => kLightTheme,
-            Brightness.dark => kDarkTheme,
-          },
+          Brightness.light => kLightTheme,
+          Brightness.dark => kDarkTheme,
+        },
       },
-      navigatorKey: navigatorKey,
-      home: home,
+      home: UiMessageHandler(
+        child: home,
+      ),
     );
   }
 }

@@ -1,14 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_goal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
 import 'package:kcalculus/ui/nutrients/stats/view_models/nutrient_stats_row.dart';
 
 part 'nutrient_stats_ui_state.freezed.dart';
 
 @freezed
 sealed class NutrientStatsUiState with _$NutrientStatsUiState {
-  const factory NutrientStatsUiState._default({
+  const factory NutrientStatsUiState.$default({
     required DateTime date,
     required NutrientData data,
     required List<NutrientStatsRow> rows,
@@ -24,7 +24,7 @@ sealed class NutrientStatsUiState with _$NutrientStatsUiState {
       for (final goal in goals) goal.nutrient: goal.amount,
     };
 
-    return NutrientStatsUiState._default(
+    return NutrientStatsUiState.$default(
       date: date,
       data: data,
       rows: (data + NutrientData.zeros(defaults))

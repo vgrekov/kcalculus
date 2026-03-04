@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/edible_search_result.dart';
-import 'package:kcalculus/domain/models/food.dart';
-import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
-import 'package:kcalculus/domain/models/units.dart';
-import 'package:kcalculus/domain/providers.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/edible/models/edible_preview.dart';
+import 'package:kcalculus/domain/edible/use_cases/edible_use_case.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils.dart';
@@ -41,14 +41,12 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
     ],
   );
 
-  final edibleSearchUseCase = MockEdibleSearchUseCase();
+  final edibleSearchUseCase = MockEdibleUseCase();
 
   when(
     () => edibleSearchUseCase.search(
       any(),
-      type: any(named: 'type'),
-      limit: any(named: 'limit'),
-      offset: any(named: 'offset'),
+      pageConfig: any(named: 'pageConfig'),
     ),
   ).thenAnswer(
     (_) async {
@@ -56,11 +54,11 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
         existingFood1,
       ]
           .map(
-            (f) => EdibleSearchResult(
+            (f) => EdiblePreview(
               id: f.id!,
               name: f.name,
               description: f.description,
-              type: EdibleSearchResultType.food,
+              type: EdiblePreviewType.food,
             ),
           )
           .toList();
@@ -117,21 +115,21 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
     },
   );
 
-  final (l10n, context) = await pumpApp(
+  final l10n = await pumpApp(
     tester,
     overrides: [
       ...overrides,
       edibleRepositoryProvider.overrideWith(
-        (ref) => edibleRepository,
+        () => edibleRepository,
       ),
       foodRepositoryProvider.overrideWith(
-        (ref) => foodRepository,
+        () => foodRepository,
       ),
       mealRepositoryProvider.overrideWith(
-        (ref) => mealRepository,
+        () => mealRepository,
       ),
-      edibleSearchUseCaseProvider.overrideWith(
-        (ref) => edibleSearchUseCase,
+      edibleUseCaseProvider.overrideWith(
+        () => edibleSearchUseCase,
       ),
     ],
   );
@@ -152,11 +150,11 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
 
   final amount = Amount(unit: Unit.millilitre, value: 100);
 
-  await enterAmount(context, tester, l10n.labelPortionAmount, amount);
+  await enterAmount(l10n, tester, l10n.labelPortionAmount, amount);
 
   await tester.pumpAndSettle();
 
-  await enterAmount(context, tester, '${l10n.labelPer} *', amount);
+  await enterAmount(l10n, tester, '${l10n.labelPer} *', amount);
 
   await tester.pumpAndSettle();
 
@@ -182,8 +180,8 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
   expect(
     find.text(
       l10n.messageNoCommonMeasureError(
-        amount.unit.localName(context),
-        amount.unit.measure.localName(context),
+        amount.unit.localName(l10n),
+        amount.unit.measure.localName(l10n),
       ),
     ),
     findsOneWidget,

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
 
 part 'dish_wizard_main_step_ui_state.freezed.dart';
 

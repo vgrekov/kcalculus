@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/nutrients/search/view_models/nutrient_search_view_model.dart';
@@ -34,7 +34,7 @@ class _NutrientSearchScreenState extends ConsumerState<NutrientSearchScreen>
   void initState() {
     var uiState = ref.read(nutrientSearchViewModel(widget.viewModelArg));
 
-    _searchController.text = uiState.searchQuery;
+    _searchController.text = uiState.query;
 
     super.initState();
   }
@@ -72,7 +72,7 @@ class _NutrientSearchScreenState extends ConsumerState<NutrientSearchScreen>
     final uiState = ref.watch(nutrientSearchViewModel(widget.viewModelArg));
 
     ref.listen(nutrientSearchViewModel(widget.viewModelArg), (prev, next) {
-      _searchController.text = next.searchQuery;
+      _searchController.text = next.query;
     });
 
     return Scaffold(

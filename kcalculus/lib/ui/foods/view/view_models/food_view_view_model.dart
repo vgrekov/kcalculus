@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/data/usda/usda.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_ui_state.dart';
@@ -29,10 +30,10 @@ class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<FoodViewUiState,
     final Food? food;
 
     if (arg.isUsdaFood) {
-      final usdaFoodRepository = ref.read(usdaFoodRepositoryProvider);
+      final usdaFoodRepository = ref.read(usdaFoodRepositoryProvider.notifier);
       food = await usdaFoodRepository.getById(arg.foodId);
     } else {
-      final foodRepository = ref.read(foodRepositoryProvider);
+      final foodRepository = ref.read(foodRepositoryProvider.notifier);
       food = await foodRepository.getById(arg.foodId);
     }
 
@@ -41,7 +42,7 @@ class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<FoodViewUiState,
     }
 
     final nutrientDefaults =
-        await ref.read(nutrientRepositoryProvider).getDefaults();
+        await ref.read(defaultNutrientRepositoryProvider.future);
 
     return FoodViewUiState(
       food: food,
@@ -66,7 +67,7 @@ class FoodViewViewModel extends AutoDisposeFamilyAsyncNotifier<FoodViewUiState,
   void editFood() async {
     final uiState = state.unwrapPrevious().valueOrNull;
     if (uiState != null) {
-      final edibleRepository = ref.read(edibleRepositoryProvider);
+      final edibleRepository = ref.read(edibleRepositoryProvider.notifier);
       final wasEaten = await edibleRepository.wasEaten(uiState.food.id!);
 
       if (wasEaten) {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils.dart';
@@ -50,15 +50,15 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
     },
   );
 
-  final (l10n, context) = await pumpApp(
+  final l10n = await pumpApp(
     tester,
     overrides: [
       ...overrides,
       edibleRepositoryProvider.overrideWith(
-        (ref) => edibleRepository,
+        () => edibleRepository,
       ),
       mealRepositoryProvider.overrideWith(
-        (ref) => mealRepository,
+        () => mealRepository,
       ),
     ],
   );
@@ -75,11 +75,11 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
 
   final amount = Amount(unit: Unit.millilitre, value: 100);
 
-  await enterAmount(context, tester, l10n.labelPortionAmount, amount);
+  await enterAmount(l10n, tester, l10n.labelPortionAmount, amount);
 
   await tester.pumpAndSettle();
 
-  await enterAmount(context, tester, '${l10n.labelPer} *', amount);
+  await enterAmount(l10n, tester, '${l10n.labelPer} *', amount);
 
   await tester.pumpAndSettle();
 
@@ -105,8 +105,8 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
   expect(
     find.text(
       l10n.messageNoCommonMeasureError(
-        amount.unit.localName(context),
-        amount.unit.measure.localName(context),
+        amount.unit.localName(l10n),
+        amount.unit.measure.localName(l10n),
       ),
     ),
     findsOneWidget,

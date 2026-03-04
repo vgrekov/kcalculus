@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class Awaited<T> extends StatelessWidget {
@@ -14,7 +16,7 @@ class Awaited<T> extends StatelessWidget {
     }
   }
 
-  final Future<T>? future;
+  final FutureOr<T>? future;
 
   final Widget Function(BuildContext)? loading;
 
@@ -28,19 +30,24 @@ class Awaited<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: future,
-      builder: (context, snapshot) {
-        final isLoading = snapshot.connectionState == ConnectionState.waiting;
-        if (isLoading) {
-          return loading?.call(context) ?? const SizedBox.shrink();
-        } else if (snapshot.hasError) {
-          return error?.call(context, snapshot.error, snapshot.stackTrace) ??
-              const SizedBox.shrink();
-        } else {
-          return data?.call(context, snapshot.data) ?? const SizedBox.shrink();
-        }
-      },
-    );
+    return future is Future<T>
+        ? FutureBuilder(
+            future: future as Future<T>,
+            builder: (context, snapshot) {
+              final isLoading =
+                  snapshot.connectionState == ConnectionState.waiting;
+              if (isLoading) {
+                return loading?.call(context) ?? const SizedBox.shrink();
+              } else if (snapshot.hasError) {
+                return error?.call(
+                        context, snapshot.error, snapshot.stackTrace) ??
+                    const SizedBox.shrink();
+              } else {
+                return data?.call(context, snapshot.data) ??
+                    const SizedBox.shrink();
+              }
+            },
+          )
+        : data?.call(context, future as T) ?? const SizedBox.shrink();
   }
 }

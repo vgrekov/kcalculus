@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/utils/l10n.dart';
 
 const _defaultMeasure = Measure.mass;
 const _defaultSystem = MeasureSystem.metric;
@@ -91,7 +92,7 @@ class _UnitPickerState extends State<UnitPicker> {
                     ),
                     child: Center(
                       child: Text(
-                        measures[index].localName(context),
+                        measures[index].localName(l10n(context)),
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: Theme.of(context)
                                   .colorScheme
@@ -126,7 +127,7 @@ class _UnitPickerState extends State<UnitPicker> {
                     ),
                     child: Center(
                       child: Text(
-                        systems[index].localName(context),
+                        systems[index].localName(l10n(context)),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Theme.of(context)
                                   .colorScheme
@@ -168,7 +169,7 @@ class _UnitPickerState extends State<UnitPicker> {
                           _selectUnit(unit);
                         },
                         child: Text(
-                          unit.localName(context),
+                          unit.localName(l10n(context)),
                           style:
                               Theme.of(context).textTheme.labelLarge!.copyWith(
                                     color: Theme.of(context)
