@@ -10,4 +10,8 @@ if (!getApps().length) {
 export { updateUserSearchConfigOnCreate } from './auth-on-user-created';
 export { purgeUserOnDelete } from './auth-on-user-deleted';
 export { refreshUserSearchConfigsOnSchedule } from './scheduled';
+export {
+  sendEmailVerification,
+  sendPasswordResetEmail,
+} from './callable';
 
