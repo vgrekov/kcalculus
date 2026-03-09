@@ -1,0 +1,11 @@
+{
+    "colorScheme": {
+        "primary": "#86D6BF",
+        "primaryContainer": "#005142",
+        "onPrimaryContainer": "#A1F2DB",
+        "surface": "#0E1513",
+        "onSurface": "#DEE4E0",
+        "inverseSurface": "#DEE4E0",
+        "surfaceContainer": "#1B211F"
+    }
+}
