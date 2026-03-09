@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/app_config/services/app_config_service.dart';
@@ -164,12 +165,22 @@ class AuthService extends AsyncNotifier<User?> {
 
   Future<void> sendPasswordResetEmail(String email) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case 'invalid-email':
+      final functions = FirebaseFunctions.instance;
+
+      final callable = functions.httpsCallable('sendPasswordResetEmail');
+
+      await callable.call({
+        'email': email,
+      });
+    } on FirebaseFunctionsException catch (e) {
+      final causeCode = e.details is Map
+          ? e.details['causeCode'] as String?
+          : null;
+
+      switch (causeCode) {
+        case 'auth/invalid-email':
           throw InvalidEmailException();
-        case 'user-not-found':
+        case 'auth/user-not-found':
           throw UserNotFoundException();
         default:
           rethrow;
@@ -214,7 +225,13 @@ class AuthService extends AsyncNotifier<User?> {
 
   Future<void> _sendEmailVerification(User user) async {
     if (user.email != null) {
-      await user.sendEmailVerification();
+      final functions = FirebaseFunctions.instance;
+
+      final callable = functions.httpsCallable('sendEmailVerification');
+
+      await callable.call({
+        'email': user.email,
+      });
 
       await _startEmailVerificationCooldown(user.email!);
     }
