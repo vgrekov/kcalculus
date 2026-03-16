@@ -19,7 +19,7 @@ class OpenFoodFactsService extends Notifier<void> {
     required AppConfig appConfig,
   }) =>
       Uri.parse(
-        '${appConfig.openFoodFactsBaseUrl}/api/v2/product/$barcode',
+        '${appConfig.openFoodFacts.baseUrl}/api/v2/product/$barcode',
       ).replace(
         queryParameters: {
           'product_type': 'food',
@@ -40,7 +40,8 @@ class OpenFoodFactsService extends Notifier<void> {
     required AppConfig appConfig,
   }) {
     return {
-      'User-Agent': '$appName/$version (${appConfig.contactEmail})',
+      'User-Agent':
+          '$appName/$version (${appConfig.openFoodFacts.contactEmail})',
     };
   }
 
@@ -70,10 +71,13 @@ class OpenFoodFactsService extends Notifier<void> {
             appConfig: appConfig,
           ),
         )
-        .timeout(Duration(milliseconds: appConfig.openFoodFactsTimeoutMillis));
+        .timeout(
+          Duration(milliseconds: appConfig.openFoodFacts.timeoutMillis),
+        );
 
     _log.finer(
-        'getProductByBarcode() Response status code: ${response.statusCode}');
+      'getProductByBarcode() Response status code: ${response.statusCode}',
+    );
 
     _log.finest('getProductByBarcode() Response body ${response.body}');
 
@@ -104,5 +108,5 @@ final openFoodFactsHttpClientProvider = Provider<http.Client>(
 
 final openFoodFactsServiceProvider =
     NotifierProvider<OpenFoodFactsService, void>(
-  OpenFoodFactsService.new,
-);
+      OpenFoodFactsService.new,
+    );

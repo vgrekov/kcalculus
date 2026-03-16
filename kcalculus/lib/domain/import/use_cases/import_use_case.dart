@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/app_config/models/firestore_config.dart';
+import 'package:kcalculus/data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/data/storage/firestore/edible/repositories/dish_repository.dart';
 import 'package:kcalculus/data/storage/firestore/edible/repositories/edible_repository.dart';
 import 'package:kcalculus/data/storage/firestore/edible/repositories/food_repository.dart';
@@ -33,8 +35,6 @@ import 'package:logging/logging.dart';
 final Logger _log = Logger('ImportUseCase');
 
 class ImportUseCase extends AsyncNotifier<ImportProcess> {
-  static const _kImportBatchSize = 100;
-
   @override
   FutureOr<ImportProcess> build() {
     ref.watch(importRaceOrchestratorProvider);
@@ -54,20 +54,25 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
   Future<ImportReport> runImport() async {
     await purgeFirestore();
 
-    final (foods, dishes) = await _importEdibles();
+    final appConfig = await ref.read(appConfigServiceProvider.future);
+
+    final importBatchSize =
+        appConfig?.firestore.importBatchSize ?? kDefaultImportBatchSize;
+
+    final (foods, dishes) = await _importEdibles(pageSize: importBatchSize);
 
     _log.info('Imported foods: $foods');
     _log.info('Imported dishes: $dishes');
 
-    final meals = await _importMeals();
+    final meals = await _importMeals(pageSize: importBatchSize);
 
     _log.info('Imported meals: $meals');
 
-    final containers = await _importContainers();
+    final containers = await _importContainers(pageSize: importBatchSize);
 
     _log.info('Imported food containers: $containers');
 
-    final nutrientGoals = await _importNutrientGoals();
+    final nutrientGoals = await _importNutrientGoals(pageSize: importBatchSize);
 
     _log.info('Imported nutrient goals: $nutrientGoals');
 
@@ -128,7 +133,9 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
     _log.info('Purged edibles');
   }
 
-  Future<(ImportProgress, ImportProgress)> _importEdibles() async {
+  Future<(ImportProgress, ImportProgress)> _importEdibles({
+    required int pageSize,
+  }) async {
     int foodsImported = 0;
     int dishesImported = 0;
 
@@ -154,7 +161,7 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
         includeDeleted: true,
         pageConfig: pageConfig,
       ),
-      pageSize: _kImportBatchSize,
+      pageSize: pageSize,
     );
 
     await for (final page in pages) {
@@ -189,7 +196,9 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
     );
   }
 
-  Future<ImportProgress> _importMeals() async {
+  Future<ImportProgress> _importMeals({
+    required int pageSize,
+  }) async {
     int mealsImported = 0;
 
     final localMealRepo = ref.read(
@@ -205,7 +214,7 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
         includeDeleted: true,
         pageConfig: pageConfig,
       ),
-      pageSize: _kImportBatchSize,
+      pageSize: pageSize,
     );
 
     await for (final page in pages) {
@@ -221,7 +230,9 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
     );
   }
 
-  Future<ImportProgress> _importContainers() async {
+  Future<ImportProgress> _importContainers({
+    required int pageSize,
+  }) async {
     int containersImported = 0;
 
     final localFoodContainerRepo = ref.read(
@@ -237,7 +248,7 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
         includeDeleted: true,
         pageConfig: pageConfig,
       ),
-      pageSize: _kImportBatchSize,
+      pageSize: pageSize,
     );
 
     await for (final page in pages) {
@@ -253,7 +264,9 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
     );
   }
 
-  Future<ImportProgress> _importNutrientGoals() async {
+  Future<ImportProgress> _importNutrientGoals({
+    required int pageSize,
+  }) async {
     int nutrientGoalsImported = 0;
 
     final localNutrientGoalRepo = ref.read(
@@ -269,7 +282,7 @@ class ImportUseCase extends AsyncNotifier<ImportProcess> {
         includeDeleted: true,
         pageConfig: pageConfig,
       ),
-      pageSize: _kImportBatchSize,
+      pageSize: pageSize,
     );
 
     await for (final page in pages) {

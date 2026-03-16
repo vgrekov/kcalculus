@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
 import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
@@ -331,14 +332,19 @@ class FirestoreEdibleService extends Notifier<void> {
 
   Future<void> purge({
     required String userId,
-  }) => batchDelete(
-    _db
-        .collection(EdibleFirestoreModel.kCollection)
-        .where(
-          EdibleFirestoreModelJsonFields.ownerId,
-          isEqualTo: userId,
-        ),
-  );
+  }) async {
+    final appConfig = await ref.read(appConfigServiceProvider.future);
+
+    return batchDelete(
+      _db
+          .collection(EdibleFirestoreModel.kCollection)
+          .where(
+            EdibleFirestoreModelJsonFields.ownerId,
+            isEqualTo: userId,
+          ),
+      batchSize: appConfig?.firestore.deleteBatchSize,
+    );
+  }
 }
 
 final firestoreEdibleServiceProvider =

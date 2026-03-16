@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/app_config/models/app_config.dart';
+import 'package:kcalculus/data/app_config/models/search_config.dart';
 import 'package:kcalculus/data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/data/auth/utils/auth.dart';
 import 'package:kcalculus/data/storage/_common/repositories/food_container_repository.dart';
@@ -143,7 +143,7 @@ class FirestoreFoodContainerRepository extends FoodContainerRepository {
       userId: userId,
       lookbackDuration: Duration(
         seconds:
-            appConfig?.recentLookbackDurationSecs ??
+            appConfig?.search.recentLookbackDurationSecs ??
             kDefaultRecentLookbackDurationSecs,
       ),
     );

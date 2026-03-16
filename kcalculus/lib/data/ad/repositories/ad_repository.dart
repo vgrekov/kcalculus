@@ -18,8 +18,6 @@ class AdRepository extends Notifier<void> {
 
   static const _kInterstitialAdLoadedAt = 'interstitialAdLoadedAt';
 
-  static const _kInterstitialAdProbability = 0.5;
-
   static final _randomizer = Random();
 
   @override
@@ -33,28 +31,29 @@ class AdRepository extends Notifier<void> {
       return null;
     }
 
-    if (!appConfig.adsEnabled) {
+    if (!appConfig.ads.enabled) {
       _log.finer('Ads disabled');
       return null;
     }
 
-    final cooldownOver =
-        await _isCooldownOver(appConfig.interstitialAdCooldownDurationMins);
+    final cooldownOver = await _isCooldownOver(
+      appConfig.ads.interstitial.cooldownDurationMins,
+    );
     if (!cooldownOver) {
       _log.finer('Still cooling down interstitial ads');
       return null;
     }
 
-    if (_kInterstitialAdProbability < _randomizer.nextDouble()) {
+    if (appConfig.ads.interstitial.probability < _randomizer.nextDouble()) {
       _log.finer('Skipping interstitial ad on a chance');
       return null;
     }
 
     final completer = Completer<InterstitialAd?>();
 
-    final adUnitId = appConfig.interstitialAdUnitId;
+    final adUnitId = appConfig.ads.interstitial.unitId;
 
-    _startTimeout(completer, appConfig.interstitialAdTimeoutMillis);
+    _startTimeout(completer, appConfig.ads.interstitial.timeoutMillis);
 
     InterstitialAd.load(
       adUnitId: adUnitId,
@@ -120,16 +119,16 @@ class AdRepository extends Notifier<void> {
       return null;
     }
 
-    if (!appConfig.adsEnabled) {
+    if (!appConfig.ads.enabled) {
       _log.finer('Ads disabled');
       return null;
     }
 
     final completer = Completer<RewardedAd?>();
 
-    final adUnitId = appConfig.unlockAdUnitId;
+    final adUnitId = appConfig.ads.unlock.unitId;
 
-    _startTimeout(completer, appConfig.unlockAdTimeoutMillis);
+    _startTimeout(completer, appConfig.ads.unlock.timeoutMillis);
 
     RewardedAd.load(
       adUnitId: adUnitId,
