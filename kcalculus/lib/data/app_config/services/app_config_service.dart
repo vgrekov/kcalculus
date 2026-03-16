@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -71,7 +72,9 @@ class AppConfigService extends AsyncNotifier<AppConfig?> {
 
     if (snapshot.exists) {
       try {
-        final data = Map<String, dynamic>.from(snapshot.value as Map);
+        final data = Map<String, dynamic>.from(
+          jsonDecode(jsonEncode(snapshot.value)) as Map,
+        );
         value = AppConfig.fromJson(data);
       } catch (error, stackTrace) {
         _log.severe(
@@ -98,5 +101,5 @@ class AppConfigService extends AsyncNotifier<AppConfig?> {
 
 final appConfigServiceProvider =
     AsyncNotifierProvider<AppConfigService, AppConfig?>(
-  AppConfigService.new,
-);
+      AppConfigService.new,
+    );

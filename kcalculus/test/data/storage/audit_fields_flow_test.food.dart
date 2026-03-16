@@ -37,6 +37,16 @@ void foodTests() {
         when(() => authService.build()).thenAnswer((_) => _kUser);
 
         firestoreEdibleService = MockFirestoreEdibleService();
+        when(
+          () => firestoreEdibleService.exists(
+            any(),
+            any(),
+            userId: any(named: 'userId'),
+            exceptWithId: any(named: 'exceptWithId'),
+          ),
+        ).thenAnswer(
+          (_) async => false,
+        );
 
         container = ProviderContainer(
           overrides: [

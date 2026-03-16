@@ -4,7 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:kcalculus/data/_common/providers.dart';
+import 'package:kcalculus/data/app_config/models/ads_config.dart';
 import 'package:kcalculus/data/app_config/models/app_config.dart';
+import 'package:kcalculus/data/app_config/models/auth_config.dart';
+import 'package:kcalculus/data/app_config/models/firestore_config.dart';
+import 'package:kcalculus/data/app_config/models/interstitial_ads_config.dart';
+import 'package:kcalculus/data/app_config/models/open_food_facts_config.dart';
+import 'package:kcalculus/data/app_config/models/search_config.dart';
+import 'package:kcalculus/data/app_config/models/unlock_ads_config.dart';
 import 'package:kcalculus/data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/data/open_food_facts/repositories/open_food_facts_repository.dart';
 import 'package:kcalculus/data/open_food_facts/services/open_food_facts_service.dart';
@@ -47,16 +54,31 @@ void main() {
         appConfigService = MockAppConfigService();
         when(() => appConfigService.build()).thenAnswer(
           (_) => AppConfig(
-            openFoodFactsBaseUrl: '',
-            openFoodFactsTimeoutMillis: 5000,
-            contactEmail: '',
-            interstitialAdUnitId: '',
-            interstitialAdTimeoutMillis: 5000,
-            interstitialAdCooldownDurationMins: 1,
-            unlockAdUnitId: '',
-            unlockAdTimeoutMillis: 5000,
-            unlockWithAdDurationMins: 1,
-            adsEnabled: false,
+            auth: AuthConfig(),
+            search: SearchConfig(
+              ediblesIndexName: '',
+              foodContainersIndexName: '',
+            ),
+            ads: AdsConfig(
+              interstitial: InterstitialAdsConfig(
+                unitId: '',
+                timeoutMillis: 5000,
+                cooldownDurationMins: 1,
+                probability: 0,
+              ),
+              unlock: UnlockAdsConfig(
+                unitId: '',
+                timeoutMillis: 5000,
+                rewardDurationMins: 1,
+              ),
+              enabled: false,
+            ),
+            openFoodFacts: OpenFoodFactsConfig(
+              baseUrl: '',
+              timeoutMillis: 5000,
+              contactEmail: '',
+            ),
+            firestore: FirestoreConfig(),
           ),
         );
       });
@@ -68,8 +90,9 @@ void main() {
             'test/data/repositories/fixtures/off_response_nutella.json',
           );
 
-          when(() => httpClient.get(any(), headers: any(named: 'headers')))
-              .thenAnswer(
+          when(
+            () => httpClient.get(any(), headers: any(named: 'headers')),
+          ).thenAnswer(
             (_) async {
               return http.Response(
                 nutellaResponse,

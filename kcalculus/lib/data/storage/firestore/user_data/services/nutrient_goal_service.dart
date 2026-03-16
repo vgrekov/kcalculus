@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/data/storage/_common/utils/storage_action.dart';
 import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
 import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_executor.dart';
@@ -245,12 +246,17 @@ class FirestoreNutrientGoalService extends Notifier<void> {
 
   Future<void> purge({
     required String userId,
-  }) => batchDelete(
-    _db
-        .collection(UserDataFirestoreModel.kCollection)
-        .doc(userId)
-        .collection(NutrientGoalFirestoreModel.kCollection),
-  );
+  }) async {
+    final appConfig = await ref.read(appConfigServiceProvider.future);
+
+    return batchDelete(
+      _db
+          .collection(UserDataFirestoreModel.kCollection)
+          .doc(userId)
+          .collection(NutrientGoalFirestoreModel.kCollection),
+      batchSize: appConfig?.firestore.deleteBatchSize,
+    );
+  }
 }
 
 final firestoreNutrientGoalServiceProvider =

@@ -26,7 +26,7 @@ class AccessLevelRepository extends AsyncNotifier<AccessLevel> {
       return const AccessLevelFreeNoAds();
     }
 
-    if (!appConfig.adsEnabled) {
+    if (!appConfig.ads.enabled) {
       return const AccessLevelPremium();
     }
 
@@ -48,7 +48,7 @@ class AccessLevelRepository extends AsyncNotifier<AccessLevel> {
     final rewardService = ref.read(rewardServiceProvider.notifier);
 
     final rewardDuration = Duration(
-      minutes: appConfig.unlockWithAdDurationMins,
+      minutes: appConfig.ads.unlock.rewardDurationMins,
     );
 
     final unlockEnd = await rewardService.rewardUnlockFor(rewardDuration);
@@ -59,5 +59,5 @@ class AccessLevelRepository extends AsyncNotifier<AccessLevel> {
 
 final accessLevelRepositoryProvider =
     AsyncNotifierProvider<AccessLevelRepository, AccessLevel>(
-  AccessLevelRepository.new,
-);
+      AccessLevelRepository.new,
+    );

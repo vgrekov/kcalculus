@@ -51,6 +51,16 @@ void dishTests() {
         firestoreEdibleDao = MockFirestoreEdibleDao();
 
         firestoreEdibleService = MockFirestoreEdibleService();
+        when(
+          () => firestoreEdibleService.exists(
+            any(),
+            any(),
+            userId: any(named: 'userId'),
+            exceptWithId: any(named: 'exceptWithId'),
+          ),
+        ).thenAnswer(
+          (_) async => false,
+        );
 
         container = ProviderContainer(
           overrides: [

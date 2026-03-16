@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:kcalculus/data/app_config/models/firestore_config.dart';
 
-const int kMaxBatchSize = 500;
+Future<void> batchDelete(
+  Query query, {
+  int? batchSize,
+}) async {
+  batchSize = batchSize ?? kDefaultDeleteBatchSize;
 
-Future<void> batchDelete(Query query) async {
-  query = query.orderBy(FieldPath.documentId).limit(kMaxBatchSize);
+  query = query.orderBy(FieldPath.documentId).limit(batchSize);
 
   while (true) {
     final snapshot = await query.get();

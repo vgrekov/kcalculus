@@ -260,7 +260,7 @@ class AuthService extends AsyncNotifier<User?> {
 
       return sentAt.add(
         Duration(
-          seconds: appConfig?.emailVerificationCooldownDurationSecs ?? 60,
+          seconds: appConfig?.auth.emailVerificationCooldownDurationSecs ?? 60,
         ),
       );
     }
