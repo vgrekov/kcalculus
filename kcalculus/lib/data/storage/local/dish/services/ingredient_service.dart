@@ -16,8 +16,9 @@ class LocalIngredientService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       SELECT
         ingredients.dish_id AS dish_id,
         ingredients.edible_id AS edible_id,
@@ -36,8 +37,9 @@ class LocalIngredientService extends Notifier<void> {
       ORDER BY
         ingredients.sequence_number ASC
       ''',
-      [dishId],
-    ).then((data) => data.map(IngredientDbModel.fromJson).toList());
+          [dishId],
+        )
+        .then((data) => data.map(IngredientDbModel.fromJson).toList());
   }
 
   Future<Set<String>> getHierarchyByDish(
@@ -46,8 +48,9 @@ class LocalIngredientService extends Notifier<void> {
   }) async {
     final executor = txn ?? await _database;
 
-    return executor.rawQuery(
-      '''
+    return executor
+        .rawQuery(
+          '''
       WITH RECURSIVE hierarchy(id) AS (
         VALUES(?)
         UNION
@@ -64,8 +67,30 @@ class LocalIngredientService extends Notifier<void> {
       FROM
         hierarchy
       ''',
-      [dishId],
-    ).then((data) => data.map((record) => record['id'] as String).toSet());
+          [dishId],
+        )
+        .then((data) => data.map((record) => record['id'] as String).toSet());
+  }
+
+  Future<List<String>> getDishesByIngredient(
+    String edibleId, {
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await _database;
+
+    return executor
+        .rawQuery(
+          '''
+          SELECT
+            ingredients.dish_id AS id
+          FROM
+            ingredients
+          WHERE
+            ingredients.edible_id = ?
+          ''',
+          [edibleId],
+        )
+        .then((data) => data.map((record) => record['id'] as String).toList());
   }
 
   Future<void> add(
@@ -109,5 +134,5 @@ class LocalIngredientService extends Notifier<void> {
 
 final localIngredientServiceProvider =
     NotifierProvider<LocalIngredientService, void>(
-  LocalIngredientService.new,
-);
+      LocalIngredientService.new,
+    );

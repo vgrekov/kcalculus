@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/storage/_common/utils/dish_utils.dart';
 import 'package:kcalculus/data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/data/storage/local/dish/converters/dish_converter.dart';
 import 'package:kcalculus/data/storage/local/dish/converters/ingredient_converter.dart';
@@ -170,6 +171,13 @@ class LocalDishDao extends Notifier<void> {
 
     await _checkForIngredientsCycle(dish, txn: txn);
 
+    final dependencyUpdates = await prepareIngredientDependencyUpdates(
+      dish,
+      getDishesByIngredient: (id) =>
+          _ingredientService.getDishesByIngredient(id, txn: txn),
+      getDish: (id) => getById(id, txn: txn),
+    );
+
     final ingredients = [...dish.ingredients];
 
     for (var i = 0; i < ingredients.length; i++) {
@@ -222,6 +230,15 @@ class LocalDishDao extends Notifier<void> {
           .toList(),
       dishId,
       txn: txn,
+    );
+
+    await Future.wait(
+      dependencyUpdates.map(
+        (model) => _edibleService.updateNutritionFactsPreview(
+          _dishConverter.toDbModel(model).toEdibleDbModel(),
+          txn: txn,
+        ),
+      ),
     );
 
     return dishId;

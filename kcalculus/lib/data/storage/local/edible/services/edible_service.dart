@@ -425,6 +425,33 @@ class LocalEdibleService extends Notifier<void> {
     );
   }
 
+  Future<void> updateNutritionFactsPreview(
+    EdibleDbModel model, {
+    Transaction? txn,
+  }) async {
+    final executor = txn ?? await _database;
+
+    await executor.update(
+      'edibles',
+      {
+        'nf_preview_per_unit': model.nf_preview_per_unit,
+        'nf_preview_per_value': model.nf_preview_per_value,
+        'nf_preview_calories_unit': model.nf_preview_calories_unit,
+        'nf_preview_calories_value': model.nf_preview_calories_value,
+        'nf_preview_fat_unit': model.nf_preview_fat_unit,
+        'nf_preview_fat_value': model.nf_preview_fat_value,
+        'nf_preview_carbs_unit': model.nf_preview_carbs_unit,
+        'nf_preview_carbs_value': model.nf_preview_carbs_value,
+        'nf_preview_protein_unit': model.nf_preview_protein_unit,
+        'nf_preview_protein_value': model.nf_preview_protein_value,
+        'nf_preview_fiber_unit': model.nf_preview_fiber_unit,
+        'nf_preview_fiber_value': model.nf_preview_fiber_value,
+      },
+      where: 'id = ?',
+      whereArgs: [model.id],
+    );
+  }
+
   Future<bool> delete(
     String id, {
     Transaction? txn,
