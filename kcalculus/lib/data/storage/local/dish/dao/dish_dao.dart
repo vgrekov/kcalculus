@@ -139,14 +139,12 @@ class LocalDishDao extends Notifier<void> {
 
   Future<String> save(
     Dish dish, {
-    String? id,
     Transaction? txn,
     bool skipAudit = false,
   }) async {
     if (txn != null) {
       return _save(
         dish,
-        id: id,
         txn: txn,
         skipAudit: skipAudit,
       );
@@ -156,7 +154,6 @@ class LocalDishDao extends Notifier<void> {
       return db.transaction(
         (txn) => _save(
           dish,
-          id: id,
           txn: txn,
           skipAudit: skipAudit,
         ),
@@ -166,7 +163,6 @@ class LocalDishDao extends Notifier<void> {
 
   Future<String> _save(
     Dish dish, {
-    String? id,
     required Transaction txn,
     bool skipAudit = false,
   }) async {
@@ -204,7 +200,7 @@ class LocalDishDao extends Notifier<void> {
 
     dish = dish.copyWith(ingredients: ingredients);
 
-    final dishId = id ?? dish.id ?? generateId();
+    final dishId = dish.id ?? generateId();
 
     await _saveDish(
       dish,
