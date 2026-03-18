@@ -66,7 +66,6 @@ class FirestoreMealRepository extends MealRepository {
               (meal) async => meal.toDomain(
                 (await _edibleDao.getById(
                   meal.edibleId,
-                  user: user,
                 ))!,
               ),
             ),
@@ -85,7 +84,6 @@ class FirestoreMealRepository extends MealRepository {
               (meal) async => meal.toDomain(
                 (await _edibleDao.getById(
                   meal.edibleId,
-                  user: user,
                 ))!,
               ),
             ),
@@ -170,7 +168,6 @@ class FirestoreMealRepository extends MealRepository {
 
     final edible = await _edibleDao.getById(
       fsModel.edibleId,
-      user: user,
     );
 
     return edible == null ? null : fsModel.toDomain(edible);

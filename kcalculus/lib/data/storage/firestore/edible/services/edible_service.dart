@@ -10,6 +10,7 @@ import 'package:kcalculus/data/storage/firestore/_common/utils/firestore_utils.d
 import 'package:kcalculus/data/storage/firestore/_common/utils/timestamp_utils.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_preview_firestore_model.dart';
+import 'package:kcalculus/data/storage/firestore/edible/models/edible_type.dart';
 import 'package:kcalculus/domain/_common/models/page_config.dart';
 import 'package:kcalculus/domain/import/exceptions/import_unsaved_model_exception.dart';
 
@@ -206,6 +207,28 @@ class FirestoreEdibleService extends Notifier<void> {
         .toList();
   }
 
+  Future<List<String>> getDishesByIngredient(
+    String edibleId, {
+    required String userId,
+  }) async {
+    var query = _db
+        .collection(EdibleFirestoreModel.kCollection)
+        .where(EdibleFirestoreModelJsonFields.ownerId, isEqualTo: userId)
+        .where(
+          EdibleFirestoreModelJsonFields.type,
+          isEqualTo: EdibleType.dish.name,
+        )
+        .where(
+          EdibleFirestoreModelJsonFields.ingredientIds,
+          arrayContains: edibleId,
+        )
+        .where(EdibleFirestoreModelJsonFields.deleted, isEqualTo: false);
+
+    final snapshot = await query.get();
+
+    return snapshot.docs.map((s) => s.id).toList();
+  }
+
   Future<EdibleFirestoreModel?> get(
     String id, {
     Transaction? txn,
@@ -250,6 +273,33 @@ class FirestoreEdibleService extends Notifier<void> {
     }
 
     return docRef.id;
+  }
+
+  Future<void> updateNutritionFactsPreview(
+    EdibleFirestoreModel model, {
+    Transaction? txn,
+  }) async {
+    if (model.id == null) {
+      throw ArgumentError(
+        'Must be an existing edible with non-null id',
+        'model',
+      );
+    }
+
+    final executor = FirestoreExecutor(txn);
+
+    final docRef = _db
+        .collection(EdibleFirestoreModel.kCollection)
+        .doc(model.id);
+
+    await executor.update(
+      docRef,
+      {
+        EdibleFirestoreModelJsonFields.nutritionFactsPreview: model
+            .nutritionFactsPreview
+            ?.toJson(),
+      },
+    );
   }
 
   Future<void> import(

@@ -21,6 +21,7 @@ class EdibleFirestoreModelJsonFields {
   static const nutritionFacts = 'nutritionFacts';
   static const nutritionRatios = 'nutritionRatios';
   static const ingredients = 'ingredients';
+  static const ingredientIds = 'ingredientIds';
   static const createdAt = 'createdAt';
   static const updatedAt = 'updatedAt';
   static const eatenAt = 'eatenAt';

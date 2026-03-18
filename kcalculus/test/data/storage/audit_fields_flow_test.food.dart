@@ -9,6 +9,7 @@ void foodTests() {
       late MockDatabaseService dbService;
       late MockLocalNutritionFactsDao localNfDao;
       late MockAuthService authService;
+      late MockFirebaseFirestore firestore;
       late MockFirestoreEdibleService firestoreEdibleService;
       late ProviderContainer container;
 
@@ -36,6 +37,8 @@ void foodTests() {
         authService = MockAuthService();
         when(() => authService.build()).thenAnswer((_) => _kUser);
 
+        firestore = MockFirebaseFirestore();
+
         firestoreEdibleService = MockFirestoreEdibleService();
         when(
           () => firestoreEdibleService.exists(
@@ -47,12 +50,21 @@ void foodTests() {
         ).thenAnswer(
           (_) async => false,
         );
+        when(
+          () => firestoreEdibleService.getDishesByIngredient(
+            any(),
+            userId: any(named: 'userId'),
+          ),
+        ).thenAnswer(
+          (_) async => const [],
+        );
 
         container = ProviderContainer(
           overrides: [
             databaseServiceProvider.overrideWith(() => dbService),
             localNutritionFactsDaoProvider.overrideWith(() => localNfDao),
             authServiceProvider.overrideWith(() => authService),
+            firestoreProvider.overrideWith((ref) => firestore),
             firestoreEdibleServiceProvider.overrideWith(
               () => firestoreEdibleService,
             ),

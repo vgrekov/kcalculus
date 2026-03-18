@@ -70,6 +70,8 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
 
     List<IngredientFirestoreModel>? ingredients,
 
+    List<String>? ingredientIds,
+
     @JsonKey(
       fromJson: timestampToDate,
       toJson: dateToTimestamp,
@@ -134,6 +136,7 @@ sealed class EdibleFirestoreModel with _$EdibleFirestoreModel {
     nutritionFacts: nutritionFacts,
     nutritionRatios: nutritionRatios,
     ingredients: ingredients,
+    ingredientIds: ingredients?.map((i) => i.edibleId).toList(),
     createdAt: createdAt,
     updatedAt: updatedAt ?? createdAt,
     eatenAt: eatenAt,

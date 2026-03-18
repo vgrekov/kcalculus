@@ -42,7 +42,9 @@ extension MealFirestoreModelJsonFlavourful on MealFirestoreModel {
       final actualValue = _getActualValue(e.key);
       final request = JsonRequest(flavour, actualValue);
       final decision = e.value.decide(request);
-      if (decision is JsonInclude) {
+      if (decision is JsonPassThrough) {
+        json[e.key] = actualValue;
+      } else if (decision is JsonInclude) {
         json[e.key] = decision.value;
       }
     }

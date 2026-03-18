@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/storage/_common/utils/dish_utils.dart';
 import 'package:kcalculus/data/storage/local/_common/services/local_storage_service.dart';
 import 'package:kcalculus/data/storage/local/dish/converters/dish_converter.dart';
 import 'package:kcalculus/data/storage/local/dish/converters/ingredient_converter.dart';
@@ -139,14 +140,12 @@ class LocalDishDao extends Notifier<void> {
 
   Future<String> save(
     Dish dish, {
-    String? id,
     Transaction? txn,
     bool skipAudit = false,
   }) async {
     if (txn != null) {
       return _save(
         dish,
-        id: id,
         txn: txn,
         skipAudit: skipAudit,
       );
@@ -156,7 +155,6 @@ class LocalDishDao extends Notifier<void> {
       return db.transaction(
         (txn) => _save(
           dish,
-          id: id,
           txn: txn,
           skipAudit: skipAudit,
         ),
@@ -166,13 +164,19 @@ class LocalDishDao extends Notifier<void> {
 
   Future<String> _save(
     Dish dish, {
-    String? id,
     required Transaction txn,
     bool skipAudit = false,
   }) async {
     await _checkForDuplication(dish, txn: txn);
 
     await _checkForIngredientsCycle(dish, txn: txn);
+
+    final dependencyUpdates = await prepareIngredientDependencyUpdates(
+      dish,
+      getDishesByIngredient: (id) =>
+          _ingredientService.getDishesByIngredient(id, txn: txn),
+      getDish: (id) => getById(id, txn: txn),
+    );
 
     final ingredients = [...dish.ingredients];
 
@@ -204,7 +208,7 @@ class LocalDishDao extends Notifier<void> {
 
     dish = dish.copyWith(ingredients: ingredients);
 
-    final dishId = id ?? dish.id ?? generateId();
+    final dishId = dish.id ?? generateId();
 
     await _saveDish(
       dish,
@@ -226,6 +230,15 @@ class LocalDishDao extends Notifier<void> {
           .toList(),
       dishId,
       txn: txn,
+    );
+
+    await Future.wait(
+      dependencyUpdates.map(
+        (model) => _edibleService.updateNutritionFactsPreview(
+          _dishConverter.toDbModel(model).toEdibleDbModel(),
+          txn: txn,
+        ),
+      ),
     );
 
     return dishId;

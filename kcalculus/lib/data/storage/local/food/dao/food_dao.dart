@@ -1,5 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/storage/_common/utils/dish_utils.dart';
 import 'package:kcalculus/data/storage/local/_common/services/local_storage_service.dart';
+import 'package:kcalculus/data/storage/local/dish/converters/dish_converter.dart';
+import 'package:kcalculus/data/storage/local/dish/dao/dish_dao.dart';
+import 'package:kcalculus/data/storage/local/dish/services/ingredient_service.dart';
 import 'package:kcalculus/data/storage/local/edible/dao/edible_dao.dart';
 import 'package:kcalculus/data/storage/local/edible/dao/nutrition_facts_dao.dart';
 import 'package:kcalculus/data/storage/local/edible/services/edible_service.dart';
@@ -28,6 +32,14 @@ class LocalFoodDao extends Notifier<void> {
   LocalFoodConverter get _foodConverter =>
       ref.read(localFoodConverterProvider.notifier);
 
+  LocalIngredientService get _ingredientService =>
+      ref.read(localIngredientServiceProvider.notifier);
+
+  LocalDishDao get _dishDao => ref.read(localDishDaoProvider.notifier);
+
+  LocalDishConverter get _dishConverter =>
+      ref.read(localDishConverterProvider.notifier);
+
   Future<Food?> getById(
     String id, {
     Transaction? txn,
@@ -47,14 +59,12 @@ class LocalFoodDao extends Notifier<void> {
 
   Future<String> save(
     Food food, {
-    String? id,
     Transaction? txn,
     bool skipAudit = false,
   }) async {
     if (txn != null) {
       return _save(
         food,
-        id: id,
         txn: txn,
         skipAudit: skipAudit,
       );
@@ -64,7 +74,6 @@ class LocalFoodDao extends Notifier<void> {
       return db.transaction(
         (txn) => _save(
           food,
-          id: id,
           txn: txn,
           skipAudit: skipAudit,
         ),
@@ -74,13 +83,19 @@ class LocalFoodDao extends Notifier<void> {
 
   Future<String> _save(
     Food food, {
-    String? id,
     required Transaction txn,
     bool skipAudit = false,
   }) async {
     await _checkForDuplication(food, txn: txn);
 
-    final foodId = id ?? food.id ?? generateId();
+    final dependencyUpdates = await prepareIngredientDependencyUpdates(
+      food,
+      getDishesByIngredient: (id) =>
+          _ingredientService.getDishesByIngredient(id, txn: txn),
+      getDish: (id) => _dishDao.getById(id, txn: txn),
+    );
+
+    final foodId = food.id ?? generateId();
 
     final foodDbModel = _foodConverter.toDbModel(food, foodId);
 
@@ -99,6 +114,15 @@ class LocalFoodDao extends Notifier<void> {
       food.nutritionFacts,
       foodId,
       txn: txn,
+    );
+
+    await Future.wait(
+      dependencyUpdates.map(
+        (model) => _edibleService.updateNutritionFactsPreview(
+          _dishConverter.toDbModel(model).toEdibleDbModel(),
+          txn: txn,
+        ),
+      ),
     );
 
     return foodId;

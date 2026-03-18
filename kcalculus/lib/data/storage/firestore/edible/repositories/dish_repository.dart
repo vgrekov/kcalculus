@@ -21,7 +21,7 @@ class FirestoreDishRepository extends DishRepository {
   Future<Dish?> getById(String id) => Auth.guard(
     ref,
     (user) async {
-      final edible = await _edibleDao.getById(id, user: user);
+      final edible = await _edibleDao.getById(id);
       return edible is Dish ? edible : null;
     },
   );
