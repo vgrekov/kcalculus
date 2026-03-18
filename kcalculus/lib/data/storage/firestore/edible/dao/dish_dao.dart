@@ -3,7 +3,9 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/storage/_common/utils/dish_utils.dart';
 import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
+import 'package:kcalculus/data/storage/firestore/edible/dao/edible_dao.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/edible/services/edible_service.dart';
 import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
@@ -21,6 +23,9 @@ class FirestoreDishDao extends Notifier<void> {
 
   FirestoreEdibleService get _edibleService =>
       ref.read(firestoreEdibleServiceProvider.notifier);
+
+  FirestoreEdibleDao get _edibleDao =>
+      ref.read(firestoreEdibleDaoProvider.notifier);
 
   Future<String> save(
     Dish dish, {
@@ -42,6 +47,16 @@ class FirestoreDishDao extends Notifier<void> {
     await _checkForDuplication(dish, user: user);
 
     await _checkForIngredientsCycle(dish, txn: txn);
+
+    final dependencyUpdates = await prepareIngredientDependencyUpdates(
+      dish,
+      getDishesByIngredient: (id) =>
+          _edibleService.getDishesByIngredient(id, userId: user.uid),
+      getDish: (id) async {
+        final edible = await _edibleDao.getById(id);
+        return edible is Dish ? edible : null;
+      },
+    );
 
     final ingredients = [...dish.ingredients];
 
@@ -69,11 +84,22 @@ class FirestoreDishDao extends Notifier<void> {
 
     dish = dish.copyWith(ingredients: ingredients);
 
-    return _edibleService.save(
+    final id = await _edibleService.save(
       EdibleFirestoreModel.fromDomainDish(dish, user.uid),
       skipAudit: skipAudit,
       txn: txn,
     );
+
+    await Future.wait(
+      dependencyUpdates.map(
+        (model) => _edibleService.updateNutritionFactsPreview(
+          EdibleFirestoreModel.fromDomainDish(model, user.uid),
+          txn: txn,
+        ),
+      ),
+    );
+
+    return id;
   }
 
   Future<void> _checkForDuplication(

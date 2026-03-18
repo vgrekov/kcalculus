@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/storage/firestore/_common/providers.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_type.dart';
 import 'package:kcalculus/data/storage/firestore/edible/services/edible_service.dart';
@@ -11,25 +9,12 @@ class FirestoreEdibleDao extends Notifier<void> {
   @override
   void build() {}
 
-  FirebaseFirestore get _db => ref.read(firestoreProvider);
-
   FirestoreEdibleService get _edibleService =>
       ref.read(firestoreEdibleServiceProvider.notifier);
 
   Future<Edible?> getById(
     String id, {
-    required User user,
     Transaction? txn,
-  }) => (txn != null)
-      ? _getById(id, user: user, txn: txn)
-      : _db.runTransaction(
-          (txn) => _getById(id, user: user, txn: txn),
-        );
-
-  Future<Edible?> _getById(
-    String id, {
-    required User user,
-    required Transaction txn,
   }) async {
     final domainEdibles = <String, Edible>{};
 

@@ -61,6 +61,14 @@ void dishTests() {
         ).thenAnswer(
           (_) async => false,
         );
+        when(
+          () => firestoreEdibleService.getDishesByIngredient(
+            any(),
+            userId: any(named: 'userId'),
+          ),
+        ).thenAnswer(
+          (_) async => const [],
+        );
 
         container = ProviderContainer(
           overrides: [
@@ -183,7 +191,6 @@ void dishTests() {
           when(
             () => firestoreEdibleDao.getById(
               any(),
-              user: any(named: 'user'),
               txn: any(named: 'txn'),
             ),
           ).thenAnswer(

@@ -35,6 +35,9 @@ _EdibleFirestoreModel _$EdibleFirestoreModelFromJson(
   ingredients: (json['ingredients'] as List<dynamic>?)
       ?.map((e) => IngredientFirestoreModel.fromJson(e as Map<String, dynamic>))
       .toList(),
+  ingredientIds: (json['ingredientIds'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
   createdAt: timestampToDate(json['createdAt']),
   updatedAt: timestampToDate(json['updatedAt']),
   eatenAt: timestampToDate(json['eatenAt']),
@@ -58,6 +61,7 @@ Map<String, dynamic> _$EdibleFirestoreModelToJson(
     (k, e) => MapEntry(_$MeasureEnumMap[k]!, e.toJson()),
   ),
   'ingredients': instance.ingredients?.map((e) => e.toJson()).toList(),
+  'ingredientIds': instance.ingredientIds,
   'createdAt': dateToTimestamp(instance.createdAt),
   'updatedAt': dateToTimestamp(instance.updatedAt),
   'eatenAt': dateToTimestamp(instance.eatenAt),

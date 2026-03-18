@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/auth/utils/auth.dart';
+import 'package:kcalculus/data/storage/firestore/edible/dao/edible_dao.dart';
+import 'package:kcalculus/data/storage/firestore/edible/dao/food_dao.dart';
 import 'package:kcalculus/data/storage/firestore/edible/models/edible_firestore_model.dart';
 import 'package:kcalculus/data/storage/firestore/edible/services/edible_service.dart';
 import 'package:kcalculus/data/storage/storage.dart';
-import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
 import 'package:kcalculus/domain/_common/models/change_signal.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
 
@@ -11,13 +12,17 @@ class FirestoreFoodRepository extends FoodRepository {
   FirestoreEdibleService get _edibleService =>
       ref.read(firestoreEdibleServiceProvider.notifier);
 
+  FirestoreEdibleDao get _edibleDao =>
+      ref.read(firestoreEdibleDaoProvider.notifier);
+
+  FirestoreFoodDao get _foodDao => ref.read(firestoreFoodDaoProvider.notifier);
+
   @override
   Future<Food?> getById(String id) => Auth.guard(
     ref,
     (user) async {
-      final fsModel = await _edibleService.get(id);
-
-      return fsModel?.toFood();
+      final edible = await _edibleDao.getById(id);
+      return edible is Food ? edible : null;
     },
   );
 
@@ -28,19 +33,9 @@ class FirestoreFoodRepository extends FoodRepository {
   }) => Auth.guard(
     ref,
     (user) async {
-      final alreadyExists = await _edibleService.exists(
-        food.name,
-        food.description,
+      final id = await _foodDao.save(
+        food,
         userId: user.uid,
-        exceptWithId: food.id,
-      );
-
-      if (alreadyExists) {
-        throw DuplicationException(food);
-      }
-
-      final id = await _edibleService.save(
-        EdibleFirestoreModel.fromDomainFood(food, user.uid),
         skipAudit: skipAudit,
       );
 
