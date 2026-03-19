@@ -61,14 +61,14 @@ final _appUiStateProvider = FutureProvider<AppUiState>(
     final settings = await ref.read(appSettingsRepositoryProvider.future);
 
     AppStage? stage;
-    if (await _isInAgreementStage(ref)) {
-      stage = AppStage.agreement;
-    } else if (await _isInDataSharingConsentStage(ref)) {
-      stage = AppStage.dataSharingConsent;
-    } else if (await _isInMaintenanceStage(ref)) {
+    if (await _isInMaintenanceStage(ref)) {
       stage = AppStage.maintenance;
     } else if (await _isInAuthenticationStage(ref)) {
       stage = AppStage.authentication;
+    } else if (await _isInAgreementStage(ref)) {
+      stage = AppStage.agreement;
+    } else if (await _isInDataSharingConsentStage(ref)) {
+      stage = AppStage.dataSharingConsent;
     } else if (await _isInImportStage(ref)) {
       stage = AppStage.import;
     }
