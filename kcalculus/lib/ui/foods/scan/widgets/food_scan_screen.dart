@@ -219,11 +219,6 @@ class _FoodScanScreenState extends ConsumerState<FoodScanScreen>
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 TextButton(
-                  style: TextButton.styleFrom(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
