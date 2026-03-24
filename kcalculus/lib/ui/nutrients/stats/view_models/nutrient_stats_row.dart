@@ -9,7 +9,7 @@ sealed class NutrientStatsRow with _$NutrientStatsRow {
   const factory NutrientStatsRow({
     required Nutrient nutrient,
     required Amount amount,
-    @Default(0) int level,
     Amount? goalAmount,
+    @Default([]) List<NutrientStatsRow> children,
   }) = _NutrientStatsRow;
 }
