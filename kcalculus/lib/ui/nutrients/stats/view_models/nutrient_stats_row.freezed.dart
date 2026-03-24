@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NutrientStatsRow {
 
- Nutrient get nutrient; Amount get amount; int get level; Amount? get goalAmount;
+ Nutrient get nutrient; Amount get amount; Amount? get goalAmount; List<NutrientStatsRow> get children;
 /// Create a copy of NutrientStatsRow
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $NutrientStatsRowCopyWith<NutrientStatsRow> get copyWith => _$NutrientStatsRowCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NutrientStatsRow&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.level, level) || other.level == level)&&(identical(other.goalAmount, goalAmount) || other.goalAmount == goalAmount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NutrientStatsRow&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.goalAmount, goalAmount) || other.goalAmount == goalAmount)&&const DeepCollectionEquality().equals(other.children, children));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,nutrient,amount,level,goalAmount);
+int get hashCode => Object.hash(runtimeType,nutrient,amount,goalAmount,const DeepCollectionEquality().hash(children));
 
 @override
 String toString() {
-  return 'NutrientStatsRow(nutrient: $nutrient, amount: $amount, level: $level, goalAmount: $goalAmount)';
+  return 'NutrientStatsRow(nutrient: $nutrient, amount: $amount, goalAmount: $goalAmount, children: $children)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $NutrientStatsRowCopyWith<$Res>  {
   factory $NutrientStatsRowCopyWith(NutrientStatsRow value, $Res Function(NutrientStatsRow) _then) = _$NutrientStatsRowCopyWithImpl;
 @useResult
 $Res call({
- Nutrient nutrient, Amount amount, int level, Amount? goalAmount
+ Nutrient nutrient, Amount amount, Amount? goalAmount, List<NutrientStatsRow> children
 });
 
 
@@ -62,13 +62,13 @@ class _$NutrientStatsRowCopyWithImpl<$Res>
 
 /// Create a copy of NutrientStatsRow
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? nutrient = null,Object? amount = null,Object? level = null,Object? goalAmount = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? nutrient = null,Object? amount = null,Object? goalAmount = freezed,Object? children = null,}) {
   return _then(_self.copyWith(
 nutrient: null == nutrient ? _self.nutrient : nutrient // ignore: cast_nullable_to_non_nullable
 as Nutrient,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as Amount,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
-as int,goalAmount: freezed == goalAmount ? _self.goalAmount : goalAmount // ignore: cast_nullable_to_non_nullable
-as Amount?,
+as Amount,goalAmount: freezed == goalAmount ? _self.goalAmount : goalAmount // ignore: cast_nullable_to_non_nullable
+as Amount?,children: null == children ? _self.children : children // ignore: cast_nullable_to_non_nullable
+as List<NutrientStatsRow>,
   ));
 }
 /// Create a copy of NutrientStatsRow
@@ -171,10 +171,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Nutrient nutrient,  Amount amount,  int level,  Amount? goalAmount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Nutrient nutrient,  Amount amount,  Amount? goalAmount,  List<NutrientStatsRow> children)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NutrientStatsRow() when $default != null:
-return $default(_that.nutrient,_that.amount,_that.level,_that.goalAmount);case _:
+return $default(_that.nutrient,_that.amount,_that.goalAmount,_that.children);case _:
   return orElse();
 
 }
@@ -192,10 +192,10 @@ return $default(_that.nutrient,_that.amount,_that.level,_that.goalAmount);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Nutrient nutrient,  Amount amount,  int level,  Amount? goalAmount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Nutrient nutrient,  Amount amount,  Amount? goalAmount,  List<NutrientStatsRow> children)  $default,) {final _that = this;
 switch (_that) {
 case _NutrientStatsRow():
-return $default(_that.nutrient,_that.amount,_that.level,_that.goalAmount);}
+return $default(_that.nutrient,_that.amount,_that.goalAmount,_that.children);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -209,10 +209,10 @@ return $default(_that.nutrient,_that.amount,_that.level,_that.goalAmount);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Nutrient nutrient,  Amount amount,  int level,  Amount? goalAmount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Nutrient nutrient,  Amount amount,  Amount? goalAmount,  List<NutrientStatsRow> children)?  $default,) {final _that = this;
 switch (_that) {
 case _NutrientStatsRow() when $default != null:
-return $default(_that.nutrient,_that.amount,_that.level,_that.goalAmount);case _:
+return $default(_that.nutrient,_that.amount,_that.goalAmount,_that.children);case _:
   return null;
 
 }
@@ -224,13 +224,19 @@ return $default(_that.nutrient,_that.amount,_that.level,_that.goalAmount);case _
 
 
 class _NutrientStatsRow implements NutrientStatsRow {
-  const _NutrientStatsRow({required this.nutrient, required this.amount, this.level = 0, this.goalAmount});
+  const _NutrientStatsRow({required this.nutrient, required this.amount, this.goalAmount, final  List<NutrientStatsRow> children = const []}): _children = children;
   
 
 @override final  Nutrient nutrient;
 @override final  Amount amount;
-@override@JsonKey() final  int level;
 @override final  Amount? goalAmount;
+ final  List<NutrientStatsRow> _children;
+@override@JsonKey() List<NutrientStatsRow> get children {
+  if (_children is EqualUnmodifiableListView) return _children;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_children);
+}
+
 
 /// Create a copy of NutrientStatsRow
 /// with the given fields replaced by the non-null parameter values.
@@ -242,16 +248,16 @@ _$NutrientStatsRowCopyWith<_NutrientStatsRow> get copyWith => __$NutrientStatsRo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NutrientStatsRow&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.level, level) || other.level == level)&&(identical(other.goalAmount, goalAmount) || other.goalAmount == goalAmount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NutrientStatsRow&&(identical(other.nutrient, nutrient) || other.nutrient == nutrient)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.goalAmount, goalAmount) || other.goalAmount == goalAmount)&&const DeepCollectionEquality().equals(other._children, _children));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,nutrient,amount,level,goalAmount);
+int get hashCode => Object.hash(runtimeType,nutrient,amount,goalAmount,const DeepCollectionEquality().hash(_children));
 
 @override
 String toString() {
-  return 'NutrientStatsRow(nutrient: $nutrient, amount: $amount, level: $level, goalAmount: $goalAmount)';
+  return 'NutrientStatsRow(nutrient: $nutrient, amount: $amount, goalAmount: $goalAmount, children: $children)';
 }
 
 
@@ -262,7 +268,7 @@ abstract mixin class _$NutrientStatsRowCopyWith<$Res> implements $NutrientStatsR
   factory _$NutrientStatsRowCopyWith(_NutrientStatsRow value, $Res Function(_NutrientStatsRow) _then) = __$NutrientStatsRowCopyWithImpl;
 @override @useResult
 $Res call({
- Nutrient nutrient, Amount amount, int level, Amount? goalAmount
+ Nutrient nutrient, Amount amount, Amount? goalAmount, List<NutrientStatsRow> children
 });
 
 
@@ -279,13 +285,13 @@ class __$NutrientStatsRowCopyWithImpl<$Res>
 
 /// Create a copy of NutrientStatsRow
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? nutrient = null,Object? amount = null,Object? level = null,Object? goalAmount = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? nutrient = null,Object? amount = null,Object? goalAmount = freezed,Object? children = null,}) {
   return _then(_NutrientStatsRow(
 nutrient: null == nutrient ? _self.nutrient : nutrient // ignore: cast_nullable_to_non_nullable
 as Nutrient,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as Amount,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
-as int,goalAmount: freezed == goalAmount ? _self.goalAmount : goalAmount // ignore: cast_nullable_to_non_nullable
-as Amount?,
+as Amount,goalAmount: freezed == goalAmount ? _self.goalAmount : goalAmount // ignore: cast_nullable_to_non_nullable
+as Amount?,children: null == children ? _self._children : children // ignore: cast_nullable_to_non_nullable
+as List<NutrientStatsRow>,
   ));
 }
 
