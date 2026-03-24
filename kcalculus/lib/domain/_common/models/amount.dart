@@ -28,6 +28,15 @@ sealed class Amount with _$Amount {
     );
   }
 
+  factory Amount.zero({
+    required Unit unit,
+  }) {
+    return Amount.$default(
+      unit: unit,
+      value: 0,
+    );
+  }
+
   factory Amount.fromJson(Map<String, dynamic> json) => _$AmountFromJson(json);
 
   Amount? tryConvert(Unit toUnit) {

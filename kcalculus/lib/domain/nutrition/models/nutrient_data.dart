@@ -84,9 +84,8 @@ sealed class NutrientData with _$NutrientData {
           .map(
             (n) => NutrientAmount(
               nutrient: n,
-              amount: Amount(
+              amount: Amount.zero(
                 unit: n.defaultUnit,
-                value: 0,
               ),
             ),
           )
