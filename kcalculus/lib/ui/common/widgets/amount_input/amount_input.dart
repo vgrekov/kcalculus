@@ -35,7 +35,8 @@ class AmountInput extends StatefulWidget {
     }
 
     if (fixedMeasure != null) {
-      final unit = initialUnit ??
+      final unit =
+          initialUnit ??
           initialAmount?.unit ??
           controller?._unit ??
           _defaultUnit;
@@ -100,12 +101,14 @@ class _AmountInputState extends State<AmountInput> {
   void initState() {
     super.initState();
 
-    _unit = widget.initialUnit ??
+    _unit =
+        widget.initialUnit ??
         widget.initialAmount?.unit ??
         widget.controller?._unit ??
         _defaultUnit;
 
-    _value = widget.initialValue ??
+    _value =
+        widget.initialValue ??
         widget.initialAmount?.value ??
         widget.controller?._value;
 
@@ -114,8 +117,9 @@ class _AmountInputState extends State<AmountInput> {
     Future.delayed(Duration.zero, () {
       if (mounted) {
         _valueMask = RegExp(l10n(context).amounValueMask);
-        _valueController.text =
-            _value != null ? nb.formatDouble(context, _value!) : '';
+        _valueController.text = _value != null
+            ? nb.formatDouble(context, _value!)
+            : '';
       }
     });
   }
@@ -132,8 +136,9 @@ class _AmountInputState extends State<AmountInput> {
     setState(() {
       _unit = widget.controller!._unit ?? _unit;
       _value = widget.controller!._value;
-      _valueController.text =
-          _value != null ? nb.formatDouble(context, _value!) : '';
+      _valueController.text = _value != null
+          ? nb.formatDouble(context, _value!)
+          : '';
     });
   }
 
@@ -233,7 +238,7 @@ class _AmountInputState extends State<AmountInput> {
         padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
         child: TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(8),
@@ -245,8 +250,8 @@ class _AmountInputState extends State<AmountInput> {
           child: Text(
             _unit.localName(l10n(context)),
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onTertiaryContainer,
-                ),
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
+            ),
           ),
         ),
       ),

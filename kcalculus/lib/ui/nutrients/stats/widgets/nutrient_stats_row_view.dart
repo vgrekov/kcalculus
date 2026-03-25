@@ -123,7 +123,7 @@ class NutrientStatsRowView extends StatelessWidget {
                 builder: (context, value, child) => LinearProgressIndicator(
                   backgroundColor: Theme.of(
                     context,
-                  ).colorScheme.onInverseSurface,
+                  ).colorScheme.surfaceBright,
                   color: colorOf(context, row.nutrient),
                   value: value,
                 ),

@@ -38,7 +38,7 @@ class NutrientStatsDailyTrigger extends StatelessWidget {
           padding: const EdgeInsets.all(4),
           child: Icon(
             Icons.read_more,
-            color: Theme.of(context).colorScheme.tertiary,
+            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
       ),

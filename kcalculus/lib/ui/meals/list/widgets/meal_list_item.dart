@@ -25,7 +25,7 @@ class MealListItem extends StatelessWidget {
         onSelectMeal(meal);
       },
       child: Ink(
-        color: Theme.of(context).colorScheme.surfaceContainerLow,
+        color: Theme.of(context).colorScheme.surfaceContainerHigh,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -44,9 +44,7 @@ class MealListItem extends StatelessWidget {
                           l10n(context).mealEatenAt(
                             dt.formatTimeLocal(context, meal.eatenAt),
                           ),
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall!
+                          style: Theme.of(context).textTheme.labelSmall!
                               .copyWith(
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
@@ -54,9 +52,7 @@ class MealListItem extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           meal.edible.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
+                          style: Theme.of(context).textTheme.titleMedium!
                               .copyWith(
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),
@@ -76,8 +72,8 @@ class MealListItem extends StatelessWidget {
                 Text(
                   meal.edible.description,
                   style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

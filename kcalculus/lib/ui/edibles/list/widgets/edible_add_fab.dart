@@ -73,9 +73,6 @@ class _EdibleAddFabState extends State<EdibleAddFab> {
                           ? const SizedBox.shrink()
                           : FilledButton(
                               style: FilledButton.styleFrom(
-                                backgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadiusGeometry.only(
                                     topLeft: Radius.circular(32),
@@ -88,13 +85,11 @@ class _EdibleAddFabState extends State<EdibleAddFab> {
                                 padding: const EdgeInsets.only(right: 24),
                                 child: Text(
                                   l10n(context).actionAddFood,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelLarge!
+                                  style: Theme.of(context).textTheme.labelLarge!
                                       .copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimaryContainer,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimary,
                                       ),
                                 ),
                               ),
@@ -122,9 +117,6 @@ class _EdibleAddFabState extends State<EdibleAddFab> {
                           ? const SizedBox.shrink()
                           : FilledButton(
                               style: FilledButton.styleFrom(
-                                backgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadiusGeometry.only(
                                     topRight: Radius.circular(32),
@@ -137,13 +129,11 @@ class _EdibleAddFabState extends State<EdibleAddFab> {
                                 padding: const EdgeInsets.only(left: 24),
                                 child: Text(
                                   l10n(context).actionAddDish,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelLarge!
+                                  style: Theme.of(context).textTheme.labelLarge!
                                       .copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimaryContainer,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimary,
                                       ),
                                 ),
                               ),

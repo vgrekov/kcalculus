@@ -35,7 +35,7 @@ class NutrientStatsOthersTile extends StatelessWidget {
     return Material(
       borderRadius: listStyle?.itemBorderRadius,
       clipBehavior: Clip.antiAlias,
-      color: Theme.of(context).colorScheme.surfaceContainerLow,
+      color: Theme.of(context).colorScheme.surfaceContainerHigh,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

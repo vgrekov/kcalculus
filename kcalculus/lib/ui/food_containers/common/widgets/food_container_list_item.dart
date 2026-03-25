@@ -25,17 +25,17 @@ class FoodContainerListItem extends StatelessWidget {
       bgColor = Theme.of(context).colorScheme.surface;
       tag = const DeletedTag();
     } else if (container.isRecent) {
-      bgColor = Theme.of(context).colorScheme.surfaceContainerHigh;
+      bgColor = Theme.of(context).colorScheme.surfaceContainerHighest;
       tag = const RecentTag();
     } else {
-      bgColor = Theme.of(context).colorScheme.surfaceContainerLow;
+      bgColor = Theme.of(context).colorScheme.surfaceContainerHigh;
     }
 
     final title = Text(
       container.name,
       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
@@ -63,8 +63,8 @@ class FoodContainerListItem extends StatelessWidget {
           : Text(
               container.description,
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -74,8 +74,8 @@ class FoodContainerListItem extends StatelessWidget {
           container.weight.unit.localName(l10n(context)),
         ),
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
     );
   }

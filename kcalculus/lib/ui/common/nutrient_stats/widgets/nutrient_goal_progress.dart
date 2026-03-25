@@ -48,10 +48,11 @@ class NutrientGoalProgress extends StatelessWidget {
 
     final aboveGoal = convertedGoalAmount < actualAmount;
 
-    final diffAmount = (aboveGoal
-            ? actualAmount - convertedGoalAmount
-            : convertedGoalAmount - actualAmount)
-        .convert(actualAmount.unit);
+    final diffAmount =
+        (aboveGoal
+                ? actualAmount - convertedGoalAmount
+                : convertedGoalAmount - actualAmount)
+            .convert(actualAmount.unit);
 
     final progress = actualAmount.value / convertedGoalAmount.value;
 
@@ -109,10 +110,13 @@ class NutrientGoalProgress extends StatelessWidget {
             height: progressBarHeight,
             child: TweenAnimationBuilder<double>(
               tween: Tween(begin: 0, end: min(progress, 1.0)),
-              duration:
-                  animated ? const Duration(milliseconds: 600) : Duration.zero,
+              duration: animated
+                  ? const Duration(milliseconds: 600)
+                  : Duration.zero,
               builder: (context, value, child) => LinearProgressIndicator(
-                backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+                backgroundColor: Theme.of(
+                  context,
+                ).colorScheme.surfaceBright,
                 color: colorOf(context, nutrient),
                 value: value,
               ),

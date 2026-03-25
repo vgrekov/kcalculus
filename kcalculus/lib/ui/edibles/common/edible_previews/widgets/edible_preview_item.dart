@@ -21,9 +21,9 @@ class EdiblePreviewItem extends StatelessWidget {
     if (preview.deletedAt != null) {
       bgColor = Theme.of(context).colorScheme.surface;
     } else if (preview.isRecent) {
-      bgColor = Theme.of(context).colorScheme.surfaceContainerHigh;
+      bgColor = Theme.of(context).colorScheme.surfaceContainerHighest;
     } else {
-      bgColor = Theme.of(context).colorScheme.surfaceContainerLow;
+      bgColor = Theme.of(context).colorScheme.surfaceContainerHigh;
     }
 
     return InkWell(
@@ -54,9 +54,7 @@ class EdiblePreviewItem extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           preview.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
+                          style: Theme.of(context).textTheme.titleMedium!
                               .copyWith(
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),
@@ -76,8 +74,8 @@ class EdiblePreviewItem extends StatelessWidget {
                 Text(
                   preview.description,
                   style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
