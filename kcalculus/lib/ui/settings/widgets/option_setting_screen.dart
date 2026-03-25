@@ -41,6 +41,7 @@ class OptionSettingScreen<T> extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: listStyle?.horizontalGap ?? 0,
+            vertical: listStyle?.verticalGap ?? 0,
           ),
           child: SettingsGroup(
             children: [
