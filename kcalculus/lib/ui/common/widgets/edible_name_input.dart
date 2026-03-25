@@ -41,7 +41,7 @@ class EdibleNameInput extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
         child: TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(8),
@@ -52,7 +52,7 @@ class EdibleNameInput extends StatelessWidget {
           onPressed: onSearchPressed,
           child: Icon(
             Icons.search,
-            color: Theme.of(context).colorScheme.onTertiaryContainer,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
           ),
         ),
       ),

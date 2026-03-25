@@ -50,15 +50,15 @@ class _DateInputState extends State<DateInput> {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: Theme.of(context).colorScheme.tertiary,
+              color: Theme.of(context).colorScheme.secondary,
             ),
           ),
         ),
         child: Text(
           dt.formatDateLocal(context, widget.controller.dateTime),
           style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
+            color: Theme.of(context).colorScheme.secondary,
+          ),
         ),
       ),
     );

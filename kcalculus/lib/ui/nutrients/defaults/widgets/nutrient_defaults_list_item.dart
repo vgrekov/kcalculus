@@ -22,13 +22,13 @@ class NutrientDefaultsListItem extends StatelessWidget with WidgetMessenger {
   Widget _buildTile(BuildContext context) {
     return ListTile(
       tileColor: item.required
-          ? Theme.of(context).colorScheme.surfaceContainerHigh
-          : Theme.of(context).colorScheme.surfaceContainerLow,
+          ? Theme.of(context).colorScheme.surfaceContainerHighest
+          : Theme.of(context).colorScheme.surfaceContainerHigh,
       title: Text(
         item.localName(l10n(context)),
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
@@ -37,8 +37,8 @@ class NutrientDefaultsListItem extends StatelessWidget with WidgetMessenger {
           : Text(
               l10n(context).labelDefaultNutrientRequired,
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -48,8 +48,8 @@ class NutrientDefaultsListItem extends StatelessWidget with WidgetMessenger {
           Text(
             item.defaultUnit.localName(l10n(context)),
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           const SizedBox(width: 16),
           ReorderableDragStartListener(
@@ -74,8 +74,9 @@ class NutrientDefaultsListItem extends StatelessWidget with WidgetMessenger {
       child: Deletable(
         key: ValueKey('${item.name}_deletable'),
         enabled: !item.required,
-        confirmMessage:
-            l10n(context).messageDefaultNutrientDeletionConfirmation,
+        confirmMessage: l10n(
+          context,
+        ).messageDefaultNutrientDeletionConfirmation,
         onDeleted: () {
           onDeleteItem?.call(item);
         },

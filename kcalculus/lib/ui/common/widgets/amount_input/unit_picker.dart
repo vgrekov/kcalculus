@@ -59,7 +59,7 @@ class _UnitPickerState extends State<UnitPicker> {
         .toList();
 
     return Dialog(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       clipBehavior: Clip.hardEdge,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -67,7 +67,7 @@ class _UnitPickerState extends State<UnitPicker> {
         ),
       ),
       child: Container(
-        height: 350,
+        height: 356,
         alignment: Alignment.center,
         margin: const EdgeInsets.only(top: 8),
         child: Column(
@@ -83,21 +83,24 @@ class _UnitPickerState extends State<UnitPicker> {
                 ),
                 itemCount: measures.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    shape: const RoundedRectangleBorder(
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
                       borderRadius: BorderRadius.all(
                         Radius.circular(8),
                       ),
+                    ),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 4,
                     ),
                     child: Center(
                       child: Text(
                         measures[index].localName(l10n(context)),
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimary,
+                        ),
                       ),
                     ),
                   );
@@ -109,6 +112,7 @@ class _UnitPickerState extends State<UnitPicker> {
                 },
               ),
             ),
+            const SizedBox(height: 8),
             SizedBox(
               height: 40,
               child: PageView.builder(
@@ -118,21 +122,22 @@ class _UnitPickerState extends State<UnitPicker> {
                 ),
                 itemCount: systems.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8),
-                      ),
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 4,
                     ),
                     child: Center(
                       child: Text(
                         systems[index].localName(l10n(context)),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSecondaryContainer,
-                            ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSecondary,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -146,7 +151,7 @@ class _UnitPickerState extends State<UnitPicker> {
               ),
             ),
             SizedBox(
-              height: 250,
+              height: 248,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GridView.count(
@@ -157,8 +162,9 @@ class _UnitPickerState extends State<UnitPicker> {
                     for (final unit in units)
                       TextButton(
                         style: TextButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.tertiaryContainer,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.secondaryContainer,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(8),
@@ -170,12 +176,12 @@ class _UnitPickerState extends State<UnitPicker> {
                         },
                         child: Text(
                           unit.localName(l10n(context)),
-                          style:
-                              Theme.of(context).textTheme.labelLarge!.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onTertiaryContainer,
-                                  ),
+                          style: Theme.of(context).textTheme.labelLarge!
+                              .copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSecondaryContainer,
+                              ),
                         ),
                       ),
                   ],

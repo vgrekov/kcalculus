@@ -28,7 +28,7 @@ class NutrientStatsMainTile extends StatelessWidget {
     return Material(
       borderRadius: listStyle?.itemBorderRadius,
       clipBehavior: Clip.antiAlias,
-      color: Theme.of(context).colorScheme.surfaceContainerLow,
+      color: Theme.of(context).colorScheme.surfaceContainerHigh,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: convertedGoalAmount == null
@@ -89,7 +89,7 @@ class NutrientStatsMainTile extends StatelessWidget {
                 child: CircularProgressIndicator(
                   backgroundColor: Theme.of(
                     context,
-                  ).colorScheme.onInverseSurface,
+                  ).colorScheme.surfaceBright,
                   color: colorOf(context, row.nutrient),
                   strokeWidth: 8,
                   strokeCap: StrokeCap.round,

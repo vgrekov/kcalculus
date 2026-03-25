@@ -10,6 +10,7 @@ import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/auth/login/widgets/login_screen.dart';
 import 'package:kcalculus/ui/common/messaging/models/ui_message.dart';
 import 'package:kcalculus/ui/common/messaging/services/ui_message_service.dart';
+import 'package:kcalculus/ui/common/themes/list_style.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
@@ -288,6 +289,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   Widget build(BuildContext context) {
     final uiState = ref.watch(appSettingsViewModel);
 
+    final listStyle = Theme.of(context).extension<ListStyle>();
+
     final Widget body;
 
     String? version;
@@ -309,14 +312,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
       default:
         body = Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(
+            horizontal: listStyle?.horizontalGap ?? 0,
+          ),
           child: ListView(
             children: [
+              if (listStyle != null) SizedBox(height: listStyle.verticalGap),
               const SettingsGroup(
                 children: [
                   PremiumSettingTile(),
                 ],
               ),
+              if (listStyle != null) SizedBox(height: listStyle.verticalGap),
               SettingsGroup(
                 children: [
                   UserSettingTile(
@@ -327,6 +334,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   ),
                 ],
               ),
+              if (listStyle != null) SizedBox(height: listStyle.verticalGap),
               SettingsGroup(
                 children: [
                   AppThemeSettingTile(
@@ -355,9 +363,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   ),
                 ],
               ),
-              if (uiState.valueOrNull?.user == null)
+              if (uiState.valueOrNull?.user == null) ...[
+                if (listStyle != null) SizedBox(height: listStyle.verticalGap),
                 SettingsGroup(
-                  title: l10n(context).settingsGroupBackup,
                   children: [
                     ActionSettingTile(
                       onTap: uiState.isLoading ? null : _backup,
@@ -375,8 +383,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     ),
                   ],
                 ),
+              ],
+              if (listStyle != null) SizedBox(height: listStyle.verticalGap),
               SettingsGroup(
-                title: l10n(context).settingsGroupDataSharing,
                 children: [
                   SwitchSettingTile(
                     value:
@@ -399,6 +408,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   ),
                 ],
               ),
+              if (listStyle != null) SizedBox(height: listStyle.verticalGap),
             ],
           ),
         );
