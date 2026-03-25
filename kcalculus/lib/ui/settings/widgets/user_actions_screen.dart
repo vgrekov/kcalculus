@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kcalculus/domain/auth/models/user.dart';
+import 'package:kcalculus/ui/common/themes/list_style.dart';
 import 'package:kcalculus/ui/settings/widgets/action_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -20,6 +21,8 @@ class UserActionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final listStyle = Theme.of(context).extension<ListStyle>();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -43,7 +46,10 @@ class UserActionsScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(
+            horizontal: listStyle?.horizontalGap ?? 0,
+            vertical: listStyle?.verticalGap ?? 0,
+          ),
           child: SettingsGroup(
             children: [
               ActionSettingTile(
