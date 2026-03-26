@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/_common/models/amount.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient_goal.dart';
@@ -9,76 +8,13 @@ part 'nutrient_stats_ui_state.freezed.dart';
 
 @freezed
 sealed class NutrientStatsUiState with _$NutrientStatsUiState {
-  static int Function(Nutrient, Nutrient) _buildComparator(
-    NutrientData data,
-    List<Nutrient> defaults,
-  ) {
-    final defaultPositions = {
-      for (final pair in defaults.indexed) pair.$2: pair.$1,
-    };
-
-    final modelPositions = {
-      for (final pair in data.nutrientAmounts.indexed)
-        pair.$2.nutrient: pair.$1,
-    };
-
-    return (Nutrient a, Nutrient b) {
-      int result =
-          (defaultPositions[a] ?? defaults.length) -
-          (defaultPositions[b] ?? defaults.length);
-
-      if (result == 0) {
-        result =
-            (modelPositions[a] ?? data.nutrientAmounts.length) -
-            (modelPositions[b] ?? data.nutrientAmounts.length);
-      }
-
-      return result;
-    };
-  }
-
-  static NutrientStatsRow _extractHierarchy(
-    Nutrient nutrient,
-    Map<Nutrient, Amount> goalFor,
-    Map<Nutrient, Amount> nutrientAmountsMap,
-    int Function(Nutrient, Nutrient) comparator,
-  ) {
-    final subNutrients =
-        nutrientAmountsMap.keys
-            .where(
-              (n) => n.partOf == nutrient,
-            )
-            .toList()
-          ..sort(comparator);
-
-    return NutrientStatsRow(
-      nutrient: nutrient,
-      amount:
-          nutrientAmountsMap.remove(nutrient) ??
-          Amount.zero(unit: nutrient.defaultUnit),
-      goalAmount: goalFor[nutrient],
-      children: subNutrients
-          .map(
-            (n) => _extractHierarchy(
-              n,
-              goalFor,
-              nutrientAmountsMap,
-              comparator,
-            ),
-          )
-          .toList(),
-    );
-  }
-
-  const NutrientStatsUiState._();
-
   const factory NutrientStatsUiState.$default({
     required DateTime date,
     required NutrientData data,
-    required NutrientStatsRow energyRow,
-    required NutrientStatsRow fatRow,
-    required NutrientStatsRow carbsRow,
-    required NutrientStatsRow proteinRow,
+    required NutrientStatsRow? energyRow,
+    required List<NutrientStatsRow> fatGroup,
+    required List<NutrientStatsRow> carbsGroup,
+    required List<NutrientStatsRow> proteinGroup,
     required List<NutrientStatsRow> otherRows,
   }) = _NutrientStatsUiState;
 
@@ -93,59 +29,67 @@ sealed class NutrientStatsUiState with _$NutrientStatsUiState {
     };
 
     defaults = [...defaults];
-
-    for (final goalNutrient in goalFor.keys) {
-      if (!defaults.contains(goalNutrient)) {
-        defaults.add(goalNutrient);
+    for (final nutrient in goalFor.keys) {
+      if (!defaults.contains(nutrient)) {
+        defaults.add(nutrient);
       }
     }
 
     final correctedData = data + NutrientData.zeros(defaults);
 
-    final comparator = _buildComparator(correctedData, defaults);
+    final allRows = correctedData.toRows(
+      defaults,
+      (nutrient, amount, level) => NutrientStatsRow(
+        nutrient: nutrient,
+        amount: amount,
+        goalAmount: goalFor[nutrient],
+        level: level,
+      ),
+    );
 
-    final nutrientAmountsMap = Map.of(correctedData.nutrientAmountsMap);
+    NutrientStatsRow? energyRow;
+
+    final fatGroup = <NutrientStatsRow>[];
+    final carbsGroup = <NutrientStatsRow>[];
+    final proteinGroup = <NutrientStatsRow>[];
+    final otherRows = <NutrientStatsRow>[];
+
+    final groups = {
+      Nutrient.fat: fatGroup,
+      Nutrient.totalCarbs: carbsGroup,
+      Nutrient.protein: proteinGroup,
+    };
+
+    NutrientStatsRow? groupRootRow;
+
+    for (final row in allRows) {
+      if (row.nutrient == Nutrient.energy) {
+        energyRow = row;
+        continue;
+      }
+
+      if (groups.containsKey(row.nutrient)) {
+        groupRootRow = row;
+        groups[groupRootRow.nutrient]!.add(row);
+        continue;
+      }
+
+      if (groupRootRow != null && groupRootRow.level < row.level) {
+        groups[groupRootRow.nutrient]!.add(row);
+      } else {
+        groupRootRow = null;
+        otherRows.add(row);
+      }
+    }
 
     return NutrientStatsUiState.$default(
       date: date,
       data: data,
-      energyRow: _extractHierarchy(
-        Nutrient.energy,
-        goalFor,
-        nutrientAmountsMap,
-        comparator,
-      ),
-      fatRow: _extractHierarchy(
-        Nutrient.fat,
-        goalFor,
-        nutrientAmountsMap,
-        comparator,
-      ),
-      carbsRow: _extractHierarchy(
-        Nutrient.totalCarbs,
-        goalFor,
-        nutrientAmountsMap,
-        comparator,
-      ),
-      proteinRow: _extractHierarchy(
-        Nutrient.protein,
-        goalFor,
-        nutrientAmountsMap,
-        comparator,
-      ),
-      otherRows:
-          nutrientAmountsMap.entries
-              .map(
-                (e) => NutrientStatsRow(
-                  nutrient: e.key,
-                  amount: e.value,
-                  goalAmount: goalFor[e.key],
-                ),
-              )
-              .toList()
-            ..sort(
-              (r1, r2) => comparator(r1.nutrient, r2.nutrient),
-            ),
+      energyRow: energyRow,
+      fatGroup: fatGroup,
+      carbsGroup: carbsGroup,
+      proteinGroup: proteinGroup,
+      otherRows: otherRows,
     );
   }
 }

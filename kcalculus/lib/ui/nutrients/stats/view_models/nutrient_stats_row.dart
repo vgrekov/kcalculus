@@ -10,6 +10,6 @@ sealed class NutrientStatsRow with _$NutrientStatsRow {
     required Nutrient nutrient,
     required Amount amount,
     Amount? goalAmount,
-    @Default([]) List<NutrientStatsRow> children,
+    required int level,
   }) = _NutrientStatsRow;
 }

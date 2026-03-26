@@ -63,23 +63,39 @@ class NutrientStatsScreen extends ConsumerWidget {
       body: SafeArea(
         child: uiStateAsync.when(
           data: (uiState) {
+            final widgets = <Widget>[
+              if (uiState.energyRow != null)
+                NutrientStatsMainTile(
+                  row: uiState.energyRow!,
+                ),
+              if (uiState.fatGroup.isNotEmpty)
+                NutrientStatsGroupTile(group: uiState.fatGroup),
+              if (uiState.carbsGroup.isNotEmpty)
+                NutrientStatsGroupTile(group: uiState.carbsGroup),
+              if (uiState.proteinGroup.isNotEmpty)
+                NutrientStatsGroupTile(group: uiState.proteinGroup),
+              if (uiState.otherRows.isNotEmpty)
+                NutrientStatsOthersTile(rows: uiState.otherRows),
+            ];
+
+            if (widgets.length > 1) {
+              final originalLength = widgets.length;
+
+              for (int i = 0; i < originalLength - 1; i++) {
+                widgets.insert(
+                  i * 2 + 1,
+                  SizedBox(
+                    height: listStyle?.verticalGap,
+                  ),
+                );
+              }
+            }
+
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Column(
-                  children: [
-                    NutrientStatsMainTile(
-                      row: uiState.energyRow,
-                    ),
-                    SizedBox(height: listStyle?.verticalGap),
-                    NutrientStatsGroupTile(row: uiState.fatRow),
-                    SizedBox(height: listStyle?.verticalGap),
-                    NutrientStatsGroupTile(row: uiState.carbsRow),
-                    SizedBox(height: listStyle?.verticalGap),
-                    NutrientStatsGroupTile(row: uiState.proteinRow),
-                    SizedBox(height: listStyle?.verticalGap),
-                    NutrientStatsOthersTile(rows: uiState.otherRows),
-                  ],
+                  children: widgets,
                 ),
               ),
             );

@@ -70,7 +70,7 @@ class NutrientStatsRowView extends StatelessWidget {
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               row.nutrient.localName(l10n(context)),

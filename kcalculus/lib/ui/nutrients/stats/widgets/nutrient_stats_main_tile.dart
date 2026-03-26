@@ -101,7 +101,9 @@ class NutrientStatsMainTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    (value / tweenEnd * progress * 100).floor().toString(),
+                    ((tweenEnd > 0 ? value / tweenEnd : 1) * progress * 100)
+                        .floor()
+                        .toString(),
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
