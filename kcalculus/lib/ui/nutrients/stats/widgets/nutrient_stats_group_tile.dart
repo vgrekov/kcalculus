@@ -6,11 +6,11 @@ import 'package:kcalculus/ui/nutrients/stats/widgets/nutrient_stats_row_view.dar
 class NutrientStatsGroupTile extends StatelessWidget {
   const NutrientStatsGroupTile({
     super.key,
-    required this.row,
+    required this.group,
     this.animated = true,
   });
 
-  final NutrientStatsRow row;
+  final List<NutrientStatsRow> group;
 
   final bool animated;
 
@@ -18,27 +18,7 @@ class NutrientStatsGroupTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final listStyle = Theme.of(context).extension<ListStyle>();
 
-    final rows = <Widget>[];
-
-    final stack = <(NutrientStatsRow, int)>[(row, 0)];
-
-    while (stack.isNotEmpty) {
-      final (row, level) = stack.removeLast();
-
-      rows.add(
-        Padding(
-          padding: EdgeInsets.only(left: 16.0 * level, top: level > 0 ? 8 : 0),
-          child: NutrientStatsRowView(
-            row: row,
-            isChild: level > 0,
-          ),
-        ),
-      );
-
-      for (final child in row.children.reversed) {
-        stack.add((child, level + 1));
-      }
-    }
+    final rootLevel = group.firstOrNull?.level;
 
     return Material(
       borderRadius: listStyle?.itemBorderRadius,
@@ -48,7 +28,22 @@ class NutrientStatsGroupTile extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: rows,
+          children: group.map(
+            (row) {
+              final level = row.level - rootLevel!;
+
+              return Padding(
+                padding: EdgeInsets.only(
+                  left: 16.0 * level,
+                  top: level > 0 ? 8 : 0,
+                ),
+                child: NutrientStatsRowView(
+                  row: row,
+                  isChild: level > 0,
+                ),
+              );
+            },
+          ).toList(),
         ),
       ),
     );
