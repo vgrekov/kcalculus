@@ -234,26 +234,30 @@ class _AmountInputState extends State<AmountInput> {
       controller: _valueController,
       labelText: widget.label,
       hintText: widget.hint,
-      suffix: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
-        child: TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(8),
-                bottomRight: Radius.circular(8),
+      suffix: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            color: Theme.of(context).colorScheme.secondary,
+            width: 1,
+            height: 24,
+          ),
+          TextButton(
+            onPressed: widget.fixedUnit ? null : _pickUnit,
+            style: TextButton.styleFrom(
+              visualDensity: VisualDensity(
+                horizontal: VisualDensity.minimumDensity,
+              ),
+            ),
+            child: Text(
+              _unit.localName(l10n(context)),
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
           ),
-          onPressed: widget.fixedUnit ? null : _pickUnit,
-          child: Text(
-            _unit.localName(l10n(context)),
-            style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
-          ),
-        ),
+        ],
       ),
       enabled: widget.enabled,
       keyboardType: const TextInputType.numberWithOptions(
