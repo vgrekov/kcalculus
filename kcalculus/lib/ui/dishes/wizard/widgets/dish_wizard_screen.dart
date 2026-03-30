@@ -332,13 +332,11 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
                 ],
               ),
               actions: [
-                TextButton(
+                IconButton(
                   onPressed: _saveDish,
-                  child: Text(
-                    l10n(context).actionSave,
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                  icon: Icon(
+                    Icons.check,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ],

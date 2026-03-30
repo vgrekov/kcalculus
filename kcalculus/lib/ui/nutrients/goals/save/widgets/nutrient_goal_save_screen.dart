@@ -93,17 +93,15 @@ class _NutrientGoalSaveScreenState extends State<NutrientGoalSaveScreen> {
                 ? l10n(context).screenEditNutrientGoal
                 : l10n(context).screenAddNutrientGoal,
             style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           actions: [
-            TextButton(
+            IconButton(
               onPressed: _saveGoal,
-              child: Text(
-                l10n(context).actionSave,
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+              icon: Icon(
+                Icons.check,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ],
