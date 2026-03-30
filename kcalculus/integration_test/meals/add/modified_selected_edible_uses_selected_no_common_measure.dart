@@ -51,8 +51,8 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
   ).thenAnswer(
     (_) async {
       return [
-        existingFood1,
-      ]
+            existingFood1,
+          ]
           .map(
             (f) => EdiblePreview(
               id: f.id!,
@@ -159,7 +159,7 @@ Future<void> testModifiedSelectedEdibleUsesSelectedNoCommonMeasure(
   await tester.pumpAndSettle();
 
   await tester.tap(
-    find.widgetWithText(TextButton, l10n.actionSave),
+    find.byIcon(Icons.check),
   );
 
   await tester.pumpAndSettle();

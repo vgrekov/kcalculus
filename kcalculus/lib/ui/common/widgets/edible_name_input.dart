@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class EdibleNameInput extends StatelessWidget {
-  final TextEditingController? controller;
-  final TextInputAction? textInputAction;
-  final void Function()? onSearchPressed;
-  final void Function(String)? onFieldSubmitted;
-  final void Function(String?)? onSaved;
-  final FocusNode? focusNode;
-  final bool autofocus;
-  final bool enabled;
-
   const EdibleNameInput({
     super.key,
     this.controller,
     this.textInputAction,
+    this.onScanPressed,
     this.onSearchPressed,
     this.onFieldSubmitted,
     this.onSaved,
@@ -23,6 +16,24 @@ class EdibleNameInput extends StatelessWidget {
     this.autofocus = false,
     this.enabled = true,
   });
+
+  final TextEditingController? controller;
+
+  final TextInputAction? textInputAction;
+
+  final void Function()? onScanPressed;
+
+  final void Function()? onSearchPressed;
+
+  final void Function(String)? onFieldSubmitted;
+
+  final void Function(String?)? onSaved;
+
+  final FocusNode? focusNode;
+
+  final bool autofocus;
+
+  final bool enabled;
 
   String? _validateName(BuildContext context, String? value) {
     if (value == null || value.trim().isEmpty) {
@@ -37,23 +48,20 @@ class EdibleNameInput extends StatelessWidget {
     return TextInput(
       controller: controller,
       labelText: l10n(context).labelEdibleName,
-      suffix: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
-        child: TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              ),
-            ),
-          ),
-          onPressed: onSearchPressed,
+      prefix: IconButton(
+        onPressed: onScanPressed,
+        icon: PremiumBadge(
           child: Icon(
-            Icons.search,
-            color: Theme.of(context).colorScheme.onSecondaryContainer,
+            Icons.qr_code_scanner,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
+        ),
+      ),
+      suffix: IconButton(
+        onPressed: onSearchPressed,
+        icon: Icon(
+          Icons.search,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
       maxLength: 50,

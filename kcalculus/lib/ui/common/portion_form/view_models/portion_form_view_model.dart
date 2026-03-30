@@ -136,6 +136,21 @@ class PortionFormViewModel
     return result;
   }
 
+  Future<bool> isScannerDisclaimerEnabled() async {
+    final settings = await ref.read(appSettingsRepositoryProvider.future);
+    return settings.scannerDisclaimerEnabled;
+  }
+
+  Future<void> disableScannerDisclaimer() async {
+    final settingsRepository = ref.read(appSettingsRepositoryProvider.notifier);
+    final settings = await ref.read(appSettingsRepositoryProvider.future);
+    await settingsRepository.saveSettings(
+      settings.copyWith(
+        scannerDisclaimerEnabled: false,
+      ),
+    );
+  }
+
   FutureOr<Edible?> _getEdible() async {
     _checkIfCommonMeasureExists();
 

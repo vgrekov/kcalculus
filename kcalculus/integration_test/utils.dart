@@ -128,7 +128,7 @@ Future<void> selectEdible(
   String edibleName,
 ) async {
   await tester.tap(
-    find.widgetWithIcon(TextButton, Icons.search),
+    find.byIcon(Icons.search),
   );
 
   await tester.pumpAndSettle();

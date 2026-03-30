@@ -83,13 +83,17 @@ class _UnitPickerState extends State<UnitPicker> {
                 ),
                 itemCount: measures.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8),
+                  return Card(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainer,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                    elevation: 0,
                     margin: EdgeInsets.symmetric(
                       horizontal: 4,
                     ),
@@ -99,7 +103,7 @@ class _UnitPickerState extends State<UnitPicker> {
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: Theme.of(
                             context,
-                          ).colorScheme.onPrimary,
+                          ).colorScheme.onSurface,
                         ),
                       ),
                     ),
@@ -122,11 +126,17 @@ class _UnitPickerState extends State<UnitPicker> {
                 ),
                 itemCount: systems.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondary,
+                  return Card(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainer,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    elevation: 0,
                     margin: EdgeInsets.symmetric(
                       horizontal: 4,
                     ),
@@ -136,7 +146,7 @@ class _UnitPickerState extends State<UnitPicker> {
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Theme.of(
                             context,
-                          ).colorScheme.onSecondary,
+                          ).colorScheme.onSurface,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -162,13 +172,13 @@ class _UnitPickerState extends State<UnitPicker> {
                     for (final unit in units)
                       TextButton(
                         style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(
-                            context,
-                          ).colorScheme.secondaryContainer,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(8),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.secondary,
                             ),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         onPressed: () {
@@ -180,7 +190,7 @@ class _UnitPickerState extends State<UnitPicker> {
                               .copyWith(
                                 color: Theme.of(
                                   context,
-                                ).colorScheme.onSecondaryContainer,
+                                ).colorScheme.secondary,
                               ),
                         ),
                       ),

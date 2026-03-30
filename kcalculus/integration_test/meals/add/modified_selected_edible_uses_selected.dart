@@ -51,8 +51,8 @@ Future<void> testModifiedSelectedEdibleUsesSelected(
   ).thenAnswer(
     (_) async {
       return [
-        existingFood1,
-      ]
+            existingFood1,
+          ]
           .map(
             (f) => EdiblePreview(
               id: f.id!,
@@ -163,7 +163,7 @@ Future<void> testModifiedSelectedEdibleUsesSelected(
   await tester.pumpAndSettle();
 
   await tester.tap(
-    find.widgetWithText(TextButton, l10n.actionSave),
+    find.byIcon(Icons.check),
   );
 
   await tester.pumpAndSettle();

@@ -51,8 +51,8 @@ Future<void> testModifiedSelectedEdibleCreatesNew(
   ).thenAnswer(
     (_) async {
       return [
-        existingFood1,
-      ]
+            existingFood1,
+          ]
           .map(
             (f) => EdiblePreview(
               id: f.id!,
@@ -165,7 +165,7 @@ Future<void> testModifiedSelectedEdibleCreatesNew(
   await tester.pumpAndSettle();
 
   await tester.tap(
-    find.widgetWithText(TextButton, l10n.actionSave),
+    find.byIcon(Icons.check),
   );
 
   await tester.pumpAndSettle();
@@ -183,11 +183,13 @@ Future<void> testModifiedSelectedEdibleCreatesNew(
 
   verify(
     () => mealRepository.save(
-      any(that: predicate<Meal>(
-        (m) {
-          return m.edible.id == null && m.edible.name == newFoodName;
-        },
-      )),
+      any(
+        that: predicate<Meal>(
+          (m) {
+            return m.edible.id == null && m.edible.name == newFoodName;
+          },
+        ),
+      ),
     ),
   ).called(1);
 }
