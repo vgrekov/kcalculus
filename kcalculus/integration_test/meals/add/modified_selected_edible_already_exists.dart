@@ -54,9 +54,9 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
   ).thenAnswer(
     (_) async {
       return [
-        existingFood1,
-        existingFood2,
-      ]
+            existingFood1,
+            existingFood2,
+          ]
           .map(
             (f) => EdiblePreview(
               id: f.id!,
@@ -148,7 +148,7 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
   await tester.pumpAndSettle();
 
   await tester.tap(
-    find.widgetWithText(TextButton, l10n.actionSave),
+    find.byIcon(Icons.check),
   );
 
   await tester.pumpAndSettle();

@@ -96,7 +96,7 @@ Future<void> testNoCommonMeasure(
   await tester.pumpAndSettle();
 
   await tester.tap(
-    find.widgetWithText(TextButton, l10n.actionSave),
+    find.byIcon(Icons.check),
   );
 
   await tester.pumpAndSettle();
