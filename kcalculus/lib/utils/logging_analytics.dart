@@ -71,7 +71,7 @@ extension Analytics on Logger {
     FirebaseAnalytics.instance.logEvent(
       name: 'food_scan_unsupported_version',
       parameters: {
-        if (version != null) 'version': version,
+        'version': ?version,
       },
     );
   }

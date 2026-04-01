@@ -92,20 +92,23 @@ class _PagedListDataState<Model> extends State<PagedListData<Model>> {
   void _loadNextPage() {
     _isNextPageLoading = true;
     setState(() {
-      _nextPageLoader = widget.onLoadNextPage?.call().then(
-        (data) {
-          _isEndReached = data.isEmpty;
-        },
-      ).whenComplete(
-        () {
-          Future.delayed(
-            const Duration(milliseconds: 100),
+      _nextPageLoader = widget.onLoadNextPage
+          ?.call()
+          .then(
+            (data) {
+              _isEndReached = data.isEmpty;
+            },
+          )
+          .whenComplete(
             () {
-              _isNextPageLoading = false;
+              Future.delayed(
+                const Duration(milliseconds: 100),
+                () {
+                  _isNextPageLoading = false;
+                },
+              );
             },
           );
-        },
-      );
     });
   }
 
@@ -136,7 +139,7 @@ class _PagedListDataState<Model> extends State<PagedListData<Model>> {
       controller: _scrollController,
       physics: AlwaysScrollableScrollPhysics(),
       slivers: [
-        if (verticalGap != null) verticalGap,
+        ?verticalGap,
         SliverList.separated(
           itemCount: widget.items.length,
           itemBuilder: (context, index) => PagedListItem(
@@ -151,7 +154,7 @@ class _PagedListDataState<Model> extends State<PagedListData<Model>> {
               ? SizedBox(height: listStyle!.verticalGap)
               : const SizedBox.shrink(),
         ),
-        if (verticalGap != null) verticalGap,
+        ?verticalGap,
         PagedListLoaderItem(pageLoader: _nextPageLoader),
       ],
     );

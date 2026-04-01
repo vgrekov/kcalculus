@@ -90,9 +90,9 @@ class LocalDishConverter extends Notifier<void> {
       description: dbModel.description ?? '',
       ingredients: ingredients,
       nutritionRatios: {
-        if (massRatio != null) Measure.mass: massRatio,
-        if (volumeRatio != null) Measure.volume: volumeRatio,
-        if (quantityRatio != null) Measure.quantity: quantityRatio,
+        Measure.mass: ?massRatio,
+        Measure.volume: ?volumeRatio,
+        Measure.quantity: ?quantityRatio,
       },
       createdAt: (dbModel.created_at?.isNotEmpty ?? false)
           ? dt.parseISO8601(dbModel.created_at!)
