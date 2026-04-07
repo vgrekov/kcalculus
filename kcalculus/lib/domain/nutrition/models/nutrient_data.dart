@@ -201,24 +201,96 @@ sealed class NutrientData with _$NutrientData {
       return other;
     }
 
-    final otherNutrientAmountsMap = {
-      for (final na in other.nutrientAmounts) na.nutrient: na,
-    };
+    final nutrients = [
+      ...nutrientAmounts.map((na) => na.nutrient),
+      ...other.nutrientAmounts
+          .where((na) => !nutrientAmountsMap.containsKey(na.nutrient))
+          .map((na) => na.nutrient),
+    ];
+
+    final calculatedAmounts = <Nutrient, Amount?>{};
+    final otherCalculatedAmounts = <Nutrient, Amount?>{};
 
     return NutrientData(
-      nutrientAmounts: [
-        ...nutrientAmounts.map(
-          (na) {
-            final otherNa = otherNutrientAmountsMap.remove(na.nutrient);
+      nutrientAmounts: nutrients.map(
+        (nutrient) {
+          final amount =
+              nutrientAmountsMap[nutrient] ??
+              _calculateAmount(nutrient, calculatedAmounts);
 
-            return otherNa != null ? na + otherNa : na;
-          },
-        ),
-        ...other.nutrientAmounts.where(
-          (na) => otherNutrientAmountsMap.containsKey(na.nutrient),
-        ),
-      ],
+          final otherAmount =
+              other.nutrientAmountsMap[nutrient] ??
+              other._calculateAmount(nutrient, otherCalculatedAmounts);
+
+          Amount combined;
+          if (amount != null && otherAmount != null) {
+            combined = (amount + otherAmount).convert(
+              nutrient.defaultUnit,
+            );
+          } else if (amount != null) {
+            combined = amount;
+          } else if (otherAmount != null) {
+            combined = otherAmount;
+          } else {
+            combined = Amount.zero(unit: nutrient.defaultUnit);
+          }
+
+          return NutrientAmount(
+            nutrient: nutrient,
+            amount: combined,
+          );
+        },
+      ).toList(),
     );
+  }
+
+  Amount? _calculateAmount(
+    Nutrient nutrient,
+    Map<Nutrient, Amount?> resolved,
+  ) {
+    final stack = <Nutrient>[nutrient];
+    final visited = <Nutrient>{};
+
+    while (stack.isNotEmpty) {
+      final n = stack.last;
+
+      // Already resolved -> skip
+      if (resolved.containsKey(n)) {
+        stack.removeLast();
+        continue;
+      }
+
+      // Direct value -> resolve immediately
+      if (nutrientAmountsMap.containsKey(n)) {
+        resolved[n] = nutrientAmountsMap[n]!;
+        stack.removeLast();
+        continue;
+      }
+
+      // First time visit -> push children
+      if (!visited.contains(n)) {
+        visited.add(n);
+        stack.addAll(n.children);
+        continue;
+      }
+
+      // Children are processed -> compute
+      Amount total = Amount.zero(unit: n.defaultUnit);
+      bool hasAny = false;
+
+      for (final child in n.children) {
+        final val = resolved[child];
+        if (val != null) {
+          total += val;
+          hasAny = true;
+        }
+      }
+
+      resolved[n] = hasAny ? total : null;
+      stack.removeLast();
+    }
+
+    return resolved[nutrient];
   }
 
   NutrientData operator *(double factor) {
