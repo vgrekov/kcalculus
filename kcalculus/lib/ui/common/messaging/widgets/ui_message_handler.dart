@@ -103,6 +103,7 @@ class _UiMessageHandlerState extends ConsumerState<UiMessageHandler> {
                     }
                   },
                 ),
+          persist: false,
         ),
       );
 
