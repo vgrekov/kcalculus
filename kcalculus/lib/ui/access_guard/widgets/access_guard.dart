@@ -9,6 +9,8 @@ import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 
+final ProgressOverlay _progressOverlay = ProgressOverlay();
+
 class AccessGuard extends ConsumerWidget with WidgetMessenger {
   AccessGuard({
     super.key,
@@ -16,8 +18,6 @@ class AccessGuard extends ConsumerWidget with WidgetMessenger {
   });
 
   final Widget child;
-
-  final ProgressOverlay _progressOverlay = ProgressOverlay();
 
   late final _assignments = <AccessGuardCommand, UiAssignment>{
     AccessGuardCommand.confirmUnlockWithAd: _confirmUnlockWithAd,
