@@ -16,15 +16,15 @@ Future<T?> showMessageDialog<T>({
   final title = Text(
     messageType.localName(context),
     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
+      color: Theme.of(context).colorScheme.onSurface,
+    ),
   );
 
   final content = Text(
     message,
     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
+      color: Theme.of(context).colorScheme.onSurface,
+    ),
   );
 
   final actionButtons = actions.entries.map((action) {
@@ -35,8 +35,8 @@ Future<T?> showMessageDialog<T>({
       child: Text(
         action.key,
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-            ),
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }).toList();
@@ -80,7 +80,10 @@ Future<bool?> showConfirmation(BuildContext context, String message) {
 }
 
 void showMessage(
-    BuildContext context, String message, MessageType messageType) {
+  BuildContext context,
+  String message,
+  MessageType messageType,
+) {
   showMessageDialog<void>(
     context: context,
     message: message,
@@ -108,6 +111,7 @@ void showNotification(
         textAlign: TextAlign.left,
       ),
       action: action,
+      persist: false,
     ),
   );
 

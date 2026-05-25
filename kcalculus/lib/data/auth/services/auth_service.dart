@@ -281,6 +281,10 @@ class AuthService extends AsyncNotifier<User?> {
   ]) {
     return FirebaseAuth.instance.userChanges().listen(
       (user) {
+        if (user != null && !user.emailVerified) {
+          user = null;
+        }
+
         if (completer?.isCompleted ?? true) {
           _updateState(user);
         } else {

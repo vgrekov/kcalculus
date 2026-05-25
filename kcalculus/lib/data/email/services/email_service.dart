@@ -15,8 +15,8 @@ class EmailService extends Notifier<void> {
       path: to,
       query: _encodeQueryParameters(
         {
-          if (subject != null) 'subject': subject,
-          if (body != null) 'body': body,
+          'subject': ?subject,
+          'body': ?body,
         },
       ),
     ),

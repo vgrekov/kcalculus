@@ -199,6 +199,29 @@ enum Nutrient {
     return Nutrient.values.firstWhere((u) => u.name == name);
   }
 
+  static Map<Nutrient, Set<Nutrient>> _buildHierarchy() {
+    final hierarchy = <Nutrient, Set<Nutrient>>{};
+
+    for (final nutrient in Nutrient.values) {
+      if (nutrient.partOf != null) {
+        hierarchy
+            .putIfAbsent(nutrient.partOf!, () => <Nutrient>{})
+            .add(nutrient);
+      }
+    }
+
+    return hierarchy;
+  }
+
+  static final _hierarchy = _buildHierarchy();
+
+  const Nutrient({
+    required this.defaultUnit,
+    this.partOf,
+    this.required = false,
+    this.displayPriority = 2,
+  });
+
   final Unit defaultUnit;
 
   final Nutrient? partOf;
@@ -207,12 +230,7 @@ enum Nutrient {
 
   final int displayPriority;
 
-  const Nutrient({
-    required this.defaultUnit,
-    this.partOf,
-    this.required = false,
-    this.displayPriority = 2,
-  });
+  Set<Nutrient> get children => _hierarchy[this] ?? const <Nutrient>{};
 
   String localName(AppLocalizations l10n) {
     return switch (this) {
