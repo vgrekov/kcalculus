@@ -21,3 +21,7 @@ So, primarily, for home cooks.
  - [Website](https://kcalculus.app)
  - [Google Play](https://play.google.com/store/apps/details?id=com.remexola.kcalculus)
  - [App Store](https://apps.apple.com/ca/app/kcalculus/id6744249142)
+
+### License
+This repository is public for portfolio/review purposes.  
+No license is granted unless a LICENSE file is added.  
