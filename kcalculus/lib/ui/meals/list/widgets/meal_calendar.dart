@@ -29,41 +29,33 @@ class MealCalendar extends StatelessWidget {
         );
       },
       child: expanded
-          ? Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHigh,
-              ),
-              child: Stack(
-                children: [
-                  CalendarDatePicker(
-                    initialDate: initialDate,
-                    firstDate: DateTime(now.year - 1, now.month, now.day),
-                    lastDate: now,
-                    onDateChanged: onSelectDate,
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: OutlinedButton(
-                        onPressed: () {
-                          onSelectDate(DateTime.now());
-                        },
-                        child: Text(
-                          l10n(context).actionToday,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
+          ? Stack(
+              children: [
+                CalendarDatePicker(
+                  initialDate: initialDate,
+                  firstDate: DateTime(now.year - 1, now.month, now.day),
+                  lastDate: now,
+                  onDateChanged: onSelectDate,
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: OutlinedButton(
+                      onPressed: () {
+                        onSelectDate(DateTime.now());
+                      },
+                      child: Text(
+                        l10n(context).actionToday,
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             )
           : const SizedBox.shrink(),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
 import 'package:kcalculus/ui/nutrients/stats/widgets/nutrient_stats_screen.dart';
 
 class NutrientStatsDailyTrigger extends StatelessWidget {
@@ -38,7 +38,7 @@ class NutrientStatsDailyTrigger extends StatelessWidget {
           padding: const EdgeInsets.all(4),
           child: Icon(
             Icons.read_more,
-            color: Theme.of(context).colorScheme.tertiary,
+            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
       ),

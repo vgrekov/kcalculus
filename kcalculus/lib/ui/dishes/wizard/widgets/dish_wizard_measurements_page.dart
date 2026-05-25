@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/food_container_picker.dart';
@@ -121,8 +121,8 @@ class _DishWizardMeasurementsPageState
         return l10n(context).validationErrorAmountValueMissing;
       case NutritionRatioValidationResult.perAmountHasWrongMeasure:
       case NutritionRatioValidationResult.bothAmountsHaveWrongMeasure:
-        return l10n(context)
-            .validationErrorAmountMustBeOfMeasure(measure.localName(context));
+        return l10n(context).validationErrorAmountMustBeOfMeasure(
+            measure.localName(l10n(context)));
       default:
         return null;
     }
@@ -137,8 +137,8 @@ class _DishWizardMeasurementsPageState
         return l10n(context).validationErrorAmountValueMissing;
       case NutritionRatioValidationResult.totalAmountHasWrongMeasure:
       case NutritionRatioValidationResult.bothAmountsHaveWrongMeasure:
-        return l10n(context)
-            .validationErrorAmountMustBeOfMeasure(measure.localName(context));
+        return l10n(context).validationErrorAmountMustBeOfMeasure(
+            measure.localName(l10n(context)));
       case NutritionRatioValidationResult.totalNotHeavierThanContainer:
         return l10n(context).validationErrorTotalMustBeHeavierThanContainer;
       default:

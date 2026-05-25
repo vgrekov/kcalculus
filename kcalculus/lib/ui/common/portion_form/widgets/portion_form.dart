@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/edible.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/portion.dart';
+import 'package:kcalculus/domain/edible/models/edible.dart';
+import 'package:kcalculus/domain/edible/models/portion.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
+import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/widgets/nutrition_facts_input.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/modified_edible_option.dart';
 import 'package:kcalculus/ui/common/portion_form/view_models/portion_form_ui_state.dart';
@@ -17,7 +20,12 @@ import 'package:kcalculus/ui/common/widgets/edible_name_input.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/edibles/search/widgets/edible_search_screen.dart';
+import 'package:kcalculus/ui/foods/scan/widgets/food_scan_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:kcalculus/utils/logging_analytics.dart';
+import 'package:logging/logging.dart';
+
+final _log = Logger('PortionForm');
 
 class PortionForm extends ConsumerStatefulWidget {
   const PortionForm({
@@ -68,6 +76,8 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
     PortionFormCommand.showUnknownErrorNotification:
         _showUnknownErrorNotification,
   };
+
+  final _accessGuardKey = UniqueKey();
 
   @override
   void initState() {
@@ -144,11 +154,55 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
     );
   }
 
+  void _scanFood() async {
+    final scannerDisclaimerEnabled = await ref
+        .read(portionFormViewModel(_portion).notifier)
+        .isScannerDisclaimerEnabled();
+
+    if (scannerDisclaimerEnabled) {
+      _showScannerDisclaimer();
+    } else {
+      _doScanFood();
+    }
+  }
+
+  void _showScannerDisclaimer() {
+    showMessageDialog(
+      message: l10n(context).messageScannerDisclaimer,
+      actions: {
+        l10n(context).actionOk: () => _doScanFood(),
+        l10n(context).actionDontShowAgain: () {
+          ref
+              .read(portionFormViewModel(_portion).notifier)
+              .disableScannerDisclaimer();
+          _doScanFood();
+        },
+      },
+      messageType: MessageType.warning,
+    );
+  }
+
+  void _doScanFood() async {
+    premiumFeature(ref, _accessGuardKey, () async {
+      _log.eventFoodScan();
+
+      final food = await showModalBottomSheet<Food>(
+        context: context,
+        scrollControlDisabledMaxHeightRatio: 0.9,
+        builder: (context) => const FoodScanScreen(),
+      );
+
+      if (food != null) {
+        _selectEdible(food);
+      }
+    });
+  }
+
   void _searchEdibles() async {
     String query = _nameController.text;
     final edible = await Navigator.of(context).push<Edible>(
       MaterialPageRoute(
-        builder: (context) => EdibleSearchScreen(
+        builder: (context) => EdibleSearchScreen.full(
           initialQuery: query,
         ),
       ),
@@ -184,8 +238,9 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
           break;
         case _PortionFormControllerCommand.save:
           _saveUiState();
-          widget.controller._portion =
-              ref.read(portionFormViewModel(_portion).notifier).buildPortion();
+          widget.controller._portion = ref
+              .read(portionFormViewModel(_portion).notifier)
+              .buildPortion();
           break;
       }
     }
@@ -200,8 +255,8 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
     final amount = uiState.getAmount()!;
     showMessage(
       l10n(context).messageNoCommonMeasureError(
-        amount.unit.localName(context),
-        amount.unit.measure.localName(context),
+        amount.unit.localName(l10n(context)),
+        amount.unit.measure.localName(l10n(context)),
       ),
       MessageType.error,
     );
@@ -277,63 +332,68 @@ class _PortionFormState extends ConsumerState<PortionForm> with StateMessenger {
       _loadUiState(next);
     });
 
-    return UiSubordinate<PortionFormCommand>(
-      commandProvider:
-          ref.read(portionFormViewModel(_portion).notifier).commandProvider,
-      assignments: _assignments,
-      child: Form(
-        key: _form,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Hero(
-              tag: 'search-box',
-              child: Material(
-                type: MaterialType.transparency,
-                child: EdibleNameInput(
-                  controller: _nameController,
-                  focusNode: _nameFocusNode,
-                  autofocus: true,
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (value) {
-                    _descriptionFocusNode.requestFocus();
-                  },
-                  onSearchPressed: _searchEdibles,
+    return AccessGuard(
+      key: _accessGuardKey,
+      child: UiSubordinate<PortionFormCommand>(
+        commandProvider: ref
+            .read(portionFormViewModel(_portion).notifier)
+            .commandProvider,
+        assignments: _assignments,
+        child: Form(
+          key: _form,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Hero(
+                tag: 'search-box',
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: EdibleNameInput(
+                    controller: _nameController,
+                    focusNode: _nameFocusNode,
+                    autofocus: true,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (value) {
+                      _descriptionFocusNode.requestFocus();
+                    },
+                    onScanPressed: _scanFood,
+                    onSearchPressed: _searchEdibles,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 8),
-            TextInput(
-              controller: _descriptionController,
-              focusNode: _descriptionFocusNode,
-              labelText: l10n(context).labelEdibleDescription,
-              hintText: l10n(context).hintEdibleDescription,
-              maxLength: 100,
-              maxLines: 2,
-              textCapitalization: TextCapitalization.sentences,
-              textInputAction: TextInputAction.next,
-              onFieldSubmitted: (value) {
-                _amountFocusNode.requestFocus();
-              },
-            ),
-            const SizedBox(height: 8),
-            AmountInput(
-              label: l10n(context).labelPortionAmount,
-              controller: _amountController,
-              focusNode: _amountFocusNode,
-              textInputAction: TextInputAction.next,
-              onFieldSubmitted: (value) {
-                _nutritionFactsFocusNode.requestFocus();
-              },
-              allowZero: false,
-            ),
-            const SizedBox(height: 32),
-            NutritionFactsInput(
-              defaultNutrients: widget.nutrientDefaults,
-              controller: _nutritionFactsController,
-              focusNode: _nutritionFactsFocusNode,
-            ),
-          ],
+              const SizedBox(height: 8),
+              TextInput(
+                controller: _descriptionController,
+                focusNode: _descriptionFocusNode,
+                labelText: l10n(context).labelEdibleDescription,
+                hintText: l10n(context).hintEdibleDescription,
+                maxLength: 100,
+                maxLines: 2,
+                textCapitalization: TextCapitalization.sentences,
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (value) {
+                  _amountFocusNode.requestFocus();
+                },
+              ),
+              const SizedBox(height: 8),
+              AmountInput(
+                label: l10n(context).labelPortionAmount,
+                controller: _amountController,
+                focusNode: _amountFocusNode,
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (value) {
+                  _nutritionFactsFocusNode.requestFocus();
+                },
+                allowZero: false,
+              ),
+              const SizedBox(height: 32),
+              NutritionFactsInput(
+                defaultNutrients: widget.nutrientDefaults,
+                controller: _nutritionFactsController,
+                focusNode: _nutritionFactsFocusNode,
+              ),
+            ],
+          ),
         ),
       ),
     );

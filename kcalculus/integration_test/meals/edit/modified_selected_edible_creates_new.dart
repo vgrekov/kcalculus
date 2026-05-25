@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils.dart';
@@ -48,15 +48,15 @@ Future<void> testModifiedSelectedEdibleCreatesNew(
     },
   );
 
-  final (l10n, context) = await pumpApp(
+  final l10n = await pumpApp(
     tester,
     overrides: [
       ...overrides,
       edibleRepositoryProvider.overrideWith(
-        (ref) => edibleRepository,
+        () => edibleRepository,
       ),
       mealRepositoryProvider.overrideWith(
-        (ref) => mealRepository,
+        () => mealRepository,
       ),
     ],
   );
@@ -81,7 +81,7 @@ Future<void> testModifiedSelectedEdibleCreatesNew(
   await tester.pumpAndSettle();
 
   await tester.tap(
-    find.widgetWithText(TextButton, l10n.actionSave),
+    find.byIcon(Icons.check),
   );
 
   await tester.pumpAndSettle();
@@ -99,11 +99,13 @@ Future<void> testModifiedSelectedEdibleCreatesNew(
 
   verify(
     () => mealRepository.save(
-      any(that: predicate<Meal>(
-        (m) {
-          return m.edible.id == null && m.edible.name == newFoodName;
-        },
-      )),
+      any(
+        that: predicate<Meal>(
+          (m) {
+            return m.edible.id == null && m.edible.name == newFoodName;
+          },
+        ),
+      ),
     ),
   ).called(1);
 }

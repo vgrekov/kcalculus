@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils.dart';
@@ -27,12 +27,12 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
     },
   );
 
-  final (l10n, context) = await pumpApp(
+  final l10n = await pumpApp(
     tester,
     overrides: [
       ...overrides,
       edibleRepositoryProvider.overrideWith(
-        (ref) => edibleRepository,
+        () => edibleRepository,
       ),
     ],
   );
@@ -55,7 +55,7 @@ Future<void> testModifiedSelectedEdibleAlreadyExists(
   await tester.pumpAndSettle();
 
   await tester.tap(
-    find.widgetWithText(TextButton, l10n.actionSave),
+    find.byIcon(Icons.check),
   );
 
   await tester.pumpAndSettle();

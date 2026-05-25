@@ -12,6 +12,8 @@ import 'package:kcalculus/ui/app/widgets/app.dart';
 import 'package:kcalculus/ui/common/widgets/release_error_widget.dart';
 import 'package:logging/logging.dart';
 
+const _kAppCheckDebugTokenArg = 'APP_CHECK_DEBUG_TOKEN';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -63,13 +65,29 @@ void main() async {
     return ErrorWidget(details.exception);
   };
 
-  await FirebaseAppCheck.instance.activate(
-    androidProvider:
-        kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
-    appleProvider: kDebugMode ? AppleProvider.debug : AppleProvider.appAttest,
+  final appCheckDebugTokenArg = const String.fromEnvironment(
+    _kAppCheckDebugTokenArg,
   );
 
-  runApp(const ProviderScope(
-    child: App(),
-  ));
+  final appCheckDebugToken = appCheckDebugTokenArg.isNotEmpty
+      ? appCheckDebugTokenArg
+      : null;
+
+  if (kDebugMode) {
+    await FirebaseAppCheck.instance.activate(
+      providerAndroid: AndroidDebugProvider(debugToken: appCheckDebugToken),
+      providerApple: AppleDebugProvider(debugToken: appCheckDebugToken),
+    );
+  } else {
+    await FirebaseAppCheck.instance.activate(
+      providerAndroid: const AndroidPlayIntegrityProvider(),
+      providerApple: const AppleAppAttestProvider(),
+    );
+  }
+
+  runApp(
+    ProviderScope(
+      child: App(),
+    ),
+  );
 }

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/ui/common/widgets/macro_split_view.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
+import 'package:kcalculus/ui/common/macro_split_view/widgets/macro_split_view.dart';
+import 'package:kcalculus/ui/common/themes/list_style.dart';
 import 'package:kcalculus/ui/nutrients/stats/view_models/nutrient_stats_view_model.dart';
 import 'package:kcalculus/ui/nutrients/stats/view_models/nutrient_stats_view_model_arg.dart';
-import 'package:kcalculus/ui/nutrients/stats/widgets/nutrient_stats_table.dart';
+import 'package:kcalculus/ui/nutrients/stats/widgets/nutrient_stats_group_tile.dart';
+import 'package:kcalculus/ui/nutrients/stats/widgets/nutrient_stats_main_tile.dart';
+import 'package:kcalculus/ui/nutrients/stats/widgets/nutrient_stats_others_tile.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:logging/logging.dart';
+
+final _log = Logger('NutrientStatsScreen');
 
 class NutrientStatsScreen extends ConsumerWidget {
   NutrientStatsScreen({
@@ -14,9 +20,9 @@ class NutrientStatsScreen extends ConsumerWidget {
     required this.date,
     required this.data,
   }) : viewModelArg = NutrientStatsViewModelArg(
-          date: date,
-          data: data,
-        );
+         date: date,
+         data: data,
+       );
 
   final DateTime date;
 
@@ -28,6 +34,8 @@ class NutrientStatsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final uiStateAsync = ref.watch(nutrientStatsViewModel(viewModelArg));
 
+    final listStyle = Theme.of(context).extension<ListStyle>();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -36,8 +44,8 @@ class NutrientStatsScreen extends ConsumerWidget {
             Text(
               l10n(context).screenDailyStats,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             Text(
               uiStateAsync.whenOrNull(
@@ -46,28 +54,64 @@ class NutrientStatsScreen extends ConsumerWidget {
                   ) ??
                   '',
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
       ),
       body: SafeArea(
         child: uiStateAsync.when(
-          data: (uiState) => SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: NutrientStatsTable(rows: uiState.rows),
-            ),
-          ),
-          error: (_, __) => Center(
-            child: Text(
-              l10n(context).messageUnknownError,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
+          data: (uiState) {
+            final widgets = <Widget>[
+              if (uiState.energyRow != null)
+                NutrientStatsMainTile(
+                  row: uiState.energyRow!,
+                ),
+              if (uiState.fatGroup.isNotEmpty)
+                NutrientStatsGroupTile(group: uiState.fatGroup),
+              if (uiState.carbsGroup.isNotEmpty)
+                NutrientStatsGroupTile(group: uiState.carbsGroup),
+              if (uiState.proteinGroup.isNotEmpty)
+                NutrientStatsGroupTile(group: uiState.proteinGroup),
+              if (uiState.otherRows.isNotEmpty)
+                NutrientStatsOthersTile(rows: uiState.otherRows),
+            ];
+
+            if (widgets.length > 1) {
+              final originalLength = widgets.length;
+
+              for (int i = 0; i < originalLength - 1; i++) {
+                widgets.insert(
+                  i * 2 + 1,
+                  SizedBox(
+                    height: listStyle?.verticalGap,
                   ),
-            ),
-          ),
+                );
+              }
+            }
+
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  children: widgets,
+                ),
+              ),
+            );
+          },
+          error: (error, stackTrace) {
+            _log.severe('Failed to load daily stats', error, stackTrace);
+
+            return Center(
+              child: Text(
+                l10n(context).messageUnknownError,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+            );
+          },
           loading: () => const Center(
             child: SizedBox(
               width: 40,

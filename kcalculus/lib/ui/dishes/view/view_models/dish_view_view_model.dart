@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
+import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/dishes/view/view_models/dish_view_ui_state.dart';
@@ -24,14 +24,14 @@ class DishViewViewModel
       _commander?.dispose();
     });
 
-    final dishRepository = ref.read(dishRepositoryProvider);
+    final dishRepository = ref.read(dishRepositoryProvider.notifier);
     final dish = await dishRepository.getById(arg);
     if (dish == null) {
       throw ArgumentError('Dish not found for ID: $arg');
     }
 
     final nutrientDefaults =
-        await ref.read(nutrientRepositoryProvider).getDefaults();
+        await ref.read(defaultNutrientRepositoryProvider.future);
 
     return DishViewUiState(
       dish: dish,
@@ -56,7 +56,7 @@ class DishViewViewModel
   void editDish() async {
     final uiState = state.unwrapPrevious().valueOrNull;
     if (uiState != null) {
-      final edibleRepository = ref.read(edibleRepositoryProvider);
+      final edibleRepository = ref.read(edibleRepositoryProvider.notifier);
       final wasEaten = await edibleRepository.wasEaten(uiState.dish.id!);
 
       if (wasEaten) {

@@ -18,7 +18,9 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
   bool _analyticsEnabled = true;
 
   void _proceed() {
-    ref.read(consentViewModel.notifier).saveSettings(
+    ref
+        .read(consentViewModel.notifier)
+        .saveSettings(
           crashlyticsEnabled: _crashlyticsEnabled,
           analyticsEnabled: _analyticsEnabled,
         );
@@ -31,10 +33,9 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
         centerTitle: true,
         title: Text(
           l10n(context).screenConsent,
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium!
-              .copyWith(color: Theme.of(context).colorScheme.onSurface),
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
       ),
       body: Padding(
@@ -46,8 +47,8 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
             Text(
               l10n(context).dataUsageMotivationMessage,
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               textAlign: TextAlign.center,
             ),
             const Spacer(),
@@ -59,8 +60,8 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                   title: Text(
                     l10n(context).settingCrashReportingTitle,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                   value: _crashlyticsEnabled,
                   onChanged: (value) {
@@ -73,8 +74,8 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
                   title: Text(
                     l10n(context).settingAnalyticsTitle,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                   value: _analyticsEnabled,
                   onChanged: (value) {
@@ -94,21 +95,13 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
         padding: const EdgeInsets.fromLTRB(32, 16, 32, 32),
         child: SizedBox(
           width: double.infinity,
-          child: TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8),
-                ),
-              ),
-            ),
+          child: FilledButton(
             onPressed: _proceed,
             child: Text(
               l10n(context).actionProceed,
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
             ),
           ),
         ),

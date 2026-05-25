@@ -1,15 +1,28 @@
+// ignore_for_file: invalid_use_of_visible_for_overriding_member
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:kcalculus/data/repositories/open_food_facts_repository.dart';
-import 'package:kcalculus/data/services/app_config/app_config.dart';
-import 'package:kcalculus/data/services/open_food_facts/open_food_facts_service.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/data/_common/providers.dart';
+import 'package:kcalculus/data/app_config/models/ads_config.dart';
+import 'package:kcalculus/data/app_config/models/app_config.dart';
+import 'package:kcalculus/data/app_config/models/auth_config.dart';
+import 'package:kcalculus/data/app_config/models/firestore_config.dart';
+import 'package:kcalculus/data/app_config/models/interstitial_ads_config.dart';
+import 'package:kcalculus/data/app_config/models/open_food_facts_config.dart';
+import 'package:kcalculus/data/app_config/models/search_config.dart';
+import 'package:kcalculus/data/app_config/models/unlock_ads_config.dart';
+import 'package:kcalculus/data/app_config/services/app_config_service.dart';
+import 'package:kcalculus/data/open_food_facts/repositories/open_food_facts_repository.dart';
+import 'package:kcalculus/data/open_food_facts/services/open_food_facts_service.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/app_info.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_amount.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../mocks.dart';
 import '../../utils.dart';
 
 class MockHttpClient with Mock implements http.Client {}
@@ -20,9 +33,14 @@ void main() {
   group(
     'OpenFoodFactsRepository - getFoodByBarcode',
     () {
+      const appInfo = AppInfo(
+        appName: 'kcalculus',
+        version: '0.3.2',
+        buildNumber: '29',
+      );
+
       late MockHttpClient httpClient;
-      late OpenFoodFactsService service;
-      late OpenFoodFactsRepository repository;
+      late MockAppConfigService appConfigService;
 
       setUpAll(() {
         WidgetsFlutterBinding.ensureInitialized();
@@ -32,24 +50,37 @@ void main() {
 
       setUp(() {
         httpClient = MockHttpClient();
-        service = OpenFoodFactsService(
-          appName: '',
-          version: '',
-          httpClient: httpClient,
-          appConfig: AppConfig(
-            openFoodFactsBaseUrl: '',
-            openFoodFactsTimeoutMillis: 5000,
-            contactEmail: '',
-            interstitialAdUnitId: '',
-            interstitialAdTimeoutMillis: 5000,
-            interstitialAdCooldownDurationMins: 1,
-            unlockAdUnitId: '',
-            unlockAdTimeoutMillis: 5000,
-            unlockWithAdDurationMins: 1,
-            adsEnabled: false,
+
+        appConfigService = MockAppConfigService();
+        when(() => appConfigService.build()).thenAnswer(
+          (_) => AppConfig(
+            auth: AuthConfig(),
+            search: SearchConfig(
+              ediblesIndexName: '',
+              foodContainersIndexName: '',
+            ),
+            ads: AdsConfig(
+              interstitial: InterstitialAdsConfig(
+                unitId: '',
+                timeoutMillis: 5000,
+                cooldownDurationMins: 1,
+                probability: 0,
+              ),
+              unlock: UnlockAdsConfig(
+                unitId: '',
+                timeoutMillis: 5000,
+                rewardDurationMins: 1,
+              ),
+              enabled: false,
+            ),
+            openFoodFacts: OpenFoodFactsConfig(
+              baseUrl: '',
+              timeoutMillis: 5000,
+              contactEmail: '',
+            ),
+            firestore: FirestoreConfig(),
           ),
         );
-        repository = OpenFoodFactsRepository(service: service);
       });
 
       test(
@@ -59,8 +90,9 @@ void main() {
             'test/data/repositories/fixtures/off_response_nutella.json',
           );
 
-          when(() => httpClient.get(any(), headers: any(named: 'headers')))
-              .thenAnswer(
+          when(
+            () => httpClient.get(any(), headers: any(named: 'headers')),
+          ).thenAnswer(
             (_) async {
               return http.Response(
                 nutellaResponse,
@@ -84,6 +116,18 @@ void main() {
             Nutrient.calcium,
             Nutrient.iron,
           ];
+
+          final container = ProviderContainer(
+            overrides: [
+              appInfoProvider.overrideWith((ref) => appInfo),
+              openFoodFactsHttpClientProvider.overrideWith((ref) => httpClient),
+              appConfigServiceProvider.overrideWith(() => appConfigService),
+            ],
+          );
+
+          final repository = container.read(
+            openFoodFactsRepositoryProvider.notifier,
+          );
 
           final food = await repository.getFoodByBarcode(
             '3017620422003',

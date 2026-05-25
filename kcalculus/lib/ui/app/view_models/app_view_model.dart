@@ -3,38 +3,74 @@ import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/data/repositories/maintenance/maintenance_status_repository.dart';
-import 'package:kcalculus/data/repositories/maintenance/maintenance_task_repository.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
-import 'package:kcalculus/domain/models/maintenance_status.dart';
+import 'package:kcalculus/data/auth/auth.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
+import 'package:kcalculus/domain/import/models/import_process.dart';
+import 'package:kcalculus/domain/import/use_cases/import_use_case.dart';
+import 'package:kcalculus/domain/maintenance/models/maintenance_state.dart';
+import 'package:kcalculus/domain/maintenance/use_cases/maintenance_use_case.dart';
 import 'package:kcalculus/ui/agreement/view_models/agreement_view_model.dart';
 import 'package:kcalculus/ui/app/view_models/app_ui_state.dart';
 import 'package:logging/logging.dart';
 
 final Logger _log = Logger('AppViewModel');
 
+Future<bool> _isInAgreementStage(Ref ref) async {
+  final settings = await ref.read(appSettingsRepositoryProvider.future);
+
+  return settings.signedAgreementVersion == null ||
+      settings.signedAgreementVersion! < kAgreementVersion;
+}
+
+Future<bool> _isInDataSharingConsentStage(Ref ref) async {
+  final settings = await ref.read(appSettingsRepositoryProvider.future);
+
+  return settings.crashlyticsEnabled == null ||
+      settings.analyticsEnabled == null;
+}
+
+Future<bool> _isInMaintenanceStage(Ref ref) async {
+  final maintenanceState = ref.read(maintenanceUseCaseProvider);
+  return maintenanceState is! MaintenanceComplete;
+}
+
+Future<bool> _isInAuthenticationStage(Ref ref) async {
+  final user = await ref.read(userRepositoryProvider.future);
+  final userRepository = ref.read(userRepositoryProvider.notifier);
+
+  return user == null && !(await userRepository.isAnonymousModeSelected());
+}
+
+Future<bool> _isInImportStage(Ref ref) async {
+  final importProcess = await ref.read(importUseCaseProvider.future);
+
+  return switch (importProcess) {
+    ImportProcessUnavailable _ || ImportProcessIdle _ => false,
+    _ => true,
+  };
+}
+
 final _appUiStateProvider = FutureProvider<AppUiState>(
   (ref) async {
-    final settings = await ref.watch(appSettingsRepositoryProvider.future);
+    ref.watch(maintenanceUseCaseProvider);
+    ref.watch(userRepositoryProvider);
+    ref.watch(appSettingsRepositoryProvider);
+    ref.watch(importUseCaseProvider);
 
-    final maintenanceStatus = ref.watch(maintenanceStatusRepository);
+    final settings = await ref.read(appSettingsRepositoryProvider.future);
 
     AppStage? stage;
-    if (settings.signedAgreementVersion == null ||
-        settings.signedAgreementVersion! < kAgreementVersion) {
-      stage = AppStage.agreement;
-    } else if (settings.crashlyticsEnabled == null ||
-        settings.analyticsEnabled == null) {
-      stage = AppStage.dataSharingConsent;
-    } else if (maintenanceStatus == MaintenanceStatus.inProgress ||
-        maintenanceStatus == MaintenanceStatus.error) {
+    if (await _isInMaintenanceStage(ref)) {
       stage = AppStage.maintenance;
-    } else if (maintenanceStatus == MaintenanceStatus.notStarted) {
-      final maintenanceTasks = await ref.read(maintenanceTaskRepository.future);
-      if (maintenanceTasks.isNotEmpty) {
-        stage = AppStage.maintenance;
-      }
+    } else if (await _isInAuthenticationStage(ref)) {
+      stage = AppStage.authentication;
+    } else if (await _isInAgreementStage(ref)) {
+      stage = AppStage.agreement;
+    } else if (await _isInDataSharingConsentStage(ref)) {
+      stage = AppStage.dataSharingConsent;
+    } else if (await _isInImportStage(ref)) {
+      stage = AppStage.import;
     }
 
     return AppUiState(
@@ -49,20 +85,7 @@ class AppViewModel extends AsyncNotifier<AppUiState> {
   FutureOr<AppUiState> build() async {
     ref.listen(appSettingsRepositoryProvider, _onAppSettingsChanged);
 
-    ref.listen(_appUiStateProvider, _onAppUiStateChanged);
-
-    return ref.read(_appUiStateProvider.future);
-  }
-
-  void _onAppUiStateChanged(
-    AsyncValue<AppUiState>? prev,
-    AsyncValue<AppUiState> next,
-  ) {
-    next.whenData((nextValue) {
-      if (nextValue != prev?.valueOrNull) {
-        state = next;
-      }
-    });
+    return ref.watch(_appUiStateProvider.selectAsync((uiState) => uiState));
   }
 
   void _onAppSettingsChanged(
@@ -70,27 +93,35 @@ class AppViewModel extends AsyncNotifier<AppUiState> {
     AsyncValue<AppSettings> next,
   ) {
     next.whenData(
-      (settings) {
-        _toggleCrashlyticsIfNeeded(settings);
-        _toggleAnalytics(settings);
+      (nextValue) {
+        final prevValue = prev?.valueOrNull;
+
+        if (nextValue.crashlyticsEnabled != prevValue?.crashlyticsEnabled) {
+          _toggleCrashlyticsIfNeeded(nextValue.crashlyticsEnabled);
+        }
+
+        if (nextValue.analyticsEnabled != prevValue?.analyticsEnabled) {
+          _toggleAnalytics(nextValue.analyticsEnabled);
+        }
       },
     );
   }
 
-  void _toggleCrashlyticsIfNeeded(AppSettings settings) {
-    final settingEnabled = settings.crashlyticsEnabled ?? false;
+  void _toggleCrashlyticsIfNeeded(bool? enabled) {
+    final settingEnabled = enabled ?? false;
 
     if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled !=
         settingEnabled) {
-      FirebaseCrashlytics.instance
-          .setCrashlyticsCollectionEnabled(settingEnabled);
-
-      _log.info('crashlyticsEnabled: $settingEnabled');
+      FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
+        settingEnabled,
+      );
     }
+
+    _log.info('crashlyticsEnabled: $settingEnabled');
   }
 
-  void _toggleAnalytics(AppSettings settings) {
-    final settingEnabled = settings.analyticsEnabled ?? false;
+  void _toggleAnalytics(bool? enabled) {
+    final settingEnabled = enabled ?? false;
 
     FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(settingEnabled);
 

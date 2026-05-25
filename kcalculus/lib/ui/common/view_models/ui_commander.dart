@@ -35,7 +35,7 @@ class UiCommander<Command> {
       payload: payload,
     );
 
-    if (_isListenedTo) {
+    if (_isListenedTo && !_commandController.isClosed) {
       _commandController.add(command);
     } else {
       _buffer.add(command);

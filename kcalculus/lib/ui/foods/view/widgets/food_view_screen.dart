@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
+import 'package:kcalculus/ui/common/macro_split_view/widgets/macro_split_view.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/widgets/nutrition_facts_view.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/edible_main_info.dart';
-import 'package:kcalculus/ui/common/widgets/macro_split_view.dart';
 import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/foods/save/widgets/food_save_screen.dart';
 import 'package:kcalculus/ui/foods/share/widgets/food_share_screen.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_ui_state.dart';
 import 'package:kcalculus/ui/foods/view/view_models/food_view_view_model.dart';
+import 'package:kcalculus/ui/foods/view/view_models/food_view_view_model_arg.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
@@ -25,12 +26,20 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
   FoodViewScreen({
     super.key,
     required this.foodId,
+    this.isUsdaFood = false,
     this.onDeleteFood,
-  });
+  }) : _viewModelArg = FoodViewViewModelArg(
+          foodId: foodId,
+          isUsdaFood: isUsdaFood,
+        );
 
   final String foodId;
 
+  final bool isUsdaFood;
+
   final void Function(String id)? onDeleteFood;
+
+  final FoodViewViewModelArg _viewModelArg;
 
   late final _assignments = <FoodViewCommand, UiAssignment>{
     FoodViewCommand.showUnknownErrorNotification: _showUnknownErrorNotification,
@@ -53,11 +62,11 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
   }
 
   void _copyFood(WidgetRef ref) {
-    ref.read(foodViewViewModel(foodId).notifier).copyFood();
+    ref.read(foodViewViewModel(_viewModelArg).notifier).copyFood();
   }
 
-  void _editFood(WidgetRef ref) async {
-    ref.read(foodViewViewModel(foodId).notifier).editFood();
+  void _editFood(WidgetRef ref) {
+    ref.read(foodViewViewModel(_viewModelArg).notifier).editFood();
   }
 
   void _deleteFood(BuildContext context) async {
@@ -68,12 +77,16 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
         false;
 
     if (deleteConfirmed == true) {
-      onDeleteFood?.call(foodId);
+      onDeleteFood?.call(_viewModelArg.foodId);
 
       if (context.mounted) {
         Navigator.of(context).pop();
       }
     }
+  }
+
+  void _saveUsdaFood(WidgetRef ref) {
+    ref.read(foodViewViewModel(_viewModelArg).notifier).saveUsdaFood();
   }
 
   void _showUnknownErrorNotification(
@@ -123,7 +136,7 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final uiStateAsync = ref.watch(foodViewViewModel(foodId));
+    final uiStateAsync = ref.watch(foodViewViewModel(_viewModelArg));
 
     final (
       List<Widget>? appBarActions,
@@ -148,40 +161,75 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                _copyFood(ref);
-              },
-              icon: Icon(
-                Icons.copy,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                _editFood(ref);
-              },
-              icon: Icon(
-                Icons.edit,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            if (onDeleteFood != null)
+            if (isUsdaFood)
               IconButton(
                 onPressed: () {
-                  _deleteFood(context);
+                  _saveUsdaFood(ref);
                 },
                 icon: Icon(
-                  Icons.delete,
+                  Icons.download,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
+            if (!isUsdaFood) ...[
+              IconButton(
+                onPressed: () {
+                  _copyFood(ref);
+                },
+                icon: Icon(
+                  Icons.copy,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  _editFood(ref);
+                },
+                icon: Icon(
+                  Icons.edit,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+              if (onDeleteFood != null)
+                IconButton(
+                  onPressed: () {
+                    _deleteFood(context);
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+            ],
           ],
           Column(
             children: [
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  if (isUsdaFood)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 2),
+                          child: Icon(
+                            Icons.lock_outlined,
+                            color: Theme.of(context).colorScheme.tertiary,
+                            size: 12,
+                          ),
+                        ),
+                        Text(
+                          l10n(context).edibleTypeUsda,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
+                        ),
+                      ],
+                    ),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: EdibleMainInfo(
@@ -265,7 +313,7 @@ class FoodViewScreen extends ConsumerWidget with WidgetMessenger {
       key: _accessGuardKey,
       child: UiSubordinate<FoodViewCommand>(
         commandProvider:
-            ref.read(foodViewViewModel(foodId).notifier).commandProvider,
+            ref.read(foodViewViewModel(_viewModelArg).notifier).commandProvider,
         assignments: _assignments,
         child: DefaultTabController(
           length: 1,

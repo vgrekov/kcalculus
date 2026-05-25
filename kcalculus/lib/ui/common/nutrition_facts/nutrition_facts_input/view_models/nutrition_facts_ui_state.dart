@@ -1,10 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_amount.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient_data.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrition_facts.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_amount.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrition_facts.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/view_models/nutrient_amount_ui_state.dart';
 
 part 'nutrition_facts_ui_state.freezed.dart';
@@ -13,7 +13,7 @@ part 'nutrition_facts_ui_state.freezed.dart';
 sealed class NutritionFactsUiState with _$NutritionFactsUiState {
   const NutritionFactsUiState._();
 
-  const factory NutritionFactsUiState._default({
+  const factory NutritionFactsUiState.$default({
     required Unit perAmountUnit,
     double? perAmountValue,
     required List<NutrientAmountUiState> nutrientAmounts,
@@ -23,12 +23,11 @@ sealed class NutritionFactsUiState with _$NutritionFactsUiState {
     Unit? perAmountUnit,
     double? perAmountValue,
     List<NutrientAmountUiState>? nutrientAmounts,
-  }) =>
-      NutritionFactsUiState._default(
-        perAmountUnit: perAmountUnit ?? Unit.gram,
-        perAmountValue: perAmountValue,
-        nutrientAmounts: nutrientAmounts ?? [],
-      );
+  }) => NutritionFactsUiState.$default(
+    perAmountUnit: perAmountUnit ?? Unit.gram,
+    perAmountValue: perAmountValue,
+    nutrientAmounts: nutrientAmounts ?? [],
+  );
 
   factory NutritionFactsUiState.fromDefaults(List<Nutrient> defaults) =>
       NutritionFactsUiState(
@@ -64,15 +63,15 @@ sealed class NutritionFactsUiState with _$NutritionFactsUiState {
         // Non-defaults
         ...model.nutrientData.nutrientAmounts
             .where(
-          (na) => !processedNutrients.contains(na.nutrient),
-        )
+              (na) => !processedNutrients.contains(na.nutrient),
+            )
             .map(
-          (na) {
-            processedNutrients.add(na.nutrient);
+              (na) {
+                processedNutrients.add(na.nutrient);
 
-            return NutrientAmountUiState.fromModel(na);
-          },
-        ),
+                return NutrientAmountUiState.fromModel(na);
+              },
+            ),
       ],
     );
   }

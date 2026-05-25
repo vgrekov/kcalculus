@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
 class AppThemeSettingTile extends StatelessWidget {

@@ -1,30 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
-import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
+import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
-import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/food_containers/common/widgets/food_container_list.dart';
 import 'package:kcalculus/ui/food_containers/list/view_models/food_container_list_view_model.dart';
 import 'package:kcalculus/ui/food_containers/save/widgets/food_container_save_screen.dart';
+import 'package:kcalculus/ui/food_containers/search/widgets/food_container_search_screen.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
-class FoodContainerListScreen extends ConsumerStatefulWidget {
-  const FoodContainerListScreen({super.key});
-
-  @override
-  ConsumerState<FoodContainerListScreen> createState() {
-    return _FoodContainerListScreenState();
-  }
-}
-
-class _FoodContainerListScreenState
-    extends ConsumerState<FoodContainerListScreen> with StateMessenger {
-  final _searchController = TextEditingController();
+class FoodContainerListScreen extends ConsumerWidget with WidgetMessenger {
+  FoodContainerListScreen({super.key});
 
   late final _assignments = <FoodContainerListCommand, UiAssignment>{
     FoodContainerListCommand.showDeletionSuccessNotification:
@@ -37,32 +27,27 @@ class _FoodContainerListScreenState
 
   final _accessGuardKey = UniqueKey();
 
-  @override
-  void initState() {
-    var uiState = ref.read(foodContainerListViewModel);
+  void _search(BuildContext context, WidgetRef ref) async {
+    final container = await Navigator.of(context).push<FoodContainer>(
+      MaterialPageRoute(
+        builder: (context) => FoodContainerSearchScreen(),
+      ),
+    );
 
-    _searchController.text = uiState.searchQuery;
-
-    super.initState();
+    if (container != null && context.mounted) {
+      _editFoodContainer(context, container);
+    }
   }
 
-  void _updateSearchQuery(String query) {
-    ref
-        .read(foodContainerListViewModel.notifier)
-        .searchHelper
-        .searchController
-        .updateQuery(query);
+  void _addFoodContainer(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const FoodContainerSaveScreen(),
+      ),
+    );
   }
 
-  void _resetSearchQuery() {
-    ref
-        .read(foodContainerListViewModel.notifier)
-        .searchHelper
-        .searchController
-        .reset();
-  }
-
-  void _addFoodContainer([FoodContainer? container]) {
+  void _editFoodContainer(BuildContext context, FoodContainer container) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => FoodContainerSaveScreen(
@@ -72,34 +57,18 @@ class _FoodContainerListScreenState
     );
   }
 
-  void _editFoodContainer(FoodContainer container) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => FoodContainerSaveScreen(
-          container: container,
-        ),
-      ),
-    );
-  }
-
-  void _deleteFoodContainer(String id) {
+  void _deleteFoodContainer(BuildContext context, WidgetRef ref, String id) {
     ProgressOverlay.wrap(
       context,
       ref.read(foodContainerListViewModel.notifier).deleteFoodContainer(id),
     );
   }
 
-  void _restoreFoodContainer(String id) {
+  void _restoreFoodContainer(BuildContext context, WidgetRef ref, String id) {
     ProgressOverlay.wrap(
       context,
       ref.read(foodContainerListViewModel.notifier).restoreFoodContainer(id),
     );
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
   }
 
   void _showDeletionSuccessNotification(
@@ -108,9 +77,14 @@ class _FoodContainerListScreenState
     required WidgetRef ref,
   }) {
     showNotificationWithUndo(
+      context,
       l10n(context).messageFoodContainerDeletionSuccess,
       undoAction: () {
-        _restoreFoodContainer(command.payload as String);
+        _restoreFoodContainer(
+          context,
+          ref,
+          command.payload as String,
+        );
       },
     );
     command.complete();
@@ -121,7 +95,10 @@ class _FoodContainerListScreenState
     required BuildContext context,
     required WidgetRef ref,
   }) {
-    showNotification(l10n(context).messageFoodContainerDeletionFailure);
+    showNotification(
+      context,
+      l10n(context).messageFoodContainerDeletionFailure,
+    );
     command.complete();
   }
 
@@ -130,17 +107,16 @@ class _FoodContainerListScreenState
     required BuildContext context,
     required WidgetRef ref,
   }) {
-    showNotification(l10n(context).messageUnknownError);
+    showNotification(
+      context,
+      l10n(context).messageUnknownError,
+    );
     command.complete();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final uiState = ref.watch(foodContainerListViewModel);
-
-    ref.listen(foodContainerListViewModel, (prev, next) {
-      _searchController.text = next.searchQuery;
-    });
 
     final viewModel = ref.read(foodContainerListViewModel.notifier);
 
@@ -155,48 +131,48 @@ class _FoodContainerListScreenState
             title: Text(
               l10n(context).screenFoodContainers,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-            ),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(50),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: TextInput(
-                  controller: _searchController,
-                  hintText: l10n(context).hintFoodContainerSearchBox,
-                  suffix: IconButton(
-                    onPressed: _resetSearchQuery,
-                    icon: Icon(
-                      Icons.clear,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  textCapitalization: TextCapitalization.words,
-                  textInputAction: TextInputAction.search,
-                  onChanged: _updateSearchQuery,
-                ),
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  _search(context, ref);
+                },
+                icon: Icon(
+                  Icons.search,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ],
           ),
           body: SafeArea(
             child: FoodContainerList(
-              items: uiState.data,
-              itemsLoader: uiState.dataLoader,
-              paginator: viewModel.searchHelper.paginator,
-              onSelectItem: _editFoodContainer,
+              items: uiState,
+              onLoadNextPage: () => ref
+                  .read(
+                    foodContainerListViewModel.notifier,
+                  )
+                  .loadNextPage(),
+              onRefresh: () => ref
+                  .read(
+                    foodContainerListViewModel.notifier,
+                  )
+                  .refresh(),
+              onSelectItem: (item) {
+                _editFoodContainer(context, item);
+              },
               onDeleteItem: (item) {
-                _deleteFoodContainer(item.id!);
+                _deleteFoodContainer(context, ref, item.id!);
               },
             ),
           ),
           floatingActionButton: Awaited(
-            future: uiState.dataLoader,
-            data: (_, __) => FloatingActionButton(
-              onPressed: _addFoodContainer,
+            future: uiState,
+            data: (_, _) => FloatingActionButton(
+              onPressed: () {
+                _addFoodContainer(context);
+              },
               shape: const CircleBorder(),
               child: const Icon(Icons.add),
             ),

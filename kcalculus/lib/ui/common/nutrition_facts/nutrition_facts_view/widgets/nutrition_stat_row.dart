@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/utils/nutrient_style.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/number.dart' as nb;
@@ -42,7 +42,7 @@ class NutritionStatRow extends StatelessWidget {
             amountUnit != null
                 ? l10n(context).statWithUnit(
                     nb.formatDouble(context, amountValue),
-                    amountUnit!.localName(context),
+                    amountUnit!.localName(l10n(context)),
                   )
                 : nb.formatDouble(context, amountValue),
             style: textStyle,

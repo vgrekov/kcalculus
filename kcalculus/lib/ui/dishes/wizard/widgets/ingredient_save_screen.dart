@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/dish/ingredient.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/dish/models/ingredient.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/portion_form/widgets/portion_form.dart';
 import 'package:kcalculus/ui/common/widgets/inattentive.dart';
 import 'package:kcalculus/utils/l10n.dart';
@@ -87,17 +87,15 @@ class _IngredientSaveScreenState extends State<IngredientSaveScreen> {
                 ? l10n(context).screenAddIngredient
                 : l10n(context).screenEditIngredient,
             style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           actions: [
-            TextButton(
+            IconButton(
               onPressed: _saveIngredient,
-              child: Text(
-                l10n(context).actionSave,
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+              icon: Icon(
+                Icons.check,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ],

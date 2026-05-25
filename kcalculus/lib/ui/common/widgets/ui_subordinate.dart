@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 
-typedef UiAssignment = void Function(
-  UiCommand command, {
-  required BuildContext context,
-  required WidgetRef ref,
-});
+typedef UiAssignment =
+    void Function(
+      UiCommand command, {
+      required BuildContext context,
+      required WidgetRef ref,
+    });
 
-class UiSubordinate<Type> extends ConsumerWidget {
+class UiSubordinate<CommandType> extends ConsumerWidget {
   UiSubordinate({
     super.key,
     required this.commandProvider,
@@ -18,18 +19,20 @@ class UiSubordinate<Type> extends ConsumerWidget {
   }) {
     if (assignments == null && onCommand == null) {
       throw ArgumentError(
-          "Either 'assignments' or 'onCommand' must be provided.");
+        "Either 'assignments' or 'onCommand' must be provided.",
+      );
     }
 
     if (assignments != null && onCommand != null) {
       throw ArgumentError(
-          "Only one of 'assignments' or 'onCommand' should be provided.");
+        "Only one of 'assignments' or 'onCommand' should be provided.",
+      );
     }
   }
 
   final StreamProvider<UiCommand> commandProvider;
 
-  final Map<Type, UiAssignment>? assignments;
+  final Map<CommandType, UiAssignment>? assignments;
 
   final void Function(UiCommand)? onCommand;
 
@@ -42,7 +45,7 @@ class UiSubordinate<Type> extends ConsumerWidget {
   }) {
     if (commandAsync is AsyncData) {
       final command = commandAsync.value!;
-      if (command.type is Type) {
+      if (command.type is CommandType) {
         if (assignments != null) {
           assignments![command.type]?.call(
             command,

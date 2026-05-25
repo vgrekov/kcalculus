@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/access_level.dart';
+import 'package:kcalculus/data/access/access.dart';
+import 'package:kcalculus/data/ad/ad.dart';
+import 'package:kcalculus/domain/_common/models/access_level.dart';
 import 'package:kcalculus/ui/access_guard/view_models/premium_status.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
@@ -52,7 +53,7 @@ class AccessGuardViewModel extends AutoDisposeFamilyNotifier<void, Key?> {
         default:
       }
 
-      final adRepository = await ref.read(adRepositoryProvider.future);
+      final adRepository = ref.read(adRepositoryProvider.notifier);
 
       final ad = await adRepository.loadUnlockAd();
 

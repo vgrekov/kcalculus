@@ -4,11 +4,15 @@ dw \
 -i foundationFoods path/to/FoodData_Central_foundation_food.json \
 -i surveyFoods path/to/surveyDownload.json \
 -i selectNutrients select_nutrients.json \
+-i requiredNutrients required_nutrients.json \
 -f trimmer.dwl \
 | gzip > ../../kcalculus/assets/usda/dumps/usda_foods.ndjson.gz
 */
 
 %dw 2.0
+
+import * from dw::core::Arrays
+
 output application/x-ndjson
 ---
 (
@@ -37,4 +41,10 @@ output application/x-ndjson
             unitName: nutrient.nutrient.unitName,
         }
     )
+}) filter ((food) -> do {
+    var nutrients = food.nutrients map $.number
+    ---
+    valuesOf(requiredNutrients) every ((group) -> (
+        group some ((nutrient) -> nutrients contains nutrient)
+    ))
 }) distinctBy lower($.description)

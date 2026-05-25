@@ -61,8 +61,8 @@ class _AgreementScreenState extends ConsumerState<AgreementScreen> {
         title: Text(
           l10n(context).screenAgreement,
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
       ),
       body: Awaited(
@@ -83,14 +83,12 @@ class _AgreementScreenState extends ConsumerState<AgreementScreen> {
             child: Text(
               l10n(context).messageUnknownError,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           );
         },
-        data: (_, __) => WebViewWidget(
-          controller: _webViewController,
-        ),
+        data: (_, _) => WebViewWidget(controller: _webViewController),
       ),
       bottomNavigationBar: Awaited(
         future: _agreementLoader,
@@ -99,21 +97,13 @@ class _AgreementScreenState extends ConsumerState<AgreementScreen> {
           padding: const EdgeInsets.fromLTRB(32, 16, 32, 32),
           child: SizedBox(
             width: double.infinity,
-            child: TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8),
-                  ),
-                ),
-              ),
+            child: FilledButton(
               onPressed: _sign,
               child: Text(
                 l10n(context).actionIAgree,
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
             ),
           ),

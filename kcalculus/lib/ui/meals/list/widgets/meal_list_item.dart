@@ -1,74 +1,89 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
+import 'package:kcalculus/ui/edibles/common/edible_stats.dart';
+import 'package:kcalculus/ui/meals/list/widgets/meal_list_item_calorie_content.dart';
 import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
-import 'package:kcalculus/utils/number.dart' as nb;
 
 class MealListItem extends StatelessWidget {
-  final Meal meal;
-  final void Function(Meal meal) onSelectMeal;
-
   const MealListItem({
     super.key,
     required this.meal,
     required this.onSelectMeal,
   });
 
+  final Meal meal;
+
+  final void Function(Meal meal) onSelectMeal;
+
   @override
   Widget build(BuildContext context) {
-    final nutrientData = meal.getNutrientData();
-    return ListTile(
+    final nutritionFactsPreview = meal.getNutritionFacts()?.getPreview();
+
+    return InkWell(
       onTap: () {
         onSelectMeal(meal);
       },
-      key: ValueKey(meal.id),
-      leading: Text(
-        dt.formatTimeLocal(context, meal.eatenAt),
-        style: Theme.of(context).textTheme.labelSmall!.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-      ),
-      title: Text(
-        meal.edible.name,
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: meal.edible.description.isEmpty
-          ? null
-          : Text(
-              meal.edible.description,
-              style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+      child: Ink(
+        color: Theme.of(context).colorScheme.surfaceContainerHigh,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n(context).mealEatenAt(
+                            dt.formatTimeLocal(context, meal.eatenAt),
+                          ),
+                          style: Theme.of(context).textTheme.labelSmall!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          meal.edible.name,
+                          style: Theme.of(context).textTheme.titleMedium!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-      trailing: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            l10n(context).statWithUnit(
-              nb.formatDouble(context, meal.amount.value),
-              meal.amount.unit.localName(context),
-            ),
-            style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
+                  if (nutritionFactsPreview != null)
+                    MealListItemCalorieContent(
+                      nutritionFactsPreview: nutritionFactsPreview,
+                    ),
+                ],
+              ),
+              if (meal.edible.description.isNotEmpty)
+                Text(
+                  meal.edible.description,
+                  style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
+              if (nutritionFactsPreview != null)
+                EdibleStats(
+                  nutritionFactsPreview: nutritionFactsPreview,
+                ),
+            ],
           ),
-          if (nutrientData != null)
-            Text(
-              l10n(context).statCalories(
-                  nb.formatDouble(context, nutrientData.calories)),
-              style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-            ),
-        ],
+        ),
       ),
     );
   }

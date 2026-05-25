@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
+import 'package:kcalculus/domain/edible/models/edible.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
@@ -48,8 +49,9 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
   late final _assignments = <DishWizardCommand, UiAssignment>{
     DishWizardCommand.showUnknownErrorNotification:
         _showUnknownErrorNotification,
-    DishWizardCommand.showEdibleAlreadyExistsDialog:
-        _showEdibleAlreadyExistsDialog,
+    DishWizardCommand.showDishDuplicationDialog: _showDishDuplicationDialog,
+    DishWizardCommand.showIngredientDuplicationDialog:
+        _showIngredientDuplicationDialog,
     DishWizardCommand.showIngredientsCycleDetectedNotification:
         _showIngredientsCycleDetectedNotification,
     DishWizardCommand.goToInvalidStep: _goToInvalidStep,
@@ -107,24 +109,24 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     final pageKey = _pageKeys[step];
     return switch (step) {
       DishWizardStep.main => DishWizardMainPage(
-          key: pageKey,
-          dish: widget.dish,
-          pageController: _pageController,
-        ),
+        key: pageKey,
+        dish: widget.dish,
+        pageController: _pageController,
+      ),
       DishWizardStep.ingredients => DishWizardIngredientsPage(
-          key: pageKey,
-          dish: widget.dish,
-          nutrientDefaults: widget.nutrientDefaults,
-        ),
+        key: pageKey,
+        dish: widget.dish,
+        nutrientDefaults: widget.nutrientDefaults,
+      ),
       DishWizardStep.measurements => DishWizardMeasurementsPage(
-          key: pageKey,
-          dish: widget.dish,
-        ),
+        key: pageKey,
+        dish: widget.dish,
+      ),
       DishWizardStep.summary => DishWizardSummaryPage(
-          key: pageKey,
-          dish: widget.dish,
-          nutrientDefaults: widget.nutrientDefaults,
-        ),
+        key: pageKey,
+        dish: widget.dish,
+        nutrientDefaults: widget.nutrientDefaults,
+      ),
     };
   }
 
@@ -183,7 +185,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
     command.complete();
   }
 
-  void _showEdibleAlreadyExistsDialog(
+  void _showDishDuplicationDialog(
     UiCommand command, {
     required BuildContext context,
     required WidgetRef ref,
@@ -194,6 +196,31 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
         l10n(context).actionOk: () {
           _pageController.animateToPage(
             DishWizardStep.values.indexOf(DishWizardStep.main),
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.linear,
+          );
+        },
+      },
+      messageType: MessageType.error,
+    );
+    command.complete();
+  }
+
+  void _showIngredientDuplicationDialog(
+    UiCommand command, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    final edible = command.payload as Edible;
+    showMessageDialog<void>(
+      message: l10n(context).messageIngredientDuplication(
+        edible.name,
+        edible.description,
+      ),
+      actions: {
+        l10n(context).actionOk: () {
+          _pageController.animateToPage(
+            DishWizardStep.values.indexOf(DishWizardStep.ingredients),
             duration: const Duration(milliseconds: 200),
             curve: Curves.linear,
           );
@@ -258,8 +285,9 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
 
   @override
   Widget build(BuildContext context) {
-    ScaffoldConfig? scaffoldConfig =
-        _getWizardPage(_currentPageIndex)?.buildScaffoldConfig(context, ref);
+    ScaffoldConfig? scaffoldConfig = _getWizardPage(
+      _currentPageIndex,
+    )?.buildScaffoldConfig(context, ref);
 
     return PopScope(
       canPop: false,
@@ -267,8 +295,9 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
         if (!didPop) _tryExit();
       },
       child: UiSubordinate<DishWizardCommand>(
-        commandProvider:
-            ref.read(dishWizardViewModel(widget.dish).notifier).commandProvider,
+        commandProvider: ref
+            .read(dishWizardViewModel(widget.dish).notifier)
+            .commandProvider,
         assignments: _assignments,
         child: Inattentive(
           child: Scaffold(
@@ -290,27 +319,24 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
                         ? l10n(context).screenAddDish
                         : l10n(context).screenEditDish,
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                   if (scaffoldConfig?.subtitle != null)
                     Text(
                       scaffoldConfig!.subtitle!,
                       style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                 ],
               ),
               actions: [
-                TextButton(
+                IconButton(
                   onPressed: _saveDish,
-                  child: Text(
-                    l10n(context).actionSave,
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                  icon: Icon(
+                    Icons.check,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ],
@@ -328,7 +354,7 @@ class _DishWizardScreenState extends ConsumerState<DishWizardScreen>
             floatingActionButton: scaffoldConfig?.floatingActionButton,
             floatingActionButtonLocation:
                 scaffoldConfig?.floatingActionButtonLocation ??
-                    FloatingActionButtonLocation.centerDocked,
+                FloatingActionButtonLocation.centerDocked,
             bottomNavigationBar: Container(
               padding: const EdgeInsets.only(bottom: 16),
               color: Theme.of(context).colorScheme.surfaceContainer,

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/meal.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
 
 part 'meal_save_view_model_arg.freezed.dart';
 

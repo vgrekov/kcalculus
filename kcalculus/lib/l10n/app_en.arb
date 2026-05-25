@@ -219,6 +219,32 @@
     "messageIngredientDeletionConfirmation": "Delete this ingredient?",
     "messageIngredientDeletionSuccess": "Ingredient deleted",
     "messageIngredientDeletionFailure": "Failed to delete the ingredient",
+    "messageIngredientChanged": "{ingredientName}{ingredientHasDescription, select, true{\n{ingredientDescription}} other{}}\n{valueFrom} {unitFrom} → {valueTo} {unitTo}",
+    "@messageIngredientChanged": {
+        "placeholders": {
+            "ingredientName": {
+                "type": "String"
+            },
+            "ingredientDescription": {
+                "type": "String"
+            },
+            "ingredientHasDescription": {
+                "type": "String"
+            },
+            "valueFrom": {
+                "type": "String"
+            },
+            "unitFrom": {
+                "type": "String"
+            },
+            "valueTo": {
+                "type": "String"
+            },
+            "unitTo": {
+                "type": "String"
+            }
+        }
+    },
     "screenAddIngredient": "New Ingredient",
     "screenEditIngredient": "Edit Ingredient",
     "dishWizardPageMain": "Main",
@@ -238,6 +264,17 @@
     "validationErrorTotalMustBeHeavierThanContainer": "Must be heavier than container",
     "messageDishSelectMeasurementOptionError": "Please select at least one measurement option",
     "dishWizardPageSummary": "Nutrition Facts",
+    "messageIngredientDuplication": "The following ingredient duplicates another item in this dish:\n\n{name}\n{description}\n\nPlease ensure name and description are unique before saving.",
+    "@messageIngredientDuplication": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "description": {
+                "type": "String"
+            }
+        }
+    },
     "validationErrorIngredientsCycleDetected": "Sorry, this would create a dish-ingredient cycle.",
     "titleIngredients": "Ingredients",
     "messageConfirmEatenEdibleEdit": "This was already eaten, so editing it may affect meals history.\nDo you want to make a copy instead?",
@@ -509,5 +546,223 @@
     "maintenanceTaskUsdaFoodDataLoadingTitle": "Loading common foods...",
     "maintenanceTaskUsdaFoodDataLoadingFailedMessage": "Loading common foods failed. Not able to proceed.",
     "maintenanceTaskUsdaDbMigrationTitle": "Migrating the common foods database...",
-    "maintenanceTaskUsdaDbMigrationFailedMessage": "Common foods database migration failed. Not able to proceed."
+    "maintenanceTaskUsdaDbMigrationFailedMessage": "Common foods database migration failed. Not able to proceed.",
+    "screenLogin": "Login",
+    "labelEmail": "Email",
+    "validationErrorEmailRequired": "Email required",
+    "validationErrorEmailInvalid": "Invalid email address",
+    "validationErrorEmailAlreadyInUse": "Email already in use",
+    "labelPassword": "Password",
+    "hintPassword": "{min}–{max}{upper, select, true{ Ⓐ} other{}}{lower, select, true{ ⓐ} other{}}{digits, select, true{ 0–9} other{}}{special, select, true{ !@#$%^&*} other{}}",
+    "@hintPassword": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            },
+            "upper": {
+                "type": "String"
+            },
+            "lower": {
+                "type": "String"
+            },
+            "digits": {
+                "type": "String"
+            },
+            "special": {
+                "type": "String"
+            }
+        }
+    },
+    "validationErrorPasswordRequired": "Password required",
+    "validationErrorPasswordInvalid": "Password must:\n• Be {min}–{max} characters long\n• Use only letters, digits, and !@#$%^&*{upper, select, true{\n• Include at least one uppercase letter} other{}}{lower, select, true{\n• Include at least one lowercase letter} other{}}{digits, select, true{\n• Include at least one digit} other{}}{special, select, true{\n• Include at least one special character} other{}}",
+    "@validationErrorPasswordInvalid": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            },
+            "upper": {
+                "type": "String"
+            },
+            "lower": {
+                "type": "String"
+            },
+            "digits": {
+                "type": "String"
+            },
+            "special": {
+                "type": "String"
+            }
+        }
+    },
+    "actionLogin": "Log in",
+    "actionLogout": "Log out",
+    "actionCreateNewAccount": "Create new account",
+    "actionContinueWithoutAccount": "Continue without account",
+    "actionForgotPassword": "Forgot password?",
+    "screenNewAccount": "New Account",
+    "labelDisplayName": "Name",
+    "validationErrorDisplayNameRequired": "User name required",
+    "labelPasswordConfirmation": "Password confirmation",
+    "validationErrorPasswordMismatch": "Passwords don''t match",
+    "validationErrorPasswordTooWeak": "Password provided is too weak",
+    "validationErrorEmailUnverified": "Email needs verification",
+    "messageEmailVerificationSent": "Email verification instructions were sent to {email}",
+    "@messageEmailVerificationSent": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+    "validationErrorCredentialsInvalid": "Invalid credentials",
+    "validationErrorUserNotFound": "Account not found",
+    "validationErrorUserDisabled": "Account disabled",
+    "messageTooManyRequestsError": "Too many requests. Please try again later.",
+    "messageCheckInboxForInstructions": "Check your inbox for instructions",
+    "actionSendAgain": "SEND AGAIN",
+    "screenPasswordReset": "Password Reset",
+    "actionResetPassword": "Reset password",
+    "messagePasswordResetEmailSent": "Reset password instructions were sent to {email}",
+    "@messagePasswordResetEmailSent": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+    "messageLogoutConfirmation": "Are you sure you want to log out?",
+    "edibleTypeFood": "Food",
+    "edibleTypeDish": "Dish",
+    "edibleTypeUsda": "USDA",
+    "edibleLastEaten": "{daysAgo, select, null{not eaten yet} 0{last eaten today at {time}} 1{last eaten yesterday} 2{last eaten 2 days ago} other{last eaten on {date}}}",
+    "@edibleLastEaten": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            },
+            "daysAgo": {
+                "type": "String"
+            }
+        }
+    },
+    "perAmount": "per {value} {unit}",
+    "@perAmount": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "maintenanceTaskNutritionFactsPreviewsCreationTitle": "Creating nutrition facts previews...",
+    "maintenanceTaskNutritionFactsPreviewsCreationFailedMessage": "Creating nutrition facts previews failed. Not able to proceed.",
+    "actionAddFood": "Simple Food",
+    "actionAddDish": "Complex Dish",
+    "mealEatenAt": "Eaten at {time}",
+    "@mealEatenAt": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "tagRecent": "RECENT",
+    "tagDeleted": "DELETED",
+    "screenImport": "Import",
+    "importBookedTitle": "Import local data to your account?",
+    "importBookedMessage": "Data stored on this device can be imported to your account.\n\nImporting will replace any data currently in your account with the data from this device.",
+    "messageImportConfirmation": "This will permanently replace the data in your account with the data from this device.\n\nYour current account data will be lost. This action cannot be undone.",
+    "actionImport": "Import and replace",
+    "actionDeclineImport": "Keep account data",
+    "importRunningTitle": "Importing data...",
+    "importRunningMessage": "Data from this device is being imported to your account.\nThis may take a few moments.\n\nPlease keep the app open until the import is complete.",
+    "importStuckTitle": "Import couldn''t be completed",
+    "importStuckMessage": "An import from this device is still marked as in progress but is no longer running.\n\nPlease contact support for assistance.",
+    "actionContactSupport": "Contact support",
+    "importRemoteTitle": "Import on another device",
+    "importRemoteMessage": "Another device is importing data to your account.\n\nPlease complete the import on that device, or contact support if you cannot access it.",
+    "importSucceededTitle": "Import complete",
+    "importSucceededMessageNoReport": "Data from this device has been imported to your account.",
+    "importSucceededMessageWithReport": "Data from this device has been imported to your account.\nSee the report below for details.",
+    "actionDone": "Done",
+    "labelFoods": "Foods",
+    "labelDishes": "Dishes",
+    "labelMeals": "Meals",
+    "labelContainers": "Containers",
+    "labelDefaultNutrients": "Default Nutrients",
+    "labelNutrientGoals": "Nutrient Goals",
+    "labelSettings": "Settings",
+    "importFailedTitle": "Import failed",
+    "importFailedMessage": "The import did not complete successfully.\nSome data may have already been applied to your account, and your account data may now be incomplete.",
+    "actionRetryImport": "Retry import",
+    "messageRetryImportConfirmation": "Erase your current account data and restart the import?",
+    "actionRevertImport": "Reset account data",
+    "messageRevertImportConfirmation": "Erase your current account data?",
+    "actionIgnoreImport": "Keep current data",
+    "messageIgnoreImportConfirmation": "Ignore the import and continue using the app as-is?",
+    "supportEmailAddress": "support@kcalculus.app",
+    "supportEmailImportSubject": "[Import] {email}",
+    "@supportEmailImportSubject": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+    "supportEmailImportBody": "Hello,\r\n\r\nI''m experiencing an issue with importing my local data into my account.\r\n\r\nAccount email: {email}\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nApp version: {appVersion} ({buildNumber})\r\nPlatform: {platform, select, iOS{iOS} android{Android} other{Unknown}}\r\nOS version: {osVersion}\r\nDevice: {device}",
+    "@supportEmailImportBody": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            },
+            "appVersion": {
+                "type": "String"
+            },
+            "buildNumber": {
+                "type": "String"
+            },
+            "platform": {
+                "type": "String"
+            },
+            "osVersion": {
+                "type": "String"
+            },
+            "device": {
+                "type": "String"
+            }
+        }
+    },
+    "settingLogoutTitle": "Log out",
+    "settingLogoutSubtitle": "Sign out of your account on this device",
+    "settingDeleteAccountTitle": "Delete account",
+    "settingDeleteAccountSubtitle": "Permanently delete your account and all associated data",
+    "messageLoginToDeleteAccount": "For security reasons, you must log in again before deleting your account.",
+    "messageDeleteAccountConfirmation": "Delete account\n{email}\npermanently?\n\nThis action cannot be undone.\nAll your data, including your account information and associated content, will be permanently deleted.\n\nIf you proceed, you will lose access to this account.",
+    "@messageDeleteAccountConfirmation": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+    "actionDeleteAccount": "Delete account",
+    "messageAccountDeleted": "Account {email} has been permanently deleted.",
+    "@messageAccountDeleted": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    }
 }

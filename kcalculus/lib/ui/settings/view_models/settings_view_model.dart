@@ -2,14 +2,17 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/app_settings.dart';
+import 'package:kcalculus/data/_common/providers.dart';
+import 'package:kcalculus/data/auth/auth.dart';
+import 'package:kcalculus/data/storage/local/backup/repositories/backup_repository.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/models/app_settings.dart';
+import 'package:kcalculus/domain/auth/models/user.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/settings/view_models/settings_ui_state.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 final _log = Logger('AppSettingsViewModel');
 
@@ -18,11 +21,11 @@ enum AppSettingsCommand {
   showBackupFailureNotification,
   showRestoreSuccessNotification,
   showRestoreFailureNotification,
+  showAccountDeletedNotification,
+  showUnknownErrorNotification,
 }
 
 class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
-  final _packageInfo = PackageInfo.fromPlatform();
-
   UiCommander<AppSettingsCommand>? _commander;
 
   @override
@@ -35,17 +38,57 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
 
     final settings = await ref.watch(appSettingsRepositoryProvider.future);
 
+    final user = await ref.watch(userRepositoryProvider.future);
+
+    final appInfo = await ref.read(appInfoProvider.future);
+
     return SettingsUiState(
       settings: settings,
-      packageInfo: await _packageInfo,
+      user: user,
+      appInfo: appInfo,
     );
   }
 
   StreamProvider<UiCommand> get commandProvider => _commander!.provider;
 
+  Future<void> logout() async {
+    final userRepository = ref.read(userRepositoryProvider.notifier);
+    await userRepository.logout();
+  }
+
+  Future<bool> deleteAccount() async {
+    _log.finer('deleteAccount() START');
+
+    try {
+      final user = await ref.read(userRepositoryProvider.future);
+
+      final userRepository = ref.read(userRepositoryProvider.notifier);
+
+      await userRepository.deleteAccount();
+
+      _log.info('Account deleted');
+      _log.eventAccountDeleted();
+
+      _commander!.send<User?, void>(
+        AppSettingsCommand.showAccountDeletedNotification,
+        payload: user,
+      );
+
+      return true;
+    } catch (error, stackTrace) {
+      _log.severe('Failed to delete account', error, stackTrace);
+
+      _commander!.send(AppSettingsCommand.showUnknownErrorNotification);
+
+      return false;
+    } finally {
+      _log.finer('deleteAccount() END');
+    }
+  }
+
   Future<void> setTheme(AppTheme theme) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
-    await repository.setSettings(
+    await repository.saveSettings(
       state.value!.settings.copyWith(
         theme: theme,
       ),
@@ -54,7 +97,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
 
   Future<void> setCrashlyticsEnabled(bool enabled) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
-    await repository.setSettings(
+    await repository.saveSettings(
       state.value!.settings.copyWith(
         crashlyticsEnabled: enabled,
       ),
@@ -63,7 +106,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
 
   Future<void> setAnalyticsEnabled(bool enabled) async {
     final repository = ref.read(appSettingsRepositoryProvider.notifier);
-    await repository.setSettings(
+    await repository.saveSettings(
       state.value!.settings.copyWith(
         analyticsEnabled: enabled,
       ),
@@ -76,7 +119,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
     try {
       _log.finest('backup() Backing up');
 
-      final backupRepository = ref.read(backupRepositoryProvider);
+      final backupRepository = ref.read(localBackupRepositoryProvider.notifier);
       final backupFile = await backupRepository.backup();
 
       _log.info('Backup complete');
@@ -104,7 +147,7 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
     try {
       _log.finest('restore() Restoring from: $fromFile');
 
-      final backupRepository = ref.read(backupRepositoryProvider);
+      final backupRepository = ref.read(localBackupRepositoryProvider.notifier);
       await backupRepository.restore(File(fromFile));
 
       _log.info('Restore complete');
@@ -129,5 +172,5 @@ class AppSettingsViewModel extends AutoDisposeAsyncNotifier<SettingsUiState> {
 
 final appSettingsViewModel =
     AsyncNotifierProvider.autoDispose<AppSettingsViewModel, SettingsUiState>(
-  () => AppSettingsViewModel(),
-);
+      () => AppSettingsViewModel(),
+    );

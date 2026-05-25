@@ -1,0 +1,3 @@
+class JsonFields {
+  const JsonFields();
+}

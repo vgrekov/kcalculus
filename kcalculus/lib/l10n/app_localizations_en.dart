@@ -519,6 +519,26 @@ class AppLocalizationsEn extends AppLocalizations {
       'Failed to delete the ingredient';
 
   @override
+  String messageIngredientChanged(
+    String ingredientName,
+    String ingredientDescription,
+    String ingredientHasDescription,
+    String valueFrom,
+    String unitFrom,
+    String valueTo,
+    String unitTo,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      ingredientHasDescription,
+      {
+        'true': '\n$ingredientDescription',
+        'other': '',
+      },
+    );
+    return '$ingredientName$_temp0\n$valueFrom $unitFrom → $valueTo $unitTo';
+  }
+
+  @override
   String get screenAddIngredient => 'New Ingredient';
 
   @override
@@ -557,6 +577,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dishWizardPageSummary => 'Nutrition Facts';
+
+  @override
+  String messageIngredientDuplication(String name, String description) {
+    return 'The following ingredient duplicates another item in this dish:\n\n$name\n$description\n\nPlease ensure name and description are unique before saving.';
+  }
 
   @override
   String get validationErrorIngredientsCycleDetected =>
@@ -841,8 +866,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String partExceedsWhole(String part, String partUnit, String partValue,
-      String whole, String wholeUnit, String wholeValue) {
+  String partExceedsWhole(
+    String part,
+    String partUnit,
+    String partValue,
+    String whole,
+    String wholeUnit,
+    String wholeValue,
+  ) {
     return ' - $part ($partValue $partUnit) > $whole ($wholeValue $wholeUnit)';
   }
 
@@ -940,4 +971,399 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get maintenanceTaskUsdaDbMigrationFailedMessage =>
       'Common foods database migration failed. Not able to proceed.';
+
+  @override
+  String get screenLogin => 'Login';
+
+  @override
+  String get labelEmail => 'Email';
+
+  @override
+  String get validationErrorEmailRequired => 'Email required';
+
+  @override
+  String get validationErrorEmailInvalid => 'Invalid email address';
+
+  @override
+  String get validationErrorEmailAlreadyInUse => 'Email already in use';
+
+  @override
+  String get labelPassword => 'Password';
+
+  @override
+  String hintPassword(
+    int min,
+    int max,
+    String upper,
+    String lower,
+    String digits,
+    String special,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      upper,
+      {
+        'true': ' Ⓐ',
+        'other': '',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      lower,
+      {
+        'true': ' ⓐ',
+        'other': '',
+      },
+    );
+    String _temp2 = intl.Intl.selectLogic(
+      digits,
+      {
+        'true': ' 0–9',
+        'other': '',
+      },
+    );
+    String _temp3 = intl.Intl.selectLogic(
+      special,
+      {
+        'true': ' !@#\$%^&*',
+        'other': '',
+      },
+    );
+    return '$min–$max$_temp0$_temp1$_temp2$_temp3';
+  }
+
+  @override
+  String get validationErrorPasswordRequired => 'Password required';
+
+  @override
+  String validationErrorPasswordInvalid(
+    int min,
+    int max,
+    String upper,
+    String lower,
+    String digits,
+    String special,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      upper,
+      {
+        'true': '\n• Include at least one uppercase letter',
+        'other': '',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      lower,
+      {
+        'true': '\n• Include at least one lowercase letter',
+        'other': '',
+      },
+    );
+    String _temp2 = intl.Intl.selectLogic(
+      digits,
+      {
+        'true': '\n• Include at least one digit',
+        'other': '',
+      },
+    );
+    String _temp3 = intl.Intl.selectLogic(
+      special,
+      {
+        'true': '\n• Include at least one special character',
+        'other': '',
+      },
+    );
+    return 'Password must:\n• Be $min–$max characters long\n• Use only letters, digits, and !@#\$%^&*$_temp0$_temp1$_temp2$_temp3';
+  }
+
+  @override
+  String get actionLogin => 'Log in';
+
+  @override
+  String get actionLogout => 'Log out';
+
+  @override
+  String get actionCreateNewAccount => 'Create new account';
+
+  @override
+  String get actionContinueWithoutAccount => 'Continue without account';
+
+  @override
+  String get actionForgotPassword => 'Forgot password?';
+
+  @override
+  String get screenNewAccount => 'New Account';
+
+  @override
+  String get labelDisplayName => 'Name';
+
+  @override
+  String get validationErrorDisplayNameRequired => 'User name required';
+
+  @override
+  String get labelPasswordConfirmation => 'Password confirmation';
+
+  @override
+  String get validationErrorPasswordMismatch => 'Passwords don\'t match';
+
+  @override
+  String get validationErrorPasswordTooWeak => 'Password provided is too weak';
+
+  @override
+  String get validationErrorEmailUnverified => 'Email needs verification';
+
+  @override
+  String messageEmailVerificationSent(String email) {
+    return 'Email verification instructions were sent to $email';
+  }
+
+  @override
+  String get validationErrorCredentialsInvalid => 'Invalid credentials';
+
+  @override
+  String get validationErrorUserNotFound => 'Account not found';
+
+  @override
+  String get validationErrorUserDisabled => 'Account disabled';
+
+  @override
+  String get messageTooManyRequestsError =>
+      'Too many requests. Please try again later.';
+
+  @override
+  String get messageCheckInboxForInstructions =>
+      'Check your inbox for instructions';
+
+  @override
+  String get actionSendAgain => 'SEND AGAIN';
+
+  @override
+  String get screenPasswordReset => 'Password Reset';
+
+  @override
+  String get actionResetPassword => 'Reset password';
+
+  @override
+  String messagePasswordResetEmailSent(String email) {
+    return 'Reset password instructions were sent to $email';
+  }
+
+  @override
+  String get messageLogoutConfirmation => 'Are you sure you want to log out?';
+
+  @override
+  String get edibleTypeFood => 'Food';
+
+  @override
+  String get edibleTypeDish => 'Dish';
+
+  @override
+  String get edibleTypeUsda => 'USDA';
+
+  @override
+  String edibleLastEaten(String date, String time, String daysAgo) {
+    String _temp0 = intl.Intl.selectLogic(
+      daysAgo,
+      {
+        'null': 'not eaten yet',
+        '0': 'last eaten today at $time',
+        '1': 'last eaten yesterday',
+        '2': 'last eaten 2 days ago',
+        'other': 'last eaten on $date',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String perAmount(String value, String unit) {
+    return 'per $value $unit';
+  }
+
+  @override
+  String get maintenanceTaskNutritionFactsPreviewsCreationTitle =>
+      'Creating nutrition facts previews...';
+
+  @override
+  String get maintenanceTaskNutritionFactsPreviewsCreationFailedMessage =>
+      'Creating nutrition facts previews failed. Not able to proceed.';
+
+  @override
+  String get actionAddFood => 'Simple Food';
+
+  @override
+  String get actionAddDish => 'Complex Dish';
+
+  @override
+  String mealEatenAt(String time) {
+    return 'Eaten at $time';
+  }
+
+  @override
+  String get tagRecent => 'RECENT';
+
+  @override
+  String get tagDeleted => 'DELETED';
+
+  @override
+  String get screenImport => 'Import';
+
+  @override
+  String get importBookedTitle => 'Import local data to your account?';
+
+  @override
+  String get importBookedMessage =>
+      'Data stored on this device can be imported to your account.\n\nImporting will replace any data currently in your account with the data from this device.';
+
+  @override
+  String get messageImportConfirmation =>
+      'This will permanently replace the data in your account with the data from this device.\n\nYour current account data will be lost. This action cannot be undone.';
+
+  @override
+  String get actionImport => 'Import and replace';
+
+  @override
+  String get actionDeclineImport => 'Keep account data';
+
+  @override
+  String get importRunningTitle => 'Importing data...';
+
+  @override
+  String get importRunningMessage =>
+      'Data from this device is being imported to your account.\nThis may take a few moments.\n\nPlease keep the app open until the import is complete.';
+
+  @override
+  String get importStuckTitle => 'Import couldn\'t be completed';
+
+  @override
+  String get importStuckMessage =>
+      'An import from this device is still marked as in progress but is no longer running.\n\nPlease contact support for assistance.';
+
+  @override
+  String get actionContactSupport => 'Contact support';
+
+  @override
+  String get importRemoteTitle => 'Import on another device';
+
+  @override
+  String get importRemoteMessage =>
+      'Another device is importing data to your account.\n\nPlease complete the import on that device, or contact support if you cannot access it.';
+
+  @override
+  String get importSucceededTitle => 'Import complete';
+
+  @override
+  String get importSucceededMessageNoReport =>
+      'Data from this device has been imported to your account.';
+
+  @override
+  String get importSucceededMessageWithReport =>
+      'Data from this device has been imported to your account.\nSee the report below for details.';
+
+  @override
+  String get actionDone => 'Done';
+
+  @override
+  String get labelFoods => 'Foods';
+
+  @override
+  String get labelDishes => 'Dishes';
+
+  @override
+  String get labelMeals => 'Meals';
+
+  @override
+  String get labelContainers => 'Containers';
+
+  @override
+  String get labelDefaultNutrients => 'Default Nutrients';
+
+  @override
+  String get labelNutrientGoals => 'Nutrient Goals';
+
+  @override
+  String get labelSettings => 'Settings';
+
+  @override
+  String get importFailedTitle => 'Import failed';
+
+  @override
+  String get importFailedMessage =>
+      'The import did not complete successfully.\nSome data may have already been applied to your account, and your account data may now be incomplete.';
+
+  @override
+  String get actionRetryImport => 'Retry import';
+
+  @override
+  String get messageRetryImportConfirmation =>
+      'Erase your current account data and restart the import?';
+
+  @override
+  String get actionRevertImport => 'Reset account data';
+
+  @override
+  String get messageRevertImportConfirmation =>
+      'Erase your current account data?';
+
+  @override
+  String get actionIgnoreImport => 'Keep current data';
+
+  @override
+  String get messageIgnoreImportConfirmation =>
+      'Ignore the import and continue using the app as-is?';
+
+  @override
+  String get supportEmailAddress => 'support@kcalculus.app';
+
+  @override
+  String supportEmailImportSubject(String email) {
+    return '[Import] $email';
+  }
+
+  @override
+  String supportEmailImportBody(
+    String email,
+    String appVersion,
+    String buildNumber,
+    String platform,
+    String osVersion,
+    String device,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      platform,
+      {
+        'iOS': 'iOS',
+        'android': 'Android',
+        'other': 'Unknown',
+      },
+    );
+    return 'Hello,\r\n\r\nI\'m experiencing an issue with importing my local data into my account.\r\n\r\nAccount email: $email\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nApp version: $appVersion ($buildNumber)\r\nPlatform: $_temp0\r\nOS version: $osVersion\r\nDevice: $device';
+  }
+
+  @override
+  String get settingLogoutTitle => 'Log out';
+
+  @override
+  String get settingLogoutSubtitle => 'Sign out of your account on this device';
+
+  @override
+  String get settingDeleteAccountTitle => 'Delete account';
+
+  @override
+  String get settingDeleteAccountSubtitle =>
+      'Permanently delete your account and all associated data';
+
+  @override
+  String get messageLoginToDeleteAccount =>
+      'For security reasons, you must log in again before deleting your account.';
+
+  @override
+  String messageDeleteAccountConfirmation(String email) {
+    return 'Delete account\n$email\npermanently?\n\nThis action cannot be undone.\nAll your data, including your account information and associated content, will be permanently deleted.\n\nIf you proceed, you will lose access to this account.';
+  }
+
+  @override
+  String get actionDeleteAccount => 'Delete account';
+
+  @override
+  String messageAccountDeleted(String email) {
+    return 'Account $email has been permanently deleted.';
+  }
 }

@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/exceptions/unsupported_version_exception.dart';
-import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/data/open_food_facts/open_food_facts.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/food/exceptions/unsupported_version_exception.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
@@ -85,10 +86,10 @@ class FoodScanViewModel extends AutoDisposeNotifier<void> {
 
   Future<Food?> _searchOpenFoodFacts(String barcode) async {
     final openFoodFactsRepository =
-        await ref.read(openFoodFactsRepositoryProvider.future);
+        ref.read(openFoodFactsRepositoryProvider.notifier);
 
     final nutrientDefaults =
-        await ref.read(nutrientRepositoryProvider).getDefaults();
+        await ref.read(defaultNutrientRepositoryProvider.future);
 
     final food = await openFoodFactsRepository.getFoodByBarcode(
       barcode,

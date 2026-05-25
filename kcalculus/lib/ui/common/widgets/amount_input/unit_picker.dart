@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/utils/l10n.dart';
 
 const _defaultMeasure = Measure.mass;
 const _defaultSystem = MeasureSystem.metric;
@@ -58,7 +59,7 @@ class _UnitPickerState extends State<UnitPicker> {
         .toList();
 
     return Dialog(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       clipBehavior: Clip.hardEdge,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -66,7 +67,7 @@ class _UnitPickerState extends State<UnitPicker> {
         ),
       ),
       child: Container(
-        height: 350,
+        height: 356,
         alignment: Alignment.center,
         margin: const EdgeInsets.only(top: 8),
         child: Column(
@@ -83,20 +84,27 @@ class _UnitPickerState extends State<UnitPicker> {
                 itemCount: measures.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainer,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 4,
                     ),
                     child: Center(
                       child: Text(
-                        measures[index].localName(context),
+                        measures[index].localName(l10n(context)),
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                            ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface,
+                        ),
                       ),
                     ),
                   );
@@ -108,6 +116,7 @@ class _UnitPickerState extends State<UnitPicker> {
                 },
               ),
             ),
+            const SizedBox(height: 8),
             SizedBox(
               height: 40,
               child: PageView.builder(
@@ -118,20 +127,27 @@ class _UnitPickerState extends State<UnitPicker> {
                 itemCount: systems.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainer,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 4,
                     ),
                     child: Center(
                       child: Text(
-                        systems[index].localName(context),
+                        systems[index].localName(l10n(context)),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSecondaryContainer,
-                            ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -145,7 +161,7 @@ class _UnitPickerState extends State<UnitPicker> {
               ),
             ),
             SizedBox(
-              height: 250,
+              height: 248,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GridView.count(
@@ -156,25 +172,26 @@ class _UnitPickerState extends State<UnitPicker> {
                     for (final unit in units)
                       TextButton(
                         style: TextButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.tertiaryContainer,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(8),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.secondary,
                             ),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         onPressed: () {
                           _selectUnit(unit);
                         },
                         child: Text(
-                          unit.localName(context),
-                          style:
-                              Theme.of(context).textTheme.labelLarge!.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onTertiaryContainer,
-                                  ),
+                          unit.localName(l10n(context)),
+                          style: Theme.of(context).textTheme.labelLarge!
+                              .copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.secondary,
+                              ),
                         ),
                       ),
                   ],

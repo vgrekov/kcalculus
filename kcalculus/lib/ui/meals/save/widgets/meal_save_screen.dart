@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/meal.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/domain/models/nutrition/portion.dart';
+import 'package:kcalculus/domain/edible/models/portion.dart';
+import 'package:kcalculus/domain/meal/models/meal.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/portion_form/widgets/portion_form.dart';
 import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
@@ -26,9 +26,9 @@ class MealSaveScreen extends ConsumerStatefulWidget {
     DateTime? date,
     required this.nutrientDefaults,
   }) : _viewModelArg = MealSaveViewModelArg(
-          meal: meal,
-          date: date,
-        ) {
+         meal: meal,
+         date: date,
+       ) {
     if (meal != null && date != null) {
       throw 'When a meal is specified, date must be null.';
     }
@@ -96,8 +96,9 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
       final date = _dateController.dateTime;
       final time = _timeController.dateTime;
 
-      final viewModel =
-          ref.read(mealSaveViewModel(widget._viewModelArg).notifier);
+      final viewModel = ref.read(
+        mealSaveViewModel(widget._viewModelArg).notifier,
+      );
 
       viewModel.updateState(
         (state) => state.copyWith(
@@ -215,17 +216,15 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
                   ? l10n(context).screenNewMeal
                   : l10n(context).screenEditMeal,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             actions: [
-              TextButton(
+              IconButton(
                 onPressed: _saveMeal,
-                child: Text(
-                  l10n(context).actionSave,
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                icon: Icon(
+                  Icons.check,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ],

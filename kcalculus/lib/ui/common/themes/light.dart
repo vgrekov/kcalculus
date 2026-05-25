@@ -1,29 +1,42 @@
 part of 'themes.dart';
 
-final _lightColorScheme = ColorScheme.fromSeed(
+final _lightColorScheme = _buildColorScheme(
   brightness: Brightness.light,
-  seedColor: _kSeedColor,
+  surface: Color(0xFFE5DCC5),
+  onSurface: Color(0xFF181F1C),
+  primary: Color(0xFFEA7317),
+  secondary: Color(0xFF649071),
+  tertiary: Color(0xFF3E8989),
 );
 
 final kLightTheme = ThemeData().copyWith(
   scaffoldBackgroundColor: _lightColorScheme.surface,
   colorScheme: _lightColorScheme,
-  textTheme: GoogleFonts.ubuntuCondensedTextTheme().copyWith(
-    titleSmall: GoogleFonts.ubuntuCondensed(
+  textTheme: _kTextTheme.copyWith(
+    titleSmall: _kTextTheme.titleSmall?.copyWith(
       fontWeight: FontWeight.bold,
     ),
-    titleMedium: GoogleFonts.ubuntuCondensed(
+    titleMedium: _kTextTheme.titleMedium?.copyWith(
       fontWeight: FontWeight.bold,
     ),
-    titleLarge: GoogleFonts.ubuntuCondensed(
+    titleLarge: _kTextTheme.titleLarge?.copyWith(
       fontWeight: FontWeight.bold,
     ),
   ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: _lightColorScheme.primary,
+    foregroundColor: _lightColorScheme.onPrimary,
+  ),
   extensions: <ThemeExtension<dynamic>>[
     const MacroNutrientsTheme(
-      fatColor: Color.fromARGB(255, 188, 205, 134),
-      carbsColor: Color.fromARGB(255, 255, 76, 3),
-      proteinColor: Color.fromARGB(255, 202, 3, 70),
+      fatColor: Color(0xFFFFCA28),
+      carbsColor: Color(0xFF4CAF50),
+      proteinColor: Color(0xFFEF5350),
+    ),
+    ListStyle(
+      itemBorderRadius: BorderRadiusGeometry.circular(8),
+      horizontalGap: 8,
+      verticalGap: 8,
     ),
   ],
 );

@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kcalculus/domain/models/amount.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
+import 'package:kcalculus/domain/_common/models/amount.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/firebase_options.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
 import 'package:kcalculus/ui/app/widgets/app.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/amount_input.dart';
 import 'package:kcalculus/ui/common/widgets/amount_input/unit_picker.dart';
+import 'package:kcalculus/ui/edibles/common/edible_previews/widgets/edible_preview_item.dart';
+import 'package:kcalculus/ui/meals/list/widgets/meal_list_item.dart';
 import 'package:kcalculus/ui/providers.dart';
 
 Future<void> setUpApp() async {
@@ -30,7 +32,7 @@ Future<void> setUpApp() async {
   FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(false);
 }
 
-Future<(AppLocalizations, BuildContext)> pumpApp(
+Future<AppLocalizations> pumpApp(
   WidgetTester tester, {
   List<Override> overrides = const [],
 }) async {
@@ -47,15 +49,13 @@ Future<(AppLocalizations, BuildContext)> pumpApp(
 
   final container = ProviderScope.containerOf(element);
 
-  final context = container.read(contextProvider);
-
   final l10n = container.read(l10nProvider);
 
-  return (l10n, context);
+  return l10n;
 }
 
 Future<void> enterAmount(
-  BuildContext context,
+  AppLocalizations l10n,
   WidgetTester tester,
   String fieldLabel,
   Amount amount,
@@ -78,7 +78,7 @@ Future<void> enterAmount(
 
   final measureCardFinder = find.widgetWithText(
     Card,
-    amount.unit.measure.localName(context),
+    amount.unit.measure.localName(l10n),
   );
 
   final measureScrollableFinder = find.ancestor(
@@ -94,7 +94,7 @@ Future<void> enterAmount(
 
   final systemCardFinder = find.widgetWithText(
     Card,
-    amount.unit.system.localName(context),
+    amount.unit.system.localName(l10n),
   );
 
   final systemScrollableFinder = find.ancestor(
@@ -115,7 +115,7 @@ Future<void> enterAmount(
       of: find.byType(UnitPicker),
       matching: find.widgetWithText(
         TextButton,
-        amount.unit.localName(context),
+        amount.unit.localName(l10n),
       ),
     ),
   );
@@ -128,13 +128,13 @@ Future<void> selectEdible(
   String edibleName,
 ) async {
   await tester.tap(
-    find.widgetWithIcon(TextButton, Icons.search),
+    find.byIcon(Icons.search),
   );
 
   await tester.pumpAndSettle();
 
   final itemFinder = find.widgetWithText(
-    ListTile,
+    EdiblePreviewItem,
     edibleName,
   );
 
@@ -148,7 +148,7 @@ Future<void> selectMeal(
   String edibleName,
 ) async {
   final itemFinder = find.widgetWithText(
-    ListTile,
+    MealListItem,
     edibleName,
   );
 

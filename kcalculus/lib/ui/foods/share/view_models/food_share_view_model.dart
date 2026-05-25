@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/food.dart';
+import 'package:kcalculus/domain/food/models/food.dart';
 
 final foodShareViewModel = Provider.family.autoDispose<String, Food>(
   (ref, arg) {

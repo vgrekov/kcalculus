@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
@@ -29,7 +29,8 @@ class FoodContainerSaveScreen extends ConsumerStatefulWidget {
 }
 
 class _FoodContainerSaveScreenState
-    extends ConsumerState<FoodContainerSaveScreen> with StateMessenger {
+    extends ConsumerState<FoodContainerSaveScreen>
+    with StateMessenger {
   final _form = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
@@ -90,8 +91,9 @@ class _FoodContainerSaveScreenState
   }
 
   void _tryExit() async {
-    final viewModel =
-        ref.read(foodContainerSaveViewModel(widget.container).notifier);
+    final viewModel = ref.read(
+      foodContainerSaveViewModel(widget.container).notifier,
+    );
     final shouldExit = await viewModel.shouldExit();
     if (mounted && shouldExit) {
       _exit();
@@ -106,8 +108,9 @@ class _FoodContainerSaveScreenState
 
     _form.currentState!.save();
 
-    final viewModel =
-        ref.read(foodContainerSaveViewModel(widget.container).notifier);
+    final viewModel = ref.read(
+      foodContainerSaveViewModel(widget.container).notifier,
+    );
 
     viewModel.updateState(
       name: _nameController.text,
@@ -215,17 +218,15 @@ class _FoodContainerSaveScreenState
                   ? l10n(context).screenEditFoodContainer
                   : l10n(context).screenAddFoodContainer,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             actions: [
-              TextButton(
+              IconButton(
                 onPressed: _saveFoodContainer,
-                child: Text(
-                  l10n(context).actionSave,
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                icon: Icon(
+                  Icons.check,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ],

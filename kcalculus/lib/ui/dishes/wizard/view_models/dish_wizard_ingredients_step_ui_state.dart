@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kcalculus/domain/models/dish/dish.dart';
-import 'package:kcalculus/domain/models/dish/ingredient.dart';
+import 'package:kcalculus/domain/dish/models/dish.dart';
+import 'package:kcalculus/domain/dish/models/ingredient.dart';
 
 part 'dish_wizard_ingredients_step_ui_state.freezed.dart';
 
@@ -15,6 +15,7 @@ sealed class DishWizardIngredientsStepUiState
 
   const factory DishWizardIngredientsStepUiState({
     @Default([]) List<Ingredient> ingredients,
+    @Default([]) List<Ingredient> ingredientsPrev,
   }) = _DishWizardIngredientsStepUiState;
 
   factory DishWizardIngredientsStepUiState.fromDish(Dish dish) {

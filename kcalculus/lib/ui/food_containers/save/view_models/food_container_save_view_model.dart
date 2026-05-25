@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/exceptions/duplication_exception.dart';
-import 'package:kcalculus/data/providers.dart';
-import 'package:kcalculus/domain/models/food_container.dart';
-import 'package:kcalculus/domain/models/units.dart';
+import 'package:kcalculus/data/storage/storage.dart';
+import 'package:kcalculus/domain/_common/exceptions/duplication_exception.dart';
+import 'package:kcalculus/domain/_common/models/units.dart';
+import 'package:kcalculus/domain/dish/models/food_container.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/view_models/ui_commander.dart';
 import 'package:kcalculus/ui/food_containers/save/view_models/food_container_save_ui_state.dart';
@@ -72,8 +72,9 @@ class FoodContainerSaveViewModel extends AutoDisposeFamilyNotifier<
       _log.finest(
           'saveFoodContainer() Saving food container: ${container.toJson()}');
 
-      container =
-          await ref.read(foodContainerRepositoryProvider).save(container);
+      final repo = ref.read(foodContainerRepositoryProvider.notifier);
+
+      container = await repo.save(container);
 
       _log.info('Food container saved');
       _log.finest(

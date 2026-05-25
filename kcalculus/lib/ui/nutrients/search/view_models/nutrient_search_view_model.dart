@@ -1,14 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/domain/models/nutrition/nutrient.dart';
-import 'package:kcalculus/ui/common/view_models/search/search_ui_state.dart';
-import 'package:kcalculus/ui/common/view_models/search_controller.dart';
+import 'package:kcalculus/domain/_common/models/page_config.dart';
+import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
+import 'package:kcalculus/ui/common/view_models/paginator_view_model.dart';
+import 'package:kcalculus/ui/common/view_models/search_ui_state.dart';
+import 'package:kcalculus/ui/common/view_models/search_view_model.dart';
 import 'package:kcalculus/ui/nutrients/search/view_models/nutrient_search_view_model_arg.dart';
 import 'package:kcalculus/ui/providers.dart';
 
 class NutrientSearchViewModel extends AutoDisposeFamilyNotifier<
-    SearchUiState<Nutrient>, NutrientSearchViewModelArg> {
-  late SearchController searchController;
-
+        SearchUiState<Nutrient>, NutrientSearchViewModelArg>
+    with PaginatorViewModel<Nutrient>, SearchViewModel<Nutrient> {
   late List<Nutrient> initialData;
 
   @override
@@ -17,35 +20,52 @@ class NutrientSearchViewModel extends AutoDisposeFamilyNotifier<
       searchController.dispose();
     });
 
-    searchController = SearchController(_search);
-
     initialData = Nutrient.values
         .where(
           (n) => !arg.exceptions.contains(n),
         )
         .toList();
 
-    return _doSearch(arg.intialQuery);
+    return SearchUiState<Nutrient>(
+      query: arg.intialQuery,
+      data: search(
+        arg.intialQuery,
+      ),
+    );
   }
 
-  void _search(String query) {
-    state = _doSearch(query);
+  @override
+  int get pageSize => initialData.length;
+
+  @override
+  String getQuery() => state.query;
+
+  @override
+  FutureOr<List<Nutrient>> getData() => state.data;
+
+  @override
+  void updateState({
+    String? query,
+    FutureOr<List<Nutrient>>? data,
+  }) {
+    state = state.copyWith(
+      query: query ?? state.query,
+      data: data ?? state.data,
+    );
   }
 
-  SearchUiState<Nutrient> _doSearch(String query) {
+  @override
+  Future<List<Nutrient>> search(
+    String query, {
+    PageConfig<Nutrient>? pageConfig,
+  }) async {
     final l10n = ref.read(l10nProvider);
 
-    final data = initialData
+    return initialData
         .where(
           (n) => n.localName(l10n).toUpperCase().contains(query.toUpperCase()),
         )
         .toList();
-
-    return SearchUiState<Nutrient>(
-      searchQuery: query,
-      dataLoader: Future.value(data),
-      data: data,
-    );
   }
 }
 
