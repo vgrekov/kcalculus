@@ -259,149 +259,133 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with StateMessenger {
               builder: (context, constraints) => SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 32,
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox.shrink(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 32,
+                        ),
+                        child: Text(
+                          l10n(context).appName,
+                          style: Theme.of(context).textTheme.displayMedium!
+                              .copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
                               ),
-                              child: Text(
-                                l10n(context).appName,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                    ),
+                        ),
+                      ),
+                      Form(
+                        key: _form,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            EmailInput(
+                              controller: _emailController,
+                              labelText: l10n(context).labelEmail,
+                              textInputAction: TextInputAction.next,
+                              showCounter: false,
+                              validator: _validateEmail,
+                              enabled: widget.email == null,
+                            ),
+                            const SizedBox(height: 16),
+                            PasswordInput(
+                              controller: _passwordController,
+                              labelText: l10n(context).labelPassword,
+                              hintText: '',
+                              minLength: 1,
+                              maxLength: 20,
+                              textInputAction: TextInputAction.done,
+                              usePasswordValidator: false,
+                              showCounter: false,
+                              validator: _validatePassword,
+                            ),
+                            const SizedBox(height: 12),
+                            SizedBox(
+                              width: double.infinity,
+                              child: FilledButton(
+                                onPressed: _login,
+                                child: Text(
+                                  l10n(context).actionLogin,
+                                  style: Theme.of(context).textTheme.labelLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimary,
+                                      ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        Form(
-                          key: _form,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              EmailInput(
-                                controller: _emailController,
-                                labelText: l10n(context).labelEmail,
-                                textInputAction: TextInputAction.next,
-                                showCounter: false,
-                                validator: _validateEmail,
-                                enabled: widget.email == null,
-                              ),
-                              const SizedBox(height: 16),
-                              PasswordInput(
-                                controller: _passwordController,
-                                labelText: l10n(context).labelPassword,
-                                hintText: '',
-                                minLength: 1,
-                                maxLength: 20,
-                                textInputAction: TextInputAction.done,
-                                usePasswordValidator: false,
-                                showCounter: false,
-                                validator: _validatePassword,
-                              ),
-                              const SizedBox(height: 12),
-                              SizedBox(
-                                width: double.infinity,
-                                child: FilledButton(
-                                  onPressed: _login,
-                                  child: Text(
-                                    l10n(context).actionLogin,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimary,
-                                        ),
-                                  ),
+                            const SizedBox(height: 8),
+                            if (widget.showForgotPassword)
+                              TextButton(
+                                onPressed: _resetPassword,
+                                child: Text(
+                                  l10n(context).actionForgotPassword,
+                                  style: Theme.of(context).textTheme.labelLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
                                 ),
                               ),
-                              const SizedBox(height: 8),
-                              if (widget.showForgotPassword)
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: TextButton(
-                                    onPressed: _resetPassword,
-                                    child: Text(
-                                      l10n(context).actionForgotPassword,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge!
-                                          .copyWith(
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.onSurface,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
+                          ],
                         ),
-                        const SizedBox(height: 32),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              if (widget.showCreateNewAccount)
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: OutlinedButton(
-                                    onPressed: _createNewAccount,
-                                    child: Text(
-                                      l10n(context).actionCreateNewAccount,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge!
-                                          .copyWith(
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.onSurface,
-                                          ),
-                                    ),
-                                  ),
+                      ),
+                      const SizedBox(height: 32),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (widget.showCreateNewAccount)
+                            SizedBox(
+                              width: double.infinity,
+                              child: OutlinedButton(
+                                onPressed: _createNewAccount,
+                                child: Text(
+                                  l10n(context).actionCreateNewAccount,
+                                  style: Theme.of(context).textTheme.labelLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
                                 ),
-                              const SizedBox(height: 8),
-                              if (widget.showContinueWithoutAccount)
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: OutlinedButton(
-                                    onPressed: _continueWithoutAccount,
-                                    child: Text(
-                                      l10n(
-                                        context,
-                                      ).actionContinueWithoutAccount,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge!
-                                          .copyWith(
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.onSurface,
-                                          ),
-                                    ),
-                                  ),
+                              ),
+                            ),
+                          const SizedBox(height: 8),
+                          if (widget.showContinueWithoutAccount)
+                            SizedBox(
+                              width: double.infinity,
+                              child: OutlinedButton(
+                                onPressed: _continueWithoutAccount,
+                                child: Text(
+                                  l10n(
+                                    context,
+                                  ).actionContinueWithoutAccount,
+                                  style: Theme.of(context).textTheme.labelLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
                                 ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
+                              ),
+                            ),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
