@@ -170,70 +170,61 @@ class _PasswordResetScreenState extends ConsumerState<PasswordResetScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 32,
-                              ),
-                              child: Text(
-                                l10n(context).appName,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                    ),
-                              ),
-                            ),
-                          ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox.shrink(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 32,
                         ),
-                        Form(
-                          key: _form,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              EmailInput(
-                                controller: _emailController,
-                                labelText: l10n(context).labelEmail,
-                                textInputAction: TextInputAction.done,
-                                showCounter: false,
-                                validator: _validateEmail,
+                        child: Text(
+                          l10n(context).appName,
+                          style: Theme.of(context).textTheme.displayMedium!
+                              .copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
                               ),
-                              const SizedBox(height: 16),
-                              SizedBox(
-                                width: double.infinity,
-                                child: FilledButton(
-                                  onPressed: _sendPasswordResetEmail,
-                                  child: Text(
-                                    l10n(context).actionResetPassword,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimary,
-                                        ),
-                                  ),
+                        ),
+                      ),
+                      Form(
+                        key: _form,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            EmailInput(
+                              controller: _emailController,
+                              labelText: l10n(context).labelEmail,
+                              textInputAction: TextInputAction.done,
+                              showCounter: false,
+                              validator: _validateEmail,
+                            ),
+                            const SizedBox(height: 16),
+                            SizedBox(
+                              width: double.infinity,
+                              child: FilledButton(
+                                onPressed: _sendPasswordResetEmail,
+                                child: Text(
+                                  l10n(context).actionResetPassword,
+                                  style: Theme.of(context).textTheme.labelLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimary,
+                                      ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 16),
+                          ],
                         ),
-                        const SizedBox(height: 32),
-                        Spacer(),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 32 * 3),
+                      const SizedBox.shrink(),
+                    ],
                   ),
                 ),
               ),
