@@ -69,7 +69,7 @@ class App extends ConsumerWidget {
       theme: switch (theme) {
         AppTheme.light => kLightTheme,
         AppTheme.dark => kDarkTheme,
-        _ => switch (MediaQuery.of(context).platformBrightness) {
+        _ => switch (MediaQuery.platformBrightnessOf(context)) {
           Brightness.light => kLightTheme,
           Brightness.dark => kDarkTheme,
         },
