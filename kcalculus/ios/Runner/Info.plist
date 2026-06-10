@@ -46,7 +46,7 @@
 						<key>UISceneConfigurationName</key>
 						<string>flutter</string>
 						<key>UISceneDelegateClassName</key>
-						<string>FlutterSceneDelegate</string>
+						<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
 						<key>UISceneStoryboardFile</key>
 						<string>Main</string>
 					</dict>
@@ -59,8 +59,6 @@
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
-		<key>UIStatusBarHidden</key>
-		<false/>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
@@ -74,5 +72,7 @@
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
+		<key>UIStatusBarHidden</key>
+		<false/>
 	</dict>
 </plist>
