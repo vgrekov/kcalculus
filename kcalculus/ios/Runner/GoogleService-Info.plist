@@ -26,5 +26,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:954032866101:ios:63272bbb7c6fcdea5c027c</string>
+	<key>DATABASE_URL</key>
+	<string>https://kcalcy-10030-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

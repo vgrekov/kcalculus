@@ -537,8 +537,8 @@ enum _NutritionFactsInputControllerCommand {
 
 class NutritionFactsInputController extends ChangeNotifier {
   NutritionFactsInputController({
-    List<NutritionFacts>? nutritionFacts,
-  }) : _nutritionFacts = nutritionFacts;
+    this._nutritionFacts,
+  });
 
   bool _isValid = false;
 

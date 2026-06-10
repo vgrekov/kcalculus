@@ -97,8 +97,9 @@ class NutrientDefaultsViewModel
             payload: (nutrient, index),
           );
         } else {
-          _commander!
-              .send(NutrientDefaultsCommand.showDeletionFailureNotification);
+          _commander!.send(
+            NutrientDefaultsCommand.showDeletionFailureNotification,
+          );
         }
       } catch (error, stackTrace) {
         _log.severe('Failed to delete default nutrient', error, stackTrace);
@@ -118,7 +119,8 @@ class NutrientDefaultsViewModel
 
       try {
         _log.finest(
-            'restoreNutrient() Restoring default nutrient: $nutrient at position: $index');
+          'restoreNutrient() Restoring default nutrient: $nutrient at position: $index',
+        );
 
         final defaults = [...data];
 
@@ -155,10 +157,6 @@ class NutrientDefaultsViewModel
 
         defaults.removeAt(oldIndex);
 
-        if (newIndex > oldIndex) {
-          newIndex--;
-        }
-
         defaults.insert(newIndex, nutrient);
 
         state = AsyncValue.data(defaults);
@@ -192,7 +190,10 @@ class NutrientDefaultsViewModel
   }
 }
 
-final nutrientDefaultsViewModel = AsyncNotifierProvider.autoDispose<
-    NutrientDefaultsViewModel, List<Nutrient>>(
-  NutrientDefaultsViewModel.new,
-);
+final nutrientDefaultsViewModel =
+    AsyncNotifierProvider.autoDispose<
+      NutrientDefaultsViewModel,
+      List<Nutrient>
+    >(
+      NutrientDefaultsViewModel.new,
+    );
