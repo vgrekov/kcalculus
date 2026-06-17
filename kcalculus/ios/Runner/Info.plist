@@ -74,5 +74,7 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app may access location metadata when selecting files or images, if you choose to allow it.</string>
 	</dict>
 </plist>
