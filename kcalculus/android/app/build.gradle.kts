@@ -63,3 +63,14 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    constraints {
+        implementation("androidx.work:work-runtime") {
+            version {
+                strictly("2.11.2")
+            }
+            because("Fixes startup crashes")
+        }
+    }
+}
