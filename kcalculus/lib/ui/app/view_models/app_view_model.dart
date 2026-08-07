@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/data/access/repositories/subscription_repository.dart';
 import 'package:kcalculus/data/auth/auth.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/subscription_state.dart';
 import 'package:kcalculus/domain/import/models/import_process.dart';
 import 'package:kcalculus/domain/import/use_cases/import_use_case.dart';
 import 'package:kcalculus/domain/maintenance/models/maintenance_state.dart';
@@ -51,12 +53,21 @@ Future<bool> _isInImportStage(Ref ref) async {
   };
 }
 
+Future<bool> _isInPaywallStage(Ref ref) async {
+  final subscriptionState = await ref.read(
+    subscriptionRepositoryProvider.future,
+  );
+
+  return subscriptionState is SubscriptionInactive;
+}
+
 final _appUiStateProvider = FutureProvider<AppUiState>(
   (ref) async {
     ref.watch(maintenanceUseCaseProvider);
     ref.watch(userRepositoryProvider);
     ref.watch(appSettingsRepositoryProvider);
     ref.watch(importUseCaseProvider);
+    ref.watch(subscriptionRepositoryProvider);
 
     final settings = await ref.read(appSettingsRepositoryProvider.future);
 
@@ -71,6 +82,8 @@ final _appUiStateProvider = FutureProvider<AppUiState>(
       stage = AppStage.dataSharingConsent;
     } else if (await _isInImportStage(ref)) {
       stage = AppStage.import;
+    } else if (await _isInPaywallStage(ref)) {
+      stage = AppStage.paywall;
     }
 
     return AppUiState(
