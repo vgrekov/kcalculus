@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppConfig {
 
- AuthConfig get auth; SearchConfig get search; AdsConfig get ads; OpenFoodFactsConfig get openFoodFacts; FirestoreConfig get firestore;
+ AuthConfig get auth; SearchConfig get search; AdsConfig get ads; OpenFoodFactsConfig get openFoodFacts; FirestoreConfig get firestore; RevenueCatConfig get revenueCat;
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AppConfigCopyWith<AppConfig> get copyWith => _$AppConfigCopyWithImpl<AppConfig>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.search, search) || other.search == search)&&(identical(other.ads, ads) || other.ads == ads)&&(identical(other.openFoodFacts, openFoodFacts) || other.openFoodFacts == openFoodFacts)&&(identical(other.firestore, firestore) || other.firestore == firestore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.search, search) || other.search == search)&&(identical(other.ads, ads) || other.ads == ads)&&(identical(other.openFoodFacts, openFoodFacts) || other.openFoodFacts == openFoodFacts)&&(identical(other.firestore, firestore) || other.firestore == firestore)&&(identical(other.revenueCat, revenueCat) || other.revenueCat == revenueCat));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,auth,search,ads,openFoodFacts,firestore);
+int get hashCode => Object.hash(runtimeType,auth,search,ads,openFoodFacts,firestore,revenueCat);
 
 @override
 String toString() {
-  return 'AppConfig(auth: $auth, search: $search, ads: $ads, openFoodFacts: $openFoodFacts, firestore: $firestore)';
+  return 'AppConfig(auth: $auth, search: $search, ads: $ads, openFoodFacts: $openFoodFacts, firestore: $firestore, revenueCat: $revenueCat)';
 }
 
 
@@ -48,11 +48,11 @@ abstract mixin class $AppConfigCopyWith<$Res>  {
   factory $AppConfigCopyWith(AppConfig value, $Res Function(AppConfig) _then) = _$AppConfigCopyWithImpl;
 @useResult
 $Res call({
- AuthConfig auth, SearchConfig search, AdsConfig ads, OpenFoodFactsConfig openFoodFacts, FirestoreConfig firestore
+ AuthConfig auth, SearchConfig search, AdsConfig ads, OpenFoodFactsConfig openFoodFacts, FirestoreConfig firestore, RevenueCatConfig revenueCat
 });
 
 
-$AuthConfigCopyWith<$Res> get auth;$SearchConfigCopyWith<$Res> get search;$AdsConfigCopyWith<$Res> get ads;$OpenFoodFactsConfigCopyWith<$Res> get openFoodFacts;$FirestoreConfigCopyWith<$Res> get firestore;
+$AuthConfigCopyWith<$Res> get auth;$SearchConfigCopyWith<$Res> get search;$AdsConfigCopyWith<$Res> get ads;$OpenFoodFactsConfigCopyWith<$Res> get openFoodFacts;$FirestoreConfigCopyWith<$Res> get firestore;$RevenueCatConfigCopyWith<$Res> get revenueCat;
 
 }
 /// @nodoc
@@ -65,14 +65,15 @@ class _$AppConfigCopyWithImpl<$Res>
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? auth = null,Object? search = null,Object? ads = null,Object? openFoodFacts = null,Object? firestore = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? auth = null,Object? search = null,Object? ads = null,Object? openFoodFacts = null,Object? firestore = null,Object? revenueCat = null,}) {
   return _then(_self.copyWith(
 auth: null == auth ? _self.auth : auth // ignore: cast_nullable_to_non_nullable
 as AuthConfig,search: null == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as SearchConfig,ads: null == ads ? _self.ads : ads // ignore: cast_nullable_to_non_nullable
 as AdsConfig,openFoodFacts: null == openFoodFacts ? _self.openFoodFacts : openFoodFacts // ignore: cast_nullable_to_non_nullable
 as OpenFoodFactsConfig,firestore: null == firestore ? _self.firestore : firestore // ignore: cast_nullable_to_non_nullable
-as FirestoreConfig,
+as FirestoreConfig,revenueCat: null == revenueCat ? _self.revenueCat : revenueCat // ignore: cast_nullable_to_non_nullable
+as RevenueCatConfig,
   ));
 }
 /// Create a copy of AppConfig
@@ -119,6 +120,15 @@ $FirestoreConfigCopyWith<$Res> get firestore {
   
   return $FirestoreConfigCopyWith<$Res>(_self.firestore, (value) {
     return _then(_self.copyWith(firestore: value));
+  });
+}/// Create a copy of AppConfig
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$RevenueCatConfigCopyWith<$Res> get revenueCat {
+  
+  return $RevenueCatConfigCopyWith<$Res>(_self.revenueCat, (value) {
+    return _then(_self.copyWith(revenueCat: value));
   });
 }
 }
@@ -199,10 +209,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AuthConfig auth,  SearchConfig search,  AdsConfig ads,  OpenFoodFactsConfig openFoodFacts,  FirestoreConfig firestore)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AuthConfig auth,  SearchConfig search,  AdsConfig ads,  OpenFoodFactsConfig openFoodFacts,  FirestoreConfig firestore,  RevenueCatConfig revenueCat)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppConfig() when $default != null:
-return $default(_that.auth,_that.search,_that.ads,_that.openFoodFacts,_that.firestore);case _:
+return $default(_that.auth,_that.search,_that.ads,_that.openFoodFacts,_that.firestore,_that.revenueCat);case _:
   return orElse();
 
 }
@@ -220,10 +230,10 @@ return $default(_that.auth,_that.search,_that.ads,_that.openFoodFacts,_that.fire
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AuthConfig auth,  SearchConfig search,  AdsConfig ads,  OpenFoodFactsConfig openFoodFacts,  FirestoreConfig firestore)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AuthConfig auth,  SearchConfig search,  AdsConfig ads,  OpenFoodFactsConfig openFoodFacts,  FirestoreConfig firestore,  RevenueCatConfig revenueCat)  $default,) {final _that = this;
 switch (_that) {
 case _AppConfig():
-return $default(_that.auth,_that.search,_that.ads,_that.openFoodFacts,_that.firestore);}
+return $default(_that.auth,_that.search,_that.ads,_that.openFoodFacts,_that.firestore,_that.revenueCat);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -237,10 +247,10 @@ return $default(_that.auth,_that.search,_that.ads,_that.openFoodFacts,_that.fire
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AuthConfig auth,  SearchConfig search,  AdsConfig ads,  OpenFoodFactsConfig openFoodFacts,  FirestoreConfig firestore)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AuthConfig auth,  SearchConfig search,  AdsConfig ads,  OpenFoodFactsConfig openFoodFacts,  FirestoreConfig firestore,  RevenueCatConfig revenueCat)?  $default,) {final _that = this;
 switch (_that) {
 case _AppConfig() when $default != null:
-return $default(_that.auth,_that.search,_that.ads,_that.openFoodFacts,_that.firestore);case _:
+return $default(_that.auth,_that.search,_that.ads,_that.openFoodFacts,_that.firestore,_that.revenueCat);case _:
   return null;
 
 }
@@ -252,7 +262,7 @@ return $default(_that.auth,_that.search,_that.ads,_that.openFoodFacts,_that.fire
 @JsonSerializable()
 
 class _AppConfig implements AppConfig {
-  const _AppConfig({required this.auth, required this.search, required this.ads, required this.openFoodFacts, required this.firestore});
+  const _AppConfig({required this.auth, required this.search, required this.ads, required this.openFoodFacts, required this.firestore, required this.revenueCat});
   factory _AppConfig.fromJson(Map<String, dynamic> json) => _$AppConfigFromJson(json);
 
 @override final  AuthConfig auth;
@@ -260,6 +270,7 @@ class _AppConfig implements AppConfig {
 @override final  AdsConfig ads;
 @override final  OpenFoodFactsConfig openFoodFacts;
 @override final  FirestoreConfig firestore;
+@override final  RevenueCatConfig revenueCat;
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
@@ -274,16 +285,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.search, search) || other.search == search)&&(identical(other.ads, ads) || other.ads == ads)&&(identical(other.openFoodFacts, openFoodFacts) || other.openFoodFacts == openFoodFacts)&&(identical(other.firestore, firestore) || other.firestore == firestore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.search, search) || other.search == search)&&(identical(other.ads, ads) || other.ads == ads)&&(identical(other.openFoodFacts, openFoodFacts) || other.openFoodFacts == openFoodFacts)&&(identical(other.firestore, firestore) || other.firestore == firestore)&&(identical(other.revenueCat, revenueCat) || other.revenueCat == revenueCat));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,auth,search,ads,openFoodFacts,firestore);
+int get hashCode => Object.hash(runtimeType,auth,search,ads,openFoodFacts,firestore,revenueCat);
 
 @override
 String toString() {
-  return 'AppConfig(auth: $auth, search: $search, ads: $ads, openFoodFacts: $openFoodFacts, firestore: $firestore)';
+  return 'AppConfig(auth: $auth, search: $search, ads: $ads, openFoodFacts: $openFoodFacts, firestore: $firestore, revenueCat: $revenueCat)';
 }
 
 
@@ -294,11 +305,11 @@ abstract mixin class _$AppConfigCopyWith<$Res> implements $AppConfigCopyWith<$Re
   factory _$AppConfigCopyWith(_AppConfig value, $Res Function(_AppConfig) _then) = __$AppConfigCopyWithImpl;
 @override @useResult
 $Res call({
- AuthConfig auth, SearchConfig search, AdsConfig ads, OpenFoodFactsConfig openFoodFacts, FirestoreConfig firestore
+ AuthConfig auth, SearchConfig search, AdsConfig ads, OpenFoodFactsConfig openFoodFacts, FirestoreConfig firestore, RevenueCatConfig revenueCat
 });
 
 
-@override $AuthConfigCopyWith<$Res> get auth;@override $SearchConfigCopyWith<$Res> get search;@override $AdsConfigCopyWith<$Res> get ads;@override $OpenFoodFactsConfigCopyWith<$Res> get openFoodFacts;@override $FirestoreConfigCopyWith<$Res> get firestore;
+@override $AuthConfigCopyWith<$Res> get auth;@override $SearchConfigCopyWith<$Res> get search;@override $AdsConfigCopyWith<$Res> get ads;@override $OpenFoodFactsConfigCopyWith<$Res> get openFoodFacts;@override $FirestoreConfigCopyWith<$Res> get firestore;@override $RevenueCatConfigCopyWith<$Res> get revenueCat;
 
 }
 /// @nodoc
@@ -311,14 +322,15 @@ class __$AppConfigCopyWithImpl<$Res>
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? auth = null,Object? search = null,Object? ads = null,Object? openFoodFacts = null,Object? firestore = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? auth = null,Object? search = null,Object? ads = null,Object? openFoodFacts = null,Object? firestore = null,Object? revenueCat = null,}) {
   return _then(_AppConfig(
 auth: null == auth ? _self.auth : auth // ignore: cast_nullable_to_non_nullable
 as AuthConfig,search: null == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as SearchConfig,ads: null == ads ? _self.ads : ads // ignore: cast_nullable_to_non_nullable
 as AdsConfig,openFoodFacts: null == openFoodFacts ? _self.openFoodFacts : openFoodFacts // ignore: cast_nullable_to_non_nullable
 as OpenFoodFactsConfig,firestore: null == firestore ? _self.firestore : firestore // ignore: cast_nullable_to_non_nullable
-as FirestoreConfig,
+as FirestoreConfig,revenueCat: null == revenueCat ? _self.revenueCat : revenueCat // ignore: cast_nullable_to_non_nullable
+as RevenueCatConfig,
   ));
 }
 
@@ -366,6 +378,15 @@ $FirestoreConfigCopyWith<$Res> get firestore {
   
   return $FirestoreConfigCopyWith<$Res>(_self.firestore, (value) {
     return _then(_self.copyWith(firestore: value));
+  });
+}/// Create a copy of AppConfig
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$RevenueCatConfigCopyWith<$Res> get revenueCat {
+  
+  return $RevenueCatConfigCopyWith<$Res>(_self.revenueCat, (value) {
+    return _then(_self.copyWith(revenueCat: value));
   });
 }
 }
