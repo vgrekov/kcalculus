@@ -76,5 +76,9 @@
 		<false/>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>This app may access location metadata when selecting files or images, if you choose to allow it.</string>
+		<key>FirebaseCrashlyticsCollectionEnabled</key>
+		<false/>
+		<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+		<false/>
 	</dict>
 </plist>

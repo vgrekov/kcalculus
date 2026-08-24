@@ -1,4 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -27,10 +26,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-
-  FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(false);
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
