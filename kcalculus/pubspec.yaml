@@ -1,7 +1,7 @@
 name: kcalculus
 description: "A cross-platform app that helps you to keep an eye on calorie intake."
 publish_to: 'none'
-version: 1.0.4+46
+version: 1.0.5+47
 
 environment:
   sdk: ^3.12.1
