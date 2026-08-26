@@ -15,22 +15,11 @@ class PaywallScreen extends ConsumerWidget {
     final stateAsync = ref.watch(paywallViewModel);
 
     return stateAsync.when(
-      // data: (state) => Center(
-      //   child: Text(
-      //     [
-      //       state.runtimeType,
-      //       state.appUserId,
-      //     ].join('\n'),
-      //     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-      //       color: Theme.of(context).colorScheme.primary,
-      //     ),
-      //   ),
-      // ),
       data: (state) => Center(
         child: PaywallView(),
       ),
       error: (error, stackTrace) {
-        _log.severe('Failed to load app UI state', error, stackTrace);
+        _log.severe('Failed to load subscription state', error, stackTrace);
         return Center(
           child: Builder(
             builder: (context) => Text(
