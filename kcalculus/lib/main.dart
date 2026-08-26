@@ -1,4 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -17,21 +16,41 @@ const _kAppCheckDebugTokenArg = 'APP_CHECK_DEBUG_TOKEN';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Future.wait([
+    _lockPortraitMode(),
+    _initAdMob(),
+    () async {
+      await _initFirebase();
+      await _setupErrorHandling();
+      await _setupAppCheck();
+    }(),
+  ]);
+
+  runApp(
+    ProviderScope(
+      child: App(),
+    ),
+  );
+}
+
+Future<void> _lockPortraitMode() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+}
 
+Future<void> _initAdMob() async {
   await MobileAds.instance.initialize();
+}
 
+Future<void> _initFirebase() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+}
 
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-
-  FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(false);
-
+Future<void> _setupErrorHandling() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   WidgetsBinding.instance.platformDispatcher.onError = (error, stack) {
@@ -64,7 +83,9 @@ void main() async {
 
     return ErrorWidget(details.exception);
   };
+}
 
+Future<void> _setupAppCheck() async {
   final appCheckDebugTokenArg = const String.fromEnvironment(
     _kAppCheckDebugTokenArg,
   );
@@ -84,10 +105,4 @@ void main() async {
       providerApple: const AppleAppAttestProvider(),
     );
   }
-
-  runApp(
-    ProviderScope(
-      child: App(),
-    ),
-  );
 }

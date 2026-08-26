@@ -3,7 +3,7 @@ import 'package:kcalculus/data/_common/database/services/database_service.dart';
 
 const _kLocalStorageDbConfig = DatabaseConfig(
   name: 'kcalculus.db',
-  version: 23,
+  version: 24,
   initScript: 'assets/db/enable_fk.sql',
   migrationsDir: 'assets/db/migrations',
 );
