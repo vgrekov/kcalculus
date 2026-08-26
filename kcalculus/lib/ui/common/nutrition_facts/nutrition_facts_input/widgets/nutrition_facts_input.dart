@@ -27,11 +27,11 @@ class NutritionFactsInput extends ConsumerStatefulWidget {
     this.controller,
     this.focusNode,
     this.onUserInteractionChange,
-  })  : viewModelArg = NutritionFactsInputViewModelArg(
-          nutritionFacts: nutritionFacts ?? controller?._nutritionFacts,
-          defaultNutrients: defaultNutrients,
-        ),
-        defaultNutrientsSet = defaultNutrients.toSet();
+  }) : viewModelArg = NutritionFactsInputViewModelArg(
+         nutritionFacts: nutritionFacts ?? controller?._nutritionFacts,
+         defaultNutrients: defaultNutrients,
+       ),
+       defaultNutrientsSet = defaultNutrients.toSet();
 
   final List<NutritionFacts>? nutritionFacts;
 
@@ -59,13 +59,9 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
 
   final _form = GlobalKey<FormState>();
 
-  final _nutrientAmountControllers = <Nutrient, AmountInputController>{};
+  final _nutrientAmountSlots = <Nutrient, _AmountInputSlot>{};
 
   late FocusNode _perAmountFocusNode;
-
-  late FocusNode _firstNutrientAmountFocusNode;
-
-  late FocusNode _lastNutrientAmountFocusNode;
 
   late final _assignments = <NutritionFactsInputCommand, UiAssignment>{
     NutritionFactsInputCommand.showRequiredMissingErrorMessage:
@@ -82,15 +78,13 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
       nutritionFactsInputViewModel(widget.viewModelArg),
     );
 
-    _loadNutrientAmountControllers(uiState);
+    _loadNutrientAmountSlots(uiState);
 
     _loadRecordUiState(uiState.selectedRecordState);
 
     widget.controller?.addListener(_onControllerCommand);
 
     _perAmountFocusNode = widget.focusNode ?? FocusNode();
-    _firstNutrientAmountFocusNode = FocusNode();
-    _lastNutrientAmountFocusNode = FocusNode();
 
     super.initState();
   }
@@ -100,36 +94,34 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
     widget.controller?.removeListener(_onControllerCommand);
 
     _perAmountController.dispose();
-    _disposeOfNutrientAmountControllers();
+    _disposeOfNutrientAmountSlots();
 
     if (widget.focusNode == null) {
       _perAmountFocusNode.dispose();
     }
-    _firstNutrientAmountFocusNode.dispose();
-    _lastNutrientAmountFocusNode.dispose();
 
     super.dispose();
   }
 
-  void _loadNutrientAmountControllers(NutritionFactsInputUiState uiState) {
-    final nutrientsWithController = Set.of(_nutrientAmountControllers.keys);
+  void _loadNutrientAmountSlots(NutritionFactsInputUiState uiState) {
+    final slottedNutrients = Set.of(_nutrientAmountSlots.keys);
 
     // Add new ones
     for (final nutrient in uiState.nutrients) {
-      if (!nutrientsWithController.remove(nutrient)) {
-        _nutrientAmountControllers[nutrient] = AmountInputController();
+      if (!slottedNutrients.remove(nutrient)) {
+        _nutrientAmountSlots[nutrient] = _AmountInputSlot();
       }
     }
 
     // Remove old ones
-    for (final nutrient in nutrientsWithController) {
-      _nutrientAmountControllers.remove(nutrient)?.dispose();
+    for (final nutrient in slottedNutrients) {
+      _nutrientAmountSlots.remove(nutrient)?.dispose();
     }
   }
 
-  void _disposeOfNutrientAmountControllers() {
-    for (final amountController in _nutrientAmountControllers.values) {
-      amountController.dispose();
+  void _disposeOfNutrientAmountSlots() {
+    for (final slot in _nutrientAmountSlots.values) {
+      slot.dispose();
     }
   }
 
@@ -138,7 +130,7 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
     _perAmountController.setValue(recordState.perAmountValue);
 
     for (final na in recordState.nutrientAmounts) {
-      final controller = _nutrientAmountControllers[na.nutrient];
+      final controller = _nutrientAmountSlots[na.nutrient]?.controller;
       controller?.setUnit(na.unit);
       controller?.setValue(na.value);
     }
@@ -157,7 +149,8 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
             perAmountValue: _perAmountController.value,
             nutrientAmounts: rs.nutrientAmounts.map(
               (na) {
-                final controller = _nutrientAmountControllers[na.nutrient];
+                final controller =
+                    _nutrientAmountSlots[na.nutrient]?.controller;
 
                 return NutrientAmountUiState(
                   nutrient: na.nutrient,
@@ -191,7 +184,7 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
       widget.defaultNutrients,
     );
 
-    _loadNutrientAmountControllers(uiState);
+    _loadNutrientAmountSlots(uiState);
 
     _loadRecordUiState(uiState.selectedRecordState);
   }
@@ -284,14 +277,14 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
           .addNutrient(nutrient);
 
       if (added) {
-        final controller = AmountInputController();
+        final slot = _AmountInputSlot();
 
-        controller.setUnit(nutrient.defaultUnit);
+        slot.controller.setUnit(nutrient.defaultUnit);
 
-        _nutrientAmountControllers[nutrient] = controller;
+        _nutrientAmountSlots[nutrient] = slot;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _lastNutrientAmountFocusNode.requestFocus();
+          slot.focusNode.requestFocus();
         });
       }
     }
@@ -307,11 +300,9 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
         .deleteNutrient(nutrient);
 
     if (deleted) {
-      _nutrientAmountControllers.remove(nutrient)?.dispose();
+      _nutrientAmountSlots.remove(nutrient)?.dispose();
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _lastNutrientAmountFocusNode.unfocus();
-      });
+      FocusManager.instance.primaryFocus?.unfocus();
     }
   }
 
@@ -367,20 +358,22 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
 
     showMessage(
       l10n(context).messageSubNutrientsExceedTotal(
-        partsExceedingWhole.map(
-          (pair) {
-            final (partNa, wholeNa) = pair;
+        partsExceedingWhole
+            .map(
+              (pair) {
+                final (partNa, wholeNa) = pair;
 
-            return l10n(context).partExceedsWhole(
-              partNa.nutrient.localName(l10n(context)),
-              partNa.amount.unit.localName(l10n(context)),
-              nb.formatDouble(context, partNa.amount.value),
-              wholeNa.nutrient.localName(l10n(context)),
-              wholeNa.amount.unit.localName(l10n(context)),
-              nb.formatDouble(context, wholeNa.amount.value),
-            );
-          },
-        ).join('\n'),
+                return l10n(context).partExceedsWhole(
+                  partNa.nutrient.localName(l10n(context)),
+                  partNa.amount.unit.localName(l10n(context)),
+                  nb.formatDouble(context, partNa.amount.value),
+                  wholeNa.nutrient.localName(l10n(context)),
+                  wholeNa.amount.unit.localName(l10n(context)),
+                  nb.formatDouble(context, wholeNa.amount.value),
+                );
+              },
+            )
+            .join('\n'),
       ),
       MessageType.error,
     );
@@ -390,9 +383,10 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
 
   List<Widget> _buildNutrientAmountInput({
     required Nutrient nutrient,
-    required bool isFirst,
-    required bool isLast,
+    Nutrient? nextNutrient,
   }) {
+    final slot = _nutrientAmountSlots[nutrient];
+
     return [
       Row(
         children: [
@@ -400,20 +394,23 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
           Expanded(
             child: AmountInput(
               key: ValueKey(nutrient),
-              controller: _nutrientAmountControllers[nutrient],
-              focusNode: isFirst
-                  ? _firstNutrientAmountFocusNode
-                  : isLast
-                      ? _lastNutrientAmountFocusNode
-                      : null,
-              label: nutrient.localName(l10n(context)) +
+              controller: slot?.controller,
+              focusNode: slot?.focusNode,
+              label:
+                  nutrient.localName(l10n(context)) +
                   (nutrient.required ? ' *' : ''),
               fixedMeasure: nutrient.defaultUnit.measure,
               required: nutrient.required,
               allowZero: true,
-              textInputAction:
-                  isLast ? TextInputAction.done : TextInputAction.next,
+              textInputAction: nextNutrient == null
+                  ? TextInputAction.done
+                  : TextInputAction.next,
               onUserInteractionChange: widget.onUserInteractionChange,
+              onFieldSubmitted: (_) {
+                if (nextNutrient != null) {
+                  _nutrientAmountSlots[nextNutrient]?.focusNode.requestFocus();
+                }
+              },
             ),
           ),
           widget.defaultNutrientsSet.contains(nutrient)
@@ -446,8 +443,9 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
     );
 
     ref.listen(
-      nutritionFactsInputViewModel(widget.viewModelArg)
-          .select((s) => s.selectedRecordState),
+      nutritionFactsInputViewModel(
+        widget.viewModelArg,
+      ).select((s) => s.selectedRecordState),
       (previous, next) {
         _loadRecordUiState(next);
       },
@@ -482,22 +480,30 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
               focusNode: _perAmountFocusNode,
               onPrevRecord: _selectPrevRecord,
               onNextRecord: _selectNextRecord,
+              onFieldSubmitted: (_) {
+                final firstNutrient = uiState.nutrients.firstOrNull;
+                if (firstNutrient != null) {
+                  _nutrientAmountSlots[firstNutrient]?.focusNode.requestFocus();
+                }
+              },
             ),
             const SizedBox(height: 16),
             ...[
-              for (final (index, nutrient) in uiState.nutrients.indexed)
+              for (var i = 0; i < uiState.nutrients.length; i++)
                 _buildNutrientAmountInput(
-                    nutrient: nutrient,
-                    isFirst: index == 0,
-                    isLast: index == uiState.nutrients.length - 1),
+                  nutrient: uiState.nutrients[i],
+                  nextNutrient: i < uiState.nutrients.length - 1
+                      ? uiState.nutrients[i + 1]
+                      : null,
+                ),
             ].expand((e) => e),
             OutlinedButton(
               onPressed: _addNutrient,
               child: Text(
                 l10n(context).labelAddNutrient,
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -505,6 +511,21 @@ class _NutritionFactsInputState extends ConsumerState<NutritionFactsInput>
         ),
       ),
     );
+  }
+}
+
+class _AmountInputSlot {
+  _AmountInputSlot()
+    : controller = AmountInputController(),
+      focusNode = FocusNode();
+
+  final AmountInputController controller;
+
+  final FocusNode focusNode;
+
+  void dispose() {
+    controller.dispose();
+    focusNode.dispose();
   }
 }
 
@@ -516,8 +537,8 @@ enum _NutritionFactsInputControllerCommand {
 
 class NutritionFactsInputController extends ChangeNotifier {
   NutritionFactsInputController({
-    List<NutritionFacts>? nutritionFacts,
-  }) : _nutritionFacts = nutritionFacts;
+    this._nutritionFacts,
+  });
 
   bool _isValid = false;
 

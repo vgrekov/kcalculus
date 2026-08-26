@@ -54,16 +54,16 @@ class DefaultFirebaseOptions {
     appId: '1:954032866101:android:e252152470561ee45c027c',
     messagingSenderId: '954032866101',
     projectId: 'kcalcy-10030',
+    databaseURL: 'https://kcalcy-10030-default-rtdb.firebaseio.com',
     storageBucket: 'kcalcy-10030.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCFK2-tO4GRhtgOKREqgHIuk2LnQ3QRYvg',
     appId: '1:954032866101:ios:63272bbb7c6fcdea5c027c',
     messagingSenderId: '954032866101',
     projectId: 'kcalcy-10030',
+    databaseURL: 'https://kcalcy-10030-default-rtdb.firebaseio.com',
     storageBucket: 'kcalcy-10030.firebasestorage.app',
     iosBundleId: 'com.remexola.kcalculus',
   );
-
 }

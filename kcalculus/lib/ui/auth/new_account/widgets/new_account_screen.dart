@@ -221,113 +221,104 @@ class _NewAccountScreenState extends ConsumerState<NewAccountScreen>
               builder: (context, constraints) => SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 32,
-                              ),
-                              child: Text(
-                                l10n(context).appName,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                    ),
-                              ),
-                            ),
-                          ),
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox.shrink(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 32,
                         ),
-                        Form(
-                          key: _form,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              TextInput(
-                                controller: _displayNameController,
-                                labelText:
-                                    '${l10n(context).labelDisplayName} *',
-                                maxLength: 50,
-                                maxLines: 1,
-                                textCapitalization: TextCapitalization.words,
-                                textInputAction: TextInputAction.next,
-                                onFieldSubmitted: (value) {
-                                  _emailFocusNode.requestFocus();
-                                },
-                                validator: _validateDisplayName,
+                        child: Text(
+                          l10n(context).appName,
+                          style: Theme.of(context).textTheme.displayMedium!
+                              .copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
                               ),
-                              const SizedBox(height: 16),
-                              EmailInput(
-                                controller: _emailController,
-                                focusNode: _emailFocusNode,
-                                labelText: '${l10n(context).labelEmail} *',
-                                textInputAction: TextInputAction.next,
-                                onFieldSubmitted: (value) {
-                                  _passwordFocusNode.requestFocus();
-                                },
-                                validator: _validateEmail,
-                              ),
-                              const SizedBox(height: 16),
-                              PasswordInput(
-                                controller: _passwordController,
-                                focusNode: _passwordFocusNode,
-                                labelText: '${l10n(context).labelPassword} *',
-                                minLength: 6,
-                                maxLength: 20,
-                                textInputAction: TextInputAction.next,
-                                onFieldSubmitted: (value) {
-                                  _passwordConfirmationFocusNode.requestFocus();
-                                },
-                                validator: _validatePassword,
-                              ),
-                              const SizedBox(height: 16),
-                              PasswordInput(
-                                controller: _passwordConfirmationController,
-                                focusNode: _passwordConfirmationFocusNode,
-                                labelText:
-                                    '${l10n(context).labelPasswordConfirmation} *',
-                                minLength: 6,
-                                maxLength: 20,
-                                textInputAction: TextInputAction.done,
-                                validator: _validatePasswordConfirmation,
-                              ),
-                              const SizedBox(height: 12),
-                              SizedBox(
-                                width: double.infinity,
-                                child: FilledButton(
-                                  onPressed: _createAccount,
-                                  child: Text(
-                                    l10n(context).actionCreateNewAccount,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimary,
-                                        ),
-                                  ),
+                        ),
+                      ),
+                      Form(
+                        key: _form,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TextInput(
+                              controller: _displayNameController,
+                              labelText: '${l10n(context).labelDisplayName} *',
+                              maxLength: 50,
+                              maxLines: 1,
+                              textCapitalization: TextCapitalization.words,
+                              textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (value) {
+                                _emailFocusNode.requestFocus();
+                              },
+                              validator: _validateDisplayName,
+                            ),
+                            const SizedBox(height: 16),
+                            EmailInput(
+                              controller: _emailController,
+                              focusNode: _emailFocusNode,
+                              labelText: '${l10n(context).labelEmail} *',
+                              textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (value) {
+                                _passwordFocusNode.requestFocus();
+                              },
+                              validator: _validateEmail,
+                            ),
+                            const SizedBox(height: 16),
+                            PasswordInput(
+                              controller: _passwordController,
+                              focusNode: _passwordFocusNode,
+                              labelText: '${l10n(context).labelPassword} *',
+                              minLength: 6,
+                              maxLength: 20,
+                              textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (value) {
+                                _passwordConfirmationFocusNode.requestFocus();
+                              },
+                              validator: _validatePassword,
+                            ),
+                            const SizedBox(height: 16),
+                            PasswordInput(
+                              controller: _passwordConfirmationController,
+                              focusNode: _passwordConfirmationFocusNode,
+                              labelText:
+                                  '${l10n(context).labelPasswordConfirmation} *',
+                              minLength: 6,
+                              maxLength: 20,
+                              textInputAction: TextInputAction.done,
+                              validator: _validatePasswordConfirmation,
+                            ),
+                            const SizedBox(height: 12),
+                            SizedBox(
+                              width: double.infinity,
+                              child: FilledButton(
+                                onPressed: _createAccount,
+                                child: Text(
+                                  l10n(context).actionCreateNewAccount,
+                                  style: Theme.of(context).textTheme.labelLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimary,
+                                      ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 16),
+                          ],
                         ),
-                        Expanded(
-                          child: const SizedBox.expand(),
-                        ),
-                        const SizedBox(height: 32),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 32 * 3),
+                      const SizedBox.shrink(),
+                    ],
                   ),
                 ),
               ),

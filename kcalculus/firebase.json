@@ -12,7 +12,7 @@
         "default": {
           "projectId": "kcalcy-10030",
           "appId": "1:954032866101:ios:63272bbb7c6fcdea5c027c",
-          "uploadDebugSymbols": false,
+          "uploadDebugSymbols": true,
           "fileOutput": "ios/Runner/GoogleService-Info.plist"
         }
       },

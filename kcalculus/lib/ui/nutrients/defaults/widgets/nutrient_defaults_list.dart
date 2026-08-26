@@ -30,7 +30,7 @@ class NutrientDefaultsList extends StatelessWidget {
               right: listStyle.horizontalGap,
               top: listStyle.verticalGap,
             ),
-      onReorder: onReorderItems,
+      onReorderItem: onReorderItems,
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];

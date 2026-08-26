@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "954032866101",
+    "firebase_url": "https://kcalcy-10030-default-rtdb.firebaseio.com",
     "project_id": "kcalcy-10030",
     "storage_bucket": "kcalcy-10030.firebasestorage.app"
   },
