@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kcalculus/data/access/access.dart';
-import 'package:kcalculus/domain/_common/models/access_level.dart';
-import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
-import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
-import 'package:kcalculus/utils/datetime.dart' as dt;
+import 'package:kcalculus/data/access/repositories/subscription_repository.dart';
+import 'package:kcalculus/domain/_common/models/subscription_state.dart';
 import 'package:kcalculus/utils/l10n.dart';
+import 'package:logging/logging.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
+import 'package:kcalculus/utils/datetime.dart' as dt;
+
+final _log = Logger('PremiumSettingTile');
 
 class PremiumSettingTile extends ConsumerStatefulWidget {
   const PremiumSettingTile({
@@ -19,63 +21,66 @@ class PremiumSettingTile extends ConsumerStatefulWidget {
 }
 
 class _PremiumSettingTileState extends ConsumerState<PremiumSettingTile> {
-  final _accessGuardKey = UniqueKey();
+  void _openCustomerCenter() async {
+    await RevenueCatUI.presentCustomerCenter();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final accessLevel = ref.watch(accessLevelRepositoryProvider);
+    final subscriptionStateAsync = ref.watch(subscriptionRepositoryProvider);
 
-    final accessLevelValue =
-        accessLevel is AsyncData ? accessLevel.value : null;
+    String subtitle = '';
+    Color bgColor = Theme.of(context).colorScheme.tertiaryContainer;
+    Color fgColor = Theme.of(context).colorScheme.onTertiaryContainer;
 
-    final Color bgColor;
-    final Color fgColor;
-    switch (accessLevelValue) {
-      case AccessLevelFreeNoAds():
+    switch (subscriptionStateAsync) {
+      case AsyncData(value: final subscriptionState):
+        subtitle = switch (subscriptionState) {
+          SubscriptionActive active =>
+            l10n(context).settingPremiumSubtitleSubscriptionActive(
+              active.isTrial.toString(),
+              active.expirationDate != null
+                  ? dt.formatDateTimeLocal(context, active.expirationDate!)
+                  : '',
+              (active.expirationDate != null).toString(),
+            ),
+          _ => l10n(context).settingPremiumSubtitleSubscriptionInactive,
+        };
+
+        break;
+
+      case AsyncError(:final error, :final stackTrace):
+        _log.severe('Failed to load subscription state', error, stackTrace);
+
+        subtitle = l10n(context).settingPremiumSubtitleSubscriptionFailedToLoad;
+
         bgColor = Theme.of(context).colorScheme.errorContainer;
         fgColor = Theme.of(context).colorScheme.onErrorContainer;
+
         break;
+
       default:
-        bgColor = Theme.of(context).colorScheme.tertiaryContainer;
-        fgColor = Theme.of(context).colorScheme.onTertiaryContainer;
     }
 
-    return AccessGuard(
-      key: _accessGuardKey,
-      child: ListTile(
-        onTap: accessLevelValue is! AccessLevelFree
-            ? null
-            : () {
-                premiumFeature(ref, _accessGuardKey, () {});
-              },
-        leading: Icon(
-          Icons.diamond,
+    return ListTile(
+      onTap: _openCustomerCenter,
+      leading: Icon(
+        Icons.diamond,
+        color: fgColor,
+      ),
+      title: Text(
+        l10n(context).settingPremiumTitle,
+        style: Theme.of(
+          context,
+        ).textTheme.titleMedium!.copyWith(color: fgColor),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: Theme.of(context).textTheme.bodySmall!.copyWith(
           color: fgColor,
         ),
-        title: Text(
-          l10n(context).settingPremiumTitle,
-          style:
-              Theme.of(context).textTheme.titleMedium!.copyWith(color: fgColor),
-        ),
-        subtitle: Text(
-          switch (accessLevelValue) {
-            AccessLevelFree() => l10n(context).settingPremiumSubtitleLocked,
-            AccessLevelFreeNoAds() =>
-              l10n(context).settingPremiumSubtitleUnavailable,
-            AccessLevelPremium() =>
-              l10n(context).settingPremiumSubtitleUnlocked,
-            AccessLevelAdSupportedPremium(:final expirationDate) =>
-              l10n(context).settingPremiumSubtitleUnlockedUntil(
-                dt.formatDateTimeLocal(context, expirationDate),
-              ),
-            _ => '',
-          },
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: fgColor,
-              ),
-        ),
-        tileColor: bgColor,
       ),
+      tileColor: bgColor,
     );
   }
 }

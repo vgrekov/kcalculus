@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/_common/models/app_settings.dart';
 import 'package:kcalculus/domain/auth/models/user.dart';
-import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
-import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/auth/login/widgets/login_screen.dart';
 import 'package:kcalculus/ui/common/messaging/models/ui_message.dart';
 import 'package:kcalculus/ui/common/messaging/services/ui_message_service.dart';
@@ -57,8 +55,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     AppSettingsCommand.showUnknownErrorNotification:
         _showUnknownErrorNotification,
   };
-
-  final _accessGuardKey = UniqueKey();
 
   void _login() {
     Navigator.of(context).push(
@@ -163,42 +159,38 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     );
   }
 
-  void _backup() async {
-    premiumFeature(ref, _accessGuardKey, () {
-      ProgressOverlay.wrap(
-        context,
-        ref.read(appSettingsViewModel.notifier).backup(),
-      );
-    });
+  void _backup() {
+    ProgressOverlay.wrap(
+      context,
+      ref.read(appSettingsViewModel.notifier).backup(),
+    );
   }
 
   void _restore() async {
-    premiumFeature(ref, _accessGuardKey, () async {
-      FilePickerResult? result = await FilePicker.platform.pickFiles();
-      if (result == null) {
-        return;
-      }
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result == null) {
+      return;
+    }
 
-      final fromFile = result.files.single.path!;
+    final fromFile = result.files.single.path!;
 
-      if (mounted) {
-        final confirmed = await showMessageDialog<bool>(
-          message: l10n(context).messageRestoreConfirmation(fromFile),
-          actions: {
-            l10n(context).actionProceed: () => true,
-            l10n(context).actionCancel: () => false,
-          },
-          messageType: MessageType.warning,
+    if (mounted) {
+      final confirmed = await showMessageDialog<bool>(
+        message: l10n(context).messageRestoreConfirmation(fromFile),
+        actions: {
+          l10n(context).actionProceed: () => true,
+          l10n(context).actionCancel: () => false,
+        },
+        messageType: MessageType.warning,
+      );
+
+      if (confirmed == true && mounted) {
+        ProgressOverlay.wrap(
+          context,
+          ref.read(appSettingsViewModel.notifier).restore(fromFile),
         );
-
-        if (confirmed == true && mounted) {
-          ProgressOverlay.wrap(
-            context,
-            ref.read(appSettingsViewModel.notifier).restore(fromFile),
-          );
-        }
       }
-    });
+    }
   }
 
   void _shareBackup(
@@ -352,14 +344,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     title: l10n(context).settingDefaultNutrientsTitle,
                     subtitle: l10n(context).settingDefaultNutrientsSubtitle,
                     icon: Icons.list_alt,
-                    premiumFeature: false,
                   ),
                   ActionSettingTile(
                     onTap: uiState.isLoading ? null : _configureNutrientGoals,
                     title: l10n(context).settingNutrientGoalsTitle,
                     subtitle: l10n(context).settingNutrientGoalsSubtitle,
                     icon: Icons.track_changes,
-                    premiumFeature: false,
                   ),
                 ],
               ),
@@ -372,14 +362,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       title: l10n(context).settingBackupTitle,
                       subtitle: l10n(context).settingBackupSubtitle,
                       icon: Icons.download,
-                      premiumFeature: true,
                     ),
                     ActionSettingTile(
                       onTap: uiState.isLoading ? null : _restore,
                       title: l10n(context).settingRestoreTitle,
                       subtitle: l10n(context).settingRestoreSubtitle,
                       icon: Icons.upload,
-                      premiumFeature: true,
                     ),
                   ],
                 ),
@@ -427,39 +415,36 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
     final viewModel = ref.read(appSettingsViewModel.notifier);
 
-    return AccessGuard(
-      key: _accessGuardKey,
-      child: UiSubordinate(
-        commandProvider: viewModel.commandProvider,
-        assignments: _assignments,
-        child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  l10n(context).screenSettings,
-                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+    return UiSubordinate(
+      commandProvider: viewModel.commandProvider,
+      assignments: _assignments,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                l10n(context).screenSettings,
+                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
-                Text(
-                  version ?? '',
-                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+              ),
+              Text(
+                version ?? '',
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          body: body,
-          bottomNavigationBar: Container(
-            color: Theme.of(context).colorScheme.surfaceContainer,
-            padding: EdgeInsets.only(top: 8),
-            child: const ScreenTabBar(
-              selectedTab: ScreenTab.settings,
-            ),
+        ),
+        body: body,
+        bottomNavigationBar: Container(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          padding: EdgeInsets.only(top: 8),
+          child: const ScreenTabBar(
+            selectedTab: ScreenTab.settings,
           ),
         ),
       ),

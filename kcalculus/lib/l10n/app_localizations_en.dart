@@ -716,19 +716,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionIAgree => 'I agree';
 
   @override
-  String get messageUnlockWithAdConfirmation =>
-      'Watch an unskippable ad to temporary unlock premium features?';
-
-  @override
-  String messageUnlockedWithAd(String until) {
-    return 'Premium features unlocked until\n$until';
-  }
-
-  @override
-  String get messagePremiumUnavailable =>
-      'Premium features are unavailable at the moment';
-
-  @override
   String get settingAnalyticsTitle => 'Allow usage data collection';
 
   @override
@@ -744,18 +731,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingPremiumTitle => 'Premium status';
 
   @override
-  String get settingPremiumSubtitleLocked => 'Unlock premium features';
+  String get settingPremiumSubtitleSubscriptionFailedToLoad =>
+      'Failed to load subscription data';
 
   @override
-  String get settingPremiumSubtitleUnavailable =>
-      'Premium features unavailable';
+  String get settingPremiumSubtitleSubscriptionInactive =>
+      'No active subscription';
 
   @override
-  String get settingPremiumSubtitleUnlocked => 'Premium features unlocked';
-
-  @override
-  String settingPremiumSubtitleUnlockedUntil(String until) {
-    return 'Premium features unlocked until $until';
+  String settingPremiumSubtitleSubscriptionActive(
+    String trial,
+    String until,
+    String hasExpirationDate,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      trial,
+      {
+        'true': 'Free trial',
+        'other': 'Active subscription',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      hasExpirationDate,
+      {
+        'true': ' until $until',
+        'other': '',
+      },
+    );
+    return '$_temp0$_temp1';
   }
 
   @override

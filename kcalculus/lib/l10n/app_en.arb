@@ -351,16 +351,6 @@
     "messageNoData": "No data...",
     "screenAgreement": "Agreement",
     "actionIAgree": "I agree",
-    "messageUnlockWithAdConfirmation": "Watch an unskippable ad to temporary unlock premium features?",
-    "messageUnlockedWithAd": "Premium features unlocked until\n{until}",
-    "@messageUnlockedWithAd": {
-        "placeholders": {
-            "until": {
-                "type": "String"
-            }
-        }
-    },
-    "messagePremiumUnavailable": "Premium features are unavailable at the moment",
     "settingAnalyticsTitle": "Allow usage data collection",
     "settingAnalyticsSubtitle": "Help improve the app by sharing anonymous usage data",
     "messageSwitchToLogDateConfirmation": "Meal saved for {date}.\nSwitch to that day?",
@@ -372,13 +362,18 @@
         }
     },
     "settingPremiumTitle": "Premium status",
-    "settingPremiumSubtitleLocked": "Unlock premium features",
-    "settingPremiumSubtitleUnavailable": "Premium features unavailable",
-    "settingPremiumSubtitleUnlocked": "Premium features unlocked",
-    "settingPremiumSubtitleUnlockedUntil": "Premium features unlocked until {until}",
-    "@settingPremiumSubtitleUnlockedUntil": {
+    "settingPremiumSubtitleSubscriptionFailedToLoad": "Failed to load subscription data",
+    "settingPremiumSubtitleSubscriptionInactive": "No active subscription",
+    "settingPremiumSubtitleSubscriptionActive": "{trial, select, true{Free trial} other{Active subscription}}{hasExpirationDate, select, true{ until {until}} other{}}",
+    "@settingPremiumSubtitleSubscriptionActive": {
         "placeholders": {
+            "trial": {
+                "type": "String"
+            },
             "until": {
+                "type": "String"
+            },
+            "hasExpirationDate": {
                 "type": "String"
             }
         }

@@ -1392,24 +1392,6 @@ abstract class AppLocalizations {
   /// **'I agree'**
   String get actionIAgree;
 
-  /// No description provided for @messageUnlockWithAdConfirmation.
-  ///
-  /// In en, this message translates to:
-  /// **'Watch an unskippable ad to temporary unlock premium features?'**
-  String get messageUnlockWithAdConfirmation;
-
-  /// No description provided for @messageUnlockedWithAd.
-  ///
-  /// In en, this message translates to:
-  /// **'Premium features unlocked until\n{until}'**
-  String messageUnlockedWithAd(String until);
-
-  /// No description provided for @messagePremiumUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Premium features are unavailable at the moment'**
-  String get messagePremiumUnavailable;
-
   /// No description provided for @settingAnalyticsTitle.
   ///
   /// In en, this message translates to:
@@ -1434,29 +1416,27 @@ abstract class AppLocalizations {
   /// **'Premium status'**
   String get settingPremiumTitle;
 
-  /// No description provided for @settingPremiumSubtitleLocked.
+  /// No description provided for @settingPremiumSubtitleSubscriptionFailedToLoad.
   ///
   /// In en, this message translates to:
-  /// **'Unlock premium features'**
-  String get settingPremiumSubtitleLocked;
+  /// **'Failed to load subscription data'**
+  String get settingPremiumSubtitleSubscriptionFailedToLoad;
 
-  /// No description provided for @settingPremiumSubtitleUnavailable.
+  /// No description provided for @settingPremiumSubtitleSubscriptionInactive.
   ///
   /// In en, this message translates to:
-  /// **'Premium features unavailable'**
-  String get settingPremiumSubtitleUnavailable;
+  /// **'No active subscription'**
+  String get settingPremiumSubtitleSubscriptionInactive;
 
-  /// No description provided for @settingPremiumSubtitleUnlocked.
+  /// No description provided for @settingPremiumSubtitleSubscriptionActive.
   ///
   /// In en, this message translates to:
-  /// **'Premium features unlocked'**
-  String get settingPremiumSubtitleUnlocked;
-
-  /// No description provided for @settingPremiumSubtitleUnlockedUntil.
-  ///
-  /// In en, this message translates to:
-  /// **'Premium features unlocked until {until}'**
-  String settingPremiumSubtitleUnlockedUntil(String until);
+  /// **'{trial, select, true{Free trial} other{Active subscription}}{hasExpirationDate, select, true{ until {until}} other{}}'**
+  String settingPremiumSubtitleSubscriptionActive(
+    String trial,
+    String until,
+    String hasExpirationDate,
+  );
 
   /// No description provided for @settingDefaultNutrientsTitle.
   ///

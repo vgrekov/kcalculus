@@ -192,5 +192,5 @@ class EdibleListViewModel extends Notifier<FutureOr<List<EdiblePreview>>>
 
 final edibleListViewModel =
     NotifierProvider<EdibleListViewModel, FutureOr<List<EdiblePreview>>>(
-  () => EdibleListViewModel(),
-);
+      () => EdibleListViewModel(),
+    );

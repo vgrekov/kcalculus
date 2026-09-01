@@ -16,10 +16,10 @@ class SubscriptionActive extends SubscriptionState {
   const SubscriptionActive({
     required super.appUserId,
     required this.isTrial,
-    required this.expirationDate,
+    this.expirationDate,
   });
 
   final bool isTrial;
 
-  final String? expirationDate;
+  final DateTime? expirationDate;
 }

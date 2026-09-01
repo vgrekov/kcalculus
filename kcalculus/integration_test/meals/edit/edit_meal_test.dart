@@ -3,13 +3,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:kcalculus/data/ad/ad.dart';
+import 'package:kcalculus/data/access/repositories/subscription_repository.dart';
 import 'package:kcalculus/data/auth/auth.dart';
 import 'package:kcalculus/data/storage/storage.dart';
 import 'package:kcalculus/domain/_common/models/amount.dart';
 import 'package:kcalculus/domain/_common/models/app_settings.dart';
+import 'package:kcalculus/domain/_common/models/subscription_state.dart';
 import 'package:kcalculus/domain/_common/models/units.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
+import 'package:kcalculus/domain/import/models/import_process.dart';
+import 'package:kcalculus/domain/import/use_cases/import_use_case.dart';
 import 'package:kcalculus/domain/maintenance/use_cases/maintenance_use_case.dart';
 import 'package:kcalculus/domain/meal/models/meal.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
@@ -37,11 +40,12 @@ void main() {
     'Edit meal',
     () {
       late MockAppSettingsRepository appSettingsRepository;
-      late MockAdRepository adRepository;
       late MockMealRepository mealRepository;
       late MockDefaultNutrientRepository defaultNutrientRepository;
       late MockNutrientGoalRepository nutrientGoalRepository;
       late MockUserRepository userRepository;
+      late MockImportUseCase importUseCase;
+      late MockSubscriptionRepository subscriptionRepository;
 
       final existingMeal = Meal(
         id: 'meal_id',
@@ -89,8 +93,6 @@ void main() {
           },
         );
 
-        adRepository = MockAdRepository();
-
         mealRepository = MockMealRepository();
 
         when(() => mealRepository.getByDate(any())).thenAnswer(
@@ -129,12 +131,24 @@ void main() {
           (_) async => true,
         );
 
+        importUseCase = MockImportUseCase();
+
+        when(() => importUseCase.build()).thenAnswer(
+          (_) async => const ImportProcess.unavailable(),
+        );
+
+        subscriptionRepository = MockSubscriptionRepository();
+
+        when(() => subscriptionRepository.build()).thenAnswer(
+          (_) async => const SubscriptionActive(
+            appUserId: '',
+            isTrial: false,
+          ),
+        );
+
         commonOverrides = [
           appSettingsRepositoryProvider.overrideWith(
             () => appSettingsRepository,
-          ),
-          adRepositoryProvider.overrideWith(
-            () => adRepository,
           ),
           maintenanceUseCaseProvider.overrideWith(
             MockMaintenanceUseCase.new,
@@ -150,6 +164,12 @@ void main() {
           ),
           userRepositoryProvider.overrideWith(
             () => userRepository,
+          ),
+          importUseCaseProvider.overrideWith(
+            () => importUseCase,
+          ),
+          subscriptionRepositoryProvider.overrideWith(
+            () => subscriptionRepository,
           ),
         ];
       });

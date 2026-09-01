@@ -4,7 +4,6 @@ import 'package:kcalculus/domain/edible/models/portion.dart';
 import 'package:kcalculus/domain/meal/models/meal.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/portion_form/widgets/portion_form.dart';
-import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
@@ -114,14 +113,10 @@ class _MealSaveScreenState extends ConsumerState<MealSaveScreen>
       );
 
       if (mounted) {
-        final saved = await ProgressOverlay.wrap(
+        await ProgressOverlay.wrap(
           context,
           viewModel.saveMeal(force: force),
         );
-
-        if (saved) {
-          await showInterstitialAd(ref);
-        }
       }
     }
   }

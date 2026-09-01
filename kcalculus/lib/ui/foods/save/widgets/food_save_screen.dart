@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_input/widgets/nutrition_facts_input.dart';
-import 'package:kcalculus/ui/common/utils/ads.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/state_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
@@ -178,8 +177,6 @@ class _FoodSaveScreenState extends ConsumerState<FoodSaveScreen>
     required BuildContext context,
     required WidgetRef ref,
   }) async {
-    await showInterstitialAd(ref);
-
     _exit();
 
     command?.complete();

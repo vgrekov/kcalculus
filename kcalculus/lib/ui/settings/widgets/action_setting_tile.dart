@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 
 class ActionSettingTile extends StatelessWidget {
   const ActionSettingTile({
@@ -8,7 +7,6 @@ class ActionSettingTile extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.icon,
-    this.premiumFeature = false,
   });
 
   final void Function()? onTap;
@@ -19,8 +17,6 @@ class ActionSettingTile extends StatelessWidget {
 
   final IconData? icon;
 
-  final bool premiumFeature;
-
   @override
   Widget build(BuildContext context) {
     final leading = Icon(
@@ -30,21 +26,20 @@ class ActionSettingTile extends StatelessWidget {
 
     return ListTile(
       onTap: onTap,
-      leading: premiumFeature ? PremiumBadge(child: leading) : leading,
+      leading: leading,
       title: Text(
         title,
-        style: Theme.of(context)
-            .textTheme
-            .titleMedium!
-            .copyWith(color: Theme.of(context).colorScheme.onSurface),
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
       subtitle: subtitle == null
           ? null
           : Text(
               subtitle!,
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
     );
   }

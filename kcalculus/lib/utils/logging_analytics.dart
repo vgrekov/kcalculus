@@ -1,5 +1,4 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:kcalculus/domain/import/models/import_report.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:logging/logging.dart';
@@ -8,24 +7,6 @@ extension Analytics on Logger {
   void eventNoAd() {
     FirebaseAnalytics.instance.logEvent(
       name: 'no_ad_to_show',
-    );
-  }
-
-  void eventAdImpression(Ad ad) {
-    FirebaseAnalytics.instance.logEvent(
-      name: 'ad_impression',
-      parameters: {
-        'ad_unit_id': ad.adUnitId,
-      },
-    );
-  }
-
-  void eventAdClicked(Ad ad) {
-    FirebaseAnalytics.instance.logEvent(
-      name: 'ad_clicked',
-      parameters: {
-        'ad_unit_id': ad.adUnitId,
-      },
     );
   }
 

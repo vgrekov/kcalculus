@@ -1,4 +1,0 @@
-enum PurchaseStatus {
-  purchased,
-  notPurchased,
-}

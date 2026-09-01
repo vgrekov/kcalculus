@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/text_input.dart';
 import 'package:kcalculus/utils/l10n.dart';
 
@@ -50,11 +49,9 @@ class EdibleNameInput extends StatelessWidget {
       labelText: l10n(context).labelEdibleName,
       prefix: IconButton(
         onPressed: onScanPressed,
-        icon: PremiumBadge(
-          child: Icon(
-            Icons.qr_code_scanner,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
+        icon: Icon(
+          Icons.qr_code_scanner,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
       suffix: IconButton(
