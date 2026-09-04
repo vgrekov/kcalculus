@@ -21,12 +21,10 @@ class PaywallScreen extends ConsumerWidget {
       error: (error, stackTrace) {
         _log.severe('Failed to load subscription state', error, stackTrace);
         return Center(
-          child: Builder(
-            builder: (context) => Text(
-              l10n(context).messageUnknownError,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.error,
-              ),
+          child: Text(
+            l10n(context).messageUnknownError,
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Theme.of(context).colorScheme.error,
             ),
           ),
         );
