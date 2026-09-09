@@ -36,14 +36,29 @@ class _PremiumSettingTileState extends ConsumerState<PremiumSettingTile> {
     switch (subscriptionStateAsync) {
       case AsyncData(value: final subscriptionState):
         subtitle = switch (subscriptionState) {
-          SubscriptionActive active =>
-            l10n(context).settingPremiumSubtitleSubscriptionActive(
-              active.isTrial.toString(),
+          SubscriptionActive active => switch (active) {
+            SubscriptionActive(billingIssueDetectedAt: _?) =>
+              l10n(context).settingPremiumSubtitleSubscriptionBillingIssue(
+                active.expirationDate != null
+                    ? dt.formatDateTimeLocal(context, active.expirationDate!)
+                    : '',
+                (active.expirationDate != null).toString(),
+              ),
+            SubscriptionActive(isTrial: true) =>
+              l10n(context).settingPremiumSubtitleSubscriptionTrial(
+                active.expirationDate != null
+                    ? dt.formatDateTimeLocal(context, active.expirationDate!)
+                    : '',
+                (active.expirationDate != null).toString(),
+              ),
+            _ => l10n(context).settingPremiumSubtitleSubscriptionActive(
               active.expirationDate != null
                   ? dt.formatDateTimeLocal(context, active.expirationDate!)
                   : '',
               (active.expirationDate != null).toString(),
+              active.isCancelled.toString(),
             ),
+          },
           _ => l10n(context).settingPremiumSubtitleSubscriptionInactive,
         };
 

@@ -364,13 +364,35 @@
     "settingPremiumTitle": "Premium status",
     "settingPremiumSubtitleSubscriptionFailedToLoad": "Failed to load subscription data",
     "settingPremiumSubtitleSubscriptionInactive": "No active subscription",
-    "settingPremiumSubtitleSubscriptionActive": "{trial, select, true{Free trial} other{Active subscription}}{hasExpirationDate, select, true{ until {until}} other{}}",
+    "settingPremiumSubtitleSubscriptionActive": "Active subscription{hasExpirationDate, select, true{ {isCancelled, select, true{expires} other{renews}} on {expirationDate}} other{}}",
     "@settingPremiumSubtitleSubscriptionActive": {
         "placeholders": {
-            "trial": {
+            "expirationDate": {
                 "type": "String"
             },
-            "until": {
+            "hasExpirationDate": {
+                "type": "String"
+            },
+            "isCancelled": {
+                "type": "String"
+            }
+        }
+    },
+    "settingPremiumSubtitleSubscriptionTrial": "Free trial{hasExpirationDate, select, true{ ends on {expirationDate}} other{}}",
+    "@settingPremiumSubtitleSubscriptionTrial": {
+        "placeholders": {
+            "expirationDate": {
+                "type": "String"
+            },
+            "hasExpirationDate": {
+                "type": "String"
+            }
+        }
+    },
+    "settingPremiumSubtitleSubscriptionBillingIssue": "Payment issue{hasExpirationDate, select, true{ - access until {expirationDate}} other{}}",
+    "@settingPremiumSubtitleSubscriptionBillingIssue": {
+        "placeholders": {
+            "expirationDate": {
                 "type": "String"
             },
             "hasExpirationDate": {

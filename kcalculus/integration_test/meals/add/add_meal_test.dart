@@ -107,6 +107,7 @@ void main() {
           (_) async => const SubscriptionActive(
             appUserId: '',
             isTrial: false,
+            isCancelled: false,
           ),
         );
 

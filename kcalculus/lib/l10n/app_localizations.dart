@@ -1431,10 +1431,28 @@ abstract class AppLocalizations {
   /// No description provided for @settingPremiumSubtitleSubscriptionActive.
   ///
   /// In en, this message translates to:
-  /// **'{trial, select, true{Free trial} other{Active subscription}}{hasExpirationDate, select, true{ until {until}} other{}}'**
+  /// **'Active subscription{hasExpirationDate, select, true{ {isCancelled, select, true{expires} other{renews}} on {expirationDate}} other{}}'**
   String settingPremiumSubtitleSubscriptionActive(
-    String trial,
-    String until,
+    String expirationDate,
+    String hasExpirationDate,
+    String isCancelled,
+  );
+
+  /// No description provided for @settingPremiumSubtitleSubscriptionTrial.
+  ///
+  /// In en, this message translates to:
+  /// **'Free trial{hasExpirationDate, select, true{ ends on {expirationDate}} other{}}'**
+  String settingPremiumSubtitleSubscriptionTrial(
+    String expirationDate,
+    String hasExpirationDate,
+  );
+
+  /// No description provided for @settingPremiumSubtitleSubscriptionBillingIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment issue{hasExpirationDate, select, true{ - access until {expirationDate}} other{}}'**
+  String settingPremiumSubtitleSubscriptionBillingIssue(
+    String expirationDate,
     String hasExpirationDate,
   );
 

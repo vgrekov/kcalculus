@@ -740,25 +740,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String settingPremiumSubtitleSubscriptionActive(
-    String trial,
-    String until,
+    String expirationDate,
     String hasExpirationDate,
+    String isCancelled,
   ) {
     String _temp0 = intl.Intl.selectLogic(
-      trial,
+      isCancelled,
       {
-        'true': 'Free trial',
-        'other': 'Active subscription',
+        'true': 'expires',
+        'other': 'renews',
       },
     );
     String _temp1 = intl.Intl.selectLogic(
       hasExpirationDate,
       {
-        'true': ' until $until',
+        'true': ' $_temp0 on $expirationDate',
         'other': '',
       },
     );
-    return '$_temp0$_temp1';
+    return 'Active subscription$_temp1';
+  }
+
+  @override
+  String settingPremiumSubtitleSubscriptionTrial(
+    String expirationDate,
+    String hasExpirationDate,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      hasExpirationDate,
+      {
+        'true': ' ends on $expirationDate',
+        'other': '',
+      },
+    );
+    return 'Free trial$_temp0';
+  }
+
+  @override
+  String settingPremiumSubtitleSubscriptionBillingIssue(
+    String expirationDate,
+    String hasExpirationDate,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      hasExpirationDate,
+      {
+        'true': ' - access until $expirationDate',
+        'other': '',
+      },
+    );
+    return 'Payment issue$_temp0';
   }
 
   @override

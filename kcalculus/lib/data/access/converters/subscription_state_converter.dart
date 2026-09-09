@@ -36,7 +36,11 @@ class SubscriptionStateConverter extends Notifier<void> {
       return SubscriptionActive(
         appUserId: appUserId,
         isTrial: entitlementInfo.periodType == PeriodType.trial,
+        isCancelled: !entitlementInfo.willRenew,
         expirationDate: _parseDateTime(entitlementInfo.expirationDate),
+        billingIssueDetectedAt: _parseDateTime(
+          entitlementInfo.billingIssueDetectedAt,
+        ),
       );
     }
 
