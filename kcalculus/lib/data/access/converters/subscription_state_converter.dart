@@ -9,7 +9,7 @@ class SubscriptionStateConverter extends Notifier<void> {
   static DateTime? _parseDateTime(String? str) {
     if (str != null) {
       try {
-        return DateTime.parse(str);
+        return DateTime.parse(str).toLocal();
       } catch (error, stackTrace) {
         _log.severe(
           'Failed to parse RevenueCat datetime: "$str"',
