@@ -58,6 +58,11 @@ class SubscriptionService extends AsyncNotifier<CustomerInfo> {
     return customerInfo;
   }
 
+  Future<void> refresh() async {
+    await Purchases.invalidateCustomerInfoCache();
+    ref.invalidateSelf();
+  }
+
   void _startListeningToCustomerInfoUpdates() {
     if (_isListeningToCustomerInfoUpdates) return;
 

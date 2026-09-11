@@ -9,23 +9,52 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 class SubscriptionRepository extends AsyncNotifier<SubscriptionState> {
   static const _kEntitlementId = 'premium';
 
+  Timer? _timer;
+
   @override
   FutureOr<SubscriptionState> build() async {
     final customerInfo = await ref.watch(
-      subscriptionServiceProvider.selectAsync(
-        (it) => it,
-      ),
+      subscriptionServiceProvider.future,
     );
 
     final converter = ref.watch(subscriptionStateConverterProvider.notifier);
 
+    ref.onDispose(() {
+      _timer?.cancel();
+    });
+
     final appUserId = await Purchases.appUserID;
 
-    return converter.toModel(
+    final subscriptionState = converter.toModel(
       customerInfo,
       entitlementId: _kEntitlementId,
       appUserId: appUserId,
     );
+
+    if (subscriptionState is SubscriptionActive &&
+        subscriptionState.expirationDate != null) {
+      _scheduleRefreshOnExpiration(subscriptionState.expirationDate!);
+    }
+
+    return subscriptionState;
+  }
+
+  void _scheduleRefreshOnExpiration(DateTime expirationDate) {
+    final now = DateTime.now();
+    var durationUntilExpiration = expirationDate.difference(now);
+    if (durationUntilExpiration.isNegative) {
+      durationUntilExpiration = Duration.zero;
+    }
+
+    _timer?.cancel();
+    _timer = Timer(
+      durationUntilExpiration + const Duration(seconds: 5),
+      _refresh,
+    );
+  }
+
+  void _refresh() {
+    ref.read(subscriptionServiceProvider.notifier).refresh();
   }
 }
 
