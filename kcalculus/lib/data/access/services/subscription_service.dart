@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/data/auth/services/auth_service.dart';
+import 'package:kcalculus/utils/lifecycle/lifecycle_state_provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 const _kRevenueCatSdkApiKeyArg = 'REVENUE_CAT_SDK_API_KEY';
@@ -18,7 +20,12 @@ class SubscriptionService extends AsyncNotifier<CustomerInfo> {
       _stopListeningToCustomerInfoUpdates();
       ref.onDispose(_stopListeningToCustomerInfoUpdates);
 
-      await ref.read(_revenueCatInitProvider.future);
+      await ref.watch(_revenueCatInitProvider.future);
+      ref.watch(
+        lifecycleStateProvider.select(
+          (it) => it.triggers[AppLifecycleState.resumed],
+        ),
+      );
 
       final uid = await ref.watch(
         authServiceProvider.selectAsync((user) => user?.uid),
@@ -104,7 +111,7 @@ final _revenueCatSdkApiKeyProvider = FutureProvider<String?>(
       return sdkApiKeyFromEnv;
     }
 
-    return ref.read(
+    return ref.watch(
       appConfigServiceProvider.selectAsync(
         (config) => config?.revenueCat.sdkApiKey,
       ),
@@ -116,7 +123,7 @@ final _revenueCatInitProvider = FutureProvider<void>(
   (ref) async {
     if (await Purchases.isConfigured) return;
 
-    final sdkApiKey = await ref.read(
+    final sdkApiKey = await ref.watch(
       _revenueCatSdkApiKeyProvider.selectAsync(
         (it) => it,
       ),
