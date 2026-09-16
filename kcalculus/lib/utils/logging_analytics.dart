@@ -4,18 +4,6 @@ import 'package:kcalculus/domain/nutrition/models/nutrient.dart';
 import 'package:logging/logging.dart';
 
 extension Analytics on Logger {
-  void eventNoAd() {
-    FirebaseAnalytics.instance.logEvent(
-      name: 'no_ad_to_show',
-    );
-  }
-
-  void eventPremiumRewardEarned() {
-    FirebaseAnalytics.instance.logEvent(
-      name: 'premium_reward_earned',
-    );
-  }
-
   void eventFoodSave() {
     FirebaseAnalytics.instance.logEvent(
       name: 'food_save',
