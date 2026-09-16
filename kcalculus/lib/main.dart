@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:kcalculus/firebase_options.dart';
 import 'package:kcalculus/ui/app/widgets/app.dart';
 import 'package:kcalculus/ui/common/widgets/release_error_widget.dart';
@@ -18,7 +17,6 @@ void main() async {
 
   await Future.wait([
     _lockPortraitMode(),
-    _initAdMob(),
     () async {
       await _initFirebase();
       await _setupErrorHandling();
@@ -38,10 +36,6 @@ Future<void> _lockPortraitMode() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-}
-
-Future<void> _initAdMob() async {
-  await MobileAds.instance.initialize();
 }
 
 Future<void> _initFirebase() async {

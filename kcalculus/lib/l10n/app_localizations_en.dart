@@ -716,19 +716,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionIAgree => 'I agree';
 
   @override
-  String get messageUnlockWithAdConfirmation =>
-      'Watch an unskippable ad to temporary unlock premium features?';
-
-  @override
-  String messageUnlockedWithAd(String until) {
-    return 'Premium features unlocked until\n$until';
-  }
-
-  @override
-  String get messagePremiumUnavailable =>
-      'Premium features are unavailable at the moment';
-
-  @override
   String get settingAnalyticsTitle => 'Allow usage data collection';
 
   @override
@@ -744,18 +731,64 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingPremiumTitle => 'Premium status';
 
   @override
-  String get settingPremiumSubtitleLocked => 'Unlock premium features';
+  String get settingPremiumSubtitleSubscriptionFailedToLoad =>
+      'Failed to load subscription data';
 
   @override
-  String get settingPremiumSubtitleUnavailable =>
-      'Premium features unavailable';
+  String get settingPremiumSubtitleSubscriptionInactive =>
+      'No active subscription';
 
   @override
-  String get settingPremiumSubtitleUnlocked => 'Premium features unlocked';
+  String settingPremiumSubtitleSubscriptionActive(
+    String expirationDate,
+    String hasExpirationDate,
+    String isCancelled,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      isCancelled,
+      {
+        'true': 'expires',
+        'other': 'renews',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      hasExpirationDate,
+      {
+        'true': ' $_temp0 on $expirationDate',
+        'other': '',
+      },
+    );
+    return 'Active subscription$_temp1';
+  }
 
   @override
-  String settingPremiumSubtitleUnlockedUntil(String until) {
-    return 'Premium features unlocked until $until';
+  String settingPremiumSubtitleSubscriptionTrial(
+    String expirationDate,
+    String hasExpirationDate,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      hasExpirationDate,
+      {
+        'true': ' ends on $expirationDate',
+        'other': '',
+      },
+    );
+    return 'Free trial$_temp0';
+  }
+
+  @override
+  String settingPremiumSubtitleSubscriptionBillingIssue(
+    String expirationDate,
+    String hasExpirationDate,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      hasExpirationDate,
+      {
+        'true': ' - access until $expirationDate',
+        'other': '',
+      },
+    );
+    return 'Payment issue$_temp0';
   }
 
   @override
@@ -1365,5 +1398,75 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String messageAccountDeleted(String email) {
     return 'Account $email has been permanently deleted.';
+  }
+
+  @override
+  String get messagePurchaseCompleted => 'Subscription activated.';
+
+  @override
+  String get messagePurchaseFailed =>
+      'Purchase failed.\n\nWe couldn\'t complete your purchase.\nYou can try again or contact us if the problem continues.';
+
+  @override
+  String get messagePurchaseRestoreCompletedWithEntitlement =>
+      'Subscription restored.';
+
+  @override
+  String get messagePurchaseRestoreCompletedNoEntitlement =>
+      'No active subscription was found to restore.';
+
+  @override
+  String get messagePurchaseRestoreFailed =>
+      'Restore failed.\n\nWe couldn\'t restore your purchases.\nYou can try again or contact us if the problem continues.';
+
+  @override
+  String get supportEmailPurchaseFailedSubject => 'kcalculus — Purchase issue';
+
+  @override
+  String supportEmailPurchaseFailedBody(
+    String appUserId,
+    String errorCode,
+    String errorMessage,
+    String appVersion,
+    String buildNumber,
+    String platform,
+    String osVersion,
+    String device,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      platform,
+      {
+        'iOS': 'iOS',
+        'android': 'Android',
+        'other': 'Unknown',
+      },
+    );
+    return 'Hello,\r\n\r\nI\'m having trouble completing a subscription purchase in kcalculus.\r\n\r\nApp User ID: $appUserId\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nError code: $errorCode\r\nError: $errorMessage\r\nApp version: $appVersion ($buildNumber)\r\nPlatform: $_temp0\r\nOS version: $osVersion\r\nDevice: $device';
+  }
+
+  @override
+  String get supportEmailPurchaseRestoreFailedSubject =>
+      'kcalculus — Restore purchases issue';
+
+  @override
+  String supportEmailPurchaseRestoreFailedBody(
+    String appUserId,
+    String errorCode,
+    String errorMessage,
+    String appVersion,
+    String buildNumber,
+    String platform,
+    String osVersion,
+    String device,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(
+      platform,
+      {
+        'iOS': 'iOS',
+        'android': 'Android',
+        'other': 'Unknown',
+      },
+    );
+    return 'Hello,\r\n\r\nI\'m having trouble restoring my subscription in kcalculus.\r\n\r\nApp User ID: $appUserId\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nError code: $errorCode\r\nError: $errorMessage\r\nApp version: $appVersion ($buildNumber)\r\nPlatform: $_temp0\r\nOS version: $osVersion\r\nDevice: $device';
   }
 }

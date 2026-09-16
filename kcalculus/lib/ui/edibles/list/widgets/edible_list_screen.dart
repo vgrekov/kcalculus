@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/edible/models/edible_preview.dart';
 import 'package:kcalculus/domain/food/models/food.dart';
-import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
-import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/awaited.dart';
-import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/screen_tab_bar.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/dishes/view/widgets/dish_view_screen.dart';
@@ -38,8 +35,6 @@ class EdibleListScreen extends ConsumerWidget with WidgetMessenger {
     EdibleListCommand.showUnknownErrorNotification:
         _showUnknownErrorNotification,
   };
-
-  final _accessGuardKey = UniqueKey();
 
   void _scanFood(BuildContext context, WidgetRef ref) async {
     final scannerDisclaimerEnabled = await ref
@@ -70,20 +65,24 @@ class EdibleListScreen extends ConsumerWidget with WidgetMessenger {
     );
   }
 
-  void _doScanFood(BuildContext context, WidgetRef ref) async {
-    premiumFeature(ref, _accessGuardKey, () async {
-      _log.eventFoodScan();
+  void _doScanFood(BuildContext context, WidgetRef ref) {
+    Future(
+      () async {
+        if (!context.mounted) return;
 
-      final food = await showModalBottomSheet<Food>(
-        context: context,
-        scrollControlDisabledMaxHeightRatio: 0.9,
-        builder: (context) => const FoodScanScreen(),
-      );
+        _log.eventFoodScan();
 
-      if (food != null && context.mounted) {
-        _addFood(context, ref, food);
-      }
-    });
+        final food = await showModalBottomSheet<Food>(
+          context: context,
+          scrollControlDisabledMaxHeightRatio: 0.9,
+          builder: (context) => const FoodScanScreen(),
+        );
+
+        if (food != null && context.mounted) {
+          _addFood(context, ref, food);
+        }
+      },
+    );
   }
 
   void _search(BuildContext context, WidgetRef ref) async {
@@ -251,91 +250,85 @@ class EdibleListScreen extends ConsumerWidget with WidgetMessenger {
 
     final viewModel = ref.read(edibleListViewModel.notifier);
 
-    return AccessGuard(
-      key: _accessGuardKey,
-      child: UiSubordinate<EdibleListCommand>(
-        commandProvider: viewModel.commandProvider,
-        assignments: _assignments,
-        child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text(
-              l10n(context).screenFoods,
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+    return UiSubordinate<EdibleListCommand>(
+      commandProvider: viewModel.commandProvider,
+      assignments: _assignments,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            l10n(context).screenFoods,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                _scanFood(context, ref);
+              },
+              icon: Icon(
+                Icons.qr_code_scanner,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  _scanFood(context, ref);
-                },
-                icon: PremiumBadge(
-                  child: Icon(
-                    Icons.qr_code_scanner,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  _search(context, ref);
-                },
-                icon: Icon(
-                  Icons.search,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-            ],
-          ),
-          body: EdiblePreviews(
-            items: uiState,
-            onLoadNextPage: () => ref
-                .read(
-                  edibleListViewModel.notifier,
-                )
-                .loadNextPage(),
-            onRefresh: () => ref
-                .read(
-                  edibleListViewModel.notifier,
-                )
-                .refresh(),
-            onSelectItem: (item) {
-              _viewEdible(context, ref, item);
-            },
-            onDeleteItem: (item) {
-              _deleteEdible(context, ref, item);
-            },
-            noItemsMessage: l10n(context).messageEdibleSearchNothingFound,
-            confirmDeleteMessage: (preview) => switch (preview.type) {
-              EdiblePreviewType.food => l10n(
-                context,
-              ).messageFoodDeletionConfirmation,
-              EdiblePreviewType.dish => l10n(
-                context,
-              ).messageDishDeletionConfirmation,
-              _ => null,
-            },
-          ),
-          floatingActionButton: Awaited(
-            future: uiState,
-            data: (_, _) => EdibleAddFab(
-              onAddFood: () {
-                _addFood(context, ref);
+            IconButton(
+              onPressed: () {
+                _search(context, ref);
               },
-              onAddDish: () {
-                _addDish(context, ref);
-              },
+              icon: Icon(
+                Icons.search,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
+          ],
+        ),
+        body: EdiblePreviews(
+          items: uiState,
+          onLoadNextPage: () => ref
+              .read(
+                edibleListViewModel.notifier,
+              )
+              .loadNextPage(),
+          onRefresh: () => ref
+              .read(
+                edibleListViewModel.notifier,
+              )
+              .refresh(),
+          onSelectItem: (item) {
+            _viewEdible(context, ref, item);
+          },
+          onDeleteItem: (item) {
+            _deleteEdible(context, ref, item);
+          },
+          noItemsMessage: l10n(context).messageEdibleSearchNothingFound,
+          confirmDeleteMessage: (preview) => switch (preview.type) {
+            EdiblePreviewType.food => l10n(
+              context,
+            ).messageFoodDeletionConfirmation,
+            EdiblePreviewType.dish => l10n(
+              context,
+            ).messageDishDeletionConfirmation,
+            _ => null,
+          },
+        ),
+        floatingActionButton: Awaited(
+          future: uiState,
+          data: (_, _) => EdibleAddFab(
+            onAddFood: () {
+              _addFood(context, ref);
+            },
+            onAddDish: () {
+              _addDish(context, ref);
+            },
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: Container(
-            color: Theme.of(context).colorScheme.surfaceContainer,
-            padding: EdgeInsets.only(top: 32),
-            child: const ScreenTabBar(
-              selectedTab: ScreenTab.edibles,
-            ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: Container(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          padding: EdgeInsets.only(top: 32),
+          child: const ScreenTabBar(
+            selectedTab: ScreenTab.edibles,
           ),
         ),
       ),

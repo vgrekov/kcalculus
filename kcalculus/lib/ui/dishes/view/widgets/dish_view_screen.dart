@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/dish/models/dish.dart';
 import 'package:kcalculus/domain/nutrition/models/nutrient_data.dart';
-import 'package:kcalculus/ui/access_guard/utils/premium_feature.dart';
-import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/common/nutrient_stats/widgets/nutrient_stats.dart';
 import 'package:kcalculus/ui/common/nutrition_facts/nutrition_facts_view/widgets/nutrition_facts_view.dart';
 import 'package:kcalculus/ui/common/utils/messaging/message_type.dart';
@@ -11,7 +9,6 @@ import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
 import 'package:kcalculus/ui/common/widgets/edible_main_info.dart';
 import 'package:kcalculus/ui/common/widgets/ingredient_list.dart';
-import 'package:kcalculus/ui/common/widgets/premium_badge.dart';
 import 'package:kcalculus/ui/common/widgets/ui_subordinate.dart';
 import 'package:kcalculus/ui/dishes/view/view_models/dish_view_ui_state.dart';
 import 'package:kcalculus/ui/dishes/view/view_models/dish_view_view_model.dart';
@@ -40,18 +37,14 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
     DishViewCommand.editDish: _doEditDish,
   };
 
-  final _accessGuardKey = UniqueKey();
-
   void _shareDish(BuildContext context, WidgetRef ref, Dish dish) {
-    premiumFeature(ref, _accessGuardKey, () {
-      _log.eventDishShare();
+    _log.eventDishShare();
 
-      showModalBottomSheet(
-        context: context,
-        scrollControlDisabledMaxHeightRatio: 0.9,
-        builder: (context) => FoodShareScreen(food: dish.toFood()),
-      );
-    });
+    showModalBottomSheet(
+      context: context,
+      scrollControlDisabledMaxHeightRatio: 0.9,
+      builder: (context) => FoodShareScreen(food: dish.toFood()),
+    );
   }
 
   void _copyDish(WidgetRef ref) {
@@ -63,7 +56,8 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
   }
 
   void _deleteDish(BuildContext context) async {
-    final deleteConfirmed = await showConfirmation(
+    final deleteConfirmed =
+        await showConfirmation(
           context,
           l10n(context).messageDishDeletionConfirmation,
         ) ??
@@ -134,8 +128,10 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
       data: (uiState) {
         final nutritionFacts = uiState.dish.getNutritionFacts();
         final totalNutrientData = uiState.dish.ingredients
-            .map((m) =>
-                m.getNutritionFacts()?.nutrientData ?? NutrientData.empty())
+            .map(
+              (m) =>
+                  m.getNutritionFacts()?.nutrientData ?? NutrientData.empty(),
+            )
             .fold(
               NutrientData.empty(),
               (nd1, nd2) => nd1 + nd2,
@@ -147,11 +143,9 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
               onPressed: () {
                 _shareDish(context, ref, uiState.dish);
               },
-              icon: PremiumBadge(
-                child: Icon(
-                  Icons.share,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+              icon: Icon(
+                Icons.share,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             IconButton(
@@ -246,8 +240,8 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
             child: Text(
               l10n(context).messageUnknownError,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ),
           null,
@@ -266,21 +260,19 @@ class DishViewScreen extends ConsumerWidget with WidgetMessenger {
       ),
     );
 
-    return AccessGuard(
-      key: _accessGuardKey,
-      child: UiSubordinate<DishViewCommand>(
-        commandProvider:
-            ref.read(dishViewViewModel(dishId).notifier).commandProvider,
-        assignments: _assignments,
-        child: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            appBar: AppBar(
-              actions: appBarActions,
-            ),
-            body: body,
-            bottomNavigationBar: bottomNavigationBar,
+    return UiSubordinate<DishViewCommand>(
+      commandProvider: ref
+          .read(dishViewViewModel(dishId).notifier)
+          .commandProvider,
+      assignments: _assignments,
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            actions: appBarActions,
           ),
+          body: body,
+          bottomNavigationBar: bottomNavigationBar,
         ),
       ),
     );

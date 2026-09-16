@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/domain/dish/models/food_container.dart';
-import 'package:kcalculus/ui/access_guard/widgets/access_guard.dart';
 import 'package:kcalculus/ui/common/utils/messaging/widget_messenger.dart';
 import 'package:kcalculus/ui/common/utils/progress_overlay.dart';
 import 'package:kcalculus/ui/common/view_models/ui_command.dart';
@@ -24,8 +23,6 @@ class FoodContainerListScreen extends ConsumerWidget with WidgetMessenger {
     FoodContainerListCommand.showUnknownErrorNotification:
         _showUnknownErrorNotification,
   };
-
-  final _accessGuardKey = UniqueKey();
 
   void _search(BuildContext context, WidgetRef ref) async {
     final container = await Navigator.of(context).push<FoodContainer>(
@@ -120,66 +117,62 @@ class FoodContainerListScreen extends ConsumerWidget with WidgetMessenger {
 
     final viewModel = ref.read(foodContainerListViewModel.notifier);
 
-    return AccessGuard(
-      key: _accessGuardKey,
-      child: UiSubordinate<FoodContainerListCommand>(
-        commandProvider: viewModel.commandProvider,
-        assignments: _assignments,
-        child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text(
-              l10n(context).screenFoodContainers,
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+    return UiSubordinate<FoodContainerListCommand>(
+      commandProvider: viewModel.commandProvider,
+      assignments: _assignments,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            l10n(context).screenFoodContainers,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                _search(context, ref);
+              },
+              icon: Icon(
+                Icons.search,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  _search(context, ref);
-                },
-                icon: Icon(
-                  Icons.search,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-            ],
-          ),
-          body: SafeArea(
-            child: FoodContainerList(
-              items: uiState,
-              onLoadNextPage: () => ref
-                  .read(
-                    foodContainerListViewModel.notifier,
-                  )
-                  .loadNextPage(),
-              onRefresh: () => ref
-                  .read(
-                    foodContainerListViewModel.notifier,
-                  )
-                  .refresh(),
-              onSelectItem: (item) {
-                _editFoodContainer(context, item);
-              },
-              onDeleteItem: (item) {
-                _deleteFoodContainer(context, ref, item.id!);
-              },
-            ),
-          ),
-          floatingActionButton: Awaited(
-            future: uiState,
-            data: (_, _) => FloatingActionButton(
-              onPressed: () {
-                _addFoodContainer(context);
-              },
-              shape: const CircleBorder(),
-              child: const Icon(Icons.add),
-            ),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          ],
         ),
+        body: SafeArea(
+          child: FoodContainerList(
+            items: uiState,
+            onLoadNextPage: () => ref
+                .read(
+                  foodContainerListViewModel.notifier,
+                )
+                .loadNextPage(),
+            onRefresh: () => ref
+                .read(
+                  foodContainerListViewModel.notifier,
+                )
+                .refresh(),
+            onSelectItem: (item) {
+              _editFoodContainer(context, item);
+            },
+            onDeleteItem: (item) {
+              _deleteFoodContainer(context, ref, item.id!);
+            },
+          ),
+        ),
+        floatingActionButton: Awaited(
+          future: uiState,
+          data: (_, _) => FloatingActionButton(
+            onPressed: () {
+              _addFoodContainer(context);
+            },
+            shape: const CircleBorder(),
+            child: const Icon(Icons.add),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }

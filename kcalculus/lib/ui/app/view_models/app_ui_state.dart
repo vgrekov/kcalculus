@@ -9,6 +9,7 @@ enum AppStage {
   maintenance,
   authentication,
   import,
+  paywall,
   operation,
 }
 
