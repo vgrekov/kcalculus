@@ -209,4 +209,19 @@ extension Analytics on Logger {
       name: 'account_deleted',
     );
   }
+
+  void eventPurchaseCompleted() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'purchase_completed',
+    );
+  }
+
+  void eventPurchaseRestoreCompleted(bool withEntitlement) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'purchase_restore_completed',
+      parameters: {
+        'with_entitlement': withEntitlement.toString(),
+      },
+    );
+  }
 }

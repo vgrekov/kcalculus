@@ -781,5 +781,70 @@
                 "type": "String"
             }
         }
+    },
+    "messagePurchaseCompleted": "Subscription activated.",
+    "messagePurchaseFailed": "Purchase failed.\n\nWe couldn''t complete your purchase.\nYou can try again or contact us if the problem continues.",
+    "messagePurchaseRestoreCompletedWithEntitlement": "Subscription restored.",
+    "messagePurchaseRestoreCompletedNoEntitlement": "No active subscription was found to restore.",
+    "messagePurchaseRestoreFailed": "Restore failed.\n\nWe couldn''t restore your purchases.\nYou can try again or contact us if the problem continues.",
+    "supportEmailPurchaseFailedSubject": "kcalculus — Purchase issue",
+    "supportEmailPurchaseFailedBody": "Hello,\r\n\r\nI''m having trouble completing a subscription purchase in kcalculus.\r\n\r\nApp User ID: {appUserId}\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nError code: {errorCode}\r\nError: {errorMessage}\r\nApp version: {appVersion} ({buildNumber})\r\nPlatform: {platform, select, iOS{iOS} android{Android} other{Unknown}}\r\nOS version: {osVersion}\r\nDevice: {device}",
+    "@supportEmailPurchaseFailedBody": {
+        "placeholders": {
+            "appUserId": {
+                "type": "String"
+            },
+            "errorCode": {
+                "type": "String"
+            },
+            "errorMessage": {
+                "type": "String"
+            },
+            "appVersion": {
+                "type": "String"
+            },
+            "buildNumber": {
+                "type": "String"
+            },
+            "platform": {
+                "type": "String"
+            },
+            "osVersion": {
+                "type": "String"
+            },
+            "device": {
+                "type": "String"
+            }
+        }
+    },
+    "supportEmailPurchaseRestoreFailedSubject": "kcalculus — Restore purchases issue",
+    "supportEmailPurchaseRestoreFailedBody": "Hello,\r\n\r\nI''m having trouble restoring my subscription in kcalculus.\r\n\r\nApp User ID: {appUserId}\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nError code: {errorCode}\r\nError: {errorMessage}\r\nApp version: {appVersion} ({buildNumber})\r\nPlatform: {platform, select, iOS{iOS} android{Android} other{Unknown}}\r\nOS version: {osVersion}\r\nDevice: {device}",
+    "@supportEmailPurchaseRestoreFailedBody": {
+        "placeholders": {
+            "appUserId": {
+                "type": "String"
+            },
+            "errorCode": {
+                "type": "String"
+            },
+            "errorMessage": {
+                "type": "String"
+            },
+            "appVersion": {
+                "type": "String"
+            },
+            "buildNumber": {
+                "type": "String"
+            },
+            "platform": {
+                "type": "String"
+            },
+            "osVersion": {
+                "type": "String"
+            },
+            "device": {
+                "type": "String"
+            }
+        }
     }
 }

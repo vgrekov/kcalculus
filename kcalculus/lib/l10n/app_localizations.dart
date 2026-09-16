@@ -2353,6 +2353,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account {email} has been permanently deleted.'**
   String messageAccountDeleted(String email);
+
+  /// No description provided for @messagePurchaseCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription activated.'**
+  String get messagePurchaseCompleted;
+
+  /// No description provided for @messagePurchaseFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase failed.\n\nWe couldn\'\'t complete your purchase.\nYou can try again or contact us if the problem continues.'**
+  String get messagePurchaseFailed;
+
+  /// No description provided for @messagePurchaseRestoreCompletedWithEntitlement.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription restored.'**
+  String get messagePurchaseRestoreCompletedWithEntitlement;
+
+  /// No description provided for @messagePurchaseRestoreCompletedNoEntitlement.
+  ///
+  /// In en, this message translates to:
+  /// **'No active subscription was found to restore.'**
+  String get messagePurchaseRestoreCompletedNoEntitlement;
+
+  /// No description provided for @messagePurchaseRestoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore failed.\n\nWe couldn\'\'t restore your purchases.\nYou can try again or contact us if the problem continues.'**
+  String get messagePurchaseRestoreFailed;
+
+  /// No description provided for @supportEmailPurchaseFailedSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'kcalculus — Purchase issue'**
+  String get supportEmailPurchaseFailedSubject;
+
+  /// No description provided for @supportEmailPurchaseFailedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello,\r\n\r\nI\'\'m having trouble completing a subscription purchase in kcalculus.\r\n\r\nApp User ID: {appUserId}\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nError code: {errorCode}\r\nError: {errorMessage}\r\nApp version: {appVersion} ({buildNumber})\r\nPlatform: {platform, select, iOS{iOS} android{Android} other{Unknown}}\r\nOS version: {osVersion}\r\nDevice: {device}'**
+  String supportEmailPurchaseFailedBody(
+    String appUserId,
+    String errorCode,
+    String errorMessage,
+    String appVersion,
+    String buildNumber,
+    String platform,
+    String osVersion,
+    String device,
+  );
+
+  /// No description provided for @supportEmailPurchaseRestoreFailedSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'kcalculus — Restore purchases issue'**
+  String get supportEmailPurchaseRestoreFailedSubject;
+
+  /// No description provided for @supportEmailPurchaseRestoreFailedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello,\r\n\r\nI\'\'m having trouble restoring my subscription in kcalculus.\r\n\r\nApp User ID: {appUserId}\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nError code: {errorCode}\r\nError: {errorMessage}\r\nApp version: {appVersion} ({buildNumber})\r\nPlatform: {platform, select, iOS{iOS} android{Android} other{Unknown}}\r\nOS version: {osVersion}\r\nDevice: {device}'**
+  String supportEmailPurchaseRestoreFailedBody(
+    String appUserId,
+    String errorCode,
+    String errorMessage,
+    String appVersion,
+    String buildNumber,
+    String platform,
+    String osVersion,
+    String device,
+  );
 }
 
 class _AppLocalizationsDelegate
