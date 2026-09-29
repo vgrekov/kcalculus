@@ -59,7 +59,10 @@ class SubscriptionService extends AsyncNotifier<CustomerInfo> {
   }
 
   Future<void> refresh() async {
-    await Purchases.invalidateCustomerInfoCache();
+    if (await Purchases.isConfigured) {
+      await Purchases.invalidateCustomerInfoCache();
+    }
+
     ref.invalidateSelf();
   }
 

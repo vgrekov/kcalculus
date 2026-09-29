@@ -1469,4 +1469,11 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return 'Hello,\r\n\r\nI\'m having trouble restoring my subscription in kcalculus.\r\n\r\nApp User ID: $appUserId\r\n\r\nPlease describe what happened:\r\n(What did you expect to happen? What happened instead?)\r\n\r\nSteps I performed:\r\n1.\r\n2.\r\n3.\r\n\r\nDid you see an error message? If yes, please paste it here:\r\n\r\n\r\nAdditional details (optional):\r\n\r\n\r\n---\r\nTechnical information:\r\n\r\nError code: $errorCode\r\nError: $errorMessage\r\nApp version: $appVersion ($buildNumber)\r\nPlatform: $_temp0\r\nOS version: $osVersion\r\nDevice: $device';
   }
+
+  @override
+  String get messageSubscriptionCheckError =>
+      'We couldn\'t check your subscription status...';
+
+  @override
+  String get actionCheckSubscriptionAgain => 'Check again';
 }

@@ -13,15 +13,17 @@ class SubscriptionRepository extends AsyncNotifier<SubscriptionState> {
 
   @override
   FutureOr<SubscriptionState> build() async {
+    _timer?.cancel();
+
+    ref.onDispose(() {
+      _timer?.cancel();
+    });
+
     final customerInfo = await ref.watch(
       subscriptionServiceProvider.future,
     );
 
     final converter = ref.watch(subscriptionStateConverterProvider.notifier);
-
-    ref.onDispose(() {
-      _timer?.cancel();
-    });
 
     final appUserId = await Purchases.appUserID;
 
@@ -49,12 +51,12 @@ class SubscriptionRepository extends AsyncNotifier<SubscriptionState> {
     _timer?.cancel();
     _timer = Timer(
       durationUntilExpiration + const Duration(seconds: 5),
-      _refresh,
+      refresh,
     );
   }
 
-  void _refresh() {
-    ref.read(subscriptionServiceProvider.notifier).refresh();
+  Future<void> refresh() async {
+    await ref.read(subscriptionServiceProvider.notifier).refresh();
   }
 }
 

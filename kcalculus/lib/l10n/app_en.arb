@@ -846,5 +846,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "messageSubscriptionCheckError": "We couldn''t check your subscription status...",
+    "actionCheckSubscriptionAgain": "Check again"
 }

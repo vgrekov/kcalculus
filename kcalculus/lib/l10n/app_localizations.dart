@@ -2425,6 +2425,18 @@ abstract class AppLocalizations {
     String osVersion,
     String device,
   );
+
+  /// No description provided for @messageSubscriptionCheckError.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'\'t check your subscription status...'**
+  String get messageSubscriptionCheckError;
+
+  /// No description provided for @actionCheckSubscriptionAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get actionCheckSubscriptionAgain;
 }
 
 class _AppLocalizationsDelegate

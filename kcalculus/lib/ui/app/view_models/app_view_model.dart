@@ -54,11 +54,15 @@ Future<bool> _isInImportStage(Ref ref) async {
 }
 
 Future<bool> _isInPaywallStage(Ref ref) async {
-  final subscriptionState = await ref.read(
-    subscriptionRepositoryProvider.future,
-  );
+  try {
+    final subscriptionState = await ref.read(
+      subscriptionRepositoryProvider.future,
+    );
 
-  return subscriptionState is SubscriptionInactive;
+    return subscriptionState is! SubscriptionActive;
+  } catch (_) {
+    return true;
+  }
 }
 
 final _appUiStateProvider = FutureProvider<AppUiState>(

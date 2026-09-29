@@ -26,6 +26,16 @@ class PaywallViewModel extends AsyncNotifier<SubscriptionState> {
     );
   }
 
+  Future<void> refreshSubscriptionState() async {
+    _log.finer('refreshSubscriptionState() START');
+
+    try {
+      await ref.read(subscriptionRepositoryProvider.notifier).refresh();
+    } finally {
+      _log.finer('refreshSubscriptionState() END');
+    }
+  }
+
   Future<bool> contactSupportOnPurchaseError(
     String appUserId,
     PurchasesError error,

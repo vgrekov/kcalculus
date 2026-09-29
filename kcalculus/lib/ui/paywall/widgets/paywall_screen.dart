@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kcalculus/domain/_common/models/subscription_state.dart';
 import 'package:kcalculus/ui/common/messaging/models/ui_dialog_type.dart';
 import 'package:kcalculus/ui/common/messaging/models/ui_message.dart';
 import 'package:kcalculus/ui/common/messaging/models/ui_message_action.dart';
 import 'package:kcalculus/ui/common/messaging/services/ui_message_service.dart';
 import 'package:kcalculus/ui/paywall/view_models/paywall_view_model.dart';
+import 'package:kcalculus/ui/paywall/widgets/subscription_loading_view.dart';
+import 'package:kcalculus/ui/paywall/widgets/subscription_unavailable_view.dart';
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:kcalculus/utils/logging_analytics.dart';
 import 'package:logging/logging.dart';
@@ -111,51 +114,53 @@ class PaywallScreen extends ConsumerWidget {
     }
   }
 
+  void _onCheckAgain(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    ref.read(paywallViewModel.notifier).refreshSubscriptionState();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final stateAsync = ref.watch(paywallViewModel);
 
     return Scaffold(
       body: stateAsync.when(
-        data: (state) => Center(
-          child: PaywallView(
-            onPurchaseCompleted: (customerInfo, storeTransaction) {
-              _onPurchaseCompleted(
-                context,
-                ref,
-                customerInfo,
-                storeTransaction,
-              );
-            },
-            onPurchaseError: (error) {
-              _onPurchaseError(context, ref, state.appUserId, error);
-            },
-            onRestoreCompleted: (customerInfo) {
-              _onRestoreCompleted(context, ref, customerInfo);
-            },
-            onRestoreError: (error) {
-              _onRestoreError(context, ref, state.appUserId, error);
-            },
+        data: (state) => switch (state) {
+          SubscriptionInactive _ => Center(
+            child: PaywallView(
+              onPurchaseCompleted: (customerInfo, storeTransaction) {
+                _onPurchaseCompleted(
+                  context,
+                  ref,
+                  customerInfo,
+                  storeTransaction,
+                );
+              },
+              onPurchaseError: (error) {
+                _onPurchaseError(context, ref, state.appUserId, error);
+              },
+              onRestoreCompleted: (customerInfo) {
+                _onRestoreCompleted(context, ref, customerInfo);
+              },
+              onRestoreError: (error) {
+                _onRestoreError(context, ref, state.appUserId, error);
+              },
+            ),
           ),
-        ),
+          SubscriptionActive _ => const SubscriptionLoadingView(),
+        },
         error: (error, stackTrace) {
           _log.severe('Failed to load subscription state', error, stackTrace);
-          return Center(
-            child: Text(
-              l10n(context).messageUnknownError,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.error,
-              ),
-            ),
+
+          return SubscriptionUnavailableView(
+            onCheckAgain: () {
+              _onCheckAgain(context, ref);
+            },
           );
         },
-        loading: () => const Center(
-          child: SizedBox(
-            width: 40,
-            height: 40,
-            child: CircularProgressIndicator(),
-          ),
-        ),
+        loading: () => const SubscriptionLoadingView(),
       ),
     );
   }
