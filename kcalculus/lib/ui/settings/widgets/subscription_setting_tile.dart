@@ -2,27 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kcalculus/data/access/repositories/subscription_repository.dart';
 import 'package:kcalculus/domain/_common/models/subscription_state.dart';
+import 'package:kcalculus/ui/settings/widgets/subscription_screen.dart';
+import 'package:kcalculus/utils/datetime.dart' as dt;
 import 'package:kcalculus/utils/l10n.dart';
 import 'package:logging/logging.dart';
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
-import 'package:kcalculus/utils/datetime.dart' as dt;
 
 final _log = Logger('PremiumSettingTile');
 
-class PremiumSettingTile extends ConsumerStatefulWidget {
-  const PremiumSettingTile({
+class SubscriptionSettingTile extends ConsumerStatefulWidget {
+  const SubscriptionSettingTile({
     super.key,
   });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _PremiumSettingTileState();
+    return _SubscriptionSettingTileState();
   }
 }
 
-class _PremiumSettingTileState extends ConsumerState<PremiumSettingTile> {
-  void _openCustomerCenter() async {
-    await RevenueCatUI.presentCustomerCenter();
+class _SubscriptionSettingTileState
+    extends ConsumerState<SubscriptionSettingTile> {
+  void _showSubscriptionScreen(BuildContext context, String appUserId) async {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => SubscriptionScreen(
+          appUserId: appUserId,
+        ),
+      ),
+    );
   }
 
   @override
@@ -32,6 +39,7 @@ class _PremiumSettingTileState extends ConsumerState<PremiumSettingTile> {
     String subtitle = '';
     Color bgColor = Theme.of(context).colorScheme.tertiaryContainer;
     Color fgColor = Theme.of(context).colorScheme.onTertiaryContainer;
+    void Function()? action;
 
     switch (subscriptionStateAsync) {
       case AsyncData(value: final subscriptionState):
@@ -62,6 +70,10 @@ class _PremiumSettingTileState extends ConsumerState<PremiumSettingTile> {
           _ => l10n(context).settingPremiumSubtitleSubscriptionInactive,
         };
 
+        action = () {
+          _showSubscriptionScreen(context, subscriptionState.appUserId);
+        };
+
         break;
 
       case AsyncError(:final error, :final stackTrace):
@@ -78,7 +90,7 @@ class _PremiumSettingTileState extends ConsumerState<PremiumSettingTile> {
     }
 
     return ListTile(
-      onTap: _openCustomerCenter,
+      onTap: action,
       leading: Icon(
         Icons.diamond,
         color: fgColor,
@@ -96,6 +108,11 @@ class _PremiumSettingTileState extends ConsumerState<PremiumSettingTile> {
         ),
       ),
       tileColor: bgColor,
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        color: Theme.of(context).colorScheme.onSurface,
+        size: 16,
+      ),
     );
   }
 }

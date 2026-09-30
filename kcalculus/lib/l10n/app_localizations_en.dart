@@ -728,7 +728,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get settingPremiumTitle => 'Premium status';
+  String get settingPremiumTitle => 'Subscription';
 
   @override
   String get settingPremiumSubtitleSubscriptionFailedToLoad =>
@@ -790,6 +790,19 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return 'Payment issue$_temp0';
   }
+
+  @override
+  String get settingAppUserIdTitle => 'User ID';
+
+  @override
+  String get messageCopiedToClipboard => 'Copied to clipboard';
+
+  @override
+  String get settingCustomerCenterTitle => 'Customer center';
+
+  @override
+  String get settingCustomerCenterSubitle =>
+      'Manage subscriptions, plans, and purchases';
 
   @override
   String get settingDefaultNutrientsTitle => 'Default nutrients';

@@ -6,7 +6,8 @@ class ActionSettingTile extends StatelessWidget {
     required this.onTap,
     required this.title,
     this.subtitle,
-    this.icon,
+    this.leadingIcon,
+    this.trailingIcon,
   });
 
   final void Function()? onTap;
@@ -15,18 +16,26 @@ class ActionSettingTile extends StatelessWidget {
 
   final String? subtitle;
 
-  final IconData? icon;
+  final IconData? leadingIcon;
+
+  final IconData? trailingIcon;
 
   @override
   Widget build(BuildContext context) {
     final leading = Icon(
-      icon,
+      leadingIcon,
+      color: Theme.of(context).colorScheme.onSurface,
+    );
+
+    final trailing = Icon(
+      trailingIcon,
       color: Theme.of(context).colorScheme.onSurface,
     );
 
     return ListTile(
       onTap: onTap,
       leading: leading,
+      trailing: trailing,
       title: Text(
         title,
         style: Theme.of(context).textTheme.titleMedium!.copyWith(

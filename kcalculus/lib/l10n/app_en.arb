@@ -361,7 +361,7 @@
             }
         }
     },
-    "settingPremiumTitle": "Premium status",
+    "settingPremiumTitle": "Subscription",
     "settingPremiumSubtitleSubscriptionFailedToLoad": "Failed to load subscription data",
     "settingPremiumSubtitleSubscriptionInactive": "No active subscription",
     "settingPremiumSubtitleSubscriptionActive": "Active subscription{hasExpirationDate, select, true{ {isCancelled, select, true{expires} other{renews}} on {expirationDate}} other{}}",
@@ -400,6 +400,10 @@
             }
         }
     },
+    "settingAppUserIdTitle": "User ID",
+    "messageCopiedToClipboard": "Copied to clipboard",
+    "settingCustomerCenterTitle": "Customer center",
+    "settingCustomerCenterSubitle": "Manage subscriptions, plans, and purchases",
     "settingDefaultNutrientsTitle": "Default nutrients",
     "settingDefaultNutrientsSubtitle": "Select default set of nutrients for edibles",
     "screenMore": "More",

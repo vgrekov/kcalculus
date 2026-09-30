@@ -1413,7 +1413,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingPremiumTitle.
   ///
   /// In en, this message translates to:
-  /// **'Premium status'**
+  /// **'Subscription'**
   String get settingPremiumTitle;
 
   /// No description provided for @settingPremiumSubtitleSubscriptionFailedToLoad.
@@ -1455,6 +1455,30 @@ abstract class AppLocalizations {
     String expirationDate,
     String hasExpirationDate,
   );
+
+  /// No description provided for @settingAppUserIdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'User ID'**
+  String get settingAppUserIdTitle;
+
+  /// No description provided for @messageCopiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get messageCopiedToClipboard;
+
+  /// No description provided for @settingCustomerCenterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer center'**
+  String get settingCustomerCenterTitle;
+
+  /// No description provided for @settingCustomerCenterSubitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage subscriptions, plans, and purchases'**
+  String get settingCustomerCenterSubitle;
 
   /// No description provided for @settingDefaultNutrientsTitle.
   ///

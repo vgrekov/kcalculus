@@ -21,7 +21,7 @@ import 'package:kcalculus/ui/settings/view_models/settings_view_model.dart';
 import 'package:kcalculus/ui/settings/widgets/action_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/app_theme_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/option_setting_screen.dart';
-import 'package:kcalculus/ui/settings/widgets/premium_setting_tile.dart';
+import 'package:kcalculus/ui/settings/widgets/subscription_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/settings_group.dart';
 import 'package:kcalculus/ui/settings/widgets/switch_setting_tile.dart';
 import 'package:kcalculus/ui/settings/widgets/user_setting_tile.dart';
@@ -312,7 +312,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               if (listStyle != null) SizedBox(height: listStyle.verticalGap),
               const SettingsGroup(
                 children: [
-                  PremiumSettingTile(),
+                  SubscriptionSettingTile(),
                 ],
               ),
               if (listStyle != null) SizedBox(height: listStyle.verticalGap),
@@ -343,13 +343,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                         : _configureDefaultNutrients,
                     title: l10n(context).settingDefaultNutrientsTitle,
                     subtitle: l10n(context).settingDefaultNutrientsSubtitle,
-                    icon: Icons.list_alt,
+                    leadingIcon: Icons.list_alt,
                   ),
                   ActionSettingTile(
                     onTap: uiState.isLoading ? null : _configureNutrientGoals,
                     title: l10n(context).settingNutrientGoalsTitle,
                     subtitle: l10n(context).settingNutrientGoalsSubtitle,
-                    icon: Icons.track_changes,
+                    leadingIcon: Icons.track_changes,
                   ),
                 ],
               ),
@@ -361,13 +361,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       onTap: uiState.isLoading ? null : _backup,
                       title: l10n(context).settingBackupTitle,
                       subtitle: l10n(context).settingBackupSubtitle,
-                      icon: Icons.download,
+                      leadingIcon: Icons.download,
                     ),
                     ActionSettingTile(
                       onTap: uiState.isLoading ? null : _restore,
                       title: l10n(context).settingRestoreTitle,
                       subtitle: l10n(context).settingRestoreSubtitle,
-                      icon: Icons.upload,
+                      leadingIcon: Icons.upload,
                     ),
                   ],
                 ),
