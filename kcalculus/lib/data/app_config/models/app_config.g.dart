@@ -15,9 +15,6 @@ _AppConfig _$AppConfigFromJson(Map<String, dynamic> json) => _AppConfig(
   firestore: FirestoreConfig.fromJson(
     json['firestore'] as Map<String, dynamic>,
   ),
-  revenueCat: RevenueCatConfig.fromJson(
-    json['revenueCat'] as Map<String, dynamic>,
-  ),
 );
 
 Map<String, dynamic> _$AppConfigToJson(_AppConfig instance) =>
@@ -26,5 +23,4 @@ Map<String, dynamic> _$AppConfigToJson(_AppConfig instance) =>
       'search': instance.search.toJson(),
       'openFoodFacts': instance.openFoodFacts.toJson(),
       'firestore': instance.firestore.toJson(),
-      'revenueCat': instance.revenueCat.toJson(),
     };

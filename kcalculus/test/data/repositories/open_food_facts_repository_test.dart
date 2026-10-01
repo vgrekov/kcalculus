@@ -8,7 +8,6 @@ import 'package:kcalculus/data/app_config/models/app_config.dart';
 import 'package:kcalculus/data/app_config/models/auth_config.dart';
 import 'package:kcalculus/data/app_config/models/firestore_config.dart';
 import 'package:kcalculus/data/app_config/models/open_food_facts_config.dart';
-import 'package:kcalculus/data/app_config/models/revenue_cat_config.dart';
 import 'package:kcalculus/data/app_config/models/search_config.dart';
 import 'package:kcalculus/data/app_config/services/app_config_service.dart';
 import 'package:kcalculus/data/open_food_facts/repositories/open_food_facts_repository.dart';
@@ -63,9 +62,6 @@ void main() {
               contactEmail: '',
             ),
             firestore: FirestoreConfig(),
-            revenueCat: RevenueCatConfig(
-              sdkApiKey: '',
-            ),
           ),
         );
       });
