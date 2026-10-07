@@ -19,6 +19,20 @@ final _log = Logger('PaywallScreen');
 class PaywallScreen extends ConsumerWidget {
   const PaywallScreen({super.key});
 
+  void _onPurchaseStarted(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    ref.read(paywallViewModel.notifier).toggleProcessingOn();
+  }
+
+  void _onPurchaseCancelled(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    ref.read(paywallViewModel.notifier).toggleProcessingOff();
+  }
+
   void _onPurchaseCompleted(
     BuildContext context,
     WidgetRef ref,
@@ -26,6 +40,8 @@ class PaywallScreen extends ConsumerWidget {
     StoreTransaction storeTransaction,
   ) {
     _log.eventPurchaseCompleted();
+
+    ref.read(paywallViewModel.notifier).toggleProcessingOff();
 
     ref.sendUiMessage(
       UiNotification(
@@ -41,6 +57,8 @@ class PaywallScreen extends ConsumerWidget {
     PurchasesError error,
   ) async {
     _log.severe('Purchase failed for: $appUserId', error);
+
+    ref.read(paywallViewModel.notifier).toggleProcessingOff();
 
     final contactSupport = await ref.sendUiMessage<bool>(
       UiDialog(
@@ -127,30 +145,54 @@ class PaywallScreen extends ConsumerWidget {
 
     return Scaffold(
       body: stateAsync.when(
-        data: (state) => switch (state) {
-          SubscriptionInactive _ => Center(
-            child: PaywallView(
-              onPurchaseCompleted: (customerInfo, storeTransaction) {
-                _onPurchaseCompleted(
-                  context,
-                  ref,
-                  customerInfo,
-                  storeTransaction,
-                );
-              },
-              onPurchaseError: (error) {
-                _onPurchaseError(context, ref, state.appUserId, error);
-              },
-              onRestoreCompleted: (customerInfo) {
-                _onRestoreCompleted(context, ref, customerInfo);
-              },
-              onRestoreError: (error) {
-                _onRestoreError(context, ref, state.appUserId, error);
-              },
-            ),
-          ),
-          SubscriptionActive _ => const SubscriptionLoadingView(),
-        },
+        data: (uiState) => Stack(
+          children: [
+            if (uiState.subscriptionState is SubscriptionInactive)
+              Center(
+                child: PaywallView(
+                  onPurchaseStarted: (_) {
+                    _onPurchaseStarted(context, ref);
+                  },
+                  onPurchaseCompleted: (customerInfo, storeTransaction) {
+                    _onPurchaseCompleted(
+                      context,
+                      ref,
+                      customerInfo,
+                      storeTransaction,
+                    );
+                  },
+                  onPurchaseError: (error) {
+                    _onPurchaseError(
+                      context,
+                      ref,
+                      uiState.subscriptionState.appUserId,
+                      error,
+                    );
+                  },
+                  onPurchaseCancelled: () {
+                    _onPurchaseCancelled(context, ref);
+                  },
+                  onRestoreCompleted: (customerInfo) {
+                    _onRestoreCompleted(context, ref, customerInfo);
+                  },
+                  onRestoreError: (error) {
+                    _onRestoreError(
+                      context,
+                      ref,
+                      uiState.subscriptionState.appUserId,
+                      error,
+                    );
+                  },
+                ),
+              ),
+            if (uiState.subscriptionState is! SubscriptionInactive ||
+                uiState.isProcessing)
+              ColoredBox(
+                color: Theme.of(context).colorScheme.surface,
+                child: const SubscriptionLoadingView(),
+              ),
+          ],
+        ),
         error: (error, stackTrace) {
           _log.severe('Failed to load subscription state', error, stackTrace);
 

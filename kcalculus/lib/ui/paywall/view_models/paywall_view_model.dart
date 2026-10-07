@@ -6,24 +6,40 @@ import 'package:kcalculus/data/access/repositories/subscription_repository.dart'
 import 'package:kcalculus/data/email/services/email_service.dart';
 import 'package:kcalculus/domain/_common/models/app_info.dart';
 import 'package:kcalculus/domain/_common/models/device_info.dart';
-import 'package:kcalculus/domain/_common/models/subscription_state.dart';
 import 'package:kcalculus/l10n/app_localizations.dart';
 import 'package:kcalculus/ui/common/messaging/models/ui_message.dart';
 import 'package:kcalculus/ui/common/messaging/services/ui_message_service.dart';
+import 'package:kcalculus/ui/paywall/view_models/paywall_ui_state.dart';
 import 'package:kcalculus/ui/providers.dart';
 import 'package:logging/logging.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 final _log = Logger('PaywallViewModel');
 
-class PaywallViewModel extends AsyncNotifier<SubscriptionState> {
+class PaywallViewModel extends AsyncNotifier<PaywallUiState> {
   @override
-  FutureOr<SubscriptionState> build() {
+  FutureOr<PaywallUiState> build() {
     return ref.watch(
       subscriptionRepositoryProvider.selectAsync(
-        (it) => it,
+        (it) => PaywallUiState(subscriptionState: it),
       ),
     );
+  }
+
+  void toggleProcessingOn() {
+    state.whenData((uiState) {
+      state = AsyncValue.data(
+        uiState.copyWith(isProcessing: true),
+      );
+    });
+  }
+
+  void toggleProcessingOff() {
+    state.whenData((uiState) {
+      state = AsyncValue.data(
+        uiState.copyWith(isProcessing: false),
+      );
+    });
   }
 
   Future<void> refreshSubscriptionState() async {
@@ -146,6 +162,6 @@ class PaywallViewModel extends AsyncNotifier<SubscriptionState> {
 }
 
 final paywallViewModel =
-    AsyncNotifierProvider<PaywallViewModel, SubscriptionState>(
+    AsyncNotifierProvider<PaywallViewModel, PaywallUiState>(
       PaywallViewModel.new,
     );
